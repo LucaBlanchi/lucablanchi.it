@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chess encoding - Draft</title>
+    <meta
+      name="description"
+      content="Draft bilingue su codifica efficiente di mosse, posizioni e partite di scacchi."
+    >
+    <link rel="stylesheet" href="../assets/site.css">
+  </head>
+  <body>
+    <header class="top-nav">
+      <div class="shell nav-shell">
+        <a class="brand-link" href="../index.html">Luca Blanchi</a>
+        <nav class="nav-links" aria-label="Navigazione principale">
+          <a href="../index.html">Bozze</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shell article-shell">
+      <article class="draft-article">
+        <header class="article-header">
+          <div class="article-meta">
+            <span>Draft</span>
+            <time datetime="2026-06-10">10 Giugno 2026</time>
+          </div>
+
+          <div class="article-title-row">
+            <div>
+              <h1>Chess encoding</h1>
+              <p>
+                Codificare informazione scacchistica con il minor numero di bit
+                ragionevole, senza perdere la possibilità di leggere e
+                ricostruire le posizioni.
+              </p>
+            </div>
+
+            <div class="article-visual" aria-hidden="true">
+              <div class="mini-board mini-board-large">
+                <span>r</span><span>n</span><span>b</span><span>q</span><span>k</span><span>b</span><span>n</span><span>r</span>
+                <span>p</span><span>p</span><span>p</span><span>p</span><span>p</span><span>p</span><span>p</span><span>p</span>
+                <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                <span>P</span><span>P</span><span>P</span><span>P</span><span>P</span><span>P</span><span>P</span><span>P</span>
+                <span>R</span><span>N</span><span>B</span><span>Q</span><span>K</span><span>B</span><span>N</span><span>R</span>
+              </div>
+              <div class="bit-strip">
+                <span>1</span><span>000100</span><span>111100</span><span>0011010011</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="language-tabs" role="tablist" aria-label="Lingua">
+            <button
+              class="tab-button"
+              id="tab-it"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="panel-it"
+              data-lang-tab="it"
+            >
+              Italiano
+            </button>
+            <button
+              class="tab-button"
+              id="tab-en"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-en"
+              data-lang-tab="en"
+            >
+              English
+            </button>
+          </div>
+        </header>
+
+        <section
+          class="article-body language-panel"
+          id="panel-it"
+          role="tabpanel"
+          aria-labelledby="tab-it"
+          data-lang-panel="it"
+        >
+          <p>
+            Ci poniamo il problema di codificare mosse, posizioni, partite, e
+            alberi o grafi di partite di scacchi, curando in primo luogo
+            l'efficienza di storage, e secondariamente semplicità e velocità
+            di lettura.
+          </p>
+          <p>Seguono alcune considerazioni.</p>
+
+          <h2>Partite come sequenze di mosse</h2>
+          <p>
+            Una partita può essere codificata tramite la sequenza delle singole
+            posizioni; è anche però possibile riportare solamente l'elenco
+            delle singole mosse, in modo che la partita e le posizioni che la
+            compongono possano essere ricostruite. Una codifica efficiente per
+            le mosse diventa una codifica efficiente per le partite.
+          </p>
+
+          <h2>Encoding mosse con partenza e destinazione</h2>
+          <p>
+            Notiamo che possiamo definire una mossa come il pezzo da muovere, o
+            forse meglio la sua casella, e la casella di destinazione; questo è
+            vero notando che l'arrocco può essere codificato muovendo il re di
+            2 caselle, fino alla sua destinazione, rendendo ovvio come la torre
+            debba seguire. Naturalmente selezionando una delle 64 caselle,
+            individuata con 6 bit, in partenza, e una in arrivo, individueremo
+            una qualsiasi mossa con 12 bit.
+          </p>
+          <p>
+            Una seconda osservazione importante è che molte mosse sono
+            illegali; in particolare, il re avrà sempre una moltitudine di
+            mosse illegali. Queste possono essere usate per rappresentare stati
+            più particolari di una mossa standard, in particolare una resa o
+            una patta.
+          </p>
+          <p>
+            Possiamo per esempio indicare una patta con la cattura di un re da
+            parte dell'altro re. Possiamo invece muovere il re in un corner
+            inaccessibile, per indicare la resa del giocatore con il colore
+            della casella di destinazione, dato che ci sarà sempre un tale
+            corner illegale.
+          </p>
+          <p>
+            Un altro uso creativo delle mosse illegali è la promozione di
+            pedone: possiamo indicare solo la colonna di destinazione, e
+            utilizzare la traversa 1, 2, 3, 4 per il bianco, e 8, 7, 6, 5 per il
+            nero, per indicare una promozione rispettivamente a regina, torre,
+            alfiere, cavallo.
+          </p>
+          <p>
+            Possiamo rendere l'encoding più efficiente se sappiamo di chi è
+            il turno: possiamo elencare i pezzi del giocatore di turno in
+            ordine lessicografico e selezionarne uno usando 4 bit, massimo 16
+            pezzi, e usare 6 bit per la casella di destinazione.
+          </p>
+          <p>
+            Questo garantisce di individuare una mossa con 10 bit, 11 se si
+            vuole specificare il giocatore, e di conseguenza di codificare una
+            partita con 10 bit per semi-mossa: per una partita di 40 mosse
+            basteranno 100 byte.
+          </p>
+
+          <h2>Encoding mosse tramite enumerazione</h2>
+          <p>
+            Un peso inferiore si può ottenere se, invece di utilizzare 4 bit
+            per individuare un pezzo, se ne allocano dinamicamente tanti quanti
+            sono necessari per individuare uno dei pezzi presenti nella
+            scacchiera con mosse valide. Per esempio, se solo 8 pezzi possono
+            muoversi, decreteremo che solo i primi 3 bit individueranno il
+            pezzo, individuando una mossa con 9 bit. Una mossa obbligata peserà
+            7 bit.
+          </p>
+          <p>
+            Proseguendo in questa direzione, ordiniamo in ordine lessicografico
+            anche le possibili mosse che un pezzo può fare dopo essere stato
+            individuato, allocando dinamicamente i bit necessari, aggiungendo 3
+            mosse per patta e rese, e aggiungendo mosse per le diverse
+            promozioni di pedone. Il numero massimo di mosse per un pezzo è 27,
+            per una regina centralizzata, per cui saranno necessari al massimo 5
+            bit.
+          </p>
+          <p>
+            Una mossa, sapendo chi è di turno, sarà rappresentata quindi al
+            massimo da 9 bit: 4 per scegliere il pezzo, 5 per muovere. Nel caso
+            minimo, una mossa obbligata, non servono bit per individuare il
+            pezzo, e useremo solo 2 bit per fare la mossa, o scegliere una patta
+            o una resa.
+          </p>
+          <p>
+            Questi due accorgimenti riducono lo spazio occupato dalla codifica,
+            ma richiedono di leggere la posizione attuale per poter decodificare
+            il pezzo selezionato, per il quale vanno calcolate tutte le mosse
+            possibili, a meno di non voler escludere i pezzi che non possono
+            muovere, e la mossa eseguita.
+          </p>
+          <p>
+            Seguendo questa pista, possiamo calcolare tutte le mosse possibili
+            in una posizione, elencarle in ordine lessicografico dopo aver
+            elencato i pezzi in ordine lessicografico, e aggiungere patta e
+            rese. Possiamo poi allocare i soli bit necessari a coprire le mosse
+            disponibili. Un miglioramento in termini di storage si può ottenere
+            solo in termini di media se si introduce il concetto di mossa più
+            plausibile di altre, o per le partite con una codifica che non sia
+            mossa per mossa.
+          </p>
+
+          <h2>Encoding combinatorio di una posizione legale</h2>
+          <p>Possiamo codificare una posizione legale nel modo che segue.</p>
+          <ul>
+            <li>1 bit allocato per determinare il giocatore di turno.</li>
+            <li>6 bit + 6 bit per le posizioni dei re.</li>
+          </ul>
+          <p>
+            Dopodiché, osserviamo che un giocatore avrà 15 altri pezzi, di 6
+            tipologie: pedone, cavallo, alfiere, torre, regina, o pezzo
+            catturato, in varie configurazioni, considerando anche la promozione
+            di pedone. Al fine di fare leva sulla fungibilità di pezzi
+            equivalenti, utilizziamo dei bit per determinare la configurazione
+            con la tecnica combinatoria delle stelle e barre:
+            <code>****|***|***|*||****</code>. Le combinazioni totali sono
+            <code>20!/(15!*5!)</code>, e richiedono 14 bit per giocatore per
+            essere rappresentate, con algoritmi standard di decodifica.
+          </p>
+          <p>
+            Per ciascuno dei pezzi non catturati, possiamo individuare la
+            posizione con 6 bit, selezionandoli nell'ordine delle categorie
+            selezionate allo step precedente. Essendo però pezzi della stessa
+            tipologia fungibili, possiamo migliorare l'efficienza allocando solo
+            i bit necessari a individuare l'n-upla, decodificandolo con
+            algoritmi standard come il combinadic.
+          </p>
+          <p>
+            Possiamo infine allocare i bit necessari a individuare quali
+            arrocchi plausibili sono possibili, fino a 4 bit, e quali
+            en-passant plausibili sono possibili, fino a 3 bit, per coprire
+            fino a 6 casi.
+          </p>
+          <p>
+            Il caso ottimo è con solo 2 re, e occupa
+            <code>1 + 6 + 6 + 14 + 14 = 41 bit</code>. Secondo ChatGPT: worst
+            case 189 bit, starting case 175 bit.
+          </p>
+          <p>
+            Se si vuole una dimensione fissa, è possibile
+            <code>1 + 4 + 3</code> bit per turno, arrocco, en passant,
+            <code>14 + 14</code> per la configurazione dei pezzi,
+            <code>6 + 6</code> per la posizione dei re, <code>6*30</code> per
+            le posizioni dei pezzi, per un totale di 228; oppure allocare 189
+            bit sprecando quelli non necessari in coda.
+          </p>
+
+          <h2>Encoding di posizioni illegali</h2>
+          <p>
+            Per posizioni con combinazioni di pezzi illegali, possiamo applicare
+            una strategia simile. Assumendo comunque 2 re, possiamo determinare
+            la combinazione di pezzi di entrambi i giocatori come scelta di 62
+            pezzi di 11 tipologie, cioè 5 pezzi bianchi, 5 neri, catturati.
+            Possiamo poi determinare la posizione delle n-uple, e aggiungere bit
+            per turno, arrocco, en-passant. Secondo ChatGPT: worst case 249 bit,
+            starting case 186 bit.
+          </p>
+        </section>
+
+        <section
+          class="article-body language-panel"
+          id="panel-en"
+          role="tabpanel"
+          aria-labelledby="tab-en"
+          data-lang-panel="en"
+          hidden
+        >
+          <p>
+            We consider the problem of encoding moves, positions, games, and
+            trees or graphs of chess games, focusing first on storage efficiency
+            and secondarily on simplicity and read speed.
+          </p>
+          <p>Some considerations follow.</p>
+
+          <h2>Games as sequences of moves</h2>
+          <p>
+            A game can be encoded as the sequence of its individual positions.
+            It is also possible, however, to store only the list of individual
+            moves, so that the game and the positions that compose it can be
+            reconstructed. An efficient move encoding becomes an efficient game
+            encoding.
+          </p>
+
+          <h2>Move encoding with origin and destination</h2>
+          <p>
+            We can define a move as the piece to move, or perhaps better its
+            square, and the destination square. This still holds for castling:
+            castling can be encoded by moving the king two squares to its
+            destination, making the rook's follow-up move implicit. Selecting
+            one of the 64 squares, identified by 6 bits, as the origin and one
+            as the destination identifies any move in 12 bits.
+          </p>
+          <p>
+            A second important observation is that many moves are illegal; in
+            particular, the king will always have many illegal moves. These can
+            be used to represent states that are more particular than a standard
+            move, especially resignation or a draw.
+          </p>
+          <p>
+            For example, a draw can be represented by one king capturing the
+            other. Resignation can instead be represented by moving the king to
+            an inaccessible corner, using the color of the destination square to
+            indicate the resigning player, since such an illegal corner will
+            always exist.
+          </p>
+          <p>
+            Another creative use of illegal moves is pawn promotion: we can
+            indicate only the destination file, and use ranks 1, 2, 3, 4 for
+            White, and 8, 7, 6, 5 for Black, to indicate promotion respectively
+            to queen, rook, bishop, knight.
+          </p>
+          <p>
+            The encoding can be made more efficient if we know whose turn it is:
+            list the side-to-move pieces in lexicographic order, select one with
+            4 bits, at most 16 pieces, and use 6 bits for the destination
+            square.
+          </p>
+          <p>
+            This identifies a move in 10 bits, or 11 if the player must also be
+            specified, and therefore encodes a game in 10 bits per half-move:
+            a 40-move game would require 100 bytes.
+          </p>
+
+          <h2>Move encoding by enumeration</h2>
+          <p>
+            A lower weight can be achieved if, instead of using 4 bits to
+            identify a piece, we dynamically allocate only as many bits as are
+            needed to identify one of the pieces on the board that has legal
+            moves. For example, if only 8 pieces can move, only the first 3 bits
+            identify the piece, giving a 9-bit move. A forced move weighs 7
+            bits.
+          </p>
+          <p>
+            Continuing in this direction, we can also order lexicographically
+            the possible moves that a piece can make after it has been
+            identified, allocating the necessary bits dynamically, adding 3 moves
+            for draw and resignations, and adding moves for the different pawn
+            promotions. The maximum number of moves for a piece is 27, for a
+            centralized queen, so at most 5 bits are needed.
+          </p>
+          <p>
+            A move, knowing whose turn it is, is therefore represented by at most
+            9 bits: 4 to choose the piece, 5 to move it. In the minimum case, a
+            forced move, no bits are needed to identify the piece, and only 2
+            bits are used to make the move or choose a draw or resignation.
+          </p>
+          <p>
+            These two tricks reduce the storage used by the encoding, but they
+            require reading the current position in order to decode the selected
+            piece, whose possible moves must be calculated unless pieces with no
+            legal moves are excluded, and the move that was made.
+          </p>
+          <p>
+            Following this path, we can compute all possible moves in a
+            position, list them lexicographically after listing the pieces
+            lexicographically, and add draw and resignations. We can then
+            allocate only the bits needed to cover the available moves. A storage
+            improvement can be achieved only on average if we introduce the idea
+            that some moves are more plausible than others, or for games with an
+            encoding that is not move-by-move.
+          </p>
+
+          <h2>Combinatorial encoding of a legal position</h2>
+          <p>We can encode a legal position as follows.</p>
+          <ul>
+            <li>1 bit allocated to determine the side to move.</li>
+            <li>6 bits + 6 bits for the kings' positions.</li>
+          </ul>
+          <p>
+            Then we observe that a player has 15 other pieces, of 6 types: pawn,
+            knight, bishop, rook, queen, or captured piece, in various
+            configurations, also accounting for pawn promotion. To exploit the
+            fungibility of equivalent pieces, we use bits to determine the
+            configuration with the combinatorial stars-and-bars technique:
+            <code>****|***|***|*||****</code>. The total number of combinations
+            is <code>20!/(15!*5!)</code>, and requires 14 bits per player to be
+            represented, with standard decoding algorithms.
+          </p>
+          <p>
+            For each uncaptured piece, we can identify the position with 6 bits,
+            selecting pieces in the category order chosen in the previous step.
+            Since pieces of the same type are fungible, however, we can improve
+            efficiency by allocating only the bits needed to identify the
+            n-tuple, decoding it with standard algorithms such as the
+            combinadic.
+          </p>
+          <p>
+            Finally, we can allocate the bits needed to identify which plausible
+            castling rights are available, up to 4 bits, and which plausible
+            en-passant states are available, up to 3 bits to cover up to 6
+            cases.
+          </p>
+          <p>
+            The optimal case, with only 2 kings, uses
+            <code>1 + 6 + 6 + 14 + 14 = 41 bits</code>. According to ChatGPT:
+            worst case 189 bits, starting case 175 bits.
+          </p>
+          <p>
+            If a fixed size is desired, one can use <code>1 + 4 + 3</code> bits
+            for turn, castling, and en passant; <code>14 + 14</code> for the
+            piece configurations; <code>6 + 6</code> for the kings' positions;
+            and <code>6*30</code> for the positions of the pieces, for a total
+            of 228. Alternatively, allocate 189 bits and waste the unnecessary
+            ones at the tail.
+          </p>
+
+          <h2>Encoding illegal positions</h2>
+          <p>
+            For positions with illegal piece combinations, we can apply a
+            similar strategy. Assuming there are still 2 kings, we can determine
+            the piece combination for both players as a choice of 62 pieces
+            among 11 types: 5 white pieces, 5 black pieces, and captured pieces.
+            Then we can determine the positions of the n-tuples and add bits for
+            turn, castling, and en passant. According to ChatGPT: worst case 249
+            bits, starting case 186 bits.
+          </p>
+        </section>
+
+        <section class="implementation-lab" aria-labelledby="implementation-title">
+          <div>
+            <p class="kicker">Implementazione / Implementation</p>
+            <h2 id="implementation-title">FEN to bits</h2>
+          </div>
+
+          <div class="demo-grid">
+            <label class="field">
+              <span>FEN</span>
+              <textarea id="fen-input" spellcheck="false">rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1</textarea>
+            </label>
+
+            <div class="demo-actions" aria-label="Demo controls">
+              <button class="action-button" id="encode-fen" type="button">Encode</button>
+              <button class="action-button secondary" id="decode-bits" type="button">Decode</button>
+            </div>
+
+            <label class="field">
+              <span>Bits</span>
+              <textarea id="bits-output" spellcheck="false"></textarea>
+            </label>
+
+            <label class="field">
+              <span>Decoded FEN</span>
+              <textarea id="fen-output" spellcheck="false" readonly></textarea>
+            </label>
+          </div>
+
+          <p class="demo-status" id="demo-status" role="status" aria-live="polite"></p>
+          <p class="source-note">
+            Sorgente della demo:
+            <a href="../assets/chess-encoding-demo.js">chess-encoding-demo.js</a>
+          </p>
+        </section>
+      </article>
+    </main>
+
+    <script src="../assets/site.js"></script>
+    <script src="../assets/chess-encoding-demo.js"></script>
+  </body>
+</html>
