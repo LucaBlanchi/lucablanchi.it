@@ -215,8 +215,10 @@
             posizione con 6 bit, selezionandoli nell'ordine delle categorie
             selezionate allo step precedente. Essendo però pezzi della stessa
             tipologia fungibili, possiamo migliorare l'efficienza allocando solo
-            i bit necessari a individuare l'n-upla, decodificandolo con
-            algoritmi standard come il combinadic.
+            i bit necessari a individuare l'n-upla tra le caselle rimaste disponibili, decodificandolo con
+            algoritmi standard come il combinadic. Possiamo in realtà anche comprimere
+            questa sequenza di numeri con metodo mixed radix per leakare bit per
+            ciascuna tupla.
           </p>
           <p>
             Possiamo infine allocare i bit necessari a individuare quali
@@ -374,8 +376,10 @@
             selecting pieces in the category order chosen in the previous step.
             Since pieces of the same type are fungible, however, we can improve
             efficiency by allocating only the bits needed to identify the
-            n-tuple, decoding it with standard algorithms such as the
-            combinadic.
+            n-tuple among the remaining available squares, decoding it with
+            standard algorithms such as the combinadic. In fact, we can also
+            compress this sequence of numbers with a mixed-radix method to save
+            bits for each tuple.
           </p>
           <p>
             Finally, we can allocate the bits needed to identify which plausible
