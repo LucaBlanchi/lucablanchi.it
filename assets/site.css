@@ -94,7 +94,7 @@ textarea {
 }
 
 .index-shell {
-  padding: 56px 0 72px;
+  padding: 56px 0 44px;
 }
 
 .site-header {
@@ -102,15 +102,10 @@ textarea {
   margin-bottom: 28px;
 }
 
-.kicker,
 .article-meta,
 .source-note {
   color: var(--muted);
   font-size: 0.92rem;
-}
-
-.kicker {
-  margin: 0 0 8px;
 }
 
 h1,
@@ -134,14 +129,14 @@ h2 {
 
 .draft-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-  gap: 18px;
+  grid-template-columns: 1fr;
+  gap: 16px;
 }
 
 .draft-card {
   display: grid;
-  grid-template-columns: minmax(180px, 0.45fr) 1fr;
-  min-height: 260px;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  min-height: 240px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -259,7 +254,8 @@ h2 {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  padding: 30px;
+  min-width: 0;
+  padding: 30px 34px;
 }
 
 .draft-copy time {
@@ -270,12 +266,38 @@ h2 {
 
 .draft-copy h2 {
   margin-bottom: 10px;
-  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  font-size: clamp(1.55rem, 3vw, 2.35rem);
 }
 
 .draft-copy p {
   max-width: 56ch;
   color: var(--muted);
+}
+
+.site-footer {
+  border-top: 1px solid rgba(217, 222, 234, 0.85);
+  background: rgba(246, 247, 251, 0.7);
+}
+
+.footer-shell {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding: 22px 0;
+}
+
+.footer-shell p {
+  max-width: 72ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.footer-shell a {
+  color: var(--blue);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 .article-shell {
@@ -511,7 +533,7 @@ textarea:focus {
 
 @media (max-width: 760px) {
   .index-shell {
-    padding: 42px 0;
+    padding: 42px 0 34px;
   }
 
   .draft-card,

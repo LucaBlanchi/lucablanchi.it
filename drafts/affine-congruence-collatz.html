@@ -1,0 +1,1081 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Affine-Congruence Collatz - Draft</title>
+    <meta
+      name="description"
+      content="A curated draft on the affine-congruence reformulation of Collatz, separating the core framework from stronger later developments."
+    >
+    <link rel="stylesheet" href="../assets/site.css">
+  </head>
+  <body>
+    <header class="top-nav">
+      <div class="shell nav-shell">
+        <a class="brand-link" href="../index.html">Luca Blanchi</a>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="../index.html">Drafts</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shell article-shell">
+      <article class="draft-article">
+        <header class="article-header">
+          <div class="article-meta">
+            <span>Draft</span>
+            <time datetime="2026-06-12">June 12, 2026</time>
+          </div>
+
+          <div class="article-title-row">
+            <div>
+              <h1>Affine-Congruence Collatz</h1>
+              <p>
+                The basic grammar of a three-branch Collatz dynamics, its
+                congruence cylinders, affine centers, descent certificates, and
+                the strongest later extensions worth keeping separate.
+              </p>
+            </div>
+
+            <div class="article-visual" aria-hidden="true">
+              <div class="concept-map">
+                <span>word</span>
+                <span>affine map</span>
+                <span>2-adic cylinder</span>
+                <span>certificate</span>
+              </div>
+              <div class="bit-strip">
+                <span>A_w</span><span>B_w</span><span>D_w</span><span>p_w</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section class="article-body">
+          <p class="draft-note">
+            Premise: what follows consists of original ideas and observations
+            reorganized, presented, and elaborated by ChatGPT/Codex from
+            author-directed research notes.
+          </p>
+
+          <h2>Status</h2>
+          <p>
+            This is not a proof of the Collatz conjecture. The conjecture
+            remains open. The aim is to present a coherent research framework:
+            a normalization of the dynamics, exact affine formulas for finite
+            words, congruence cylinders, cycle and stopping-time criteria, and
+            selected later mechanisms that turn local descent certificates into
+            symbolic and combinatorial obstructions.
+          </p>
+
+          <p>
+            Statements in the core part are meant as proved within the
+            formalism. Statements in the extension part are included only when
+            they have a clean shape and a clear role, but some of them remain
+            best read as programmatic until independently checked and rewritten
+            as formal lemmas.
+          </p>
+
+          <h2>Core Idea</h2>
+          <p>
+            The ordinary Collatz map alternates between multiplication by
+            <code>3</code>, addition of <code>1</code>, and removal of powers of
+            <code>2</code>. The affine-congruence reformulation replaces this
+            with a three-branch dynamics on positive integers:
+          </p>
+
+          <p class="formula-block">
+            T(x) = (3x+1)/4 if x ≡ 1 mod 4,<br>
+            T(x) = 3x/2 if x ≡ 0 mod 2,<br>
+            T(x) = (x+1)/4 if x ≡ 3 mod 4.
+          </p>
+
+          <p>
+            The three branches are denoted:
+          </p>
+
+          <p class="formula-block">
+            O1: x -> (3x+1)/4, E: x -> 3x/2, O3: x -> (x+1)/4.
+          </p>
+
+          <p>
+            This dynamics is equivalent to Collatz through the Syracuse map on
+            odd integers and a harmless replacement of one Syracuse arrow by a
+            finite descending chain. Convergence to <code>1</code>, nontrivial
+            cycles, and divergent behavior are therefore preserved in the
+            reformulated system.
+          </p>
+
+          <h2>Finite Descent</h2>
+          <p>
+            The Collatz conjecture can be reduced to finite descent: if every
+            <code>x &gt; 1</code> eventually reaches a value smaller than itself,
+            then every orbit reaches <code>1</code>. This follows by strong
+            induction. Once an orbit drops from <code>x</code> to some
+            <code>m &lt; x</code>, the induction hypothesis applies to
+            <code>m</code>.
+          </p>
+
+          <p>
+            The formalism therefore tries to certify statements of the form:
+          </p>
+
+          <p class="formula-block">
+            there exists k ≥ 1 such that T^k(x) &lt; x.
+          </p>
+
+          <h2>Words and Affine Maps</h2>
+          <p>
+            A finite operational word is a string:
+          </p>
+
+          <p class="formula-block">
+            w = s1 s2 ... sk, with si ∈ {O1, E, O3}.
+          </p>
+
+          <p>
+            Every such word determines an exact affine transformation on the
+            cylinder of seeds following that word:
+          </p>
+
+          <p class="formula-block">
+            T^|w|(x) = (A_w x + B_w) / D_w.
+          </p>
+
+          <p>
+            The coefficients start from <code>A=1, B=0, D=1</code> and evolve
+            by:
+          </p>
+
+          <p class="formula-block">
+            O1: A -> 3A, B -> 3B + D, D -> 4D<br>
+            E: A -> 3A, B -> 3B, D -> 2D<br>
+            O3: A -> A, B -> B + D, D -> 4D
+          </p>
+
+          <p>
+            In particular:
+          </p>
+
+          <p class="formula-block">
+            A_w = 3^(#O1(w)+#E(w)),<br>
+            D_w = 4^(#O1(w)+#O3(w)) 2^(#E(w)).
+          </p>
+
+          <p>
+            The multiplier:
+          </p>
+
+          <p class="formula-block">
+            λ_w = A_w / D_w
+          </p>
+
+          <p>
+            records whether the principal part of the word is expanding,
+            neutral, or contracting. The affine term <code>B_w</code> remembers
+            the order of the branches.
+          </p>
+
+          <h2>Congruence Cylinders</h2>
+          <p>
+            The cylinder <code>E_w</code> is the set of positive integers whose
+            first <code>|w|</code> branches are exactly <code>w</code>. The key
+            structural fact is that every cylinder is a single residue class
+            modulo <code>D_w</code>:
+          </p>
+
+          <p class="formula-block">
+            E_w = { x : A_w x + B_w ≡ 0 mod D_w }.
+          </p>
+
+          <p>
+            Since <code>A_w</code> is odd, it is invertible modulo the power of
+            <code>2</code> given by <code>D_w</code>. Therefore there is a
+            unique residue class:
+          </p>
+
+          <p class="formula-block">
+            E_w = { x : x ≡ a_w mod D_w }.
+          </p>
+
+          <p>
+            The natural density of this cylinder is exactly:
+          </p>
+
+          <p class="formula-block">
+            δ(E_w) = 1 / D_w.
+          </p>
+
+          <p>
+            This is why the reformulation is useful: the same denominator is
+            simultaneously the affine denominator, the congruence modulus, and
+            the reciprocal density of the symbolic cylinder.
+          </p>
+
+          <h2>Average Drift</h2>
+          <p>
+            Under the natural cylinder weights:
+          </p>
+
+          <p class="formula-block">
+            P(O1)=1/4, P(E)=1/2, P(O3)=1/4,
+          </p>
+
+          <p>
+            the mean log-multiplier is:
+          </p>
+
+          <p class="formula-block">
+            μ = (1/4)log(3/4) + (1/2)log(3/2) + (1/4)log(1/4)
+              = (1/4)log(27/64) &lt; 0.
+          </p>
+
+          <p>
+            The geometric mean is therefore contracting, even though the
+            arithmetic mean of the elementary multipliers is exactly
+            <code>1</code>. This recovers the Terras-Korec mechanism: almost
+            all seeds descend, but an exceptional set of density zero may still
+            be nonempty.
+          </p>
+
+          <p>
+            A Chernoff/Markov estimate gives an exponential bound for
+            noncontracting prefixes:
+          </p>
+
+          <p class="formula-block">
+            mass{ w of length k : A_w ≥ D_w } ≤ ρ^k,<br>
+            ρ ≈ 0.9536553832.
+          </p>
+
+          <p>
+            This explains why almost-everywhere descent is natural in the
+            grammar. It does not prove the conjecture: the missing step is the
+            passage from density zero to emptiness.
+          </p>
+
+          <h2>Affine Centers</h2>
+          <p>
+            If <code>D_w ≠ A_w</code>, define the affine center:
+          </p>
+
+          <p class="formula-block">
+            p_w = B_w / (D_w - A_w).
+          </p>
+
+          <p>
+            This number is the fixed point of the affine map associated with
+            <code>w</code>. More importantly:
+          </p>
+
+          <p class="formula-block">
+            T^|w|(x) - x = (A_w/D_w - 1)(x - p_w).
+          </p>
+
+          <p>
+            If <code>D_w &gt; A_w</code>, the word is contracting and:
+          </p>
+
+          <p class="formula-block">
+            T^|w|(x) &lt; x ⇔ x &gt; p_w.
+          </p>
+
+          <p>
+            Thus <code>p_w</code> is at once the real descent threshold, the
+            affine fixed point, and the candidate value for a cycle generated
+            by <code>w</code>.
+          </p>
+
+          <h2>The 2-Adic Ball</h2>
+          <p>
+            The same center also describes the <code>2</code>-adic closure of
+            the cylinder:
+          </p>
+
+          <p class="formula-block">
+            Ê_w = p_w + D_w Z_2.
+          </p>
+
+          <p>
+            Every infinite word determines a compatible sequence of residue
+            classes modulo increasing powers of <code>2</code>, hence a unique
+            <code>2</code>-adic integer. Conversely, every <code>2</code>-adic
+            integer has a unique itinerary. This is the three-symbol
+            affine-congruence version of the Bernstein-Lagarias
+            <code>2</code>-adic conjugacy.
+          </p>
+
+          <p>
+            A key distinction is that a <code>2</code>-adic point need not be a
+            positive ordinary integer. An infinite word represents a positive
+            integer precisely when the least positive residues of its finite
+            cylinders eventually stabilize.
+          </p>
+
+          <h2>Cycles</h2>
+          <p>
+            A word <code>w</code> generates a positive cycle only if:
+          </p>
+
+          <p class="formula-block">
+            (D_w - A_w)x = B_w.
+          </p>
+
+          <p>
+            Therefore the exact cycle criterion is:
+          </p>
+
+          <p class="formula-block">
+            D_w &gt; A_w,<br>
+            D_w - A_w divides B_w,<br>
+            x_w = B_w / (D_w - A_w) belongs to E_w.
+          </p>
+
+          <p>
+            If these conditions hold, the cycle candidate is unique. The trivial
+            cycle corresponds to <code>O1</code>, with <code>x=1</code>.
+            Nontrivial cycles would have to pass both an arithmetic divisibility
+            test and an itinerary-validity test.
+          </p>
+
+          <p>
+            This suggests the strong finite obstruction:
+          </p>
+
+          <p class="formula-block">
+            for every primitive w ≠ O1, D_w - A_w does not divide B_w.
+          </p>
+
+          <p>
+            This obstruction is not proved. It is a clean finite form of the
+            loop problem, and exact searches in the notes report no nontrivial
+            primitive word passing the divisibility filter up to the tested
+            lengths.
+          </p>
+
+          <h2>Stopping Certificates</h2>
+          <p>
+            Let <code>m_w</code> be the least positive element of the cylinder
+            <code>E_w</code>. A contracting word is certifying if:
+          </p>
+
+          <p class="formula-block">
+            D_w &gt; A_w and p_w &lt; m_w.
+          </p>
+
+          <p>
+            Equivalently, the whole cylinder descends by time
+            <code>|w|</code>. If <code>x = m_w + nD_w</code>, then:
+          </p>
+
+          <p class="formula-block">
+            T^|w|(x) - x = h_w - n(D_w - A_w),
+          </p>
+
+          <p>
+            where <code>h_w = T^|w|(m_w) - m_w</code>. Hence the exact number
+            of seeds in the cylinder that do not descend at time
+            <code>|w|</code> is:
+          </p>
+
+          <p class="formula-block">
+            N_w = max(0, 1 + floor(h_w/(D_w - A_w))).
+          </p>
+
+          <p>
+            Certification is stable under odd extensions: if <code>w</code> is
+            certifying, then <code>wO1</code> and <code>wO3</code> are still
+            certifying. The only one-letter extension that may reopen a
+            critical branch is <code>E</code>, the even branch.
+          </p>
+
+          <h2>Critical Branches</h2>
+          <p>
+            The research notes isolate the following conceptual picture. An
+            infinite branch is critical if none of its prefixes is certifying.
+            The conjectural core becomes:
+          </p>
+
+          <p class="formula-block">
+            the only critical infinite branch with stabilizing least residues is
+            O1^∞.
+          </p>
+
+          <p>
+            This is just the fixed point <code>1</code>. All other positive
+            natural branches should eventually encounter a certifying
+            contracting prefix.
+          </p>
+
+          <p>
+            Two major open mechanisms are separated here. First, a first
+            crossing from <code>A_w ≥ D_w</code> to <code>A_w &lt; D_w</code>
+            should already be certifying, except for the trivial
+            <code>O1</code> case. Second, an infinite branch whose prefixes are
+            always noncontracting should not stabilize to a positive integer.
+            Together, these would imply finite descent.
+          </p>
+
+          <h2>2-Adic Inputs, 3-Adic Outputs</h2>
+          <p>
+            The input cylinders are <code>2</code>-adic, but outputs of a word
+            satisfy congruences modulo powers of <code>3</code>. Set:
+          </p>
+
+          <p class="formula-block">
+            ρ_w = B_w / D_w in Z_3.
+          </p>
+
+          <p>
+            The offset evolves by affine maps:
+          </p>
+
+          <p class="formula-block">
+            O1: ρ -> (3/4)ρ + 1/4,<br>
+            E: ρ -> (3/2)ρ,<br>
+            O3: ρ -> (1/4)ρ + 1/4.
+          </p>
+
+          <p>
+            After compressing blocks <code>O3^l E</code> and
+            <code>O3^l O1</code>, and normalizing <code>U = 2ρ - 1</code>, the
+            induced chain becomes:
+          </p>
+
+          <p class="formula-block">
+            U -> (3U + 1) / 2^a, with P(a=j)=2^-j.
+          </p>
+
+          <p>
+            This is the same <code>3</code>-adic affine chain appearing in
+            Tao's almost-everywhere work. The bridge is structural, not yet a
+            replacement for Tao's theorem: proving useful transport requires
+            strong Fourier estimates for these normalized offsets modulo powers
+            of <code>3</code>.
+          </p>
+
+          <h2>Selected Extensions</h2>
+          <p>
+            The remaining notes contain many candidate lemmas, experimental
+            reductions, and proof attempts. The extensions below are the
+            theorem-level pieces that seem worth preserving in a public draft:
+            they have clean hypotheses, short proofs or proof skeletons, and a
+            structural role in the program. They still do not constitute a proof
+            of Collatz.
+          </p>
+
+          <h3>Certificate Graphs, Ranks, and Prefix Codes</h3>
+          <p>
+            <strong>No closed certifying walk.</strong> For a cyclic word
+            <code>w</code>, build the directed graph on cyclic positions with an
+            arrow <code>i -> j</code> whenever the factor <code>w[i,j)</code> is
+            nontrivially certifying. If <code>w</code> were a nontrivial positive
+            cycle, this graph would be acyclic.
+          </p>
+
+          <p>
+            <strong>Proof.</strong> A certifying arrow sends the cycle value at
+            its initial vertex to a strictly smaller value at its terminal
+            vertex. A directed cycle of such arrows would give a strict chain
+            returning to its starting value, hence <code>x &lt; x</code>.
+          </p>
+
+          <p>
+            This single observation yields several hard constraints: every
+            hypothetical nontrivial cycle has a critical rotation with no
+            outgoing certifying proper prefix; at most <code>n(n-1)/2</code> of
+            its <code>n(n-1)</code> proper cyclic factors can be certifying; and
+            there is a rank function <code>R</code> on the cyclic positions such
+            that every certifying interval points downward in rank.
+          </p>
+
+          <p>
+            <strong>Minimal certificates form a prefix code.</strong> If
+            <code>M</code> is the set of certifying words with no certifying
+            proper prefix, then no element of <code>M</code> is a proper prefix
+            of another. Therefore the associated cylinders are disjoint and
+          </p>
+
+          <p class="formula-block">
+            Σ_{m∈M} 1/D_m ≤ 1.
+          </p>
+
+          <p>
+            This reframes finite stopping as a completeness problem for a
+            prefix code in the natural <code>2</code>-adic itinerary measure.
+          </p>
+
+          <h3>Escape, Shielding, and Local Defects</h3>
+          <p>
+            <strong>One-letter escape.</strong> Odd extensions preserve
+            certification: if <code>w</code> is strictly certifying, then
+            <code>wO1</code> and <code>wO3</code> are strictly certifying, with
+            the usual caveat around the trivial fixed point. Thus the only
+            one-letter extension that can destroy certification is
+            <code>E</code>.
+          </p>
+
+          <p>
+            The even escape has an exact test. Let <code>A=A_w</code>,
+            <code>D=D_w</code>, let <code>m</code> be the least positive seed in
+            the cylinder of <code>w</code>, let <code>y=F_w(m)</code>, and set
+            <code>g=m-y&gt;0</code>. If <code>t∈{0,1}</code> is chosen so that
+            <code>y+tA</code> is even, then
+          </p>
+
+          <p class="formula-block">
+            wE is certifying ⇔ 3g &gt; m + t(3A - 2D).
+          </p>
+
+          <p>
+            <strong>Proof.</strong> The lifted seed is <code>m+tD</code> and the
+            lifted image is <code>3(y+tA)/2</code>. Subtracting these two
+            quantities gives the displayed inequality.
+          </p>
+
+          <p>
+            <strong>Exact shielding.</strong> For an odd-only tail
+            <code>z</code>, write <code>F_z(x)=λ_zx+β_z</code>, and let
+            <code>Y*_{z,r}</code> be the least value after <code>z</code> that
+            is divisible by <code>2^r</code>. Then <code>zE^r</code> is
+            nontrivially certifying exactly when
+          </p>
+
+          <p class="formula-block">
+            λ_z(3/2)^r &lt; 1,<br>
+            [1 - λ_z(3/2)^r]Y*_{z,r} &gt; β_z.
+          </p>
+
+          <p>
+            The proof changes variables from the input <code>x</code> to the
+            post-tail value <code>y=F_z(x)</code>. The descent inequality becomes
+            a linear inequality in <code>y</code>, so it is necessary and
+            sufficient to test the least admissible <code>y</code>.
+          </p>
+
+          <p>
+            Define <code>σ(z)</code> as the largest even burst absorbed by
+            <code>z</code>. Two explicit shields are solid:
+          </p>
+
+          <p class="formula-block">
+            σ(O3)=3,<br>
+            σ(O1^h)=floor(h log(4/3)/log(3/2)).
+          </p>
+
+          <p>
+            Terminal suffixes are monotone: <code>σ(az)≥σ(z)</code> for
+            odd-only <code>a,z</code>. Hence a shielding dictionary can be built
+            from odd suffixes. Using only <code>(O3,3)</code>, every nontrivial
+            positive cycle must contain <code>O1E</code> or <code>E^4</code>;
+            otherwise every even burst is shielded and the cyclic word
+            decomposes into certifying blocks.
+          </p>
+
+          <p>
+            For each <code>r≥1</code>, the unshielded-tail set
+            <code>U_r={z: zE^r is not certifying}</code> is finite. One explicit
+            universal bound is
+          </p>
+
+          <p class="formula-block">
+            |z| &lt; ceil((r log(3/2) - log(1 - 2^-r)) / log(4/3)).
+          </p>
+
+          <p>
+            Consequently every nontrivial positive cycle contains at least one
+            local defect <code>zE^r</code> with <code>z∈U_r</code>. Dually, a
+            forward compensation theory studies <code>E^a z</code>, produces
+            finite forward-defect sets, and shows that the rotation at the
+            minimum must begin with <code>E^a z</code> where this first forward
+            block is not certifying.
+          </p>
+
+          <h3>Defects, Arcs, and Feedback</h3>
+          <p>
+            <strong>Defect-feedback theorem.</strong> Let <code>H(W)</code> be
+            a directed auxiliary graph whose arrows represent factors that
+            would be certifying unless they cross a defect set <code>D</code>.
+            If <code>W</code> is a nontrivial positive cycle and every clean
+            arrow is genuinely certifying, then the clean graph is acyclic.
+            Equivalently, <code>D</code> intersects every directed circuit in
+            <code>H(W)</code>.
+          </p>
+
+          <p>
+            <strong>Proof.</strong> A clean directed circuit would be a closed
+            certifying walk. The no-return theorem then gives the contradiction.
+            In the vertex-local case, this says that <code>D</code> is an
+            ordinary feedback vertex set. Therefore
+            <code>|D|≥τ(H(W))</code>, and with weights
+            <code>Σ_{d∈D}ω(d)≥τ_ω(H(W))</code>.
+          </p>
+
+          <p>
+            A key boundary result prevents overclaiming: in the pure interval
+            model, one defect already linearizes every clean interval graph.
+            Quantitative lower bounds require a stricter endpoint-local or
+            vertex-local model.
+          </p>
+
+          <p>
+            In the endpoint-local circulant graph <code>C_n^(L)</code>, with
+            arrows <code>i -> i+ℓ</code> for <code>1≤ℓ≤L</code>, the feedback
+            sets are exactly the sets containing <code>L</code> consecutive
+            vertices. Hence
+          </p>
+
+          <p class="formula-block">
+            τ(C_n^(L)) = L.
+          </p>
+
+          <p>
+            More generally, for <code>C_n(S)</code>, every certified length
+            <code>s∈S</code> forces defects in every orbit of
+            <code>i -> i+s</code>, so <code>|D|≥gcd(n,s)</code>. If
+            <code>[1,L]⊂S</code>, a surviving cycle must contain a wall of
+            <code>L</code> consecutive defects; if <code>S⊂[1,M]</code>, a wall
+            of <code>M</code> defects is sufficient to cut all endpoint-local
+            arcs.
+          </p>
+
+          <p>
+            There is also an exact arc-cover transfer. Given a map
+            <code>Γ:E(H)->2^X</code> assigning to each arc the defects that can
+            explain its failure, a defect set <code>D⊂X</code> is a
+            <code>Γ</code>-feedback set if and only if the covered arcs
+            <code>B_Γ(D)</code> contain a feedback arc set of <code>H</code>.
+            If each defect covers at most <code>Δ</code> relevant arcs, then
+          </p>
+
+          <p class="formula-block">
+            τ_Γ(H) ≥ ceil(τ_arc(H)/Δ).
+          </p>
+
+          <p>
+            For translational templates in a circulant graph, the same counting
+            becomes geometric. If <code>U_Γ(σ)</code> is the shadow of a cyclic
+            template <code>σ</code>, then every feedback set must satisfy
+          </p>
+
+          <p class="formula-block">
+            |D| · |U_Γ(σ)| ≥ n.
+          </p>
+
+          <p>
+            The exact condition for covering all translates is
+            <code>D - U_Γ(σ)=Z/nZ</code>. Thus the true obstruction is not only
+            the size of the shadow, but its cyclic covering number.
+          </p>
+
+          <h3>Pressure, Automata, and Thin Survivors</h3>
+          <p>
+            <strong>Pressure-dimension criterion.</strong> For a language
+            <code>L</code>, define
+          </p>
+
+          <p class="formula-block">
+            Z_n(s;L)=Σ_{w∈L_n}D_w^-s,<br>
+            P_L(s)=limsup n^-1 log Z_n(s;L).
+          </p>
+
+          <p>
+            If <code>P_L(s)&lt;0</code>, then the associated
+            <code>2</code>-adic survivor has zero <code>s</code>-dimensional
+            Hausdorff measure and Hausdorff dimension at most <code>s</code>.
+            The proof is the direct cylinder cover: at level <code>n</code>,
+            the survivor is covered by cylinders of diameter <code>D_w^-1</code>.
+          </p>
+
+          <p>
+            First-passage languages admit a uniform Chernoff bound. If every
+            word in <code>F_τ(n)</code> has its length <code>n-1</code> prefix
+            multiplier at least <code>τ</code>, then for <code>t≥0</code> and
+            <code>s&gt;0</code>,
+          </p>
+
+          <p class="formula-block">
+            Σ_{v∈F_τ(n)}D_v^-t ≤ τ^-s(2^-t+2·4^-t)Φ_t(s)^(n-1),<br>
+            Φ_t(s)=2^-t(3/2)^s+4^-t(3/4)^s+4^-t(1/4)^s.
+          </p>
+
+          <p>
+            In particular,
+          </p>
+
+          <p class="formula-block">
+            |F_τ(n)| ≤ C_τ ρ_top^n, ρ_top≈2.4986862226&lt;3,<br>
+            Σ_{v∈F_τ(n)}1/D_v ≤ C*_τ ρ_wt^n, ρ_wt≈0.9536553832&lt;1.
+          </p>
+
+          <p>
+            A stronger dimensional statement is also available: there is an
+            explicit universal threshold <code>t_fp≈0.9499843135&lt;1</code> such
+            that every survivor covered at all depths by weak first-passage
+            containers has Hausdorff dimension at most <code>t_fp</code>.
+          </p>
+
+          <p>
+            Finite-state containers make this computable. For a finite automaton
+            with edge labels in <code>{E,O1,O3}</code>, form the weighted matrix
+            <code>M_t</code> with edge weight <code>δ(label)^-t</code>, where
+            <code>δ(E)=2</code> and <code>δ(O1)=δ(O3)=4</code>. The pressure is
+            the logarithm of the maximum spectral radius among relevant
+            strongly connected components. Thus <code>ρ_rel(t)&lt;1</code>
+            implies a Hausdorff bound <code>dim_H≤t</code>.
+          </p>
+
+          <p>
+            Finite forbidden dictionaries give a concrete special case:
+            avoiding a finite set of certifying factors is a subshift of finite
+            type recognized by a sliding-window automaton. Adding forbidden
+            certificates can only decrease pressure.
+          </p>
+
+          <p>
+            For the run-limited language <code>R_N</code>, where no more than
+            <code>N</code> odd letters occur consecutively, the weighted spectral
+            radius <code>ρ_N(t)</code> is the unique positive root of
+          </p>
+
+          <p class="formula-block">
+            x^(N+1)=e_t(x^N+o_t x^(N-1)+...+o_t^N),<br>
+            e_t=2^-t, o_t=2·4^-t.
+          </p>
+
+          <p>
+            It satisfies the exact gap identity
+          </p>
+
+          <p class="formula-block">
+            (e_t+o_t)-ρ_N(t)=e_t(o_t/ρ_N(t))^(N+1).
+          </p>
+
+          <p>
+            Hence every uniform bound on odd-run length automatically yields
+            reduced entropy, exponentially small natural cylinder mass, and a
+            Hausdorff dimension bound below <code>1</code>.
+          </p>
+
+          <h3>Lassos, Complexity, and Active Budgets</h3>
+          <p>
+            Finite-state symbolic evidence must be filtered arithmetically. A
+            lasso <code>u v^∞</code> always determines a rational
+            <code>2</code>-adic point
+          </p>
+
+          <p class="formula-block">
+            x_{u v∞}=(D_u p_v - B_u)/A_u,<br>
+            p_v=B_v/(D_v-A_v).
+          </p>
+
+          <p>
+            It is realized by a positive integer if and only if
+            <code>p_v</code> is a positive integer and the displayed preimage is
+            a positive integer. Expansive periods cannot be natural, since then
+            <code>D_v-A_v&lt;0</code> and <code>p_v≤0</code>. Thus an eventually
+            periodic natural orbit must enter a positive cycle.
+          </p>
+
+          <p>
+            Morse-Hedlund gives the symbolic sieve: if a natural itinerary
+            <code>ω</code> has factor complexity <code>p_ω(n)≤n</code> for some
+            <code>n</code>, then <code>ω</code> is eventually periodic and is
+            governed by the lasso criterion. Therefore any aperiodic natural
+            survivor must satisfy
+          </p>
+
+          <p class="formula-block">
+            p_ω(n) ≥ n+1 for every n≥1.
+          </p>
+
+          <p>
+            There are stronger restrictions when the orbit grows slowly. Let
+            <code>P_n</code> be the number of active branches
+            <code>E</code> or <code>O1</code> among the first <code>n</code>
+            steps. Decomposing the prefix into <code>O3</code>-runs after the
+            <code>j</code>-th active step gives the local active budget
+          </p>
+
+          <p class="formula-block">
+            n ≤ P_n+(P_n+1)a_x + (β/2)P_n(P_n+1),<br>
+            β=log_4(3/2), a_x=log_4(3x/2).
+          </p>
+
+          <p>
+            Hence
+          </p>
+
+          <p class="formula-block">
+            P_n ≥ sqrt(2n/β)-O_x(1).
+          </p>
+
+          <p>
+            If a natural orbit is aperiodic and polynomially bounded, its
+            ordinary factor complexity must satisfy
+            <code>p_ω(L)≥exp(c sqrt L)</code> along all large scales. With
+            bounded <code>O3</code>-runs this improves to exponential
+            complexity. Thus very low-complexity symbolic containers cannot
+            contain polynomially bounded aperiodic natural survivors.
+          </p>
+
+          <h3>Tail Deficit and Extremal Gates</h3>
+          <p>
+            For odd tails, a useful order-sensitive coordinate is the deficit
+            mass. If <code>Z</code> is an odd-only word and
+            <code>η_Z</code> its multiplier, define
+          </p>
+
+          <p class="formula-block">
+            Δ(Z)=Σ_{j:s_j=O3} Π_{i&gt;j}λ_{s_i}.
+          </p>
+
+          <p>
+            Then
+          </p>
+
+          <p class="formula-block">
+            1-F_Z(1)=Δ(Z)/2,<br>
+            1-p_Z=Δ(Z)/(2(1-η_Z)).
+          </p>
+
+          <p>
+            The local exchange <code>O1O3 -> O3O1</code> decreases
+            <code>Δ</code> by exactly <code>λ_B/4</code>, where
+            <code>B</code> is the suffix after the exchanged pair. Therefore,
+            at fixed counts <code>(h,ℓ)</code>, the extremal orders are
+            <code>O1^h O3^ℓ</code> and <code>O3^ℓ O1^h</code>.
+          </p>
+
+          <p>
+            For blocks <code>U=E^aZ</code>, the rough floor-certification test
+            has the exact deficit-mass form:
+          </p>
+
+          <p class="formula-block">
+            U certifies by the rough test ⇔<br>
+            Δ(Z) &gt; 2((3^a-1)η_Z-(2^a-1)).
+          </p>
+
+          <p>
+            This recovers the universal residual strip and refines it by an
+            order constraint: a noncertified odd tail inside the strip must have
+            exceptionally small deficit mass, forcing the <code>O3</code>
+            letters far to the left and a long terminal run of <code>O1</code>.
+          </p>
+
+          <p>
+            The extremal tail
+            <code>X_{a,h,ℓ}=E^a O3^ℓ O1^h</code> is especially explicit. Its
+            cylinder has least positive seed
+          </p>
+
+          <p class="formula-block">
+            m_X=2^a ρ_{a,h,ℓ},<br>
+            ρ_{a,h,ℓ}=res_{4^(h+ℓ)}(3^-(a+1)(1+2·4^ℓ)).
+          </p>
+
+          <p>
+            Its affine center is
+          </p>
+
+          <p class="formula-block">
+            p_X = [1 - (3/4)^h(2+4^-ℓ)/3] /
+            [1 - (3/2)^a(3/4)^h4^-ℓ].
+          </p>
+
+          <p>
+            Therefore exact certification is the concrete inequality
+            <code>m_X&gt;p_X</code>. If such an extremal block is contracting
+            and still not certified, then for fixed <code>a,ℓ</code> the
+            parameter <code>h</code> is unique:
+          </p>
+
+          <p class="formula-block">
+            h = floor(H_-(a,ℓ))+1,<br>
+            H_+(a,ℓ)-H_-(a,ℓ) ≤ 1.
+          </p>
+
+          <p>
+            Noncertified extremal blocks also pass through finite arithmetic
+            gates. A small inverse <code>L</code> must satisfy
+            <code>3^(a+1)L≡1 mod 4^ℓ</code>. Since the subgroup generated by
+            <code>3</code> modulo <code>4^ℓ</code> is exactly the set of units
+            congruent to <code>1</code> or <code>3 mod 8</code> for
+            <code>ℓ≥2</code>, this becomes a discrete-log gate:
+          </p>
+
+          <p class="formula-block">
+            a+1 ≡ ι_ℓ(L) mod ord_{4^ℓ}(3),<br>
+            ord_{4^ℓ}(3)=2^(2ℓ-2) for ℓ≥2.
+          </p>
+
+          <p>
+            In the high-threshold regime, the same obstruction can be converted
+            into a continued-fraction gate. If a non-initial upper convergent
+            <code>P/Q</code> of <code>log_2 3</code> is compatible, then
+            <code>Q≤(5/2)(a-2)</code>, the dilation lies in a finite interval,
+            and the next partial quotient must exhibit an exponential spike:
+          </p>
+
+          <p class="formula-block">
+            a_next(P/Q)+2 &gt; (2 log 2 / 5)(T2^a - 1).
+          </p>
+
+          <p>
+            Finally, the autonomous residual-strip program reduces a remaining
+            zero-margin case to
+          </p>
+
+          <p class="formula-block">
+            (2^a-1)/(3^a-1) ≤ 3^h/4^(h+q) &lt; (2/3)^a.
+          </p>
+
+          <p>
+            The notes prove the reduction to this strip, classify the cases
+            <code>a≤6</code>, and reduce <code>a≥7</code> to convergents of
+            <code>log_2 3</code>. The final infinite exclusion is kept as an
+            open residual-strip sublemma, not as a proved theorem.
+          </p>
+
+          <h3>Affine Geometry and Quasi-Neutral Cycles</h3>
+          <p>
+            The affine-center geometry supplies restrictions independent of
+            congruence arithmetic. If a cycle is decomposed into blocks
+            <code>U_i</code> with centers <code>p_i</code> and multipliers
+            <code>λ_i</code>, then each block acts as a homothety
+            <code>x -> p_i+λ_i(x-p_i)</code>. The center <code>p_i</code> never
+            lies between the incoming and outgoing boundary points. For a
+            contracting block it lies on the side toward which the point moves;
+            for an expanding block it lies on the opposite side.
+          </p>
+
+          <p>
+            For mixed decompositions with total multiplier <code>Λ&lt;1</code>,
+            the barycentric formula becomes signed. In every rotation,
+          </p>
+
+          <p class="formula-block">
+            x_j = c_j + B_j(c_j-e_j),
+          </p>
+
+          <p>
+            where <code>c_j</code> is a convex barycenter of contracting centers,
+            <code>e_j</code> is a convex barycenter of expanding centers, and
+            <code>B_j</code> is the positive mass of the expanding part. Thus if
+            <code>c_j≤1</code>, a nontrivial positive cycle requires
+            <code>e_j&lt;c_j</code> and
+          </p>
+
+          <p class="formula-block">
+            B_j &gt; (1-c_j)/(c_j-e_j).
+          </p>
+
+          <p>
+            Expanding blocks are therefore not just allowed noise; they must
+            provide signed leverage in every critical rotation.
+          </p>
+
+          <p>
+            A complementary cycle tradeoff says that if <code>w</code> is a
+            positive cycle word with total multiplier <code>Λ&lt;1</code>, minimum
+            value <code>m</code>, and <code>o(w)</code> offset-producing letters
+            <code>O1,O3</code>, then
+          </p>
+
+          <p class="formula-block">
+            1-Λ ≤ o(w)/(4m).
+          </p>
+
+          <p>
+            The proof chooses a cyclic first-passage rotation and bounds its
+            affine offset by <code>o(w)/4</code>. Large-minimum cycles are forced
+            to be quasi-neutral, which places their return words in the thin
+            first-passage containers described above.
+          </p>
+
+          <h2>What Is Not Claimed</h2>
+          <p>
+            The framework does not prove Collatz, does not prove the absence of
+            nontrivial loops, does not prove the absence of divergent orbits,
+            and does not yet reproduce Tao's almost-everywhere theorem. It also
+            does not turn every pressure or Hausdorff-dimension estimate into an
+            emptiness statement for positive integers.
+          </p>
+
+          <p>
+            Some names that occur in the wider notes should remain outside a
+            public claim for now: the global residual-strip sublemma, the
+            general Lemma M, Lemma ML, Lemma BLD, the Exchange Lemma,
+            count-sensitive shielding, and finite defect-divisibility
+            obstructions. The notes also explicitly record a false Lemma G; it
+            should be mentioned only as a failed attempt that led to
+            residual-affine compensation, not as a result.
+          </p>
+
+          <h2>Research Program</h2>
+          <p>
+            The clean program has three layers.
+          </p>
+
+          <ul>
+            <li>
+              First, keep the core affine-congruence framework as the stable
+              basis: words, affine coefficients, congruence cylinders,
+              centers, cycle criteria, and stopping certificates.
+            </li>
+            <li>
+              Second, develop the certificate theory separately: certifying
+              graphs, shielding dictionaries, defects, feedback sets, and
+              finite-state containers.
+            </li>
+            <li>
+              Third, attack the global gap: either cover all cycle languages by
+              certificates and defects, close the residual strip via a
+              Diophantine estimate for <code>Θ</code>, or prove a genuine
+              <code>3</code>-adic transport theorem for live cylinders.
+            </li>
+          </ul>
+
+          <h2>Conclusion</h2>
+          <p>
+            The affine-congruence reformulation organizes Collatz into the
+            chain:
+          </p>
+
+          <p class="formula-block">
+            word -> affine map -> congruence cylinder -> 2-adic ball ->
+            center/threshold -> certificate.
+          </p>
+
+          <p>
+            Its conceptual strength is that descent becomes a property of
+            cylinders and words, then of languages, graphs, and containers. The
+            strongest later developments do not replace the core paper; they
+            suggest a second layer of certificate combinatorics and
+            Diophantine gates around the remaining exceptional cases.
+          </p>
+
+          <h2>Generative AI Use Statement</h2>
+          <p>
+            During the preparation of this draft, the author used OpenAI
+            ChatGPT/Codex, based on a GPT-5 system available in June 2026, for
+            author-directed assisted mathematical exploration, generation of
+            candidate formulations, structural organization, terminology
+            normalization, and expository revision. Some lemmas, conjectures,
+            and draft arguments emerged from interactions with the system and
+            were subsequently reworked within the formalism of the manuscript.
+          </p>
+
+          <p>
+            The AI system is not an author of the manuscript and is not cited as
+            a primary mathematical source. Before any submission, the author
+            must independently verify every statement, proof, reference, and
+            calculation, and assumes full responsibility for the final text.
+          </p>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>
