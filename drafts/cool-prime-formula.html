@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>A cool formula with primes - Draft</title>
+    <meta
+      name="description"
+      content="Draft bilingue su una formula euristica con i numeri primi."
+    >
+    <link rel="stylesheet" href="../assets/site.css">
+  </head>
+  <body>
+    <header class="top-nav">
+      <div class="shell nav-shell">
+        <a class="brand-link" href="../index.html">Luca Blanchi</a>
+        <nav class="nav-links" aria-label="Navigazione principale">
+          <a href="../index.html">Drafts</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shell article-shell">
+      <article class="draft-article">
+        <header class="article-header">
+          <div class="article-meta">
+            <span>Draft</span>
+            <time datetime="2026-06-12">12 Giugno 2026</time>
+          </div>
+
+          <div class="article-title-row">
+            <div>
+              <h1>A cool formula with primes</h1>
+              <p>
+                Un'euristica informale sui numeri primi, scritta come formula
+                annidata e poi compressa in una produttoria.
+              </p>
+            </div>
+
+            <div class="article-visual" aria-hidden="true">
+              <div class="concept-map">
+                <span>2</span>
+                <span>3</span>
+                <span>5</span>
+                <span>7...</span>
+              </div>
+              <div class="bit-strip">
+                <span>1/p</span><span>∏(1-1/p)</span><span>0</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="language-tabs" role="tablist" aria-label="Lingua">
+            <button
+              class="tab-button"
+              id="tab-it"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="panel-it"
+              data-lang-tab="it"
+            >
+              Italiano
+            </button>
+            <button
+              class="tab-button"
+              id="tab-en"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-en"
+              data-lang-tab="en"
+            >
+              English
+            </button>
+          </div>
+        </header>
+
+        <section
+          class="article-body language-panel"
+          id="panel-it"
+          role="tabpanel"
+          aria-labelledby="tab-it"
+          data-lang-panel="it"
+        >
+          <h2>Euristica informale</h2>
+          <p>
+            Tra i numeri naturali, metà saranno divisibili per <code>2</code>.
+            Dell'altra metà, un terzo sarà divisibile per <code>3</code>. Dei
+            rimanenti, un quinto sarà divisibile per <code>5</code>, e così via.
+            Aggiungendo tutti i numeri primi, dovremmo ottenere il
+            <code>100%</code> dei numeri naturali.
+          </p>
+
+          <p class="formula-block">
+            1 = 1/2 + (1 - 1/2)(1/3 + (1 - 1/3)(1/5<br>
+            + (1 - 1/5)(1/7 + (1 - 1/7)(...))))
+          </p>
+
+          <p>
+            Possiamo manipolare algebricamente:
+          </p>
+
+          <p class="formula-block">
+            0 = (-1 + 1/2) + (1 - 1/2)(1/3 + (1 - 1/3)(1/5<br>
+            + (1 - 1/5)(1/7 + (1 - 1/7)(...))))<br><br>
+            0 = (1 - 1/2)((-1 + 1/3) + (1 - 1/3)(1/5<br>
+            + (1 - 1/5)(1/7 + (1 - 1/7)(...))))<br><br>
+            0 = (1 - 1/2)(1 - 1/3)(1 - 1/5)((-1 + 1/7) + ...)<br><br>
+            0 = ∏<sub>p_i primo</sub> (1 - 1/p_i)
+          </p>
+
+          <p>
+            Osserviamo inoltre che, se
+          </p>
+
+          <p class="formula-block">
+            ∏ (1 - 1/a_n) = 0, con a_n &gt; 1 per ogni n,
+          </p>
+
+          <p>
+            allora
+          </p>
+
+          <p class="formula-block">
+            ∑ 1/a_n -> +∞
+          </p>
+
+          <p>
+            (risultato noto). Dunque stiamo anche dimostrando che
+          </p>
+
+          <p class="formula-block">
+            ∑ 1/p_i -> +∞.
+          </p>
+        </section>
+
+        <section
+          class="article-body language-panel"
+          id="panel-en"
+          role="tabpanel"
+          aria-labelledby="tab-en"
+          data-lang-panel="en"
+          hidden
+        >
+          <h2>Informal Heuristic</h2>
+          <p>
+            Among the natural numbers, half will be divisible by
+            <code>2</code>. Of the other half, one third will be divisible by
+            <code>3</code>. Of what remains, one fifth will be divisible by
+            <code>5</code>, and so on. If we add all primes, we should cover
+            <code>100%</code> of the natural numbers.
+          </p>
+
+          <p class="formula-block">
+            1 = 1/2 + (1 - 1/2)(1/3 + (1 - 1/3)(1/5<br>
+            + (1 - 1/5)(1/7 + (1 - 1/7)(...))))
+          </p>
+
+          <p>
+            We can manipulate this algebraically:
+          </p>
+
+          <p class="formula-block">
+            0 = (-1 + 1/2) + (1 - 1/2)(1/3 + (1 - 1/3)(1/5<br>
+            + (1 - 1/5)(1/7 + (1 - 1/7)(...))))<br><br>
+            0 = (1 - 1/2)((-1 + 1/3) + (1 - 1/3)(1/5<br>
+            + (1 - 1/5)(1/7 + (1 - 1/7)(...))))<br><br>
+            0 = (1 - 1/2)(1 - 1/3)(1 - 1/5)((-1 + 1/7) + ...)<br><br>
+            0 = ∏<sub>p_i prime</sub> (1 - 1/p_i)
+          </p>
+
+          <p>
+            We also observe that, if
+          </p>
+
+          <p class="formula-block">
+            ∏ (1 - 1/a_n) = 0, with a_n &gt; 1 for every n,
+          </p>
+
+          <p>
+            then
+          </p>
+
+          <p class="formula-block">
+            ∑ 1/a_n -> +∞
+          </p>
+
+          <p>
+            (a known result). Therefore we are also proving that
+          </p>
+
+          <p class="formula-block">
+            ∑ 1/p_i -> +∞.
+          </p>
+        </section>
+      </article>
+    </main>
+
+    <script src="../assets/site.js"></script>
+  </body>
+</html>
