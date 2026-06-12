@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Affine-Congruence Collatz - Draft</title>
+    <title>Affine-Residual Collatz - Draft</title>
     <meta
       name="description"
-      content="A curated draft on the affine-congruence reformulation of Collatz, separating the core framework from stronger later developments."
+      content="A curated draft on the affine-residual reformulation of Collatz, separating the core framework from stronger later developments."
     >
     <link rel="stylesheet" href="../assets/site.css">
   </head>
@@ -30,7 +30,7 @@
 
           <div class="article-title-row">
             <div>
-              <h1>Affine-Congruence Collatz</h1>
+              <h1>Affine-Residual Collatz</h1>
               <p>
                 The basic grammar of a three-branch Collatz dynamics, its
                 congruence cylinders, affine centers, descent certificates, and
@@ -62,81 +62,213 @@
           <h2>Status</h2>
           <p>
             This is not a proof of the Collatz conjecture. The conjecture
-            remains open. The aim is to present a coherent research framework:
-            a normalization of the dynamics, exact affine formulas for finite
-            words, congruence cylinders, cycle and stopping-time criteria, and
-            selected later mechanisms that turn local descent certificates into
-            symbolic and combinatorial obstructions.
+            remains open. The core contribution is a precise equivalent
+            reformulation: a three-branch affine-residual dynamics on positive
+            integers in which every finite operational prefix simultaneously
+            gives an affine map, a single congruence cylinder modulo a power of
+            <code>2</code>, a density, a descent threshold, and a cycle
+            candidate.
           </p>
 
           <p>
-            Statements in the core part are meant as proved within the
-            formalism. Statements in the extension part are included only when
-            they have a clean shape and a clear role, but some of them remain
-            best read as programmatic until independently checked and rewritten
-            as formal lemmas.
+            The first part below is the stable core. The later extension
+            sections collect theorem-level developments from the research notes:
+            certificate graphs, shielding, defects, pressure bounds, automata,
+            active budgets, tail-deficit formulas, and extremal arithmetic
+            gates.
           </p>
 
-          <h2>Core Idea</h2>
+          <h2>Classical Collatz and Finite Descent</h2>
           <p>
-            The ordinary Collatz map alternates between multiplication by
-            <code>3</code>, addition of <code>1</code>, and removal of powers of
-            <code>2</code>. The affine-congruence reformulation replaces this
-            with a three-branch dynamics on positive integers:
+            The classical Collatz map is
           </p>
 
           <p class="formula-block">
-            T(x) = (3x+1)/4 if x ≡ 1 mod 4,<br>
-            T(x) = 3x/2 if x ≡ 0 mod 2,<br>
-            T(x) = (x+1)/4 if x ≡ 3 mod 4.
+            Col(n) = 3n+1 if n is odd,<br>
+            Col(n) = n/2 if n is even.
           </p>
 
           <p>
-            The three branches are denoted:
+            Its conjecture is equivalent to finite descent: every
+            <code>n&gt;1</code> eventually reaches a value smaller than itself.
+            Indeed, if this holds for every smaller value, then once the orbit
+            of <code>n</code> drops to <code>m&lt;n</code>, strong induction
+            brings <code>m</code>, and therefore <code>n</code>, to
+            <code>1</code>.
+          </p>
+
+          <p>
+            Conversely, any nontrivial cycle or divergent orbit would produce a
+            seed with infinite stopping time. For a cycle, take the minimum
+            element of the cycle. For a divergent orbit, take the smallest
+            divergent seed. If either ever fell below itself, it would produce a
+            smaller counterexample.
           </p>
 
           <p class="formula-block">
-            O1: x -> (3x+1)/4, E: x -> 3x/2, O3: x -> (x+1)/4.
+            Goal: for every n&gt;1, prove that some k≥1 has Col^k(n)&lt;n.
           </p>
 
+          <h2>From Syracuse to a Modified Odd Map</h2>
           <p>
-            This dynamics is equivalent to Collatz through the Syracuse map on
-            odd integers and a harmless replacement of one Syracuse arrow by a
-            finite descending chain. Convergence to <code>1</code>, nontrivial
-            cycles, and divergent behavior are therefore preserved in the
-            reformulated system.
-          </p>
-
-          <h2>Finite Descent</h2>
-          <p>
-            The Collatz conjecture can be reduced to finite descent: if every
-            <code>x &gt; 1</code> eventually reaches a value smaller than itself,
-            then every orbit reaches <code>1</code>. This follows by strong
-            induction. Once an orbit drops from <code>x</code> to some
-            <code>m &lt; x</code>, the induction hypothesis applies to
-            <code>m</code>.
-          </p>
-
-          <p>
-            The formalism therefore tries to certify statements of the form:
+            It is standard to pass from Collatz to the Syracuse map on positive
+            odd integers:
           </p>
 
           <p class="formula-block">
-            there exists k ≥ 1 such that T^k(x) &lt; x.
+            Syr(x) = (3x+1) / 2^ν₂(3x+1).
           </p>
 
-          <h2>Words and Affine Maps</h2>
           <p>
-            A finite operational word is a string:
+            A classical Collatz orbit reaches <code>1</code> if and only if
+            its odd subsequence under <code>Syr</code> reaches <code>1</code>:
+            the omitted even steps are only divisions by powers of
+            <code>2</code>.
+          </p>
+
+          <p>
+            The affine-residual normalization begins by splitting odd integers
+            into three cases. If <code>x=8k+1</code>, then
           </p>
 
           <p class="formula-block">
-            w = s1 s2 ... sk, with si ∈ {O1, E, O3}.
+            3x+1 = 24k+4 = 4(6k+1),
           </p>
 
           <p>
-            Every such word determines an exact affine transformation on the
-            cylinder of seeds following that word:
+            so the next Syracuse odd value is <code>6k+1</code>. If
+            <code>x=4k+3</code>, then
+          </p>
+
+          <p class="formula-block">
+            3x+1 = 12k+10 = 2(6k+5),
+          </p>
+
+          <p>
+            so the next Syracuse odd value is <code>6k+5</code>. Finally, if
+            <code>x=8k+5</code>, then
+          </p>
+
+          <p class="formula-block">
+            3x+1 = 24k+16 = 8(3k+2).
+          </p>
+
+          <p>
+            In this last class, replace the Syracuse jump by the strictly
+            descending step
+          </p>
+
+          <p class="formula-block">
+            8k+5 -> 2k+1 = (8k+5-1)/4.
+          </p>
+
+          <p>
+            This replacement preserves the next Syracuse node, because
+          </p>
+
+          <p class="formula-block">
+            3(2k+1)+1 = 6k+4 = 2(3k+2).
+          </p>
+
+          <p>
+            Thus <code>8k+5</code> and <code>2k+1</code> have the same next
+            odd Syracuse successor after removing powers of <code>2</code>.
+            Repeating the replacement, if necessary, creates a finite strictly
+            descending chain before the same Syracuse jump.
+          </p>
+
+          <h2>Equivalence Theorem</h2>
+          <p>
+            Define a modified odd map <code>S*</code> as follows: on
+            <code>8k+1</code> and <code>4k+3</code> it follows the Syracuse
+            jump above, while on <code>8k+5</code> it sends
+            <code>8k+5</code> to <code>2k+1</code>.
+          </p>
+
+          <p>
+            <strong>The modified odd map is equivalent to Syracuse, hence to
+            Collatz.</strong> Every <code>S*</code>-orbit is obtained from the
+            corresponding Syracuse orbit by inserting finite descending chains,
+            and every Syracuse step appears after finitely many
+            <code>S*</code> steps. Therefore convergence to <code>1</code>,
+            nontrivial cycles, and divergent behavior are preserved.
+          </p>
+
+          <p>
+            <strong>Proof.</strong> The only changed case is
+            <code>x=8k+5</code>. There <code>S*(x)=(x-1)/4&lt;x</code>, and
+            <code>Syr(S*(x))=Syr(x)</code>. Since repeated replacements strictly
+            decrease the positive odd integer, they cannot continue forever
+            before the next Syracuse jump. Collapsing these inserted descending
+            chains recovers the Syracuse orbit; expanding each affected
+            Syracuse arrow recovers the modified orbit. The two dynamics
+            therefore have the same convergence and obstruction behavior.
+          </p>
+
+          <h2>The Three-Branch Map on Positive Integers</h2>
+          <p>
+            Use the bijection from positive odd integers to positive integers
+          </p>
+
+          <p class="formula-block">
+            φ(o) = (o+1)/2, so o = 2n-1.
+          </p>
+
+          <p>
+            Conjugating <code>S*</code> by <code>φ</code> gives the
+            three-branch map
+          </p>
+
+          <p class="formula-block">
+            T(n) = (3n+1)/4 if n ≡ 1 mod 4,<br>
+            T(n) = 3n/2 if n ≡ 0 mod 2,<br>
+            T(n) = (n+1)/4 if n ≡ 3 mod 4.
+          </p>
+
+          <p>
+            Since <code>φ</code> is a bijection and
+            <code>T=φ∘S*∘φ^{-1}</code>, this three-branch map is not merely
+            analogous to Collatz: it is an equivalent reformulation.
+          </p>
+
+          <p>
+            The three cases are just the three odd classes above translated by
+            <code>o=2n-1</code>:
+          </p>
+
+          <p class="formula-block">
+            n=4k+1 corresponds to o=8k+1 and maps to 3k+1,<br>
+            n=2k corresponds to o=4k-1 and maps to 3k,<br>
+            n=4k+3 corresponds to o=8k+5 and maps to k+1.
+          </p>
+
+          <p>
+            We denote the branches by
+          </p>
+
+          <p class="formula-block">
+            O1(x)=(3x+1)/4, E(x)=3x/2, O3(x)=(x+1)/4.
+          </p>
+
+          <p>
+            Equivalently, in the notation of the base affine-residual paper,
+            these are <code>b,r,v</code>. The central branch <code>E</code> is
+            the only branch with principal multiplier greater than
+            <code>1</code>; the two odd branches are descending to first order.
+          </p>
+
+          <h2>Operational Words and Affine Maps</h2>
+          <p>
+            A finite operational word is a string
+          </p>
+
+          <p class="formula-block">
+            w = s1 s2 ... sk, with si ∈ {O1,E,O3}.
+          </p>
+
+          <p>
+            On the cylinder of seeds whose first <code>|w|</code> branches are
+            exactly <code>w</code>, the iterate has an exact affine form:
           </p>
 
           <p class="formula-block">
@@ -144,291 +276,333 @@
           </p>
 
           <p>
-            The coefficients start from <code>A=1, B=0, D=1</code> and evolve
-            by:
+            Starting from <code>A=1</code>, <code>B=0</code>,
+            <code>D=1</code>, appending a letter on the right gives
           </p>
 
           <p class="formula-block">
             O1: A -> 3A, B -> 3B + D, D -> 4D<br>
             E: A -> 3A, B -> 3B, D -> 2D<br>
-            O3: A -> A, B -> B + D, D -> 4D
+            O3: A -> A, B -> B + D, D -> 4D.
           </p>
 
           <p>
-            In particular:
+            Hence
           </p>
 
           <p class="formula-block">
             A_w = 3^(#O1(w)+#E(w)),<br>
-            D_w = 4^(#O1(w)+#O3(w)) 2^(#E(w)).
+            D_w = 4^(#O1(w)+#O3(w)) 2^(#E(w)),<br>
+            λ_w = A_w/D_w.
           </p>
 
           <p>
-            The multiplier:
+            The multiplier <code>λ_w</code> records the expanding or
+            contracting principal part; the affine term <code>B_w</code>
+            records the order of the letters.
+          </p>
+
+          <h2>Residual Cylinders and Homogeneity</h2>
+          <p>
+            Let <code>E_w</code> be the set of positive integers whose first
+            <code>|w|</code> branches are <code>w</code>. The word is realized
+            exactly when the affine numerator is divisible by the denominator:
           </p>
 
           <p class="formula-block">
-            λ_w = A_w / D_w
-          </p>
-
-          <p>
-            records whether the principal part of the word is expanding,
-            neutral, or contracting. The affine term <code>B_w</code> remembers
-            the order of the branches.
-          </p>
-
-          <h2>Congruence Cylinders</h2>
-          <p>
-            The cylinder <code>E_w</code> is the set of positive integers whose
-            first <code>|w|</code> branches are exactly <code>w</code>. The key
-            structural fact is that every cylinder is a single residue class
-            modulo <code>D_w</code>:
-          </p>
-
-          <p class="formula-block">
-            E_w = { x : A_w x + B_w ≡ 0 mod D_w }.
+            E_w = {x : A_w x + B_w ≡ 0 mod D_w}.
           </p>
 
           <p>
             Since <code>A_w</code> is odd, it is invertible modulo the power of
-            <code>2</code> given by <code>D_w</code>. Therefore there is a
-            unique residue class:
+            <code>2</code> given by <code>D_w</code>. Thus every finite word
+            gives one and only one residue class:
           </p>
 
           <p class="formula-block">
-            E_w = { x : x ≡ a_w mod D_w }.
+            E_w = {x : x ≡ a_w mod D_w}.
           </p>
 
           <p>
-            The natural density of this cylinder is exactly:
+            Therefore the natural density of the cylinder is
           </p>
 
           <p class="formula-block">
-            δ(E_w) = 1 / D_w.
+            δ(E_w)=1/D_w.
           </p>
 
           <p>
-            This is why the reformulation is useful: the same denominator is
-            simultaneously the affine denominator, the congruence modulus, and
-            the reciprocal density of the symbolic cylinder.
-          </p>
-
-          <h2>Average Drift</h2>
-          <p>
-            Under the natural cylinder weights:
+            This is the main homogeneity of the normalization: the same number
+            <code>D_w</code> is the affine denominator, the modulus of the
+            residual cylinder, and the reciprocal of its natural density. With
+            fresh seeds, the symbolic weights are
           </p>
 
           <p class="formula-block">
-            P(O1)=1/4, P(E)=1/2, P(O3)=1/4,
+            P(O1)=1/4, P(E)=1/2, P(O3)=1/4.
           </p>
 
+          <h2>Average Drift and the Terras-Korec Mechanism</h2>
           <p>
-            the mean log-multiplier is:
+            The principal multiplier of a word is
           </p>
 
           <p class="formula-block">
-            μ = (1/4)log(3/4) + (1/2)log(3/2) + (1/4)log(1/4)
-              = (1/4)log(27/64) &lt; 0.
+            λ_w = (3/4)^#O1(w) (3/2)^#E(w) (1/4)^#O3(w).
           </p>
 
           <p>
-            The geometric mean is therefore contracting, even though the
-            arithmetic mean of the elementary multipliers is exactly
-            <code>1</code>. This recovers the Terras-Korec mechanism: almost
-            all seeds descend, but an exceptional set of density zero may still
-            be nonempty.
-          </p>
-
-          <p>
-            A Chernoff/Markov estimate gives an exponential bound for
-            noncontracting prefixes:
+            Under the natural cylinder weights, the mean logarithmic multiplier
+            is
           </p>
 
           <p class="formula-block">
-            mass{ w of length k : A_w ≥ D_w } ≤ ρ^k,<br>
-            ρ ≈ 0.9536553832.
+            μ = (1/4)log(3/4) + (1/2)log(3/2) + (1/4)log(1/4)<br>
+            = (1/4)log(27/64) &lt; 0.
           </p>
 
           <p>
-            This explains why almost-everywhere descent is natural in the
-            grammar. It does not prove the conjecture: the missing step is the
-            passage from density zero to emptiness.
-          </p>
-
-          <h2>Affine Centers</h2>
-          <p>
-            If <code>D_w ≠ A_w</code>, define the affine center:
+            Thus the typical geometric multiplier is contracting. For
+            <code>s&gt;0</code>, set
           </p>
 
           <p class="formula-block">
-            p_w = B_w / (D_w - A_w).
+            Λ(s)=(1/4)(3/4)^s+(1/2)(3/2)^s+(1/4)(1/4)^s.
           </p>
 
           <p>
-            This number is the fixed point of the affine map associated with
-            <code>w</code>. More importantly:
+            Since <code>Λ(0)=1</code> and <code>Λ'(0)=μ&lt;0</code>, some
+            positive <code>s</code> has <code>Λ(s)&lt;1</code>. Hence for words
+            of length <code>k</code>,
           </p>
 
           <p class="formula-block">
-            T^|w|(x) - x = (A_w/D_w - 1)(x - p_w).
+            P(λ_w ≥ 1) ≤ Λ(s)^k.
           </p>
 
           <p>
-            If <code>D_w &gt; A_w</code>, the word is contracting and:
+            Noncontracting prefixes are exponentially rare. This recovers the
+            mechanism behind Terras/Korec almost-everywhere finite stopping:
+            density zero of possible exceptions is natural, but density zero is
+            still not emptiness.
+          </p>
+
+          <h2>Affine Centers and 2-Adic Balls</h2>
+          <p>
+            If <code>D_w≠A_w</code>, define
           </p>
 
           <p class="formula-block">
-            T^|w|(x) &lt; x ⇔ x &gt; p_w.
+            p_w = B_w/(D_w-A_w).
           </p>
 
           <p>
-            Thus <code>p_w</code> is at once the real descent threshold, the
-            affine fixed point, and the candidate value for a cycle generated
-            by <code>w</code>.
-          </p>
-
-          <h2>The 2-Adic Ball</h2>
-          <p>
-            The same center also describes the <code>2</code>-adic closure of
-            the cylinder:
+            This is the fixed point of the affine map associated with
+            <code>w</code>. Moreover,
           </p>
 
           <p class="formula-block">
-            Ê_w = p_w + D_w Z_2.
+            T^|w|(x)-x = (A_w/D_w - 1)(x-p_w).
           </p>
 
           <p>
-            Every infinite word determines a compatible sequence of residue
-            classes modulo increasing powers of <code>2</code>, hence a unique
-            <code>2</code>-adic integer. Conversely, every <code>2</code>-adic
-            integer has a unique itinerary. This is the three-symbol
-            affine-congruence version of the Bernstein-Lagarias
-            <code>2</code>-adic conjugacy.
-          </p>
-
-          <p>
-            A key distinction is that a <code>2</code>-adic point need not be a
-            positive ordinary integer. An infinite word represents a positive
-            integer precisely when the least positive residues of its finite
-            cylinders eventually stabilize.
-          </p>
-
-          <h2>Cycles</h2>
-          <p>
-            A word <code>w</code> generates a positive cycle only if:
+            Therefore, when <code>D_w&gt;A_w</code>, the word is contracting and
           </p>
 
           <p class="formula-block">
-            (D_w - A_w)x = B_w.
+            T^|w|(x)&lt;x ⇔ x&gt;p_w.
           </p>
 
           <p>
-            Therefore the exact cycle criterion is:
+            The same <code>p_w</code> is simultaneously the affine fixed point,
+            the candidate cycle value, the exact descent threshold in the
+            contracting case, and the <code>2</code>-adic center of the
+            cylinder:
           </p>
 
           <p class="formula-block">
-            D_w &gt; A_w,<br>
-            D_w - A_w divides B_w,<br>
-            x_w = B_w / (D_w - A_w) belongs to E_w.
+            E_w closure = p_w + D_w Z_2.
           </p>
 
           <p>
-            If these conditions hold, the cycle candidate is unique. The trivial
-            cycle corresponds to <code>O1</code>, with <code>x=1</code>.
-            Nontrivial cycles would have to pass both an arithmetic divisibility
-            test and an itinerary-validity test.
+            Indeed, modulo <code>D_w</code>, <code>D_w-A_w≡-A_w</code>, so
+            <code>p_w</code> gives the same residue class as the cylinder
+            congruence.
           </p>
 
+          <h2>Exact Cycle Criterion</h2>
           <p>
-            This suggests the strong finite obstruction:
+            If a finite word <code>w</code> generates a positive cycle, then
+            for some <code>x&gt;0</code>
           </p>
 
           <p class="formula-block">
-            for every primitive w ≠ O1, D_w - A_w does not divide B_w.
+            (A_w x + B_w)/D_w = x,
           </p>
 
           <p>
-            This obstruction is not proved. It is a clean finite form of the
-            loop problem, and exact searches in the notes report no nontrivial
-            primitive word passing the divisibility filter up to the tested
-            lengths.
-          </p>
-
-          <h2>Stopping Certificates</h2>
-          <p>
-            Let <code>m_w</code> be the least positive element of the cylinder
-            <code>E_w</code>. A contracting word is certifying if:
+            hence
           </p>
 
           <p class="formula-block">
-            D_w &gt; A_w and p_w &lt; m_w.
+            (D_w-A_w)x = B_w.
           </p>
 
           <p>
-            Equivalently, the whole cylinder descends by time
-            <code>|w|</code>. If <code>x = m_w + nD_w</code>, then:
+            Thus <code>w</code> generates a positive cycle if and only if
           </p>
 
           <p class="formula-block">
-            T^|w|(x) - x = h_w - n(D_w - A_w),
+            D_w&gt;A_w,<br>
+            D_w-A_w divides B_w,<br>
+            x_w=B_w/(D_w-A_w) is a positive integer in E_w.
           </p>
 
           <p>
-            where <code>h_w = T^|w|(m_w) - m_w</code>. Hence the exact number
-            of seeds in the cylinder that do not descend at time
-            <code>|w|</code> is:
+            The candidate is unique. The trivial cycle corresponds to
+            <code>O1</code>, where <code>A=3</code>, <code>B=1</code>,
+            <code>D=4</code>, and <code>x=1</code>.
+          </p>
+
+          <p>
+            Cyclic rotations sharpen the loop obstruction. If <code>w</code>
+            generates a cycle, then each cyclic rotation generates the same
+            cycle starting from another point. Since <code>A_w</code> and
+            <code>D_w</code> depend only on symbol counts, the common modulus
           </p>
 
           <p class="formula-block">
-            N_w = max(0, 1 + floor(h_w/(D_w - A_w))).
+            M_w = D_w-A_w
           </p>
 
           <p>
-            Certification is stable under odd extensions: if <code>w</code> is
-            certifying, then <code>wO1</code> and <code>wO3</code> are still
-            certifying. The only one-letter extension that may reopen a
-            critical branch is <code>E</code>, the even branch.
-          </p>
-
-          <h2>Critical Branches</h2>
-          <p>
-            The research notes isolate the following conceptual picture. An
-            infinite branch is critical if none of its prefixes is certifying.
-            The conjectural core becomes:
+            must divide the affine numerator <code>B</code> of every cyclic
+            rotation. Equivalently, a cycle must solve the local linear system
           </p>
 
           <p class="formula-block">
-            the only critical infinite branch with stabilizing least residues is
-            O1^∞.
+            O1: 4x_{i+1}-3x_i=1,<br>
+            E: 2x_{i+1}-3x_i=0,<br>
+            O3: 4x_{i+1}-x_i=1.
           </p>
 
           <p>
-            This is just the fixed point <code>1</code>. All other positive
-            natural branches should eventually encounter a certifying
-            contracting prefix.
+            The absence of nontrivial loops can therefore be attacked as a
+            finite simultaneous-divisibility problem over primitive cyclic
+            words.
           </p>
 
+          <h2>Exact Stopping Criterion</h2>
           <p>
-            Two major open mechanisms are separated here. First, a first
-            crossing from <code>A_w ≥ D_w</code> to <code>A_w &lt; D_w</code>
-            should already be certifying, except for the trivial
-            <code>O1</code> case. Second, an infinite branch whose prefixes are
-            always noncontracting should not stabilize to a positive integer.
-            Together, these would imply finite descent.
-          </p>
-
-          <h2>2-Adic Inputs, 3-Adic Outputs</h2>
-          <p>
-            The input cylinders are <code>2</code>-adic, but outputs of a word
-            satisfy congruences modulo powers of <code>3</code>. Set:
+            For a seed <code>x</code>, let <code>w_k</code> be the word traced
+            by its first <code>k</code> steps. The seed has not descended by
+            time <code>k</code> exactly when
           </p>
 
           <p class="formula-block">
-            ρ_w = B_w / D_w in Z_3.
+            A_{w_k}x+B_{w_k} ≥ D_{w_k}x.
           </p>
 
           <p>
-            The offset evolves by affine maps:
+            If <code>D_{w_k}≤A_{w_k}</code>, this inequality is automatic. If
+            <code>D_{w_k}&gt;A_{w_k}</code>, it is equivalent to
+          </p>
+
+          <p class="formula-block">
+            x ≤ B_{w_k}/(D_{w_k}-A_{w_k}) = p_{w_k}.
+          </p>
+
+          <p>
+            Therefore a seed has infinite stopping time if and only if for
+            every prefix <code>w_k</code>, either the prefix is not contracting
+            or the seed lies at or below its affine descent threshold.
+          </p>
+
+          <p>
+            For uniform cylinder certification, let <code>m_w</code> be the
+            least positive element of <code>E_w</code>. A contracting word kills
+            its whole cylinder precisely when
+          </p>
+
+          <p class="formula-block">
+            p_w &lt; m_w.
+          </p>
+
+          <p>
+            This is the exact descent certificate used by the later graph and
+            shielding theory.
+          </p>
+
+          <h2>Infinite Branches and Residual Minima</h2>
+          <p>
+            Let <code>E_k</code> be the set of seeds not yet certified as
+            descending in the first <code>k</code> steps. The Terras-type result
+            says <code>δ(E_k)->0</code>. The full conjecture would require
+          </p>
+
+          <p class="formula-block">
+            ⋂_{k≥1} E_k = {1}.
+          </p>
+
+          <p>
+            Every infinite word gives a compatible sequence of congruences
+            <code>x≡a_{w_k} mod D_{w_k}</code>, hence a unique
+            <code>2</code>-adic candidate. But a <code>2</code>-adic candidate
+            is an ordinary positive integer only if the least positive residues
+            of the finite cylinders stabilize to a finite value.
+          </p>
+
+          <p>
+            This produces the residual-minimum machine. Let
+            <code>m_w=min(E_w∩N_{>0})</code> and
+            <code>q_w=T^|w|(m_w)</code>. For any seed in the same cylinder,
+          </p>
+
+          <p class="formula-block">
+            x = m_w + tD_w,<br>
+            T^|w|(x)=q_w+tA_w.
+          </p>
+
+          <p>
+            To append a letter, choose the least nonnegative lift
+            <code>t</code> that puts <code>q_w+tA_w</code> in the branch class
+            of the next symbol. Then
+          </p>
+
+          <p class="formula-block">
+            m_{ws}=m_w+tD_w.
+          </p>
+
+          <p>
+            Thus an infinite word represents a positive integer exactly when
+            these residual jumps are eventually zero. One possible divergence
+            program is to show that every surviving infinite branch except
+            <code>O1^∞</code> has infinitely many nonzero residual jumps, or
+            else eventually contains a certifying contracting prefix.
+          </p>
+
+          <h2>2-Adic Inputs and 3-Adic Outputs</h2>
+          <p>
+            Input cylinders are governed by powers of <code>2</code>, but their
+            images satisfy congruences modulo powers of <code>3</code>. If
+            <code>y=T^|w|(x)</code>, then
+          </p>
+
+          <p class="formula-block">
+            x = (D_w y - B_w)/A_w.
+          </p>
+
+          <p>
+            Since <code>A_w</code> is a power of <code>3</code>, outputs satisfy
+          </p>
+
+          <p class="formula-block">
+            y ≡ B_w/D_w mod A_w.
+          </p>
+
+          <p>
+            Put <code>ρ_w=B_w/D_w∈Z_3</code>. The three branches evolve this
+            <code>3</code>-adic offset by
           </p>
 
           <p class="formula-block">
@@ -438,21 +612,26 @@
           </p>
 
           <p>
-            After compressing blocks <code>O3^l E</code> and
-            <code>O3^l O1</code>, and normalizing <code>U = 2ρ - 1</code>, the
-            induced chain becomes:
+            This explains why a purely <code>2</code>-adic cylinder argument
+            reaches the Terras/Korec barrier but does not cross it. To go
+            beyond density-zero statements, one needs statistical transport
+            between the <code>2</code>-adic input cylinders and the
+            <code>3</code>-adic output constraints.
           </p>
 
-          <p class="formula-block">
-            U -> (3U + 1) / 2^a, with P(a=j)=2^-j.
-          </p>
-
+          <h2>Core Established Facts</h2>
           <p>
-            This is the same <code>3</code>-adic affine chain appearing in
-            Tao's almost-everywhere work. The bridge is structural, not yet a
-            replacement for Tao's theorem: proving useful transport requires
-            strong Fourier estimates for these normalized offsets modulo powers
-            of <code>3</code>.
+            The stable core of the reformulation proves the following facts:
+            the three-branch map is equivalent to Collatz; every finite word
+            gives an exact affine map; every word gives one residual cylinder
+            modulo <code>D_w</code>; <code>D_w</code> is both cylinder modulus
+            and reciprocal density; the natural symbol weights are
+            <code>1/4,1/2,1/4</code>; the mean log multiplier is negative; the
+            center <code>p_w</code> unifies fixed point, descent threshold,
+            cycle candidate, and <code>2</code>-adic center; loops reduce to
+            divisibility plus itinerary validity; infinite branches reduce to
+            <code>2</code>-adic candidates plus stabilization of least positive
+            residues.
           </p>
 
           <h2>Selected Extensions</h2>
@@ -1021,7 +1200,7 @@
 
           <ul>
             <li>
-              First, keep the core affine-congruence framework as the stable
+              First, keep the core affine-residual framework as the stable
               basis: words, affine coefficients, congruence cylinders,
               centers, cycle criteria, and stopping certificates.
             </li>
@@ -1040,7 +1219,7 @@
 
           <h2>Conclusion</h2>
           <p>
-            The affine-congruence reformulation organizes Collatz into the
+            The affine-residual reformulation organizes Collatz into the
             chain:
           </p>
 
