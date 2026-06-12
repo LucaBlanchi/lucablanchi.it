@@ -1,0 +1,2122 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Teoria del Meta - Draft</title>
+    <meta
+      name="description"
+      content="Bozza bilingue della Teoria del Meta, su popolazioni di strategie, giochi pesati e dinamiche evolutive."
+    >
+    <link rel="stylesheet" href="../assets/site.css">
+  </head>
+  <body>
+    <header class="top-nav">
+      <div class="shell nav-shell">
+        <a class="brand-link" href="../index.html">Home</a>
+        <nav class="nav-links" aria-label="Navigazione principale">
+          <a href="../index.html">Drafts</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shell article-shell">
+      <article class="draft-article">
+        <header class="article-header">
+          <div class="article-meta">
+            <span>Draft</span>
+            <time datetime="2021-12-01">December 2021</time>
+          </div>
+
+          <div class="article-title-row">
+            <div>
+              <h1>Teoria del Meta</h1>
+              <p>
+                Una bozza del 2021 su popolazioni di strategie, giochi pesati,
+                sistemi differenziali indotti e operazioni categoriali sui
+                giochi.
+              </p>
+            </div>
+
+            <div class="article-visual" aria-hidden="true">
+              <div class="concept-map">
+                <span>strategie</span>
+                <span>grafo pesato</span>
+                <span>flusso</span>
+                <span>quozienti</span>
+              </div>
+              <div class="bit-strip">
+                <span>s′</span><span>As</span><span>⊙s</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="language-tabs" role="tablist" aria-label="Lingua">
+            <button
+              class="tab-button"
+              id="tab-it"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="panel-it"
+              data-lang-tab="it"
+            >
+              Italiano
+            </button>
+            <button
+              class="tab-button"
+              id="tab-en"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-en"
+              data-lang-tab="en"
+            >
+              English
+            </button>
+          </div>
+        </header>
+
+        <section
+          class="article-body language-panel"
+          id="panel-it"
+          role="tabpanel"
+          aria-labelledby="tab-it"
+          data-lang-panel="it"
+        >
+          <p class="draft-note">
+            Nota editoriale: questo testo nasce come lavoro originale.
+            Retrospettivamente, sembra riscoprire in modo indipendente una
+            parte della teoria oggi riconoscibile come replicator dynamics di
+            Taylor e Jonker, o quantomeno un formalismo molto vicino per giochi
+            evolutivi a somma zero. Il testo conserva lo stato esplorativo della
+            fonte, incluse le domande aperte e i passaggi incerti segnati con
+            <code>(?)</code>.
+          </p>
+
+          <p>
+            Data originale: dicembre 2021.
+          </p>
+
+          <p class="source-note">
+            PDF originale:
+            <a href="../assets/teoria-del-meta.pdf">Teoria del Meta.pdf</a>
+          </p>
+
+          <h2>Indice</h2>
+          <ul>
+            <li>1. Introduzione</li>
+            <li>1.1 Motivazione</li>
+            <li>1.2 Passaggio al continuo</li>
+            <li>1.3 Formalizzazione</li>
+            <li>2. Caratteristiche generali</li>
+            <li>2.1 Esistenza globale e unicità della soluzione</li>
+            <li>2.2 Conservazione dei giocatori</li>
+            <li>2.3 Sottogiochi ai bordi</li>
+            <li>2.4 Punti stazionari non banali</li>
+            <li>2.5 Giochi speculari</li>
+            <li>3. Giochi piccoli</li>
+            <li>3.1 Conversione</li>
+            <li>3.2 Morra cinese</li>
+            <li>3.3 Catena di due conversioni</li>
+            <li>4. Categoria dei Giochi</li>
+            <li>4.1 Quozienti</li>
+            <li>4.2 Coprodotti</li>
+            <li>4.3 Prodotti</li>
+            <li>5. Lista delle Cose da Fare</li>
+          </ul>
+
+          <h2>1. Introduzione</h2>
+
+          <h3>1.1 Motivazione</h3>
+          <p>
+            Pensiamo alla seguente situazione: molti giocatori giocano ad un
+            gioco, per il quale esistono diverse strategie, ed è determinata la
+            probabilità che una data strategia prevalga su un'altra. Non sono
+            possibili pareggi. I giocatori si sfidano randomicamente a coppie,
+            e un giocatore sconfitto comincerà ad utilizzare la strategia contro
+            cui ha perso. Il nostro obiettivo è modellizzare questo problema, e
+            investigare questioni riguardo l'evoluzione del numero di giocatori
+            che adottano ciascuna strategia.
+          </p>
+
+          <p>
+            Un gioco può essere rappresentato da un grafo orientato pesato: i
+            vertici rappresentano le strategie, e sugli archi orientati
+            indichiamo la probabilità che la strategia entrante vinca su quella
+            uscente. Per ogni coppia di vertici indichiamo solo il lato uscente
+            dalla strategia vincente, non indichiamo la probabilità qualora
+            questa sia <code>1</code>, e non mettiamo alcun arco qualora la
+            probabilità sia <code>0.5</code>. La probabilità che una strategia
+            ha di vincere su sé stessa dovrebbe essere <code>0.5</code>, in
+            quanto per ogni coppia di sfidanti che usano la medesima strategia
+            si ha un vincitore e un perdente, per cui non indichiamo lati che
+            entrano ed escono dallo stesso vertice. Utilizziamo le lettere
+            <code>x</code>, <code>y</code>, <code>z</code>, indicanti il nome
+            di una strategia, anche per indicare la proporzione di giocatori che
+            la utilizzano.
+          </p>
+
+          <p>
+            Un'idea sensata per creare un modello discreto è far evolvere il
+            sistema scegliendo casualmente una coppia di giocatori che si
+            sfidano. Per arrivare agilmente ad ottenere un modello continuo,
+            adottiamo invece un modello discreto in cui tutti i giocatori
+            vengono accoppiati come sfidanti contemporaneamente.
+          </p>
+
+          <p>
+            Consideriamo il gioco di esempio riportato nel testo originale, con
+            strategie <code>x</code>, <code>y</code>, <code>z</code>. Assumendo
+            un grande numero <code>N</code> pari di giocatori, è ragionevole
+            (?) pensare che, accoppiandoli randomicamente come sfidanti, la
+            probabilità che in una sfida le strategie adoperate siano
+            <code>s_i</code> ed <code>s_j</code> diverse sia approssimata bene
+            da <code>2s_i s_j</code>.
+          </p>
+
+          <p>
+            Consideriamo le sfide che coinvolgono la coppia di strategie
+            <code>xy</code>: queste saranno in numero <code>2xyN</code>, di cui
+            <code>0.7 · 2xyN</code> vinte dal giocatore di <code>x</code>, e
+            <code>0.3 · 2xyN</code> dal giocatore di <code>y</code>. Quindi si
+            avrà un aumento di <code>(0.7 - 0.3) · 2xyN</code> giocatori di
+            <code>x</code>, cioè un aumento relativo di
+            <code>(0.7 - 0.3)2xy</code>. Similmente, per la coppia
+            <code>xz</code>, si avrà una perdita relativa di
+            <code>(0 - 1)2xz</code> giocatori di <code>x</code>. Le sfide del
+            tipo <code>xx</code> non modificano i giocatori di <code>x</code>.
+          </p>
+
+          <p>
+            In generale, in un gioco con insieme delle strategie <code>S</code>,
+            risulta che i giocatori di <code>x ∈ S</code> subiranno un
+            cambiamento relativo di
+          </p>
+
+          <p class="formula-block">
+            2 · (∑<sub>s∈S</sub> (2p<sub>xs</sub> - 1)s) · x,
+          </p>
+
+          <p>
+            con <code>p<sub>xs</sub></code> probabilità che <code>x</code>
+            vinca su <code>s</code>.
+          </p>
+
+          <p>
+            Notiamo che il numero <code>2p - 1</code> è pari ad <code>1</code>
+            per <code>p = 1</code>, a <code>0</code> per
+            <code>p = 0.5</code>, a <code>-1</code> per <code>p = 0</code>.
+          </p>
+
+          <h3>1.2 Passaggio al continuo</h3>
+          <p>
+            Consideriamo un gioco con insieme delle strategie <code>S</code>.
+            Vogliamo ora pensare al cambiamento del numero di giocatori che
+            adottano ciascuna strategia come un problema continuo, in cui il
+            cambiamento relativo
+          </p>
+
+          <p class="formula-block">
+            2 · (∑<sub>s∈S</sub> (2p<sub>xs</sub> - 1)s) · x
+          </p>
+
+          <p>
+            indica la derivata di <code>x</code>, e
+            <code>∑<sub>s∈S</sub> s = 1</code>. D'ora in poi ignoriamo il
+            fattore <code>2</code> davanti alla prima sommatoria; la soluzione
+            avrà le stesse orbite, percorse a velocità dimezzata.
+          </p>
+
+          <p>
+            Sia <code>p<sub>ij</sub></code> la probabilità che si vinca su
+            <code>s_j</code>, sia <code>s = (s_n)</code> il vettore dei
+            giocatori che adottano ciascuna strategia. Si considera la matrice
+            <code>A = (a<sub>ij</sub>)</code>, con
+            <code>a<sub>ij</sub> = 2p<sub>ij</sub> - 1</code>. Notiamo che
+            <code>A</code> è una matrice antisimmetrica, con entrate reali
+            comprese tra <code>-1</code> e <code>1</code>. Vale allora che
+            <code>(As)<sub>i</sub> = ∑<sub>j</sub>(2p<sub>ij</sub> - 1)s_j</code>.
+            L'evoluzione dei giocatori segue quindi il sistema differenziale:
+          </p>
+
+          <p class="formula-block">
+            s′ = (As) ⊙ s,
+          </p>
+
+          <p>
+            dove <code>⊙</code> indica il prodotto componente per componente.
+          </p>
+
+          <p>
+            Siamo quindi interessati a studiare sistemi differenziali del tipo
+            <code>s′ = (As) ⊙ s</code>, con <code>A</code> matrice
+            antisimmetrica con entrate reali comprese tra <code>-1</code> e
+            <code>1</code>, e condizioni iniziali <code>s_i ≥ 0</code>,
+            <code>∑ s_i = 1</code>.
+          </p>
+
+          <p>
+            Questo tipo di sistema è un caso particolare dei sistemi di
+            Lotka-Volterra generalizzati.
+          </p>
+
+          <h3>1.3 Formalizzazione</h3>
+          <p>
+            <strong>Definizione 1.3.1.</strong> Un gioco è un grafo finito
+            pesato orientato, in cui ogni coppia di vertici è unita da
+            esattamente due archi di orientazione diversa, con pesi
+            <code>p</code> e <code>1 - p</code>, dove
+            <code>p ∈ [0,1]</code>, e <code>p = 0.5</code> se i vertici
+            coincidono. I vertici del grafo sono anche chiamati strategie, e il
+            peso dell'arco uscente dal vertice <code>i</code> ed entrante in
+            <code>j</code> è detto probabilità di vittoria di <code>i</code> su
+            <code>j</code>, ed è indicato con <code>p<sub>ij</sub></code>.
+          </p>
+
+          <p>
+            <strong>Nota 1.3.1.</strong> Solitamente, disegneremo un gioco
+            ignorando gli archi con peso <code>p ≤ 0.5</code>. Chiameremo anche
+            frecce gli archi orientati, e potremo dire invertire una freccia per
+            indicare l'operazione di scambiare i pesi nella coppia di archi che
+            unisce due strategie.
+          </p>
+
+          <p>
+            <strong>Definizione 1.3.2.</strong> Dato un gioco <code>X</code>
+            con insieme delle strategie <code>S</code> ordinato, chiamiamo
+            matrice associata a <code>X</code> la matrice
+            <code>A_X = (a<sub>ij</sub>)</code>,
+            <code>a<sub>ij</sub> = 2p<sub>ij</sub> - 1</code>,
+            <code>i,j ∈ S</code>.
+          </p>
+
+          <p>
+            <strong>Osservazione 1.3.1.</strong> La matrice associata ad un
+            gioco è antisimmetrica.
+          </p>
+
+          <p>
+            <strong>Dimostrazione.</strong>
+          </p>
+
+          <p class="formula-block">
+            a<sub>ij</sub> = 2p<sub>ij</sub> - 1<br>
+            = 2(1 - p<sub>ji</sub>) - 1<br>
+            = 2 - 2p<sub>ji</sub> - 1<br>
+            = -(2p<sub>ji</sub> - 1)<br>
+            = -a<sub>ji</sub>.
+          </p>
+
+          <p>
+            <strong>Osservazione 1.3.2.</strong> La matrice associata ad un
+            gioco ha entrate comprese tra <code>-1</code> e <code>1</code>.
+          </p>
+
+          <p>
+            <strong>Osservazione 1.3.3.</strong> Sostituendo con degli
+            <code>1</code> le entrate non nulle della matrice associata ad un
+            gioco, si ottiene la matrice di adiacenza del gioco qualora fossero
+            eliminate le frecce con peso <code>0.5</code>.
+          </p>
+
+          <p>
+            <strong>Definizione 1.3.3.</strong> Dato un gioco <code>X</code>
+            con insieme delle strategie <code>S</code> ordinato, e un vettore di
+            funzioni incognite <code>s = (s_i(t))</code>, <code>i ∈ S</code>,
+            chiamiamo sistema associato a <code>X</code> il sistema di
+            equazioni differenziali
+          </p>
+
+          <p class="formula-block">
+            s′ = (A_X s) ⊙ s,
+          </p>
+
+          <p>
+            dove il simbolo <code>⊙</code> indica il prodotto componente per
+            componente. Delle condizioni iniziali per il sistema sono dette
+            standard se sono del tipo <code>s_i(0) = α_i</code>,
+            <code>0 ≤ α_i ≤ 1</code>, <code>∑<sub>i∈S</sub> α_i = 1</code>.
+            La funzione <code>x_i(t)</code> che risolve il sistema date
+            condizioni iniziali standard indica i giocatori della strategia
+            <code>i</code> al momento <code>t</code>.
+          </p>
+
+          <h2>2. Caratteristiche generali</h2>
+
+          <h3>2.1 Esistenza globale e unicità della soluzione</h3>
+          <p>
+            Osserviamo che il sistema associato ad un gioco è autonomo, per cui
+            per soddisfare le ipotesi del teorema di Picard-Lindelöf e
+            dimostrare l'esistenza e l'unicità locale della soluzione è
+            sufficiente verificare la locale Lipshitzianeitá rispetto alle
+            funzioni incognite.
+          </p>
+
+          <p>
+            Notiamo che le equazioni sono polinomi di secondo grado omogenei
+            nelle funzioni incognite, dunque sono differenziabili e in
+            particolare localmente Lipshitz.
+          </p>
+
+          <p>
+            Dimostreremo in seguito che la soluzione è sempre contenuta in un
+            simplesso nello spazio delle configurazioni, prima per condizioni
+            iniziali standard, poi in generale; da cui per il principio di fuga
+            dai compatti segue l'esistenza globale della soluzione. In
+            alternativa, utilizzando i risultati del prossimo paragrafo, è una
+            semplice osservazione verificare che le derivate siano limitate.
+          </p>
+
+          <h3>2.2 Conservazione dei giocatori</h3>
+          <p>
+            <strong>Teorema 2.2.1.</strong> Dato un gioco <code>X</code> con
+            strategie <code>S</code>, il numero di giocatori rimane costante
+            nel tempo, cioè per il sistema associato vale che
+            <code>∑<sub>s∈S</sub> s(t)</code> è costante.
+          </p>
+
+          <p>
+            <strong>Dimostrazione.</strong>
+          </p>
+
+          <p class="formula-block">
+            ∂<sub>t</sub> ∑ s_i = ∑ ∂s_i<br>
+            = ∑<sub>righe</sub> (As ⊙ s)_i<br>
+            = s<sup>T</sup>As = 0,
+          </p>
+
+          <p>
+            dove l'ultima eguaglianza segue perché <code>A</code> è
+            antisimmetrica.
+          </p>
+
+          <p>
+            Questo è in accordo con la nostra intuizione, in quanto si sta
+            modellizzando il cambiamento di strategia da parte di un fissato
+            numero di giocatori.
+          </p>
+
+          <p>
+            Dimostreremo nel successivo paragrafo che se si inizia con un
+            numero positivo di giocatori per ogni strategia, nessuna raggiungerà
+            mai un numero negativo di giocatori.
+          </p>
+
+          <p>
+            Da questo, ricordando che l'<code>n</code>-simplesso standard è
+            definito come la combinazione convessa dei vettori della base
+            canonica in <code>R<sup>n</sup></code>, e rappresenta la regione di
+            coordinate positive che sommano ad <code>1</code>, si ottiene il
+            risultato:
+          </p>
+
+          <p>
+            <strong>Osservazione 2.2.1.</strong> Lo stato di un sistema
+            associato ad un gioco con <code>n</code> strategie nello spazio
+            delle configurazioni rimane all'interno dell'<code>n</code>-simplesso
+            standard.
+          </p>
+
+          <p>
+            <strong>Osservazione 2.2.2.</strong> Le coordinate nello spazio
+            delle fasi si possono interpretare come coordinate baricentriche, in
+            maniera che il moto nel simplesso standard si possa vedere
+            all'interno di un simplesso descritto dal gioco.
+          </p>
+
+          <p>
+            Riscalando delle condizioni iniziali rendendole a somma diversa da
+            <code>1</code>, per via dell'omogeneità delle equazioni, anche le
+            derivate vengono riscalate. Per cui si presentano orbite analoghe,
+            percorse a velocità diversa su un simplesso più grande sul quale
+            vengono proiettate (?).
+          </p>
+
+          <h3>2.3 Sottogiochi ai bordi</h3>
+          <p>
+            <strong>Definizione 2.3.1.</strong> Dato un gioco <code>X</code>,
+            un sottogioco è un gioco ottenuto eliminando da <code>X</code>
+            alcune strategie, e le frecce entranti e uscenti da esse.
+          </p>
+
+          <p>
+            Supponiamo di avere delle condizioni iniziali in cui ci sono
+            strategie non adottate da alcun giocatore. L'intuizione ci direbbe
+            che alcun giocatore si convertirebbe mai a tali strategie, in quanto
+            nessuno può perdervi contro, né queste possono cedere giocatori ad
+            altre, quindi la presenza di strategie non adottate è del tutto
+            indifferente per lo spostamento dei giocatori, e dunque si può
+            passare al sottogioco in cui esse sono totalmente assenti.
+          </p>
+
+          <p>
+            Nel nostro formalismo, quest'idea corrisponde al seguente risultato:
+          </p>
+
+          <p>
+            <strong>Teorema 2.3.1.</strong> Dato un sistema associato a un gioco
+            con condizioni iniziali standard, se <code>s_i = 0</code>, allora
+            <code>s_i(t) = 0</code> per ogni <code>t</code>. Inoltre, le altre
+            strategie si evolvono come nel sottogioco in cui la strategia
+            <code>s_i</code> è assente.
+          </p>
+
+          <p>
+            <strong>Dimostrazione.</strong> Se <code>s_i = 0</code>, a causa
+            del prodotto componente per componente <code>⊙s</code>, anche
+            <code>∂<sub>t</sub>s_i = 0</code>, dunque
+            <code>s_i(t) = 0</code> per ogni <code>t</code>. Come conseguenza,
+            l'<code>i</code>-esimo addendo di ogni componente di <code>Ps</code>,
+            che rappresenta il contributo di <code>s_i</code> a
+            <code>s′</code>, sarà nullo per ogni <code>t</code>. Ignorando la
+            riga e gli addendi nulli, si ottiene il sistema associato al
+            sottogioco con <code>s_i</code> rimossa.
+          </p>
+
+          <p>
+            <strong>Osservazione 2.3.1.</strong> Se molteplici condizioni
+            iniziali sono nulle, si passa al sottogioco dove tutte le
+            corrispettive strategie sono state rimosse.
+          </p>
+
+          <p>
+            <strong>Osservazione 2.3.2.</strong> La porzione del simplesso
+            standard dove alcune coordinate si impongono nulle, è il
+            sottosimplesso dato dalla combinazione convessa dei vettori canonici
+            relativi alle coordinate non annullate. Per cui il sistema associato
+            ad un sottogioco descrive il moto nel relativo sottosimplesso
+            generato dalle strategie non nulle.
+          </p>
+
+          <p>
+            <strong>Osservazione 2.3.3.</strong> L'evoluzione del sistema è
+            legata unicamente a come si evolve sui lati 1-dimensionali del
+            simplesso standard, in quanto a ciascuno di essi corrisponde il peso
+            degli archi in una coppia di strategie, e conoscendo i pesi per ogni
+            coppia si ricostruisce tutto il gioco. Dimostreremo in seguito che
+            pesi diversi tra due strategie danno luogo ad un comportamento
+            diverso sul rispettivo lato.
+          </p>
+
+          <p>
+            <strong>Osservazione 2.3.4.</strong> Il sistema di un gioco con una
+            sola strategia ha soluzioni costanti. Per cui, i sottogiochi con una
+            sola strategia individuano punti stazionari del sistema associato a
+            un gioco, cioè gli assi nello spazio delle configurazioni. Con
+            condizioni iniziali standard, questo ci dice che i vertici del
+            simplesso standard sono punti stazionari del sistema.
+          </p>
+
+          <p>
+            Dimostriamo finalmente il seguente:
+          </p>
+
+          <p>
+            <strong>Teorema 2.3.2.</strong> Il numero di giocatori per strategia
+            in un sistema associato a un gioco con condizioni iniziali standard
+            rimane positivo per ogni <code>t &gt; 0</code>.
+          </p>
+
+          <p>
+            <strong>Dimostrazione.</strong> Una componente positiva della
+            soluzione, per diventare negativa, deve essere nulla per qualche
+            <code>t</code>. Se diventasse nulla, il sistema inizierebbe a
+            comportarsi come un sottogioco, in cui varia solo il numero di
+            giocatori delle altre strategie: infatti, si avrebbe
+            <code>s′_i = 0</code>, quindi si rimarrebbe <code>0</code>. Si itera
+            il ragionamento scendendo sempre a sottocomplessi di dimensione
+            inferiore, cioè annullando sempre più componenti della soluzione,
+            finché non sono tutte nulle tranne una: ma in questo caso ci
+            troveremmo in un vertice, che è un punto stazionario.
+          </p>
+
+          <p>
+            Possiamo in realtà migliorare il risultato, dimostrando che
+            partendo dalla parte interna di un simplesso, non si raggiungono mai
+            i bordi. Verifichiamo il seguente:
+          </p>
+
+          <p>
+            <strong>Lemma 2.3.1.</strong> Invertendo il tempo in una soluzione
+            del sistema associato a un gioco <code>X</code>, si ottiene una
+            soluzione del sistema associato al gioco ottenuto invertendo tutte
+            le frecce di <code>X</code>.
+          </p>
+
+          <p>
+            <strong>Dimostrazione.</strong> Invertire il tempo è equivalente a
+            cambiare segno alle derivate, che è equivalente a cambiare segno
+            alla matrice antisimmetrica associata, o equivalentemente a
+            trasporla, dunque è equivalente a invertire le frecce del gioco.
+          </p>
+
+          <p>
+            Da questo segue che, dato un sistema con condizioni iniziali
+            standard, ogni sottosimplesso è invariante sia in avanti che
+            indietro nel tempo. Come conseguenza, il moto nello spazio delle
+            configurazioni con condizioni iniziali standard non raggiunge mai i
+            bordi del sottosimplesso standard in cui parte.
+          </p>
+
+          <h3>2.4 Punti stazionari non banali</h3>
+          <p>
+            Siamo interessati a trovare punti stazionari con coordinate
+            positive con somma <code>1</code>, in quanto sono possibili
+            condizioni iniziali standard del sistema. Ci chiediamo in generale
+            chi siano i punti stazionari del sistema <code>s′ = Ps ⊙ s</code>.
+          </p>
+
+          <p>
+            <strong>Definizione 2.4.1.</strong> Chiamiamo banali i punti
+            stazionari del sistema associato a un gioco che hanno almeno una
+            coordinata nulla.
+          </p>
+
+          <p>
+            Consideriamo <code>s</code> configurazione con tutte le entrate non
+            nulle, cioè <code>s</code> si trova nella parte interna del
+            simplesso standard. <code>s</code> sarà un punto stazionario del
+            sistema solo se lo è per il sistema lineare <code>s′ = Ps</code>:
+            infatti, il prodotto componente per componente per numeri non nulli
+            non può azzerare alcuna entrata non nulla altrimenti. Quindi, un
+            elemento con entrate positive del nucleo della matrice associata ad
+            un gioco corrisponde a un punto stazionario non banale.
+          </p>
+
+          <p>
+            Considerando invece <code>s</code> con almeno una entrata nulla, il
+            problema si riduce a cercare i punti stazionari del rispettivo
+            sottogioco.
+          </p>
+
+          <h3>2.5 Giochi speculari</h3>
+          <p>
+            Potremmo chiederci come si comporta un sistema con condizioni
+            iniziali non tutte positive. Ci viene in aiuto la seguente:
+          </p>
+
+          <p>
+            <strong>Osservazione 2.5.1.</strong> Cambiare segno al numero di
+            giocatori che adottano una strategia, ammettendo quindi valori
+            negativi, è equivalente a cambiare segno alle entrate nella
+            rispettiva riga e colonna della matrice antisimmetrica del sistema,
+            il che è equivalente a invertire tutte le frecce entranti e uscenti
+            da tale strategia mantenendo positivo il numero di giocatori che la
+            adottano.
+          </p>
+
+          <p>
+            Come conseguenza, l'evoluzione del sistema con condizioni iniziali
+            non tutte positive è analoga all'evoluzione del sistema associato ad
+            un altro gioco ottenuto invertendo le opportune frecce, con
+            condizioni iniziali non negative.
+          </p>
+
+          <p>
+            L'osservazione suggerisce un'azione da <code>(Z/2)^n</code>
+            all'insieme dei giochi con <code>n</code> strategie ordinate, dove
+            l'<code>i</code>-esimo generatore canonico inverte tutte le frecce
+            uscenti o entranti dalla <code>i</code>-esima strategia.
+          </p>
+
+          <p>
+            <strong>Definizione 2.5.1.</strong> Chiamiamo speculari i giochi
+            facenti parte di una stessa orbita di questa azione.
+          </p>
+
+          <p>
+            Un'orbita di questa azione contiene al più <code>2^n - 1</code>
+            giochi differenti, in quanto risulta che due elementi che
+            differiscono di <code>(1,1,...,1)</code> agiscono nello stesso modo.
+          </p>
+
+          <p>
+            Per questo, trovare un elemento del nucleo di una matrice
+            antisimmetrica con entrate non nulle, significa trovare un punto
+            stazionario non banale in un gioco speculare a quello a cui è
+            associata la matrice.
+          </p>
+
+          <p>
+            Come conseguenza delle osservazioni fatte, si ha che il
+            comportamento di un sistema globale è determinato dal suo
+            comportamento, e dal comportamento di sistemi di giochi speculari,
+            in condizioni standard.
+          </p>
+
+          <h2>3. Giochi piccoli</h2>
+
+          <h3>3.1 Conversione</h3>
+          <p>
+            Il gioco non banale più semplice è composto da due strategie, in cui
+            una vince sull'altra con probabilità <code>0.5 &lt; p &lt; 1</code>.
+          </p>
+
+          <p>
+            A tale gioco, chiamando <code>α = 2p - 1 &gt; 0</code>, è associato
+            il sistema
+          </p>
+
+          <p class="formula-block">
+            x′ = αxy<br>
+            y′ = -αxy.
+          </p>
+
+          <p>
+            Utilizzando <code>y = 1 - x</code>, si ottiene
+            <code>x′(t) = αx(1 - x)</code>, la cui soluzione è una curva
+            logistica:
+          </p>
+
+          <p class="formula-block">
+            x(t) = 1 / (1 + (1/x<sub>0</sub> - 1)e<sup>-αt</sup>).
+          </p>
+
+          <p>
+            Il caso <code>x(0) = 0</code> è da fare a parte, si ottiene
+            <code>x(t) = 0</code>. <code>y</code> si trova come
+            <code>1 - x</code>.
+          </p>
+
+          <p>
+            La crescita di <code>x</code> soddisfa l'intuizione derivante
+            dall'interpretazione probabilistica: è lenta per <code>x</code>
+            piccolo, poiché ciò significa che pochi giocatori di <code>y</code>
+            vengono sfidati e convertiti; è massima quando si hanno tanti
+            giocatori di <code>x</code> quanti di <code>y</code>, per cui è
+            massima la probabilità di un incontro tra le due strategie, e
+            diventa nuovamente piccola quando i giocatori di <code>y</code>
+            iniziano a scarseggiare.
+          </p>
+
+          <p>
+            Gli unici punti stazionari sono quindi i vertici del simplesso
+            standard, corrispondenti a sottogiochi con una sola strategia. Uno è
+            stabile asintoticamente, l'altro è instabile.
+          </p>
+
+          <h3>3.2 Morra cinese</h3>
+          <p>
+            La morra cinese è il gioco con tre strategie che si battono
+            ciclicamente.
+          </p>
+
+          <p>
+            A tale gioco è associato il sistema differenziale:
+          </p>
+
+          <p class="formula-block">
+            [x′, y′, z′]<sup>T</sup><br>
+            = [[0, 1, -1], [-1, 0, 1], [1, -1, 0]] · [x, y, z]<sup>T</sup> ⊙ [x, y, z]<sup>T</sup>.
+          </p>
+
+          <p>
+            Questo ammette un punto stazionario interno al simplesso standard,
+            ossia <code>(1/3, 1/3, 1/3)</code>, che appartiene al nucleo della
+            matrice antisimmetrica. Questo corrisponde alla configurazione in
+            cui ogni strategia ha lo stesso numero di giocatori; dalla simmetria
+            delle frecce è intuitivo che non ci si possa muovere in alcuna
+            direzione particolare. I sottosimplessi corrispondono a conversioni,
+            i cui punti stazionari sono i vertici del simplesso standard, i
+            quali sono instabili per il sistema complessivo.
+          </p>
+
+          <p>
+            Vediamo adesso come si possono sfruttare alcune simmetrie per
+            dimostrare che le orbite interne al simplesso standard sono chiuse.
+            Utilizziamo che il comportamento del sistema si comporta bene (?)
+            rispetto a permutazioni cicliche delle strategie, e che sotto
+            inversione temporale si ha ancora una morra cinese, con le relazioni
+            di vittoria invertite. Mettiamoci in condizioni standard con
+            <code>y &gt; x = z</code> e <code>y ≠ 1</code>, da cui
+            <code>x′ &gt; 0</code>, <code>y′ &lt; 0</code>,
+            <code>z′ &lt; 0</code>. Lo stato del sistema si evolve fino ad
+            avere <code>y = x</code> in tempo finito; infatti vale
+            <code>x′ = x(y - z)</code>, ma <code>x</code> cresce, e
+            <code>y - z</code> non può scendere sotto l'iniziale valore di
+            <code>x - z</code> senza che si abbia <code>x = y</code>. La stessa
+            traiettoria si ripete permutando ciclicamente le coordinate, cioè
+            ruotando il simplesso di <code>1/3</code> di giro.
+          </p>
+
+          <p>
+            Ci chiediamo adesso cosa succede con le stesse condizioni di
+            partenza ma tempo invertito: il sistema si comporta come se le
+            frecce fossero invertite, cioè come in una morra cinese con
+            <code>x</code> e <code>z</code> scambiati, per cui si presenta lo
+            stesso comportamento e questo fa concludere che le orbite siano
+            chiuse. Il punto stazionario al centro è quindi stabile, ma non
+            asintoticamente.
+          </p>
+
+          <p>
+            Come variante alla morra cinese, si può associare alle frecce una
+            probabilità di vittoria <code>0.5 &lt; p_i &lt; 1</code>. La matrice
+            antisimmetrica associata al sistema è del tipo
+          </p>
+
+          <p class="formula-block">
+            [[0, a, -b], [-a, 0, c], [b, -c, 0]],
+          </p>
+
+          <p>
+            con <code>a,b,c &gt; 0</code> nelle ipotesi date su
+            <code>p_i</code>. Questi giochi ammettono come punto stazionario
+            non banale
+          </p>
+
+          <p class="formula-block">
+            (1 / √(a² + b² + c²)) · [c, b, a]<sup>T</sup>.
+          </p>
+
+          <p>
+            Test numerici suggeriscono ancora orbite chiuse (?).
+          </p>
+
+          <h3>3.3 Catena di due conversioni</h3>
+          <p>
+            Una catena di due conversioni è il gioco rappresentato nel testo
+            originale. Scrivendo la <code>y</code> come
+            <code>1 - x - z</code>, il sistema associato diventa
+          </p>
+
+          <p class="formula-block">
+            x′ = a x(1 - x - z)<br>
+            z′ = -b z(1 - x - z).
+          </p>
+
+          <p>
+            Possiamo trovare le traiettorie come
+          </p>
+
+          <p class="formula-block">
+            dz/dx = -(b/a)(z/x).
+          </p>
+
+          <p>
+            Si ricava facilmente separando le variabili l'integrale primo
+            <code>E = (b/a)log x + log z</code>, assumendo
+            <code>x ≠ 0</code>, <code>z ≠ 0</code>; da cui segue che anche la
+            funzione <code>x<sup>b/a</sup> · z</code> rimane costante.
+          </p>
+
+          <p>
+            Questo suggerisce che è impossibile che tutti i giocatori tendano a
+            spostarsi verso <code>x</code>, ma che si converga ad uno stato in
+            cui <code>y = 0</code> e <code>x<sup>b/a</sup> · z = 1</code>, che
+            dipende dalle condizioni iniziali. (?)
+          </p>
+
+          <h2>4. Categoria dei Giochi</h2>
+          <p>
+            Vogliamo costruire un'opportuna categoria dei giochi, e investigare
+            l'esistenza e le proprietà di prodotti e coprodotti. Al fine di
+            trovare una opportuna definizione per i morfismi, è utile chiedersi
+            quale dovrebbe essere un quoziente di un gioco.
+          </p>
+
+          <h3>4.1 Quozienti</h3>
+          <p>
+            Immaginiamo di avere un gioco con strategie <code>S</code>, e di
+            avere un sottoinsieme <code>V ⊆ S</code> di strategie con la
+            proprietà che, al variare delle strategie <code>v ∈ V</code>,
+            <code>p<sub>sv</sub></code> rimane invariato per ogni
+            <code>s ∈ S \ V</code>. Intuitivamente, questo significa che dal
+            punto di vista dei giocatori di una strategia <code>s ∈ S\V</code>,
+            le strategie in <code>V</code> sono indistinguibili, e per
+            l'evoluzione di <code>S</code> non conta come i giocatori siano
+            distribuiti all'interno delle strategie in <code>V</code>, ma solo
+            quanti siano complessivamente. Questo ci suggerisce la possibilità
+            di semplificare il gioco per studiare più agilmente l'evoluzione
+            delle strategie in <code>S \ V</code> trattando l'insieme
+            <code>V</code> come un'unica strategia. Chiamiamo questa operazione
+            quoziente. Con l'idea generale che le giuste mappe tra oggetti sono
+            quelle le cui immagini sono quozienti, diamo la seguente:
+          </p>
+
+          <p>
+            <strong>Definizione 4.1.1.</strong> Una mappa tra due giochi
+            <code>X</code> e <code>Y</code> è una funzione tra i loro insiemi di
+            strategie
+          </p>
+
+          <p class="formula-block">
+            f : S_X -> S_Y
+          </p>
+
+          <p>
+            tale che, per ogni
+            <code>{x_1,...,x_k} = f<sup>-1</sup>(y)</code> con
+            <code>y ∈ S_Y</code>, vale
+          </p>
+
+          <p class="formula-block">
+            p<sub>xx1</sub> = p<sub>xx2</sub> = ... = p<sub>xxk</sub> = p<sub>f(x)y</sub>
+          </p>
+
+          <p>
+            per ogni <code>x ∈ S_X \ f<sup>-1</sup>{y}</code>. Se
+            <code>f</code> è surgettiva, la chiamiamo mappa a quoziente e
+            diciamo che <code>Y</code> è un quoziente di <code>X</code>.
+          </p>
+
+          <p>
+            Dal punto di vista del sistema, chiamando
+            <code>Q = {x_1,...,x_k}</code> significa che in tutte le righe
+            associate alla derivata di una strategia non in <code>Q</code> si
+            può raccogliere il coefficiente comune alle
+            <code>{x_1,...,x_k}</code>, ed eliminare le righe delle strategie in
+            <code>Q</code> sostituendole con quella associata alla derivata di
+            <code>x_1 + x_2 + ... + x_k</code>, ottenendo il sistema del gioco
+            quoziente. (?)
+          </p>
+
+          <p>
+            Vediamo un esempio di applicazione dei quozienti:
+          </p>
+
+          <p>
+            <strong>Esempio 4.1.1. Morra cinese truccata.</strong> Chiamiamo
+            morra cinese truccata il gioco rappresentato nel testo originale. Il
+            sistema associato è complicato a prima vista, ma possiamo
+            semplificarlo andando a quozientare le strategie <code>x</code> ed
+            <code>y</code> in un'unica strategia <code>x + y</code>.
+          </p>
+
+          <p>
+            Questa è semplicemente una conversione, che abbiamo già risolto.
+            Quindi, sebbene sia difficile capire come si evolvano <code>x</code>,
+            <code>y</code> e <code>z</code>, possiamo studiare semplicemente
+            come si evolvono <code>y</code>, ed <code>x + z</code>.
+          </p>
+
+          <p>
+            <strong>Definizione 4.1.2.</strong> Chiamiamo <code>GAME</code> la
+            categoria le cui immagini sono giochi, e i morfismi mappe di giochi.
+          </p>
+
+          <p>
+            <strong>Osservazione 4.1.1.</strong> I giochi composti da una sola
+            strategia sono isomorfi, e costituiscono l'oggetto finale della
+            categoria. L'oggetto iniziale vorrebbe essere il gioco vuoto, ma è
+            sensato chiedere che ci sia almeno una strategia.
+          </p>
+
+          <h3>4.2 Coprodotti</h3>
+          <p>
+            Risulta che i coprodotti esistono sempre, e sono banalmente le
+            unioni disgiunte di giochi. Vediamo quindi come si comportano i
+            giochi con componenti sconnesse.
+          </p>
+
+          <p>
+            Sia <code>X</code> un gioco sconnesso, enumeriamo le strategie in
+            modo da mettere vicine le strategie di una componente connessa. La
+            matrice associata al gioco, come la sua matrice di aderenza, è
+            diagonale a blocchi, uno per ogni componente. Di conseguenza nel
+            sistema associato le equazioni si spaiano, e si ottengono dei
+            sistemi indipendenti tra loro, uno per componente.
+          </p>
+
+          <p>
+            Questo rappresenta il fatto che giocatori di strategie in diverse
+            componenti connesse non si scambiano giocatori, e quindi si può
+            pensare il problema separandolo per ciascuna componente connessa. La
+            possibilità di pattare tra giocatori di strategie in componenti
+            connesse diverse tuttavia rallenta l'evoluzione di giocatori
+            all'interno di una componente; questo effetto è legato al fatto che
+            i giocatori di una sottocomponente possono non sommare a
+            <code>1</code>, e abbiamo già osservato che questo si traduce nella
+            percorrenza più lenta di orbite analoghe a quelle che si avrebbero
+            se sommassero ad <code>1</code>.
+          </p>
+
+          <p>
+            <strong>Osservazione 4.2.1.</strong> Una componente connessa si può
+            sempre quozientare. È evidente (?) che un punto è stazionario solo
+            se lo è quando ristretto ad una data componente connessa, e che vale
+            anche il viceversa, da cui segue (?) che i punti stazionari sono le
+            combinazioni convesse dei punti stazionari di componenti sconnesse.
+          </p>
+
+          <p>
+            È semplice vedere che l'unione disgiunta di giochi verifica la
+            proprietà universale del coprodotto. (?)
+          </p>
+
+          <h3>4.3 Prodotti</h3>
+          <p>
+            Per costruire il prodotto di giochi, cercheremo di invertire il
+            quoziente. Mentre quozientando si collassano più strategie ad una
+            sola, vogliamo un'operazione che sostituisce ad una strategia un
+            intero gioco, ed aggiunga le frecce mancanti. Chiameremo tale
+            operazione prodotto esplosione. Questa può non essere commutativa,
+            ma nel caso lo fosse, coinciderà con il prodotto (?).
+          </p>
+
+          <p>
+            <strong>Definizione 4.3.1.</strong> Dati <code>X</code>,
+            <code>Y</code> giochi, definiamo l'esplosione di <code>X</code> su
+            <code>Y</code>, indicata con <code>X ⋉ Y</code>, il gioco ottenuto
+            con il seguente procedimento: sia <code>S</code> l'insieme delle
+            strategie di <code>Y</code>, si considera una copia di
+            <code>X</code> per ogni strategia di <code>Y</code>, e si collega
+            ciascuna strategia della copia <code>i</code> con un arco uscente di
+            peso <code>p<sub>ij</sub></code> a ciascuna strategia della copia
+            <code>j</code>, per ogni <code>i,j ∈ S</code>.
+          </p>
+
+          <p>
+            Più formalmente, stiamo ottenendo un gioco le cui strategie sono le
+            coppie <code>(x,y)</code>, <code>x ∈ S_X</code>,
+            <code>y ∈ S_Y</code>, con
+          </p>
+
+          <p class="formula-block">
+            p<sub>(x1,y0)(x2,y0)</sub> = p<sub>x1x2</sub>,<br>
+            p<sub>(x1,y1)(x2,y2)</sub> = p<sub>(x0,y1)(x0,y2)</sub> = p<sub>y1y2</sub>.
+          </p>
+
+          <p>
+            Possiamo definire similmente (?) l'esplosione di <code>X</code>
+            solo su un insieme ristretto di strategie di <code>Y</code>, inclusa
+            una sola. L'esplosione su una strategia sola inverte l'operazione di
+            quoziente. (?).
+          </p>
+
+          <p>
+            Diciamo che l'esplosione di <code>X</code> su <code>Y</code> commuta
+            se è isomorfa all'esplosione di <code>Y</code> su <code>X</code>.
+          </p>
+
+          <p>
+            <strong>Nota 4.3.1.</strong> Per convenienza, potremo rappresentare
+            l'esplosione <code>X ⋉ Y</code> disegnando una sola freccia tra le
+            copie di <code>X</code>.
+          </p>
+
+          <p>
+            Osserviamo che quozientando per ciascuna copia di <code>X</code> si
+            ottiene <code>Y</code>.
+          </p>
+
+          <p>
+            Un caso importante in cui l'esplosione è commutativa è quando i due
+            giochi moltiplicati coincidono, cioè nel caso dei quadrati.
+          </p>
+
+          <p>
+            Un punto stazionario di <code>X ⋉ Y</code> deve innanzitutto essere
+            un punto stazionario dell'<code>Y</code> quoziente, e inoltre deve
+            essere stazionario se ristretto ad ogni copia di <code>X</code>. In
+            questo modo non si hanno flussi di giocatori né tra diverse copie di
+            <code>X</code>, né all'interno delle copie, per cui la condizione è
+            anche sufficiente. Per ottenere un punto stazionario non banale in
+            una esplosione quindi, prima si distribuiscono i giocatori tra le
+            copie di <code>X</code> in modo da non avere flussi tra esse e dando
+            giocatori a ciascuna, e poi si distribuiscono questi all'interno di
+            ciascuna copia in modo che costituiscano un punto stazionario non
+            banale per essa.
+          </p>
+
+          <p>
+            Nei casi in cui l'esplosione <code>X ⋉ Y</code> è commutativa, si
+            avrebbero <code>X</code> e <code>Y</code> come quozienti, e
+            verosimilmente l'esplosione è il prodotto (?).
+          </p>
+
+          <h2>5. Lista delle Cose da Fare</h2>
+          <ul>
+            <li>
+              Investigare se i giochi con gli archi con peso <code>1</code> si
+              comportano come quelli con gli stessi archi orientati ma
+              probabilità più piccole, e cosa succede cambiando in modo continuo
+              i pesi.
+            </li>
+            <li>
+              Investigare gli elementi del nucleo di matrici antisimmetriche con
+              entrate diverse da <code>0</code>, discutere della teoria
+              spettrale e dello pfaffiano.
+            </li>
+            <li>
+              Investigare domande combinatoriche del tipo quante classi di
+              giochi speculari esistono.
+            </li>
+            <li>
+              Cercare informazioni utili in letteratura sulle equazioni di
+              Lotka-Volterra generalizzate.
+            </li>
+            <li>
+              Migliorare il capitolo sulla categoria delle categorie, cercare un
+              legame con la teoria dell'omotopia.
+            </li>
+            <li>
+              Cercare quantità conservate o Lagrangiane e dimostrare la
+              presenza di orbite chiuse in alcuni giochi.
+            </li>
+            <li>
+              Investigare il legame tra comportamento del sistema dei bordi di
+              un simplesso e nel simplesso.
+            </li>
+            <li>
+              Linearizzare il sistema di alcuni giochi per studiare i punti
+              stazionari.
+            </li>
+            <li>
+              Investigare il legame tra le orbite di un sistema e del suo
+              lineare associato.
+            </li>
+            <li>
+              Investigare la relazione con le catene di Markov.
+            </li>
+            <li>
+              Studiare ulteriori giochi piccoli, cercando ulteriori soluzioni
+              analitiche, o introducendo una analisi numerica.
+            </li>
+            <li>
+              Dimostrare come le composizioni di frecce si legano alle derivate
+              successive, e dare un'interpretazione probabilistica.
+            </li>
+            <li>
+              Vedere il caso continuo come limite probabilistico del caso
+              discreto.
+            </li>
+            <li>
+              Trovare situazioni reali ben modellizzate dalla teoria.
+            </li>
+            <li>
+              Strutturare bene l'articolo, aggiungere i riferimenti.
+            </li>
+            <li>
+              Risolvere o spiegare meglio le questioni accompagnate da
+              <code>(?)</code>.
+            </li>
+          </ul>
+        </section>
+
+        <section
+          class="article-body language-panel"
+          id="panel-en"
+          role="tabpanel"
+          aria-labelledby="tab-en"
+          data-lang-panel="en"
+          hidden
+        >
+          <p class="draft-note">
+            Editorial note: this text began as original work. In retrospect, it
+            appears to independently rediscover part of the theory now
+            recognizable as the replicator dynamics of Taylor and Jonker, or at
+            least a closely related zero-sum evolutionary-game formalism. The
+            rendering below preserves the exploratory status of the source text,
+            including open questions and uncertain passages marked with
+            <code>(?)</code>.
+          </p>
+
+          <p>
+            Original date: December 2021.
+          </p>
+
+          <p class="source-note">
+            Original PDF:
+            <a href="../assets/teoria-del-meta.pdf">Teoria del Meta.pdf</a>
+          </p>
+
+          <h2>Contents</h2>
+          <ul>
+            <li>1. Introduction</li>
+            <li>1.1 Motivation</li>
+            <li>1.2 Passage to the continuous model</li>
+            <li>1.3 Formalization</li>
+            <li>2. General characteristics</li>
+            <li>2.1 Global existence and uniqueness of the solution</li>
+            <li>2.2 Conservation of players</li>
+            <li>2.3 Subgames at the boundary</li>
+            <li>2.4 Nontrivial stationary points</li>
+            <li>2.5 Mirror games</li>
+            <li>3. Small games</li>
+            <li>3.1 Conversion</li>
+            <li>3.2 Rock-paper-scissors</li>
+            <li>3.3 Chain of two conversions</li>
+            <li>4. Category of Games</li>
+            <li>4.1 Quotients</li>
+            <li>4.2 Coproducts</li>
+            <li>4.3 Products</li>
+            <li>5. To-do list</li>
+          </ul>
+
+          <h2>1. Introduction</h2>
+
+          <h3>1.1 Motivation</h3>
+          <p>
+            Think of the following situation: many players play a game for
+            which several strategies exist, and the probability that a given
+            strategy prevails over another is determined. Draws are not
+            possible. Players challenge one another randomly in pairs, and a
+            defeated player begins to use the strategy against which they lost.
+            Our goal is to model this problem and investigate questions about
+            the evolution of the number of players adopting each strategy.
+          </p>
+
+          <p>
+            A game can be represented by a weighted directed graph. The
+            vertices represent strategies, and on directed edges we indicate the
+            probability that the incoming strategy wins over the outgoing one.
+            For each pair of vertices we indicate only the edge leaving the
+            winning strategy; we do not indicate the probability when it is
+            <code>1</code>, and we do not put any edge when the probability is
+            <code>0.5</code>. The probability that a strategy has of winning
+            against itself should be <code>0.5</code>, since for every pair of
+            challengers using the same strategy there is one winner and one
+            loser; therefore we do not indicate edges entering and leaving the
+            same vertex. We use the letters <code>x</code>, <code>y</code>,
+            <code>z</code>, and so on, denoting the name of a strategy, also to
+            indicate the proportion of players using it.
+          </p>
+
+          <p>
+            A sensible idea for creating a discrete model is to make the system
+            evolve by randomly choosing a pair of players who challenge each
+            other. To obtain a continuous model more easily, we instead adopt a
+            discrete model in which all players are paired as challengers at the
+            same time.
+          </p>
+
+          <p>
+            Consider the example game reported in the original draft, with
+            strategies <code>x</code>, <code>y</code>, <code>z</code>. Assuming
+            a large even number <code>N</code> of players, it is reasonable (?)
+            to think that, by pairing them randomly as challengers, the
+            probability that in a challenge the strategies used are two distinct
+            strategies <code>s_i</code> and <code>s_j</code> is well
+            approximated by <code>2s_i s_j</code>.
+          </p>
+
+          <p>
+            Consider the challenges involving the pair of strategies
+            <code>xy</code>: these will be <code>2xyN</code> in number, of
+            which <code>0.7 · 2xyN</code> are won by the player using
+            <code>x</code>, and <code>0.3 · 2xyN</code> by the player using
+            <code>y</code>. Therefore there will be an increase of
+            <code>(0.7 - 0.3) · 2xyN</code> players using <code>x</code>, that
+            is, a relative increase of <code>(0.7 - 0.3)2xy</code>. Similarly,
+            for the pair <code>xz</code>, there will be a relative loss of
+            <code>(0 - 1)2xz</code> players using <code>x</code>. Challenges
+            of type <code>xx</code> do not modify the number of players using
+            <code>x</code>.
+          </p>
+
+          <p>
+            In general, in a game with set of strategies <code>S</code>, the
+            players using <code>x ∈ S</code> undergo a relative change of
+          </p>
+
+          <p class="formula-block">
+            2 · (∑<sub>s∈S</sub> (2p<sub>xs</sub> - 1)s) · x,
+          </p>
+
+          <p>
+            where <code>p<sub>xs</sub></code> is the probability that
+            <code>x</code> wins against <code>s</code>.
+          </p>
+
+          <p>
+            Notice that the number <code>2p - 1</code> is equal to
+            <code>1</code> for <code>p = 1</code>, to <code>0</code> for
+            <code>p = 0.5</code>, and to <code>-1</code> for
+            <code>p = 0</code>.
+          </p>
+
+          <h3>1.2 Passage to the Continuous Model</h3>
+          <p>
+            Consider a game with set of strategies <code>S</code>. We now want
+            to think of the change in the number of players adopting each
+            strategy as a continuous problem, in which the relative change
+          </p>
+
+          <p class="formula-block">
+            2 · (∑<sub>s∈S</sub> (2p<sub>xs</sub> - 1)s) · x
+          </p>
+
+          <p>
+            indicates the derivative of <code>x</code>, and
+            <code>∑<sub>s∈S</sub> s = 1</code>. From now on, we ignore the
+            factor <code>2</code> in front of the first summation; the solution
+            will have the same orbits, traveled at half speed.
+          </p>
+
+          <p>
+            Let <code>p<sub>ij</sub></code> be the probability of winning
+            against <code>s_j</code>, and let <code>s = (s_n)</code> be the
+            vector of players adopting each strategy. Consider the matrix
+            <code>A = (a<sub>ij</sub>)</code>, with
+            <code>a<sub>ij</sub> = 2p<sub>ij</sub> - 1</code>. Notice that
+            <code>A</code> is a skew-symmetric matrix, with real entries between
+            <code>-1</code> and <code>1</code>. Then
+            <code>(As)<sub>i</sub> = ∑<sub>j</sub>(2p<sub>ij</sub> - 1)s_j</code>.
+            The evolution of the players therefore follows the differential
+            system
+          </p>
+
+          <p class="formula-block">
+            s′ = (As) ⊙ s,
+          </p>
+
+          <p>
+            where <code>⊙</code> indicates componentwise multiplication.
+          </p>
+
+          <p>
+            We are therefore interested in studying differential systems of the
+            type <code>s′ = (As) ⊙ s</code>, with <code>A</code> a
+            skew-symmetric matrix with real entries between <code>-1</code> and
+            <code>1</code>, and initial conditions
+            <code>s_i ≥ 0</code>, <code>∑ s_i = 1</code>.
+          </p>
+
+          <p>
+            This type of system is a special case of generalized
+            Lotka-Volterra systems.
+          </p>
+
+          <h3>1.3 Formalization</h3>
+          <p>
+            <strong>Definition 1.3.1.</strong> A game is a finite weighted
+            directed graph in which every pair of vertices is joined by exactly
+            two edges with opposite orientations, with weights
+            <code>p</code> and <code>1 - p</code>, where
+            <code>p ∈ [0,1]</code>, and <code>p = 0.5</code> if the vertices
+            coincide. The vertices of the graph are also called strategies, and
+            the weight of the edge leaving vertex <code>i</code> and entering
+            <code>j</code> is called the probability of victory of
+            <code>i</code> against <code>j</code>, denoted
+            <code>p<sub>ij</sub></code>.
+          </p>
+
+          <p>
+            <strong>Note 1.3.1.</strong> Usually, we will draw a game while
+            ignoring edges with weight <code>p ≤ 0.5</code>. We will also call
+            directed edges arrows, and we may say invert an arrow to indicate
+            the operation of swapping the weights in the pair of edges joining
+            two strategies.
+          </p>
+
+          <p>
+            <strong>Definition 1.3.2.</strong> Given a game <code>X</code> with
+            ordered set of strategies <code>S</code>, we call the matrix
+            associated with <code>X</code> the matrix
+            <code>A_X = (a<sub>ij</sub>)</code>,
+            <code>a<sub>ij</sub> = 2p<sub>ij</sub> - 1</code>,
+            <code>i,j ∈ S</code>.
+          </p>
+
+          <p>
+            <strong>Observation 1.3.1.</strong> The matrix associated with a
+            game is skew-symmetric.
+          </p>
+
+          <p>
+            <strong>Proof.</strong>
+          </p>
+
+          <p class="formula-block">
+            a<sub>ij</sub> = 2p<sub>ij</sub> - 1<br>
+            = 2(1 - p<sub>ji</sub>) - 1<br>
+            = 2 - 2p<sub>ji</sub> - 1<br>
+            = -(2p<sub>ji</sub> - 1)<br>
+            = -a<sub>ji</sub>.
+          </p>
+
+          <p>
+            <strong>Observation 1.3.2.</strong> The matrix associated with a
+            game has entries between <code>-1</code> and <code>1</code>.
+          </p>
+
+          <p>
+            <strong>Observation 1.3.3.</strong> Replacing the nonzero entries of
+            the matrix associated with a game by <code>1</code> gives the
+            adjacency matrix of the game, if the arrows with weight
+            <code>0.5</code> were removed.
+          </p>
+
+          <p>
+            <strong>Definition 1.3.3.</strong> Given a game <code>X</code> with
+            ordered set of strategies <code>S</code>, and a vector of unknown
+            functions <code>s = (s_i(t))</code>, <code>i ∈ S</code>, we call the
+            system associated with <code>X</code> the system of differential
+            equations
+          </p>
+
+          <p class="formula-block">
+            s′ = (A_X s) ⊙ s,
+          </p>
+
+          <p>
+            where the symbol <code>⊙</code> indicates componentwise
+            multiplication. Initial conditions for the system are called
+            standard if they are of the type
+            <code>s_i(0) = α_i</code>, <code>0 ≤ α_i ≤ 1</code>,
+            <code>∑<sub>i∈S</sub> α_i = 1</code>. The function
+            <code>x_i(t)</code> solving the system with standard initial
+            conditions indicates the players using strategy <code>i</code> at
+            time <code>t</code>.
+          </p>
+
+          <h2>2. General Characteristics</h2>
+
+          <h3>2.1 Global Existence and Uniqueness of the Solution</h3>
+          <p>
+            Observe that the system associated with a game is autonomous;
+            therefore, to satisfy the hypotheses of the Picard-Lindelöf theorem
+            and prove local existence and uniqueness of the solution, it is
+            enough to verify local Lipschitzness with respect to the unknown
+            functions.
+          </p>
+
+          <p>
+            Notice that the equations are homogeneous polynomials of degree two
+            in the unknown functions, hence differentiable and in particular
+            locally Lipschitz.
+          </p>
+
+          <p>
+            We will later prove that the solution is always contained in a
+            simplex in the configuration space, first for standard initial
+            conditions and then in general; by the principle of escape from
+            compact sets, global existence of the solution follows. Alternatively,
+            using the results of the next paragraph, it is a simple observation
+            to verify that the derivatives are bounded.
+          </p>
+
+          <h3>2.2 Conservation of Players</h3>
+          <p>
+            <strong>Theorem 2.2.1.</strong> Given a game <code>X</code> with
+            strategies <code>S</code>, the number of players remains constant in
+            time; that is, for the associated system,
+            <code>∑<sub>s∈S</sub> s(t)</code> is constant.
+          </p>
+
+          <p>
+            <strong>Proof.</strong>
+          </p>
+
+          <p class="formula-block">
+            ∂<sub>t</sub> ∑ s_i = ∑ ∂s_i<br>
+            = ∑<sub>rows</sub> (As ⊙ s)_i<br>
+            = s<sup>T</sup>As = 0,
+          </p>
+
+          <p>
+            where the last equality follows because <code>A</code> is
+            skew-symmetric.
+          </p>
+
+          <p>
+            This agrees with our intuition, since we are modeling the change of
+            strategy by a fixed number of players.
+          </p>
+
+          <p>
+            In the next paragraph we will prove that if one starts with a
+            positive number of players for every strategy, no strategy will ever
+            reach a negative number of players.
+          </p>
+
+          <p>
+            From this, remembering that the standard <code>n</code>-simplex is
+            defined as the convex combination of the vectors of the canonical
+            basis in <code>R<sup>n</sup></code>, and represents the region of
+            positive coordinates summing to <code>1</code>, we obtain:
+          </p>
+
+          <p>
+            <strong>Observation 2.2.1.</strong> The state of a system associated
+            with a game with <code>n</code> strategies in configuration space
+            remains inside the standard <code>n</code>-simplex.
+          </p>
+
+          <p>
+            <strong>Observation 2.2.2.</strong> The coordinates in phase space
+            can be interpreted as barycentric coordinates, so that the motion in
+            the standard simplex can be seen inside a simplex described by the
+            game.
+          </p>
+
+          <p>
+            Rescaling initial conditions so that their sum is different from
+            <code>1</code>, because of the homogeneity of the equations, also
+            rescales the derivatives. Therefore analogous orbits appear,
+            traveled at different speed on a larger simplex onto which they are
+            projected (?).
+          </p>
+
+          <h3>2.3 Subgames at the Boundary</h3>
+          <p>
+            <strong>Definition 2.3.1.</strong> Given a game <code>X</code>, a
+            subgame is a game obtained by deleting from <code>X</code> some
+            strategies, and the arrows entering and leaving them.
+          </p>
+
+          <p>
+            Suppose we have initial conditions in which there are strategies
+            adopted by no player. Intuition would tell us that no player will
+            ever convert to such strategies, since no one can lose against them,
+            nor can they give players to others; therefore the presence of
+            non-adopted strategies is entirely irrelevant to the movement of
+            players, and so one can pass to the subgame in which they are wholly
+            absent.
+          </p>
+
+          <p>
+            In our formalism, this idea corresponds to the following result.
+          </p>
+
+          <p>
+            <strong>Theorem 2.3.1.</strong> Given a system associated with a
+            game with standard initial conditions, if <code>s_i = 0</code>,
+            then <code>s_i(t) = 0</code> for every <code>t</code>. Moreover,
+            the other strategies evolve as in the subgame in which strategy
+            <code>s_i</code> is absent.
+          </p>
+
+          <p>
+            <strong>Proof.</strong> If <code>s_i = 0</code>, because of the
+            componentwise product <code>⊙s</code>, also
+            <code>∂<sub>t</sub>s_i = 0</code>, and therefore
+            <code>s_i(t) = 0</code> for every <code>t</code>. Consequently, the
+            <code>i</code>-th summand of every component of <code>Ps</code>,
+            representing the contribution of <code>s_i</code> to
+            <code>s′</code>, will be zero for every <code>t</code>. Ignoring
+            the row and the zero summands, one obtains the system associated
+            with the subgame with <code>s_i</code> removed.
+          </p>
+
+          <p>
+            <strong>Observation 2.3.1.</strong> If multiple initial conditions
+            are zero, one passes to the subgame in which all the corresponding
+            strategies have been removed.
+          </p>
+
+          <p>
+            <strong>Observation 2.3.2.</strong> The portion of the standard
+            simplex where some coordinates are imposed to be zero is the
+            subsimplex given by the convex combination of the canonical vectors
+            associated with the nonzero coordinates. Therefore the system
+            associated with a subgame describes the motion in the corresponding
+            subsimplex generated by the nonzero strategies.
+          </p>
+
+          <p>
+            <strong>Observation 2.3.3.</strong> The evolution of the system is
+            tied only to how it evolves on the one-dimensional edges of the
+            standard simplex, since each of them corresponds to the weight of
+            the arrows in a pair of strategies; knowing the weights for every
+            pair reconstructs the whole game. We will later prove that different
+            weights between two strategies give rise to different behavior on
+            the corresponding edge.
+          </p>
+
+          <p>
+            <strong>Observation 2.3.4.</strong> The system of a game with a
+            single strategy has constant solutions. Therefore, subgames with a
+            single strategy identify stationary points of the system associated
+            with a game, namely the axes in configuration space. With standard
+            initial conditions, this tells us that the vertices of the standard
+            simplex are stationary points of the system.
+          </p>
+
+          <p>
+            We finally prove the following.
+          </p>
+
+          <p>
+            <strong>Theorem 2.3.2.</strong> The number of players per strategy
+            in a system associated with a game with standard initial conditions
+            remains positive for every <code>t &gt; 0</code>.
+          </p>
+
+          <p>
+            <strong>Proof.</strong> A positive component of the solution, in
+            order to become negative, must be zero for some <code>t</code>. If
+            it became zero, the system would begin to behave like a subgame in
+            which only the number of players of the other strategies varies:
+            indeed, one would have <code>s′_i = 0</code>, and so it would remain
+            <code>0</code>. One iterates the reasoning by descending to
+            subcomplexes of lower and lower dimension, that is, by annihilating
+            more and more components of the solution, until all but one are
+            zero. But in that case we would be at a vertex, which is a
+            stationary point.
+          </p>
+
+          <p>
+            We can actually improve the result by proving that, starting from
+            the interior of a simplex, the boundaries are never reached. We
+            verify the following.
+          </p>
+
+          <p>
+            <strong>Lemma 2.3.1.</strong> Reversing time in a solution of the
+            system associated with a game <code>X</code> gives a solution of
+            the system associated with the game obtained by reversing all
+            arrows of <code>X</code>.
+          </p>
+
+          <p>
+            <strong>Proof.</strong> Reversing time is equivalent to changing the
+            sign of the derivatives, which is equivalent to changing the sign of
+            the associated skew-symmetric matrix, or equivalently to
+            transposing it; hence it is equivalent to reversing the arrows of
+            the game.
+          </p>
+
+          <p>
+            It follows that, given a system with standard initial conditions,
+            every subsimplex is invariant both forward and backward in time. As
+            a consequence, the motion in configuration space with standard
+            initial conditions never reaches the boundaries of the standard
+            subsimplex in which it starts.
+          </p>
+
+          <h3>2.4 Nontrivial Stationary Points</h3>
+          <p>
+            We are interested in finding stationary points with positive
+            coordinates summing to <code>1</code>, since these are possible
+            standard initial conditions of the system. We ask in general who the
+            stationary points of the system
+            <code>s′ = Ps ⊙ s</code> are.
+          </p>
+
+          <p>
+            <strong>Definition 2.4.1.</strong> We call trivial the stationary
+            points of the system associated with a game that have at least one
+            zero coordinate.
+          </p>
+
+          <p>
+            Consider a configuration <code>s</code> with all entries nonzero,
+            that is, with <code>s</code> lying in the interior of the standard
+            simplex. It will be a stationary point of the system only if it is
+            one for the linear system <code>s′ = Ps</code>: indeed,
+            componentwise multiplication by nonzero numbers cannot otherwise
+            annihilate any nonzero entry. Therefore, an element with positive
+            entries in the kernel of the matrix associated with a game
+            corresponds to a nontrivial stationary point.
+          </p>
+
+          <p>
+            Considering instead <code>s</code> with at least one zero entry, the
+            problem reduces to looking for the stationary points of the
+            corresponding subgame.
+          </p>
+
+          <h3>2.5 Mirror Games</h3>
+          <p>
+            One might ask how a system behaves with initial conditions that are
+            not all positive. The following helps us.
+          </p>
+
+          <p>
+            <strong>Observation 2.5.1.</strong> Changing the sign of the number
+            of players adopting a strategy, thus allowing negative values, is
+            equivalent to changing the sign of the entries in the corresponding
+            row and column of the skew-symmetric matrix of the system; this is
+            equivalent to reversing all arrows entering and leaving that
+            strategy while keeping positive the number of players adopting it.
+          </p>
+
+          <p>
+            Consequently, the evolution of the system with not-all-positive
+            initial conditions is analogous to the evolution of the system
+            associated with another game obtained by reversing the appropriate
+            arrows, with nonnegative initial conditions.
+          </p>
+
+          <p>
+            The observation suggests an action of <code>(Z/2)^n</code> on the
+            set of games with <code>n</code> ordered strategies, where the
+            <code>i</code>-th canonical generator reverses all arrows leaving or
+            entering the <code>i</code>-th strategy.
+          </p>
+
+          <p>
+            <strong>Definition 2.5.1.</strong> We call mirror games the games
+            belonging to the same orbit of this action.
+          </p>
+
+          <p>
+            An orbit of this action contains at most <code>2^n - 1</code>
+            different games, since two elements that differ by
+            <code>(1,1,...,1)</code> act in the same way.
+          </p>
+
+          <p>
+            For this reason, finding an element of the kernel of a
+            skew-symmetric matrix with nonzero entries means finding a
+            nontrivial stationary point in a mirror game of the one to which the
+            matrix is associated.
+          </p>
+
+          <p>
+            As a consequence of the observations made, the behavior of a global
+            system is determined by its behavior, and by the behavior of systems
+            of mirror games, in standard conditions.
+          </p>
+
+          <h2>3. Small Games</h2>
+
+          <h3>3.1 Conversion</h3>
+          <p>
+            The simplest nontrivial game is composed of two strategies, one of
+            which wins against the other with probability
+            <code>0.5 &lt; p &lt; 1</code>.
+          </p>
+
+          <p>
+            For this game, calling <code>α = 2p - 1 &gt; 0</code>, the
+            associated system is
+          </p>
+
+          <p class="formula-block">
+            x′ = αxy<br>
+            y′ = -αxy.
+          </p>
+
+          <p>
+            Using <code>y = 1 - x</code>, one obtains
+            <code>x′(t) = αx(1 - x)</code>, whose solution is a logistic curve:
+          </p>
+
+          <p class="formula-block">
+            x(t) = 1 / (1 + (1/x<sub>0</sub> - 1)e<sup>-αt</sup>).
+          </p>
+
+          <p>
+            The case <code>x(0) = 0</code> must be treated separately; one
+            obtains <code>x(t) = 0</code>. The function <code>y</code> is found
+            as <code>1 - x</code>.
+          </p>
+
+          <p>
+            The growth of <code>x</code> satisfies the intuition coming from
+            the probabilistic interpretation: it is slow for small
+            <code>x</code>, since this means that few players of <code>y</code>
+            are challenged and converted; it is maximal when there are as many
+            players of <code>x</code> as of <code>y</code>, so that the
+            probability of an encounter between the two strategies is maximal;
+            and it becomes small again when players of <code>y</code> begin to
+            be scarce.
+          </p>
+
+          <p>
+            The only stationary points are therefore the vertices of the
+            standard simplex, corresponding to subgames with a single strategy.
+            One is asymptotically stable, the other is unstable.
+          </p>
+
+          <h3>3.2 Rock-Paper-Scissors</h3>
+          <p>
+            Rock-paper-scissors is the game with three strategies that defeat
+            each other cyclically.
+          </p>
+
+          <p>
+            The associated differential system is
+          </p>
+
+          <p class="formula-block">
+            [x′, y′, z′]<sup>T</sup><br>
+            = [[0, 1, -1], [-1, 0, 1], [1, -1, 0]] · [x, y, z]<sup>T</sup> ⊙ [x, y, z]<sup>T</sup>.
+          </p>
+
+          <p>
+            This admits a stationary point internal to the standard simplex,
+            namely <code>(1/3, 1/3, 1/3)</code>, which belongs to the kernel of
+            the skew-symmetric matrix. This corresponds to the configuration in
+            which each strategy has the same number of players; from the
+            symmetry of the arrows it is intuitive that one cannot move in any
+            particular direction. The subsimplices correspond to conversions,
+            whose stationary points are the vertices of the standard simplex,
+            which are unstable for the overall system.
+          </p>
+
+          <p>
+            We now see how some symmetries can be exploited to prove that the
+            orbits internal to the standard simplex are closed. We use the fact
+            that the behavior of the system behaves well (?) with respect to
+            cyclic permutations of the strategies, and that under time reversal
+            one still has rock-paper-scissors, with the victory relations
+            reversed. Put the system in standard conditions with
+            <code>y &gt; x = z</code> and <code>y ≠ 1</code>, from which
+            <code>x′ &gt; 0</code>, <code>y′ &lt; 0</code>,
+            <code>z′ &lt; 0</code>. The state of the system evolves until
+            <code>y = x</code> in finite time; indeed
+            <code>x′ = x(y - z)</code>, but <code>x</code> grows, and
+            <code>y - z</code> cannot fall below the initial value of
+            <code>x - z</code> without having <code>x = y</code>. The same
+            trajectory repeats by cyclically permuting the coordinates, that is,
+            rotating the simplex by one third of a turn.
+          </p>
+
+          <p>
+            We now ask what happens with the same starting conditions but with
+            time reversed: the system behaves as if the arrows were reversed,
+            that is, as in a rock-paper-scissors game with <code>x</code> and
+            <code>z</code> exchanged; therefore the same behavior appears, and
+            this lets one conclude that the orbits are closed. The stationary
+            point at the center is therefore stable, but not asymptotically
+            stable.
+          </p>
+
+          <p>
+            As a variant of rock-paper-scissors, one can assign to the arrows a
+            probability of victory <code>0.5 &lt; p_i &lt; 1</code>. The
+            skew-symmetric matrix associated with the system is of the type
+          </p>
+
+          <p class="formula-block">
+            [[0, a, -b], [-a, 0, c], [b, -c, 0]],
+          </p>
+
+          <p>
+            with <code>a,b,c &gt; 0</code> under the given hypotheses on
+            <code>p_i</code>. These games admit the nontrivial stationary point
+          </p>
+
+          <p class="formula-block">
+            (1 / √(a² + b² + c²)) · [c, b, a]<sup>T</sup>.
+          </p>
+
+          <p>
+            Numerical tests still suggest closed orbits (?).
+          </p>
+
+          <h3>3.3 Chain of Two Conversions</h3>
+          <p>
+            A chain of two conversions is the game represented in the original
+            draft. Writing <code>y</code> as <code>1 - x - z</code>, the
+            associated system becomes
+          </p>
+
+          <p class="formula-block">
+            x′ = a x(1 - x - z)<br>
+            z′ = -b z(1 - x - z).
+          </p>
+
+          <p>
+            We can find the trajectories as
+          </p>
+
+          <p class="formula-block">
+            dz/dx = -(b/a)(z/x).
+          </p>
+
+          <p>
+            Separating variables, one easily obtains the first integral
+            <code>E = (b/a)log x + log z</code>, assuming
+            <code>x ≠ 0</code> and <code>z ≠ 0</code>; from this it follows
+            that the function <code>x<sup>b/a</sup> · z</code> also remains
+            constant.
+          </p>
+
+          <p>
+            This suggests that it is impossible for all players to tend to move
+            toward <code>x</code>, but that one converges to a state in which
+            <code>y = 0</code> and <code>x<sup>b/a</sup> · z = 1</code>,
+            depending on the initial conditions. (?)
+          </p>
+
+          <h2>4. Category of Games</h2>
+          <p>
+            We want to construct a suitable category of games, and investigate
+            the existence and properties of products and coproducts. In order to
+            find a suitable definition for morphisms, it is useful to ask what a
+            quotient of a game should be.
+          </p>
+
+          <h3>4.1 Quotients</h3>
+          <p>
+            Imagine having a game with strategies <code>S</code>, and a subset
+            <code>V ⊆ S</code> of strategies with the property that, as
+            <code>v ∈ V</code> varies, <code>p<sub>sv</sub></code> remains
+            invariant for every <code>s ∈ S \ V</code>. Intuitively, this means
+            that from the point of view of the players of a strategy
+            <code>s ∈ S \ V</code>, the strategies in <code>V</code> are
+            indistinguishable, and for the evolution of <code>S</code> it does
+            not matter how the players are distributed inside the strategies in
+            <code>V</code>, but only how many there are in total. This suggests
+            the possibility of simplifying the game in order to study more
+            easily the evolution of the strategies in <code>S \ V</code>, by
+            treating the set <code>V</code> as a single strategy. We call this
+            operation quotient. With the general idea that the right maps
+            between objects are those whose images are quotients, we give the
+            following.
+          </p>
+
+          <p>
+            <strong>Definition 4.1.1.</strong> A map between two games
+            <code>X</code> and <code>Y</code> is a function between their sets
+            of strategies
+          </p>
+
+          <p class="formula-block">
+            f : S_X -> S_Y
+          </p>
+
+          <p>
+            such that, for every
+            <code>{x_1,...,x_k} = f<sup>-1</sup>(y)</code> with
+            <code>y ∈ S_Y</code>, one has
+          </p>
+
+          <p class="formula-block">
+            p<sub>xx1</sub> = p<sub>xx2</sub> = ... = p<sub>xxk</sub> = p<sub>f(x)y</sub>
+          </p>
+
+          <p>
+            for every <code>x ∈ S_X \ f<sup>-1</sup>{y}</code>. If
+            <code>f</code> is surjective, we call it a quotient map and say that
+            <code>Y</code> is a quotient of <code>X</code>.
+          </p>
+
+          <p>
+            From the point of view of the system, calling
+            <code>Q = {x_1,...,x_k}</code> means that in all rows associated
+            with the derivative of a strategy not in <code>Q</code>, one can
+            factor out the coefficient common to <code>{x_1,...,x_k}</code>,
+            and delete the rows of the strategies in <code>Q</code> by
+            replacing them with the one associated with the derivative of
+            <code>x_1 + x_2 + ... + x_k</code>, obtaining the system of the
+            quotient game. (?)
+          </p>
+
+          <p>
+            Let us see an example of applying quotients.
+          </p>
+
+          <p>
+            <strong>Example 4.1.1. Rigged rock-paper-scissors.</strong> Call the
+            game represented in the original draft rigged rock-paper-scissors.
+            The associated system is complicated at first sight, but we can
+            simplify it by quotienting the strategies <code>x</code> and
+            <code>y</code> into a single strategy <code>x + y</code>.
+          </p>
+
+          <p>
+            This is simply a conversion, which we have already solved.
+            Therefore, although it is difficult to understand how
+            <code>x</code>, <code>y</code>, and <code>z</code> evolve, we can
+            simply study how <code>y</code> and <code>x + z</code> evolve.
+          </p>
+
+          <p>
+            <strong>Definition 4.1.2.</strong> We call <code>GAME</code> the
+            category whose objects are games, and whose morphisms are maps of
+            games.
+          </p>
+
+          <p>
+            <strong>Observation 4.1.1.</strong> Games composed of a single
+            strategy are isomorphic, and constitute the final object of the
+            category. The initial object would want to be the empty game, but it
+            is sensible to ask that there be at least one strategy.
+          </p>
+
+          <h3>4.2 Coproducts</h3>
+          <p>
+            It turns out that coproducts always exist, and are trivially the
+            disjoint unions of games. Let us therefore see how games with
+            disconnected components behave.
+          </p>
+
+          <p>
+            Let <code>X</code> be a disconnected game. Enumerate the strategies
+            so that the strategies of each connected component are placed next
+            to each other. The matrix associated with the game, like its
+            adjacency matrix, is block diagonal, one block for each component.
+            Consequently, in the associated system the equations split apart,
+            and one obtains systems independent of one another, one for each
+            component.
+          </p>
+
+          <p>
+            This represents the fact that players of strategies in different
+            connected components do not exchange players, and therefore one can
+            think about the problem by separating it for each connected
+            component. The possibility of drawing between players of strategies
+            in different connected components, however, slows the evolution of
+            players inside a component. This effect is tied to the fact that the
+            players of a subcomponent may not sum to <code>1</code>, and we
+            have already observed that this translates into slower traversal of
+            orbits analogous to those that would occur if they did sum to
+            <code>1</code>.
+          </p>
+
+          <p>
+            <strong>Observation 4.2.1.</strong> A connected component can always
+            be quotiented. It is evident (?) that a point is stationary only if
+            it is stationary when restricted to a given connected component, and
+            that the converse also holds; from this it follows (?) that the
+            stationary points are the convex combinations of the stationary
+            points of disconnected components.
+          </p>
+
+          <p>
+            It is simple to see that the disjoint union of games satisfies the
+            universal property of the coproduct. (?)
+          </p>
+
+          <h3>4.3 Products</h3>
+          <p>
+            To construct the product of games, we will try to invert the
+            quotient. While quotienting collapses several strategies to one, we
+            want an operation that replaces a strategy with an entire game, and
+            adds the missing arrows. We will call this operation explosion
+            product. This may fail to be commutative, but in the case in which
+            it is, it will coincide with the product (?).
+          </p>
+
+          <p>
+            <strong>Definition 4.3.1.</strong> Given games <code>X</code> and
+            <code>Y</code>, define the explosion of <code>X</code> on
+            <code>Y</code>, denoted <code>X ⋉ Y</code>, as the game obtained by
+            the following procedure: let <code>S</code> be the set of strategies
+            of <code>Y</code>; consider a copy of <code>X</code> for every
+            strategy of <code>Y</code>, and connect each strategy of copy
+            <code>i</code> with an outgoing edge of weight
+            <code>p<sub>ij</sub></code> to each strategy of copy <code>j</code>,
+            for every <code>i,j ∈ S</code>.
+          </p>
+
+          <p>
+            More formally, we are obtaining a game whose strategies are pairs
+            <code>(x,y)</code>, <code>x ∈ S_X</code>, <code>y ∈ S_Y</code>,
+            with
+          </p>
+
+          <p class="formula-block">
+            p<sub>(x1,y0)(x2,y0)</sub> = p<sub>x1x2</sub>,<br>
+            p<sub>(x1,y1)(x2,y2)</sub> = p<sub>(x0,y1)(x0,y2)</sub> = p<sub>y1y2</sub>.
+          </p>
+
+          <p>
+            We can similarly (?) define the explosion of <code>X</code> only on
+            a restricted set of strategies of <code>Y</code>, including a single
+            one. Explosion on a single strategy inverts the quotient operation.
+            (?).
+          </p>
+
+          <p>
+            We say that the explosion of <code>X</code> on <code>Y</code>
+            commutes if it is isomorphic to the explosion of <code>Y</code> on
+            <code>X</code>.
+          </p>
+
+          <p>
+            <strong>Note 4.3.1.</strong> For convenience, we may represent the
+            explosion <code>X ⋉ Y</code> by drawing a single arrow between the
+            copies of <code>X</code>.
+          </p>
+
+          <p>
+            Observe that quotienting by each copy of <code>X</code> gives
+            <code>Y</code>.
+          </p>
+
+          <p>
+            An important case in which explosion is commutative is when the two
+            games being multiplied coincide, that is, in the case of squares.
+          </p>
+
+          <p>
+            A stationary point of <code>X ⋉ Y</code> must first be a stationary
+            point of the quotient <code>Y</code>, and in addition must be
+            stationary when restricted to each copy of <code>X</code>. In this
+            way there are no flows of players either among different copies of
+            <code>X</code> or inside the copies, so the condition is also
+            sufficient. To obtain a nontrivial stationary point in an explosion,
+            therefore, one first distributes the players among the copies of
+            <code>X</code> so as to have no flows among them while giving
+            players to each, and then distributes these inside each copy so that
+            they constitute a nontrivial stationary point for it.
+          </p>
+
+          <p>
+            In the cases in which the explosion <code>X ⋉ Y</code> is
+            commutative, one would have <code>X</code> and <code>Y</code> as
+            quotients, and plausibly the explosion is the product (?).
+          </p>
+
+          <h2>5. To-Do List</h2>
+          <ul>
+            <li>
+              Investigate whether games with arrows of weight <code>1</code>
+              behave like games with the same oriented arrows but smaller
+              probabilities, and what happens when the weights are changed
+              continuously.
+            </li>
+            <li>
+              Investigate elements of the kernel of skew-symmetric matrices
+              with entries different from <code>0</code>; discuss spectral
+              theory and the Pfaffian.
+            </li>
+            <li>
+              Investigate combinatorial questions such as how many classes of
+              mirror games exist.
+            </li>
+            <li>
+              Look for useful information in the literature on generalized
+              Lotka-Volterra equations.
+            </li>
+            <li>
+              Improve the chapter on the category of categories, and look for a
+              link with homotopy theory.
+            </li>
+            <li>
+              Look for conserved quantities or Lagrangians and prove the
+              presence of closed orbits in some games.
+            </li>
+            <li>
+              Investigate the relation between the behavior of the system on the
+              boundary of a simplex and inside the simplex.
+            </li>
+            <li>
+              Linearize the system of some games in order to study stationary
+              points.
+            </li>
+            <li>
+              Investigate the relation between the orbits of a system and of
+              its associated linear system.
+            </li>
+            <li>
+              Investigate the relation with Markov chains.
+            </li>
+            <li>
+              Study further small games, looking for further analytic solutions,
+              or introducing numerical analysis.
+            </li>
+            <li>
+              Prove how compositions of arrows are tied to higher derivatives,
+              and give a probabilistic interpretation.
+            </li>
+            <li>
+              See the continuous case as a probabilistic limit of the discrete
+              case.
+            </li>
+            <li>
+              Find real situations well modeled by the theory.
+            </li>
+            <li>
+              Structure the article well, add references.
+            </li>
+            <li>
+              Solve or explain better the questions accompanied by
+              <code>(?)</code>.
+            </li>
+          </ul>
+        </section>
+      </article>
+    </main>
+
+    <script src="../assets/site.js"></script>
+  </body>
+</html>
