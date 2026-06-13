@@ -105,7 +105,9 @@
             le mosse diventa una codifica efficiente per le partite.
           </p>
 
-          <h2>Encoding mosse con partenza e destinazione</h2>
+          <h2>Encoding di mosse</h2>
+
+          <h3>Encoding mosse con partenza e destinazione</h3>
           <p>
             Notiamo che possiamo definire una mossa come il pezzo da muovere, o
             forse meglio la sua casella, e la casella di destinazione; questo è
@@ -149,7 +151,7 @@
             basteranno 100 byte.
           </p>
 
-          <h2>Encoding mosse tramite enumerazione</h2>
+          <h3>Encoding mosse tramite enumerazione</h3>
           <p>
             Un peso inferiore si può ottenere se, invece di utilizzare 4 bit
             per individuare un pezzo, se ne allocano dinamicamente tanti quanti
@@ -193,7 +195,43 @@
             mossa per mossa.
           </p>
 
-          <h2>Encoding combinatorio di una posizione legale</h2>
+          <h3>Encoding mosse geometricamente ammesse [13 Giugno]</h3>
+          <p>
+            Una via di mezzo sarebbe considerare solo le mosse geometricamente
+            ammesse in base alla tipologia del pezzo e alla posizione nella
+            board, ignorando gli altri pezzi in gioco e le regole scacchistiche.
+          </p>
+          <p>
+            Ad esempio, una regina avrà al più 31 posizioni in cui muovere se è
+            centralizzata. Questo è più semplice che calcolare le mosse ammesse,
+            che richiede un engine di scacchi e considerazioni su ostruzioni da
+            parte degli altri pezzi della scacchiera, oltre che sugli scacchi.
+          </p>
+          <p>
+            Potremmo dunque scegliere il pezzo da muovere con al più 4 bit, e
+            poi la mossa geometricamente sensata con al più 5 bit, ottenendo un
+            encoding discretamente pulito fino a 9 bit.
+          </p>
+          <p>
+            Possiamo però anche enumerare tutte le azioni geometricamente
+            plausibili enumerando i pezzi in ordine lessicografico, ed
+            enumerando poi per ciascuno le mosse geometricamente plausibili in
+            base a tipologia e posizione, considerando rese e pareggi come
+            azioni extra.
+          </p>
+          <p>
+            In questo modo otteniamo un encoding che non richiede un completo
+            engine scacchistico per la codifica e decodifica, e che nella
+            maggior parte dei casi riesce a comprimere la mossa in 1 byte o
+            meno, richiedendo 9 bit solo in rari casi: quelli in cui le mosse
+            geometricamente plausibili sono più di 255, o 252 per lasciare
+            spazio alle mosse speciali, sostanzialmente casi con molte
+            promozioni a regine.
+          </p>
+
+          <h2>Encoding di posizioni</h2>
+
+          <h3>Encoding combinatorio di una posizione legale</h3>
           <p>Possiamo codificare una posizione legale nel modo che segue.</p>
           <ul>
             <li>1 bit allocato per determinare il giocatore di turno.</li>
@@ -240,7 +278,7 @@
             bit sprecando quelli non necessari in coda.
           </p>
 
-          <h2>Encoding di posizioni illegali</h2>
+          <h3>Encoding di posizioni illegali</h3>
           <p>
             Per posizioni con combinazioni di pezzi illegali, possiamo applicare
             una strategia simile. Assumendo comunque 2 re, possiamo determinare
@@ -249,6 +287,59 @@
             Possiamo poi determinare la posizione delle n-uple, e aggiungere bit
             per turno, arrocco, en-passant. Secondo ChatGPT: worst case 249 bit,
             starting case 186 bit.
+          </p>
+
+          <h3>Second take su encoding di posizioni pseudo-legali [13 Giugno]</h3>
+          <p>
+            Abbiamo effettivamente suddiviso il problema dell'encoding di una
+            posizione in encoding metadati + encoding dello stato della board.
+          </p>
+          <p>
+            Per i metadati turno, arrocco, en-passant, abbiamo visto che
+            bastano da 1 a 8 bit di informazione per l'encoding.
+          </p>
+          <p>
+            Per lo stato della board, il metodo trattato sopra si divide
+            concettualmente in determinazione della tipologia dei pezzi nella
+            scacchiera, e posizionamento che sfrutta la fungibilità tramite
+            combinadic.
+          </p>
+          <p>
+            In effetti non c'è motivo di posizionare i re subito: è logicamente
+            e praticamente meglio relegarlo alla fase successiva in cui vengono
+            individuate tutte le posizioni.
+          </p>
+          <p>
+            La maggior parte dell'ottimizzazione che possiamo ancora ottenere
+            rimane nella fase di determinazione della tipologia dei pezzi: il
+            metodo stars and bars permette configurazioni illegali, come 15
+            regine. Se consideriamo che ciascun giocatore abbia al più otto
+            pedoni, e che rispetto al numero di partenza di 2 torri, 2 alfieri,
+            2 cavalli, 1 regina, se ne possano avere in eccesso solo se mancano
+            almeno quei pedoni, risultano molte meno configurazioni legali.
+          </p>
+          <p>
+            Potremmo enumerare solo quelle configurazioni, alla peggio con
+            delle lookup table precalcolate, ma sarebbe carino trovare un
+            encoding pulito per questa tranche, risparmiando dei bit.
+          </p>
+          <p>
+            Dopodiché, nella fase di posizionamento dei pezzi, è opportuna come
+            ulteriore ottimizzazione il posizionare subito i pedoni,
+            considerando che solo 48 caselle possono avere dei pedoni, non la
+            prima e ultima traversa.
+          </p>
+          <p>
+            Sono possibili altre ottimizzazioni come mixed radix tra
+            metadati-tipologia-posizionamento, e notare che alcune
+            configurazioni di pezzi sono impossibili, ad esempio pedoni in
+            <code>a2</code>, <code>a3</code>, <code>b2</code>.
+          </p>
+          <p>
+            Con sufficienti ottimizzazioni di questo tipo si dovrebbe
+            raggiungere uno starting case a circa 153 bit, un best case a 27
+            bit, e un worst case intorno ai 186 bit, e potenzialmente anche
+            garantire 23 byte o meno per posizione.
           </p>
         </section>
 
@@ -276,7 +367,9 @@
             encoding.
           </p>
 
-          <h2>Move encoding with origin and destination</h2>
+          <h2>Move Encoding</h2>
+
+          <h3>Move encoding with origin and destination</h3>
           <p>
             We can define a move as the piece to move, or perhaps better its
             square, and the destination square. This still holds for castling:
@@ -316,7 +409,7 @@
             a 40-move game would require 100 bytes.
           </p>
 
-          <h2>Move encoding by enumeration</h2>
+          <h3>Move encoding by enumeration</h3>
           <p>
             A lower weight can be achieved if, instead of using 4 bits to
             identify a piece, we dynamically allocate only as many bits as are
@@ -355,7 +448,42 @@
             encoding that is not move-by-move.
           </p>
 
-          <h2>Combinatorial encoding of a legal position</h2>
+          <h3>Encoding geometrically admissible moves [June 13]</h3>
+          <p>
+            A middle path would be to consider only the moves that are
+            geometrically admissible according to the piece type and its
+            position on the board, ignoring the other pieces in play and the
+            chess rules.
+          </p>
+          <p>
+            For example, a queen has at most 31 positions it can move to if it
+            is centralized. This is simpler than computing the legal moves,
+            which requires a chess engine and considerations about obstructions
+            by the other pieces on the board, as well as checks.
+          </p>
+          <p>
+            We could therefore choose the piece to move with at most 4 bits, and
+            then the geometrically sensible move with at most 5 bits, obtaining
+            a reasonably clean encoding up to 9 bits.
+          </p>
+          <p>
+            We can also enumerate all geometrically plausible actions by listing
+            the pieces in lexicographic order, and then, for each piece,
+            enumerating its geometrically plausible moves according to type and
+            position, treating resignations and draws as extra actions.
+          </p>
+          <p>
+            In this way we obtain an encoding that does not require a complete
+            chess engine for encoding and decoding, and that in most cases can
+            compress the move into 1 byte or less, requiring 9 bits only in rare
+            cases: those in which there are more than 255 geometrically
+            plausible moves, or 252 if space is left for special moves,
+            essentially cases with many promoted queens.
+          </p>
+
+          <h2>Position Encoding</h2>
+
+          <h3>Combinatorial encoding of a legal position</h3>
           <p>We can encode a legal position as follows.</p>
           <ul>
             <li>1 bit allocated to determine the side to move.</li>
@@ -401,7 +529,7 @@
             ones at the tail.
           </p>
 
-          <h2>Encoding illegal positions</h2>
+          <h3>Encoding illegal positions</h3>
           <p>
             For positions with illegal piece combinations, we can apply a
             similar strategy. Assuming there are still 2 kings, we can determine
@@ -410,6 +538,57 @@
             Then we can determine the positions of the n-tuples and add bits for
             turn, castling, and en passant. According to ChatGPT: worst case 249
             bits, starting case 186 bits.
+          </p>
+
+          <h3>Second take on encoding pseudo-legal positions [June 13]</h3>
+          <p>
+            We have effectively split the problem of encoding a position into
+            metadata encoding plus board-state encoding.
+          </p>
+          <p>
+            For the metadata: turn, castling, and en passant, we have seen that
+            1 to 8 bits of information are enough for the encoding.
+          </p>
+          <p>
+            For the board state, the method discussed above is conceptually
+            divided into determining the types of pieces on the board, and
+            placing them while exploiting fungibility through the combinadic.
+          </p>
+          <p>
+            In fact, there is no reason to place the kings immediately: it is
+            logically and practically better to relegate this to the later phase
+            in which all positions are identified.
+          </p>
+          <p>
+            Most of the optimization we can still obtain remains in the phase
+            that determines the piece types: the stars-and-bars method allows
+            illegal configurations, such as 15 queens. If we consider that each
+            player has at most eight pawns, and that compared with the starting
+            count of 2 rooks, 2 bishops, 2 knights, and 1 queen, extra pieces
+            can exist only if at least that many pawns are missing due to
+            promotion, far fewer legal configurations remain.
+          </p>
+          <p>
+            We could enumerate only those configurations, at worst with
+            precomputed lookup tables, although it would be nice to find a clean
+            encoding for this tranche, saving bits.
+          </p>
+          <p>
+            Then, during the piece-placement phase, a further useful
+            optimization is to place the pawns immediately, considering that
+            only 48 squares can contain pawns, not the first and last ranks.
+          </p>
+          <p>
+            Other optimizations are possible, such as mixed radix between
+            metadata, type configuration, and placement, and noticing that some
+            piece configurations are impossible, for example pawns on
+            <code>a2</code>, <code>a3</code>, and <code>b2</code>.
+          </p>
+          <p>
+            With enough optimizations of this kind, the starting case should
+            reach about 153 bits, the best case 27 bits, and the worst case
+            around 186 bits, potentially also guaranteeing 23 bytes or less per
+            position.
           </p>
         </section>
 
