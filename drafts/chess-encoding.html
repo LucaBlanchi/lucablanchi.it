@@ -316,7 +316,8 @@
             regine. Se consideriamo che ciascun giocatore abbia al più otto
             pedoni, e che rispetto al numero di partenza di 2 torri, 2 alfieri,
             2 cavalli, 1 regina, se ne possano avere in eccesso solo se mancano
-            almeno quei pedoni, risultano molte meno configurazioni legali.
+            almeno quei pedoni, per promozione, risultano molte meno
+            configurazioni legali.
           </p>
           <p>
             Potremmo enumerare solo quelle configurazioni, alla peggio con
@@ -332,13 +333,14 @@
           <p>
             Sono possibili altre ottimizzazioni come mixed radix tra
             metadati-tipologia-posizionamento, e notare che alcune
-            configurazioni di pezzi sono impossibili, ad esempio pedoni in
-            <code>a2</code>, <code>a3</code>, <code>b2</code>.
+            configurazioni di pezzi sono impossibili. Ad esempio, sono
+            impossibili pedoni in <code>a2</code>, <code>a3</code>,
+            <code>b2</code>; sono impossibili impedonature senza catture.
           </p>
           <p>
             Con sufficienti ottimizzazioni di questo tipo si dovrebbe
             raggiungere uno starting case a circa 153 bit, un best case a 27
-            bit, e un worst case intorno ai 186 bit, e potenzialmente anche
+            bit, e un worst case intorno ai 185 bit, e potenzialmente anche
             garantire 23 byte o meno per posizione.
           </p>
         </section>
@@ -580,14 +582,15 @@
           </p>
           <p>
             Other optimizations are possible, such as mixed radix between
-            metadata, type configuration, and placement, and noticing that some
-            piece configurations are impossible, for example pawns on
-            <code>a2</code>, <code>a3</code>, and <code>b2</code>.
+            metadata, type configuration, and placement, and by noticing that
+            some piece configurations are impossible. For example, pawns on
+            <code>a2</code>, <code>a3</code>, and <code>b2</code> are
+            impossible; doubled pawns without captures are impossible.
           </p>
           <p>
             With enough optimizations of this kind, the starting case should
             reach about 153 bits, the best case 27 bits, and the worst case
-            around 186 bits, potentially also guaranteeing 23 bytes or less per
+            around 185 bits, potentially also guaranteeing 23 bytes or less per
             position.
           </p>
         </section>
