@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gioco del numero più grande - Draft</title>
+    <meta
+      name="description"
+      content="Draft bilingue sul gioco del numero più grande, con vincoli di descrizione e una costruzione basata su Ackermann e iperoperatori."
+    >
+    <link rel="stylesheet" href="../assets/site.css">
+  </head>
+  <body>
+    <header class="top-nav">
+      <div class="shell nav-shell">
+        <a class="brand-link" href="../index.html">Home</a>
+        <nav class="nav-links" aria-label="Navigazione principale">
+          <a href="../index.html">Drafts</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shell article-shell">
+      <article class="draft-article">
+        <header class="article-header">
+          <div class="article-meta">
+            <span>Draft</span>
+            <time datetime="2026-06-13">13 Giugno 2026</time>
+          </div>
+
+          <div class="article-title-row">
+            <div>
+              <h1>Gioco del numero più grande</h1>
+              <p>
+                Una versione vincolata del gioco infantile “chi riesce a dire
+                il numero più grande?”, con descrizioni corte e numeri
+                confrontabili.
+              </p>
+            </div>
+
+            <div class="article-visual" aria-hidden="true">
+              <div class="concept-map">
+                <span>50 ASCII</span>
+                <span>Ackermann</span>
+                <span>iperoperatori</span>
+                <span>hill king</span>
+              </div>
+              <div class="bit-strip">
+                <span>9!</span><span>↑³⁶²⁸⁸¹</span><span>~</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="language-tabs" role="tablist" aria-label="Lingua">
+            <button
+              class="tab-button"
+              id="tab-it"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="panel-it"
+              data-lang-tab="it"
+            >
+              Italiano
+            </button>
+            <button
+              class="tab-button"
+              id="tab-en"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-en"
+              data-lang-tab="en"
+            >
+              English
+            </button>
+          </div>
+        </header>
+
+        <section
+          class="article-body language-panel"
+          id="panel-it"
+          role="tabpanel"
+          aria-labelledby="tab-it"
+          data-lang-panel="it"
+        >
+          <p>
+            Un gioco tipico tra i bambini è competere a chi riesce a dire il
+            numero più grande; riproponiamo questo gioco.
+          </p>
+
+          <p>
+            Lo scopo del gioco è descrivere il numero più grande possibile.
+            Regole:
+          </p>
+
+          <ul>
+            <li>
+              Niente meta-riferimenti al gioco, niente “il numero dell'altra
+              persona + 1”.
+            </li>
+            <li>
+              Niente matematica più avanzata delle scuole superiori, niente
+              “busy beaver”, va definita.
+            </li>
+            <li>
+              Niente numeri definiti male o in modo vago: deve essere possibile
+              capire se siano più grandi o più piccoli degli altri numeri.
+            </li>
+          </ul>
+
+          <p>
+            Fin qui, non ci sono sufficienti restrizioni da impedire numeri
+            arbitrariamente grandi. Si possono mettere molte di queste
+            restrizioni, e sostanzialmente scelte differenti creano sottogiochi
+            diversi.
+          </p>
+
+          <p>
+            La principale categoria che proponiamo è: descrivere il numero in 50
+            caratteri ASCII.
+          </p>
+
+          <h2>Attuale re della collina</h2>
+          <p>
+            Tra tutti i numeri saltati fuori, con diverse idee matematiche e di
+            formattazione per ottimizzare il più possibile, il più grande con
+            cui sono entrato in contatto deriva dall'idea di un mio amico di
+            utilizzare la ricorsione di Ackermann per definire gli
+            iperoperatori. Infatti è possibile ottenere:
+          </p>
+
+          <p class="formula-block">
+            f(x,0)=1<br>
+            f(0,y)=9^y<br>
+            f(x,y)=f(x-1,f(x,y-1))<br>
+            f(9!,9)
+          </p>
+
+          <p>
+            Contando l'andare a capo come un carattere, si potrebbe anche
+            utilizzare un punto e virgola. Questo è precisamente uguale a
+            <code>9↑³⁶²⁸⁸¹9</code>, utilizzando la notazione di Knuth.
+          </p>
+
+          <p>
+            Ammettendo una notazione più fantasiosa per operatori binari, si può
+            usare la stessa idea per ottenere
+          </p>
+
+          <p class="formula-block">
+            n~0=1<br>
+            0~x=9^x<br>
+            n~x=(n-1)~(n~(x-1))<br>
+            (((9!~9)~9)~9)~9
+          </p>
+
+          <p>
+            che è precisamente
+          </p>
+
+          <p class="formula-block">
+            9↑^(9↑^(9↑^(9↑³⁶²⁸⁸¹9+1)9+1)9+1)9.
+          </p>
+
+          <p>
+            Le condizioni al bordo si possono modificare come
+          </p>
+
+          <p class="formula-block">
+            n~0=9<br>
+            0~x=9x!<br>
+            n~x=(n-1)~(n~(x-1))<br>
+            (((9!~9)~9)~9)~9
+          </p>
+
+          <p>
+            cosa che probabilmente, da verificare, aumenta leggermente la
+            grandezza del numero.
+          </p>
+        </section>
+
+        <section
+          class="article-body language-panel"
+          id="panel-en"
+          role="tabpanel"
+          aria-labelledby="tab-en"
+          data-lang-panel="en"
+          hidden
+        >
+          <p>
+            A typical children's game is competing over who can say the largest
+            number; here we propose this game again.
+          </p>
+
+          <p>
+            The goal of the game is to describe the largest possible number.
+            Rules:
+          </p>
+
+          <ul>
+            <li>
+              No meta-references to the game, no “the other person's number +
+              1”.
+            </li>
+            <li>
+              No mathematics beyond high-school level, no “busy beaver” unless
+              it is defined.
+            </li>
+            <li>
+              No badly or vaguely defined numbers: it must be possible to
+              understand whether they are larger or smaller than the other
+              numbers.
+            </li>
+          </ul>
+
+          <p>
+            So far, there are not enough restrictions to prevent arbitrarily
+            large numbers. Many such restrictions can be imposed, and in
+            practice different choices create different subgames.
+          </p>
+
+          <p>
+            The main category we propose is: describe the number in 50 ASCII
+            characters.
+          </p>
+
+          <h2>Current king of the hill</h2>
+          <p>
+            Among all the numbers that have come up, with various mathematical
+            and formatting ideas used to optimize as much as possible, the
+            largest one I have encountered comes from a friend's idea of using
+            Ackermann recursion to define the hyperoperators. Indeed, it is
+            possible to obtain:
+          </p>
+
+          <p class="formula-block">
+            f(x,0)=1<br>
+            f(0,y)=9^y<br>
+            f(x,y)=f(x-1,f(x,y-1))<br>
+            f(9!,9)
+          </p>
+
+          <p>
+            Counting a line break as one character, one could also use a
+            semicolon. This is precisely equal to <code>9↑³⁶²⁸⁸¹9</code>, using
+            Knuth notation.
+          </p>
+
+          <p>
+            Allowing a more fanciful notation for binary operators, the same
+            idea can be used to obtain
+          </p>
+
+          <p class="formula-block">
+            n~0=1<br>
+            0~x=9^x<br>
+            n~x=(n-1)~(n~(x-1))<br>
+            (((9!~9)~9)~9)~9
+          </p>
+
+          <p>
+            which is precisely
+          </p>
+
+          <p class="formula-block">
+            9↑^(9↑^(9↑^(9↑³⁶²⁸⁸¹9+1)9+1)9+1)9.
+          </p>
+
+          <p>
+            The boundary conditions can be modified as
+          </p>
+
+          <p class="formula-block">
+            n~0=9<br>
+            0~x=9x!<br>
+            n~x=(n-1)~(n~(x-1))<br>
+            (((9!~9)~9)~9)~9
+          </p>
+
+          <p>
+            which probably, to be verified, slightly increases the size of the
+            number.
+          </p>
+        </section>
+      </article>
+    </main>
+
+    <script src="../assets/site.js"></script>
+  </body>
+</html>
