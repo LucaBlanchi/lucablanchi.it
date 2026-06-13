@@ -413,6 +413,26 @@ h2 {
   padding: 14px 16px;
 }
 
+.source-drawer {
+  margin-top: 42px;
+  border: 1px solid rgba(45, 101, 216, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 0 16px;
+}
+
+.source-drawer summary {
+  cursor: pointer;
+  color: var(--ink);
+  font-weight: 700;
+  padding: 14px 0;
+}
+
+.source-drawer[open] summary {
+  border-bottom: 1px solid rgba(217, 222, 234, 0.85);
+  margin-bottom: 14px;
+}
+
 .formula-block {
   overflow-x: auto;
   border: 1px solid rgba(45, 101, 216, 0.16);

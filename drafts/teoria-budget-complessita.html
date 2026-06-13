@@ -2502,6 +2502,183 @@
             Only then will the theory pass from unifying philosophy to
             publishable mathematical contribution.
           </p>
+
+          <details class="source-drawer">
+            <summary>Brainstorm originale in italiano</summary>
+
+            <h3>Teoria matematica della complessità</h3>
+            <p>
+              Obiettivo: costruire un framework teorico per poter dire qualcosa
+              come “questa non può essere una risposta a questo problema perché
+              è troppo complessa”, o “un controesempio non può esistere perché
+              sarebbe infinitamente complesso”.
+            </p>
+
+            <p>
+              Qualcosa come <code>2+2 != sqrt(pi)</code> perché
+              <code>sqrt(pi)</code> è troppo complesso, e il
+              <code>+</code> non aumenta così tanto la complessità dei suoi
+              input. O similmente <code>1/2 + 1/3 != 37/43</code>.
+            </p>
+
+            <p>
+              Un'idea: scelgo un vettore a caso su <code>R2</code>... qual è la
+              probabilità che sia <code>[1, 2]</code>? NON zero, perché un
+              vettore molto semplice dovrebbe avere alta probabilità, e i numero
+              con probabilità zero dovrebbero essere molto complessi.
+            </p>
+
+            <p>
+              Forse la teoria andrà nella direzione di associare interi/reali
+              positivi (?) a elementi, cioè “complessità”, e vedere come si
+              comportano rispetto agli operatori: un funtore?
+            </p>
+
+            <p>
+              Idealmente la teoria andrà in profondità in questioni di logica
+              fine, permettendo di produrrenumerose argomentazioni per assurdo
+              in maniera affine a invariati algebrici. La teoria è nata con
+              idee di misura e probabilità e informazione, ma c'è un modo ottimo
+              di trasformare una mappa di complessità in una misura di
+              probabilità? Giova ad alcune argomentazioni?
+            </p>
+
+            <p>
+              Anche qualcosa come “questo algoritmo o encoding è troppo semplice
+              e quindi non abbastanza espressivo per gli scopi”.
+            </p>
+
+            <p>
+              I bit sono una misura della complessità per naturali interessante:
+            </p>
+
+            <p class="formula-block">
+              0 -> 1 (o 0?)<br>
+              1 -> 1<br>
+              10 -> 2<br>
+              11 -> 2<br>
+              100 -> 3<br>
+              ...
+            </p>
+
+            <p>
+              Anche <code>C(n)=n</code> e <code>C(n)=log(n)</code> sembrano
+              sensate. La complessità scelta dovrebbe essere legata al problema
+              da risolvere e all'encoding naturale degli oggetti che si trattano.
+            </p>
+
+            <p>
+              Se voglio bassa probabilità &lt;-&gt; alta complessità, hanno
+              senso <code>C(x)=1/p(x)</code>, ma non mi convince, e
+              <code>C(x)=-log(x)</code>, meglio.
+            </p>
+
+            <p>Esempio:</p>
+
+            <p class="formula-block">
+              num | complessità | probabilità<br>
+              0 | 1 | 1/2<br>
+              1 | 1 | 1/2<br>
+              10 | 2 | 1/4<br>
+              11 | 2 | 1/4<br>
+              100 | 3 | 1/8<br>
+              101 | 3 | 1/8<br>
+              ...
+            </p>
+
+            <p>
+              Notiamo che se tutti avessero complessità <code>1</code> non ci
+              sarebbe una probabilità sensata da assegnargli.
+            </p>
+
+            <p>
+              Per i razionali: se <code>a/b</code> è ai minimi termini, possiamo
+              dire <code>C(a/b) = C(a) + C(b)</code>. Come ha senso dire
+              <code>C(a sqrt(2) + b) = C(a) + C(b)</code> in
+              <code>Q(sqrt(2))</code>.
+            </p>
+
+            <p class="formula-block">
+              C(a/b + c/d) &lt;= C(ad + bc) + C(bd)
+            </p>
+
+            <p>
+              Se la complessità sale al salire del numero.
+            </p>
+
+            <p class="formula-block">
+              C(a/b * c/d) = C(ac/bd) &lt;= C(ac) + C(bd)
+            </p>
+
+            <p>
+              Quindi sì: <code>1/2 + 1/3 != 37/43</code> perché una somma non
+              può aumentare così tanto la complessità (!).
+            </p>
+
+            <p>
+              Similmente <code>sqrt(2)</code> è irrazionale perché se
+              <code>2 = a^2/b^2</code>, <code>C(a^2/b^2) = C(2)</code>, quindi
+              <code>a^2</code> e <code>b^2</code> devono essere poco complessi e
+              nessun esempio funziona. Superficialmente qualcuno potrebbe dire
+              che potrebbero essere estremamente complessi numeratore e
+              denominatore e tornare esattamente <code>sqrt(2)</code>, ma in
+              questo modo formalizziamo che l'esempio deve essere “semplice” e
+              possiamo escludere tutti tranne finiti casi da testare.
+            </p>
+
+            <p>
+              Possiamo definire la complessità di numeri irrazionali, come
+              <code>e</code> e <code>pi</code>, in base agli algoritmi per
+              calcolarli/definirli: numeri non calcolabili &lt;-&gt; complessità
+              infinita.
+            </p>
+
+            <p>
+              Scegliamo un numero naturale <code>&gt;0</code> casualmente così:
+              partiamo da <code>1</code>; <code>50%</code> di proseguire con un
+              numero casuale e ripetere questo step.
+            </p>
+
+            <p class="formula-block">
+              num -> probab -> informazione con log2<br>
+              1 -> 1/2 -> 1<br>
+              10 -> 1/8 -> 3<br>
+              11 -> 1/8 -> 3<br>
+              100 -> 1/32 -> 5<br>
+              ...
+            </p>
+
+            <p>
+              Vediamo che l'info con <code>log2</code> non sono proprio i bit.
+            </p>
+
+            <p>
+              L'informazione di una distribuzione di probabilità si può sempre
+              considerare una valida complessità: è un requisito per avere una
+              complessità utile?
+            </p>
+
+            <p>
+              Da complessità a probabilità, ha senso un round per troncare la
+              complessità massima, e poi una scelta casuale. Es., <code>1/2</code>
+              che la complessità max sia <code>1</code>, <code>1/4</code> che
+              sia <code>2</code>, <code>1/8</code> che sia <code>3</code>, ecc.,
+              e poi ho finite scelte. Questo è un trick di molti possibili per
+              un caso infinito, potrebbe aver senso trattare prima un caso
+              finito.
+            </p>
+
+            <p>
+              <code>n = 2^p2 3^p3 5^p5 ...</code>,
+              <code>C(n)=p2 + p3 + p5 + ...</code> è una complessità con un po'
+              di senso.
+            </p>
+
+            <p>
+              Numeri p-adici? Automi a stati finiti? Invariati algebrici e
+              geometria/topologia?
+            </p>
+          </details>
         </section>
       </article>
     </main>
