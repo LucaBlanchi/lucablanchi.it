@@ -95,38 +95,39 @@
             <code>p</code>.
           </p>
           <p>
-            Se <code>p = 0</code>, abbiamo il caso iniziale, cioè nessun
+            Se <code>p = 0</code>, abbiamo il caso iniziale, cioè con nessun
             difetto.
           </p>
           <p>
             Se <code>p = 1/2</code>, il numero letto sarà completamente
             casuale; è quindi sostanzialmente impossibile immagazzinare
             informazione, e intuitivamente l'informazione immagazzinata sarà
-            <code>0</code> bit.
+            appunto <code>0</code> bit.
           </p>
           <p>
             Ma se <code>0 &lt; p &lt; 1/2</code>? Per <code>p</code> molto
             vicino a <code>0</code>, ha senso che l'informazione sia vicina a
-            <code>1</code> bit, ma leggermente meno. Allo stesso modo, per
-            <code>p</code> vicino a <code>1/2</code>, avremo poca informazione,
-            ma più di <code>0</code> bit. L'informazione dovrebbe variare in
+            <code>1</code> bit, ma leggermente meno. Così come per
+            <code>p</code> vicino a <code>1/2</code>, avrò poca informazione,
+            ma più di <code>0</code> bit. L'informazione dovrà variare in
             modo continuo tra <code>1</code> bit e <code>0</code> bit al
             variare di <code>p</code> tra <code>0</code> e <code>1/2</code>.
           </p>
           <p>
-            Per ottenere il valore di <code>p</code> per cui si hanno
+            Per ottenere <code>p</code> per cui si hanno
             <code>0.5</code> bit, notiamo che dopo un'osservazione avremo due
             casi possibili: il bit è flippato, con probabilità <code>p</code>,
-            oppure è originale, con probabilità <code>1 - p</code>.
+            o è originale, con probabilità <code>1 - p</code>.
           </p>
           <p>
-            Calcoliamo l'entropia di Shannon:
+            Utilizziamo la teoria dell'informazione di Shannon. Calcoliamo
+            l'entropia di Shannon:
           </p>
           <p class="formula-block">
             H(p) = -p log<sub>2</sub>(p) - (1 - p) log<sub>2</sub>(1 - p)
           </p>
           <p>
-            A questo punto, l'informazione utile immagazzinata dalla cella è:
+            A questo punto, l'informazione immagazzinata sarà:
           </p>
           <p class="formula-block">
             I(p) = 1 - H(p)
@@ -138,10 +139,6 @@
           </p>
           <p class="formula-block">
             p = 0.110027... ≈ 11.0%
-          </p>
-          <p>
-            Una storage unit che in lettura flippa il bit circa l'11% delle
-            volte conserva quindi mezzo bit di informazione utile.
           </p>
         </section>
 
@@ -163,13 +160,13 @@
             reading it may cause a bit flip with some probability <code>p</code>.
           </p>
           <p>
-            If <code>p = 0</code>, we are back to the initial case: there is no
+            If <code>p = 0</code>, we are back to the initial case: with no
             defect.
           </p>
           <p>
             If <code>p = 1/2</code>, the value we read is completely random.
             It is therefore essentially impossible to store information, and
-            intuitively the stored information is <code>0</code> bits.
+            intuitively the stored information is exactly <code>0</code> bits.
           </p>
           <p>
             But what if <code>0 &lt; p &lt; 1/2</code>? For <code>p</code> very
@@ -177,24 +174,24 @@
             close to <code>1</code> bit, but slightly less. Likewise, for
             <code>p</code> close to <code>1/2</code>, we will have little
             information, but more than <code>0</code> bits. The information
-            should vary continuously from <code>1</code> bit to <code>0</code>
+            must vary continuously from <code>1</code> bit to <code>0</code>
             bits as <code>p</code> varies from <code>0</code> to
             <code>1/2</code>.
           </p>
           <p>
-            To find the value of <code>p</code> that gives <code>0.5</code>
+            To find <code>p</code> such that we have <code>0.5</code>
             bits, note that after one observation there are two possible cases:
             the bit has been flipped, with probability <code>p</code>, or it is
             still the original bit, with probability <code>1 - p</code>.
           </p>
           <p>
-            We compute the Shannon entropy:
+            We use Shannon information theory. We compute the Shannon entropy:
           </p>
           <p class="formula-block">
             H(p) = -p log<sub>2</sub>(p) - (1 - p) log<sub>2</sub>(1 - p)
           </p>
           <p>
-            The useful information stored by the cell is then:
+            At this point, the stored information is:
           </p>
           <p class="formula-block">
             I(p) = 1 - H(p)
@@ -206,10 +203,6 @@
           </p>
           <p class="formula-block">
             p = 0.110027... ≈ 11.0%
-          </p>
-          <p>
-            A storage unit that flips the bit on read about 11% of the time
-            therefore preserves half a bit of useful information.
           </p>
         </section>
       </article>
