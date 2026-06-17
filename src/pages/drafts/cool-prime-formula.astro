@@ -1,0 +1,129 @@
+---
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import { getArticleVisual, getDraft } from "../../data/drafts";
+
+const draft = getDraft("cool-prime-formula");
+const visual = getArticleVisual("cool-prime-formula");
+---
+
+<ArticleLayout draft={draft} visual={visual}>
+  <Fragment slot="it">
+
+              <h2>Euristica informale</h2>
+              <p>
+                Tra i numeri naturali, metà saranno divisibili per <code>2</code>.
+                Dell'altra metà, un terzo sarà divisibile per <code>3</code>. Dei
+                rimanenti, un quinto sarà divisibile per <code>5</code>, e così via.
+                Aggiungendo tutti i numeri primi, dovremmo ottenere il
+                <code>100%</code> dei numeri naturali.
+              </p>
+
+              <p class="formula-block">
+                1 = 1/2 + (1 - 1/2)(1/3 + (1 - 1/3)(1/5<br>
+                + (1 - 1/5)(1/7 + (1 - 1/7)(...))))
+              </p>
+
+              <p>
+                Possiamo manipolare algebricamente:
+              </p>
+
+              <p class="formula-block">
+                0 = (-1 + 1/2) + (1 - 1/2)(1/3 + (1 - 1/3)(1/5<br>
+                + (1 - 1/5)(1/7 + (1 - 1/7)(...))))<br><br>
+                0 = (1 - 1/2)((-1 + 1/3) + (1 - 1/3)(1/5<br>
+                + (1 - 1/5)(1/7 + (1 - 1/7)(...))))<br><br>
+                0 = (1 - 1/2)(1 - 1/3)(1 - 1/5)((-1 + 1/7) + ...)<br><br>
+                0 = ∏<sub>p_i primo</sub> (1 - 1/p_i)
+              </p>
+
+              <p>
+                Osserviamo inoltre che, se
+              </p>
+
+              <p class="formula-block">
+                ∏ (1 - 1/a_n) = 0, con a_n &gt; 1 per ogni n,
+              </p>
+
+              <p>
+                allora
+              </p>
+
+              <p class="formula-block">
+                ∑ 1/a_n -> +∞
+              </p>
+
+              <p>
+                (risultato noto). Dunque stiamo anche dimostrando che
+              </p>
+
+              <p class="formula-block">
+                ∑ 1/p_i -> +∞.
+              </p>
+
+              <p class="draft-note">
+                Nota: dimostrare formalmente questa euristica potrebbe richiedere
+                risultati formali tali da annullare completamente l'interesse verso
+                queste osservazioni.
+              </p>
+  </Fragment>
+
+  <Fragment slot="en">
+
+              <h2>Informal Heuristic</h2>
+              <p>
+                Among the natural numbers, half will be divisible by
+                <code>2</code>. Of the other half, one third will be divisible by
+                <code>3</code>. Of what remains, one fifth will be divisible by
+                <code>5</code>, and so on. If we add all primes, we should cover
+                <code>100%</code> of the natural numbers.
+              </p>
+
+              <p class="formula-block">
+                1 = 1/2 + (1 - 1/2)(1/3 + (1 - 1/3)(1/5<br>
+                + (1 - 1/5)(1/7 + (1 - 1/7)(...))))
+              </p>
+
+              <p>
+                We can manipulate this algebraically:
+              </p>
+
+              <p class="formula-block">
+                0 = (-1 + 1/2) + (1 - 1/2)(1/3 + (1 - 1/3)(1/5<br>
+                + (1 - 1/5)(1/7 + (1 - 1/7)(...))))<br><br>
+                0 = (1 - 1/2)((-1 + 1/3) + (1 - 1/3)(1/5<br>
+                + (1 - 1/5)(1/7 + (1 - 1/7)(...))))<br><br>
+                0 = (1 - 1/2)(1 - 1/3)(1 - 1/5)((-1 + 1/7) + ...)<br><br>
+                0 = ∏<sub>p_i prime</sub> (1 - 1/p_i)
+              </p>
+
+              <p>
+                We also observe that, if
+              </p>
+
+              <p class="formula-block">
+                ∏ (1 - 1/a_n) = 0, with a_n &gt; 1 for every n,
+              </p>
+
+              <p>
+                then
+              </p>
+
+              <p class="formula-block">
+                ∑ 1/a_n -> +∞
+              </p>
+
+              <p>
+                (a known result). Therefore we are also proving that
+              </p>
+
+              <p class="formula-block">
+                ∑ 1/p_i -> +∞.
+              </p>
+
+              <p class="draft-note">
+                Note: proving this heuristic formally may require formal results so
+                strong that they completely remove the interest of these
+                observations.
+              </p>
+  </Fragment>
+</ArticleLayout>

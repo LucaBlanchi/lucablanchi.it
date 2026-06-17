@@ -1,0 +1,43 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  lang?: "it" | "en";
+  currentPath?: string;
+  showFooter?: boolean;
+  scripts?: string[];
+}
+
+const {
+  title,
+  description,
+  lang = "en",
+  currentPath = "/",
+  showFooter = true,
+  scripts = []
+} = Astro.props;
+
+const scriptList = ["/assets/site.js", ...scripts].filter(
+  (script, index, all) => all.indexOf(script) === index
+);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{title}</title>
+    <meta name="description" content={description}>
+    <link rel="stylesheet" href="/assets/site.css">
+  </head>
+  <body>
+    <SiteHeader currentPath={currentPath} />
+    <slot />
+    {showFooter && <SiteFooter />}
+    {scriptList.map((script) => <script is:inline src={script}></script>)}
+  </body>
+</html>

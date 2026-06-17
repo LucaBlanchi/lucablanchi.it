@@ -1,0 +1,20 @@
+---
+import type { Draft } from "../data/drafts";
+import { formatDraftDate } from "../data/drafts";
+import DraftVisual from "./DraftVisual.astro";
+
+interface Props {
+  draft: Draft;
+}
+
+const { draft } = Astro.props;
+---
+
+<a class="draft-card" href={draft.href}>
+  <DraftVisual visual={draft.visual} />
+  <div class="draft-copy">
+    <time datetime={draft.dateTime}>{formatDraftDate(draft.dateTime, "en")}</time>
+    <h2>{draft.title.en}</h2>
+    <p>{draft.summary.en}</p>
+  </div>
+</a>

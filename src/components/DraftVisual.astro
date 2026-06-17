@@ -1,0 +1,32 @@
+---
+import type { DraftVisual as DraftVisualData } from "../data/drafts";
+
+interface Props {
+  visual: DraftVisualData;
+  className?: string;
+}
+
+const { visual, className = "" } = Astro.props;
+const rootClass = className || "draft-visual";
+const boardClass = [
+  "mini-board",
+  visual.kind === "board" && visual.large ? "mini-board-large" : ""
+].filter(Boolean);
+---
+
+<div class={rootClass} aria-hidden="true">
+  {
+    visual.kind === "board" ? (
+      <div class:list={boardClass}>
+        {visual.cells.map((cell) => <span>{cell}</span>)}
+      </div>
+    ) : (
+      <div class="concept-map">
+        {visual.items.map((item) => <span>{item}</span>)}
+      </div>
+    )
+  }
+  <div class="bit-strip">
+    {visual.bits.map((bit) => <span>{bit}</span>)}
+  </div>
+</div>

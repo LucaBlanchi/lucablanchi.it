@@ -301,18 +301,16 @@ h2 {
 }
 
 .article-shell {
-  padding: 48px 0 80px;
+  padding: 52px 0 80px;
 }
 
 .draft-article {
   display: grid;
-  gap: 34px;
+  gap: 38px;
 }
 
 .article-header {
-  display: grid;
-  gap: 24px;
-  padding-bottom: 26px;
+  padding-bottom: 34px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -320,17 +318,34 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 0.92rem;
 }
 
 .article-title-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 280px);
-  gap: 28px;
-  align-items: center;
+  grid-template-columns: minmax(0, 760px) minmax(190px, 260px);
+  gap: 36px;
+  align-items: start;
 }
 
-.article-title-row p {
+.article-heading {
+  display: grid;
+  gap: 18px;
+}
+
+.article-heading h1 {
+  max-width: 12ch;
+  margin-bottom: 0;
+  font-size: clamp(2.3rem, 6vw, 4.2rem);
+  line-height: 1;
+}
+
+.article-heading p {
   max-width: 62ch;
+  margin-bottom: 0;
   color: var(--muted);
   font-size: clamp(1rem, 2vw, 1.18rem);
 }
@@ -339,10 +354,12 @@ h2 {
   display: grid;
   justify-items: center;
   gap: 14px;
+  width: 100%;
   padding: 18px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
+  box-shadow: 0 14px 34px rgba(20, 22, 26, 0.06);
 }
 
 .language-tabs {
@@ -456,20 +473,82 @@ code {
 .implementation-lab {
   display: grid;
   gap: 18px;
-  max-width: 920px;
-  margin-top: 10px;
-  padding-top: 34px;
+  max-width: 960px;
+  margin-top: 4px;
+  padding-top: 38px;
   border-top: 1px solid var(--line);
 }
 
-.implementation-lab h2 {
-  margin-bottom: 0;
+.implementation-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: end;
 }
 
-.demo-grid {
+.implementation-header p {
+  max-width: 68ch;
+  margin: 0;
+  color: var(--muted);
+}
+
+.implementation-lab h2 {
+  margin-bottom: 8px;
+}
+
+.kicker {
+  margin-bottom: 6px;
+  color: var(--green);
+  font-size: 0.82rem;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.implementation-metric {
+  display: grid;
+  justify-items: end;
+  min-width: 112px;
+  align-self: start;
+  border: 1px solid rgba(33, 122, 87, 0.22);
+  border-radius: 8px;
+  background: rgba(33, 122, 87, 0.08);
+  color: var(--green);
+  padding: 12px 14px;
+}
+
+.implementation-metric span:first-child {
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 1.55rem;
+  font-weight: 760;
+  line-height: 1;
+}
+
+.implementation-metric span:last-child {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.implementation-panel {
+  display: grid;
+  gap: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 16px 34px rgba(20, 22, 26, 0.06);
+  padding: 18px;
+}
+
+.demo-output-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 14px;
+}
+
+.fen-field textarea {
+  min-height: 82px;
 }
 
 .field {
@@ -480,6 +559,7 @@ code {
 .field span {
   color: var(--muted);
   font-size: 0.92rem;
+  font-weight: 650;
 }
 
 textarea {
@@ -496,6 +576,10 @@ textarea {
   padding: 12px;
 }
 
+textarea::placeholder {
+  color: rgba(93, 101, 115, 0.62);
+}
+
 textarea:focus {
   border-color: var(--blue);
   outline: 2px solid rgba(45, 101, 216, 0.18);
@@ -504,9 +588,8 @@ textarea:focus {
 .demo-actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: end;
+  align-items: center;
   gap: 10px;
-  grid-column: 1 / -1;
 }
 
 .action-button {
@@ -531,14 +614,31 @@ textarea:focus {
   outline: none;
 }
 
+.demo-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  border-top: 1px solid rgba(217, 222, 234, 0.75);
+  padding-top: 12px;
+}
+
 .demo-status {
   min-height: 1.55em;
   margin: 0;
   color: var(--green);
+  font-size: 0.94rem;
 }
 
 .demo-status.is-error {
   color: var(--red);
+}
+
+.demo-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
 }
 
 .source-note {
@@ -558,8 +658,19 @@ textarea:focus {
 
   .draft-card,
   .article-title-row,
-  .demo-grid {
+  .demo-grid,
+  .implementation-header,
+  .demo-output-grid {
     grid-template-columns: 1fr;
+  }
+
+  .implementation-metric {
+    justify-items: start;
+    width: 100%;
+  }
+
+  .implementation-panel {
+    padding: 14px;
   }
 
   .draft-visual {

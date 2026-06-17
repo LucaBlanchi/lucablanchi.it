@@ -1,0 +1,92 @@
+---
+import DraftVisual from "../components/DraftVisual.astro";
+import LanguageTabs from "../components/LanguageTabs.astro";
+import BaseLayout from "./BaseLayout.astro";
+import type { Draft } from "../data/drafts";
+import { formatDraftDate } from "../data/drafts";
+import type { DraftVisual as DraftVisualData } from "../data/drafts";
+
+interface Props {
+  draft: Draft;
+  visual?: DraftVisualData;
+  extraScripts?: string[];
+}
+
+const { draft, visual = draft.visual, extraScripts = [] } = Astro.props;
+---
+
+<BaseLayout
+  title={`${draft.title.en} - Draft`}
+  description={draft.description.en}
+  lang="en"
+  currentPath={draft.href}
+  scripts={extraScripts}
+>
+  <main class="shell article-shell">
+    <article class="draft-article">
+      <header class="article-header">
+        <div class="article-title-row">
+          <div class="article-heading">
+            <div class="article-meta">
+              <span
+                data-l10n-text
+                data-l10n-en="Draft"
+                data-l10n-it="Bozza"
+              >
+                Draft
+              </span>
+              <time
+                datetime={draft.dateTime}
+                data-l10n-date={draft.dateTime}
+              >
+                {formatDraftDate(draft.dateTime, "en")}
+              </time>
+            </div>
+
+            <h1
+              data-l10n-text
+              data-l10n-en={draft.title.en}
+              data-l10n-it={draft.title.it}
+            >
+              {draft.title.en}
+            </h1>
+            <p
+              data-l10n-text
+              data-l10n-en={draft.description.en}
+              data-l10n-it={draft.description.it}
+            >
+              {draft.description.en}
+            </p>
+
+            <LanguageTabs />
+          </div>
+
+          <DraftVisual visual={visual} className="article-visual" />
+        </div>
+      </header>
+
+      <section
+        class="article-body language-panel"
+        id="panel-en"
+        role="tabpanel"
+        aria-labelledby="tab-en"
+        data-lang-panel="en"
+      >
+        <slot name="en" />
+      </section>
+
+      <section
+        class="article-body language-panel"
+        id="panel-it"
+        role="tabpanel"
+        aria-labelledby="tab-it"
+        data-lang-panel="it"
+        hidden
+      >
+        <slot name="it" />
+      </section>
+
+      <slot name="afterPanels" />
+    </article>
+  </main>
+</BaseLayout>

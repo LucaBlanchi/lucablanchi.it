@@ -1,0 +1,17 @@
+---
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "/" } = Astro.props;
+const isDraftsPage = currentPath === "/";
+---
+
+<header class="top-nav">
+  <div class="shell nav-shell">
+    <a class="brand-link" href="/">Home</a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="/" aria-current={isDraftsPage ? "page" : undefined}>Drafts</a>
+    </nav>
+  </div>
+</header>
