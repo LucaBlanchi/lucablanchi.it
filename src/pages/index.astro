@@ -1,17 +1,19 @@
 ---
-import DraftCard from "../components/DraftCard.astro";
-import { drafts } from "../data/drafts";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="Drafts" description="Drafts and working notes." currentPath="/">
+<BaseLayout title="Home" description="Drafts and AI-assisted mathematics." currentPath="/">
   <main class="shell index-shell">
-    <header class="site-header">
-      <h1>Drafts</h1>
-    </header>
+    <section class="section-grid" aria-label="Sections">
+      <a class="section-card" href="/drafts.html">
+        <span>Drafts</span>
+        <p>Drafts and working notes.</p>
+      </a>
 
-    <section class="draft-grid" aria-label="Drafts">
-      {drafts.map((draft) => <DraftCard draft={draft} />)}
+      <a class="section-card" href="/ai-assisted-math.html">
+        <span>AI-assisted math</span>
+        <p>AI-assisted, AI-driven, and AI-authored mathematics.</p>
+      </a>
     </section>
   </main>
 </BaseLayout>

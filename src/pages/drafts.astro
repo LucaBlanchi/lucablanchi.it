@@ -1,0 +1,17 @@
+---
+import DraftCard from "../components/DraftCard.astro";
+import { drafts } from "../data/drafts";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Drafts" description="Drafts and working notes." currentPath="/drafts.html">
+  <main class="shell index-shell">
+    <header class="site-header">
+      <h1>Drafts</h1>
+    </header>
+
+    <section class="draft-grid" aria-label="Drafts">
+      {drafts.map((draft) => <DraftCard draft={draft} />)}
+    </section>
+  </main>
+</BaseLayout>

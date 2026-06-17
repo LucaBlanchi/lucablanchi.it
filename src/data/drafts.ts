@@ -100,7 +100,7 @@ export const drafts = [
     slug: "meta-theory",
     href: "/drafts/meta-theory.html",
     title: {
-      en: "Meta Theory",
+      en: "Game META theory",
       it: "Teoria del Meta"
     },
     description: {
