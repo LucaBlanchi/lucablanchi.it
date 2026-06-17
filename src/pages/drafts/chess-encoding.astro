@@ -511,55 +511,37 @@ const visual = getArticleVisual("chess-encoding");
   </Fragment>
   <Fragment slot="afterPanels">
     <section class="implementation-lab" aria-labelledby="implementation-title">
-      <header class="implementation-header">
-        <div>
-          <p class="kicker">Implementation</p>
-          <h2 id="implementation-title">FEN encoder preview</h2>
-          <p>
-            A small reference implementation for the position encoding described
-            above. Paste a FEN, encode it into a compact bit string, then decode
-            the result back into FEN.
-          </p>
-        </div>
-
-        <div class="implementation-metric" aria-live="polite">
-          <span id="bit-count">0</span>
-          <span>bits</span>
-        </div>
-      </header>
+      <h2 id="implementation-title">Implementation (41/175/189 algorithm)</h2>
 
       <div class="implementation-panel">
-        <label class="field fen-field">
-          <span>Input FEN</span>
-          <textarea id="fen-input" spellcheck="false" placeholder="Paste a FEN position here">rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1</textarea>
-        </label>
-
-        <div class="demo-actions" aria-label="Demo controls">
-          <button class="action-button" id="encode-fen" type="button">Encode FEN</button>
-          <button class="action-button secondary" id="decode-bits" type="button">Decode bits</button>
-        </div>
-
-        <div class="demo-output-grid">
+        <div class="implementation-grid">
           <label class="field">
-            <span>Encoded bits</span>
-            <textarea id="bits-output" spellcheck="false" placeholder="The encoded bit string appears here"></textarea>
+            <span>FEN</span>
+            <textarea id="fen-input" spellcheck="false">rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1</textarea>
           </label>
 
           <label class="field">
-            <span>Decoded FEN</span>
-            <textarea id="fen-output" spellcheck="false" readonly placeholder="Decoded FEN output"></textarea>
+            <span class="field-heading">
+              Bits
+              <span class="bit-counter" aria-live="polite">
+                <output id="bit-count">0</output>
+                bits
+              </span>
+            </span>
+            <textarea id="bits-output" spellcheck="false"></textarea>
           </label>
         </div>
 
-        <div class="demo-footer">
-          <p class="demo-status" id="demo-status" role="status" aria-live="polite"></p>
-          <p class="demo-hint">The bit stream can be edited before decoding.</p>
+        <div class="demo-actions" aria-label="Conversion controls">
+          <button class="action-button" id="encode-fen" type="button">FEN -> bits</button>
+          <button class="action-button secondary" id="decode-bits" type="button">Bits -> FEN</button>
         </div>
+
+        <p class="demo-status" id="demo-status" role="status" aria-live="polite"></p>
       </div>
 
       <p class="source-note">
-        Source:
-        <a href="/assets/chess-encoding-demo.js">chess-encoding-demo.js</a>
+        <a href="/assets/chess-encoding-demo.js" download>Download chess-encoding-demo.js</a>
       </p>
     </section>
   </Fragment>

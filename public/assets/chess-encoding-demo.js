@@ -519,17 +519,15 @@ function decodeBitsToFen(bits) {
 function initChessEncodingDemo() {
   const fenInput = document.getElementById("fen-input")
   const bitsOutput = document.getElementById("bits-output")
-  const fenOutput = document.getElementById("fen-output")
   const encodeButton = document.getElementById("encode-fen")
   const decodeButton = document.getElementById("decode-bits")
   const status = document.getElementById("demo-status")
   const bitCount = document.getElementById("bit-count")
 
-  if (!fenInput || !bitsOutput || !fenOutput || !encodeButton || !decodeButton || !status || !bitCount) return
+  if (!fenInput || !bitsOutput || !encodeButton || !decodeButton || !status || !bitCount) return
 
-  function setStatus(message, isError) {
+  function setStatus(message) {
     status.textContent = message
-    status.classList.toggle("is-error", Boolean(isError))
   }
 
   function cleanBits() {
@@ -542,25 +540,23 @@ function initChessEncodingDemo() {
 
   function encode() {
     try {
-      const bits = encodeFenToBits(fenInput.value)
-      bitsOutput.value = bits
-      fenOutput.value = decodeBitsToFen(bits)
+      bitsOutput.value = encodeFenToBits(fenInput.value)
       updateBitCount()
-      setStatus("Encoded successfully. The decoded FEN below should match the normalized position.", false)
+      setStatus("")
     } catch (error) {
-      setStatus(error.message, true)
+      setStatus(error.message)
     }
   }
 
   function decode() {
     try {
       const bits = cleanBits()
-      const fen = decodeBitsToFen(bits)
-      fenOutput.value = fen
+      fenInput.value = decodeBitsToFen(bits)
+      bitsOutput.value = bits
       updateBitCount()
-      setStatus("Decoded successfully.", false)
+      setStatus("")
     } catch (error) {
-      setStatus(error.message, true)
+      setStatus(error.message)
     }
   }
 

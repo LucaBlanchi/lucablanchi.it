@@ -472,83 +472,30 @@ code {
 
 .implementation-lab {
   display: grid;
-  gap: 18px;
+  gap: 14px;
   max-width: 960px;
   margin-top: 4px;
   padding-top: 38px;
   border-top: 1px solid var(--line);
 }
 
-.implementation-header {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 24px;
-  align-items: end;
-}
-
-.implementation-header p {
-  max-width: 68ch;
-  margin: 0;
-  color: var(--muted);
-}
-
 .implementation-lab h2 {
-  margin-bottom: 8px;
-}
-
-.kicker {
-  margin-bottom: 6px;
-  color: var(--green);
-  font-size: 0.82rem;
-  font-weight: 760;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.implementation-metric {
-  display: grid;
-  justify-items: end;
-  min-width: 112px;
-  align-self: start;
-  border: 1px solid rgba(33, 122, 87, 0.22);
-  border-radius: 8px;
-  background: rgba(33, 122, 87, 0.08);
-  color: var(--green);
-  padding: 12px 14px;
-}
-
-.implementation-metric span:first-child {
-  color: var(--ink);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  font-size: 1.55rem;
-  font-weight: 760;
-  line-height: 1;
-}
-
-.implementation-metric span:last-child {
-  font-size: 0.82rem;
-  font-weight: 700;
-  text-transform: uppercase;
+  margin-bottom: 0;
 }
 
 .implementation-panel {
   display: grid;
-  gap: 16px;
+  gap: 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.76);
-  box-shadow: 0 16px 34px rgba(20, 22, 26, 0.06);
-  padding: 18px;
+  padding: 14px;
 }
 
-.demo-output-grid {
+.implementation-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 14px;
-}
-
-.fen-field textarea {
-  min-height: 82px;
+  gap: 12px;
 }
 
 .field {
@@ -558,13 +505,31 @@ code {
 
 .field span {
   color: var(--muted);
-  font-size: 0.92rem;
+  font-size: 0.86rem;
+  font-weight: 650;
+}
+
+.field-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.bit-counter {
+  white-space: nowrap;
+}
+
+.bit-counter,
+.bit-counter output {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.78rem;
   font-weight: 650;
 }
 
 textarea {
   width: 100%;
-  min-height: 138px;
+  min-height: 168px;
   resize: vertical;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -576,10 +541,6 @@ textarea {
   padding: 12px;
 }
 
-textarea::placeholder {
-  color: rgba(93, 101, 115, 0.62);
-}
-
 textarea:focus {
   border-color: var(--blue);
   outline: 2px solid rgba(45, 101, 216, 0.18);
@@ -589,7 +550,7 @@ textarea:focus {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .action-button {
@@ -614,34 +575,17 @@ textarea:focus {
   outline: none;
 }
 
-.demo-footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: center;
-  border-top: 1px solid rgba(217, 222, 234, 0.75);
-  padding-top: 12px;
-}
-
 .demo-status {
-  min-height: 1.55em;
   margin: 0;
-  color: var(--green);
-  font-size: 0.94rem;
-}
-
-.demo-status.is-error {
   color: var(--red);
+  font-size: 0.9rem;
 }
 
-.demo-hint {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.88rem;
+.demo-status:empty {
+  display: none;
 }
 
-.source-note {
+.implementation-lab .source-note {
   margin: 0;
 }
 
@@ -659,14 +603,8 @@ textarea:focus {
   .draft-card,
   .article-title-row,
   .demo-grid,
-  .implementation-header,
-  .demo-output-grid {
+  .implementation-grid {
     grid-template-columns: 1fr;
-  }
-
-  .implementation-metric {
-    justify-items: start;
-    width: 100%;
   }
 
   .implementation-panel {
