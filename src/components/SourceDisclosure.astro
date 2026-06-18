@@ -1,0 +1,78 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  english: string;
+  italian: string;
+}
+
+const { id, title, english, italian } = Astro.props;
+const enTabId = `${id}-tab-en`;
+const itTabId = `${id}-tab-it`;
+const enPanelId = `${id}-panel-en`;
+const itPanelId = `${id}-panel-it`;
+---
+
+<details class="source-disclosure">
+  <summary>
+    <span class="source-summary-main">
+      <span class="source-chevron" aria-hidden="true"></span>
+      <span>{title}</span>
+    </span>
+    <span class="source-state" aria-hidden="true"></span>
+  </summary>
+
+  <div class="source-content">
+    <div
+      class="language-tabs source-tabs"
+      role="tablist"
+      aria-label={`${title} language`}
+      data-language-switcher
+      data-default-lang="en"
+    >
+      <button
+        class="tab-button"
+        id={enTabId}
+        type="button"
+        role="tab"
+        aria-selected="true"
+        aria-controls={enPanelId}
+        data-lang-tab="en"
+      >
+        English
+      </button>
+      <button
+        class="tab-button"
+        id={itTabId}
+        type="button"
+        role="tab"
+        aria-selected="false"
+        aria-controls={itPanelId}
+        data-lang-tab="it"
+      >
+        Italiano
+      </button>
+    </div>
+
+    <section
+      class="source-panel language-panel"
+      id={enPanelId}
+      role="tabpanel"
+      aria-labelledby={enTabId}
+      data-lang-panel="en"
+    >
+      <pre>{english}</pre>
+    </section>
+
+    <section
+      class="source-panel language-panel"
+      id={itPanelId}
+      role="tabpanel"
+      aria-labelledby={itTabId}
+      data-lang-panel="it"
+      hidden
+    >
+      <pre>{italian}</pre>
+    </section>
+  </div>
+</details>

@@ -6,7 +6,8 @@ interface Props {
 const { currentPath = "/" } = Astro.props;
 const isHomePage = currentPath === "/";
 const isDraftsPage = currentPath === "/drafts.html" || currentPath.startsWith("/drafts/");
-const isAiMathPage = currentPath === "/ai-assisted-math.html";
+const isAiMathPage =
+  currentPath === "/ai-assisted-math.html" || currentPath.startsWith("/ai-assisted-math/");
 ---
 
 <header class="top-nav">

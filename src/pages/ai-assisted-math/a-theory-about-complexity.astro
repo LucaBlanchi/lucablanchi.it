@@ -1,0 +1,50 @@
+---
+import AiAssistedMathNotice from "../../components/AiAssistedMathNotice.astro";
+import SourceDisclosure from "../../components/SourceDisclosure.astro";
+import { complexitySources } from "../../data/aiAssistedMathComplexitySources";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="A theory about complexity"
+  description="Drafts and notes about a mathematics toolkit for complexity budgets on mathematical objects."
+  currentPath="/ai-assisted-math/a-theory-about-complexity.html"
+>
+  <main class="shell article-shell">
+    <article class="plain-page ai-article">
+      <AiAssistedMathNotice />
+
+      <header class="plain-header">
+        <div class="article-meta">
+          <time datetime="2026-06">June 2026</time>
+        </div>
+        <h1>A theory about complexity</h1>
+      </header>
+
+      <p>
+        We present drafts and notes about a mathematics toolkit that hopefully
+        will be able to produce new proofs and relevant results. The rough idea is
+        assigning an appropriate complexity value to math objects that behaves
+        properly under the operations relevant to those objects, meaning that it
+        acts as a budget that restricts the possible outputs.
+      </p>
+
+      <p>
+        This toolkit primed many of the ai-assisted math notes in this section.
+      </p>
+
+      <div class="source-list">
+        {
+          complexitySources.map((source) => (
+            <SourceDisclosure
+              id={source.id}
+              title={source.title}
+              english={source.english}
+              italian={source.italian}
+            />
+          ))
+        }
+      </div>
+    </article>
+  </main>
+</BaseLayout>
