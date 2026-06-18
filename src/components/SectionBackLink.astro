@@ -1,0 +1,23 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  labelIt?: string;
+}
+
+const { href, label, labelIt } = Astro.props;
+---
+
+<a
+  class="section-back-link"
+  href={href}
+>
+  <span class="section-back-arrow" aria-hidden="true">←</span>
+  <span
+    data-l10n-text={labelIt ? true : undefined}
+    data-l10n-en={labelIt ? label : undefined}
+    data-l10n-it={labelIt}
+  >
+    {label}
+  </span>
+</a>

@@ -1,0 +1,55 @@
+---
+import type { PaperAsset, RenderedTexPaper } from "../lib/texPaper";
+import { slugify } from "../lib/texPaper";
+
+interface Props {
+  paper: RenderedTexPaper;
+  assets: PaperAsset[];
+  eyebrow?: string;
+}
+
+const { paper, assets, eyebrow } = Astro.props;
+const paperId = slugify(paper.title);
+---
+
+<section class="tex-paper">
+  <header class="plain-header paper-header">
+    {eyebrow && <p class="paper-eyebrow">{eyebrow}</p>}
+    <div class="article-meta">
+      <time datetime="2026-06">{paper.date}</time>
+    </div>
+    <h2 class="paper-document-title">{paper.title}</h2>
+    <p class="paper-author">{paper.author}</p>
+    <div class="paper-actions" aria-label={`${paper.title} downloads`}>
+      {assets.map((asset) => <a href={asset.href} download>{asset.label}</a>)}
+    </div>
+  </header>
+
+  <section class="paper-abstract" aria-labelledby={`${paperId}-abstract`}>
+    <h2 id={`${paperId}-abstract`}>Abstract</h2>
+    <div set:html={paper.abstractHtml} />
+  </section>
+
+  <nav class="paper-toc" aria-label={`${paper.title} contents`}>
+    <h2>Contents</h2>
+    <ol>
+      {
+        paper.tocEntries.map((entry) => (
+          <li class={entry.level === "subsection" ? "paper-toc-subsection" : undefined}>
+            <a href={`#${entry.id}`}>
+              <span>{entry.number}</span>
+              {entry.title}
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+
+  <div class="paper-body" set:html={paper.bodyHtml} />
+
+  <section class="paper-references" aria-label={`${paper.title} references`}>
+    <h2>References</h2>
+    <div set:html={paper.bibliographyHtml} />
+  </section>
+</section>

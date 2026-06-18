@@ -1,6 +1,7 @@
 ---
 import DraftVisual from "../components/DraftVisual.astro";
 import LanguageTabs from "../components/LanguageTabs.astro";
+import SectionBackLink from "../components/SectionBackLink.astro";
 import BaseLayout from "./BaseLayout.astro";
 import type { Draft } from "../data/drafts";
 import { formatDraftDate } from "../data/drafts";
@@ -25,6 +26,8 @@ const { draft, visual = draft.visual, extraScripts = [] } = Astro.props;
   <main class="shell article-shell">
     <article class="draft-article">
       <header class="article-header">
+        <SectionBackLink href="/drafts.html" label="Back to Drafts" labelIt="Torna alle bozze" />
+
         <div class="article-title-row">
           <div class="article-heading">
             <div class="article-meta">

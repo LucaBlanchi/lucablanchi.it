@@ -1,0 +1,1115 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{hyperref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+\newcommand{\LEF}{\mathcal L}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\F}{\mathbb F}
+\newcommand{\N}{\mathbb N}
+\newcommand{\R}{\mathbb R}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\tors}{\operatorname{tors}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\Sym}{\operatorname{Sym}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\lcm}{\operatorname{lcm}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{LEF Growth of Wreath Products with Abelian and Virtually Abelian Lamps}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study quantitative local embeddability into finite groups for restricted wreath products.
+Bradford proved estimates for wreath products with finite centerless lamps and asked for
+computations beyond that setting. We prove several such estimates.
+
+First, we observe that the standard volumetric lower bound does not require a centerless
+finite lamp: any finitely generated non-abelian lamp group gives
+\[
+\LEF_{\Delta\wr\Gamma}(n)\succeq \exp(\gamma_\Gamma(n))
+\]
+for every infinite finitely generated base group \(\Gamma\). In particular, if \(\Delta\) is finite non-abelian and \(\Gamma\) is efficiently LEF, then
+\[
+\LEF_{\Delta\wr\Gamma}(n)\simeq \exp(\gamma_\Gamma(n)).
+\]
+For free abelian bases we compute abelian lamps. If \(A\neq 0\) is finitely generated abelian, then
+\[
+\LEF_{A\wr\Z^d}(n)\simeq \exp(n).
+\]
+Consequently, for every finite non-trivial group \(\Delta\),
+\[
+\LEF_{\Delta\wr\Z^d}(n)\simeq
+\begin{cases}
+\exp(n), & \Delta\text{ abelian},\\
+\exp(n^d), & \Delta\text{ non-abelian}.
+\end{cases}
+\]
+For \(d=1\) the two displayed alternatives are coarsely equivalent, but the mechanisms remain different.
+
+We then treat split virtually abelian lamps. Let \(\Delta=A\rtimes P\), where \(A\) is finitely generated abelian and \(P\) is finite, and put
+\[
+\rho=\rank_\Z[A,P].
+\]
+We prove the trichotomy
+\[
+\LEF_{\Delta\wr\Z^d}(n)\simeq
+\begin{cases}
+\exp(n), & \Delta\text{ abelian and non-trivial},\\
+\exp(n^d), & \rho=0\text{ and }\Delta\text{ non-abelian},\\
+\exp(n^d\log n), & \rho>0.
+\end{cases}
+\]
+In particular,
+\[
+\LEF_{D_\infty\wr\Z^d}(n)\simeq \exp(n^d\log n).
+\]
+Finally, for the discrete Heisenberg group \(H_3(\Z)\), we prove that if \(\Delta\) is finite non-abelian, then
+\[
+\LEF_{\Delta\wr H_3(\Z)}(n)\simeq \exp(n^4).
+\]
+We also record a congruence lemma for the group algebra \(\F_p[H_3(\Z)]\), relevant to the still-open abelian-lamp case \(C_p\wr H_3(\Z)\).
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+
+A finitely generated group is locally embeddable into finite groups, or LEF, if every finite part of its multiplication table embeds into a finite group. Bradford introduced a quantitative version, the LEF growth function \(\LEF_G(n)\), defined as the least order of a finite group into which the ball of radius \(n\) in \(G\) locally embeds \cite{Bradford2022}. Bradford computed this invariant in several examples, including estimates for wreath products with finite centerless lamps, and asked for further computations outside that regime.
+
+This paper gives such computations for several families of restricted wreath products
+\[
+\Delta\wr\Gamma=\Delta^{(\Gamma)}\rtimes\Gamma.
+\]
+Here \(\Delta\) is the lamp group and \(\Gamma\) is the base group. The guiding principle is that the base determines how many lamp positions are visible at scale \(n\), while the lamp determines the finite cost per visible position. Finite non-abelian lamps impose a constant cost per position, abelian lamps can be compressed into finite modules, and virtually abelian lamps with an infinite moved direction impose a logarithmic cost per position.
+
+The first point is that the usual lower-bound mechanism for finite centerless lamps is not a centerlessness phenomenon. It is a non-commutativity phenomenon.
+
+\noindent\textbf{Theorem A.}
+Let \(\Delta\) be a finitely generated non-abelian group, and let \(\Gamma\) be a finitely generated infinite group. Then
+\[
+\LEF_{\Delta\wr\Gamma}(n)\succeq \exp(\gamma_\Gamma(n)),
+\]
+where \(\gamma_\Gamma(n)=|B_\Gamma(n)|\). If \(\Delta\) is finite non-abelian and
+\[
+\LEF_\Gamma(n)\simeq \gamma_\Gamma(n),
+\]
+then
+\[
+\LEF_{\Delta\wr\Gamma}(n)\simeq \exp(\gamma_\Gamma(n)).
+\]
+
+The proof of the lower bound is robust. In a local finite model, lamp subgroups over different base points commute. Choosing two non-commuting lamp elements at each point forces each new lamp position to contribute a non-trivial central quotient. Multiplying this contribution over \(\gamma_\Gamma(n)\) independent positions gives the exponential lower bound.
+
+The next results concern \(\Gamma=\Z^d\). Abelian lamps behave differently from non-abelian finite lamps. Although a lamp configuration may be supported in a polynomially large box, an element of the word ball is described by only linearly many lamp operations. A sparse-evaluation argument over finite fields and finite Galois rings compresses all visible abelian lamp data into a finite module of size \(\exp(O(n))\).
+
+\noindent\textbf{Theorem B.}
+Let \(A\neq 0\) be a finitely generated abelian group. Then, for every \(d\ge 1\),
+\[
+\LEF_{A\wr\Z^d}(n)\simeq \exp(n).
+\]
+
+Combining this with Theorem A gives the finite-lamp computation over \(\Z^d\).
+
+\noindent\textbf{Theorem C.}
+Let \(\Delta\) be a finite non-trivial group. Then
+\[
+\LEF_{\Delta\wr\Z^d}(n)\simeq
+\begin{cases}
+\exp(n), & \Delta\text{ abelian},\\
+\exp(n^d), & \Delta\text{ non-abelian}.
+\end{cases}
+\]
+
+We also compute split virtually abelian lamps. Let
+\[
+\Delta=A\rtimes P,
+\]
+where \(A\) is finitely generated abelian and \(P\) is finite. We write \(A\) additively and set
+\[
+[A,P]=\langle p(a)-a:a\in A,\ p\in P\rangle,\qquad \rho=\rank_\Z[A,P].
+\]
+The rank \(\rho\) measures whether the finite group \(P\) moves an infinite-order direction of \(A\).
+
+\noindent\textbf{Theorem D.}
+Let \(\Delta=A\rtimes P\), where \(A\) is finitely generated abelian and \(P\) is finite. Assume \(\Delta\neq 1\), and put \(\rho=\rank_\Z[A,P]\). Then
+\[
+\LEF_{\Delta\wr\Z^d}(n)\simeq
+\begin{cases}
+\exp(n), & \Delta\text{ abelian},\\
+\exp(n^d), & \rho=0\text{ and }\Delta\text{ non-abelian},\\
+\exp(n^d\log n), & \rho>0.
+\end{cases}
+\]
+
+The case \(\rho>0\) is governed by linearly many powers of a non-trivial commutator at each of \(n^d\) base positions, giving the factor \(\log n\) in the exponent. The case \(\rho=0\) requires more care than simply splitting the lamp into finite and free parts. We prove a structural lemma: in this case \(\Delta\) embeds into a direct product of a free abelian group and a finite group. This reduces the upper bound to the product of the abelian sparse-evaluation model and the finite-lamp torus model.
+
+Taking \(D_\infty=\Z\rtimes C_2\), with \(C_2\) acting by inversion, gives the following immediate consequence.
+
+\begin{corollary}
+For every \(d\ge 1\),
+\[
+\LEF_{D_\infty\wr\Z^d}(n)\simeq \exp(n^d\log n).
+\]
+\end{corollary}
+
+Finally, we give a computation with a non-virtually-abelian nilpotent base.
+
+\noindent\textbf{Theorem E.}
+Let \(H_3(\Z)\) be the discrete Heisenberg group. If \(\Delta\) is finite non-abelian, then
+\[
+\LEF_{\Delta\wr H_3(\Z)}(n)\simeq \exp(n^4).
+\]
+
+The upper bound uses finite pointed actions of \(H_3(\Z)\) whose Schreier balls agree with the Cayley ball up to radius \(n\) and whose permutation images have only polynomial order. The lower bound is Theorem A together with the word growth \(\gamma_{H_3(\Z)}(n)\simeq n^4\).
+
+The abelian-lamp Heisenberg case, already for \(C_p\wr H_3(\Z)\), remains open. We record in the last section a congruence lemma for \(\F_p[H_3(\Z)]\), which separates individual sparse group-algebra elements in congruence quotients of modulus \(O(n)\). It is not sufficient by itself to determine the LEF growth, because an efficient local model would need to separate all visible sparse lamp differences simultaneously in a small finite module.
+
+\section{Coarse notation and LEF growth}
+
+All groups in this paper are finitely generated unless explicitly stated otherwise. If \(G\) is generated by a finite symmetric set \(S\), we denote by \(B_G(n)\) the ball of radius \(n\) in the corresponding word metric. Different finite generating sets change the functions below only up to the coarse equivalence used here.
+
+Given non-decreasing functions \(f,g:\N\to\R_{>0}\), write
+\[
+f\preceq g
+\]
+if there exist constants \(A,B,C,D>0\) such that
+\[
+f(n)\le A g(Bn+C)+D
+\]
+for all \(n\). We write \(f\simeq g\) if \(f\preceq g\) and \(g\preceq f\). Thus, for instance, \(\exp(Cn)\simeq \exp(n)\) for every fixed \(C>0\).
+
+\begin{definition}
+Let \(G\) be finitely generated. A map
+\[
+\varphi:B_G(n)\to Q
+\]
+from \(B_G(n)\) to a finite group \(Q\) is a local embedding if:
+\begin{enumerate}
+\item \(\varphi\) is injective;
+\item \(\varphi(1)=1\);
+\item whenever \(x,y,xy\in B_G(n)\), one has \(\varphi(xy)=\varphi(x)\varphi(y)\).
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+The LEF growth of \(G\) is
+\[
+\LEF_G(n)=\min\{|Q|:B_G(n)\text{ locally embeds into the finite group }Q\}.
+\]
+If no such \(Q\) exists, set \(\LEF_G(n)=\infty\).
+\end{definition}
+
+We write
+\[
+\gamma_G(n)=|B_G(n)|
+\]
+for the word-growth function. Since a local embedding is injective, one always has
+\[
+\LEF_G(n)\ge \gamma_G(n).
+\]
+
+\begin{lemma}
+Let \(H\le G\) be finitely generated groups. Then
+\[
+\LEF_H(n)\preceq \LEF_G(n).
+\]
+If \(G_1\) and \(G_2\) are finitely generated groups, then
+\[
+\LEF_{G_1\times G_2}(n)\preceq \LEF_{G_1}(n)\LEF_{G_2}(n).
+\]
+\end{lemma}
+
+\begin{proof}
+For the first assertion, compare word metrics. There is a constant \(C\) such that the inclusion sends \(B_H(n)\) into \(B_G(Cn)\). A local embedding of \(B_G(Cn)\) restricts to a local embedding of \(B_H(n)\).
+
+For the product assertion, choose local embeddings
+\[
+\varphi_i:B_{G_i}(Cn)\to Q_i,\qquad i=1,2,
+\]
+where \(C\) is large enough that the \(n\)-ball of \(G_1\times G_2\) lies in \(B_{G_1}(Cn)\times B_{G_2}(Cn)\). Then
+\[
+(g_1,g_2)\mapsto(\varphi_1(g_1),\varphi_2(g_2))
+\]
+is a local embedding of \(B_{G_1\times G_2}(n)\) into \(Q_1\times Q_2\). This gives the stated bound.
+\end{proof}
+
+For groups \(\Delta\) and \(\Gamma\), the restricted wreath product is
+\[
+\Delta\wr\Gamma=\Delta^{(\Gamma)}\rtimes\Gamma.
+\]
+We use the following convention throughout. Elements of \(\Delta^{(\Gamma)}\) are finitely supported functions \(\Gamma\to\Delta\), and \(\Gamma\) acts by left translation,
+\[
+(g\cdot f)(x)=f(g^{-1}x).
+\]
+Thus
+\[
+(f,g)(h,k)=(f(g\cdot h),gk).
+\]
+We use the standard finite generating set: generators of \(\Gamma\), together with generators of \(\Delta\) placed at the identity of \(\Gamma\). The copy of \(\Delta\) supported at \(g\in\Gamma\) is denoted by \(\Delta_g\). If \(a\in\Delta\), the corresponding element of \(\Delta_g\) is denoted by \(a_g\).
+
+We shall repeatedly use the following elementary metric observation.
+
+\begin{lemma}
+Let \(W=\Delta\wr\Gamma\), with the standard generating set. There is a constant \(C\ge 1\), depending only on the chosen generating sets, such that every element of \(B_W(n)\) can be written as \((f,g)\), where
+\[
+g\in B_\Gamma(n),\qquad \supp(f)\subseteq B_\Gamma(Cn),
+\]
+and every value \(f(x)\in\Delta\) has word length at most \(Cn\) in \(\Delta\). Conversely, for every fixed \(a\in\Delta\), there is a constant \(C_a\) such that
+\[
+|a_x|_W\le C_a(1+|x|_\Gamma)
+\]
+for all \(x\in\Gamma\).
+\end{lemma}
+
+\begin{proof}
+In a word of length \(n\), the cursor in \(\Gamma\) moves by at most one generator at each step, so it never leaves a ball of radius \(n\). Lamp changes occur only at positions visited by the cursor, and the total number of lamp-generator letters is at most \(n\). This proves the first assertion, after changing constants to account for the chosen lamp generators.
+
+For the converse, move the cursor from \(1\) to \(x\), write the fixed element \(a\) using the generators of \(\Delta\), and move the cursor back if necessary. This has length at most \(C_a(1+|x|_\Gamma)\).
+\end{proof}
+
+\section{Non-abelian lamps and finite-action models}
+
+The lower bound below is the basic source of the exponential-in-volume behavior. Notice that the lamp is not assumed finite.
+
+\begin{proposition}
+Let \(\Delta\) be a finitely generated non-abelian group and let \(\Gamma\) be a finitely generated infinite group. Then
+\[
+\LEF_{\Delta\wr\Gamma}(n)\succeq \exp(\gamma_\Gamma(n)).
+\]
+\end{proposition}
+
+\begin{proof}
+Choose \(a,b\in\Delta\) with \([a,b]\neq 1\), and set \(W=\Delta\wr\Gamma\). Let
+\[
+\varphi:B_W(n)\to Q
+\]
+be a local embedding into a finite group. Choose \(c>0\) small enough that, for all \(x,y\in B_\Gamma(cn)\), every prefix of each word
+\[
+a_xb_xa_x^{-1}b_x^{-1},\quad
+a_xa_ya_x^{-1}a_y^{-1},\quad
+a_xb_ya_x^{-1}b_y^{-1},
+\]
+\[
+b_xa_yb_x^{-1}a_y^{-1},\quad
+b_xb_yb_x^{-1}b_y^{-1}
+\]
+lies in \(B_W(n)\), with the evident convention that the words involving two positions are used only for \(x\neq y\). This is possible by Lemma 2.4, after decreasing \(c\).
+
+For \(x\in B_\Gamma(cn)\), let
+\[
+E_x=\langle\varphi(a_x),\varphi(b_x)\rangle\le Q.
+\]
+The visibility of all prefixes of the commutator word gives
+\[
+[\varphi(a_x),\varphi(b_x)]=\varphi([a_x,b_x]).
+\]
+Since \([a_x,b_x]\neq 1\) and \(\varphi\) is injective on \(B_W(n)\), this commutator is non-trivial. Thus \(E_x\) is a finite non-abelian group. Hence \(E_x/Z(E_x)\) is non-cyclic, and in particular
+\[
+|E_x/Z(E_x)|\ge 4.
+\]
+If \(x\neq y\), the corresponding lamp subgroups commute in \(W\). Since the commutator words between the generators \(a_x,b_x\) and \(a_y,b_y\) are visible prefix-by-prefix, local multiplicativity gives
+\[
+[E_x,E_y]=1
+\]
+in \(Q\).
+
+Enumerate
+\[
+B_\Gamma(cn)=\{x_1,\ldots,x_N\},\qquad N=\gamma_\Gamma(cn),
+\]
+and set \(P_j=E_{x_1}\cdots E_{x_j}\). Since \(E_{x_j}\) commutes with \(P_{j-1}\), every element of \(E_{x_j}\cap P_{j-1}\) commutes with \(E_{x_j}\). Hence
+\[
+E_{x_j}\cap P_{j-1}\le Z(E_{x_j}).
+\]
+It follows that
+\[
+|P_j|=
+\frac{|P_{j-1}||E_{x_j}|}{|P_{j-1}\cap E_{x_j}|}
+\ge |P_{j-1}|\,|E_{x_j}/Z(E_{x_j})|
+\ge 4|P_{j-1}|.
+\]
+By induction,
+\[
+|Q|\ge |P_N|\ge 4^N=\exp((\log 4)\gamma_\Gamma(cn)).
+\]
+This proves the desired lower bound.
+\end{proof}
+
+For finite lamps we also need upper bounds. We record two standard finite models.
+
+\begin{lemma}
+Let \(\Delta\) be finite and let \(\Gamma\) be finitely generated LEF. Then
+\[
+\LEF_{\Delta\wr\Gamma}(n)\preceq \exp(\LEF_\Gamma(n)).
+\]
+Consequently, if \(\LEF_\Gamma(n)\simeq\gamma_\Gamma(n)\), then
+\[
+\LEF_{\Delta\wr\Gamma}(n)\preceq \exp(\gamma_\Gamma(n)).
+\]
+\end{lemma}
+
+\begin{proof}
+Let \(R=Cn\), where \(C\) is chosen large enough for all base elements and all base products appearing below to lie in \(B_\Gamma(R)\). Let
+\[
+\psi:B_\Gamma(R)\to P
+\]
+be a local embedding into a finite group \(P\). We construct a local embedding of \(B_{\Delta\wr\Gamma}(n)\) into \(\Delta\wr P\).
+
+Write elements of \(\Delta\wr\Gamma\) as \((f,g)\). By Lemma 2.4, after increasing \(C\), every \((f,g)\in B_{\Delta\wr\Gamma}(n)\) has \(g\in B_\Gamma(R)\) and \(\supp(f)\subseteq B_\Gamma(R)\). Define \(\tilde f:P\to\Delta\) by
+\[
+\tilde f(\psi(x))=f(x),\qquad x\in B_\Gamma(R),
+\]
+and \(\tilde f=1\) outside \(\psi(B_\Gamma(R))\). This is well-defined because \(\psi\) is injective on \(B_\Gamma(R)\). Set
+\[
+\Phi(f,g)=(\tilde f,\psi(g))\in\Delta\wr P.
+\]
+We verify local multiplicativity. Suppose \((f,g)\), \((h,k)\), and \((f,g)(h,k)\), all lie in \(B_{\Delta\wr\Gamma}(n)\). The lamp part of the product is \(f(g\cdot h)\), where \((g\cdot h)(x)=h(g^{-1}x)\). For every visible support point \(x\), the elements \(g\), \(g^{-1}\), \(x\), \(g^{-1}x\), \(k\), and the products needed to write \(g^{-1}x\) and \(gk\), lie in \(B_\Gamma(R)\). Hence local multiplicativity gives
+\[
+\psi(g^{-1}x)=\psi(g)^{-1}\psi(x),\qquad \psi(gk)=\psi(g)\psi(k).
+\]
+These identities are exactly the identities needed for the support calculation in \(\Delta\wr P\), and they give
+\[
+\Phi((f,g)(h,k))=\Phi(f,g)\Phi(h,k).
+\]
+If \(\Phi(f,g)=\Phi(f',g')\) for two elements of the \(n\)-ball, then \(\psi(g)=\psi(g')\), and injectivity of \(\psi\) on \(B_\Gamma(R)\) gives \(g=g'\). The equality \(\tilde f=\tilde f'\), together with injectivity of \(\psi\) on the support region, then gives \(f=f'\). Thus \(\Phi\) is injective on \(B_{\Delta\wr\Gamma}(n)\). Consequently
+\[
+\LEF_{\Delta\wr\Gamma}(n)\le |\Delta\wr P|=|P|\,|\Delta|^{|P|}\le \exp(C_\Delta |P|).
+\]
+Minimizing over \(P\) gives the claim.
+\end{proof}
+
+\begin{lemma}[Finite lamp quotient and finite-action model]
+Let \(\Delta\) and \(\Gamma\) be finitely generated groups, and let \(W=\Delta\wr\Gamma\). Let
+\[
+\eta:\Delta\to F
+\]
+be a homomorphism to a finite group. Let \(\rho:\Gamma\to\Sym(Y)\) be an action on a finite set \(Y\), and let \(y_0\in Y\). There is a constant \(C\), depending only on the chosen generating sets, with the following property. If \(R\ge Cn\), if \(\eta\) is injective on \(B_\Delta(R)\), and if the pointed labelled Schreier ball of the action \(\Gamma\curvearrowright Y\) around \(y_0\) agrees with the labelled Cayley ball of \(\Gamma\) up to radius \(R\), then \(B_W(n)\) locally embeds into
+\[
+F^Y\rtimes \rho(\Gamma).
+\]
+In particular,
+\[
+\LEF_W(n)\le |F|^{|Y|}|\rho(\Gamma)|.
+\]
+\end{lemma}
+
+\begin{proof}
+By Lemma 2.4, after increasing \(C\), every element \((f,g)\in B_W(n)\) has \(g\in B_\Gamma(R)\), \(\supp(f)\subseteq B_\Gamma(R)\), and all lamp values \(f(x)\) lie in \(B_\Delta(R)\). Also, every base product needed to multiply two elements whose product is still in \(B_W(n)\) is visible inside the labelled radius-\(R\) Schreier ball.
+
+For \((f,g)\in B_W(n)\), define \(\tilde f:Y\to F\) by
+\[
+\tilde f(\rho(x)y_0)=\eta(f(x)),\qquad x\in B_\Gamma(R),
+\]
+and set \(\tilde f=1\) outside the image of this ball. This is well-defined because the equality with the Cayley ball implies that the orbit map \(x\mapsto \rho(x)y_0\) is injective on \(B_\Gamma(R)\). Set
+\[
+\Phi(f,g)=(\tilde f,\rho(g))\in F^Y\rtimes\rho(\Gamma).
+\]
+The equality of labelled balls ensures that the action of each visible base element on each visible support point is reproduced exactly in \(Y\). Since \(\eta\) is a homomorphism and is injective on all visible lamp values, \(\Phi\) preserves all products visible in \(B_W(n)\).
+
+If two elements \((f,g),(f',g')\in B_W(n)\) have the same image, then \(\rho(g)y_0=\rho(g')y_0\), hence \(g=g'\) by orbit injectivity on \(B_\Gamma(R)\). Then \(\tilde f=\tilde f'\), and orbit injectivity on the support region together with injectivity of \(\eta\) on visible lamp values gives \(f=f'\). Thus \(\Phi\) is injective on \(B_W(n)\).
+\end{proof}
+
+Combining Proposition 3.1 and Lemma 3.2 proves Theorem A.
+
+\begin{theorem}
+Let \(\Delta\) be finite non-abelian and let \(\Gamma\) be finitely generated. If
+\[
+\LEF_\Gamma(n)\simeq\gamma_\Gamma(n),
+\]
+then
+\[
+\LEF_{\Delta\wr\Gamma}(n)\simeq \exp(\gamma_\Gamma(n)).
+\]
+\end{theorem}
+
+\section{Sparse evaluation for abelian lamps over free abelian bases}
+
+This section proves Theorem B. We identify
+\[
+A\wr\Z^d=A[t_1^{\pm 1},\ldots,t_d^{\pm 1}]\rtimes \Z^d
+\]
+when \(A\) is abelian, writing the lamp group additively. The action of \(v=(v_1,\ldots,v_d)\in\Z^d\) is multiplication by \(t^v=t_1^{v_1}\cdots t_d^{v_d}\).
+
+We use a sparse evaluation lemma. For a Laurent polynomial over \(\Z\), the coefficient norm means the maximum absolute value of its coefficients. For a finitely generated abelian group, decompose it into cyclic summands and use this norm on the free cyclic summands; finite cyclic summands require no coefficient bound.
+
+\begin{lemma}[Sparse evaluation]
+Let \(A\) be a finitely generated abelian group and let \(d\ge 1\). Fix constants \(C_0,C_1,C_2>0\). There is a constant \(C\), depending only on \(A,d,C_0,C_1,C_2\), with the following property.
+
+For every \(n\), let \(\mathcal P\) be a collection of non-zero Laurent polynomials in
+\[
+A[t_1^{\pm 1},\ldots,t_d^{\pm 1}]
+\]
+such that
+\[
+|\mathcal P|\le \exp(C_0n),
+\]
+every exponent occurring in a polynomial in \(\mathcal P\) belongs to \([-C_1n,C_1n]^d\), and every coefficient in a free cyclic summand has absolute value at most \(C_2n\). Then there exist a finite abelian group \(V\), commuting automorphisms
+\[
+T_1,\ldots,T_d\in\Aut(V),
+\]
+and a homomorphism \(\theta:A\to V\). Extending \(\theta\) equivariantly by
+\[
+\Theta\left(\sum_m a_m t^m\right)=\sum_m T^m\theta(a_m),\qquad T^m=T_1^{m_1}\cdots T_d^{m_d},
+\]
+one has
+\[
+\Theta(P)\neq 0
+\]
+for every \(P\in\mathcal P\), and
+\[
+|V|\,|\langle T_1,\ldots,T_d\rangle|\le \exp(Cn).
+\]
+\end{lemma}
+
+\begin{proof}
+By the structure theorem and primary decomposition, we may write
+\[
+A\cong \Z^r\oplus\bigoplus_{j=1}^s\Z/p_j^{a_j}\Z.
+\]
+Let \(A_1,\ldots,A_N\) be these cyclic summands and let \(\pi_j:A\to A_j\) be the coordinate projections. For each \(j\), let
+\[
+\mathcal P_j=\{\pi_j(P):P\in\mathcal P,\ \pi_j(P)\neq 0\}.
+\]
+It is enough to construct, for each non-empty \(\mathcal P_j\), a finite module detecting every polynomial in \(\mathcal P_j\), and then take the direct product over \(j\). Indeed, every non-zero \(P\in\mathcal P\) has a non-zero projection to at least one cyclic summand. Since the number of summands depends only on \(A\), the product still has size \(\exp(O(n))\).
+
+First consider a free cyclic summand \(A_j=\Z\). By Bertrand's postulate, after changing constants and ignoring finitely many small \(n\), choose a prime \(p\) with
+\[
+2C_2n<p<C_3n.
+\]
+Reduction modulo \(p\) does not kill any polynomial in \(\mathcal P_j\), because every non-zero coefficient has absolute value at most \(C_2n<p\). Choose \(q=p^k\) with
+\[
+q\ge Kn|\mathcal P_j|
+\]
+and \(q\le \exp(Cn)\), where \(K\) will be chosen depending only on \(d\) and \(C_1\).
+
+After multiplication by a monomial, each Laurent polynomial in \(\mathcal P_j\) becomes an ordinary polynomial over \(\F_q\) of total degree at most \(Dn\), where \(D\) depends only on \(d\) and \(C_1\). By the Schwartz-Zippel lemma \cite{Schwartz1980,Zippel1979}, each such polynomial has at most \(Dnq^{d-1}\) zeros in \(\F_q^d\). Thus the union of all bad zero sets has size at most
+\[
+|\mathcal P_j|Dnq^{d-1}.
+\]
+For \(K\) large enough this is strictly smaller than \(|(\F_q^\times)^d|\). Hence there exists
+\[
+\lambda=(\lambda_1,\ldots,\lambda_d)\in(\F_q^\times)^d
+\]
+at which no polynomial in \(\mathcal P_j\) vanishes. Let \(V_j=\F_q\), additively; let \(T_{i,j}\) be multiplication by \(\lambda_i\); and let \(\theta_j:\Z\to\F_q\) be reduction modulo \(p\), followed by the inclusion \(\F_p\subseteq\F_q\). Then evaluation at \(\lambda\) detects every polynomial in \(\mathcal P_j\), and
+\[
+|V_j|\,|\langle T_{1,j},\ldots,T_{d,j}\rangle|\le q(q-1)^d\le \exp(Cn).
+\]
+
+Now consider a finite cyclic summand \(A_j=\Z/p_0^a\Z\). Let \(R_k\) be the unramified extension of \(\Z/p_0^a\Z\) of degree \(k\), so that its residue field is \(\F_{p_0^k}\), and let Teichmuller representatives give multiplicative lifts of \(\F_{p_0^k}^\times\) to \(R_k^\times\). For each non-zero polynomial \(P\in\mathcal P_j\), let \(s(P)\) be the minimal \(p_0\)-adic valuation of its non-zero coefficients. Then
+\[
+P=p_0^{s(P)}P'
+\]
+with \(P'\) having at least one unit coefficient. Reducing \(P'\) modulo \(p_0\) gives a non-zero Laurent polynomial \(\overline P\) over \(\F_{p_0}\). Apply the same Schwartz-Zippel argument to the finite family of reductions \(\overline P\), choosing \(k\) so that
+\[
+p_0^k\ge Kn|\mathcal P_j|.
+\]
+We obtain \(\lambda\in(\F_{p_0^k}^\times)^d\) at which none of the reductions vanishes. Let \(\tilde\lambda_i\in R_k^\times\) be the Teichmuller lift of \(\lambda_i\). Then \(P'(\tilde\lambda)\) is a unit in \(R_k\), so
+\[
+P(\tilde\lambda)=p_0^{s(P)}P'(\tilde\lambda)\neq 0
+\]
+in \(R_k\), since \(s(P)<a\). Let \(\theta_j:\Z/p_0^a\Z\to R_k\) be the coefficient-ring inclusion. Thus evaluation in the additive group \(V_j=R_k\) detects every polynomial in \(\mathcal P_j\). Moreover
+\[
+|V_j|\,|\langle T_{1,j},\ldots,T_{d,j}\rangle|\le p_0^{ak}(p_0^k-1)^d\le \exp(Cn).
+\]
+
+Taking the direct product of all the groups \(V_j\), the product automorphisms, and the product homomorphism \(A\to\prod_j V_j\), gives the required \(V,T_1,\ldots,T_d\), and \(\theta\).
+\end{proof}
+
+\begin{theorem}
+Let \(A\neq 0\) be a finitely generated abelian group. Then, for every \(d\ge 1\),
+\[
+\LEF_{A\wr\Z^d}(n)\simeq \exp(n).
+\]
+\end{theorem}
+
+\begin{proof}
+The lower bound follows from word growth. Choose \(0\neq a\in A\), and let
+\[
+0=x_0,x_1,\ldots,x_L
+\]
+be a geodesic segment in \(\Z^d\), with \(L=\lfloor cn\rfloor\). For each subset \(S\subseteq\{0,\ldots,L\}\), put the lamp value \(a\) at the positions \(x_i\) with \(i\in S\), put the lamp value \(0\) at the remaining positions, and end the cursor at \(x_L\). If \(c>0\) is small enough, all these elements have word length at most \(n\). They are pairwise distinct, so the \(n\)-ball contains at least \(2^{L+1}\) elements. Hence
+\[
+\LEF_{A\wr\Z^d}(n)\ge\gamma_{A\wr\Z^d}(n)\succeq\exp(n).
+\]
+
+For the upper bound, write elements as \((P,v)\), with
+\[
+P\in A[t_1^{\pm 1},\ldots,t_d^{\pm 1}],\qquad v\in\Z^d.
+\]
+The ball \(B_{A\wr\Z^d}(n)\) has at most exponentially many elements. Moreover, for all elements in this ball, the exponents occurring in \(P\) lie in \([-Cn,Cn]^d\), and the coefficients in the free part of \(A\) have norm at most \(Cn\).
+
+Let \(\mathcal P_n\) consist of the following non-zero Laurent polynomials:
+\begin{enumerate}
+\item all differences \(P-P'\), where \((P,v),(P',v)\in B_{A\wr\Z^d}(n)\) have the same base component and \(P\neq P'\);
+\item all polynomials \(a_0(t^u-1)\), where \(a_0\in A\) is a fixed non-zero element and \(0\neq u\in\Z^d\) satisfies \(\|u\|_1\le 2n\).
+\end{enumerate}
+The first family has cardinality at most \(\exp(Cn)\), because the ball has exponential size. The second family has polynomial cardinality. Hence Lemma 4.1 applies to \(\mathcal P_n\). We obtain \(V\), commuting automorphisms \(T_1,\ldots,T_d\), and an equivariant evaluation map \(\Theta\), with
+\[
+|V|\,|\Lambda|\le \exp(Cn),\qquad \Lambda=\langle T_1,\ldots,T_d\rangle.
+\]
+Define
+\[
+\Phi:A\wr\Z^d\to V\rtimes\Lambda,\qquad \Phi(P,v)=(\Theta(P),T^v).
+\]
+This is a homomorphism because \(\Theta(t^vP)=T^v\Theta(P)\). We claim that \(\Phi\) is injective on \(B_{A\wr\Z^d}(n)\).
+
+Suppose
+\[
+\Phi(P,v)=\Phi(P',v')
+\]
+for two elements in the \(n\)-ball. Then \(T^{v-v'}=1\). If \(v\neq v'\), then \(0\neq u=v-v'\) has \(\|u\|_1\le 2n\), and
+\[
+\Theta(a_0(t^u-1))=T^u\theta(a_0)-\theta(a_0)=0,
+\]
+contradicting the construction of \(\mathcal P_n\). Therefore \(v=v'\). Then
+\[
+\Theta(P-P')=0,
+\]
+and the first family in \(\mathcal P_n\) forces \(P=P'\). Thus \(\Phi\) locally embeds the \(n\)-ball into a finite group of order at most \(\exp(Cn)\), proving the upper bound.
+\end{proof}
+
+\section{Finite lamps over free abelian bases}
+
+We now prove Theorem C.
+
+\begin{theorem}
+Let \(\Delta\) be a finite non-trivial group. Then, for every \(d\ge 1\),
+\[
+\LEF_{\Delta\wr\Z^d}(n)\simeq
+\begin{cases}
+\exp(n), & \Delta\text{ abelian},\\
+\exp(n^d), & \Delta\text{ non-abelian}.
+\end{cases}
+\]
+\end{theorem}
+
+\begin{proof}
+If \(\Delta\) is abelian, this is Theorem 4.2.
+
+Assume \(\Delta\) is non-abelian. The lower bound follows from Proposition 3.1, since
+\[
+\gamma_{\Z^d}(n)\simeq n^d.
+\]
+For the upper bound, choose \(M\simeq n\) large enough that the quotient map
+\[
+\Z^d\to(\Z/M\Z)^d
+\]
+is injective on the base ball and support region needed to multiply all elements of \(B_{\Delta\wr\Z^d}(n)\). Equivalently, apply Lemma 3.3, with \(\eta=\operatorname{id}_\Delta\), to the regular action of \(\Z^d\) on \((\Z/M\Z)^d\). This gives a local embedding into
+\[
+\Delta\wr(\Z/M\Z)^d.
+\]
+Its order is
+\[
+|(\Z/M\Z)^d|\,|\Delta|^{M^d}=M^d|\Delta|^{M^d}\le \exp(Cn^d).
+\]
+Thus \(\LEF_{\Delta\wr\Z^d}(n)\preceq\exp(n^d)\).
+\end{proof}
+
+\section{Split virtually abelian lamps over free abelian bases}
+
+Let
+\[
+\Delta=A\rtimes P,
+\]
+where \(A\) is finitely generated abelian and \(P\) is finite. We write \(A\) additively. Define
+\[
+[A,P]=\langle p(a)-a:a\in A,\ p\in P\rangle,\qquad \rho=\rank_\Z[A,P].
+\]
+We split the proof of Theorem D into the three cases \(\Delta\) abelian, \(\rho=0\) non-abelian, and \(\rho>0\).
+
+\subsection{The case \(\rho>0\)}
+
+\begin{lemma}
+Assume \(\rho>0\). Then there exist \(b\in A\) and \(\tau\in P\) such that
+\[
+c=\tau(b)-b
+\]
+has infinite order in \(A\).
+\end{lemma}
+
+\begin{proof}
+If every element of the form \(p(a)-a\), with \(a\in A\) and \(p\in P\), were torsion, then \([A,P]\) would be contained in the torsion subgroup of the finitely generated abelian group \(A\), and hence would have rank \(0\). Since \(\rho>0\), this is impossible. Therefore there exist \(b\in A\) and \(\tau\in P\) such that \(\tau(b)-b\) has infinite order.
+\end{proof}
+
+\begin{proposition}
+If \(\rho>0\), then
+\[
+\LEF_{\Delta\wr\Z^d}(n)\succeq \exp(n^d\log n).
+\]
+\end{proposition}
+
+\begin{proof}
+Choose \(b\in A\), \(\tau\in P\), and \(c=\tau(b)-b\) as in Lemma 6.1. Let
+\[
+\varphi:B_{\Delta\wr\Z^d}(n)\to Q
+\]
+be a local embedding into a finite group. Choose \(\varepsilon>0\) small enough that, for every \(x\in X=B_{\Z^d}(\varepsilon n)\), every prefix of the words
+\[
+(c_x)^\ell,\qquad \tau_x b_x^\ell\tau_x^{-1}b_x^{-\ell}\qquad (0\le \ell\le \varepsilon n)
+\]
+lies in \(B_{\Delta\wr\Z^d}(n)\), and that all commutator words between the generators \(b_x,\tau_x\) and \(b_y,\tau_y\), for distinct \(x,y\in X\), are visible prefix-by-prefix. This is possible by Lemma 2.4, after decreasing \(\varepsilon\). We have \(|X|\simeq n^d\).
+
+For \(x\in X\), write
+\[
+B_x=\varphi(b_x),\qquad T_x=\varphi(\tau_x),\qquad C_x=\varphi(c_x).
+\]
+Since \(A\) is written additively and \(c=\tau(b)-b\), we have, for every \(\ell\ge 0\),
+\[
+\tau(\ell b)-\ell b=\ell c.
+\]
+Equivalently, in multiplicative notation inside the lamp group,
+\[
+\tau b^\ell\tau^{-1}b^{-\ell}=c^\ell.
+\]
+The prefix visibility chosen above gives, in \(Q\),
+\[
+T_xB_x^\ell T_x^{-1}B_x^{-\ell}=C_x^\ell\qquad (0\le \ell\le \varepsilon n).
+\]
+Because \(c\) has infinite order, the elements
+\[
+1,c_x,c_x^2,\ldots,c_x^{\lfloor\varepsilon n\rfloor}
+\]
+are distinct in the ball. Hence
+\[
+1,C_x,C_x^2,\ldots,C_x^{\lfloor\varepsilon n\rfloor}
+\]
+are distinct in \(Q\).
+
+Let
+\[
+D_x=\langle B_x,T_x\rangle\le Q.
+\]
+We claim that \(|D_x/Z(D_x)|\ge c_0n\) for some constant \(c_0>0\). If the image of \(B_x\) in \(D_x/Z(D_x)\) had order \(\ell\le \varepsilon n\), then \(B_x^\ell\in Z(D_x)\). In particular, \(B_x^\ell\) would commute with \(T_x\), so
+\[
+1=T_xB_x^\ell T_x^{-1}B_x^{-\ell}=C_x^\ell,
+\]
+contradicting the distinctness above. Thus \(|D_x/Z(D_x)|\ge c_0n\), after changing constants.
+
+For distinct \(x,y\in X\), the corresponding lamp subgroups commute in the wreath product, and the relevant commutator words are visible. Hence
+\[
+[D_x,D_y]=1
+\]
+in \(Q\). Enumerate \(X=\{x_1,\ldots,x_N\}\), with \(N\simeq n^d\), and set \(P_j=D_{x_1}\cdots D_{x_j}\). As before,
+\[
+D_{x_j}\cap P_{j-1}\le Z(D_{x_j}),
+\]
+so
+\[
+|P_j|\ge |P_{j-1}|\,|D_{x_j}/Z(D_{x_j})|\ge |P_{j-1}|\,c_0n.
+\]
+Therefore
+\[
+|Q|\ge |P_N|\ge (c_0n)^N\ge \exp(c'n^d\log n),
+\]
+which proves the proposition.
+\end{proof}
+
+\begin{proposition}
+If \(\rho>0\), then
+\[
+\LEF_{\Delta\wr\Z^d}(n)\preceq \exp(n^d\log n).
+\]
+\end{proposition}
+
+\begin{proof}
+Let \(T=\tors(A)\), and let \(e\) be the exponent of \(T\) if \(T\neq 0\), and \(e=1\) otherwise. Choose integers
+\[
+m\simeq n,\qquad M\simeq n,
+\]
+with \(e\mid m\). Put
+\[
+A_m=A/mA,\qquad \Delta_m=A_m\rtimes P,
+\]
+and let \(\eta:\Delta\to\Delta_m\) be the quotient homomorphism. Choose \(m\) with a sufficiently large implicit constant so that \(\eta\) is injective on all lamp values visible in \(B_{\Delta\wr\Z^d}(n)\). On the free part of \(A\) this follows from \(m\gg n\), and on the torsion part from \(e\mid m\).
+
+Let \(\Z^d\) act regularly on
+\[
+Y=(\Z/M\Z)^d.
+\]
+Choose \(M\simeq n\) with a sufficiently large implicit constant so that the pointed Schreier ball of this action agrees with the Cayley ball of \(\Z^d\) throughout the base region needed to multiply elements of \(B_{\Delta\wr\Z^d}(n)\). Applying Lemma 3.3 with \(F=\Delta_m\) gives a local embedding of \(B_{\Delta\wr\Z^d}(n)\) into
+\[
+\Delta_m^Y\rtimes(\Z/M\Z)^d.
+\]
+This is a local finite-action model, not a global quotient map of the wreath product; the choice of \(M\) prevents collisions only on the visible support region.
+
+If \(r=\rank_\Z A\), then \(|A_m|\le Cm^r\), so \(|\Delta_m|\le C'm^r\). Since \(|Y|=M^d\), the model has order
+\[
+|\Delta_m|^{M^d}M^d.
+\]
+Therefore
+\[
+\log\left(|\Delta_m|^{M^d}M^d\right)\le M^dO(\log m)+O(\log M)\le Cn^d\log n.
+\]
+This proves the upper bound.
+\end{proof}
+
+\subsection{The case \(\rho=0\)}
+
+The next structural lemma is the point that makes the \(\rho=0\) case precise. It avoids any unjustified claim that one may simply replace a lamp group by a finite-index subgroup inside a wreath product.
+
+\begin{lemma}
+Let \(\Delta=A\rtimes P\), where \(A\) is finitely generated abelian and \(P\) is finite. Assume
+\[
+\rho=\rank_\Z[A,P]=0.
+\]
+Then there exist a finitely generated free abelian group \(A_0\), a finite group \(E\), and an injective homomorphism
+\[
+\iota:\Delta\hookrightarrow A_0\times E.
+\]
+If \(\Delta\) is non-abelian, then \(E\) may be chosen non-abelian.
+\end{lemma}
+
+\begin{proof}
+Let \(T=\tors(A)\). Since \(\rho=0\), the action of \(P\) on \(A/T\) is trivial. Equivalently, for every \(p\in P\) and \(a\in A\), the element \(p(a)-a\) belongs to \(T\). Let \(e\) be the exponent of \(T\), with \(e=1\) if \(T=0\). Then
+\[
+p(ea)=ep(a)=ea
+\]
+for all \(p\in P\) and \(a\in A\). Thus
+\[
+B=eA
+\]
+is a torsion-free finite-index subgroup of \(A\), and it is centralized by \(P\). Hence \(B\) is central in \(\Delta\). The quotient
+\[
+E=\Delta/B
+\]
+is finite.
+
+We next construct a homomorphism from \(\Delta\) to a free abelian group that is injective on \(B\). Since \([A,P]\le T\) is finite and \(P\) is finite, the commutator subgroup \([\Delta,\Delta]\), generated by \([A,P]\) and commutators in \(P\), is finite. Let
+\[
+A_0=\Delta_{\mathrm{ab}}/\tors(\Delta_{\mathrm{ab}}),
+\]
+and let \(\chi:\Delta\to A_0\) be the natural homomorphism. If \(b\in B\) maps to zero in \(A_0\), then the image of \(b\) in \(\Delta_{\mathrm{ab}}\) is torsion. Thus \(b^k\in[\Delta,\Delta]\) for some \(k\ge 1\). But \([\Delta,\Delta]\) is finite and \(B\) is torsion-free, so \(b=1\). Therefore \(\chi|_B\) is injective.
+
+Let \(q:\Delta\to E=\Delta/B\) be the quotient map. Define
+\[
+\iota:\Delta\to A_0\times E,\qquad \iota(g)=(\chi(g),q(g)).
+\]
+If \(\iota(g)=(1,1)\), then \(q(g)=1\), so \(g\in B\), and \(\chi(g)=1\). Since \(\chi|_B\) is injective, \(g=1\). Hence \(\iota\) is injective.
+
+Finally, if \(\Delta\) is non-abelian, then \([\Delta,\Delta]\neq 1\). Since \([\Delta,\Delta]\) is finite and \(B\) is torsion-free, \([\Delta,\Delta]\cap B=1\). Thus some non-trivial commutator survives in \(E=\Delta/B\), so \(E\) is non-abelian.
+\end{proof}
+
+\begin{proposition}
+Assume \(\rho=0\) and \(\Delta\) is non-abelian. Then
+\[
+\LEF_{\Delta\wr\Z^d}(n)\simeq \exp(n^d).
+\]
+\end{proposition}
+
+\begin{proof}
+The lower bound follows from Proposition 3.1, since \(\gamma_{\Z^d}(n)\simeq n^d\).
+
+For the upper bound, use Lemma 6.4 to embed
+\[
+\Delta\hookrightarrow A_0\times E,
+\]
+where \(A_0\) is finitely generated free abelian and \(E\) is finite. This induces an embedding
+\[
+\Delta\wr\Z^d\hookrightarrow (A_0\times E)\wr\Z^d.
+\]
+Because \(A_0\times E\) is a direct product, there is an injective homomorphism
+\[
+(A_0\times E)\wr\Z^d\hookrightarrow (A_0\wr\Z^d)\times(E\wr\Z^d)
+\]
+given by projecting the lamp component to \(A_0\) and \(E\), and sending the base element diagonally to the two base components.
+
+Theorem 4.2 gives
+\[
+\LEF_{A_0\wr\Z^d}(n)\preceq \exp(n).
+\]
+For the finite lamp \(E\), the torus model used in Theorem 5.1 gives the upper bound
+\[
+\LEF_{E\wr\Z^d}(n)\preceq \exp(n^d),
+\]
+regardless of whether \(E\) is abelian. Taking the product of the two local finite models gives
+\[
+\LEF_{(A_0\times E)\wr\Z^d}(n)\preceq \exp(n)\exp(n^d)\preceq \exp(n^d).
+\]
+Since \(\Delta\wr\Z^d\) embeds in this group, the same upper bound holds for \(\Delta\wr\Z^d\).
+\end{proof}
+
+\subsection{The trichotomy}
+
+\begin{theorem}
+Let \(\Delta=A\rtimes P\), where \(A\) is finitely generated abelian and \(P\) is finite. Assume \(\Delta\neq 1\), and put
+\[
+\rho=\rank_\Z[A,P].
+\]
+Then, for every \(d\ge 1\),
+\[
+\LEF_{\Delta\wr\Z^d}(n)\simeq
+\begin{cases}
+\exp(n), & \Delta\text{ abelian},\\
+\exp(n^d), & \rho=0\text{ and }\Delta\text{ non-abelian},\\
+\exp(n^d\log n), & \rho>0.
+\end{cases}
+\]
+\end{theorem}
+
+\begin{proof}
+If \(\Delta\) is abelian, then \(\Delta\) is a non-trivial finitely generated abelian group, so the result is Theorem 4.2. If \(\rho=0\) and \(\Delta\) is non-abelian, the result is Proposition 6.5. If \(\rho>0\), combine Propositions 6.2 and 6.3.
+\end{proof}
+
+\begin{corollary}
+Let
+\[
+D_\infty=\langle r,s\mid s^2=1,\ srs=r^{-1}\rangle.
+\]
+Then, for every \(d\ge 1\),
+\[
+\LEF_{D_\infty\wr\Z^d}(n)\simeq \exp(n^d\log n).
+\]
+\end{corollary}
+
+\begin{proof}
+We have \(D_\infty=\Z\rtimes C_2\), where \(C_2\) acts on \(\Z\) by multiplication by \(-1\). Hence
+\[
+[\Z,C_2]=2\Z
+\]
+has rank \(1\), so \(\rho>0\). The result follows from Theorem 6.6.
+\end{proof}
+
+\section{Finite non-abelian lamps over the discrete Heisenberg group}
+
+Let
+\[
+H=H_3(\Z)=\langle x,y,z\mid [x,y]=z,\ [x,z]=[y,z]=1\rangle.
+\]
+Every element of \(H\) has a unique normal form
+\[
+x^ay^bz^c,\qquad a,b,c\in\Z.
+\]
+We use the standard generating set \(\{x^{\pm 1},y^{\pm 1}\}\); the central generator \(z\) has word length comparable to the square root of its exponent.
+
+\begin{lemma}
+The word-growth function of \(H_3(\Z)\) satisfies
+\[
+\gamma_H(n)\simeq n^4.
+\]
+Moreover, there are constants \(C,c>0\) such that
+\[
+B_H(n)\subseteq \{x^ay^bz^c: |a|,|b|\le Cn,\ |c|\le Cn^2\},
+\]
+and
+\[
+\{x^ay^bz^c: |a|,|b|\le cn,\ |c|\le cn^2\}\subseteq B_H(Cn).
+\]
+\end{lemma}
+
+\begin{proof}
+The horizontal coordinates change by at most one under multiplication by \(x^{\pm1}\) or \(y^{\pm1}\), so \(|a|,|b|\le n\) in the \(n\)-ball. The central coordinate records signed area swept by a word of length \(n\), hence is \(O(n^2)\). This gives the first inclusion and the upper growth bound \(O(n^4)\).
+
+Conversely, all elements \(x^ay^b\) with \(|a|,|b|\le cn\) have length \(O(n)\). Also, commutators satisfy
+\[
+[x^r,y^s]=z^{rs}.
+\]
+Every integer \(|c|\le cn^2\) can be written as a sum of \(O(1)\) products \(r_is_i\) with \(|r_i|,|s_i|\le C\sqrt{|c|}\le C'n\). Thus \(z^c\) has length \(O(n)\) for \(|c|\le cn^2\). This proves the second inclusion and the lower growth bound \(\Omega(n^4)\).
+\end{proof}
+
+For \(m\ge 1\), define
+\[
+K_m=\{x^{ma}y^{mb}z^{m^2c}:a,b,c\in\Z\}.
+\]
+
+\begin{lemma}
+For every \(m\ge 1\), \(K_m\) is a subgroup of \(H\). Moreover,
+\[
+[H:K_m]=m^4,
+\]
+and the systole of \(K_m\) in \(H\), namely the least word length of a non-trivial element of \(K_m\), is \(\simeq m\).
+\end{lemma}
+
+\begin{proof}
+In coordinates \((a,b,c)\) corresponding to \(x^ay^bz^c\), multiplication has the form
+\[
+(a,b,c)(a',b',c')=(a+a',b+b',c+c'+\omega((a,b),(a',b'))),
+\]
+where \(\omega\) is an integral bilinear form. If \(a,b,a',b'\) are divisible by \(m\), then \(\omega((a,b),(a',b'))\) is divisible by \(m^2\). Thus \(K_m\) is a subgroup.
+
+Every left coset of \(K_m\) has a representative \(x^\alpha y^\beta z^\gamma\), with
+\[
+0\le \alpha,\beta<m,\qquad 0\le \gamma<m^2.
+\]
+If two such representatives lie in the same left coset, their quotient lies in \(K_m\). The horizontal coordinates of this quotient have absolute value strictly smaller than \(m\), hence are zero; then its central coordinate has absolute value strictly smaller than \(m^2\), hence is also zero. Therefore the representative is unique, and \([H:K_m]=m^4\).
+
+The elements \(x^m\), \(y^m\), and \(z^{m^2}\) belong to \(K_m\) and have word length \(O(m)\), so the systole is at most \(Cm\). Conversely, if a non-trivial element of \(K_m\) has a non-zero horizontal coordinate, that coordinate has absolute value at least \(m\), forcing word length at least \(cm\). If its horizontal coordinates vanish, it is a non-zero power \(z^{m^2q}\), whose word length is at least \(c\sqrt{|m^2q|}\ge cm\). Thus the systole is \(\simeq m\).
+\end{proof}
+
+Let \(Y_m=K_m\backslash H\), and let \(P_m\) be the image of \(H\) in its right action on \(Y_m\).
+
+\begin{lemma}
+For every \(m\ge 1\),
+\[
+|Y_m|=m^4,\qquad |P_m|\le Cm^6.
+\]
+\end{lemma}
+
+\begin{proof}
+The equality \(|Y_m|=m^4\) is Lemma 7.2. For the permutation image, let
+\[
+N_m=\langle x^{m^2},y^{m^2},z^{m^2}\rangle.
+\]
+This subgroup is normal in \(H\): conjugating \(x^{m^2}\) or \(y^{m^2}\) changes it only by a power of \(z^{m^2}\), and \(z^{m^2}\) is central. Also \(N_m\le K_m\). Hence \(N_m\) is contained in the core of \(K_m\), so the permutation image \(P_m\) is a quotient of \(H/N_m\). The quotient \(H/N_m\) has order \(O(m^6)\), because the three normal-form coordinates are taken modulo \(m^2,m^2,m^2\). Thus \(|P_m|\le Cm^6\).
+\end{proof}
+
+\begin{theorem}
+Let \(\Delta\) be finite non-abelian. Then
+\[
+\LEF_{\Delta\wr H_3(\Z)}(n)\simeq \exp(n^4).
+\]
+\end{theorem}
+
+\begin{proof}
+The lower bound follows from Proposition 3.1 and Lemma 7.1.
+
+For the upper bound, choose \(m\simeq n\). By Lemma 7.2, the systole of \(K_m\) is \(\simeq m\). Therefore, for a sufficiently small constant \(c>0\), if \(g,h\in B_H(cm)\) and \(K_mg=K_mh\), then \(gh^{-1}\in K_m\) and \(|gh^{-1}|\le 2cm\), forcing \(g=h\). Thus the pointed Schreier ball of the action \(H\curvearrowright Y_m\) agrees with the Cayley ball of \(H\) up to radius \(cm\).
+
+Apply Lemma 3.3, with \(\eta=\operatorname{id}_\Delta\), to this finite action. Since \(|Y_m|=m^4\) and \(|P_m|\le Cm^6\), the \(n\)-ball of \(\Delta\wr H\) locally embeds into
+\[
+\Delta^{Y_m}\rtimes P_m
+\]
+for \(m\simeq n\), and this finite group has order
+\[
+|\Delta|^{|Y_m|}|P_m|\le |\Delta|^{m^4}Cm^6\le \exp(C'n^4).
+\]
+This proves the upper bound.
+\end{proof}
+
+\section{A congruence lemma for abelian lamps over the Heisenberg group}
+
+The methods above do not determine \(\LEF_{C_p\wr H_3(\Z)}(n)\). The obstruction is that, for abelian lamps, one must compress sparse elements of the group algebra \(\F_p[H_3(\Z)]\), and the base is non-abelian.
+
+We record a useful congruence lemma. It separates one sparse group-algebra element in a congruence quotient of modulus \(O(n)\), but it does not supply a single small finite module separating all visible elements simultaneously.
+
+\begin{lemma}
+Let \(0\neq P(z)\in\F_p[z,z^{-1}]\), and suppose that \(\diam(\supp P)\le Bn^2\). For every \(A>0\), there is a constant \(C=C(A,B,p)\) and an integer \(m\) such that
+\[
+2An<m\le Cn,\qquad (m,p)=1,
+\]
+and
+\[
+P(z)\not\equiv 0\pmod{z^m-1}.
+\]
+\end{lemma}
+
+\begin{proof}
+Multiplying by a monomial, we may assume \(P\in\F_p[z]\) and \(\deg P\le Bn^2\). For \(M\ge 1\), set
+\[
+\Lambda_{p,M}(z)=\lcm\{z^m-1:1\le m\le M,\ (m,p)=1\}.
+\]
+Since \((m,p)=1\), the polynomial \(z^m-1\) is separable over \(\F_p\). Therefore
+\[
+\deg\Lambda_{p,M}=\sum_{\substack{1\le r\le M\\(r,p)=1}}\phi(r)\ge c_pM^2
+\]
+for some constant \(c_p>0\), using the classical estimate \(\sum_{r\le M}\phi(r)\asymp M^2\).
+
+Apply this estimate to the interval \((2An,Cn]\). For \(C\) sufficiently large, the least common multiple of the polynomials \(z^m-1\) with \(2An<m\le Cn\) and \((m,p)=1\) has degree greater than \(Bn^2\). If \(P\) were congruent to zero modulo \(z^m-1\) for every such \(m\), this least common multiple would divide \(P\), contradicting \(\deg P\le Bn^2\). Hence at least one such \(m\) detects \(P\).
+\end{proof}
+
+\begin{lemma}
+Let \(0\neq r\in\F_p[H_3(\Z)]\) be supported on elements \(x^ay^bz^c\) satisfying
+\[
+|a|,|b|\le An,\qquad |c|\le Bn^2.
+\]
+Then there exists \(m\le Cn\), with \((m,p)=1\), such that the image of \(r\) in
+\[
+\F_p[H_3(\Z/m\Z)]
+\]
+is non-zero. Here \(H_3(\Z/m\Z)\) denotes the quotient with generators \(x,y,z\), relations \([x,y]=z\), \(z\) central, and \(x^m=y^m=z^m=1\).
+\end{lemma}
+
+\begin{proof}
+Write
+\[
+r=\sum_{(a,b)}x^ay^bP_{a,b}(z),\qquad P_{a,b}(z)\in\F_p[z,z^{-1}].
+\]
+Choose \((a_0,b_0)\) such that \(P_{a_0,b_0}\neq 0\). Apply Lemma 8.1 to \(P_{a_0,b_0}\). We obtain \(m\le Cn\), with \(m>2An\) and \((m,p)=1\), such that
+\[
+P_{a_0,b_0}(z)\not\equiv 0\pmod{z^m-1}.
+\]
+Because \(m>2An\), no two distinct pairs \((a,b)\) with \(|a|,|b|\le An\) become equal modulo \(m\). Hence the \((a_0,b_0)\)-fiber cannot cancel with any other horizontal fiber after passing to \(H_3(\Z/m\Z)\). Since the central polynomial in that fiber is non-zero modulo \(z^m-1\), the image of \(r\) in \(\F_p[H_3(\Z/m\Z)]\) is non-zero.
+\end{proof}
+
+\begin{remark}
+Lemma 8.2 does not imply an upper bound of the form \(\exp(Cn^2)\), or any exact estimate, for \(\LEF_{C_p\wr H_3(\Z)}(n)\). It separates a single sparse group-algebra element by a congruence quotient. A LEF model must separate all non-zero lamp differences visible in the word ball using one finite group whose order is controlled.
+\end{remark}
+
+\section{Open problems}
+
+The preceding results leave several natural cases open.
+
+\begin{problem}
+Determine
+\[
+\LEF_{C_p\wr H_3(\Z)}(n).
+\]
+The word-growth lower bound gives \(\LEF_{C_p\wr H_3(\Z)}(n)\succeq \exp(n)\), while the finite-action model gives \(\LEF_{C_p\wr H_3(\Z)}(n)\preceq \exp(n^4)\). The true asymptotic appears to depend on efficient finite modules for sparse elements of \(\F_p[H_3(\Z)]\).
+\end{problem}
+
+\begin{problem}
+Extend Theorem 6.6 from split virtually abelian groups \(A\rtimes P\) to arbitrary finitely generated virtually abelian groups.
+\end{problem}
+
+\begin{problem}
+Let \(\Gamma\) be a finitely generated nilpotent group which is not virtually abelian, and let \(\Delta\) be finite abelian. Determine \(\LEF_{\Delta\wr\Gamma}(n)\) in terms of the geometry and representation theory of \(\Gamma\).
+\end{problem}
+
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+
+During the preparation of this work, ChatGPT, by OpenAI, was used to assist with mathematical drafting, formalization, review, and editing. This work is shared as a preliminary AI-assisted mathematical note. The mathematical content may have been only partially reviewed and may contain errors; it should not be treated as peer-reviewed or as a fully verified manuscript.
+
+\begin{thebibliography}{9}
+
+\bibitem{Bradford2022}
+H. Bradford, Quantifying local embeddings into finite groups, \emph{J. Algebra} 608 (2022), 214--238.
+
+\bibitem{Bradford2026}
+H. Bradford, Controlling LEF growth in some group extensions, \emph{J. Algebraic Combin.} 63 (2026), Article 23.
+
+\bibitem{BouRabeeCornulier2016}
+K. Bou-Rabee and Y. Cornulier, Systolic growth of linear groups, \emph{Proc. Amer. Math. Soc.} 144 (2016), no. 8, 3315--3324.
+
+\bibitem{BouRabeeStudenmund2016}
+K. Bou-Rabee and D. Studenmund, Full residual finiteness growths of nilpotent groups, \emph{Israel J. Math.} 214 (2016), no. 1, 209--233.
+
+\bibitem{Cornulier2006}
+Y. de Cornulier, Finitely presented wreath products and double coset decompositions, \emph{Geom. Dedicata} 122 (2006), 89--108.
+
+\bibitem{Cornulier2016}
+Y. Cornulier, Gradings on Lie algebras, systolic growth, and cohopfian properties of nilpotent groups, \emph{Bull. Soc. Math. France} 144 (2016), no. 4, 693--744.
+
+\bibitem{Cornulier2016arxiv}
+Y. Cornulier, Nilpotent Lie algebras and systolic growth of nilmanifolds, arXiv:1612.00818.
+
+\bibitem{Schwartz1980}
+J. T. Schwartz, Fast probabilistic algorithms for verification of polynomial identities, \emph{J. ACM} 27 (1980), no. 4, 701--717.
+
+\bibitem{Zippel1979}
+R. Zippel, Probabilistic algorithms for sparse polynomials, in \emph{Symbolic and Algebraic Computation}, Lecture Notes in Computer Science 72, Springer, 1979, 216--226.
+
+\end{thebibliography}
+
+\end{document}

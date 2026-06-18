@@ -33,6 +33,15 @@ body {
   line-height: 1.55;
 }
 
+body.paper-surface {
+  background: #ffffff;
+}
+
+body.paper-surface .top-nav,
+body.paper-surface .site-footer {
+  background: rgba(255, 255, 255, 0.88);
+}
+
 body > main {
   min-width: 0;
 }
@@ -98,6 +107,29 @@ textarea {
 .nav-links a[aria-current="page"] {
   color: var(--ink);
   border-color: currentColor;
+}
+
+.section-back-link {
+  align-self: start;
+  color: var(--blue);
+  display: inline-flex;
+  gap: 0.38rem;
+  font-size: 0.92rem;
+  font-weight: 400;
+  justify-self: start;
+  margin-bottom: 16px;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.section-back-arrow {
+  line-height: 1.55;
+}
+
+.section-back-link:hover,
+.section-back-link:focus-visible {
+  color: #1c4fa8;
+  outline: none;
 }
 
 .index-shell {
@@ -614,6 +646,204 @@ h2 {
   padding: 14px;
   white-space: pre-wrap;
   word-break: break-word;
+}
+
+.paper-page {
+  max-width: 920px;
+  min-width: 0;
+}
+
+.paper-header {
+  display: grid;
+  gap: 10px;
+}
+
+.paper-header h1 {
+  max-width: 18ch;
+  font-size: clamp(2.15rem, 5vw, 3.45rem);
+  line-height: 1.04;
+}
+
+.paper-collection-header p {
+  max-width: 66ch;
+  color: var(--muted);
+  font-size: 1.04rem;
+  margin-bottom: 0;
+}
+
+.tex-paper {
+  border-top: 1px solid rgba(217, 222, 234, 0.95);
+  margin-top: 48px;
+  min-width: 0;
+  padding-top: 42px;
+}
+
+.tex-paper:first-of-type {
+  margin-top: 24px;
+}
+
+.paper-eyebrow {
+  color: var(--green);
+  font-size: 0.88rem;
+  font-weight: 730;
+  letter-spacing: 0;
+  margin-bottom: 0;
+}
+
+.paper-document-title {
+  color: var(--ink);
+  font-size: clamp(1.7rem, 4vw, 2.65rem);
+  line-height: 1.08;
+  margin: 0;
+  max-width: 22ch;
+}
+
+.paper-author {
+  color: var(--muted);
+  font-size: 1.04rem;
+  margin-bottom: 0;
+}
+
+.paper-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.paper-actions a {
+  border: 1px solid rgba(45, 101, 216, 0.24);
+  border-radius: 8px;
+  color: var(--blue);
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 9px 12px;
+  text-decoration: none;
+}
+
+.paper-actions a:hover,
+.paper-actions a:focus-visible {
+  background: rgba(45, 101, 216, 0.08);
+  outline: none;
+}
+
+.paper-abstract,
+.paper-toc,
+.paper-references {
+  margin-top: 24px;
+  min-width: 0;
+}
+
+.paper-body {
+  min-width: 0;
+}
+
+.paper-abstract h2,
+.paper-toc h2,
+.paper-references h2,
+.paper-body h2 {
+  color: var(--ink);
+  font-size: clamp(1.34rem, 3vw, 1.8rem);
+  line-height: 1.15;
+  margin: 34px 0 14px;
+}
+
+.paper-body h3 {
+  color: var(--ink);
+  font-size: 1.14rem;
+  line-height: 1.25;
+  margin: 28px 0 12px;
+}
+
+.paper-abstract p,
+.paper-body p,
+.paper-body li,
+.paper-references li {
+  color: #242832;
+  font-size: 1rem;
+  line-height: 1.68;
+}
+
+.paper-abstract p,
+.paper-body p {
+  margin-bottom: 16px;
+}
+
+.paper-toc ol,
+.paper-references ol,
+.paper-body ol {
+  margin: 0 0 18px;
+  padding-left: 1.3rem;
+}
+
+.paper-list-roman {
+  list-style-type: lower-roman;
+}
+
+.paper-toc li {
+  margin-bottom: 7px;
+}
+
+.paper-toc a {
+  color: var(--ink);
+  display: inline-flex;
+  gap: 10px;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.paper-toc a span {
+  color: var(--green);
+  min-width: 2.4rem;
+}
+
+.paper-toc-subsection {
+  margin-left: 1rem;
+}
+
+.math-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 0 12px;
+}
+
+.math-display mjx-container,
+.paper-abstract mjx-container[display="true"],
+.paper-body mjx-container[display="true"],
+.paper-references mjx-container[display="true"] {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+}
+
+.paper-statement,
+.paper-proof {
+  border-left: 3px solid rgba(45, 101, 216, 0.42);
+  margin: 20px 0;
+  min-width: 0;
+  padding: 2px 0 2px 16px;
+}
+
+.paper-proof {
+  border-left-color: rgba(61, 138, 95, 0.42);
+}
+
+.paper-statement-label,
+.paper-proof-label {
+  color: var(--ink);
+  font-weight: 730;
+  margin-bottom: 8px;
+}
+
+.paper-references li {
+  margin-bottom: 10px;
+}
+
+.paper-ref-label {
+  color: var(--green);
+  font-weight: 700;
 }
 
 .article-body p,

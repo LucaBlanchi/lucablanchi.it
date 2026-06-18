@@ -8,6 +8,7 @@ interface Props {
   lang?: "it" | "en";
   currentPath?: string;
   showFooter?: boolean;
+  bodyClass?: string;
   scripts?: string[];
 }
 
@@ -17,6 +18,7 @@ const {
   lang = "en",
   currentPath = "/",
   showFooter = true,
+  bodyClass,
   scripts = []
 } = Astro.props;
 
@@ -34,7 +36,7 @@ const scriptList = ["/assets/site.js", ...scripts].filter(
     <meta name="description" content={description}>
     <link rel="stylesheet" href="/assets/site.css">
   </head>
-  <body>
+  <body class={bodyClass}>
     <SiteHeader currentPath={currentPath} />
     <slot />
     {showFooter && <SiteFooter />}
