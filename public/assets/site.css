@@ -755,6 +755,14 @@ h2 {
   margin: 28px 0 12px;
 }
 
+.paper-body h4 {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 730;
+  line-height: 1.32;
+  margin: 24px 0 10px;
+}
+
 .paper-abstract p,
 .paper-body p,
 .paper-body li,
@@ -844,6 +852,39 @@ h2 {
 .paper-ref-label {
   color: var(--green);
   font-weight: 700;
+}
+
+.paper-reference-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.paper-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 22px 0;
+}
+
+.paper-table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  color: #242832;
+  font-size: 0.94rem;
+  line-height: 1.45;
+}
+
+.paper-table th,
+.paper-table td {
+  border-bottom: 1px solid rgba(217, 222, 234, 0.95);
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.paper-table th {
+  color: var(--ink);
+  font-weight: 730;
 }
 
 .article-body p,
