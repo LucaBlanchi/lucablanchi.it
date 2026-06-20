@@ -1,5 +1,72 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const articles = [
+  {
+    href: "/ai-assisted-math/random-saturation-real-homogeneous-threshold-boxes.html",
+    title: "Random Saturation and Optimal Off-Origin Slack in Real Homogeneous Boolean Threshold Boxes",
+    description:
+      "A real-coefficient bounded-height model for homogeneous Boolean threshold boxes, random saturation, and optimal off-origin slack.",
+    date: "June 2026",
+    datetime: "2026-06",
+  },
+  {
+    href: "/ai-assisted-math/sharp-random-thresholds-exact-ternary-lifts.html",
+    title: "Sharp Random Thresholds for Exact Ternary Homogeneous Boolean Lifts",
+    description:
+      "A sharp random threshold theorem for exact ternary homogeneous Boolean lifts in the expanded coefficient presentation.",
+    date: "June 2026",
+    datetime: "2026-06",
+  },
+  {
+    href: "/ai-assisted-math/lattice-obstructions-coefficient-alphabets.html",
+    title: "Lattice Obstructions and Coefficient Alphabets for Homogeneous Boolean Lifts",
+    description:
+      "Exact notes on two-point encoding lattices, universal denominators, coefficient alphabets, and homogeneous Boolean lift criteria.",
+    date: "June 2026",
+    datetime: "2026-06",
+  },
+  {
+    href: "/ai-assisted-math/conway-thrackle-proof-strategy.html",
+    title: "Switch Corridors and Boundary-Rigid Lenses in Even Dumbbell Thrackles",
+    description:
+      "A proof strategy for Conway's thrackle conjecture via irreducible even dumbbells, switch corridors, ladders, and closed alternating trains.",
+    date: "June 2026",
+    datetime: "2026-06",
+  },
+  {
+    href: "/ai-assisted-math/previous-copy-compression-quantitative-barriers.html",
+    title: "Previous-Copy Compression: Quantitative Barriers",
+    description:
+      "Advanced notes on finite stammering profiles, exponential tube barriers, and conditional quantitative lower bounds.",
+    date: "June 2026",
+    datetime: "2026-06",
+  },
+  {
+    href: "/ai-assisted-math/previous-copy-compression-foundations.html",
+    title: "Previous-Copy Compression: Foundations and Algebraic Digit Expansions",
+    description:
+      "Foundational papers on online previous-copy parsing, extremal and metric behaviour, and algebraic digit expansions.",
+    date: "June 2026",
+    datetime: "2026-06",
+  },
+  {
+    href: "/ai-assisted-math/lef-growth-wreath-products.html",
+    title: "LEF Growth of Wreath Products with Abelian and Virtually Abelian Lamps",
+    description:
+      "A paper on LEF growth for wreath products with abelian, non-abelian, virtually abelian, and Heisenberg-base examples.",
+    date: "June 2026",
+    datetime: "2026-06",
+  },
+  {
+    href: "/ai-assisted-math/a-theory-about-complexity.html",
+    title: "A theory about complexity",
+    description:
+      "Drafts and notes about complexity budgets, controlled operations, and possible obstruction tools.",
+    date: "June 2026",
+    datetime: "2026-06",
+  },
+];
 ---
 
 <BaseLayout
@@ -30,47 +97,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </p>
 
       <section class="article-list" aria-label="AI-assisted math articles">
-        <a class="article-list-item" href="/ai-assisted-math/conway-thrackle-proof-strategy.html">
-          <time datetime="2026-06">June 2026</time>
-          <span>Switch Corridors and Boundary-Rigid Lenses in Even Dumbbell Thrackles</span>
-          <p>
-            A proof strategy for Conway's thrackle conjecture via irreducible
-            even dumbbells, switch corridors, ladders, and closed alternating
-            trains.
-          </p>
-        </a>
-        <a class="article-list-item" href="/ai-assisted-math/previous-copy-compression-foundations.html">
-          <time datetime="2026-06">June 2026</time>
-          <span>Previous-Copy Compression: Foundations and Algebraic Digit Expansions</span>
-          <p>
-            Foundational papers on online previous-copy parsing, extremal and
-            metric behaviour, and algebraic digit expansions.
-          </p>
-        </a>
-        <a class="article-list-item" href="/ai-assisted-math/previous-copy-compression-quantitative-barriers.html">
-          <time datetime="2026-06">June 2026</time>
-          <span>Previous-Copy Compression: Quantitative Barriers</span>
-          <p>
-            Advanced notes on finite stammering profiles, exponential tube
-            barriers, and conditional quantitative lower bounds.
-          </p>
-        </a>
-        <a class="article-list-item" href="/ai-assisted-math/lef-growth-wreath-products.html">
-          <time datetime="2026-06">June 2026</time>
-          <span>LEF Growth of Wreath Products with Abelian and Virtually Abelian Lamps</span>
-          <p>
-            A paper on LEF growth for wreath products with abelian, non-abelian,
-            virtually abelian, and Heisenberg-base examples.
-          </p>
-        </a>
-        <a class="article-list-item" href="/ai-assisted-math/a-theory-about-complexity.html">
-          <time datetime="2026-06">June 2026</time>
-          <span>A theory about complexity</span>
-          <p>
-            Drafts and notes about complexity budgets, controlled operations, and
-            possible obstruction tools.
-          </p>
-        </a>
+        {
+          articles.map((article) => (
+            <a class="article-list-item" href={article.href}>
+              <time datetime={article.datetime}>{article.date}</time>
+              <span>{article.title}</span>
+              <p>{article.description}</p>
+            </a>
+          ))
+        }
       </section>
     </article>
   </main>
