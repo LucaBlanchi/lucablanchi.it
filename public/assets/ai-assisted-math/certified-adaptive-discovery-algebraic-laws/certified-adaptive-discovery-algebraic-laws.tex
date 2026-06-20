@@ -1,0 +1,1078 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Certified Adaptive Discovery of Algebraic Laws}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We develop a finite-sample inference framework for algebraic laws discovered after adaptive search. The basic input is a volume certificate: a subset $A$ of a finite sample space $X$, an upper bound $V\ge |A|$, and a prefix-free description length. Such certificates generate valid e-values under the uniform null. We prove exact-fit, partial-fit, likelihood-ratio, sequential, replicated, and change-point variants. We then specialize the framework to rational points of bounded height in projective space, where algebraic laws are closed subvarieties and volume certificates are supplied by height-counting bounds. The resulting tests apply to symbolic regression over rational data, algebraic subspace clustering, finite-field congruence laws, and related algebraic-discovery problems. We also prove a universal dominance statement: relative to a computably enumerable certificate language, a universal mixture dominates every effective volume-certified algebraic e-test, up to a multiplicative constant. The paper is not a new rational-point-counting theorem; rather, it supplies a rigorous post-selection and optional-stopping-valid inference layer for algebraic law discovery.
+\end{abstract}
+
+\section{Introduction}
+
+Many scientific-discovery and symbolic-regression procedures search through large families of polynomial relations. Given data, an algorithm may report an equation
+\[
+F(x)=0
+\]
+or a more general algebraic condition
+\[
+x\in Y\subsetneq \mathbb P^n
+\]
+only after inspecting the data. This creates an immediate post-selection problem. A relation may look striking simply because the search space was large, the degree was high, or the algorithm was allowed to adapt.
+
+This paper gives a finite-sample significance theory for such discoveries. The central idea is simple. If a candidate law cuts down the sample space from $X$ to a subset $A$, and one has a certificate
+\[
+|A|\le V,
+\]
+then an exact fit to $A$ is unlikely under a uniform null when $V/|X|$ is small. If many possible laws are searched, the search cost is paid through a prefix-free description length. This produces e-values and e-processes that remain valid after arbitrary adaptive search and optional stopping.
+
+The framework is deliberately modular. The statistical component is based on e-values, Kraft weights, likelihood-ratio mixtures, and nonnegative supermartingales. The geometric component enters only through volume certificates. In arithmetic applications, these certificates may come from elementary height-counting bounds, determinant-method estimates, finite-field Schwartz-Zippel bounds, or problem-specific geometry.
+
+The contribution is therefore not a new height-counting theorem. Instead, it is a certified inference layer for algebraic discovery: once an algebraic candidate comes with a valid volume certificate and a code length fixed in advance as part of a certificate language, it receives a post-selection-valid evidence score.
+
+The main results are:
+\begin{itemize}
+\item exact-fit post-selection validity;
+\item partial and noisy-fit validity via binary KL scores;
+\item likelihood-ratio mixtures and oracle inequalities;
+\item conditional and sequential e-processes for adaptive data streams;
+\item a corrected finite-class model-selection consistency theorem;
+\item replicated-law aggregation under explicit independence or conditional-validity assumptions;
+\item a change-point mixture for emergent laws;
+\item universal dominance for effective volume-certified algebraic e-tests;
+\item concrete algebraic certificates for hypersurfaces, linear subspaces, projective varieties, and finite fields;
+\item applications to symbolic regression, algebraic subspace clustering, finite-field congruence discovery, low-rank structure, and conservation laws.
+\end{itemize}
+
+\section{Background and terminology}
+
+An e-value for a null hypothesis $H_0$ is a nonnegative random variable $E$ satisfying
+\[
+\mathbb E_{H_0}E\le1.
+\]
+By Markov's inequality,
+\[
+\mathbb P_{H_0}(E\ge 2^s)\le2^{-s}.
+\]
+Thus a large e-value gives evidence against $H_0$, with $\min\{1,1/E\}$ acting as a valid p-value.
+
+An e-process is a nonnegative process $(E_t)_{t\ge0}$ that is a supermartingale, or at least satisfies $\mathbb E_{H_0}E_t\le1$ for all $t$, under the null. If $(E_t)$ is a nonnegative supermartingale with $E_0\le1$, Ville's inequality gives
+\[
+\mathbb P_{H_0}\left(\sup_{t\ge0}E_t\ge2^s\right)\le2^{-s}.
+\]
+This gives optional-stopping validity.
+
+We use prefix-free code lengths $\kappa(c)$ satisfying Kraft's inequality:
+\[
+\sum_c2^{-\kappa(c)}\le1.
+\]
+The certificate language and code lengths are fixed before the data are analyzed. The data-dependent discovery procedure may choose a certificate adaptively after seeing the data, but it must choose from this pre-specified language.
+
+\section{Abstract volume certificates}
+
+Let $X$ be a finite set. Under the basic null,
+\[
+H_0:\quad X_1,\dots,X_N\overset{\mathrm{i.i.d.}}{\sim}\mathrm{Unif}(X).
+\]
+
+\begin{definition}[Volume certificate]
+A volume certificate is a triple
+\[
+c=(A_c,V_c,\kappa_c),
+\]
+where
+\[
+A_c\subseteq X,\qquad V_c>0,\qquad |A_c|\le V_c,
+\]
+and $\kappa_c$ is a prefix-free code length. Set
+\[
+p_c=\min\left\{1,\frac{V_c}{|X|}\right\}.
+\]
+\end{definition}
+
+Then
+\[
+\mathbb P_{H_0}(X_i\in A_c)\le p_c.
+\]
+The interpretation is that $A_c$ is the set satisfying a discovered law, $V_c$ is an upper bound on its null volume, and $\kappa_c$ is the search or description cost of the law.
+
+Certificates with $p_c=1$ are valid but noninformative. Likelihood-ratio formulae below are stated for $0<p_c<1$; endpoint cases are handled by omission or by the corresponding limiting convention.
+
+\section{Exact-fit adaptive discovery}
+
+For fixed $c$, define
+\[
+S_N(c)=N\log_2\frac1{p_c}-\kappa_c
+\]
+if
+\[
+X_1,\dots,X_N\in A_c,
+\]
+and define $S_N(c)=-\infty$ otherwise. Let
+\[
+S_N^*=\sup_c S_N(c).
+\]
+
+\begin{theorem}[Exact-fit post-selection significance]
+Under $H_0$, for every $s\ge0$,
+\[
+\mathbb P_{H_0}(S_N^*\ge s)\le2^{-s}.
+\]
+Consequently, if an arbitrary adaptive discovery procedure reports a certificate $c$ with $S_N(c)=s$, then
+\[
+p_{\mathrm{post}}\le2^{-s}
+\]
+is a valid post-selection p-value.
+\end{theorem}
+
+\begin{proof}
+For fixed $c$,
+\[
+\mathbb P_{H_0}(X_1,\dots,X_N\in A_c)\le p_c^N.
+\]
+If $S_N(c)\ge s$, then
+\[
+N\log_2\frac1{p_c}-\kappa_c\ge s,
+\]
+or equivalently,
+\[
+p_c^N\le2^{-s}2^{-\kappa_c}.
+\]
+Therefore
+\[
+\mathbb P_{H_0}(S_N^*\ge s)
+\le
+\sum_c
+\mathbb P_{H_0}(X_1,\dots,X_N\in A_c)\,
+\mathbf 1_{\{N\log_2(1/p_c)-\kappa_c\ge s\}}.
+\]
+Using the preceding bound,
+\[
+\mathbb P_{H_0}(S_N^*\ge s)
+\le
+\sum_c2^{-s}2^{-\kappa_c}
+\le2^{-s}.
+\]
+This proves the theorem.
+\end{proof}
+
+Equivalently,
+\[
+E_N=\sum_c2^{-\kappa_c}p_c^{-N}\mathbf 1_{\{X_1,\dots,X_N\in A_c\}}
+\]
+is an e-value, and $\log_2E_N\ge S_N^*$.
+
+\section{Partial and noisy algebraic laws}
+
+Exact fit is often too strict. Define
+\[
+H_c=\sum_{i=1}^N\mathbf 1_{\{X_i\in A_c\}}.
+\]
+For $q,p\in[0,1]$, let
+\[
+d_2(q\mid p)
+=
+q\log_2\frac qp
++
+(1-q)\log_2\frac{1-q}{1-p}
+\]
+be binary KL divergence in bits, with the usual boundary conventions.
+
+For $0<p_c<1$, define
+\[
+K_N(c)
+=
+N d_2(H_c/N\mid p_c)
+-\kappa_c-\log_2(N+1)
+\]
+if $H_c/N>p_c$, and define $K_N(c)=-\infty$ otherwise. Let
+\[
+K_N^*=\sup_cK_N(c).
+\]
+
+\begin{theorem}[Partial-fit post-selection significance]
+Under $H_0$, for every $s\ge0$,
+\[
+\mathbb P_{H_0}(K_N^*\ge s)\le2^{-s}.
+\]
+Thus, if a reported law $c$ contains $h$ of $N$ data points, the score
+\[
+N d_2(h/N\mid p_c)-\kappa_c-\log_2(N+1)
+\]
+is a valid post-selection evidence score whenever $h/N>p_c$.
+\end{theorem}
+
+\begin{proof}
+For fixed $c$, the random variable $H_c$ is stochastically dominated by
+\[
+Z_c\sim\mathrm{Bin}(N,p_c).
+\]
+For $q>p_c$, the type-counting Chernoff bound gives
+\[
+\mathbb P(Z_c/N\ge q)
+\le
+(N+1)2^{-Nd_2(q\mid p_c)}.
+\]
+If $K_N(c)\ge s$, then
+\[
+Nd_2(H_c/N\mid p_c)
+\ge
+s+\kappa_c+\log_2(N+1).
+\]
+Hence
+\[
+\mathbb P_{H_0}(K_N(c)\ge s)
+\le
+2^{-s}2^{-\kappa_c}.
+\]
+A union bound over $c$ gives
+\[
+\mathbb P_{H_0}(K_N^*\ge s)
+\le
+\sum_c2^{-s}2^{-\kappa_c}
+\le2^{-s}.
+\]
+\end{proof}
+
+\section{Likelihood-ratio mixtures and oracle bounds}
+
+For fixed $c$ with $0<p_c<1$ and for $\theta\in[p_c,1]$, define
+\[
+L_{c,N}(\theta)
+=
+\left(\frac{\theta}{p_c}\right)^{H_c}
+\left(\frac{1-\theta}{1-p_c}\right)^{N-H_c}.
+\]
+For every $\theta\in[p_c,1]$, $L_{c,N}(\theta)$ is an e-value under $H_0$.
+
+Let
+\[
+\theta_j=\frac jN,
+\qquad
+j=\lceil Np_c\rceil,\dots,N.
+\]
+Define
+\[
+M_{c,N}
+=
+\frac1{N+1}
+\sum_{j=\lceil Np_c\rceil}^{N}L_{c,N}(\theta_j).
+\]
+
+\begin{proposition}[Robust GLR lower bound]
+The quantity $M_{c,N}$ is an e-value. If $H_c/N>p_c$, then
+\[
+\log_2M_{c,N}
+\ge
+N d_2(H_c/N\mid p_c)-\log_2(N+1).
+\]
+\end{proposition}
+
+\begin{proof}
+A subprobability average of e-values is an e-value. If $H_c/N>p_c$, the grid contains $\theta=H_c/N$. Therefore
+\[
+M_{c,N}\ge \frac1{N+1}L_{c,N}(H_c/N).
+\]
+Taking logarithms,
+\[
+\log_2M_{c,N}
+\ge
+Nd_2(H_c/N\mid p_c)-\log_2(N+1).
+\]
+\end{proof}
+
+Mixing over certificates yields the oracle inequality
+\[
+\log_2\sum_c2^{-\kappa_c}M_{c,N}
+\ge
+\sup_c
+\left[
+Nd_2(H_c/N\mid p_c)-\kappa_c-\log_2(N+1)
+\right].
+\]
+
+\section{Conditional and sequential certificates}
+
+Let $(\mathcal F_t)_{t\ge0}$ be a filtration and let $X_t$ be the observation at time $t$.
+
+A predictable certificate $c$ specifies events
+\[
+A_{c,t}\subseteq \mathcal X_t,
+\]
+where $A_{c,t}$ is $\mathcal F_{t-1}$-measurable, and predictable numbers
+\[
+0<p_{c,t}<1.
+\]
+Assume the null satisfies
+\[
+\mathbb P_{H_0}(X_t\in A_{c,t}\mid\mathcal F_{t-1})
+\le p_{c,t}
+\]
+almost surely for every $c,t$.
+
+Define
+\[
+Z_{c,t}=\mathbf 1_{\{X_t\in A_{c,t}\}}.
+\]
+Let
+\[
+\theta_{c,t}\in[p_{c,t},1]
+\]
+be predictable. Define
+\[
+L_{c,t}
+=
+\prod_{i=1}^{t}
+\left(\frac{\theta_{c,i}}{p_{c,i}}\right)^{Z_{c,i}}
+\left(\frac{1-\theta_{c,i}}{1-p_{c,i}}\right)^{1-Z_{c,i}}.
+\]
+
+\begin{theorem}[Conditional-volume e-process]
+For every $c$ and every predictable strategy $(\theta_{c,t})$, the process $(L_{c,t})_{t\ge0}$ is a nonnegative supermartingale under the null.
+Consequently,
+\[
+\mathbb P_{H_0}\left(\sup_{t\ge0}L_{c,t}\ge2^s\right)\le2^{-s}.
+\]
+\end{theorem}
+
+\begin{proof}
+Let
+\[
+q_t=\mathbb P_{H_0}(Z_{c,t}=1\mid\mathcal F_{t-1})
+\le p_{c,t}.
+\]
+The conditional mean of the $t$-th factor is
+\[
+q_t\frac{\theta_{c,t}}{p_{c,t}}
++
+(1-q_t)\frac{1-\theta_{c,t}}{1-p_{c,t}}.
+\]
+For $q\le p\le \theta$,
+\[
+q\frac{\theta}{p}
++
+(1-q)\frac{1-\theta}{1-p}
+=
+1-\frac{(p-q)(\theta-p)}{p(1-p)}
+\le1.
+\]
+Thus
+\[
+\mathbb E[L_{c,t}\mid\mathcal F_{t-1}]
+\le L_{c,t-1}.
+\]
+Ville's inequality gives the claimed optional-stopping bound.
+\end{proof}
+
+Now suppose $\mathcal C$ is prefix-free and, for each $c$, $\Pi_c$ is a countable family of predictable strategies with weights $w(\pi\mid c)\ge0$ satisfying
+\[
+\sum_{\pi\in\Pi_c}w(\pi\mid c)\le1.
+\]
+Define
+\[
+U_t=
+\sum_{c\in\mathcal C}2^{-\kappa_c}
+\sum_{\pi\in\Pi_c}w(\pi\mid c)L_{c,\pi,t}.
+\]
+
+\begin{corollary}[Universal anytime-valid search]
+The process $(U_t)$ is a nonnegative supermartingale with initial expectation at most $1$. Hence
+\[
+\mathbb P_{H_0}\left(\sup_{t\ge0}\log_2 U_t\ge s\right)\le2^{-s}.
+\]
+\end{corollary}
+
+\section{Change-point discovery}
+
+We now make the change-point extension explicit. Suppose a certificate $c$ may become active after an unknown time $\tau$. For $t<\tau$, define
+\[
+L_{c,\tau,t}(\theta)=1.
+\]
+For $t\ge\tau$, define
+\[
+L_{c,\tau,t}(\theta)
+=
+\prod_{i=\tau}^{t}
+\left(\frac{\theta}{p_c}\right)^{Z_{c,i}}
+\left(\frac{1-\theta}{1-p_c}\right)^{1-Z_{c,i}},
+\]
+where
+\[
+Z_{c,i}=\mathbf 1_{\{X_i\in A_c\}}.
+\]
+Under the no-law null, this is an e-process that is inactive before $\tau$ and starts from value $1$ at time $\tau-1$.
+
+Let $\Theta_c\subset[p_c,1]$ be countable with weights $a_{\theta\mid c}\ge0$, $\sum_{\theta\in\Theta_c}a_{\theta\mid c}\le1$. Let
+\[
+w_\tau=\frac1{\tau(\tau+1)},
+\qquad
+\sum_{\tau\ge1}w_\tau=1.
+\]
+Define the full mixture over all start times by
+\[
+U_t^{\mathrm{cp}}
+=
+\sum_c2^{-\kappa_c}
+\sum_{\tau=1}^{\infty}w_\tau
+\sum_{\theta\in\Theta_c}a_{\theta\mid c}L_{c,\tau,t}(\theta).
+\]
+
+\begin{theorem}[Change-point algebraic discovery]
+Under the null, $(U_t^{\mathrm{cp}})_{t\ge0}$ is a nonnegative supermartingale with initial expectation at most $1$. In particular,
+\[
+\mathbb P_{H_0}\left(\sup_t\log_2U_t^{\mathrm{cp}}\ge s\right)\le2^{-s}.
+\]
+\end{theorem}
+
+\begin{proof}
+For each fixed $c,\tau,\theta$, the process $L_{c,\tau,t}(\theta)$ is identically $1$ for $t<\tau$, has a conditionally valid first likelihood factor at $t=\tau$, and then evolves by conditionally valid likelihood factors. Hence it is a nonnegative supermartingale. The mixture weights satisfy
+\[
+\sum_c2^{-\kappa_c}\le1,\qquad
+\sum_{\tau\ge1}w_\tau=1,\qquad
+\sum_{\theta\in\Theta_c}a_{\theta\mid c}\le1.
+\]
+Therefore their weighted sum is a nonnegative supermartingale with initial expectation at most $1$. Ville's inequality gives the result.
+\end{proof}
+
+For computation at time $t$, the infinite tail $\tau>t$ contributes only its inactive value. It may therefore be evaluated as a deterministic tail mass, or truncated with the remaining tail kept as an inactive reserve.
+
+\section{Power under planted algebraic incidence}
+
+Let $P$ be an alternative distribution on $X$. For certificate $c$, set
+\[
+\theta_c=P(X\in A_c).
+\]
+Assume
+\[
+\theta_c>p_c.
+\]
+
+\begin{theorem}[Linear power]
+Under i.i.d. sampling from $P$,
+\[
+\frac1N K_N(c)\to d_2(\theta_c\mid p_c)
+\]
+almost surely. Consequently, for every sequence $s_N=o(N)$,
+\[
+\mathbb P_P(K_N^*\ge s_N)\to1.
+\]
+\end{theorem}
+
+\begin{proof}
+By the strong law,
+\[
+H_c/N\to\theta_c
+\]
+almost surely. Since $q\mapsto d_2(q\mid p_c)$ is continuous for $q>p_c$,
+\[
+d_2(H_c/N\mid p_c)\to d_2(\theta_c\mid p_c)>0.
+\]
+The penalty terms satisfy
+\[
+\kappa_c/N\to0,
+\qquad
+\log_2(N+1)/N\to0.
+\]
+Therefore
+\[
+K_N(c)/N\to d_2(\theta_c\mid p_c).
+\]
+Since $K_N^*\ge K_N(c)$, the result follows.
+\end{proof}
+
+\section{Finite-class model-selection consistency}
+
+The score $K_N(c)$ equals $-\infty$ whenever $H_c/N\le p_c$. Therefore, for consistency statements, it is cleaner to use the nonnegative score
+\[
+K_N^+(c)
+=
+\max\left\{
+0,\,
+N d_2(H_c/N\mid p_c)-\kappa_c-\log_2(N+1)
+\right\},
+\]
+where the KL term is interpreted as $0$ when $H_c/N\le p_c$.
+
+Let $\mathcal C_0\subset\mathcal C$ be finite. Under an alternative distribution $P$, define
+\[
+\theta_c=P(X\in A_c)
+\]
+and
+\[
+J(c)=
+\begin{cases}
+d_2(\theta_c\mid p_c),&\theta_c>p_c,\\
+0,&\theta_c\le p_c.
+\end{cases}
+\]
+Assume $c_*$ is the unique maximizer of $J(c)$ over $\mathcal C_0$, and assume
+\[
+J(c_*)>0.
+\]
+Let
+\[
+\widehat c_N\in\arg\max_{c\in\mathcal C_0}K_N^+(c).
+\]
+
+\begin{theorem}[Finite-class consistency]
+Under $P$,
+\[
+\mathbb P(\widehat c_N=c_*)\to1.
+\]
+\end{theorem}
+
+\begin{proof}
+For each fixed $c$,
+\[
+K_N^+(c)/N\to J(c)
+\]
+almost surely. Indeed, if $\theta_c>p_c$, this follows from the same argument as in Theorem 9.1. If $\theta_c\le p_c$, then positive deviations above $p_c$ vanish asymptotically in normalized KL score, and $K_N^+(c)/N\to0$.
+
+Since $\mathcal C_0$ is finite and $c_*$ uniquely maximizes $J$, there is a margin
+\[
+\gamma=J(c_*)-\max_{c\ne c_*}J(c)>0.
+\]
+Almost surely, for all sufficiently large $N$,
+\[
+K_N^+(c_*)/N>J(c_*)-\gamma/3,
+\]
+while
+\[
+K_N^+(c)/N<J(c)+\gamma/3\le J(c_*)-2\gamma/3
+\]
+for every $c\ne c_*$. Thus $c_*$ eventually uniquely maximizes $K_N^+$.
+\end{proof}
+
+\section{Replicated laws}
+
+Suppose there are environments $e=1,\dots,E$. In environment $e$, observations satisfy a null incidence certificate
+\[
+\mathbb P(X_{e,t}\in A_c\mid\mathcal F_{e,t-1})\le p_{c,e,t}.
+\]
+There are two valid settings.
+
+\subsection{Independent environments}
+
+If the environments are independent under the null, then the product of environment-specific e-values is an e-value.
+
+\subsection{Ordered conditional validity}
+
+More generally, order all observations in a single global filtration. If each environment-specific factor is conditionally valid given the past, then the product process is a supermartingale.
+
+Under either condition, if environment $e$ supplies $N_e$ observations, hit fraction $\widehat q_{c,e}$, and constant certificate $p_{c,e}$, the replicated score
+\[
+R(c)
+=
+\sum_{e=1}^{E}
+N_e d_2(\widehat q_{c,e}\mid p_{c,e})
+-\kappa_c
+-\sum_{e=1}^{E}\log_2(N_e+1)
+\]
+is post-selection valid after mixing over $c$. The model cost $\kappa_c$ is paid once, while evidence accumulates across environments.
+
+\section{Simultaneous effect-size confidence sets}
+
+Let $q_c=P(X\in A_c)$ be the true incidence probability. For $u\in[0,1]$, let $M_{c,N}(u)$ be an e-value valid under the null
+\[
+H_{0,c}(u):q_c\le u.
+\]
+Define the confidence set
+\[
+\mathcal I_{c,N}(\alpha)
+=
+\left\{
+u\in[0,1]:
+M_{c,N}(u)<\frac{2^{\kappa_c}}{\alpha}
+\right\}.
+\]
+
+\begin{theorem}[Simultaneous post-selection confidence sets]
+With probability at least $1-\alpha$,
+\[
+q_c\in \mathcal I_{c,N}(\alpha)
+\]
+for every $c$.
+\end{theorem}
+
+\begin{proof}
+For the true value $q_c$,
+\[
+\mathbb P\left(
+M_{c,N}(q_c)\ge\frac{2^{\kappa_c}}{\alpha}
+\right)
+\le
+\alpha 2^{-\kappa_c}.
+\]
+Union-bound over $c$ and use Kraft:
+\[
+\sum_c \alpha2^{-\kappa_c}\le\alpha.
+\]
+\end{proof}
+
+We call these confidence sets, not intervals; they need not be intervals without further monotonicity assumptions.
+
+\section{Information-theoretic optimality}
+
+Let $P_0$ be a reference distribution and let $A\subseteq X$ have exact null mass $P_0(A)=p$. For $\theta\in(0,1)$, define the tilted alternative
+\[
+\frac{dP_\theta}{dP_0}(x)
+=
+\begin{cases}
+\theta/p,&x\in A,\\
+(1-\theta)/(1-p),&x\notin A.
+\end{cases}
+\]
+Then $P_\theta(A)=\theta$.
+
+For $N$ observations, the likelihood ratio is
+\[
+L_N(\theta)
+=
+\left(\frac{\theta}{p}\right)^H
+\left(\frac{1-\theta}{1-p}\right)^{N-H}.
+\]
+Also,
+\[
+D_2(P_\theta\mid P_0)=d_2(\theta\mid p).
+\]
+
+If a test has type-I error at most $\alpha$ under $P_0^N$ and type-II error at most $\beta$ under $P_\theta^N$, data processing gives
+\[
+N d_2(\theta\mid p)
+\ge
+d_2(1-\beta\mid\alpha).
+\]
+Thus
+\[
+N\ge
+\frac{d_2(1-\beta\mid\alpha)}
+{d_2(\theta\mid p)}.
+\]
+The KL scores above detect at the same information rate, up to description length and universal coding regret.
+
+\section{Necessity of search penalties}
+
+Let $A_1,\dots,A_M$ be disjoint subsets of $X$, each with null mass $p$. Assign each model code length
+\[
+\kappa=\log_2M.
+\]
+Kraft is tight:
+\[
+\sum_{j=1}^M2^{-\kappa}=1.
+\]
+The event that all $N$ samples fall into one of the $A_j$ has probability
+\[
+Mp^N.
+\]
+For each such model, the exact-fit score is
+\[
+S=N\log_2(1/p)-\log_2M.
+\]
+Thus
+\[
+Mp^N=2^{-S}.
+\]
+Hence the bound in Theorem 4.1 is sharp in the abstract volume-certificate model, and the search penalty cannot be uniformly removed.
+
+\section{Universal dominance}
+
+Let $\mathcal E$ be a computably enumerable class of elementary certified e-values or e-processes. Let $\mathbf m(e)$ be a universal lower-semicomputable semimeasure on $\mathcal E$. Define
+\[
+U=\sum_{e\in\mathcal E}\mathbf m(e)e.
+\]
+
+A certified e-test is any lower-semicomputable subprobability mixture
+\[
+E=\sum_{e\in\mathcal E}w(e)e,
+\]
+where $w(e)\ge0$, $\sum_e w(e)\le1$, and $w$ is lower semicomputable.
+
+\begin{theorem}[Universal dominance]
+For every certified e-test $E$, there exists a constant $C_E$, depending only on the effective description of $E$, such that
+\[
+E\le C_EU
+\]
+pointwise. Equivalently,
+\[
+\log_2E\le \log_2U+O(K(E)).
+\]
+\end{theorem}
+
+\begin{proof}
+By universality of $\mathbf m$, every lower-semicomputable semimeasure $w$ satisfies
+\[
+w(e)\le C_E\mathbf m(e)
+\]
+for all $e$, for some constant $C_E$. Hence
+\[
+E=\sum_ew(e)e
+\le
+C_E\sum_e\mathbf m(e)e
+=
+C_EU.
+\]
+\end{proof}
+
+This theorem characterizes the precise class being dominated: effective tests built as mixtures of certified geometric evidence. It does not claim dominance over all possible statistical tests.
+
+\section{Algebraic certificates over height balls}
+
+Let
+\[
+X_B=\mathbb P^n(\mathbb Q)_{\le B}
+\]
+be a finite height ball in projective space. An algebraic certificate is a proper closed algebraic subset
+\[
+Y\subsetneq\mathbb P^n_{\mathbb Q}
+\]
+together with a bound
+\[
+|Y(\mathbb Q)\cap X_B|\le V_B(Y).
+\]
+Then
+\[
+p_Y=\min\left\{1,\frac{V_B(Y)}{|X_B|}\right\}.
+\]
+The statistical machinery is independent of how $V_B(Y)$ is obtained.
+
+\subsection{Hypersurfaces}
+
+Let $F\in\mathbb Z[X_0,\dots,X_n]$ be nonzero homogeneous of degree $D$, and let $Y=Z(F)$. A crude box-counting Schwartz-Zippel argument gives
+\[
+|Y(\mathbb Q)\cap X_B|\le C_nD B^n.
+\]
+Since
+\[
+|X_B|\gg_n B^{n+1},
+\]
+one obtains
+\[
+p_F\le \min\{1,C_nD/B\}.
+\]
+Thus an exact degree-$D$ homogeneous polynomial law has leading score
+\[
+N\log_2(B/D)-\kappa(F)-O_n(N).
+\]
+
+\subsection{Linear subspaces}
+
+If $L\subseteq\mathbb P^n$ is a rational $m$-plane, then
+\[
+|L(\mathbb Q)\cap X_B|\ll_mB^{m+1}.
+\]
+Thus
+\[
+p_L\le C_{n,m}B^{-(n-m)}.
+\]
+For a union of $K$ rational $m$-planes,
+\[
+p\le C_{n,m}K B^{-(n-m)}.
+\]
+
+\subsection{General projective varieties}
+
+Let $Y\subsetneq\mathbb P^n_{\mathbb Q}$ be a reduced closed algebraic subset of dimension $m\ge1$ and total degree $D$. A finite-projection argument, or sharper determinant-method estimates when available, can supply bounds of the schematic form
+\[
+|Y(\mathbb Q)\cap X_B|\le C_nD^{O_n(1)}B^{m+1}.
+\]
+Consequently,
+\[
+p_Y\le C_nD^{O_n(1)}B^{-(n-m)}.
+\]
+For $m=0$,
+\[
+|Y(\mathbb Q)\cap X_B|\le D,
+\]
+and
+\[
+p_Y\le C_nD B^{-(n+1)}.
+\]
+These bounds are intentionally crude and may be replaced by sharper arithmetic estimates.
+
+\subsection{Finite fields}
+
+Let $X=\mathbb F_q^d$. If $F\in\mathbb F_q[x_1,\dots,x_d]$ is nonzero of degree $D<q$, then Schwartz-Zippel gives
+\[
+|Z(F)|\le Dq^{d-1},
+\]
+so
+\[
+p_F\le D/q.
+\]
+
+\section{Application I: adaptive symbolic regression over rational data}
+
+Let a symbolic-regression procedure search through homogeneous polynomials and report
+\[
+F\in\mathbb Z[X_0,\dots,X_n],
+\]
+of degree $D$ and code length $\kappa(F)$, vanishing on $h$ of $N$ rational points in $X_B$.
+
+Using
+\[
+p_F\le C_nD/B,
+\]
+the valid post-selection score is
+\[
+N d_2\left(\frac hN\,\middle|\,\min\{1,C_nD/B\}\right)
+-\kappa(F)-\log_2(N+1).
+\]
+For exact fit, this becomes
+\[
+N\log_2\frac{B}{C_nD}-\kappa(F).
+\]
+Therefore a discovered degree-$D$ polynomial law is significant only if
+\[
+N\log_2(B/D)\gg \kappa(F)+s.
+\]
+This is a finite-sample anti-overfitting threshold.
+
+\section{Application II: algebraic subspace clustering}
+
+Suppose an algorithm discovers
+\[
+Y=L_1\cup\cdots\cup L_K,
+\]
+a union of rational $m$-planes in $\mathbb P^n$. Then
+\[
+p_Y\le C_{n,m}K B^{-(n-m)}.
+\]
+If all $N$ observations lie in the discovered union, the exact-fit score is
+\[
+N\left[(n-m)\log_2B-\log_2K-O_{n,m}(1)\right]
+-\kappa(Y).
+\]
+Thus increasing the number of fitted subspaces is penalized both by increased null volume and by model description length. Partial-fit versions use the KL score and allow outliers.
+
+\section{Application III: finite-field congruence laws}
+
+Let
+\[
+X=\mathbb F_q^d
+\]
+under the uniform null. Let $F\in\mathbb F_q[x_1,\dots,x_d]$ be nonzero of degree $D<q$.
+Since
+\[
+p_F\le D/q,
+\]
+an exact discovered congruence law
+\[
+F(X_i)=0\qquad i=1,\dots,N
+\]
+has score
+\[
+N\log_2(q/D)-\kappa(F).
+\]
+If the same integer polynomial law is tested across fields
+\[
+\mathbb F_{q_1},\dots,\mathbb F_{q_E}
+\]
+and remains nonzero modulo each $q_e$, then the replicated exact score is
+\[
+\sum_e N_e\log_2(q_e/D)-\kappa(F),
+\]
+under the independence or conditional-validity assumptions of Section 11.
+
+\section{Additional examples}
+
+The same framework applies whenever a valid volume certificate is available.
+
+\subsection{Low-rank matrices}
+
+Nonzero $a\times b$ rational matrices form a projective space $\mathbb P^{ab-1}$. The rank-$\le r$ determinantal variety has codimension
+\[
+(a-r)(b-r).
+\]
+For fixed $a,b,r$, its degree is constant, hence
+\[
+p_r\le C_{a,b,r}B^{-(a-r)(b-r)}.
+\]
+Exact low-rank structure across $N$ observations has leading evidence
+\[
+N(a-r)(b-r)\log_2B-\kappa(r)-O_{a,b,r}(N).
+\]
+
+\subsection{Conservation laws}
+
+Let $X_t$ be a state process on a bounded integer box. A candidate invariant $I$ gives events
+\[
+A_{I,t}=\{x:I(x)=I(X_1)\}.
+\]
+If one can certify
+\[
+\mathbb P(I(X_t)=I(X_1)\mid\mathcal F_{t-1})\le p_I,
+\]
+then the conditional e-process theorem applies. The scientific content lies in justifying this null certificate.
+
+\subsection{Missing data}
+
+If only coordinates indexed by a predictable pattern $\Omega_t$ are observed, replace $Y$ by its projection
+\[
+\pi_{\Omega_t}(Y).
+\]
+The framework applies once one certifies
+\[
+\mathbb P_0(\pi_{\Omega_t}(X_t)\in \pi_{\Omega_t}(Y)\mid\mathcal F_{t-1})\le p_{Y,t}.
+\]
+
+\section{Multiple discoveries}
+
+If several independent or dependent discovery projects produce valid e-values
+\[
+E_1,\dots,E_J,
+\]
+then e-value multiple-testing procedures such as e-BH may be used to control false discovery rate under their stated assumptions. This allows many algebraic-discovery pipelines to be run in parallel, provided each reported law is accompanied by a valid e-value.
+
+\section{Scope and limitations}
+
+This framework does not produce volume certificates automatically. It converts valid certificates into post-selection-valid inference.
+
+The framework is not a new theorem in rational-point counting. Any sharper arithmetic or geometric estimate can be substituted for the crude certificates stated here.
+
+The universal dominance theorem is relative to the chosen effective certificate language. It is not a dominance theorem over all possible statistical tests.
+
+The algebraic null model must be meaningful for the application. Uniform height balls and finite fields are convenient reference cases, but applications may require conditional or nonuniform volume certificates.
+
+The term ``model-selection consistency'' in this paper is finite-class and incidence-based. It does not assert recovery of an algebraic variety in a metric or scheme-theoretic sense.
+
+\section{Conclusion}
+
+We have developed a certified inference framework for algebraic laws discovered after adaptive search. The core mechanism is a volume certificate combined with a prefix-free model code. From this we obtain finite-sample post-selection validity, noisy and partial-fit validity, optional-stopping validity, finite-class consistency, replicated-law aggregation under explicit assumptions, change-point mixtures, and universal dominance over effective certified e-tests.
+
+The main practical implication is an anti-overfitting law for algebraic discovery. A polynomial equation, subspace union, congruence law, or algebraic constraint discovered after inspecting the data is significant only when its certified volume reduction beats both its description length and its geometric complexity.
+
+For symbolic regression over rational points, a degree-$D$ exact polynomial law receives leading evidence
+\[
+N\log_2(B/D)-\kappa(F)-O_n(N).
+\]
+Thus high-degree interpolation is not significant merely because it fits; the equation must be simple and its null volume must be small.
+
+The framework is best viewed as a rigorous MDL/e-value layer for algebraic and arithmetic discovery. Its strength depends on the quality of the supplied volume certificates.
+
+\begin{thebibliography}{99}
+\small
+\sloppy
+
+\bibitem[SSVV11]{SSVV11}
+G. Shafer, A. Shen, N. Vereshchagin, and V. Vovk,
+\emph{Test martingales, Bayes factors and p-values},
+Statistical Science 26 (2011), no. 1, 84--101.
+
+\bibitem[VW21]{VW21}
+V. Vovk and R. Wang,
+\emph{E-values: calibration, combination and applications},
+Annals of Statistics 49 (2021), no. 3, 1736--1754.
+
+\bibitem[WR22]{WR22}
+R. Wang and A. Ramdas,
+\emph{False discovery rate control with e-values},
+Journal of the Royal Statistical Society, Series B 84 (2022), no. 3, 822--852.
+
+\bibitem[RSSS23]{RSSS23}
+A. Ramdas, P. Grunwald, V. Vovk, and G. Shafer,
+\emph{Game-theoretic statistics and safe anytime-valid inference},
+Statistical Science 38 (2023), no. 4, 576--601.
+
+\bibitem[GSTV01]{GSTV01}
+P. Gacs, J. Tromp, and P. Vitanyi,
+\emph{Algorithmic statistics},
+IEEE Transactions on Information Theory 47 (2001), no. 6, 2443--2463.
+
+\bibitem[VV04]{VV04}
+N. Vereshchagin and P. Vitanyi,
+\emph{Kolmogorov's structure functions and model selection},
+IEEE Transactions on Information Theory 50 (2004), no. 12, 3265--3290.
+
+\bibitem[Grunwald07]{Grunwald07}
+P. Grunwald,
+\emph{The Minimum Description Length Principle},
+MIT Press, 2007.
+
+\bibitem[LiV]{LiV}
+M. Li and P. Vitanyi,
+\emph{An Introduction to Kolmogorov Complexity and Its Applications},
+Springer.
+
+\bibitem[Poonen17]{Poonen17}
+B. Poonen,
+\emph{Rational Points on Varieties},
+Graduate Studies in Mathematics 186, American Mathematical Society, 2017.
+
+\bibitem[BHBS06]{BHBS06}
+T. D. Browning, D. R. Heath-Brown, and P. Salberger,
+\emph{Counting rational points on algebraic varieties},
+Duke Mathematical Journal 132 (2006), no. 3, 545--578.
+
+\bibitem[HB02]{HB02}
+D. R. Heath-Brown,
+\emph{The density of rational points on curves and surfaces},
+Annals of Mathematics 155 (2002), no. 2, 553--595.
+
+\bibitem[Salberger12]{Salberger12}
+P. Salberger,
+\emph{On the density of rational and integral points on algebraic varieties},
+Journal fur die reine und angewandte Mathematik 606 (2007), 123--147.
+
+\bibitem[Hartshorne77]{Hartshorne77}
+R. Hartshorne,
+\emph{Algebraic Geometry},
+Springer, 1977.
+
+\bibitem[Harris92]{Harris92}
+J. Harris,
+\emph{Algebraic Geometry: A First Course},
+Springer, 1992.
+
+\bibitem[DSS09]{DSS09}
+M. Drton, B. Sturmfels, and S. Sullivant,
+\emph{Lectures on Algebraic Statistics},
+Birkhauser, 2009.
+
+\bibitem[Watanabe09]{Watanabe09}
+S. Watanabe,
+\emph{Algebraic Geometry and Statistical Learning Theory},
+Cambridge University Press, 2009.
+
+\bibitem[VMS16]{VMS16}
+R. Vidal, Y. Ma, and S. Sastry,
+\emph{Generalized Principal Component Analysis},
+Springer, 2016.
+
+\bibitem[Landsberg12]{Landsberg12}
+J. M. Landsberg,
+\emph{Tensors: Geometry and Applications},
+American Mathematical Society, 2012.
+
+\bibitem[KTT15]{KTT15}
+A. Kiraly, L. Theran, and R. Tomioka,
+\emph{The algebraic combinatorial approach for low-rank matrix completion},
+Journal of Machine Learning Research 16 (2015), 1391--1436.
+
+\bibitem[PBM16]{PBM16}
+J. Peters, P. Buhlmann, and N. Meinshausen,
+\emph{Causal inference by using invariant prediction: identification and confidence intervals},
+Journal of the Royal Statistical Society, Series B 78 (2016), no. 5, 947--1012.
+
+\end{thebibliography}
+
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+During the preparation of this work, ChatGPT, by OpenAI, was used to assist with mathematical drafting, formalization, review, and editing. This work is shared as a preliminary AI-assisted mathematical note. The mathematical content may have been only partially reviewed and may contain errors; it should not be treated as peer-reviewed or as a fully verified manuscript.
+
+\end{document}
