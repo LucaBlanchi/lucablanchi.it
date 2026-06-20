@@ -1,0 +1,75 @@
+---
+import { readFileSync } from "node:fs";
+import AiAssistedMathNotice from "../../components/AiAssistedMathNotice.astro";
+import SectionBackLink from "../../components/SectionBackLink.astro";
+import { renderMarkdownPaper } from "../../lib/markdownPaper";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const assetBase = "/assets/ai-assisted-math/degree-weighted-normal-covers-symmetric-alternating-groups";
+const stem = "degree-weighted-normal-covers-symmetric-alternating-groups";
+const paper = renderMarkdownPaper(readFileSync(`public${assetBase}/${stem}.md`, "utf8"), {
+  idPrefix: "degree-weighted-covers",
+});
+
+const pdfHref = `${assetBase}/${stem}.pdf`;
+const texHref = `${assetBase}/${stem}.tex`;
+---
+
+<BaseLayout
+  title="Degree-weighted Normal Covers of Symmetric and Alternating Groups"
+  description="A preliminary AI-assisted note on degree-weighted normal covers of symmetric and alternating groups."
+  currentPath="/ai-assisted-math/degree-weighted-normal-covers-symmetric-alternating-groups.html"
+  bodyClass="paper-surface"
+>
+  <script is:inline>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"], ["$", "$"]],
+        displayMath: [["\\[", "\\]"]],
+      },
+    };
+  </script>
+  <script is:inline async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+  <main class="shell article-shell">
+    <article class="plain-page ai-article paper-page">
+      <SectionBackLink href="/ai-assisted-math.html" label="Back to AI-assisted math" />
+      <AiAssistedMathNotice />
+
+      <header class="plain-header paper-header">
+        <div class="article-meta">
+          <time datetime="2026-06">June 2026</time>
+        </div>
+        <h1>{paper.title}</h1>
+        <p class="paper-author">Luca Blanchi</p>
+        <div class="paper-actions" aria-label="Downloads">
+          <a href={pdfHref} download>Download PDF</a>
+          <a href={texHref} download>Download TeX</a>
+        </div>
+      </header>
+
+      <section class="paper-abstract" aria-labelledby="abstract-title">
+        <h2 id="abstract-title">Abstract</h2>
+        <div set:html={paper.abstractHtml} />
+      </section>
+
+      <nav class="paper-toc" aria-labelledby="contents-title">
+        <h2 id="contents-title">Contents</h2>
+        <ol>
+          {
+            paper.tocEntries.map((entry) => (
+              <li class={entry.level === "subsection" ? "paper-toc-subsection" : undefined}>
+                <a href={`#${entry.id}`}>
+                  {entry.number && <span>{entry.number}</span>}
+                  {entry.title}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+
+      <div class="paper-body" set:html={paper.bodyHtml} />
+    </article>
+  </main>
+</BaseLayout>
