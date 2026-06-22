@@ -5,10 +5,11 @@ import SectionBackLink from "../../components/SectionBackLink.astro";
 import { renderTexPaper } from "../../lib/texPaper";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const assetBase = "/assets/ai-assisted-math/sharp-support-image-thresholds-alternating-pencils";
-const stem = "sharp-support-image-thresholds-alternating-pencils";
+const assetBase =
+  "/assets/ai-assisted-math/word-measure-twins-pfaffian-moduli-class-two-p-groups";
+const stem = "word-measure-twins-pfaffian-moduli-class-two-p-groups";
 const paper = renderTexPaper(readFileSync(`public${assetBase}/${stem}.tex`, "utf8"), {
-  idPrefix: "support-image-thresholds",
+  idPrefix: "word-measure-twins",
 });
 
 const pdfHref = `${assetBase}/${stem}.pdf`;
@@ -16,9 +17,9 @@ const texHref = `${assetBase}/${stem}.tex`;
 ---
 
 <BaseLayout
-  title="Pfaffian Degree as Observer Complexity in Class-Two p-Groups"
-  description="Exact support-image and word-observer depth theorems for regular alternating pencils and associated class-two exponent-p groups."
-  currentPath="/ai-assisted-math/sharp-support-image-thresholds-alternating-pencils.html"
+  title="Word-Measure Twins and Pfaffian Moduli in Class-Two p-Groups"
+  description="Large families of non-isomorphic class-two p-groups with identical word-map distributions, built from Pfaffian moduli."
+  currentPath="/ai-assisted-math/word-measure-twins-pfaffian-moduli-class-two-p-groups.html"
   bodyClass="paper-surface"
 >
   <script is:inline>

@@ -1,0 +1,1972 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Finite Lovász Profiles for Coprime Affine Groups}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We introduce the finite left and right Lovász dimensions of a class of finite groups, measuring whether the class is classified by homomorphism counts from, or into, groups of bounded order. We prove that coprime affine groups with fixed quotient have finite Lovász dimension on both sides. Fix a prime $p$ and a finite $p'$-group $Q$. Let $\mathcal C_{p,Q}$ be the class of finite groups $G$ such that
+
+\[
+O_p(G)\ \text{is elementary abelian},\qquad G/O_p(G)\cong Q.
+\]
+
+Equivalently, by Schur--Zassenhaus and Maschke,
+
+\[
+G\cong V\rtimes Q
+\]
+
+with $V$ a semisimple $\mathbb F_pQ$-module, considered up to twisting by $\operatorname{Aut}(Q)$. We construct finite families of bounded-order test groups
+
+\[
+\mathcal T_{p,Q},\qquad \mathcal R_{p,Q}
+\]
+
+such that, for all $G,H\in\mathcal C_{p,Q}$,
+
+\[
+G\cong H
+\]
+
+if and only if
+
+\[
+|\operatorname{Hom}(T,G)|=|\operatorname{Hom}(T,H)|
+\quad\text{for all }T\in\mathcal T_{p,Q},
+\]
+
+and also if and only if
+
+\[
+|\operatorname{Hom}(G,R)|=|\operatorname{Hom}(H,R)|
+\quad\text{for all }R\in\mathcal R_{p,Q}.
+\]
+
+Thus $\mathcal C_{p,Q}$ has finite left and right Lovász dimension. The construction is explicit and bounded in terms of $p$ and $Q$, independently of $\dim_{\mathbb F_p}O_p(G)$. The left test family is built from quotients (Q/N), primitive central idempotents of $\mathbb F_pQ$, and Möbius inversion on the normal subgroup lattice of $Q$. The right test family is dual: its epimorphism counts recover surjection moments of semisimple modules. Both profiles reconstruct the semisimple $\mathbb F_pQ$-module $O_p(G)$ up to the natural $\operatorname{Aut}(Q)$-action. We also prove sharpness results. The class of finite abelian $p$-groups of exponent at most $p^R$ has finite left Lovász dimension, classified by the cyclic tests $C_p,\ldots,C_{p^R}$. In contrast, the class of all finite abelian $p$-groups has infinite left Lovász dimension: no finite family of finitely generated test groups distinguishes all of them by homomorphism counts. Finally, we prove two positive cases of a recent two-object hom-count test problem. First, finite abelian groups satisfy both the left and right two-object test properties. Second, if $Q$ is a finite $p'$-group with
+
+\[
+\operatorname{End}(Q)=\operatorname{Aut}(Q)\cup\{0\},
+\]
+
+and $V^Q=0$, then the coprime affine groups $V\rtimes Q$ satisfy both two-object test properties. The proof reduces hom-counts to a positive-definite exponential kernel on semisimple multiplicity vectors.
+\end{abstract}
+
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+This article belongs to the AI-assisted math section. Generative AI, including ChatGPT by \mbox{OpenAI}, was used to assist with mathematical drafting, formalization, review, and editing. The note may be preliminary, may have been only partially reviewed, and in some cases may be only AI-reviewed.
+
+\section{Introduction}
+
+Homomorphism counts are among the most basic numerical invariants of finite structures. For graphs, Lovász's theorem says that two finite graphs $G,H$ are isomorphic if and only if
+
+\[
+|\operatorname{Hom}(F,G)|=|\operatorname{Hom}(F,H)|
+\]
+
+for every finite graph $F$. This is often called equality of the left homomorphism profile. There is also a right profile, obtained from counts
+
+\[
+|\operatorname{Hom}(G,F)|.
+\]
+
+This paper studies finite-group analogues of a sharper question:
+
+\[
+\textit{When can an infinite class of finite groups be classified by homomorphism counts involving only bounded-size test groups?}
+\]
+
+We introduce two parameters for a class $\mathcal C$ of finite groups:
+
+\[
+\Lambda_L(\mathcal C),
+\qquad
+\Lambda_R(\mathcal C),
+\]
+
+the left and right finite Lovász dimensions. Informally, $\Lambda_L(\mathcal C)\le B$ means that groups in $\mathcal C$ are classified by the numbers
+
+\[
+|\operatorname{Hom}(T,G)|
+\]
+
+with $|T|\le B$. Similarly, $\Lambda_R(\mathcal C)\le B$ means that they are classified by
+
+\[
+|\operatorname{Hom}(G,R)|
+\]
+
+with $|R|\le B$. The main theorem proves that both dimensions are finite for coprime affine groups with fixed quotient. Let $p$ be a prime and $Q$ a finite $p'$-group. Define
+
+\[
+\mathcal C_{p,Q}
+=\left\{
+G:
+O_p(G)\text{ is elementary abelian and }G/O_p(G)\cong Q
+\right\}.
+\]
+
+By Schur--Zassenhaus,
+
+\[
+G\cong V\rtimes Q,
+\]
+
+where $V=O_p(G)$ is elementary abelian. Since $p\nmid |Q|$, Maschke's theorem implies that $V$ is a semisimple $\mathbb F_pQ$-module. The abstract group $G$ is determined by $V$, but only up to twisting the $Q$-action by $\operatorname{Aut}(Q)$. Our first result is:
+
+\begin{theorem}[Finite two-sided Lovász dimension for coprime affine groups]
+For every prime $p$ and finite $p'$-group $Q$,
+
+\[
+\Lambda_L(\mathcal C_{p,Q})<\infty
+\qquad\text{and}\qquad
+\Lambda_R(\mathcal C_{p,Q})<\infty.
+\]
+
+More explicitly, there exist finite families of finite groups
+
+\[
+\mathcal T_{p,Q},
+\qquad
+\mathcal R_{p,Q},
+\]
+
+of order bounded only in terms of $p$ and $Q$, such that for all $G,H\in\mathcal C_{p,Q}$,
+
+\[
+G\cong H
+\]
+
+if and only if
+
+\[
+|\operatorname{Hom}(T,G)|=|\operatorname{Hom}(T,H)|
+\quad\forall T\in\mathcal T_{p,Q},
+\]
+
+and also if and only if
+
+\[
+|\operatorname{Hom}(G,R)|=|\operatorname{Hom}(H,R)|
+\quad\forall R\in\mathcal R_{p,Q}.
+\]
+
+The proof of the left profile theorem is constructive. Let
+
+\[
+1=e_1+\cdots+e_s
+\]
+
+be the primitive central idempotent decomposition of $\mathbb F_pQ$. For every normal subgroup $N\lhd Q$, and every tuple $\mathbf i=(i_1,\ldots,i_d)$, we define a small semidirect product
+
+\[
+T_{N,\mathbf i}
+U_{N,\mathbf i}\rtimes Q/N,
+\]
+
+where
+
+\[
+U_{N,\mathbf i}
+\bigoplus_{\ell=1}^d
+\mathbb F_p[Q/N]/
+\mathbb F_p[Q/N]\bar e_{i_\ell}.
+\]
+
+Homomorphism counts from these groups into $G$ produce sums of kernel sizes of the idempotents $e_i$ acting on $O_p(G)$. Möbius inversion on the normal subgroup lattice of $Q$ isolates embeddings
+
+\[
+Q\hookrightarrow G.
+\]
+
+The embeddings over a fixed automorphism $\alpha\in\operatorname{Aut}(Q)$ are counted uniformly because
+
+\[
+H^1(Q,V)=0
+\]
+
+in the coprime situation. Finally, invariant theory for the finite action of $\operatorname{Aut}(Q)$ recovers the orbit of the multiplicity vector of $V$. The right profile theorem is dual. The test targets are semidirect products
+
+\[
+R_{\mathbf r}=U_{\mathbf r}\rtimes Q,
+\]
+
+where $U_{\mathbf r}$ is a bounded semisimple $\mathbb F_pQ$-module. Epimorphism counts from $G$ onto $R_{\mathbf r}$ count surjective module maps
+
+\[
+O_p(G)\twoheadrightarrow U_{\mathbf r}
+\]
+
+up to twisting by automorphisms of $Q$. These surjection moments again recover the $\operatorname{Aut}(Q)$-orbit of the semisimple multiplicity vector. Theorem A has a reconstruction form:
+
+\end{theorem}
+
+\begin{theorem}[Reconstruction]
+The finite left and right hom-count fingerprints constructed in Theorem A reconstruct the semisimple $\mathbb F_pQ$-module $O_p(G)$ up to twisting by $\operatorname{Aut}(Q)$. Hence they reconstruct $G$ up to isomorphism. We also show that the phenomenon is sharp. Let $\mathcal A_p$ be the class of all finite abelian $p$-groups, and let $\mathcal A_{p,\le R}$ be the subclass of exponent at most $p^R$.
+
+\end{theorem}
+
+\begin{theorem}[Abelian threshold]
+For every $R\ge1$,
+
+\[
+\Lambda_L(\mathcal A_{p,\le R})<\infty.
+\]
+
+Indeed, the tests
+
+\[
+C_p,C_{p^2},\ldots,C_{p^R}
+\]
+
+classify $\mathcal A_{p,\le R}$. In contrast,
+
+\[
+\Lambda_L(\mathcal A_p)=\infty.
+\]
+
+More strongly, no finite family of finitely generated groups distinguishes all finite abelian $p$-groups by homomorphism counts. Thus bounded exponent is a genuine finite-testability threshold for abelian $p$-groups. We also prove a stable homocyclic extension. Let
+
+\[
+\mathcal H_{p,R,Q}
+\]
+
+be the class of groups
+
+\[
+G=A\rtimes Q
+\]
+
+with
+
+\[
+A\cong(\mathbb Z/p^R\mathbb Z)^n
+\]
+
+and $p\nmid |Q|$.
+
+\end{theorem}
+
+\begin{theorem}[Homocyclic coprime affine groups]
+For fixed $p,R,Q$,
+
+\[
+\Lambda_L(\mathcal H_{p,R,Q})<\infty
+\qquad\text{and}\qquad
+\Lambda_R(\mathcal H_{p,R,Q})<\infty.
+\]
+
+The proof reduces to Theorem A using the fact that coprime representations over $\mathbb Z/p^R\mathbb Z$ are determined up to conjugacy by their reductions modulo $p$. Finally, we prove two positive cases of the two-object hom-count test property. Let $G,H$ be finite groups. The pair ({G,H}) is a left test family for the pair if
+
+\[
+|\operatorname{Hom}(G,G)|=|\operatorname{Hom}(G,H)|
+\]
+
+and
+
+\[
+|\operatorname{Hom}(H,G)|=|\operatorname{Hom}(H,H)|
+\]
+
+imply $G\cong H$. It is a right test family for the pair if
+
+\[
+|\operatorname{Hom}(G,G)|=|\operatorname{Hom}(H,G)|
+\]
+
+and
+
+\[
+|\operatorname{Hom}(G,H)|=|\operatorname{Hom}(H,H)|
+\]
+
+imply $G\cong H$.
+
+\end{theorem}
+
+\begin{theorem}[Two-object tests]
+Finite abelian groups satisfy both two-object test properties. Moreover, let $Q$ be a finite $p'$-group such that
+
+\[
+\operatorname{End}(Q)=\operatorname{Aut}(Q)\cup\{0\}.
+\]
+
+Let
+
+\[
+G_x=V_x\rtimes Q,\qquad G_y=V_y\rtimes Q,
+\]
+
+where $V_x,V_y$ are semisimple $\mathbb F_pQ$-modules with
+
+\[
+V_x^Q=V_y^Q=0.
+\]
+
+Then $G_x,G_y$ satisfy both the left and right two-object test properties. The proof uses the formula
+
+\[
+|\operatorname{Hom}(G_x,G_y)|
+=1+p^{\dim V_y}
+\sum_{\alpha\in\operatorname{Aut}(Q)}
+p^{\langle x,\alpha y\rangle_D},
+\]
+
+where $x,y$ are semisimple multiplicity vectors and $\langle-,-\rangle_D$ is the Schur-endomorphism-weighted inner product. The orbit-averaged exponential kernel
+
+\[
+K(x,y)=
+\sum_{\alpha\in\operatorname{Aut}(Q)}
+p^{\langle x,\alpha y\rangle_D}
+\]
+
+is positive definite and separates $\operatorname{Aut}(Q)$-orbits. The paper is organized as follows. Section 2 defines finite Lovász dimension. Section 3 treats finite abelian $p$-groups and sharpness. Sections 4--6 prove the left profile theorem for coprime affine groups. Section 7 proves the right profile theorem. Section 8 treats homocyclic affine groups. Section 9 proves the two-object theorems. Section 10 records logical and algorithmic consequences.
+
+\end{theorem}
+
+\section{Finite Lovász dimension for classes of groups}
+
+All groups in the paper are finite unless explicitly stated otherwise.
+
+\begin{definition}[Left finite Lovász dimension]
+Let $\mathcal C$ be a class of finite groups. We say that
+
+\[
+\Lambda_L(\mathcal C)\le B
+\]
+
+if for all $G,H\in\mathcal C$,
+
+\[
+\left(
+|\operatorname{Hom}(T,G)|=
+|\operatorname{Hom}(T,H)|
+\ \text{for every finite group }T\text{ with }|T|\le B
+\right)
+\]
+
+implies
+
+\[
+G\cong H.
+\]
+
+If no such $B$ exists, we write
+
+\[
+\Lambda_L(\mathcal C)=\infty.
+\]
+
+Equivalently, $\Lambda_L(\mathcal C)<\infty$ if and only if there exists a finite family of finite groups $\mathcal T$ such that
+
+\[
+G\cong H
+\quad\Longleftrightarrow\quad
+|\operatorname{Hom}(T,G)|=|\operatorname{Hom}(T,H)|
+\quad\forall T\in\mathcal T.
+\]
+
+\end{definition}
+
+\begin{definition}[Right finite Lovász dimension]
+Similarly,
+
+\[
+\Lambda_R(\mathcal C)\le B
+\]
+
+if for all $G,H\in\mathcal C$,
+
+\[
+\left(
+|\operatorname{Hom}(G,R)|=
+|\operatorname{Hom}(H,R)|
+\ \text{for every finite group }R\text{ with }|R|\le B
+\right)
+\]
+
+implies
+
+\[
+G\cong H.
+\]
+
+\end{definition}
+
+\begin{definition}[Finite hom-count fingerprint]
+A finite family $\mathcal T$ defines a left hom-count fingerprint
+
+\[
+\Phi_{\mathcal T}^{L}(G)=
+\left(
+|\operatorname{Hom}(T,G)|
+\right)_{T\in\mathcal T}.
+\]
+
+A finite family $\mathcal R$ defines a right hom-count fingerprint
+
+\[
+\Phi_{\mathcal R}^{R}(G)
+=\left(
+|\operatorname{Hom}(G,R)|
+\right)_{R\in\mathcal R}.
+\]
+
+If $\Phi_{\mathcal T}^{L}$ is injective on isomorphism classes in $\mathcal C$, then $\mathcal T$ is a left test family for $\mathcal C$. Similarly for right test families.
+
+\end{definition}
+
+\section{Abelian $p$-groups: finite depth and sharpness}
+
+We begin with the simplest case. It motivates the later affine results. Let $\mathcal A_{p,\le R}$ be the class of finite abelian $p$-groups of exponent at most $p^R$. Every $A\in\mathcal A_{p,\le R}$ has a unique decomposition
+
+\[
+A\cong
+\bigoplus_{j=1}^{R}C_{p^j}^{m_j}.
+\]
+
+For $1\le e\le R$,
+
+\[
+|\operatorname{Hom}(C_{p^e},A)|
+=|A[p^e]|.
+\]
+
+Now
+
+\[
+|A[p^e]|
+=p^{a_e},
+\]
+
+where
+
+\[
+a_e=
+\sum_{j=1}^{R}m_j\min(e,j).
+\]
+
+Thus
+
+\[
+a_e-a_{e-1}
+=\sum_{j\ge e}m_j.
+\]
+
+It follows that
+
+\[
+m_e
+=(a_e-a_{e-1})-(a_{e+1}-a_e)
+\]
+
+for $e<R$, and
+
+\[
+m_R=a_R-a_{R-1}.
+\]
+
+\begin{proposition}[Bounded-exponent abelian $p$-groups]
+For every $R\ge1$,
+
+\[
+\Lambda_L(\mathcal A_{p,\le R})\le p^R.
+\]
+
+Indeed, the finite family
+
+\[
+C_p,C_{p^2},\ldots,C_{p^R}
+\]
+
+classifies $\mathcal A_{p,\le R}$ by homomorphism counts.
+
+\end{proposition}
+
+\begin{proof}
+The counts
+
+\[
+|\operatorname{Hom}(C_{p^e},A)|,\qquad e=1,\ldots,R,
+\]
+
+recover the numbers $a_e=\log_p|A[p^e]|$, and the difference formula above recovers all multiplicities $m_j$. Hence they recover $A$.
+
+\end{proof}
+
+The bounded-exponent condition is necessary for finite left testability in this broad abelian class.
+
+\begin{theorem}[No finite test family for all abelian $p$-groups]
+Let
+
+\[
+\Gamma_1,\ldots,\Gamma_m
+\]
+
+be any finite family of finitely generated groups. Then there exist finite abelian $p$-groups $A,B$ such that: $A\not\cong B$; $|A|=|B|$; for every (j),
+
+\[
+|\operatorname{Hom}(\Gamma_j,A)|=|\operatorname{Hom}(\Gamma_j,B)|.
+\]
+
+In particular,
+
+\[
+\Lambda_L(\mathcal A_p)=\infty,
+\]
+
+where $\mathcal A_p$ is the class of all finite abelian $p$-groups.
+
+\end{theorem}
+
+\begin{proof}
+Since $A,B$ will be abelian, only the abelianizations of the $\Gamma_j$ matter. Write
+
+\[
+\Gamma_j^{\mathrm{ab}}
+\cong
+\mathbb Z^{r_j}\oplus F_j.
+\]
+
+Choose $D$ so that the $p$-primary component of every $F_j$ has exponent at most $p^D$. Define
+
+\[
+A=C_{p^{D+1}}\oplus C_{p^{D+1}},
+\]
+
+\[
+B=C_{p^{D+2}}\oplus C_{p^D}.
+\]
+
+Then
+
+\[
+|A|=|B|=p^{2D+2},
+\]
+
+but
+
+\[
+A\not\cong B.
+\]
+
+For every $e\le D$,
+
+\[
+|A[p^e]|=
+p^{2e}=|B[p^e]|.
+\]
+
+Therefore
+
+\[
+|\operatorname{Hom}(F_j,A)|
+=|\operatorname{Hom}(F_j,B)|
+\]
+
+for every (j). The free part contributes
+
+\[
+|A|^{r_j}
+=|B|^{r_j}.
+\]
+
+Thus
+
+\[
+|\operatorname{Hom}(\Gamma_j,A)|
+=|\operatorname{Hom}(\Gamma_j,B)|
+\]
+
+for all (j).
+
+\end{proof}
+
+This shows that finite Lovász dimension detects a genuine structural boundary: finite abelian $p$-groups of bounded exponent are finitely testable, but arbitrary finite abelian $p$-groups are not.
+
+\section{Coprime affine groups and semisimple modules}
+
+Fix a prime $p$ and a finite $p'$-group $Q$. Let $\mathcal C_{p,Q}$ be the class of groups $G$ satisfying
+
+\[
+V_G:=O_p(G)\ \text{is elementary abelian},
+\]
+
+and
+
+\[
+G/V_G\cong Q.
+\]
+
+Since $V_G$ is characteristic, it is intrinsic. By Schur--Zassenhaus,
+
+\[
+G\cong V_G\rtimes Q.
+\]
+
+Since $p\nmid |Q|$, the algebra
+
+\[
+\Lambda=\mathbb F_pQ
+\]
+
+is semisimple. Let
+
+\[
+1=e_1+\cdots+e_s
+\]
+
+be the decomposition of (1) into primitive central idempotents of $\Lambda$. Let $S_i$ be the simple $\Lambda$-module corresponding to $e_i$, and set
+
+\[
+d_i=\dim_{\mathbb F_p}S_i.
+\]
+
+Every finite-dimensional $\Lambda$-module decomposes uniquely as
+
+\[
+V\cong
+\bigoplus_{i=1}^{s}S_i^{m_i}.
+\]
+
+The idempotent $e_i$ projects onto the $S_i$-isotypic component. Hence
+
+\[
+|\ker(e_i:V\to V)|
+=p^{n-m_id_i},
+\]
+
+where
+
+\[
+n=\dim_{\mathbb F_p}V.
+\]
+
+The group $\operatorname{Aut}(Q)$ acts on $\Lambda$, permuting the primitive central idempotents $e_i$, and therefore permuting the simple isotypic labels.
+
+\begin{lemma}[Isomorphism criterion]
+Let
+
+\[
+G=V\rtimes_\rho Q,
+\qquad
+H=W\rtimes_\sigma Q
+\]
+
+belong to $\mathcal C_{p,Q}$. Then
+
+\[
+G\cong H
+\]
+
+if and only if the semisimple $\mathbb F_pQ$-modules $V$ and $W$ are isomorphic after twisting by an automorphism of $Q$. Equivalently, if
+
+\[
+V\cong\bigoplus_i S_i^{m_i},
+\qquad
+W\cong\bigoplus_i S_i^{n_i},
+\]
+
+then $G\cong H$ if and only if the multiplicity vectors $(m_i)$ and $(n_i)$ lie in the same $\operatorname{Aut}(Q)$-orbit.
+
+\end{lemma}
+
+\begin{proof}
+An isomorphism $G\to H$ sends $O_p(G)$ onto $O_p(H)$, because $O_p$ is characteristic. It therefore induces an isomorphism
+
+\[
+V\to W
+\]
+
+and an automorphism
+
+\[
+G/V\to H/W,
+\]
+
+which, after identifying both quotients with $Q$, is an element of $\operatorname{Aut}(Q)$. This gives the twisted module isomorphism. Conversely, if $S:V\to W$ is a linear isomorphism and $\alpha\in\operatorname{Aut}(Q)$ satisfies
+
+\[
+S\rho(q)S^{-1}=\sigma(\alpha(q)),
+\]
+
+then
+
+\[
+(v,q)\mapsto (Sv,\alpha(q))
+\]
+
+defines an isomorphism
+
+\[
+V\rtimes_\rho Q\cong W\rtimes_\sigma Q.
+\]
+
+\end{proof}
+
+We shall reconstruct the multiplicity vector up to this automorphism action using homomorphism counts.
+
+\section{The left test family}
+
+Let $N\lhd Q$, and put
+
+\[
+R_N=Q/N.
+\]
+
+Let
+
+\[
+\pi_N:\mathbb F_pQ\to \mathbb F_pR_N
+\]
+
+be the induced algebra map. Write
+
+\[
+\bar e_i^N=\pi_N(e_i).
+\]
+
+For a tuple
+
+\[
+\mathbf i=(i_1,\ldots,i_d),
+\]
+
+define the $\mathbb F_pR_N$-module
+
+\[
+U_{N,\mathbf i}
+\bigoplus_{\ell=1}^d
+\mathbb F_pR_N/
+\mathbb F_pR_N\bar e_{i_\ell}^N.
+\]
+
+Define the finite group
+
+\[
+T_{N,\mathbf i}
+U_{N,\mathbf i}\rtimes R_N.
+\]
+
+For the empty tuple, put
+
+\[
+T_{N,\varnothing}=R_N.
+\]
+
+We will use only tuples with
+
+\[
+d\le |\operatorname{Aut}(Q)|.
+\]
+
+Thus
+
+\[
+|T_{N,\mathbf i}|
+\le
+|Q|p^{|Q||\operatorname{Aut}(Q)|}.
+\]
+
+\begin{lemma}[Homomorphism count formula]
+Let $G\in\mathcal C_{p,Q}$, and let $V=O_p(G)$. Then
+
+\[
+|\operatorname{Hom}(T_{N,\mathbf i},G)|
+\sum_{\theta:R_N\to G}
+\prod_{\ell=1}^d
+\left|
+\ker\left(
+\bar e_{i_\ell}^N:V_\theta\to V_\theta
+\right)
+\right|,
+\]
+
+where $V_\theta$ denotes $V$ as an $\mathbb F_pR_N$-module via the conjugation action induced by $\theta$.
+
+\end{lemma}
+
+\begin{proof}
+Every element of order dividing $p$ in $G$ lies in $V$, because its image in $G/V\cong Q$ has order dividing $p$, and $Q$ is a $p'$-group. Therefore the elementary abelian normal subgroup $U_{N,\mathbf i}$ of $T_{N,\mathbf i}$ must map into $V$. Fix an homomorphism
+
+\[
+\theta:R_N\to G.
+\]
+
+The extensions of $\theta$ to homomorphisms
+
+\[
+T_{N,\mathbf i}\to G
+\]
+
+are precisely the $\mathbb F_pR_N$-module homomorphisms
+
+\[
+U_{N,\mathbf i}\to V_\theta.
+\]
+
+For a summand
+
+\[
+\mathbb F_pR_N/\mathbb F_pR_N\bar e_i^N,
+\]
+
+a module homomorphism to $V_\theta$ is determined by the image of (1), and this image may be any vector annihilated by $\bar e_i^N$. Thus the number of choices is
+
+\[
+|\ker(\bar e_i^N:V_\theta\to V_\theta)|.
+\]
+
+Taking the product over the direct summands and summing over $\theta$ proves the formula.
+
+\end{proof}
+
+\section{Möbius inversion and orbit recovery}
+
+Let $\mathcal N(Q)$ be the lattice of normal subgroups of $Q$, ordered by inclusion. Let
+
+\[
+\mu_Q
+\]
+
+be its Möbius function. For a tuple $\mathbf i$, define
+
+\[
+E_{\mathbf i}(G)
+=\sum_{N\lhd Q}
+\mu_Q(1,N)
+|\operatorname{Hom}(T_{N,\mathbf i},G)|.
+\]
+
+\begin{lemma}[Isolation of embeddings]
+For $G\in\mathcal C_{p,Q}$,
+
+\[
+E_{\mathbf i}(G)
+\sum_{\theta:Q\hookrightarrow G}
+\prod_{\ell=1}^{d}
+|\ker(e_{i_\ell}:V_\theta\to V_\theta)|.
+\]
+
+\end{lemma}
+
+\begin{proof}
+An homomorphism $R_N=Q/N\to G$ is the same as an homomorphism $Q\to G$ whose kernel contains $N$. Therefore Lemma 5.1 expresses the count for $N$ as a sum over homomorphisms $Q\to G$ with kernel containing $N$. Möbius inversion over the normal subgroup lattice isolates the terms with kernel exactly (1), i.e. the embeddings $Q\hookrightarrow G$.
+
+\end{proof}
+
+Now choose a splitting
+
+\[
+G=V\rtimes_\rho Q.
+\]
+
+Every embedding
+
+\[
+\theta:Q\hookrightarrow G
+\]
+
+projects isomorphically onto $G/V\cong Q$, and therefore induces an automorphism
+
+\[
+\alpha_\theta\in\operatorname{Aut}(Q).
+\]
+
+For a fixed $\alpha\in\operatorname{Aut}(Q)$, the embeddings inducing $\alpha$ are parametrized by (1)-cocycles
+
+\[
+Z^1(Q,V_{\rho\circ\alpha}).
+\]
+
+Since $p\nmid |Q|$,
+
+\[
+H^1(Q,V_{\rho\circ\alpha})=0.
+\]
+
+\begin{lemma}[Uniform embedding count]
+For every $\alpha\in\operatorname{Aut}(Q)$, the number of embeddings $Q\hookrightarrow G$ inducing $\alpha$ is
+
+\[
+c_G=\frac{|V|}{|V^Q|}.
+\]
+
+In particular, it is independent of $\alpha$.
+
+\end{lemma}
+
+\begin{proof}
+Every (1)-cocycle is a coboundary. Explicitly, a coboundary has the form
+
+\[
+z
+(q)=v-\rho(\alpha(q))v.
+\]
+
+Two vectors (v,v') define the same coboundary if and only if
+
+\[
+v-v'\in V^Q.
+\]
+
+Thus
+
+\[
+|Z^1(Q,V_{\rho\circ\alpha})|
+|B^1(Q,V_{\rho\circ\alpha})|
+\frac{|V|}{|V^Q|}.
+\]
+
+\end{proof}
+
+Define
+
+\[
+K_i(G)=|\ker(e_i:V\to V)|.
+\]
+
+\begin{proposition}[Orbital moment formula]
+For every tuple
+
+\[
+\mathbf i=(i_1,\ldots,i_d),
+\]
+
+\[
+E_{\mathbf i}(G)
+c_G
+\sum_{\alpha\in\operatorname{Aut}(Q)}
+\prod_{\ell=1}^{d}
+K_{\alpha(i_\ell)}(G).
+\]
+
+For the empty tuple,
+
+\[
+E_{\varnothing}(G)=c_G|\operatorname{Aut}(Q)|.
+\]
+
+Thus the ratios
+
+\[
+\frac{E_{\mathbf i}(G)}{E_{\varnothing}(G)}
+\]
+
+recover the orbital averages of monomials in the vector
+
+\[
+K(G)=(K_1(G),\ldots,K_s(G)).
+\]
+
+\end{proposition}
+
+\begin{proof}
+If an embedding induces $\alpha$, then the induced $Q$-action on $V$ is $\rho\circ\alpha$. Hence
+
+\[
+|\ker(e_i:V_\theta\to V_\theta)|
+=K_{\alpha(i)}(G).
+\]
+
+For each $\alpha$ there are $c_G$ such embeddings, by Lemma 6.2. Summing over $\alpha$ gives the formula.
+
+\end{proof}
+
+We now record the invariant-theoretic separation step in a self-contained form.
+
+\begin{lemma}[Orbital monomials of bounded degree separate finite permutation orbits]
+Let $A$ be a finite group acting by permutations on ${1,\ldots,s}$. Let $x,y\in\mathbb Q^s$. Suppose that, for every monomial (M) of total degree at most $|A|$,
+
+\[
+\sum_{\alpha\in A}M(\alpha x)
+=\sum_{\alpha\in A}M(\alpha y).
+\]
+
+Then $x$ and $y$ lie in the same $A$-orbit.
+
+\end{lemma}
+
+\begin{proof}
+Let
+
+\[
+\Omega_x=\{\alpha x:\alpha\in A\},
+\qquad
+\Omega_y=\{\alpha y:\alpha\in A\},
+\]
+
+counted with multiplicity. Each multiset has size $|A|$. The equality of all monomial orbit sums of degree at most $|A|$ implies that for every linear form $\ell$, the power sums
+
+\[
+\sum_{z\in\Omega_x}\ell(z)^r
+\]
+
+and
+
+\[
+\sum_{z\in\Omega_y}\ell(z)^r
+\]
+
+are equal for all
+
+\[
+0\le r\le |A|.
+\]
+
+For a finite multiset of size $|A|$ in a field of characteristic zero, the first $|A|$ power sums determine the multiset of values. Hence
+
+\[
+\{\ell(z):z\in\Omega_x\}
+=\{\ell(z):z\in\Omega_y\}
+\]
+
+for every linear form $\ell$. Choose $\ell$ injective on the finite set $\Omega_x\cup\Omega_y$. Then equality of the multisets of $\ell$-values implies
+
+\[
+\Omega_x=\Omega_y.
+\]
+
+Thus $x$ and $y$ lie in the same $A$-orbit.
+
+\end{proof}
+
+\begin{theorem}[Left finite Lovász dimension for $\mathcal C_{p,Q}$]
+For every prime $p$ and finite $p'$-group $Q$,
+
+\[
+\Lambda_L(\mathcal C_{p,Q})
+\le
+|Q|p^{|Q||\operatorname{Aut}(Q)|}.
+\]
+
+More precisely, the finite family consisting of $C_p$ and the groups
+
+\[
+T_{N,\mathbf i},
+\qquad
+N\lhd Q,\quad |\mathbf i|\le|\operatorname{Aut}(Q)|,
+\]
+
+classifies $\mathcal C_{p,Q}$ by left homomorphism counts.
+
+\end{theorem}
+
+\begin{proof}
+The count
+
+\[
+|\operatorname{Hom}(C_p,G)|
+\]
+
+is the number of elements $g\in G$ with $g^p=1$. Since $G/O_p(G)\cong Q$ is a $p'$-group and $O_p(G)$ is elementary abelian,
+
+\[
+|\operatorname{Hom}(C_p,G)|=|O_p(G)|=p^n.
+\]
+
+The counts from the groups $T_{N,\mathbf i}$, via Möbius inversion and Proposition 6.3, recover all orbital monomial sums of degree at most $|\operatorname{Aut}(Q)|$ in the vector
+
+\[
+K(G)=(K_i(G)).
+\]
+
+By Lemma 6.4, they recover the $\operatorname{Aut}(Q)$-orbit of (K(G)). Since
+
+\[
+K_i(G)=p^{n-m_id_i},
+\]
+
+and (n) is known, the orbit of (K(G)) recovers the orbit of the multiplicity vector
+
+\[
+(m_1,\ldots,m_s).
+\]
+
+By Lemma 4.1, this orbit determines $G$ up to isomorphism.
+
+\end{proof}
+
+This proves the left half of Theorem A and the reconstruction statement for the left profile.
+
+\section{The right test family}
+
+We now prove the right profile analogue. Let
+
+\[
+V_m=\bigoplus_{i=1}^{s}S_i^{m_i}
+\]
+
+be a semisimple $\mathbb F_pQ$-module, and let
+
+\[
+G_m=V_m\rtimes Q.
+\]
+
+For a vector
+
+\[
+\mathbf r=(r_1,\ldots,r_s)\in\mathbb N^s,
+\]
+
+define
+
+\[
+U_{\mathbf r}=\bigoplus_{i=1}^{s}S_i^{r_i},
+\]
+
+and
+
+\[
+R_{\mathbf r}=U_{\mathbf r}\rtimes Q.
+\]
+
+We shall use only
+
+\[
+|\mathbf r|:=r_1+\cdots+r_s\le |\operatorname{Aut}(Q)|.
+\]
+
+Also include all subgroups of the finitely many $R_{\mathbf r}$ in the test family. Let
+
+\[
+D_i=\operatorname{End}_Q(S_i),
+\]
+
+a finite division ring. Put
+
+\[
+q_i=|D_i|.
+\]
+
+For $m,r\ge0$, define
+
+\[
+\operatorname{Surj}_{D_i}(m,r)
+=\#\{\text{surjective }D_i\text{-linear maps }D_i^m\to D_i^r\}.
+\]
+
+Thus
+
+\[
+\operatorname{Surj}_{D_i}(m,r)
+=\prod_{j=0}^{r-1}(q_i^m-q_i^j),
+\]
+
+with the convention that the empty product is (1).
+
+\begin{lemma}[Epimorphism count formula]
+Let
+
+\[
+G_m=V_m\rtimes Q.
+\]
+
+Then
+
+\[
+|\operatorname{Epi}(G_m,R_{\mathbf r})|
+c_{\mathbf r}
+\sum_{\alpha\in\operatorname{Aut}(Q)}
+\prod_{i=1}^{s}
+\operatorname{Surj}_{D_i}(m_{\alpha i},r_i),
+\]
+
+where $c_{\mathbf r}>0$ depends only on $Q$ and $\mathbf r$, not on (m).
+
+\end{lemma}
+
+\begin{proof}
+An epimorphism
+
+\[
+G_m\twoheadrightarrow R_{\mathbf r}
+\]
+
+induces an epimorphism
+
+\[
+Q\to Q
+\]
+
+on the quotients by the normal $p$-subgroups. Since domain and codomain quotients are both $Q$, this induced map is an automorphism
+
+\[
+\alpha\in\operatorname{Aut}(Q).
+\]
+
+Fix $\alpha$. The restriction to the $p$-kernel is a $Q$-module map
+
+\[
+V_m\to U_{\mathbf r}^{\alpha},
+\]
+
+where the target is twisted by $\alpha$. The total group homomorphism is surjective if and only if this module map is surjective. The number of surjective module maps is
+
+\[
+\prod_i\operatorname{Surj}_{D_i}(m_{\alpha i},r_i).
+\]
+
+For each $\alpha$, the possible images of the complement are parametrized by
+
+\[
+Z^1(Q,U_{\mathbf r}^{\alpha}).
+\]
+
+Since $p\nmid |Q|$,
+
+\[
+H^1(Q,U_{\mathbf r}^{\alpha})=0,
+\]
+
+so the number of cocycles is
+
+\[
+|Z^1(Q,U_{\mathbf r}^{\alpha})|
+\frac{|U_{\mathbf r}|}{|U_{\mathbf r}^Q|}.
+\]
+
+This depends only on $\mathbf r$, not on (m) or $\alpha$. Absorbing this factor into $c_{\mathbf r}$ gives the formula.
+
+\end{proof}
+
+To recover epimorphism counts from homomorphism counts, we use the elementary triangular relation.
+
+\begin{lemma}[Hom-to-epi inversion]
+Let $R$ be a finite group. If the values
+
+\[
+|\operatorname{Hom}(G,S)|
+\]
+
+are known for every subgroup $S\le R$, then
+
+\[
+|\operatorname{Epi}(G,S)|
+\]
+
+is known for every subgroup $S\le R$.
+
+\end{lemma}
+
+\begin{proof}
+Every homomorphism $G\to S$ has image a subgroup $U\le S$, and it is an epimorphism onto its image. Therefore
+
+\[
+|\operatorname{Hom}(G,S)|
+=\sum_{U\le S}
+|\operatorname{Epi}(G,U)|.
+\]
+
+Induction on $|S|$ recovers $|\operatorname{Epi}(G,S)|$.
+
+\end{proof}
+
+The functions
+
+\[
+\operatorname{Surj}_{D_i}(m,r)
+=\prod_{j=0}^{r-1}(q_i^m-q_i^j)
+\]
+
+are polynomial functions of
+
+\[
+X_i=q_i^{m_i}
+\]
+
+of degree (r), with leading coefficient (1). Therefore the products
+
+\[
+\prod_i\operatorname{Surj}_{D_i}(m_i,r_i)
+\]
+
+span the same polynomial space as monomials
+
+\[
+\prod_i X_i^{r_i}
+\]
+
+of total degree at most $|\operatorname{Aut}(Q)|$. By Lemma 6.4, the orbital sums of these polynomials recover the $\operatorname{Aut}(Q)$-orbit of
+
+\[
+(X_i)=(q_i^{m_i}).
+\]
+
+Since $q_i$ is fixed and positive, this recovers the orbit of
+
+\[
+(m_i).
+\]
+
+\begin{theorem}[Right finite Lovász dimension for $\mathcal C_{p,Q}$]
+For every prime $p$ and finite $p'$-group $Q$,
+
+\[
+\Lambda_R(\mathcal C_{p,Q})<\infty.
+\]
+
+More precisely, the family consisting of all subgroups of the finitely many groups
+
+\[
+R_{\mathbf r}=U_{\mathbf r}\rtimes Q,
+\qquad
+|\mathbf r|\le|\operatorname{Aut}(Q)|,
+\]
+
+classifies $\mathcal C_{p,Q}$ by right homomorphism counts.
+
+\end{theorem}
+
+\begin{proof}
+Given the right homomorphism counts into all subgroups of the $R_{\mathbf r}$, Lemma 7.2 recovers the epimorphism counts onto the $R_{\mathbf r}$. By Lemma 7.1, these epimorphism counts give the orbital sums
+
+\[
+\sum_{\alpha\in\operatorname{Aut}(Q)}
+\prod_i
+\operatorname{Surj}_{D_i}(m_{\alpha i},r_i)
+\]
+
+for all $|\mathbf r|\le|\operatorname{Aut}(Q)|$. These span the orbital monomial sums of degree at most $|\operatorname{Aut}(Q)|$ in the variables $q_i^{m_i}$. By Lemma 6.4, they recover the $\operatorname{Aut}(Q)$-orbit of the multiplicity vector $(m_i)$. By Lemma 4.1, this orbit determines $G$.
+
+\end{proof}
+
+Combining Theorem 6.5 and Theorem 7.3 proves Theorem A.
+
+\section{Homocyclic coprime affine groups}
+
+We now extend the finite testability theorem to homocyclic $p$-kernels. Fix $R\ge1$. Let $\mathcal H_{p,R,Q}$ be the class of groups
+
+\[
+G=A\rtimes Q
+\]
+
+such that
+
+\[
+A\cong(\mathbb Z/p^R\mathbb Z)^n
+\]
+
+for some (n), and
+
+\[
+p\nmid |Q|.
+\]
+
+The key point is that coprime representations over $\mathbb Z/p^R\mathbb Z$ are determined by their reductions modulo $p$.
+
+\begin{lemma}[Coprime lifting rigidity]
+Let
+
+\[
+\rho,\sigma:Q\to GL_n(\mathbb Z/p^R\mathbb Z)
+\]
+
+be representations of a finite $p'$-group $Q$. If their reductions modulo $p$ are conjugate in $GL_n(\mathbb F_p)$, then $\rho$ and $\sigma$ are conjugate in
+
+\[
+GL_n(\mathbb Z/p^R\mathbb Z).
+\]
+
+\end{lemma}
+
+\begin{proof}
+After an initial conjugation, assume
+
+\[
+\rho\equiv\sigma\pmod p.
+\]
+
+We prove by induction that they are conjugate modulo $p^r$ for $r=1,\ldots,R$. Suppose they are equal modulo $p^r$. Modulo $p^{r+1}$, write
+
+\[
+\sigma(q)=
+(I+p^r c(q))\rho(q).
+\]
+
+Then
+
+\[
+c:Q\to M_n(\mathbb F_p)
+\]
+
+is a (1)-cocycle for the action
+
+\[
+q\cdot X=\bar\rho(q)X\bar\rho(q)^{-1}.
+\]
+
+Since $p\nmid |Q|$,
+
+\[
+H^1(Q,M_n(\mathbb F_p))=0.
+\]
+
+Hence
+
+\[
+c(q)=X-q\cdot X
+\]
+
+for some $X\in M_n(\mathbb F_p)$. Conjugating by
+
+\[
+I+p^rX
+\]
+
+removes the error modulo $p^{r+1}$. Induction gives the desired conjugacy modulo $p^R$.
+
+\end{proof}
+
+\begin{theorem}[Homocyclic coprime affine groups]
+For fixed $p,R,Q$ with $p\nmid |Q|$,
+
+\[
+\Lambda_L(\mathcal H_{p,R,Q})<\infty
+\qquad\text{and}\qquad
+\Lambda_R(\mathcal H_{p,R,Q})<\infty.
+\]
+
+\end{theorem}
+
+\begin{proof}
+Let
+
+\[
+G=A\rtimes Q,
+\qquad
+A\cong(\mathbb Z/p^R\mathbb Z)^n.
+\]
+
+The subgroup
+
+\[
+A[p]={a\in A:pa=0}
+\]
+
+is an elementary abelian characteristic subgroup, naturally isomorphic as an $\mathbb F_pQ$-module to the reduction of $A$ modulo $p$. The left and right test families of Theorem 6.5 and Theorem 7.3, applied to the elementary module (A[p]), recover the semisimple $\mathbb F_pQ$-module (A[p]) up to $\operatorname{Aut}(Q)$-twist. By Lemma 8.1, the full $(\mathbb Z/p^R\mathbb Z)Q$-module $A$ is determined by this reduction. Hence the group $A\rtimes Q$ is determined. Only bounded-size tests depending on $p,R,Q$ are involved.
+
+\end{proof}
+
+\section{Two-object hom-count tests}
+
+We now prove two positive cases of the two-object test property.
+
+\subsection{Finite abelian groups}
+
+Let $A$ be a finite abelian group. For each prime $p$, write
+
+\[
+A_p\cong\bigoplus_{e\ge1}C_{p^e}^{m_{p,e}(A)}.
+\]
+
+Define
+
+\[
+u_{p,e}(A)=\sum_{j\ge e}m_{p,j}(A).
+\]
+
+Thus $u_{p,e}(A)$ is the number of cyclic $p$-primary summands of $A$ of order at least $p^e$. For finite abelian groups $A,B$,
+
+\[
+|\operatorname{Hom}(A,B)|
+=\prod_p
+p^{\sum_{e\ge1}u_{p,e}(A)u_{p,e}(B)}.
+\]
+
+Equivalently,
+
+\[
+\log|\operatorname{Hom}(A,B)|
+=\sum_{p,e}
+(\log p),u_{p,e}(A)u_{p,e}(B).
+\]
+
+This is an inner product.
+
+\begin{theorem}[Two-object tests for finite abelian groups]
+Finite abelian groups satisfy both the left and right two-object test properties. That is, for finite abelian groups $A,B$, either of the following pairs of equalities implies $A\cong B$: Left-profile equalities:
+
+\[
+|\operatorname{Hom}(A,A)|
+=|\operatorname{Hom}(A,B)|,
+\]
+
+\[
+|\operatorname{Hom}(B,A)|
+=|\operatorname{Hom}(B,B)|.
+\]
+
+Right-profile equalities:
+
+\[
+|\operatorname{Hom}(A,A)|
+=|\operatorname{Hom}(B,A)|,
+\]
+
+\[
+|\operatorname{Hom}(A,B)|
+=|\operatorname{Hom}(B,B)|.
+\]
+
+\end{theorem}
+
+\begin{proof}
+For finite abelian groups,
+
+\[
+|\operatorname{Hom}(A,B)|=|\operatorname{Hom}(B,A)|.
+\]
+
+Taking logarithms identifies the homomorphism count with the exponential of an inner product of the vectors
+
+\[
+u(A)=(u_{p,e}(A))_{p,e}.
+\]
+
+Either pair of equalities gives
+
+\[
+\langle u(A),u(A)\rangle
+\langle u(A),u(B)\rangle
+\langle u(B),u(B)\rangle.
+\]
+
+\[
+\]
+
+By equality in Cauchy--Schwarz, $u(A)=u(B)$. The vector $u(A)$ determines the multiplicities $m_{p,e}(A)$, since
+
+\[
+m_{p,e}(A)=u_{p,e}(A)-u_{p,e+1}(A).
+\]
+
+Hence $A\cong B$.
+
+\end{proof}
+
+\subsection{Coprime affine two-object theorem}
+
+Let $Q$ be a finite $p'$-group satisfying
+
+\[
+\operatorname{End}(Q)=\operatorname{Aut}(Q)\cup\{0\},
+\]
+
+where (0) denotes the trivial endomorphism. Let
+
+\[
+G_x=V_x\rtimes Q,
+\qquad
+G_y=V_y\rtimes Q,
+\]
+
+where $V_x,V_y$ are semisimple $\mathbb F_pQ$-modules with
+
+\[
+V_x^Q=V_y^Q=0.
+\]
+
+Let
+
+\[
+S_1,\ldots,S_s
+\]
+
+be the nontrivial simple $\mathbb F_pQ$-modules appearing in this setting. Write
+
+\[
+V_x=\bigoplus_i S_i^{x_i},
+\qquad
+V_y=\bigoplus_i S_i^{y_i}.
+\]
+
+Let
+
+\[
+D_i=\operatorname{End}
+Q(S_i),
+\qquad
+d_i=\dim
+{\mathbb F_p}D_i.
+\]
+
+Define
+
+\[
+\langle x,y\rangle_D
+\sum_i d_ix_iy_i.
+\]
+
+The group $\operatorname{Aut}(Q)$ acts on the simple modules and preserves $d_i$. Define the orbit-exponential kernel
+
+\[
+K(x,y)
+\sum_{\alpha\in\operatorname{Aut}(Q)}
+p^{\langle x,\alpha y\rangle_D}.
+\]
+
+\begin{lemma}[Homomorphism count formula]
+Under the assumptions above,
+
+\[
+|\operatorname{Hom}(G_x,G_y)|
+=1+p^{\dim V_y}K(x,y).
+\]
+
+\end{lemma}
+
+\begin{proof}
+Let
+
+\[
+f:G_x\to G_y
+\]
+
+be a homomorphism. It induces an endomorphism
+
+\[
+Q\to Q.
+\]
+
+By assumption, this endomorphism is either trivial or an automorphism. If the induced endomorphism is trivial, then the image of the complement $Q$ lies in the $p$-group $V_y$. Since $Q$ is a $p'$-group, this image is trivial. The restriction $V_x\to V_y$ must factor through the coinvariants of $V_x$. Since $p\nmid |Q|$, coinvariants and invariants have the same dimension; since $V_x^Q=0$, this map is zero. Thus the trivial quotient case contributes exactly one homomorphism. Now suppose the induced endomorphism is $\alpha\in\operatorname{Aut}(Q)$. The restriction to $V_x$ is a $Q$-module homomorphism
+
+\[
+V_x\to V_y^\alpha,
+\]
+
+and the number of such homomorphisms is
+
+\[
+p^{\langle x,\alpha y\rangle_D}.
+\]
+
+The possible images of the complement are parametrized by
+
+\[
+Z^1(Q,V_y^\alpha).
+\]
+
+Since $p\nmid |Q|$,
+
+\[
+H^1(Q,V_y^\alpha)=0.
+\]
+
+Since $V_y^Q=0$,
+
+\[
+|Z^1(Q,V_y^\alpha)|=|V_y|=p^{\dim V_y}.
+\]
+
+Summing over $\alpha\in\operatorname{Aut}(Q)$ gives the formula.
+
+\end{proof}
+
+\begin{lemma}[The kernel $K$ separates orbits]
+Let
+
+\[
+A=\operatorname{Aut}(Q).
+\]
+
+The kernel
+
+\[
+K(x,y)=\sum_{\alpha\in A}p^{\langle x,\alpha y\rangle_D}
+\]
+
+is positive definite after orbit averaging and separates $A$-orbits. In particular, if equality holds in Cauchy--Schwarz for $K$, then (x) and (y) lie in the same $A$-orbit.
+
+\end{lemma}
+
+\begin{proof}
+Consider the real inner product space with inner product $\langle-,-\rangle_D$. Define
+
+\[
+\Phi(x)
+\bigoplus_{r\ge0}
+\frac{(\sqrt{\log p},x)^{\otimes r}}{\sqrt{r!}}.
+\]
+
+Then
+
+\[
+\langle\Phi(x),\Phi(y)\rangle
+p^{\langle x,y\rangle_D}.
+\]
+
+Now define the orbit feature map
+
+\[
+\
+Psi(
+x
+)=\sum_{\alpha\in A}\Phi(\alpha x).
+\]
+
+Then
+
+\[
+\langle\Psi(x),\Psi(y)\rangle
+|A|K(x,y).
+\]
+
+\[
+\]
+
+\[
+\]
+
+If equality holds in Cauchy--Schwarz for $K$, then equality holds for the vectors $\Psi(x),\Psi(y)$. Hence $\Psi(x)=c\Psi(y)$ for some $c>0$. Comparing the degree-zero component gives $c=1$, so $\Psi(x)=\Psi(y)$. Therefore, for every vector (z),
+
+\[
+\sum_{\alpha\in A}
+p^{\langle\alpha x,z\rangle_D}
+\sum_{\alpha\in A}
+p^{\langle\alpha y,z\rangle_D}.
+\]
+
+Distinct exponential linear forms are linearly independent as functions of $z$. Hence the multisets
+
+\[
+A x
+\quad\text{and}\quad
+A y
+\]
+
+coincide. Thus $x$ and $y$ lie in the same $A$-orbit.
+
+\end{proof}
+
+\begin{theorem}[Two-object tests for endomorphism-simple coprime affine groups]
+Let $Q$ be a finite $p'$-group satisfying
+
+\[
+\operatorname{End}(Q)=\operatorname{Aut}(Q)\cup\{0\}.
+\]
+
+Let
+
+\[
+G_x=V_x\rtimes Q,
+\qquad
+G_y=V_y\rtimes Q,
+\]
+
+with
+
+\[
+V_x^Q=V_y^Q=0.
+\]
+
+Then $G_x,G_y$ satisfy both the left and right two-object test properties.
+
+\end{theorem}
+
+\begin{proof}
+Write
+
+\[
+h(x,y)=|\operatorname{Hom}(G_x,G_y)|.
+\]
+
+By Lemma 9.2,
+
+\[
+h(x,y)=1+p^{\dim V_y}K(x,y).
+\]
+
+Left-profile version Assume
+
+\[
+h(x,x)=h(x,y),
+\]
+
+\[
+h(y,x)=h(y,y).
+\]
+
+Then
+
+\[
+p^{\dim V_x}K(x,x)
+=p^{\dim V_y}K(x,y),
+\]
+
+and
+
+\[
+p^{\dim V_x}K(x,y)
+=p^{\dim V_y}K(y,y).
+\]
+
+Multiplying gives
+
+\[
+K(x,x)K(y,y)=K(x,y)^2.
+\]
+
+Thus equality holds in Cauchy--Schwarz for $K$. By Lemma 9.3, (x) and (y) are in the same $\operatorname{Aut}(Q)$-orbit. Hence
+
+\[
+G_x\cong G_y.
+\]
+
+Right-profile version Assume
+
+\[
+h(x,x)=h(y,x),
+\]
+
+\[
+h(x,y)=h(y,y).
+\]
+
+Then
+
+\[
+K(x,x)=K(x,y),
+\]
+
+and
+
+\[
+K(x,y)=K(y,y).
+\]
+
+Again equality holds in Cauchy--Schwarz, and Lemma 9.3 gives that $x,y$ lie in the same $\operatorname{Aut}(Q)$-orbit. Hence
+
+\[
+G_x\cong G_y.
+\]
+
+\end{proof}
+
+This proves a nontrivial infinite class of positive cases for the two-object hom-count test property.
+
+\section{Equation-count profiles and algorithmic remarks}
+
+For every finite test group $T$, the number
+
+\[
+|\operatorname{Hom}(T,G)|
+\]
+
+is the number of solutions in $G$ of a fixed finite system of group equations. Indeed, introduce one variable $x_t$ for each $t\in T$, and impose
+
+\[
+x_1=1,
+\]
+
+\[
+x_ax_b=x_{ab}
+\qquad(a,b\in T).
+\]
+
+The solutions are exactly the homomorphisms $T\to G$. Therefore Theorem 6.5 has the following purely equational form.
+
+\begin{corollary}[Bounded equation-count profile]
+For fixed $p,Q$, the groups in $\mathcal C_{p,Q}$ are classified by finitely many ordinary group-equation counts of bounded size. Equivalently, if $G,H\in\mathcal C_{p,Q}$ are non-isomorphic, then there exists a group-equation system of size bounded in terms of $p,Q$ whose number of solutions differs in $G$ and $H$. Thus every non-isomorphic pair in $\mathcal C_{p,Q}$ has a bounded hom-count separator.
+
+\end{corollary}
+
+\begin{corollary}[Logarithmic fingerprints]
+For fixed $p,Q$, the finite left and right fingerprints of groups in $\mathcal C_{p,Q}$ have total bit length
+
+\[
+O_{p,Q}(\log |G|).
+\]
+
+\end{corollary}
+
+\begin{proof}
+The number of coordinates is bounded in terms of $p,Q$. Each coordinate is at most
+
+\[
+|G|^c
+\]
+
+for a constant (c) depending only on the relevant bounded test group. Hence each coordinate has $O_{p,Q}(\log |G|)$ bits.
+
+\end{proof}
+
+These fingerprints are not claimed to improve the best known algorithms for isomorphism testing in this regime. Rather, they provide a fixed finite list of numerical homomorphism-count invariants that completely reconstruct the semisimple affine data.
+
+\section{Further directions}
+
+\subsection{Arbitrary bounded-exponent abelian kernels}
+
+The homocyclic theorem suggests a broader statement for groups
+
+\[
+A\rtimes Q
+\]
+
+where $A$ is abelian of exponent at most $p^R$. Proving this in full requires a careful treatment of finite modules over
+
+\[
+(\mathbb Z/p^R\mathbb Z)Q.
+\]
+
+The expected answer is that finite Lovász dimension remains finite for fixed $p,R,Q$, with test groups built from block idempotents and $p^e$-torsion functors.
+
+\subsection{Nonabelian semisimple socles}
+
+A second direction is to replace the abelian kernel $O_p(G)$ by a centerless semisimple socle
+
+\[
+S_1^{n_1}\times\cdots\times S_t^{n_t}
+\]
+
+with quotient $Q$ acting on the simple factors. The correct analogue should involve decorated table-of-marks data for $Q$-sets labeled by outer automorphism data of the simple factors. This would give a nonabelian version of the finite Lovász profile theorem.
+
+\subsection{Minimal test families}
+
+The constructions in this paper are explicit but not optimized. Natural questions include: determining the smallest possible $B$ with $\Lambda_L(\mathcal C_{p,Q})\le B$; minimizing the number of test groups; understanding when a single test group can separate the whole class.
+
+\subsection{Full two-object test problem}
+
+Theorem 9.4 proves the two-object test property for affine groups with endomorphism-simple quotient and no fixed vectors. The general coprime affine case reduces to explicit formulas involving
+
+\[
+\operatorname{End}(Q)
+\]
+
+and twisted Hom-spaces of semisimple modules. It remains to determine for which finite groups $Q$ the two-object test property holds on the corresponding affine class.
+
+\begin{thebibliography}{99}
+\bibitem{ref1} A. Atserias, P. G. Kolaitis, and W.-L. Wu, On the expressive power of homomorphism counts, arXiv:2101.12733.
+\bibitem{ref2} J. Brachter and P. Schweitzer, On the Weisfeiler--Leman dimension of finite groups, arXiv:2003.13745.
+\bibitem{ref3} J. Brachter and P. Schweitzer, A systematic study of isomorphism invariants of finite groups via the Weisfeiler--Leman dimension, arXiv:2111.11908.
+\bibitem{ref4} A. Ceres, Hom-counting functions, combinatorial categories and related problems, arXiv:2506.01501.
+\bibitem{ref5} C. W. Curtis and I. Reiner, Methods of Representation Theory, Vol. I, Wiley, 1981.
+\bibitem{ref6} D. Gorenstein, Finite Groups, Chelsea, 1980.
+\bibitem{ref7} J. A. Grochow and M. Levet, On the parallel complexity of group isomorphism via Weisfeiler--Leman, arXiv:2112.11487.
+\bibitem{ref8} B. Huppert, Endliche Gruppen I, Springer, 1967.
+\bibitem{ref9} I. M. Isaacs, Finite Group Theory, Graduate Studies in Mathematics 92, American Mathematical Society, 2008.
+\bibitem{ref10} L. Lovász, Operations with structures, Acta Mathematica Academiae Scientiarum Hungaricae 18 (1967), 321--328.
+\bibitem{ref11} L. Lovász, Large Networks and Graph Limits, American Mathematical Society Colloquium Publications 60, 2012.
+\bibitem{ref12} S. Mac Lane, Homology, Springer, 1963.
+\bibitem{ref13} J.-P. Serre, Linear Representations of Finite Groups, Springer, 1977.
+\bibitem{ref14} P. Webb, A Course in Finite Group Representation Theory, Cambridge University Press, 2016.
+\bibitem{ref15} C. A. Weibel, An Introduction to Homological Algebra, Cambridge University Press, 1994.
+\end{thebibliography}
+
+\end{document}
