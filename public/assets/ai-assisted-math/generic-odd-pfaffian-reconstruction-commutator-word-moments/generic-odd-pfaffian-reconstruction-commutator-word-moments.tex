@@ -1,0 +1,1517 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Generic Odd-Pfaffian Reconstruction from Commutator-Word Moments}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Let $k=\mathbb F_p$, $p\neq2$, and let
+
+\[
+\beta:\Lambda^2_k V\to W
+\]
+
+be an alternating tensor with $\dim V=2r+1$ odd. Equivalently, $\beta$ is an $m=\dim W$-dimensional linear system of alternating forms on $V$. For $[\lambda]\in\mathbb P(W^*)$, write
+
+\[
+A_\lambda=\lambda\circ\beta.
+\]
+
+The first nontrivial degeneracy locus is the corank-$\ge3$ Pfaffian locus
+
+\[
+Z_\beta=\{[\lambda]\in\mathbb P(W^*):\dim\ker A_\lambda\ge3\},
+\]
+
+cut out by the submaximal Pfaffians of the universal odd skew-symmetric matrix.
+
+We prove that, on a natural nonempty Zariski open locus, pointwise Fourier-tagged scalar-extension commutator-word moments determine $\beta$ up to pseudo-isometry. The argument has four parts. First, the Fourier-tagged moments recover the rank of $A_\lambda$ for every $\lambda$ over every finite extension, hence recover the reduced Pfaffian degeneracy scheme $Z_\beta$. Under the explicit hypothesis that the submaximal Pfaffian ideal $I_\beta$ is saturated and geometrically radical, this recovers the ideal $I_\beta$. Second, by the Buchsbaum--Eisenbud structure theorem for codimension-three Gorenstein ideals, $I_\beta$ recovers the universal skew-symmetric matrix $M_\beta$ up to left-right equivalence of the middle map in the minimal free resolution. Third, if the common self-adjoint algebra
+
+\[
+\operatorname{Adj}^{+}(\beta)
+=
+\{T\in\operatorname{End}(V):T^{\mathsf T}A_\lambda=A_\lambda T\text{ for all }\lambda\}
+\]
+
+is only the scalar algebra $kI$, then left-right equivalence between alternating matrices upgrades to congruence, hence to pseudo-isometry of the tensor. Fourth, the Pfaffian hypotheses and the scalar self-adjoint condition hold on a nonempty Zariski open subset for
+
+\[
+\dim V=2r+1\ge5,\qquad 4\le \dim W\le10.
+\]
+
+Thus, for this range, Fourier-tagged MVMT gives a generic reconstruction theorem beyond alternating pencils. For the associated special class-two exponent-$p$ groups, it gives a generic word-moment reconstruction theorem for the commutator tensor, and hence for the group, on the surjective radical-free part of the open locus.
+
+The theorem is not a universal classification of all alternating tensors and is not an optimized isomorphism algorithm. Its contribution is a generic reconstruction mechanism: commutator-word moments recover a Pfaffian codimension-three degeneracy scheme, and on a rigid open locus that scheme determines the tensor.
+
+\end{abstract}
+
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+This article belongs to the AI-assisted math section. Generative AI, including ChatGPT by \mbox{OpenAI}, was used to assist with mathematical drafting, formalization, review, and editing. The note may be preliminary, may have been only partially reviewed, and in some cases may be only AI-reviewed.
+
+\section{Introduction}
+
+Let $G$ be a special finite $p$-group of nilpotency class two and exponent $p$, with $p\neq2$. Then
+
+\[
+V=G/Z(G),\qquad W=G'=Z(G)
+\]
+
+are $\mathbb F_p$-vector spaces, and the commutator defines an alternating tensor
+
+\[
+\beta:\Lambda^2V\to W.
+\]
+
+Conversely, every alternating tensor defines a class-two exponent-$p$ group
+
+\[
+G_\beta=V\oplus W
+\]
+
+with multiplication
+
+\[
+(v,z)(v',z')
+\left(v+v',z+z'+\frac12\beta(v,v')\right),
+\]
+
+and commutator
+
+\[
+[(v,z),(v',z')]=(0,\beta(v,v')).
+\]
+
+Two such special groups are isomorphic if and only if their commutator tensors are pseudo-isometric. Thus, reconstructing
+
+\[
+\beta:\Lambda^2V\to W
+\]
+
+up to the action of
+
+\[
+\operatorname{GL}(V)\times \operatorname{GL}(W)
+\]
+
+is a natural form of the class-two exponent-$p$ group isomorphism problem.
+
+For $\dim W=2$, the tensor is an alternating pencil. The complete Kronecker canonical data of such pencils can be recovered from explicitly designed commutator-word distributions. The present paper addresses the first genuinely higher-dimensional reconstruction mechanism.
+
+Assume
+
+\[
+\dim V=2r+1
+\]
+
+is odd. For every functional
+
+\[
+\lambda\in W^*
+\]
+
+we have an alternating form
+
+\[
+A_\lambda=\lambda\circ\beta.
+\]
+
+Because $\dim V$ is odd, each $A_\lambda$ is singular. The generic corank is at least (1). The first nontrivial degeneracy condition is
+
+\[
+\dim\ker A_\lambda\ge3.
+\]
+
+This condition is cut out by the submaximal Pfaffians of the universal alternating matrix
+
+\[
+M_\beta(x)=x_1A_1+\cdots+x_mA_m.
+\]
+
+The central idea is:
+
+\[
+\boxed{
+\text{MVMT rank data recovers the Pfaffian corank-}(\ge3)\text{ scheme.}
+}
+\]
+
+On a generic codimension-three Pfaffian locus, the Buchsbaum--Eisenbud theorem says that the ideal is governed by a skew-symmetric matrix in the minimal free resolution. Thus, under suitable rigidity, recovering the Pfaffian ideal recovers the tensor.
+
+The result is deliberately formulated with explicit hypotheses. The reduced degeneracy scheme determines the Pfaffian ideal only under radicality and saturation. The Pfaffian ideal determines the matrix through the Buchsbaum--Eisenbud resolution. Left-right recovery of the matrix becomes congruence only under a self-adjoint rigidity hypothesis. These hypotheses hold on a nonempty Zariski open set in the range
+
+\[
+4\le \dim W\le10.
+\]
+
+\subsection{Main theorem}
+
+Let
+
+\[
+n=2r+1\ge5,\qquad 4\le m\le10.
+\]
+
+Let
+
+\[
+\mathcal T_{n,m}=\operatorname{Hom}(\Lambda^2V,W)
+\]
+
+with $\dim V=n$, $\dim W=m$.
+
+\begin{theorem}[Theorem A -- Generic odd-Pfaffian MVMT reconstruction]
+
+There exists a nonempty Zariski open subset
+
+\[
+\mathcal U_{\mathrm{rec}}\subset \mathcal T_{n,m}
+\]
+
+such that, for every
+
+\[
+\beta\in\mathcal U_{\mathrm{rec}},
+\]
+
+the pointwise Fourier-tagged scalar-extension commutator-word moment data determine $\beta$ up to pseudo-isometry.
+
+Equivalently, for every surjective radical-free
+
+\[
+\beta\in\mathcal U_{\mathrm{rec}},
+\]
+
+the associated special class-two exponent-$p$ group $G_\beta$ is determined up to isomorphism by these word-moment data.
+
+\end{theorem}
+
+\subsection{What ``pointwise Fourier-tagged'' means}
+
+The theorem uses more than aggregate rank-zeta data. It uses the Fourier coefficient attached to each
+
+\[
+\lambda\in W_K^*
+\]
+
+over every finite extension
+
+\[
+K/k.
+\]
+
+That coefficient gives
+
+\[
+|K|^{-\operatorname{rank}(\lambda\circ\beta_K)}.
+\]
+
+Thus the data determine the rank pointwise on $W_K^*$, not merely the number of points of each rank.
+
+\subsection{What is not claimed}
+
+We do not claim:
+
+\begin{itemize}
+\item classification of all alternating tensors;
+\end{itemize}
+
+\begin{itemize}
+\item recovery of nonreduced Pfaffian schemes from reduced rank data alone;
+\end{itemize}
+
+\begin{itemize}
+\item an optimized group-isomorphism algorithm;
+\end{itemize}
+
+\begin{itemize}
+\item arbitrary target dimension;
+\end{itemize}
+
+\begin{itemize}
+\item completeness from rank-zeta point counts alone.
+\end{itemize}
+
+The theorem is a generic reconstruction theorem on an explicitly described open locus.
+
+\section{Alternating tensors and the universal odd Pfaffian matrix}
+
+Let
+
+\[
+k=\mathbb F_p,\qquad p\neq2.
+\]
+
+Let
+
+\[
+V
+\]
+
+be a vector space of dimension
+
+\[
+n=2r+1\ge5.
+\]
+
+Let
+
+\[
+W
+\]
+
+be a vector space of dimension $m$, and let
+
+\[
+\beta:\Lambda^2 V\to W
+\]
+
+be alternating.
+
+Choose a basis
+
+\[
+w_1,\ldots,w_m
+\]
+
+of $W$, and let
+
+\[
+x_1,\ldots,x_m
+\]
+
+be the dual homogeneous coordinates on $W^*$. Write
+
+\[
+\beta=(A_1,\ldots,A_m),
+\qquad
+A_i\in\Lambda^2V^*.
+\]
+
+Set
+
+\[
+S=k[x_1,\ldots,x_m].
+\]
+
+Define the universal alternating matrix
+
+\[
+M_\beta(x)=x_1A_1+\cdots+x_mA_m.
+\]
+
+This is an $n\times n$ skew-symmetric matrix with linear entries in $S$.
+
+Since $n=2r+1$ is odd,
+
+\[
+\det M_\beta(x)=0
+\]
+
+identically. The submaximal Pfaffians, i.e. the Pfaffians of the $2r\times2r$ principal submatrices obtained by deleting one row and column, are homogeneous forms of degree $r$.
+
+Let
+
+\[
+p_1,\ldots,p_n
+\]
+
+be the signed submaximal Pfaffians of $M_\beta$, and define
+
+\[
+I_\beta=(p_1,\ldots,p_n)\subset S.
+\]
+
+Define the projective Pfaffian degeneracy scheme
+
+\[
+Z_\beta=\operatorname{Proj}(S/I_\beta)
+\subseteq \mathbb P(W^*).
+\]
+
+Set-theoretically,
+
+\[
+Z_\beta
+=
+\{[\lambda]\in\mathbb P(W^*):\dim\ker(\lambda\circ\beta)\ge3\}.
+\]
+
+\section{Pointwise Fourier-tagged MVMT recovers the reduced Pfaffian locus}
+
+Let
+
+\[
+K/k
+\]
+
+be a finite extension. Extend
+
+\[
+\beta
+\]
+
+to
+
+\[
+\beta_K:\Lambda^2_KV_K\to W_K.
+\]
+
+Let
+
+\[
+\mu_{\beta,K}
+\]
+
+be the distribution of the commutator output
+
+\[
+\beta_K(u,v)\in W_K
+\]
+
+where
+
+\[
+u,v\in V_K
+\]
+
+are uniform.
+
+For
+
+\[
+\lambda\in W_K^*
+\]
+
+let
+
+\[
+A_\lambda=\lambda\circ\beta_K.
+\]
+
+Let
+
+\[
+\chi:K\to\mathbb C^\times
+\]
+
+be a nontrivial additive character. The Fourier coefficient of $\mu_{\beta,K}$ at $\lambda$ is
+
+\[
+\widehat\mu_{\beta,K}(\lambda)
+=
+\mathbb E_{u,v}
+\chi(A_\lambda(u,v)).
+\]
+
+\begin{lemma}[Pointwise rank recovery]
+
+For every finite extension $K/k$ and every
+
+\[
+\lambda\in W_K^*,
+\]
+
+one has
+
+\[
+\boxed{
+\widehat\mu_{\beta,K}(\lambda)
+=
+|K|^{-\operatorname{rank}_K(A_\lambda)}.
+}
+\]
+
+Therefore the Fourier-tagged scalar-extension MVMT data determine
+
+\[
+\operatorname{rank}_K(A_\lambda)
+\]
+
+for every $\lambda\in W_K^*$.
+
+\end{lemma}
+
+\begin{proof}
+
+This is the standard bilinear character average. For fixed $u$, the average over $v$ is $1$ precisely when
+
+\[
+A_\lambda(u,-)=0,
+\]
+
+and $0$ otherwise. Hence the total average is the proportion of $u$ in the radical of $A_\lambda$, namely
+
+\[
+|K|^{-\operatorname{rank}(A_\lambda)}.
+\]
+
+\end{proof}
+
+\begin{lemma}[MVMT recovers $I_\beta$ under radicality and saturation]
+
+Assume that
+
+\[
+I_\beta
+\]
+
+is saturated and geometrically radical. Then the pointwise Fourier-tagged scalar-extension MVMT data determine
+
+\[
+I_\beta.
+\]
+
+\end{lemma}
+
+\begin{proof}
+
+By Lemma 3.1, MVMT determines the rank of $A_\lambda$ for every
+
+\[
+\lambda\in W_K^*
+\]
+
+over every finite extension $K/k$. Therefore it determines, for every $K/k$,
+
+\[
+Z_\beta(K)
+=
+\{[\lambda]\in\mathbb P(W_K^*):\operatorname{rank}(A_\lambda)\le2r-2\}.
+\]
+
+Equivalently, it determines the $K$-rational points of the corank-$\ge3$ locus for every finite extension $K$.
+
+Every closed point of a finite-type $k$-scheme is rational over some finite extension of $k$. Thus the MVMT data determine the set of all closed points of
+
+\[
+(Z_\beta)_{\mathrm{red}}.
+\]
+
+Since $I_\beta$ is geometrically radical and saturated, it is exactly the homogeneous ideal of this reduced projective subscheme. Hence $I_\beta$ is determined.
+
+\end{proof}
+
+\begin{remark}[Remark 3.3]
+
+The radicality assumption is essential. Pointwise rank data over finite fields detects the reduced degeneracy locus. Without an Artin or scheme-theoretic enhancement, it need not determine nilpotent structure in $I_\beta$.
+
+\end{remark}
+
+\section{Buchsbaum--Eisenbud recovery from the Pfaffian ideal}
+
+We now recall the codimension-three Pfaffian structure.
+
+Assume
+
+\[
+\operatorname{ht}I_\beta=3.
+\]
+
+For an odd skew-symmetric matrix
+
+\[
+M_\beta
+\]
+
+of size $n=2r+1$, the Buchsbaum--Eisenbud Pfaffian complex has the form
+
+\[
+0
+\longrightarrow
+S(-2r-1)
+\xrightarrow{p^{\mathsf T}}
+S(-r-1)^n
+\xrightarrow{M_\beta}
+S(-r)^n
+\xrightarrow{p}
+I_\beta
+\longrightarrow0,
+\]
+
+where
+
+\[
+p=(p_1,\ldots,p_n)
+\]
+
+is the vector of signed submaximal Pfaffians.
+
+The Buchsbaum--Eisenbud theorem says that codimension-three Gorenstein ideals are governed by such alternating matrices. In our setting, we use the following precise consequence.
+
+\begin{lemma}[The Pfaffian ideal determines the middle matrix up to left-right equivalence]
+
+Assume:
+
+\begin{itemize}
+\item $I_\beta$ has height $3$;
+\end{itemize}
+
+\begin{itemize}
+\item the Buchsbaum--Eisenbud Pfaffian complex above is the minimal graded free resolution of $I_\beta$.
+\end{itemize}
+
+Let
+
+\[
+M_{\beta'}
+\]
+
+be another odd skew-symmetric linear matrix such that
+
+\[
+I_{\beta'}=I_\beta
+\]
+
+and such that its Buchsbaum--Eisenbud Pfaffian complex is also the minimal graded free resolution of $I_\beta$.
+
+Then there exist
+
+\[
+P,Q\in \operatorname{GL}_n(k)
+\]
+
+such that
+
+\[
+M_{\beta'}=P\,M_\beta\,Q.
+\]
+
+\end{lemma}
+
+\begin{proof}
+
+Both matrices give minimal graded free resolutions of the same homogeneous ideal $I_\beta$:
+
+\[
+0
+\to
+S(-2r-1)
+\to
+S(-r-1)^n
+\xrightarrow{M_\beta}
+S(-r)^n
+\to
+I_\beta
+\to0,
+\]
+
+and
+
+\[
+0
+\to
+S(-2r-1)
+\to
+S(-r-1)^n
+\xrightarrow{M_{\beta'}}
+S(-r)^n
+\to
+I_\beta
+\to0.
+\]
+
+Minimal graded free resolutions over $S$ are unique up to graded chain isomorphism. Since
+
+\[
+S(-r-1)^n
+\]
+
+and
+
+\[
+S(-r)^n
+\]
+
+are pure sums of equal shifts, every graded automorphism of these middle terms is given by a constant invertible $n\times n$ matrix over $k$. Therefore the middle maps differ by constant invertible transformations:
+
+\[
+M_{\beta'}=P\,M_\beta\,Q
+\]
+
+for some
+
+\[
+P,Q\in \operatorname{GL}_n(k).
+\]
+
+\end{proof}
+
+\begin{remark}[Remark 4.2]
+
+This lemma gives only left-right equivalence of the matrices. Pseudo-isometry of alternating tensors requires congruence. The next section gives the additional rigidity condition needed to pass from left-right equivalence to congruence.
+
+\end{remark}
+
+\section{Self-adjoint rigidity}
+
+For
+
+\[
+\beta=(A_1,\ldots,A_m),
+\]
+
+define
+
+\[
+\operatorname{Adj}^+(\beta)
+=
+\{R\in\operatorname{End}(V):R^{\mathsf T}A_i=A_iR\text{ for every }i\}.
+\]
+
+Equivalently, for
+
+\[
+M_\beta(x)=\sum_i x_iA_i,
+\]
+
+we have
+
+\[
+R\in\operatorname{Adj}^+(\beta)
+\]
+
+if and only if
+
+\[
+R^{\mathsf T}M_\beta=M_\beta R.
+\]
+
+\begin{lemma}[Rigidity upgrades left-right equivalence to congruence]
+
+Let
+
+\[
+M=M_\beta
+\]
+
+and
+
+\[
+M'=M_{\beta'}
+\]
+
+be alternating linear matrices of the same size. Suppose
+
+\[
+M'=P M Q
+\]
+
+for some
+
+\[
+P,Q\in \operatorname{GL}(V).
+\]
+
+Assume
+
+\[
+\operatorname{Adj}^+(\beta)=kI.
+\]
+
+Then
+
+\[
+M'=c P M P^{\mathsf T}
+\]
+
+for some
+
+\[
+c\in k^\times.
+\]
+
+Consequently, $M$ and $M'$ define pseudo-isometric alternating tensors.
+
+\end{lemma}
+
+\begin{proof}
+
+Since both $M$ and $M'$ are alternating,
+
+\[
+M^{\mathsf T}=-M,
+\qquad
+(M')^{\mathsf T}=-M'.
+\]
+
+From
+
+\[
+M'=PMQ
+\]
+
+we get
+
+\[
+(M')^{\mathsf T}
+=
+Q^{\mathsf T}M^{\mathsf T}P^{\mathsf T}
+=
+-Q^{\mathsf T}MP^{\mathsf T}.
+\]
+
+But
+
+\[
+(M')^{\mathsf T}=-M'=-PMQ.
+\]
+
+Hence
+
+\[
+Q^{\mathsf T}MP^{\mathsf T}=PMQ.
+\]
+
+Multiplying on the left by $P^{-1}$ and on the right by $P^{-\mathsf T}$, we obtain
+
+\[
+P^{-1}Q^{\mathsf T}M
+=
+M QP^{-\mathsf T}.
+\]
+
+Set
+
+\[
+R=QP^{-\mathsf T}.
+\]
+
+Then
+
+\[
+R^{\mathsf T}=P^{-1}Q^{\mathsf T}.
+\]
+
+Therefore
+
+\[
+R^{\mathsf T}M=MR.
+\]
+
+Since
+
+\[
+M=\sum_i x_iA_i,
+\]
+
+this identity is equivalent to
+
+\[
+R^{\mathsf T}A_i=A_iR
+\qquad
+\text{for every }i.
+\]
+
+Thus
+
+\[
+R\in\operatorname{Adj}^+(\beta).
+\]
+
+By hypothesis,
+
+\[
+R=cI
+\]
+
+for some
+
+\[
+c\in k^\times.
+\]
+
+Therefore
+
+\[
+Q=cP^{\mathsf T}.
+\]
+
+Substituting into
+
+\[
+M'=PMQ
+\]
+
+gives
+
+\[
+M'=c P M P^{\mathsf T}.
+\]
+
+The scalar $c$ is absorbed by a scalar change of target coordinates in $W$. Hence the corresponding tensors are pseudo-isometric.
+
+\end{proof}
+
+\section{Genericity of the Pfaffian hypotheses}
+
+We now show that the hypotheses used above hold on a nonempty Zariski open subset in the range
+
+\[
+4\le m\le10.
+\]
+
+\begin{lemma}[Generic Pfaffian degeneracy hypotheses]
+
+Assume
+
+\[
+n=2r+1\ge5,
+\qquad
+4\le m\le10.
+\]
+
+There exists a nonempty Zariski open subset
+
+\[
+\mathcal U_{\mathrm{Pf}}
+=
+\subset
+\operatorname{Hom}(\Lambda^2V,W)
+\]
+
+such that, for every
+
+\[
+\beta\in\mathcal U_{\mathrm{Pf}},
+\]
+
+the Pfaffian ideal $I_\beta$ has height (3), is saturated and geometrically radical, and the Buchsbaum--Eisenbud Pfaffian complex is its minimal free resolution.
+
+\end{lemma}
+
+\begin{proof}
+
+Let
+
+\[
+\mathbb P(\Lambda^2V^*)
+\]
+
+be the projective space of alternating forms on $V$.
+
+Let
+
+\[
+\Sigma_3
+=
+\{[\omega]:\dim\ker\omega\ge3\}
+\]
+
+be the corank-$\ge3$ Pfaffian variety. Since
+
+\[
+\dim V=2r+1
+\]
+
+is odd, $\Sigma_3$ is the first nontrivial degeneracy locus. It has codimension $3$. Its singular locus is
+
+\[
+\Sigma_5
+=
+\{[\omega]:\dim\ker\omega\ge5\},
+\]
+
+which has codimension $10$.
+
+A tensor
+
+\[
+\beta:\Lambda^2V\to W
+\]
+
+is the same as a projective linear subspace
+
+\[
+\mathbb P(W^*)\subset\mathbb P(\Lambda^2V^*).
+\]
+
+For a general such $\mathbb P(W^*)$, the intersection
+
+\[
+Z_\beta=\mathbb P(W^*)\cap\Sigma_3
+\]
+
+has expected codimension $3$ in $\mathbb P(W^*)$. Since
+
+\[
+m-1<10
+\]
+
+for
+
+\[
+m\le10,
+\]
+
+a general $\mathbb P(W^*)$ avoids $\Sigma_5$. Therefore the intersection occurs in the smooth locus of $\Sigma_3$.
+
+By generic transversality, a general $\mathbb P(W^*)$ intersects the smooth locus of $\Sigma_3$ transversely. Hence $Z_\beta$ is smooth over the algebraic closure. In particular, its homogeneous ideal is saturated and geometrically radical.
+
+The ideal of $\Sigma_3$ is generated by the submaximal Pfaffians of the universal odd alternating matrix. The ideal $I_\beta$ is the pullback of this ideal to $\mathbb P(W^*)$. Since the intersection has expected codimension $3$, the Buchsbaum--Eisenbud acyclicity criterion gives exactness of the associated Pfaffian complex. Minimality follows because all entries of $M_\beta$ are linear and have no constant terms, and the maps are homogeneous of positive degree.
+
+The conditions above are open conditions on $\beta$, and the general-position argument shows that the open set is nonempty.
+
+\end{proof}
+
+\section{Genericity of self-adjoint rigidity}
+
+We now prove that
+
+\[
+\operatorname{Adj}^+(\beta)=kI
+\]
+
+is also a nonempty open condition.
+
+\begin{lemma}[Self-adjoint rigidity is open]
+
+The condition
+
+\[
+\dim_k\operatorname{Adj}^+(\beta)=1
+\]
+
+is Zariski open in
+
+\[
+\operatorname{Hom}(\Lambda^2V,W).
+\]
+
+\end{lemma}
+
+\begin{proof}
+
+For fixed $\beta=(A_1,\ldots,A_m)$, the equations
+
+\[
+R^{\mathsf T}A_i=A_iR
+\]
+
+are linear equations in the entries of $R$, with coefficients depending linearly on the entries of the forms $A_i$. Thus
+
+\[
+\operatorname{Adj}^+(\beta)
+\]
+
+is the kernel of a matrix whose entries are polynomial functions of $\beta$. Kernel dimension is upper semicontinuous. Since scalar matrices always belong to $\operatorname{Adj}^+(\beta)$, the condition that the dimension be exactly $1$ is open.
+
+\end{proof}
+
+It remains to show nonemptiness. We give an explicit pair of alternating forms whose common self-adjoint algebra is scalar.
+
+Let
+
+\[
+V=X\oplus Y,
+\]
+
+where
+
+\[
+X=\langle x_0,\ldots,x_r\rangle,
+\qquad
+Y=\langle y_0,\ldots,y_{r-1}\rangle.
+\]
+
+Define
+
+\[
+A_0=\sum_{i=0}^{r-1}x_i^*\wedge y_i^*,
+\]
+
+\[
+A_1=\sum_{i=0}^{r-1}x_{i+1}^*\wedge y_i^*.
+\]
+
+These are the two alternating forms of the odd Kronecker block.
+
+\begin{lemma}[The odd Kronecker pair has scalar self-adjoint algebra]
+
+For the pair $(A_0,A_1)$ above,
+
+\[
+\operatorname{Adj}^+(A_0,A_1)=kI_V.
+\]
+
+\end{lemma}
+
+\begin{proof}
+
+Write an endomorphism
+
+\[
+T\in\operatorname{End}(V)
+\]
+
+in block form relative to
+
+\[
+V=X\oplus Y:
+\]
+
+\[
+T=
+\begin{pmatrix}
+P&Q\
+C&S
+\end{pmatrix},
+\]
+
+where
+
+\[
+P:X\to X,\qquad Q:Y\to X,\qquad C:X\to Y,\qquad S:Y\to Y.
+\]
+
+Let
+
+\[
+L_0=[I_r\ 0],
+\qquad
+L_1=[0\ I_r],
+\]
+
+viewed as $r\times(r+1)$ matrices. The forms $A_0,A_1$ have block matrices
+
+\[
+\begin{pmatrix}
+0&L_j^{\mathsf T}\
+-L_j&0
+\end{pmatrix},
+\qquad
+j=0,1.
+\]
+
+The condition
+
+\[
+T^{\mathsf T}A_j=A_jT
+\]
+
+is equivalent to the block equations
+
+\[
+S^{\mathsf T}L_j=L_jP,
+\tag{1}
+\]
+
+\[
+L_jQ+(L_jQ)^{\mathsf T}=0,
+\tag{2}
+\]
+
+\[
+L_j^{\mathsf T}C+C^{\mathsf T}L_j=0.
+\tag{3}
+\]
+
+First consider (1). From $j=0$, since
+
+\[
+L_0=[I_r\ 0],
+\]
+
+the first $r$ rows of $P$ are
+
+\[
+[S^{\mathsf T}\ 0].
+\]
+
+From $j=1$, since
+
+\[
+L_1=[0\ I_r],
+\]
+
+the last $r$ rows of $P$ are
+
+\[
+[0\ S^{\mathsf T}].
+\]
+
+Comparing the overlapping rows of $P$ gives
+
+\[
+S_{a,b}=S_{a-1,b-1}
+\]
+
+for
+
+\[
+1\le a,b\le r-1,
+\]
+
+and the boundary equations give
+
+\[
+S_{0,b}=0\quad(b>0),
+\qquad
+S_{a,0}=0\quad(a>0).
+\]
+
+Thus all off-diagonal entries of $S$ vanish and all diagonal entries are equal. Hence
+
+\[
+S=cI_Y.
+\]
+
+The same equations then force
+
+\[
+P=cI_X.
+\]
+
+Now consider $Q=(q_{ij})$, with
+
+\[
+0\le i\le r,
+\qquad
+0\le j\le r-1.
+\]
+
+Equation (2) for $j=0$ gives
+
+\[
+q_{ij}+q_{ji}=0
+\qquad
+(0\le i,j\le r-1).
+\tag{4}
+\]
+
+Equation (2) for $j=1$ gives
+
+\[
+q_{i+1,j}+q_{j+1,i}=0
+\qquad
+(0\le i,j\le r-1).
+\tag{5}
+\]
+
+From (4), $q_{ii}=0$. From (5), $q_{i+1,i}=0$. If $a<b$, then applying (4) and then (5) gives
+
+\[
+q_{a,b}
+-q_{b,a}
+q_{a+1,b-1}.
+\]
+
+This reduces (b-a) by (2), eventually reaching a diagonal or subdiagonal entry, both of which are zero. Hence $q_{a,b}=0$ for $a<b$. The case $a>b$ is similar, using (5) and (4) to reduce to a diagonal or subdiagonal zero. Therefore
+
+\[
+Q=0.
+\]
+
+The equations for $C$ are the transpose-dual of the equations for $Q$, and the same argument gives
+
+\[
+C=0.
+\]
+
+Thus
+
+\[
+T=
+\begin{pmatrix}
+cI_X&0\
+0&cI_Y
+\end{pmatrix}
+cI_V.
+\]
+
+Therefore
+
+\[
+\operatorname{Adj}^+(A_0,A_1)=kI_V.
+\]
+
+\end{proof}
+
+\begin{corollary}[Nonempty open self-adjoint locus]
+
+For every
+
+\[
+m\ge2,
+\]
+
+the locus
+
+\[
+\operatorname{Adj}^+(\beta)=kI
+\]
+
+is a nonempty Zariski open subset of
+
+\[
+\operatorname{Hom}(\Lambda^2V,W).
+\]
+
+\end{corollary}
+
+\begin{proof}
+
+By Lemma 7.1 it is open. By Lemma 7.2, the pair $(A_0,A_1)$ has scalar self-adjoint algebra. Adding more alternating forms can only decrease the common self-adjoint algebra. Hence the condition is nonempty for all $m\ge2$.
+
+\end{proof}
+
+\section{The generic reconstruction locus}
+
+Let
+
+\[
+\mathcal U_{\mathrm{Pf}}
+\]
+
+be the open set from Lemma 6.1, and let
+
+\[
+\mathcal U_{\mathrm{Adj}}
+=
+\{\beta:\operatorname{Adj}^+(\beta)=kI\}.
+\]
+
+Define
+
+\[
+\mathcal U_{\mathrm{rec}}
+=
+\mathcal U_{\mathrm{Pf}}\cap \mathcal U_{\mathrm{Adj}}.
+\]
+
+Since
+
+\[
+\operatorname{Hom}(\Lambda^2V,W)
+\]
+
+is irreducible and both open sets are nonempty, their intersection is nonempty.
+
+\begin{theorem}[Generic odd-Pfaffian MVMT reconstruction]
+
+Let
+
+\[
+k=\mathbb F_p,\qquad p\neq2,
+\]
+
+let
+
+\[
+\dim V=2r+1\ge5,
+\]
+
+and let
+
+\[
+4\le \dim W=m\le10.
+\]
+
+For every
+
+\[
+\beta\in\mathcal U_{\mathrm{rec}},
+\]
+
+the pointwise Fourier-tagged scalar-extension MVMT data determine $\beta$ up to pseudo-isometry.
+
+\end{theorem}
+
+\begin{proof}
+
+By Lemma 3.2, the MVMT data determine the Pfaffian ideal
+
+\[
+I_\beta.
+\]
+
+By Lemma 4.1, this ideal determines the universal alternating matrix
+
+\[
+M_\beta
+\]
+
+up to left-right equivalence. By Lemma 5.1 and the condition
+
+\[
+\operatorname{Adj}^+(\beta)=kI,
+\]
+
+this left-right equivalence upgrades to congruence up to target scalar, hence to pseudo-isometry of the alternating tensor.
+
+\end{proof}
+
+\section{Group-theoretic corollary}
+
+Suppose additionally that
+
+\[
+\beta:\Lambda^2V\to W
+\]
+
+is surjective and radical-free:
+
+\[
+\operatorname{im}\beta=W,
+\qquad
+\operatorname{rad}\beta=0.
+\]
+
+Then $G_\beta$ is a special class-two exponent-$p$ group with
+
+\[
+G_\beta'=Z(G_\beta)=W.
+\]
+
+\begin{corollary}[Generic group reconstruction]
+
+For every surjective radical-free
+
+\[
+\beta\in\mathcal U_{\mathrm{rec}},
+\]
+
+the group
+
+\[
+G_\beta
+\]
+
+is determined up to isomorphism by the pointwise Fourier-tagged scalar-extension MVMT data.
+
+\end{corollary}
+
+\begin{proof}
+
+For special class-two exponent-$p$ groups, group isomorphism is equivalent to pseudo-isometry of the commutator tensor. Theorem 8.1 recovers the pseudo-isometry class of $\beta$.
+
+\end{proof}
+
+\section{Density over large finite fields}
+
+The theorem above is geometric. It gives a nonempty Zariski open subset. Over finite fields, one may translate this into a density statement after spreading out.
+
+\begin{corollary}[Density-one form]
+
+Fix
+
+\[
+n=2r+1\ge5,
+\qquad
+4\le m\le10.
+\]
+
+After choosing an integral model of the open set
+
+\[
+\mathcal U_{\mathrm{rec}},
+\]
+
+for all sufficiently large finite fields $\mathbb F_q$ of odd characteristic,
+
+\[
+\frac{
+|\mathcal U_{\mathrm{rec}}(\mathbb F_q)|
+}{
+|\operatorname{Hom}(\Lambda^2\mathbb F_q^n,\mathbb F_q^m)|
+}
+1-O_{n,m}(q^{-1}).
+\]
+
+\end{corollary}
+
+\begin{proof}
+
+The complement of a nonempty Zariski open subset in affine space is contained in a proper algebraic subvariety of bounded degree after spreading out over a finitely generated base. The number of $\mathbb F_q$-points of this complement is
+
+\[
+O(q^{D-1}),
+\]
+
+where
+
+\[
+D=\dim \operatorname{Hom}(\Lambda^2 k^n,k^m).
+\]
+
+Dividing by $q^D$ gives
+
+\[
+O(q^{-1}).
+\]
+
+\end{proof}
+
+\section{Scope and limitations}
+
+The theorem proves generic reconstruction beyond alternating pencils, but it is not a universal theorem.
+
+It does not claim:
+
+\begin{itemize}
+\item recovery of nonreduced Pfaffian schemes from rank data;
+\end{itemize}
+
+\begin{itemize}
+\item classification of all alternating tensors;
+\end{itemize}
+
+\begin{itemize}
+\item arbitrary target dimension;
+\end{itemize}
+
+\begin{itemize}
+\item polynomial-time isomorphism testing;
+\end{itemize}
+
+\begin{itemize}
+\item classification from aggregate rank-zeta point counts.
+\end{itemize}
+
+The theorem does claim:
+
+\[
+\boxed{
+\text{pointwise Fourier-tagged MVMT recovers the reduced Pfaffian degeneracy scheme;}
+}
+\]
+
+\[
+\boxed{
+\text{on a generic rigid codimension-three Pfaffian open locus, this scheme determines the tensor;}
+}
+\]
+
+\[
+\boxed{
+\text{therefore MVMT is generically complete beyond the pencil case.}
+}
+\]
+
+\begin{thebibliography}{99}
+\bibitem{ref1} D. A. Buchsbaum and D. Eisenbud, Algebra structures for finite free resolutions, and some structure theorems for ideals of codimension 3, American Journal of Mathematics 99 (1977), 447--485.
+\bibitem{ref2} D. Eisenbud, S. Popescu, and C. Walter, Lagrangian subbundles and codimension 3 subcanonical subschemes, arXiv:math/9906170.
+\bibitem{ref3} A. Beauville, Determinantal hypersurfaces, Michigan Math. J. 48 (2000), 39--64.
+\bibitem{ref4} D. Kerner and V. Vinnikov, Determinantal representations of singular hypersurfaces in $\mathbb P^n$, arXiv:0906.3012.
+\bibitem{ref5} M. Levy, Enumerating fibres of commutator words over $p$-groups, arXiv:1602.04093.
+\bibitem{ref6} J. B. Wilson, Decomposing $p$-groups via Jordan algebras, Journal of Algebra 322 (2009), 2642--2679.
+\bibitem{ref7} P. A. Brooksbank and J. B. Wilson, Computing isometry groups of Hermitian maps, Transactions of the American Mathematical Society 364 (2012), 1975--1996.
+\bibitem{ref8} X. Sun, Faster Isomorphism for $p$-Groups of Class 2 and Exponent $p$, arXiv:2303.15412.
+\end{thebibliography}
+\end{document}

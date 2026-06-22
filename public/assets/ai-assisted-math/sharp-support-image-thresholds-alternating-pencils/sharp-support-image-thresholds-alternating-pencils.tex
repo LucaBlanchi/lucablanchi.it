@@ -1,0 +1,1814 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\title{Sharp Support-Image Thresholds for Alternating Pencils}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We prove an exact arity threshold for structured support-image observers on a natural infinite family of alternating pencils and associated class-two exponent-$p$ groups. Let $q$ be odd. For every monic irreducible polynomial $f\in\mathbb F_q[t]$ of degree $m\ge3$, we construct a radical-free surjective alternating pencil $\beta_f:\Lambda^2 V_f\to W$ with $\dim_{\mathbb F_q}V_f=2m$ and $\dim_{\mathbb F_q}W=2$, whose Pfaffian is, up to scalar, the norm $N_{\mathbb F_{q^m}/\mathbb F_q}(a+b\theta)$, where $\theta$ is a root of $f$. Equivalently, $\beta_f$ is the regular irreducible symplectic pencil attached to $f$. For $r\ge1$, let $\operatorname{CSI}_{\le r}(\beta)$ denote the structured support-image profile through level $r$. We prove that $\operatorname{CSI}_{\le r}(\beta_f)$ is independent of $f$ for every $r<m$, and that the residual projective observer symmetry is the full group $PGL_2(q)$ at every such level. At level $m$, the profile detects $f$ up to the natural $PGL_2(q)$-action. Thus, on irreducible regular pencils of degree $m$, the exact support-image separation depth is $m$. For $q=p$ prime, the associated Baer groups are directly indecomposable special class-two exponent-$p$ groups of order $p^{2m+2}$, so the exact observer threshold is $(\log_p |G|-2)/2$.
+\end{abstract}
+
+\section{Introduction}
+
+Alternating maps
+
+\[
+\beta:\Lambda^2V\to W
+\]
+
+control finite groups of nilpotency class two and exponent (p). If (p) is odd, such a map defines a group
+
+\[
+G_\beta=V\oplus W
+\]
+
+with multiplication
+
+\[
+(v,z)(u,w)
+\left(
+v+u,
+z+w+\frac12\beta(v,u)
+\right).
+\]
+
+The commutator is
+
+\[
+[(v,z),(u,w)]=(0,\beta(v,u)).
+\]
+
+Thus isomorphism questions for special class-two exponent-(p) groups are equivalent to pseudo-isometry questions for alternating maps.
+
+This paper studies how much of an alternating map is visible to support-image observers.
+
+For
+
+\[
+\mathbf x=(x_1,\ldots,x_r)\in V^r,
+\]
+
+define
+
+\[
+A_{\mathbf x}:V\to W^r,
+\qquad
+z\mapsto
+\bigl(\beta(x_1,z),\ldots,\beta(x_r,z)\bigr).
+\]
+
+The level-(r) support-image profile records the image subspaces
+
+\[
+\operatorname{im}A_{\mathbf x}\le W^r
+\]
+
+as $\mathbf x$ varies. It is a structured invariant of $\beta$, taken up to the natural action of $GL(W)$.
+
+The central question is:
+
+\[
+\boxed{
+\text{How large must }r\text{ be before support-image data detects the map?}
+}
+\]
+
+We answer this exactly for regular irreducible alternating pencils.
+
+For each monic irreducible polynomial
+
+\[
+f\in\mathbb F_q[t]
+\]
+
+of degree (m), we construct a $2m$-dimensional alternating pencil
+
+\[
+\beta_f:\Lambda^2V_f\to\mathbb F_q^2.
+\]
+
+All nonzero scalar forms in the pencil are nondegenerate. Hence every first-order scalar-rank invariant sees the same object: a pencil in which every scalar member has full rank.
+
+Nevertheless, the pencils are usually nonisomorphic. Their difference is encoded in the degree-(m) Pfaffian.
+
+The main result says that support-image observers detect exactly this degree.
+
+For every
+
+\[
+r<m,
+\]
+
+the complete structured support-image profile through level (r) is identical for all monic irreducible (f) of degree (m). Moreover, the residual projective symmetry visible to the observer is the full group
+
+\[
+PGL_2(q).
+\]
+
+At level (m), a single companion linearization of (f) becomes singular on $\beta_f$, and this detects (f) up to projective equivalence.
+
+Thus the exact threshold is
+
+\[
+r=m.
+\]
+
+In group-theoretic terms, for $q=p$ prime, the associated groups have order
+
+\[
+p^{2m+2},
+\]
+
+so the exact threshold is
+
+\[
+\frac{\log_p |G|-2}{2}.
+\]
+
+This gives a linear observer lower bound with a matching upper bound, on an exponentially large family of directly indecomposable special groups.
+
+\section{Structured support-image profiles}
+
+Let (q) be odd, and let (V,W) be finite-dimensional $\mathbb F_q$-vector spaces.
+
+An alternating map is a linear map
+
+\[
+\beta:\Lambda^2V\to W.
+\]
+
+Equivalently, it is an alternating bilinear map
+
+\[
+V\times V\to W.
+\]
+
+For $x\in V$, define the contraction
+
+\[
+A_x:V\to W,
+\qquad
+z\mapsto \beta(x,z).
+\]
+
+For an (r)-tuple
+
+\[
+\mathbf x=(x_1,\ldots,x_r)\in V^r,
+\]
+
+define
+
+\[
+A_{\mathbf x}:V\to W^r,
+\qquad
+z\mapsto
+(A_{x_1}z,\ldots,A_{x_r}z).
+\]
+
+The level-(r) support-image profile is the function
+
+\[
+T\le W^r
+\longmapsto
+E_r^\beta(T),
+\]
+
+where
+
+\[
+E_r^\beta(T)
+\#\{\mathbf x\in V^r:\operatorname{im}A_{\mathbf x}=T\}.
+\]
+
+The structured level-(r) support-image profile is this function on the full subspace lattice of $W^r$, considered together with the natural diagonal action of $GL(W)$.
+
+It is often more convenient to use the equivalent rank transform.
+
+Let
+
+\[
+U\le (W^r)^*.
+\]
+
+Choose a basis
+
+\[
+u_1,\ldots,u_s
+\]
+
+of (U). Each $u_j$ is a linear functional on $W^r$. Define
+
+\[
+\Psi_U^\beta:V^r\to (V^*)^s
+\]
+
+by
+
+\[
+\Psi_U^\beta(\mathbf x)
+\bigl(
+u_1\circ A_{\mathbf x},
+\ldots,
+u_s\circ A_{\mathbf x}
+\bigr).
+\]
+
+Set
+
+\[
+\rho_r^\beta(U)
+\operatorname{rank}\Psi_U^\beta.
+\]
+
+This is independent of the chosen basis of (U).
+
+\begin{proposition}[CSI/rank-transform equivalence]
+For fixed (r), the structured support-image profile
+
+\[
+T\mapsto E_r^\beta(T)
+\]
+
+and the rank-transform function
+
+\[
+U\mapsto \rho_r^\beta(U)
+\]
+
+determine one another.
+
+\end{proposition}
+
+\begin{proof}
+For
+
+\[
+S\le W^r,
+\]
+
+define
+
+\[
+F_r^\beta(S)
+\#\{\mathbf x\in V^r:\operatorname{im}A_{\mathbf x}\le S\}.
+\]
+
+The condition
+
+\[
+\operatorname{im}A_{\mathbf x}\le S
+\]
+
+is equivalent to
+
+\[
+u\circ A_{\mathbf x}=0
+\qquad
+\text{for all }u\in S^\perp.
+\]
+
+Thus
+
+\[
+F_r^\beta(S)
+|\ker \Psi_{S^\perp}^\beta|
+q^{r\dim V-\rho_r^\beta(S^\perp)}.
+\tag{2.1}
+\]
+
+On the other hand,
+
+\[
+F_r^\beta(S)=\sum_{T\le S}E_r^\beta(T).
+\tag{2.2}
+\]
+
+Mobius inversion on the lattice of subspaces of $W^r$ gives
+
+\[
+E_r^\beta(T)
+\sum_{S\le T}
+\mu(S,T)F_r^\beta(S).
+\tag{2.3}
+\]
+
+Equations $2.1$--$2.3$ recover $E_r^\beta$ from $\rho_r^\beta$.
+
+Conversely, $E_r^\beta$ determines $F_r^\beta$ by $2.2$, and then $2.1$ determines $\rho_r^\beta$.
+
+$\square$
+
+\end{proof}
+
+\section{Residual projective observer symmetry}
+
+Let
+\[
+PGL(W)=GL(W)/\mathbb F_q^\times.
+\]
+
+The group $PGL(W)$ acts on $W$, on $W^r$, and dually on $(W^r)^*$.
+
+For
+
+\[
+g\in PGL(W)
+\]
+
+and
+
+\[
+U\le (W^r)^*,
+\]
+
+write
+
+\[
+gU
+\]
+
+for the image of (U) under the induced dual action.
+
+\begin{definition}[Residual CSI symmetry]
+The residual projective symmetry group of the structured CSI observer through level (r) is
+
+\[
+\Gamma_{\le r}(\beta)
+\left\{
+g\in PGL(W):
+\rho_s^\beta(gU)=\rho_s^\beta(U)
+\ \text{for all }1\le s\le r,\ U\le (W^s)^*
+\right\}.
+\]
+
+Equivalently, by Proposition 2.1, $\Gamma_{\le r}(\beta)$ is the subgroup of $PGL(W)$ preserving all structured support-image profiles through level $r$.
+
+If $(T,g)\in GL(V)\times GL(W)$ is a pseudo-isometry of $\beta$, i.e.
+
+\[
+g\beta(x,y)=\beta(Tx,Ty),
+\]
+
+then the projective class of (g) lies in $\Gamma_{\le r}(\beta$) for every (r). Thus $\Gamma_{\le r}(\beta$) may be larger than the true projective automorphism group: it measures the false symmetry not yet broken by the observer.
+
+\end{definition}
+
+\section{Grassmann image profiles}
+
+We also use a parallel observer based on restrictions to subspaces.
+
+For
+
+\[
+r\ge2
+\]
+
+and
+
+\[
+T\le W,
+\]
+
+define
+
+\[
+\mathcal E_r^\beta(T)
+\#\left\{
+L\le V:
+\dim L=r,\
+\beta(\Lambda^2L)=T
+\right\}.
+\]
+
+Define also
+
+\[
+\mathcal F_r^\beta(U)
+\#\left\{
+L\le V:
+\dim L=r,\
+\beta(\Lambda^2L)\le U
+\right\}.
+\]
+
+Then
+
+\[
+\mathcal F_r^\beta(U)
+\sum_{T\le U}\mathcal E_r^\beta(T),
+\]
+
+and hence
+
+\[
+\mathcal E_r^\beta(T)
+\sum_{U\le T}
+\mu(U,T)\mathcal F_r^\beta(U),
+\]
+
+where $\mu$ is the Mobius function of the subspace lattice.
+
+The condition
+
+\[
+\beta(\Lambda^2L)\le U
+\]
+
+means that (L) is totally isotropic for the quotient map
+
+\[
+\overline\beta_U:\Lambda^2V\to W/U.
+\]
+
+Thus the Grassmann image profile is equivalent to the collection of common isotropic-subspace counts for all quotients of the codomain.
+
+This observer is related to, but not identical with, the tuple-based structured CSI profile. It is useful here because its two-plane collapse clarifies why level one is insufficient.
+
+\section{The full two-plane profile collapses}
+
+The case $r=2$ of the Grassmann image profile is special.
+
+Let
+
+\[
+N_2=\binom{\dim V}{2}_q
+\]
+
+be the number of two-dimensional subspaces of (V).
+
+Let
+
+\[
+z_\beta=\mathcal E_2^\beta(0)
+\]
+
+and, for
+
+\[
+P\in\mathbb P(W),
+\]
+
+let
+
+\[
+m_\beta(P)=\mathcal E_2^\beta(P).
+\]
+
+Thus $m_\beta(P$) counts two-planes whose image is the projective direction (P).
+
+For
+
+\[
+0\ne a\in W^*,
+\]
+
+let
+
+\[
+J_\beta(a)
+\#\{L\le V:\dim L=2,\ (a\circ\beta)|_L=0\}.
+\]
+
+If
+
+\[
+H_a=\mathbb P(\ker a)\subseteq\mathbb P(W),
+\]
+
+then
+
+\[
+J_\beta(a)=z_\beta+\sum_{P\in H_a}m_\beta(P).
+\tag{5.1}
+\]
+
+Let
+
+\[
+d=\dim W,
+\qquad
+v=\frac{q^d-1}{q-1},
+\qquad
+k=\frac{q^{d-1}-1}{q-1}.
+\]
+
+Summing $5.1$ over all projective covectors $[a]\in\mathbb P(W^*$) gives
+
+\[
+\sum_{[a]}J_\beta(a)
+kN_2+(v-k)z_\beta.
+\]
+
+Hence
+
+\[
+z_\beta
+\frac{\sum_{[a]}J_\beta(a)-kN_2}{v-k}.
+\tag{5.2}
+\]
+
+Once $z_\beta$ is known, $5.1$ gives the hyperplane sums of $m_\beta$. The point-hyperplane incidence matrix of projective space satisfies
+
+\[
+M^TM=q^{d-2}I+\lambda J,
+\qquad
+\lambda=\frac{q^{d-2}-1}{q-1}.
+\]
+
+Thus it is invertible over $\mathbb Q$, and the hyperplane sums recover $m_\beta$.
+
+It remains to observe that $J_\beta(a$) is determined by the rank of the scalar alternating form
+
+\[
+a\circ\beta.
+\]
+
+Let (B) be an alternating form on an (n)-dimensional vector space, and suppose
+
+\[
+\operatorname{rank}B=2s.
+\]
+
+Then (B) has radical dimension $n-2s$. A two-plane is nonisotropic for (B) precisely when, for one, equivalently every, ordered basis ((x,y)), one has
+
+\[
+B(x,y)\ne0.
+\]
+
+The number of ordered pairs $(x,y)$ with $B(x,y)\ne0$ is
+
+\[
+(q^n-q^{n-2s})q^{n-1}(q-1).
+\]
+
+Dividing by
+
+\[
+|\operatorname{GL}_2(q)|
+\]
+
+gives the number of nonisotropic two-planes. Therefore
+
+\[
+J(B)
+\binom n2_q
+\frac{
+(q^n-q^{n-2s})q^{n-1}(q-1)
+}{
+|\operatorname{GL}_2(q)|
+}.
+\tag{5.3}
+\]
+
+This is strictly decreasing in (s). Hence (J(B)) determines $\operatorname{rank}B$, and conversely.
+
+\begin{theorem}[Two-plane collapse]
+The full structured two-plane Grassmann image profile
+
+\[
+(z_\beta,m_\beta)
+\]
+
+and the marked scalar-rank function
+
+\[
+[a]\in\mathbb P(W^*)
+\longmapsto
+\operatorname{rank}(a\circ\beta)
+\]
+
+determine one another.
+
+In particular, the full two-plane Grassmann image profile contains no more information than the level-one scalar-rank profile.
+
+\end{theorem}
+
+\section{Three-plane profiles are strictly stronger}
+
+The collapse in Theorem 5.1 is special to two-planes.
+
+We give two five-dimensional pencils over $\mathbb F_q$, (q) odd, with identical two-plane profiles but distinct common isotropic three-plane counts.
+
+Let
+
+\[
+W=\mathbb F_q^2.
+\]
+
+\subsection{The Kronecker pencil}
+
+Let
+
+\[
+V_K=X\oplus Y,
+\qquad
+\dim X=2,\quad \dim Y=3,
+\]
+
+with bases
+
+\[
+x_1,x_2
+\]
+
+for (X), and
+
+\[
+y_0,y_1,y_2
+\]
+
+for (Y). Define
+
+\[
+\beta_K:\Lambda^2V_K\to W
+\]
+
+by
+
+\[
+\beta_K(x_1,y_0)=\beta_K(x_2,y_1)=(1,0),
+\]
+
+\[
+\beta_K(x_1,y_1)=\beta_K(x_2,y_2)=(0,1),
+\]
+
+and all remaining basis pairings zero.
+
+For $(a,b)\ne(0,0)$, the scalar form
+
+\[
+a\beta_{K,0}+b\beta_{K,1}
+\]
+
+has cross-block matrix
+
+\[
+\begin{pmatrix}
+a&b&0\
+0&a&b
+\end{pmatrix}.
+\]
+
+This matrix has rank $2$, so the scalar alternating form has rank $4$. Thus every nonzero scalar form in the pencil has rank $4$.
+
+The subspace (Y) is common totally isotropic. It is the only common totally isotropic three-space.
+
+Indeed, suppose $L\le V_K$ is common totally isotropic with $\dim L=3$. Let
+
+\[
+a=\dim \operatorname{pr}_X(L).
+\]
+
+If $a=0$, then $L=Y$.
+
+If $a=1$, then $\dim(L\cap Y)\ge2$. But for a nonzero
+
+\[
+x=\alpha x_1+\beta x_2,
+\]
+
+the map
+
+\[
+Y\to W,
+\qquad
+y\mapsto \beta_K(x,y)
+\]
+
+has matrix
+
+\[
+\begin{pmatrix}
+\alpha&\beta&0\
+0&\alpha&\beta
+\end{pmatrix},
+\]
+
+which has kernel of dimension $1$. Hence $L\cap Y$ cannot have dimension $2$.
+
+If $a=2$, then $L\cap Y\ne0$. But the common right radical in (Y) of (X) is zero. This is again impossible.
+
+Therefore
+
+\[
+\mathcal E_3^{\beta_K}(0)=1.
+\tag{6.1}
+\]
+
+\subsection{The extension-field pencil}
+
+Let
+
+\[
+E=\mathbb F_{q^2}
+\]
+
+and let
+
+\[
+V_E=\mathbb F_q r\oplus E^2.
+\]
+
+View
+
+\[
+W=E
+\]
+
+as a two-dimensional $\mathbb F_q$-space. Define
+
+\[
+\beta_E((c,u),(c',v))=\det_E(u,v).
+\]
+
+Every nonzero scalar projection
+
+\[
+E\to\mathbb F_q
+\]
+
+composed with the determinant form is nondegenerate on $E^2$ and has radical exactly $\mathbb F_qr$. Hence every nonzero scalar form in the pencil again has rank $4$.
+
+A common totally isotropic three-space must contain (r). Its projection to $E^2$ must be an (E)-line. Conversely, every (E)-line gives such a three-space. Therefore
+
+\[
+\mathcal E_3^{\beta_E}(0)
+|\mathbb P^1(E)|
+q^2+1.
+\tag{6.2}
+\]
+
+\begin{corollary}
+The pencils $\beta_K$ and $\beta_E$ have identical complete two-plane image profiles but distinct three-plane image profiles:
+
+\[
+\mathcal E_3^{\beta_K}(0)=1,
+\qquad
+\mathcal E_3^{\beta_E}(0)=q^2+1.
+\]
+
+Thus three-plane image data strictly refines two-plane image data.
+
+\end{corollary}
+
+\section{Irreducible symplectic pencils}
+
+We now construct the main family.
+
+Let
+
+\[
+f(t)\in\mathbb F_q[t]
+\]
+
+be monic irreducible of degree
+
+\[
+m\ge3.
+\]
+
+Let
+
+\[
+E=\mathbb F_q[t]/(f),
+\qquad
+\theta=t\bmod f.
+\]
+
+Let
+
+\[
+V=E^2
+\]
+
+viewed as a $2m$-dimensional $\mathbb F_q$-space.
+
+Let
+
+\[
+W=\mathbb F_q^2.
+\]
+
+Define
+
+\[
+\delta:E^2\times E^2\to E
+\]
+
+by
+
+\[
+\delta(x,y)=x_1y_2-x_2y_1.
+\]
+
+Define
+
+\[
+\beta_f:V\times V\to W
+\]
+
+by
+
+\[
+\beta_f(x,y)
+\left(
+\operatorname{Tr}{E/\mathbb F_q}\delta(x,y),
+\operatorname{Tr}{E/\mathbb F_q}(\theta\delta(x,y))
+\right).
+\tag{7.1}
+\]
+
+Let $B_0,B_1$ be the two coordinate forms.
+
+For $(a,b)\ne(0,0)$,
+
+\[
+aB_0+bB_1
+\operatorname{Tr}_{E/\mathbb F_q}
+\bigl((a+b\theta)\delta(-,-)\bigr).
+\]
+
+Since $a+b\theta\ne0$, the trace pairing is nondegenerate and $\delta$ is symplectic over (E). Hence every nonzero scalar form in the pencil is nondegenerate over $\mathbb F_q$.
+
+Consequently, $\beta_f$ is radical-free and surjective.
+
+The Pfaffian of the pencil is
+
+\[
+\operatorname{Pf}(aB_0+bB_1)
+c\cdot N_{E/\mathbb F_q}(a+b\theta)
+\tag{7.2}
+\]
+
+for some nonzero scalar $c\in\mathbb F_q^\times$.
+
+Thus the binary Pfaffian form is the homogenization of (f), up to scalar.
+
+We use the following standard canonical-form input for alternating pencils.
+
+Canonical-form input 7.1
+
+Over a field of characteristic not $2$, pairs of skew-symmetric matrices under congruence admit a canonical decomposition into regular and singular summands. In the regular skew-symmetric part, irreducible summands are determined by their elementary divisors. For a regular irreducible alternating pencil, the pseudo-isometry class is determined, up to projective change of pencil coordinates, by the projective equivalence class of the irreducible elementary divisor.
+
+This is the standard Kronecker--Sergeichuk classification for pairs of skew-symmetric forms under congruence. We use it only in this regular irreducible case.
+
+\section{Coordinate form of CSI for pencils}
+
+Identify
+
+\[
+W^*
+\]
+
+with the two-dimensional space of linear polynomials
+
+\[
+\mathcal L={a+bt:a,b\in\mathbb F_q}.
+\]
+
+Let
+
+\[
+U\le (W^*)^r.
+\]
+
+Choose a basis of (U). We represent it by an $s\times r$ matrix
+
+\[
+C_U(t)
+\]
+
+whose entries are linear polynomials in (t).
+
+Let (A) denote multiplication by $\theta$ on $V=E^2$. Using the nondegenerate form $B_0$ to identify (V) with $V^*$, the map defining
+
+\[
+\rho_r^{\beta_f}(U)
+\]
+
+is represented by
+
+\[
+C_U(A):V^r\to V^s.
+\]
+
+Therefore
+
+\[
+\rho_r^{\beta_f}(U)
+\operatorname{rank}_{\mathbb F_q} C_U(A).
+\tag{8.1}
+\]
+
+More explicitly, if
+
+\[
+C_U(t)=(c_{ij}(t)),
+\]
+
+then $C_U(A$) is the block map whose ((i,j))-block is multiplication by
+
+\[
+c_{ij}(\theta)
+\]
+
+on $E^2$.
+
+This formula is the bridge between support-image profiles and polynomial matrix rank.
+
+\section{Complete blindness below degree (m)}
+
+\begin{lemma}
+Let (f) be irreducible of degree (m). If
+
+\[
+r<m,
+\]
+
+then
+
+\[
+\rho_r^{\beta_f}(U)
+2m\cdot
+\operatorname{rank}_{\mathbb F_q(t)}C_U(t).
+\tag{9.1}
+\]
+
+In particular, the value is independent of (f).
+
+\end{lemma}
+
+\begin{proof}
+Let
+
+\[
+k=\operatorname{rank}_{\mathbb F_q(t)}C_U(t).
+\]
+
+Take the Smith normal form of $C_U(t)$ over $\mathbb F_q[t]$:
+
+\[
+P(t)C_U(t)Q(t)
+\operatorname{diag}
+(s_1(t),\ldots,s_k(t),0,\ldots,0),
+\]
+
+where (P(t),Q(t)) are unimodular.
+
+The product
+
+\[
+s_1(t)\cdots s_k(t)
+\]
+
+divides every nonzero $k\times k$ minor. Since the entries of $C_U(t)$ have degree at most $1$, every such minor has degree at most $k\le r$. Hence
+
+\[
+\deg s_i(t)<m
+\]
+
+for each nonzero invariant factor $s_i$.
+
+Because (f) is irreducible of degree (m), every nonzero $s_i(t$) is coprime to (f(t)). Therefore
+
+\[
+s_i(A)
+\]
+
+is invertible on $V=E^2$.
+
+The evaluated matrices
+
+\[
+P(A),Q(A)
+\]
+
+are invertible because (P,Q) are unimodular.
+
+Thus $C_U(A$) has exactly (k) invertible (V)-blocks and rank
+
+\[
+k\dim_{\mathbb F_q}V=2mk.
+\]
+
+$\square$
+
+We now verify the projective invariance used later.
+
+\end{proof}
+
+\begin{lemma}[Projective invariance below threshold]
+Let
+
+\[
+g\in PGL_2(q).
+\]
+
+For every $U\le (W^*)^r$,
+
+\[
+\operatorname{rank}_{\mathbb F_q(t)} C_{gU}(t)
+=
+\operatorname{rank}_{\mathbb F_q(t)} C_U(t).
+\]
+
+Consequently, if $r<m$, then
+
+\[
+\rho_r^{\beta_f}(gU)=\rho_r^{\beta_f}(U).
+\]
+
+\end{lemma}
+
+\begin{proof}
+Choose a representative
+
+\[
+g(t)=\frac{\alpha t+\beta}{\gamma t+\delta}.
+\]
+
+The induced action on linear pencil coordinates sends a linear form in (t) to a nonzero scalar multiple of
+
+\[
+(\gamma t+\delta)\ell(g(t)).
+\]
+
+Thus, after clearing a common denominator, $C_{gU}(t$) is obtained from $C_U(t)$ by:
+
+\end{proof}
+
+\begin{itemize}
+\item applying the field automorphism of $\mathbb F_q(t)$ induced by the fractional-linear substitution $t\mapsto g(t$);
+\end{itemize}
+
+\begin{itemize}
+\item multiplying rows or columns by nonzero rational functions;
+\end{itemize}
+
+\begin{itemize}
+\item changing bases in (U) and in $(W^*)^r$, i.e. applying invertible row and column operations over $\mathbb F_q$.
+\end{itemize}
+
+All these operations preserve rank over the rational function field $\mathbb F_q(t)$. Therefore
+
+\[
+\operatorname{rank}
+{\mathbb F_q(t)} C
+{gU}(t)
+\operatorname{rank}_{\mathbb F_q(t)} C_U(t).
+\]
+
+The final statement follows from Lemma 9.1.
+
+$\square$
+
+\begin{theorem}[Maximal low-level symmetry]
+For every monic irreducible (f) of degree (m),
+
+\[
+\Gamma_{\le r}(\beta_f)=PGL_2(q)
+\qquad
+\text{for every }r<m.
+\tag{9.2}
+\]
+
+Moreover, if (f,h) are any two monic irreducible polynomials of degree (m), then
+
+\[
+\operatorname{CSI}_{\le m-1}(\beta_f)
+\operatorname{CSI}_{\le m-1}(\beta_h).
+\tag{9.3}
+\]
+
+Thus all support-image observers of arity below (m) are completely blind to the polynomial (f).
+
+\end{theorem}
+
+\begin{proof}
+For $r<m$, Lemma 9.1 gives
+
+\[
+\rho_r^{\beta_f}(U)
+2m\cdot
+\operatorname{rank}_{\mathbb F_q(t)}C_U(t),
+\]
+
+which is independent of (f). This proves $9.3$.
+
+Lemma 9.2 shows that every projective change of pencil coordinates preserves the rank transform through level $r<m$. Hence
+
+\[
+PGL_2(q)\le \Gamma_{\le r}(\beta_f).
+\]
+
+The reverse inclusion is automatic from the definition, since $\Gamma_{\le r}(\beta_f)$ is a subgroup of $PGL(W)=PGL_2(q)$. Therefore
+
+\[
+\Gamma_{\le r}(\beta_f)=PGL_2(q).
+\]
+
+$\square$
+
+\end{proof}
+
+\section{Level (m) detects the polynomial}
+
+Let $C_f$ be the companion matrix of (f), and define the $m\times m$ linear matrix polynomial
+
+\[
+L_f(t)=tI_m-C_f.
+\]
+
+Then
+
+\[
+\det L_f(t)=f(t).
+\]
+
+Let
+
+\[
+U_f\le (W^*)^m
+\]
+
+be the row space of $L_f(t$).
+
+For the pencil $\beta_f$, evaluation at (A) gives
+
+\[
+L_f(A),
+\]
+
+which is singular because
+
+\[
+f(A)=0.
+\]
+
+Thus
+
+\[
+\rho_m^{\beta_f}(U_f)<2m^2.
+\tag{10.1}
+\]
+
+Now let (h) be another monic irreducible polynomial of degree (m). Let $A_h$ be multiplication by a root of (h) on $E_h^2$.
+
+For
+
+\[
+g\in PGL_2(q),
+\]
+
+the transformed subspace
+
+\[
+gU_f
+\]
+
+is represented by a linear matrix polynomial whose determinant is, up to a nonzero scalar, the projective transform
+
+\[
+g\cdot f.
+\]
+
+If (h) is not projectively equivalent to (f), then (h) and $g\cdot f$ are distinct irreducibles of degree (m), hence coprime. Therefore
+
+\[
+(g\cdot f)(A_h)
+\]
+
+is invertible, and the evaluated linear matrix is invertible. Hence
+
+\[
+\rho_m^{\beta_h}(gU_f)=2m^2.
+\tag{10.2}
+\]
+
+Equations $10.1$ and $10.2$ give a level-(m) witness separating $\beta_f$ from every projectively inequivalent $\beta_h$.
+
+\begin{theorem}[Exact level-(m) classification]
+Let $f,h\in\mathbb F_q[t]$ be monic irreducible polynomials of degree $m\ge3$. Then
+
+\[
+\operatorname{CSI}_{\le m}(\beta_f)
+\operatorname{CSI}_{\le m}(\beta_h)
+\]
+
+up to the natural $PGL_2(q)$-action if and only if
+
+\[
+h\in PGL_2(q)\cdot f.
+\]
+
+Equivalently, $\beta_f$ and $\beta_h$ are pseudo-isometric as alternating pencils.
+
+\end{theorem}
+
+\begin{proof}
+If $h$ is not projectively equivalent to $f$, the companion linearization above gives an explicit $U_f\le (W^*)^m$ such that the rank value for $\beta_f$ is singular, while every projective translate has full rank for $\beta_h$. Thus the level-$m$ CSI profiles differ.
+
+Conversely, if $h$ is projectively equivalent to $f$, then the corresponding Pfaffian binary forms are projectively equivalent. By the canonical-form input for regular irreducible skew-symmetric pencils, the pencils $\beta_f$ and $\beta_h$ are pseudo-isometric. Hence all CSI profiles agree.
+
+$\square$
+
+Combining Theorems 9.3 and 10.1, the exact CSI separation depth of the irreducible degree-(m) pencil family is
+
+\[
+\boxed{m.}
+\]
+
+\end{proof}
+
+\section{True and false projective symmetry}
+
+Let
+
+\[
+\operatorname{Aut}_W(\beta_f)
+\le PGL_2(q)
+\]
+
+be the projective image of the pseudo-isometry group of $\beta_f$.
+
+The Pfaffian form implies
+
+\[
+\operatorname{Aut}_W(\beta_f)
+\le
+\operatorname{Stab}_{PGL_2(q)}(f).
+\]
+
+The converse follows from the regular symplectic pencil classification: a projective transformation stabilizing the elementary divisor is realized by a pseudo-isometry of the pencil. Hence
+
+\[
+\operatorname{Aut}_W(\beta_f)
+\operatorname{Stab}_{PGL_2(q)}(f).
+\tag{11.1}
+\]
+
+From Theorem 9.3,
+
+\[
+\Gamma_{\le r}(\beta_f)=PGL_2(q)
+\qquad
+(r<m).
+\]
+
+From Theorem 10.1,
+
+\[
+\Gamma_{\le m}(\beta_f)=\operatorname{Stab}_{PGL_2(q)}(f).
+\tag{11.2}
+\]
+
+Therefore support-image observers exhibit maximal false symmetry below the threshold:
+
+\[
+\boxed{
+\Gamma_{\le r}(\beta_f)=PGL_2(q)
+\quad (r<m),
+}
+\]
+
+but at the threshold the false symmetry collapses exactly to the true projective automorphism group:
+
+\[
+\boxed{
+\Gamma_{\le m}(\beta_f)=\operatorname{Aut}_W(\beta_f).
+}
+\]
+
+\section{Direct indecomposability of the associated groups}
+
+Assume in this section that
+
+\[
+q=p
+\]
+
+is an odd prime. Then $G_{\beta_f}$ is a finite (p)-group of class two and exponent (p).
+
+Since $\beta_f$ is radical-free and surjective,
+
+\[
+Z(G_{\beta_f})=G_{\beta_f}'=W.
+\]
+
+Thus $G_{\beta_f}$ is special.
+
+\begin{proposition}
+The group $G_{\beta_f}$ is directly indecomposable.
+
+\end{proposition}
+
+\begin{proof}
+It is enough to show that the alternating pencil admits no nontrivial orthogonal direct decomposition.
+
+Suppose
+
+\[
+V=V_1\perp V_2
+\]
+
+is a nontrivial decomposition orthogonal for both $B_0$ and $B_1$.
+
+Since $B_0$ is nondegenerate, each $V_i$ is $B_0$-nondegenerate.
+
+Let (A) be multiplication by $\theta$ on $V=E^2$. Then
+
+\[
+B_1(x,y)=B_0(Ax,y).
+\]
+
+Orthogonality for $B_1$ implies that each $V_i$ is (A)-invariant. Since (A) has irreducible minimal polynomial (f), (A)-invariant $\mathbb F_q$-subspaces of $E^2$ are precisely (E)-subspaces.
+
+A proper nonzero (E)-subspace of $E^2$ is an (E)-line. Every (E)-line is totally isotropic for
+
+\[
+\delta(x,y)=x_1y_2-x_2y_1,
+\]
+
+and hence for $B_0$. This contradicts the $B_0$-nondegeneracy of $V_i$.
+
+Therefore no nontrivial orthogonal direct decomposition exists, and $G_{\beta_f}$ is directly indecomposable.
+
+$\square$
+
+The order of the group is
+
+\[
+|G_{\beta_f}|=p^{2m+2}.
+\]
+
+Thus the exact threshold can be written as
+
+\[
+\boxed{
+m=\frac{\log_p |G_{\beta_f}|-2}{2}.
+}
+\]
+
+\end{proof}
+
+\section{Exponentially large low-level fibres}
+
+Let
+
+\[
+I_q(m)
+\]
+
+denote the number of monic irreducible polynomials of degree (m) over $\mathbb F_q$. Then
+
+\[
+I_q(m)
+\frac1m
+\sum_{e\mid m}\mu(e)q^{m/e}
+\frac{q^m}{m}+O_q(q^{m/2}).
+\]
+
+The group $PGL_2(q)$ has order
+
+\[
+|PGL_2(q)|=q(q^2-1).
+\]
+
+Therefore the number of $PGL_2(q)$-orbits of irreducible degree-(m) polynomials is at least
+
+\[
+\frac{I_q(m)}{|PGL_2(q)|}
+\frac{q^m}{m,q(q^2-1)}
++
+O_q(q^{m/2}).
+\tag{13.1}
+\]
+
+Choosing one representative from each orbit gives a family
+
+\[
+\mathcal F_m
+\]
+
+of pairwise non-pseudo-isometric irreducible pencils.
+
+For $q=p$ prime, these yield pairwise nonisomorphic special directly indecomposable class-two exponent-(p) groups.
+
+Every member of $\mathcal F_m$ has the same CSI profile through level
+
+\[
+m-1.
+\]
+
+At level (m), the profile separates the family.
+
+Thus a single $\operatorname{CSI}_{\le m-1}$-fibre contains
+
+\[
+q^{m-o(m)}
+\]
+
+pairwise nonisomorphic objects. In group order,
+
+\[
+q^m=q^{(\log_q |G|-2)/2}=|G|^{1/2}q^{-1}.
+\]
+
+So the low-level fibre has size
+
+\[
+|G|^{1/2-o(1)}.
+\]
+
+\section{Generic triviality at the threshold}
+
+The threshold often destroys all projective symmetry.
+
+\begin{proposition}
+Suppose
+
+\[
+\gcd(m,|PGL_2(q)|)=1.
+\]
+
+Then every monic irreducible polynomial of degree (m) has trivial $PGL_2(q)$-stabilizer.
+
+\end{proposition}
+
+\begin{proof}
+Let $\alpha$ be a root of (f). The roots of (f) are the Frobenius orbit
+
+\[
+\alpha,\alpha^q,\ldots,\alpha^{q^{m-1}}.
+\]
+
+If
+
+\[
+1\ne g\in PGL_2(q)
+\]
+
+stabilizes (f), then (g) permutes this Frobenius orbit. Hence for some (j),
+
+\[
+g\alpha=\alpha^{q^j}.
+\]
+
+The induced permutation on the orbit has order dividing (m). On the other hand, the order of (g) divides
+
+\[
+|PGL_2(q)|.
+\]
+
+Since
+
+\[
+\gcd(m,|PGL_2(q)|)=1,
+\]
+
+the induced permutation must be trivial. Thus (g) fixes $\alpha$. But a nonidentity projective linear transformation over $\mathbb F_q$ has at most two fixed points over the algebraic closure, and cannot fix a degree-(m) element with $m\ge3$. Therefore $g=1$.
+
+$\square$
+
+There are infinitely many such (m). For these degrees,
+
+\[
+\Gamma_{\le m-1}(\beta_f)=PGL_2(q),
+\qquad
+\Gamma_{\le m}(\beta_f)=1.
+\]
+
+A probabilistic version also holds.
+
+\end{proof}
+
+\begin{proposition}
+Let (f) be uniformly random among monic irreducible polynomials of degree (m). Then
+
+\[
+\Pr\left(
+\operatorname{Stab}_{PGL_2(q)}(f)\ne1
+\right)
+q^{-\Omega_q(m)}.
+\]
+
+More explicitly,
+
+\[
+\Pr\left(
+\operatorname{Stab}_{PGL_2(q)}(f)\ne1
+\right)
+O_q\left(q^{-m/(q+1)}\right).
+\]
+
+\end{proposition}
+
+\begin{proof}
+It is equivalent to sample a degree-(m) element $\alpha\in\overline{\mathbb F}_q$, up to Frobenius orbit.
+
+Fix
+
+\[
+1\ne g\in PGL_2(q)
+\]
+
+of order (h). Every element of $PGL_2(q)$ has order at most $q+1$, after including the unipotent case since $p\le q<q+1$.
+
+If (g) stabilizes the Frobenius orbit of a degree-(m) element $\alpha$, then
+
+\[
+g\alpha=\alpha^{q^j}
+\]
+
+for some $0\le j<m$.
+
+If $j=0$, then (g) fixes $\alpha$. A nonidentity projective linear transformation has at most two fixed points over the algebraic closure, so this cannot occur for a degree-(m) element with $m\ge3$.
+
+Thus $1\le j<m$. Applying (g) repeatedly gives
+
+\[
+\alpha=g^h\alpha=\alpha^{q^{jh}},
+\]
+
+so
+
+\[
+m\mid jh.
+\]
+
+Hence (j) is a multiple of $m/\gcd(m,h)$, and there are at most $h-1\le q$ possible values of (j).
+
+For fixed (j), the equation
+
+\[
+g(x)=x^{q^j}
+\]
+
+has at most $q^j+1$ solutions in the algebraic closure. The largest possible (j) is at most
+
+\[
+m\left(1-\frac1h\right)
+\le
+m\left(1-\frac1{q+1}\right).
+\]
+
+Thus the number of degree-(m) elements whose Frobenius orbit is stabilized by this fixed (g) is
+
+\[
+O_q\left(q^{m(1-1/(q+1))}\right).
+\]
+
+The number of degree-(m) elements over $\mathbb F_q$ is
+
+\[
+q^m+O_q(q^{m/2}).
+\]
+
+Therefore, for fixed $g\ne1$, the probability that (g) stabilizes the orbit is
+
+\[
+O_q\left(q^{-m/(q+1)}\right).
+\]
+
+Taking a union bound over the finite group $PGL_2(q)$ gives the claim.
+
+$\square$
+
+Thus a random member of the irreducible pencil family has trivial true projective automorphism group with exponentially high probability, while its support-image observer symmetry is still the full $PGL_2(q)$ below level (m).
+
+\end{proof}
+
+\section{Main theorem}
+
+We collect the results.
+
+\begin{theorem}[Sharp support-image threshold for irreducible alternating pencils]
+Let (q) be odd and $m\ge3$. For every monic irreducible polynomial $f\in\mathbb F_q[t]$ of degree (m), let
+
+\[
+\beta_f:\Lambda^2\mathbb F_q^{2m}\to \mathbb F_q^2
+\]
+
+be the alternating pencil defined in $7.1$.
+
+Then:
+
+\end{theorem}
+
+\begin{itemize}
+\item For every $r<m$, the structured support-image profile $\operatorname{CSI}_{\le r}(\beta_f)$ is independent of (f).
+\end{itemize}
+
+\begin{itemize}
+\item For every $r<m$,
+\end{itemize}
+
+\[
+\Gamma_{\le r}(\beta_f)=PGL_2(q).
+\]
+
+\begin{itemize}
+\item At level (m), the profile detects (f) up to the natural $PGL_2(q)$-action.
+\end{itemize}
+
+\begin{itemize}
+\item Hence the exact CSI separation depth of the irreducible degree-(m) pencil family is (m).
+\end{itemize}
+
+\begin{itemize}
+\item A single $\operatorname{CSI}_{\le m-1}$-fibre contains at least
+\end{itemize}
+
+\[
+\frac{q^m}{m,q(q^2-1)}
++
+O_q(q^{m/2})
+\]
+
+distinct pseudo-isometry classes.
+
+\begin{itemize}
+\item For a proportion
+\end{itemize}
+
+\[
+1-O_q(q^{-m/(q+1)})
+\]
+
+of irreducible (f), the level-(m) residual observer symmetry is trivial:
+
+\[
+\Gamma_{\le m}(\beta_f)=1.
+\]
+
+If $q=p$ is prime, the corresponding Baer groups $G_{\beta_f}$ are directly indecomposable special class-two exponent-(p) groups of order
+
+\[
+p^{2m+2},
+\]
+
+and the exact observer threshold is
+
+\[
+m=\frac{\log_p |G_{\beta_f}|-2}{2}.
+\]
+
+\begin{proof}
+Parts $1$ and $2$ are Theorem 9.3. Parts $3$ and $4$ are Theorem 10.1. Part $5$ is the orbit count in Section 13. Part $6$ is Proposition 14.2 together with $11.2$. The group-theoretic statement follows from Proposition 12.1 and the order calculation.
+
+$\square$
+
+\end{proof}
+
+\section{Consequences for star, flag, and rank-support profiles}
+
+The support-image profile dominates the rank-support and flag profiles.
+
+For
+
+\[
+\mathbf x\in V^r,
+\]
+
+the rank of
+
+\[
+A_{\mathbf x}:V\to W^r
+\]
+
+is the dimension of the support image
+
+\[
+\operatorname{im}A_{\mathbf x}.
+\]
+
+Thus CSI determines the rank distribution
+
+\[
+N_r^\beta(a)
+\#\{\mathbf x\in V^r:\operatorname{rank}A_{\mathbf x}=a\}.
+\]
+
+It also determines the aggregated flag profile, because for
+
+\[
+S\subseteq{1,\ldots,r},
+\]
+
+the rank of the coordinate subtuple is the dimension of the projection of
+
+\[
+\operatorname{im}A_{\mathbf x}\le W^r
+\]
+
+to the coordinates in (S).
+
+Therefore Theorem 15.1 implies:
+
+\begin{corollary}
+For the family
+
+\[
+{\beta_f:\deg f=m},
+\]
+
+all star profiles, rank-support profiles, and aggregated flag profiles of arity
+
+\[
+r<m
+\]
+
+are identical.
+
+At arity (m), structured CSI separates the irreducible-pencil family exactly.
+
+This shows that the obstruction is not merely a failure of crude commuting probabilities; it persists through the full structured support-image hierarchy below the threshold.
+
+\end{corollary}
+
+\section{Interpretation}
+
+The theorem identifies a precise mechanism behind support-image depth.
+
+For an irreducible degree-(m) pencil, all polynomial tests of matrix size below (m) see only generic rank over the rational function field
+
+\[
+\mathbb F_q(t).
+\]
+
+The irreducible polynomial (f) cannot divide any nonzero determinant of degree $<m$. Thus every low-level observer is blind to (f).
+
+At level (m), a determinant of degree (m) can equal (f). The companion linearization
+
+\[
+tI_m-C_f
+\]
+
+is the minimal witness. Its determinant is precisely (f), and it becomes singular exactly on the corresponding pencil.
+
+Thus the observer transition is governed by the first possible degree of a Pfaffian/eigenvalue witness:
+
+\[
+\boxed{
+\text{support-image depth}
+\text{degree of the irreducible elementary divisor}.
+}
+\]
+
+Below threshold, the observer sees only rational-function-field rank. At threshold, it sees the finite-field point $\theta$.
+
+\section{Further directions}
+
+\subsection{Higher-dimensional regular spaces}
+
+The present paper treats pencils, i.e. $\dim W=2$. The natural next case is a regular alternating space of derived rank $d\ge3$. One expects similar thresholds governed by the minimal degree of determinantal or Pfaffian equations cutting out the spectral data.
+
+\subsection{Generic support-image rigidity}
+
+The result suggests that generic random alternating spaces may have an observer threshold governed by the minimal degree of their projective degeneracy locus. Proving this would require anti-concentration for random Pfaffian systems.
+
+\subsection{Deterministic Grassmannian projection asymmetry}
+
+The full deterministic two-plane profile collapses to scalar ranks, but higher-plane image profiles may define asymmetric projective fibre counts for random projections of Grassmannians. This remains an attractive route to generic deterministic support-image canonization.
+
+\subsection{Algorithms}
+
+The level-(m) witness is explicit: a companion linearization. This suggests an algorithmic strategy for regular pencils: search for the first arity (r) at which a support-image rank defect appears. The first defect reveals the degree of the irreducible elementary divisor.
+
+
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+During the preparation of this work, ChatGPT, by OpenAI, was used to assist with mathematical drafting, formalization, review, and editing. This work is shared as a preliminary AI-assisted mathematical note. The mathematical content may have been only partially reviewed and may contain errors; it should not be treated as peer-reviewed or as a fully verified manuscript.
+
+\begin{thebibliography}{99}
+\bibitem{ref1} V. A. Bovdi, T. G. Gerasimova, M. A. Salim, and V. V. Sergeichuk. Reduction of a pair of skew-symmetric matrices to its canonical form under congruence. Linear Algebra and its Applications 498 $2016$, 403--433.
+\bibitem{ref2} R. Gow and G. McGuire. Invariant rational functions, linear fractional transformations and irreducible polynomials over finite fields. Finite Fields and Their Applications 78 $2022$, 101977.
+\bibitem{ref3} R. A. Horn and V. V. Sergeichuk. Canonical forms for complex matrix congruence and ()-congruence*. Linear Algebra and its Applications 416 $2006$, 1010--1032.
+\bibitem{ref4} R. Lidl and H. Niederreiter. Finite Fields. Cambridge University Press, 1997.
+\bibitem{ref5} L. Reis. Invariant theory of a special group action on irreducible polynomials over finite fields. Designs, Codes and Cryptography 87 $2019$, 1095--1117.
+\bibitem{ref6} V. V. Sergeichuk. Canonical matrices of bilinear and sesquilinear forms. Linear Algebra and its Applications 343--344 $2002$, 43--60.
+\bibitem{ref7} V. V. Sergeichuk. Canonical matrices of forms and pairs of forms over finite and (p)-adic fields. Linear Algebra and its Applications 438 $2013$, 2322--2339.
+\bibitem{ref8} J. B. Wilson. Decomposing (p)-groups via Jordan algebras. Journal of Algebra 322 $2009$, 2642--2679.
+\bibitem{ref9} P. A. Brooksbank and J. B. Wilson. Computing isometry groups of Hermitian maps. Transactions of the American Mathematical Society 364 $2012$, 1975--1996.
+\bibitem{ref10} Y. Li and Y. Qiao. Linear algebraic analogues of the graph isomorphism problem and the Erdos--Renyi model. SIAM Journal on Computing 51 $2022$, 926--963.
+\end{thebibliography}
+\end{document}

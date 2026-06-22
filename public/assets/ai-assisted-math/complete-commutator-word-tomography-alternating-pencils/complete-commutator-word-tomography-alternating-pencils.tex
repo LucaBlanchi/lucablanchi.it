@@ -1,0 +1,1761 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Complete Commutator-Word Tomography of Alternating Pencils}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Let $k=\mathbb F_p$, $p\neq2$, and let
+
+\[
+\beta:\Lambda^2_k V\to k^2
+\]
+
+be an alternating pencil. After choosing coordinates on $k^2$, write
+
+\[
+\beta=(A,B),
+\]
+
+where $A,B\in\Lambda^2V^*$. Surjective radical-free alternating pencils are precisely the commutator tensors of special class-two exponent-$p$ groups whose derived subgroup has dimension $2$. More generally, every alternating pencil defines a class-two exponent-$p$ group, and the special condition corresponds to surjectivity and zero common radical.
+
+We prove that, for fixed $k$ and $N=\dim V$, there is an explicit finite family of Fourier-tagged commutator-word distributions whose values determine the full skew-symmetric Kronecker canonical data of the pencil. The singular part is recovered from rectangular chain probes. If $m_e$ denotes the number of singular Kronecker blocks of minimal index $e$, then the chain defects
+
+\[
+\delta_f
+=
+f\dim V-\operatorname{rank}(F_f\otimes A+G_f\otimes B)
+\]
+
+satisfy
+
+\[
+\delta_f=\sum_{e\ge0}m_e\max(0,f-e),
+\]
+
+and hence
+
+\[
+m_e=\delta_{e+1}-2\delta_e+\delta_{e-1}.
+\]
+
+The regular part is recovered from closed-point Artin probes. For a regular hyperbolic block with elementary divisor ($\xi,e$), and a closed-point Artin probe ($\eta,f$), we prove the local block-pairing formula
+
+\[
+\Delta((\xi,e),(\eta,f))
+=
+2\deg(\xi)\min(e,f)\mathbf 1_{\xi=\eta}.
+\]
+
+We also compute explicitly the contribution of singular Kronecker blocks to these Artin probes:
+
+\[
+\operatorname{rad}_{\eta,f}^{\mathrm{sing}}
+=
+M_{\mathrm{sing}}\deg(\eta)f,
+\]
+
+where $M_{\mathrm{sing}}$ is the total number of singular Kronecker blocks. Since the singular part is already recovered by chain probes, this contribution can be subtracted, leaving the regular divisor multiplicities.
+
+Combining these ingredients, the Fourier-tagged commutator-word distributions recover the singular minimal-index multiset and the regular elementary-divisor divisor, up to the natural $\operatorname{PGL}_2(k)$-action on the parameter line. Consequently, for special class-two exponent-$p$ groups $G_\beta$ with
+
+\[
+\dim_{\mathbb F_p}G'=2,
+\]
+
+these distributions determine the group isomorphism class.
+
+The result is exact and finite. It is not presented as a practical isomorphism algorithm; the contribution is the complete word-moment observability of the Kronecker canonical data of an alternating pencil.
+
+\end{abstract}
+
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+This article belongs to the AI-assisted math section. Generative AI, including ChatGPT by \mbox{OpenAI}, was used to assist with mathematical drafting, formalization, review, and editing. The note may be preliminary, may have been only partially reviewed, and in some cases may be only AI-reviewed.
+
+\section{Introduction}
+
+Let $p$ be an odd prime and let $k=\mathbb F_p$. A special finite $p$-group $G$ of nilpotency class two and exponent $p$ has
+
+\[
+V=G/Z(G),
+\qquad
+W=G'=Z(G),
+\]
+
+and its commutator induces an alternating bilinear map
+
+\[
+\beta:\Lambda^2_k V\to W.
+\]
+
+Conversely, every such alternating map gives a class-two exponent-$p$ group
+
+\[
+G_\beta=V\oplus W
+\]
+
+with multiplication
+
+\[
+(v,z)(v',z')
+\left(v+v',
+z+z'+\frac12\beta(v,v')\right).
+\]
+
+The commutator is
+
+\[
+[(v,z),(v',z')]=(0,\beta(v,v')).
+\]
+
+When $\dim W=2$, the commutator tensor is an alternating pencil. After choosing a basis of $W$, write
+
+\[
+\beta=(A,B),
+\]
+
+where $A,B$ are alternating forms on $V$. The corresponding matrix pencil is
+
+\[
+A+tB.
+\]
+
+Alternating pencils over fields of characteristic different from $2$ have a classical canonical decomposition into regular elementary-divisor blocks and singular Kronecker blocks. This is the skew-symmetric version of Kronecker pencil theory, and it appears in canonical-form treatments of pairs of forms and pairs of skew-symmetric matrices under congruence.
+
+The purpose of this paper is to show that the entire canonical datum of an alternating pencil is observable from commutator-word distributions.
+
+The guiding mechanism is Fourier-tagged word tomography. Given rectangular coefficient matrices $C,D$, one forms central commutator outputs whose Fourier coefficients are
+
+\[
+p^{-\operatorname{rank}(C\otimes A+D\otimes B)}.
+\]
+
+Thus commutator-word distributions can be used as rank probes for the pencil.
+
+The singular Kronecker blocks are detected by rectangular chain probes. The regular elementary divisors are detected by closed-point Artin probes, which evaluate the pencil at infinitesimal neighbourhoods of closed points of $\mathbb P^1$. Together these probes recover the full canonical datum.
+
+\subsection{Main theorem}
+
+The main theorem is the following.
+
+\begin{theorem}[Theorem A -- Complete commutator-word tomography of alternating pencils]
+
+Fix a finite field $k=\mathbb F_p$, $p\neq2$, and an integer $N$. There exists an explicit finite family of Fourier-tagged commutator-word distributions such that, for every alternating pencil
+
+\[
+\beta:\Lambda^2_k V\to k^2,
+\qquad
+\dim V=N,
+\]
+
+these distributions determine the projective congruence class of $\beta$.
+
+Equivalently, they determine:
+
+\begin{itemize}
+\item the multiplicities of all singular Kronecker blocks;
+\end{itemize}
+
+\begin{itemize}
+\item the multiplicities of all regular elementary divisors ($\xi,e$), up to the natural $\operatorname{PGL}_2(k)$-action on $\mathbb P^1$.
+\end{itemize}
+
+Consequently, for special class-two exponent-$p$ groups $G_\beta$ with
+
+\[
+\dim_{\mathbb F_p}G'=2,
+\]
+
+the same finite family determines the group isomorphism class.
+
+\end{theorem}
+
+\subsection{Scope}
+
+The theorem is exact and finite. It is not a sampling theorem and not an optimized isomorphism algorithm. The orbit-coding step used to pass from a chosen target basis to an intrinsic projective invariant is finite but not intended to be computationally efficient.
+
+The contribution is instead structural: the complete skew-symmetric Kronecker canonical data of an alternating commutator pencil is observable from explicitly designed commutator-word distributions.
+
+\section{Class-two exponent-$p$ groups and alternating pencils}
+
+Let $k=\mathbb F_p$, $p\neq2$, and let
+
+\[
+\beta:\Lambda^2_k V\to W
+\]
+
+be alternating.
+
+Define
+
+\[
+G_\beta=V\oplus W
+\]
+
+with multiplication
+
+\[
+(v,z)(v',z')
+\left(
+v+v',
+z+z'+\frac12\beta(v,v')
+\right).
+\]
+
+Then $G_\beta$ is a group of exponent $p$ and nilpotency class at most two. Its commutator is
+
+\[
+[(v,z),(v',z')]
+(0,\beta(v,v')).
+\]
+
+If $\beta$ is surjective and has zero radical,
+
+\[
+\operatorname{rad}\beta
+=
+\{v\in V:\beta(v,V)=0\}=0,
+\]
+
+then
+
+\[
+G_\beta'=Z(G_\beta)=W,
+\]
+
+so $G_\beta$ is special.
+
+Conversely, every special class-two exponent-$p$ group arises this way.
+
+Two tensors
+
+\[
+\beta:\Lambda^2V\to W,
+\qquad
+\beta':\Lambda^2V'\to W'
+\]
+
+are pseudo-isometric if there are vector-space isomorphisms
+
+\[
+S:V\to V',
+\qquad
+T:W\to W'
+\]
+
+such that
+
+\[
+T\beta(v,v')=\beta'(Sv,Sv')
+\]
+
+for all $v,v'\in V$. For special class-two exponent-$p$ groups, group isomorphism is equivalent to pseudo-isometry of the commutator tensor.
+
+Throughout the main body of this paper,
+
+\[
+W=k^2.
+\]
+
+After choosing a basis of $W$, we write
+
+\[
+\beta=(A,B),
+\]
+
+where
+
+\[
+A,B\in\Lambda^2V^*.
+\]
+
+Changing the basis of $W$ acts on the projective parameter line by $\operatorname{PGL}_2(k)$.
+
+\section{Fourier-tagged commutator distributions}
+
+Let
+
+\[
+C,D\in M_{r\times s}(k).
+\]
+
+For variables
+
+\[
+x_1,\ldots,x_s,\qquad y_1,\ldots,y_r
+\]
+
+in $G_\beta$, define two central outputs
+
+\[
+Z_C
+=
+\sum_{i=1}^{r}\sum_{j=1}^{s} C_{ij}\,\beta(\bar x_j,\bar y_i),
+\]
+
+\[
+Z_D
+=
+\sum_{i=1}^{r}\sum_{j=1}^{s} D_{ij}\,\beta(\bar x_j,\bar y_i),
+\]
+
+where $\bar x_j,\bar y_i$ denote the images in $V=G/Z(G)$.
+
+Thus
+
+\[
+(Z_C,Z_D)
+\]
+
+is a random variable in
+
+\[
+W\times W.
+\]
+
+Let
+
+\[
+P_{C,D}
+\]
+
+be its probability distribution.
+
+Let
+
+\[
+\psi:k\to\mathbb C^\times
+\]
+
+be a nontrivial additive character. For
+
+\[
+\alpha,\gamma\in W^*,
+\]
+
+define the Fourier coefficient
+
+\[
+\widehat P_{C,D}(\alpha,\gamma)
+=
+\mathbb E\,
+\psi\bigl(\alpha(Z_C)+\gamma(Z_D)\bigr).
+\]
+
+For $\ell\in W^*$, write
+
+\[
+A_\ell=\ell\circ\beta\in\Lambda^2V^*.
+\]
+
+If $W=k e_A\oplus k e_B$ and
+
+\[
+e_A^\circ\circ\beta=A,\qquad e_B^\circ\circ\beta=B,
+\]
+
+then
+
+\[
+A_{e_A^\circ}=A,\qquad A_{e_B^\circ}=B.
+\]
+
+\begin{lemma}[Bilinear character average]
+
+Let
+
+\[
+B_0:U_1\times U_2\to k
+\]
+
+be a bilinear form between finite-dimensional $k$-vector spaces. Then
+
+\[
+\mathbb E_{u\in U_1,\ v\in U_2}
+\psi(B_0(u,v))
+=
+p^{-\operatorname{rank}B_0}.
+\]
+
+\end{lemma}
+
+\begin{proof}
+
+For fixed $u$, the inner average over $v$ equals $1$ if the linear functional
+
+\[
+v\mapsto B_0(u,v)
+\]
+
+is zero, and equals $0$ otherwise. Thus the average is the proportion of $u\in U_1$ lying in the left radical of $B_0$. That radical has codimension $\operatorname{rank}B_0$, giving the formula.
+
+\end{proof}
+
+\begin{theorem}[Rectangular Fourier-tagged moment formula]
+
+For all
+
+\[
+C,D\in M_{r\times s}(k)
+\]
+
+and all
+
+\[
+\alpha,\gamma\in W^*,
+\]
+
+one has
+
+\[
+\boxed{
+\widehat P_{C,D}(\alpha,\gamma)
+=
+p^{-\operatorname{rank}(C\otimes A_\alpha+D\otimes A_\gamma)}.
+}
+\]
+
+Here
+
+\[
+C\otimes A_\alpha+D\otimes A_\gamma
+\]
+
+is regarded as a bilinear form on
+
+\[
+(k^s\otimes V)\times(k^r\otimes V).
+\]
+
+In particular, in the chosen coordinates on $W=k^2$,
+
+\[
+\boxed{
+\widehat P_{C,D}(e_A^\circ,e_B^\circ)
+=
+p^{-\operatorname{rank}(C\otimes A+D\otimes B)}.
+}
+\]
+
+\end{theorem}
+
+\begin{proof}
+
+We compute
+
+\[
+\alpha(Z_C)+\gamma(Z_D)
+=
+\sum_{i,j}
+C_{ij}A_\alpha(\bar x_j,\bar y_i)
++
+\sum_{i,j}
+D_{ij}A_\gamma(\bar x_j,\bar y_i).
+\]
+
+This is precisely the bilinear form
+
+\[
+C\otimes A_\alpha+D\otimes A_\gamma
+\]
+
+on
+
+\[
+(k^s\otimes V)\times(k^r\otimes V).
+\]
+
+The variables ($\bar x_j$) and ($\bar y_i$) are uniformly distributed in $V^s$ and $V^r$. Applying Lemma 3.1 gives
+
+\[
+\widehat P_{C,D}(\alpha,\gamma)
+=
+p^{-\operatorname{rank}(C\otimes A_\alpha+D\otimes A_\gamma)}.
+\]
+
+\end{proof}
+
+This is the basic interface between commutator-word distributions and the linear algebra of matrix pencils.
+
+\section{Canonical data of alternating pencils}
+
+We recall the canonical data used below.
+
+A skew-symmetric pencil
+
+\[
+A+tB
+\]
+
+over a field of characteristic not (2) decomposes as a direct sum of two types of indecomposable blocks.
+
+\subsection{Regular blocks}
+
+The regular part is described by elementary divisors
+
+\[
+(\xi,e),
+\]
+
+where $\xi$ is a closed point of $\mathbb P^1_k$ and $e\ge1$. We encode the regular part by a decorated divisor
+
+\[
+\mathcal D_{\mathrm{reg}}
+=
+\sum_{\xi,e}m_{\xi,e}[\xi,e].
+\]
+
+A block $(\xi,e)$ contributes dimension
+
+\[
+2e\deg(\xi)
+\]
+
+to $V$.
+
+\subsection{Singular Kronecker blocks}
+
+The singular part is described by minimal indices
+
+\[
+e\ge0.
+\]
+
+Let $m_e$ be the multiplicity of the singular Kronecker block of index $e$. Such a block has dimension
+
+\[
+2e+1.
+\]
+
+The full canonical data is
+
+\[
+\left(
+\mathcal D_{\mathrm{reg}},
+(m_e)_{e\ge0}
+\right),
+\]
+
+up to the natural $\operatorname{PGL}_2(k)$-action on the parameter line $\mathbb P^1$.
+
+The existence and uniqueness of this canonical data are classical; in this paper the canonical form is used as an input from the theory of pairs of skew-symmetric forms under congruence.
+
+\section{Singular chain probes}
+
+We first recover the singular Kronecker minimal indices.
+
+For $f\ge1$, define
+
+\[
+F_f,G_f\in M_{f\times(f+1)}(k)
+\]
+
+by
+
+\[
+(F_f)_{i,i}=1,
+\qquad
+(G_f)_{i,i+1}=1,
+\qquad
+0\le i\le f-1,
+\]
+
+and all other entries zero.
+
+Given a pencil $(A,B)$, define
+
+\[
+\mathcal L_f(A,B):V^{f+1}\to(V^*)^f
+\]
+
+by
+
+\[
+\mathcal L_f(A,B)(z_0,\ldots,z_f)
+=
+(Az_0+Bz_1,
+Az_1+Bz_2,
+\ldots,
+Az_{f-1}+Bz_f).
+\]
+
+Then
+
+\[
+\operatorname{rank}\mathcal L_f(A,B)
+=
+\operatorname{rank}(F_f\otimes A+G_f\otimes B).
+\]
+
+Define the chain defect
+
+\[
+\boxed{
+\delta_f(A,B)
+=
+f\dim V-\operatorname{rank}(F_f\otimes A+G_f\otimes B).
+}
+\]
+
+Equivalently,
+
+\[
+\delta_f(A,B)
+=
+\dim\ker \mathcal L_f(A,B)-\dim V,
+\]
+
+because
+
+\[
+\dim V^{f+1}=(f+1)\dim V.
+\]
+
+By Theorem 3.2, the value
+
+\[
+\operatorname{rank}(F_f\otimes A+G_f\otimes B)
+\]
+
+is recovered from a Fourier coefficient of an explicit commutator-word distribution.
+
+\begin{lemma}[Regular blocks have zero chain defect]
+
+If $(A,B)$ is a regular block, then
+
+\[
+\delta_f(A,B)=0
+\]
+
+for every $f\ge1$.
+
+\end{lemma}
+
+\begin{proof}
+
+For a regular block, the pencil $A+tB$ is nonsingular over $k(t)$. After extending scalars and applying a projective change of parameter, we may assume that $A$ is invertible.
+
+Then the equations
+
+\[
+Az_i+Bz_{i+1}=w_i,\qquad 0\le i\le f-1,
+\]
+
+can be solved recursively after choosing $z_f$. Hence
+
+\[
+\mathcal L_f(A,B):V^{f+1}\to(V^*)^f
+\]
+
+is surjective. Thus
+
+\[
+\operatorname{rank}\mathcal L_f=f\dim V,
+\]
+
+so
+
+\[
+\delta_f=0.
+\]
+
+\end{proof}
+
+\subsection{Singular Kronecker blocks}
+
+For $e\ge0$, define the rectangular pencil
+
+\[
+L_e(t):k^{e+1}\to k^e
+\]
+
+by
+
+\[
+L_e(t)(x_0,\ldots,x_e)
+=
+(x_0+t x_1,
+x_1+t x_2,
+\ldots,
+x_{e-1}+t x_e).
+\]
+
+Write
+
+\[
+L_e(t)=F_e+tG_e.
+\]
+
+The corresponding skew-symmetric singular block is
+
+\[
+\mathcal K_e(t)
+=
+\begin{pmatrix}
+0&L_e(t)^{\mathsf T}\\
+-L_e(t)&0
+\end{pmatrix}
+\]
+
+on
+
+\[
+V_e=k^{e+1}\oplus k^e.
+\]
+
+Thus
+
+\[
+\dim V_e=2e+1.
+\]
+
+\begin{lemma}[Singular chain defect]
+
+For the singular block $\mathcal K_e$,
+
+\[
+\boxed{
+\delta_f(\mathcal K_e)=\max(0,f-e).
+}
+\]
+
+\end{lemma}
+
+\begin{proof}
+
+Write
+
+\[
+V_e=X\oplus Y,
+\qquad
+X=k^{e+1},
+\qquad
+Y=k^e.
+\]
+
+The chain equations for the $X$-part are
+
+\[
+F_ex_i+G_ex_{i+1}=0,
+\qquad
+0\le i\le f-1.
+\]
+
+In coordinates
+
+\[
+x_i=(x_{i,0},\ldots,x_{i,e}),
+\]
+
+these equations are
+
+\[
+x_{i,j}+x_{i+1,j+1}=0,
+\qquad
+0\le i\le f-1,\quad 0\le j\le e-1.
+\]
+
+The variables are identified along diagonals (j-i). There are
+
+\[
+f+e+1
+\]
+
+such diagonals. Hence the $X$-solution space has dimension
+
+\[
+f+e+1.
+\]
+
+The chain equations for the $Y$-part are dual:
+
+\[
+F_e^Ty_i+G_e^Ty_{i+1}=0,
+\qquad
+0\le i\le f-1.
+\]
+
+Writing
+
+\[
+y_i=(y_{i,0},\ldots,y_{i,e-1}),
+\]
+
+these equations are
+
+\[
+y_{i,0}=0,
+\]
+
+\[
+y_{i,j}+y_{i+1,j-1}=0
+\quad
+(1\le j\le e-1),
+\]
+
+\[
+y_{i+1,e-1}=0.
+\]
+
+They force all entries except a boundary family of dimension
+
+\[
+\max(0,e-f).
+\]
+
+Thus the $Y$-solution space has dimension
+
+\[
+\max(0,e-f).
+\]
+
+Therefore
+
+\[
+\dim\ker\mathcal L_f(\mathcal K_e)
+=
+(f+e+1)+\max(0,e-f).
+\]
+
+If $f<e$, this equals
+
+\[
+2e+1=\dim V_e.
+\]
+
+If $f\ge e$, this equals
+
+\[
+f+e+1
+=
+(2e+1)+(f-e).
+\]
+
+Hence
+
+\[
+\dim\ker\mathcal L_f(\mathcal K_e)-\dim V_e
+=
+\max(0,f-e).
+\]
+
+This is exactly
+
+\[
+\delta_f(\mathcal K_e).
+\]
+
+\end{proof}
+
+\begin{theorem}[Recovery of singular minimal indices]
+
+Let $m_e$ be the number of singular Kronecker blocks of minimal index $e$. Then
+
+\[
+\boxed{
+\delta_f
+=
+\sum_{e\ge0}m_e\max(0,f-e).
+}
+\]
+
+Consequently,
+
+\[
+\boxed{
+m_e=\delta_{e+1}-2\delta_e+\delta_{e-1},
+}
+\]
+
+with the convention
+
+\[
+\delta_0=\delta_{-1}=0.
+\]
+
+\end{theorem}
+
+\begin{proof}
+
+The chain defect is additive under direct sums. Regular blocks contribute zero by Lemma 5.1. Singular blocks contribute $\max(0,f-e)$ by Lemma 5.2. Hence
+
+\[
+\delta_f
+=
+\sum_{e\ge0}m_e\max(0,f-e).
+\]
+
+Taking first differences gives
+
+\[
+\delta_f-\delta_{f-1}
+=
+\sum_{e<f}m_e.
+\]
+
+Indeed, the summand $\max(0,f-e)$ increases by $1$ exactly when $e<f$. Taking a second difference yields
+
+\[
+(\delta_{e+1}-\delta_e)-(\delta_e-\delta_{e-1})
+=
+m_e.
+\]
+
+Thus
+
+\[
+\boxed{
+m_e=\delta_{e+1}-2\delta_e+\delta_{e-1}.
+}
+\]
+
+\end{proof}
+
+Thus the singular Kronecker data is recovered from the Fourier-tagged rectangular distributions associated to the matrices $(F_f,G_f)$.
+
+\section{Closed-point Artin probes for the regular part}
+
+We now recover the regular elementary divisors.
+
+Let $\xi$ be a closed point of $\mathbb A^1_k$, represented by an irreducible monic polynomial
+
+\[
+\varphi_\xi(t)\in k[t].
+\]
+
+Let
+
+\[
+d_\xi=\deg(\xi),
+\qquad
+K_\xi=k[t]/(\varphi_\xi),
+\qquad
+\alpha_\xi=t\bmod\varphi_\xi.
+\]
+
+For $e\ge1$, define
+
+\[
+M_{\xi,e}=k[t]/(\varphi_\xi^e),
+\]
+
+and let
+
+\[
+T_{\xi,e}:M_{\xi,e}\to M_{\xi,e}
+\]
+
+be multiplication by $t$.
+
+The regular hyperbolic block associated to $(\xi,e)$ is
+
+\[
+H_{\xi,e}=M_{\xi,e}\oplus M_{\xi,e}^\vee.
+\]
+
+It carries the alternating forms
+
+\[
+A_{\xi,e}((x,\alpha),(y,\beta))
+=
+\alpha(y)-\beta(x),
+\]
+
+\[
+B_{\xi,e}((x,\alpha),(y,\beta))
+\alpha(T_{\xi,e}y)-\beta(T_{\xi,e}x).
+\]
+
+Equivalently,
+
+\[
+B_{\xi,e}
+A_{\xi,e}(S_{\xi,e}\cdot,\cdot),
+\]
+
+where
+
+\[
+S_{\xi,e}=T_{\xi,e}\oplus T_{\xi,e}^\vee.
+\]
+
+Let $\eta$ be another closed point and define
+
+\[
+R_{\eta,f}=K_\eta[\pi]/(\pi^f),
+\qquad
+\theta_{\eta,f}=\alpha_\eta+\pi\in R_{\eta,f}.
+\]
+
+The closed-point Artin probe evaluates the pencil at $\theta_{\eta,f}$. On
+
+\[
+H_{\xi,e}\otimes_k R_{\eta,f}
+\]
+
+it gives the alternating form
+
+\[
+\Omega_{\xi,e;\eta,f}
+B_{\xi,e}\otimes1-\theta_{\eta,f}(A_{\xi,e}\otimes1).
+\]
+
+Since $A_{\xi,e}\otimes1$ is nondegenerate,
+
+\[
+\operatorname{rad}\Omega_{\xi,e;\eta,f}
+=
+\ker(S_{\xi,e}\otimes1-\theta_{\eta,f}I).
+\]
+
+\begin{theorem}[Regular closed-point block pairing]
+
+For regular hyperbolic blocks and closed-point Artin probes,
+
+\[
+\boxed{
+\dim_k\operatorname{rad}\Omega_{\xi,e;\eta,f}
+2\deg(\xi)\min(e,f)\mathbf 1_{\xi=\eta}.
+}
+\]
+
+\end{theorem}
+
+\begin{proof}
+
+Because
+
+\[
+S_{\xi,e}=T_{\xi,e}\oplus T_{\xi,e}^\vee,
+\]
+
+the kernel of
+
+\[
+S_{\xi,e}\otimes1-\theta I
+\]
+
+is the direct sum of the corresponding kernel for $T_{\xi,e}$ and for its dual. These two kernels have the same $k$-dimension. Thus it is enough to compute
+
+\[
+\dim_k\ker(t-\alpha_\eta-\pi)
+\]
+
+on
+
+\[
+M_{\xi,e}\otimes_kR_{\eta,f}.
+\]
+
+If $\xi\neq\eta$, then $\varphi_\xi$ and $\varphi_\eta$ are coprime. Modulo $\pi$, the element
+
+\[
+t-\alpha_\eta
+\]
+
+is invertible in
+
+\[
+K_\eta[t]/(\varphi_\xi(t)^e).
+\]
+
+Therefore
+
+\[
+t-\alpha_\eta-\pi
+\]
+
+is invertible over the local Artin ring $R_{\eta,f}$. The kernel is zero.
+
+Now assume $\xi=\eta$. Write
+
+\[
+K=K_\xi,
+\qquad
+\alpha=\alpha_\xi,
+\qquad
+R=K[\pi]/(\pi^f).
+\]
+
+After tensoring with $K$, only the local factor corresponding to the root $\alpha$ contributes to the kernel; the conjugate factors are invertible. On the contributing local factor, set
+
+\[
+u=t-\alpha.
+\]
+
+The local algebra is
+
+\[
+K[u,\pi]/(u^e,\pi^f),
+\]
+
+and the operator is multiplication by
+
+\[
+u-\pi.
+\]
+
+Since this is a linear operator on a finite-dimensional $K$-vector space, kernel and cokernel have the same $K$-dimension. The cokernel is
+
+\[
+K[u,\pi]/(u^e,\pi^f,u-\pi)
+\cong
+K[\pi]/(\pi^{\min(e,f)}).
+\]
+
+Thus the $K$-dimension of the kernel is
+
+\[
+\min(e,f).
+\]
+
+Multiplying by $[K:k]=\deg(\xi)$ gives
+
+\[
+\deg(\xi)\min(e,f).
+\]
+
+Doubling for the hyperbolic dual part gives
+
+\[
+2\deg(\xi)\min(e,f).
+\]
+
+\end{proof}
+
+The point at infinity is handled by replacing $t$ by a local affine coordinate at infinity. The formula is invariant under $\operatorname{PGL}_2(k)$.
+
+\section{Singular contribution to Artin probes}
+
+To recover the regular part, we must subtract the known contribution of the singular blocks to the Artin probes. We record this explicitly.
+
+Let
+
+\[
+L_e(t):k^{e+1}\to k^e
+\]
+
+be the rectangular Kronecker pencil
+
+\[
+L_e(t)(x_0,\ldots,x_e)
+=
+(x_0+t x_1,\ldots,x_{e-1}+t x_e),
+\]
+
+and let
+
+\[
+\mathcal K_e(t)
+=
+\begin{pmatrix}
+0&L_e(t)^{\mathsf T}\\
+-L_e(t)&0
+\end{pmatrix}
+\]
+
+be the corresponding skew-symmetric singular block.
+
+Let $\eta$ be a closed point and let
+
+\[
+R_{\eta,f}=K_\eta[\pi]/(\pi^f),
+\qquad
+\theta_{\eta,f}=\alpha_\eta+\pi.
+\]
+
+Evaluate $\mathcal K_e(t)$ at
+
+\[
+t=\theta_{\eta,f}.
+\]
+
+\begin{lemma}[Singular Artin contribution]
+
+For every singular Kronecker block $\mathcal K_e$, the radical of the evaluated Artin form
+
+\[
+\mathcal K_e(\theta_{\eta,f})
+\]
+
+has $k$-dimension
+
+\[
+\boxed{
+\deg(\eta)f.
+}
+\]
+
+In particular, this contribution is independent of the minimal index $e$.
+
+\end{lemma}
+
+\begin{proof}
+
+Write
+
+\[
+R=R_{\eta,f},
+\qquad
+\theta=\theta_{\eta,f}.
+\]
+
+The evaluated rectangular map is
+
+\[
+L_e(\theta):R^{e+1}\to R^e,
+\]
+
+\[
+L_e(\theta)(x_0,\ldots,x_e)
+=
+(x_0+\theta x_1,\ldots,x_{e-1}+\theta x_e).
+\]
+
+This map is surjective. Given
+
+\[
+(y_0,\ldots,y_{e-1})\in R^e,
+\]
+
+choose $x_e=0$, then solve recursively:
+
+\[
+x_{e-1}=y_{e-1},
+\]
+
+\[
+x_i=y_i-\theta x_{i+1}
+\quad
+(e-2\ge i\ge0).
+\]
+
+Its kernel is free of rank $1$, generated by
+
+\[
+(1,-\theta,\theta^2,\ldots,(-\theta)^e).
+\]
+
+Therefore
+
+\[
+|\ker L_e(\theta)|=|R|.
+\]
+
+The evaluated skew-symmetric block has matrix
+
+\[
+\begin{pmatrix}
+0&L_e(\theta)^{\mathsf T}\\
+-L_e(\theta)&0
+\end{pmatrix}.
+\]
+
+Its radical is
+
+\[
+\ker L_e(\theta)\oplus\ker L_e(\theta)^{\mathsf T}.
+\]
+
+Since $L_e(\theta)$ is split surjective, its dual map is injective. Hence
+
+\[
+\ker L_e(\theta)^{\mathsf T}=0.
+\]
+
+The radical therefore has cardinality
+
+\[
+|R|.
+\]
+
+Thus its $k$-dimension is
+
+\[
+\dim_k R
+=
+\deg(\eta)f.
+\]
+
+\end{proof}
+
+\begin{corollary}[Total Artin radical formula]
+
+Let the pencil have singular multiplicities $m_e$, and let
+
+\[
+M_{\mathrm{sing}}=\sum_e m_e
+\]
+
+be the total number of singular Kronecker blocks. Let its regular divisor be
+
+\[
+\mathcal D_{\mathrm{reg}}
+=
+\sum_{\xi,e}m_{\xi,e}[\xi,e].
+\]
+
+For the closed-point Artin probe ($\eta,f$), the total radical dimension is
+
+\[
+\boxed{
+\operatorname{rad}_{\eta,f}
+M_{\mathrm{sing}}\deg(\eta)f
++
+2\deg(\eta)\sum_e m_{\eta,e}\min(e,f).
+}
+\]
+
+\end{corollary}
+
+\begin{proof}
+
+The radical dimension is additive over the canonical direct-sum decomposition. Singular blocks contribute
+
+\[
+\deg(\eta)f
+\]
+
+each by Lemma 7.1. Regular blocks contribute
+
+\[
+2\deg(\eta)\min(e,f)
+\]
+
+when their closed point is $\eta$, and $0$ otherwise, by Theorem 6.1.
+
+\end{proof}
+
+Since the singular multiplicities $m_e$ are recovered from the chain probes, $M_{\mathrm{sing}}$ is known. Therefore define
+
+\[
+S_{\eta,f}
+=
+\frac{
+\operatorname{rad}_{\eta,f}
+M_{\mathrm{sing}}\deg(\eta)f
+}{
+2\deg(\eta)
+}.
+\]
+
+Then
+
+\[
+\boxed{
+S_{\eta,f}
+\sum_e m_{\eta,e}\min(e,f).
+}
+\]
+
+Taking finite differences gives
+
+\[
+S_{\eta,f}-S_{\eta,f-1}
+=
+\sum_{e\ge f}m_{\eta,e},
+\]
+
+and therefore
+
+\[
+\boxed{
+m_{\eta,f}
+2S_{\eta,f}-S_{\eta,f-1}-S_{\eta,f+1}.
+}
+\]
+
+Thus the regular elementary-divisor multiplicities at every closed point $\eta$ are recovered.
+
+\section{Word realization of Artin probes}
+
+We explain why the Artin radical dimensions above are observable from commutator-word distributions.
+
+Let
+
+\[
+R=R_{\eta,f}=K_\eta[\pi]/(\pi^f).
+\]
+
+Choose a $k$-basis
+
+\[
+\rho_1,\ldots,\rho_d
+\]
+
+of $R$, where
+
+\[
+d=f\deg(\eta).
+\]
+
+Write multiplication in $R$ as
+
+\[
+\rho_i\rho_j=\sum_\ell c_{ij}^{\ell}\rho_\ell.
+\]
+
+An $R$-valued variable
+
+\[
+u\in V\otimes_k R
+\]
+
+is represented by $d$ ordinary $V$-variables
+
+\[
+u_1,\ldots,u_d
+\]
+
+through
+
+\[
+u=\sum_i u_i\otimes\rho_i.
+\]
+
+The expression
+
+\[
+B_R(u,v)-\theta A_R(u,v)
+\]
+
+has $d$ $k$-coordinates, each of which is a finite $k$-linear combination of commutators, with coefficients determined by the structure constants of $R$ and the coordinates of $\theta$. Hence the distribution of this expression is an explicit commutator-word distribution.
+
+Let
+
+\[
+\chi:R\to\mathbb C^\times
+\]
+
+be a generating additive character. Since $R$ is Frobenius, additive characters are parametrized by $R$-linear functionals. The Fourier coefficient associated to $\chi$ gives
+
+\[
+\frac{|\operatorname{rad}(B_R-\theta A_R)|}{|V\otimes R|}.
+\]
+
+Thus the radical size, and hence its $k$-dimension, is observable.
+
+This applies to the total pencil. By Sections 6 and 7, the observed Artin radical dimensions recover the regular elementary-divisor multiplicities after subtracting the already known singular contribution.
+
+\section{Finiteness of the probe family}
+
+Fix
+
+\[
+N=\dim V.
+\]
+
+For singular probes, it suffices to use
+
+\[
+1\le f\le N+1.
+\]
+
+Indeed, a singular block $\mathcal K_e$ has dimension $2e+1$, hence $e\le (N-1)/2$, and the formula
+
+\[
+m_e=\delta_{e+1}-2\delta_e+\delta_{e-1}
+\]
+
+uses $f\le e+1$.
+
+For regular probes, a block $(\eta,e)$ can occur only if
+
+\[
+2e\deg(\eta)\le N.
+\]
+
+Therefore one only needs closed points $\eta$ with
+
+\[
+\deg(\eta)\le N/2
+\]
+
+and exponents
+
+\[
+1\le e\le \left\lfloor\frac{N}{2\deg(\eta)}\right\rfloor.
+\]
+
+To recover $m_{\eta,e}$ by second differences, use probes up to one additional order:
+
+\[
+1\le f\le
+\left\lfloor\frac{N}{2\deg(\eta)}\right\rfloor+1.
+\]
+
+Since $k$ is finite, there are only finitely many closed points of each bounded degree. Thus, for fixed $k$ and $N$, the total family of probes is finite.
+
+\section{Orbit-coding and the intrinsic projective invariant}
+
+The previous reconstruction is made after choosing a basis of the target $W=k^2$. A different basis acts by
+
+\[
+\operatorname{PGL}_2(k)
+\]
+
+on the parameter line $\mathbb P^1$. Thus the intrinsic regular datum is not the marked divisor
+
+\[
+\mathcal D_{\mathrm{reg}},
+\]
+
+but its orbit
+
+\[
+\operatorname{PGL}_2(k)\cdot\mathcal D_{\mathrm{reg}}.
+\]
+
+We now formalize the finite orbit-coding step.
+
+Let
+
+\[
+\mathcal R_{k,N}
+\]
+
+be the finite set of decorated regular divisors
+
+\[
+\mathcal D=\sum_{\xi,e}m_{\xi,e}[\xi,e]
+\]
+
+satisfying
+
+\[
+2\sum_{\xi,e}e\deg(\xi)m_{\xi,e}\le N.
+\]
+
+Choose an injective code
+
+\[
+c:\mathcal R_{k,N}\to\mathbb Z_{\ge0}.
+\]
+
+Let
+
+\[
+B_0>|\operatorname{PGL}_2(k)|.
+\]
+
+Define
+
+\[
+\mathcal O_{B_0}(\mathcal D)
+=
+\sum_{g\in \operatorname{PGL}_2(k)}
+B_0^{c(g\mathcal D)}.
+\]
+
+Because $B_0>|\operatorname{PGL}_2(k)|$, the base-$B_0$ expansion of $\mathcal O_{B_0}(\mathcal D)$ has no carry ambiguity and determines the multiset
+
+\[
+\{c(g\mathcal D):g\in \operatorname{PGL}_2(k)\}.
+\]
+
+Since $c$ is injective, this determines the orbit
+
+\[
+\operatorname{PGL}_2(k)\cdot\mathcal D.
+\]
+
+The singular multiplicities $m_e$ are invariant under target basis change. Thus the pair
+
+\[
+\left((m_e)_e,\ \operatorname{PGL}_2(k)\cdot\mathcal D_{\mathrm{reg}}\right)
+\]
+
+is the intrinsic projective canonical datum recovered from the word distributions.
+
+\section{Complete pencil theorem}
+
+We now prove the main theorem.
+
+\begin{theorem}[Complete commutator-word tomography of alternating pencils]
+
+Fix
+
+\[
+k=\mathbb F_p,\qquad p\neq2,
+\]
+
+and
+
+\[
+N\ge0.
+\]
+
+There exists an explicit finite family of Fourier-tagged commutator-word distributions such that, for every alternating pencil
+
+\[
+\beta:\Lambda^2_k V\to k^2,
+\qquad
+\dim V=N,
+\]
+
+the values of these distributions determine the full skew-symmetric Kronecker canonical data of $\beta$, namely:
+
+\begin{itemize}
+\item the multiplicities $m_e$ of all singular Kronecker blocks;
+\end{itemize}
+
+\begin{itemize}
+\item the $\operatorname{PGL}_2(k)$-orbit of the regular decorated divisor
+\end{itemize}
+
+\[
+\mathcal D_{\mathrm{reg}}\sum_{\xi,e}m_{\xi,e}[\xi,e].
+\]
+
+Equivalently, these distributions determine the projective congruence class of the alternating pencil.
+
+\end{theorem}
+
+\begin{proof}
+
+The rectangular Fourier-tagged distributions of Theorem 3.2 with
+
+\[
+(C,D)=(F_f,G_f)
+\]
+
+recover the ranks
+
+\[
+\operatorname{rank}(F_f\otimes A+G_f\otimes B)
+\]
+
+for all required $f$. Hence they recover
+
+\[
+\delta_f
+=
+f\dim V-\operatorname{rank}(F_f\otimes A+G_f\otimes B).
+\]
+
+By Theorem 5.3,
+
+\[
+\delta_f=\sum_e m_e\max(0,f-e),
+\]
+
+and finite differences recover every singular multiplicity $m_e$.
+
+Now the singular part is known. For every closed point $\eta$ and every required $f$, the Artin probe of Section 8 recovers the total radical dimension
+
+\[
+\operatorname{rad}
+=
+{\eta,f}.
+\]
+
+By Corollary 7.2,
+
+\[
+\operatorname{rad}
+=
+{\eta,f}
+M_{\mathrm{sing}}\deg(\eta)f
++
+2\deg(\eta)\sum_e m_{\eta,e}\min(e,f).
+\]
+
+Since $M_{\mathrm{sing}}$ is known, we compute
+
+\[
+S_{\eta,f}
+=
+\frac{
+\operatorname{rad}_{\eta,f}
+M_{\mathrm{sing}}\deg(\eta)f
+}{
+2\deg(\eta)
+}
+\sum_e m_{\eta,e}\min(e,f).
+\]
+
+Finite differences recover every $m_{\eta,e}$. Varying $\eta$ over all closed points of degree at most $N/2$ recovers the marked regular divisor.
+
+Finally, Section 10 converts the marked regular divisor into its intrinsic $\operatorname{PGL}_2(k)$-orbit. Together with the singular multiplicities, this is exactly the skew-symmetric Kronecker canonical datum of the pencil up to projective congruence.
+
+\end{proof}
+
+\section{Consequence for class-two exponent-$p$ groups}
+
+\begin{corollary}[Complete word-moment invariant for groups with $\dim G'=2$]
+
+Let $G$ and $H$ be special class-two exponent-$p$ groups with
+
+\[
+\dim_{\mathbb F_p}G'=\dim_{\mathbb F_p}H'=2.
+\]
+
+Let
+
+\[
+\beta_G:\Lambda^2(G/Z(G))\to G',
+\]
+
+\[
+\beta_H:\Lambda^2(H/Z(H))\to H'
+\]
+
+be their commutator tensors. Then $G\cong H$ if and only if the finite family of Fourier-tagged commutator-word distributions of Theorem 11.1 agrees for $G$ and $H$, after the natural projective target orbit-coding.
+
+\end{corollary}
+
+\begin{proof}
+
+For special class-two exponent-$p$ groups, isomorphism is equivalent to pseudo-isometry of the commutator tensor. When $\dim G'=2$, this tensor is an alternating pencil. By Theorem 11.1, the specified distributions recover the projective congruence class of that pencil, which is precisely its pseudo-isometry class.
+
+\end{proof}
+
+\section{Remarks}
+
+\subsection{Exact distributions, not sampling}
+
+The theorem uses exact finite distributions and Fourier coefficients. It does not address how many random samples are needed to estimate these probabilities.
+
+\subsection{Efficiency}
+
+The orbit-code is finite but may be large. The result is a structural observability theorem, not an optimized group-isomorphism algorithm.
+
+\subsection{Relation to rank-zeta tomography}
+
+Scalar-extension rank tomography recovers rank distributions and zeta functions of rank loci. For pencils, rank-zeta data sees the reduced arithmetic support of the degeneracy divisor but does not by itself recover singular minimal indices or elementary-divisor thicknesses. The present theorem adds chain probes and Artin probes to recover the full canonical data.
+
+\subsection{Relation to word-map fibre enumeration}
+
+The Fourier/rank mechanism is close in spirit to known fibre computations for word maps on class-two exponent-$p$ groups. The new feature here is the design of rectangular and Artin probes that extract the complete Kronecker canonical data of an alternating pencil.
+
+
+\begin{thebibliography}{99}
+\bibitem{ref1} Matthew Levy, Enumerating fibres of commutator words over $p$-groups, arXiv:1602.04093.
+\bibitem{ref2} Vladimir V. Sergeichuk, Canonical matrices of forms and pairs of forms over finite and $p$-adic fields, arXiv:1011.3142.
+\bibitem{ref3} V. A. Bovdi, T. G. Gerasimova, M. A. Salim, and V. V. Sergeichuk, Reduction of a pair of skew-symmetric matrices to its canonical form under congruence, arXiv:1712.08729.
+\bibitem{ref4} James B. Wilson, Decomposing $p$-groups via Jordan algebras, Journal of Algebra 322 (2009), 2642--2679.
+\bibitem{ref5} Peter A. Brooksbank and James B. Wilson, Computing isometry groups of Hermitian maps, Transactions of the American Mathematical Society 364 (2012), 1975--1996.
+\bibitem{ref6} Peter A. Brooksbank, Yinan Li, Youming Qiao, and James B. Wilson, Improved algorithms for alternating matrix space isometry, ESA 2020.
+\bibitem{ref7} Xiaorui Sun, Faster Isomorphism for $p$-Groups of Class 2 and Exponent $p$, arXiv:2303.15412.
+\bibitem{ref8} F. R. Gantmacher, The Theory of Matrices, Chelsea, 1959.
+\bibitem{ref9} P. Lancaster and M. Tismenetsky, The Theory of Matrices, Academic Press, 1985.
+\bibitem{ref10} Thomas Honold, Characterization of finite Frobenius rings, Archiv der Mathematik 76 (2001), 406--415.
+\end{thebibliography}
+\end{document}

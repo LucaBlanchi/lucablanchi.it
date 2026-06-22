@@ -222,6 +222,7 @@ function renderFragment(source: string, state: RenderState): string {
         problem: "Problem",
         conjecture: "Conjecture",
         remark: "Remark",
+        example: "Example",
       };
 
       const label = labels[environment];
