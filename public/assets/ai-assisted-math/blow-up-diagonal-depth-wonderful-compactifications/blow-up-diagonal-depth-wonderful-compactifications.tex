@@ -1,0 +1,1652 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\begin{document}
+\title[Blow-up diagonal depth]{Blow-up Diagonal Depth and Wonderful Compactifications}
+\author{Luca Blanchi}
+\date{June 2026}
+\begin{abstract}
+We study the behavior of diagonal generation under smooth blow-ups. We use a resolved form of diagonal dimension, called coherent product diagonal depth and denoted $\operatorname{CPD}$, defined by product twisted complexes resolving the diagonal kernel. The main theorem is a blow-up inequality. If $X$ is smooth proper, $Z\subset X$ is a smooth closed subvariety of codimension $c$, and $Y=\operatorname{Bl}_ZX$, then
+
+\[
+\operatorname{CPD}(Y)
+\le
+\max\left\{
+\operatorname{CPD}(X),
+\operatorname{CPD}(Z)+c-1
+\right\}.
+\]
+
+Equivalently, for the diagonal-depth defect
+
+\[
+\eta(X):=\operatorname{CPD}(X)-\dim X,
+\]
+
+one has
+
+\[
+\eta(\operatorname{Bl}_ZX)\le \max\{\eta(X),\eta(Z)-1\}.
+\]
+
+The proof uses Orlov's blow-up formula at the level of Fourier--Mukai kernels. The base projector is $Lf^*Rf_*$, whose kernel is $L(f\times f)^*\mathcal O_{\Delta_X}$. The complementary exceptional projector is resolved by a finite relative bar complex for the directed dg category associated to the exceptional blocks. Each exceptional bar term is supported on $E\times_ZE$, where $E=\mathbb P_Z(N_{Z/X})$, and is controlled by the diagonal of $Z$. Since the exceptional part has $c-1$ blocks, the bar amplitude contributes $c-2$, and the final cone from the base projector contributes one further step.
+
+As applications, we obtain a defect bound for clean wonderful compactifications. If $X_{\mathcal G}$ is the wonderful model of a clean building set $\mathcal G$ with induced arrangement $\mathcal S(\mathcal G)$, then
+
+\[
+\operatorname{CPD}(X_{\mathcal G})
+\le
+\max\left\{
+\operatorname{CPD}(X),
+\max_{\substack{S\in \mathcal S(\mathcal G)\\ S\ne X}}
+\bigl(\operatorname{CPD}(S)+\operatorname{codim}_XS-1\bigr)
+\right\}.
+\]
+
+We apply this to linear De Concini--Procesi models, Fulton--MacPherson compactifications, and Kapranov's blow-up model of $\overline M_{0,n}$. In particular,
+
+\[
+\operatorname{Rdim}D^b_{\mathrm{coh}}(\overline M_{0,n})=n-3.
+\]
+
+In characteristic zero, we also obtain birational invariance of diagonal-depth optimality for smooth projective varieties of dimension at most three.
+\end{abstract}
+\maketitle
+
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+During the preparation of this work, ChatGPT, by OpenAI, was used to assist with mathematical drafting, formalization, review, and editing. This work is shared as a preliminary AI-assisted mathematical note. The mathematical content may have been only partially reviewed and may contain errors; it should not be treated as peer-reviewed or as a fully verified manuscript.
+
+\section*{Preliminary status}
+This note is shared as a preliminary research note. Some arguments, reductions, or technical lemmas may still contain gaps, errors, or unverified steps; the text should be read as a working draft rather than as a fully checked manuscript.
+
+\section{Introduction}
+
+Let $X$ be a smooth proper variety over an algebraically closed field. The diagonal kernel
+
+\[
+\mathcal O_{\Delta_X}\in D^b_{\mathrm{coh}}(X\times X)
+\]
+
+controls the identity functor of $D^b_{\mathrm{coh}}(X)$. A resolution of this diagonal by exterior product kernels
+
+\[
+A\boxtimes B,
+\qquad
+A,B\in D^b_{\mathrm{coh}}(X),
+\]
+
+gives an upper bound for the Rouquier dimension of $D^b_{\mathrm{coh}}(X)$. This principle is part of the general theory of diagonal dimension.
+
+The purpose of this paper is not to introduce a new diagonal invariant. Instead, we use a resolved dg-enhanced model of diagonal dimension, called coherent product diagonal depth, to prove a new stability theorem under blow-ups.
+
+The guiding question is:
+
+\[
+\emph{How much diagonal depth is created by a smooth blow-up?}
+\]
+
+The answer is dimension-sharp.
+
+\noindent\textbf{Theorem 1.1: blow-up theorem.}
+
+Let $X$ be smooth proper and let $Z\subset X$ be a smooth closed subvariety of codimension $c$. Let
+
+\[
+f:Y=\operatorname{Bl}_ZX\to X
+\]
+
+be the blow-up. Then
+
+\[
+\operatorname{CPD}(Y)
+\le
+\max\left\{
+\operatorname{CPD}(X),
+\operatorname{CPD}(Z)+c-1
+\right\}.
+\]
+
+Equivalently, for
+
+\[
+\eta(T):=\operatorname{CPD}(T)-\dim T,
+\]
+
+one has
+
+\[
+\eta(Y)\le \max\{\eta(X),\eta(Z)-1\}.
+\]
+
+Thus a smooth blow-up does not create new diagonal-depth defect beyond the defect already present in the ambient variety and the center; in fact, the contribution of the center is shifted down by one.
+
+The proof uses Orlov's blow-up decomposition
+
+\[
+D^b_{\mathrm{coh}}(Y)
+\left\langle
+j_*p^*D^b_{\mathrm{coh}}(Z)\otimes \mathcal O_E(1-c),
+\dots,
+j_*p^*D^b_{\mathrm{coh}}(Z)\otimes \mathcal O_E(-1),
+f^*D^b_{\mathrm{coh}}(X)
+\right\rangle,
+\]
+
+where $E=\mathbb P_Z(N_{Z/X})$ is the exceptional divisor. We do not apply an additive semiorthogonal-decomposition bound. Instead, we construct a single filtered Fourier--Mukai kernel for the identity. The base part is pulled back from the diagonal of $X$. The exceptional part is resolved by a finite relative bar complex over the $c-1$ exceptional blocks. Each bar term is controlled by the diagonal of $Z$, and the bar length contributes exactly $c-2$.
+
+The blow-up theorem iterates over clean building sets.
+
+\noindent\textbf{Theorem 1.2: wonderful compactifications.}
+
+Let $X$ be smooth proper, let $\mathcal G$ be a clean building set of smooth proper subvarieties of $X$, and let $X_{\mathcal G}$ be the corresponding wonderful model. Let $\mathcal S(\mathcal G)$ be the induced clean arrangement, with $X$ included as the empty stratum. Then
+
+\[
+\operatorname{CPD}(X_{\mathcal G})
+\le
+\max\left\{
+\operatorname{CPD}(X),
+\max_{\substack{S\in\mathcal S(\mathcal G)\\ S\ne X}}
+\bigl(
+\operatorname{CPD}(S)+\operatorname{codim}_XS-1
+\bigr)
+\right\}.
+\]
+
+Equivalently,
+
+\[
+\eta(X_{\mathcal G})
+\le
+\max\left\{
+\eta(X),
+\max_{\substack{S\in\mathcal S(\mathcal G)\\ S\ne X}}
+(\eta(S)-1)
+\right\}.
+\]
+
+In particular, if all strata are diagonal-depth optimal, then $X_{\mathcal G}$ is diagonal-depth optimal.
+
+Our first main application is Kapranov's model of $\overline M_{0,n}$. Kapranov realizes $\overline M_{0,n}$ as an iterated blow-up of $\mathbb P^{n-3}$ along linear subspaces and their transforms. Since projective spaces are diagonal-depth optimal, Theorem 1.2 gives
+
+\[
+\operatorname{CPD}(\overline M_{0,n})\le n-3.
+\]
+
+Rouquier's lower bound gives
+
+\[
+\operatorname{Rdim}D^b_{\mathrm{coh}}(\overline M_{0,n})\ge n-3.
+\]
+
+Since
+
+\[
+\operatorname{Rdim}D^b_{\mathrm{coh}}(X)\le \operatorname{CPD}(X),
+\]
+
+we obtain the following equality.
+
+\noindent\textbf{Theorem 1.3.}
+
+For all $n\ge3$,
+
+\[
+\operatorname{Rdim}D^b_{\mathrm{coh}}(\overline M_{0,n})=n-3.
+\]
+
+This proof is non-equivariant and does not use the even Hassett-space diagonal-depth analysis appearing in the Castravet--Tevelev approach. That approach remains important for symmetric and equivariant refinements, but the Rouquier-dimension equality above follows directly from Kapranov's blow-up model and Theorem 1.1.
+
+We also prove:
+
+\noindent\textbf{Theorem 1.4.}
+
+If $X$ is smooth proper and diagonal-depth optimal, then its Fulton--MacPherson compactification $X[n]$ is diagonal-depth optimal. Hence
+
+\[
+\operatorname{Rdim}D^b_{\mathrm{coh}}(X[n])=\dim X[n].
+\]
+
+Finally, in characteristic zero, Theorem 1.1 implies that diagonal-depth optimality is a birational invariant for smooth projective varieties of dimension at most three. Hence every smooth projective rational variety of dimension at most three is diagonal-depth optimal and satisfies Orlov's expected equality for Rouquier dimension.
+
+\section{Coherent product diagonal depth}
+
+Throughout, $k$ is an algebraically closed field. Unless otherwise stated, all varieties are smooth and proper over $k$, and all functors are derived.
+
+We fix dg enhancements of the bounded derived categories of coherent sheaves. This allows us to work with filtered twisted complexes of Fourier--Mukai kernels.
+
+\noindent\textbf{Definition 2.1.}
+
+Let $X$ be smooth proper. A product kernel on $X\times X$ is an object of the form
+
+\[
+A\boxtimes B
+:=
+\operatorname{pr}_1^*A\otimes^L\operatorname{pr}_2^*B,
+\qquad
+A,B\in D^b_{\mathrm{coh}}(X).
+\]
+
+A finite direct sum of product kernels is again called a product kernel.
+
+For
+
+\[
+K\in D^b_{\mathrm{coh}}(X\times X),
+\]
+
+we write
+
+\[
+\operatorname{pdepth}_X(K)\le d
+\]
+
+if $K$ is represented in the dg enhancement by a finite twisted complex
+
+\[
+P^0\to P^1\to\cdots\to P^d
+\]
+
+such that every $P^r$ is a product kernel.
+
+The coherent product diagonal depth of $X$ is
+
+\[
+\operatorname{CPD}(X):=\operatorname{pdepth}_X(\mathcal O_{\Delta_X}).
+\]
+
+The normalization is such that
+
+\[
+\operatorname{CPD}(\operatorname{Spec}k)=0.
+\]
+
+\noindent\textbf{Remark 2.2.}
+
+This is a resolved model of diagonal dimension. If $\mathcal O_{\Delta_X}$ is generated in $d$ steps by a single product object $A\boxtimes B$, then it admits a product twisted-complex presentation of amplitude $d$. Conversely, a finite product twisted complex can be generated by the single product object
+
+\[
+\left(\bigoplus_i A_i\right)
+\boxtimes
+\left(\bigoplus_i B_i\right)
+\]
+
+after allowing finite sums and direct summands. Thus the invariant agrees with diagonal dimension under the usual enhanced and idempotent-complete conventions. We use the notation $\operatorname{CPD}$ to keep track of the resolved product-complex model needed for the blow-up proof.
+
+\noindent\textbf{Lemma 2.3: pullback.}
+
+Let $g:Y\to X$ be a morphism between smooth proper varieties. Then
+
+\[
+\operatorname{pdepth}_Y\bigl(L(g\times g)^*K\bigr)
+\le
+\operatorname{pdepth}_X(K)
+\]
+
+for every
+
+\[
+K\in D^b_{\mathrm{coh}}(X\times X).
+\]
+
+\noindent\emph{Proof.} It suffices to check product kernels. We have
+
+\[
+L(g\times g)^*(A\boxtimes B)
+\simeq
+Lg^*A\boxtimes Lg^*B.
+\]
+
+Pulling back a product twisted complex gives a product twisted complex of the same amplitude.
+
+\noindent\textbf{Lemma 2.4: pushforward on support.}
+
+Let $i:W\to Y$ be a proper morphism between smooth proper varieties. Then
+
+\[
+\operatorname{pdepth}_Y\bigl(R(i\times i)_*K\bigr)
+\le
+\operatorname{pdepth}_W(K)
+\]
+
+for every
+
+\[
+K\in D^b_{\mathrm{coh}}(W\times W).
+\]
+
+\noindent\emph{Proof.} For product kernels,
+
+\[
+R(i\times i)_*(A\boxtimes B)
+\simeq
+Ri_*A\boxtimes Ri_*B.
+\]
+
+The claim follows by applying $R(i\times i)_*$ to a product twisted complex.
+
+\noindent\textbf{Lemma 2.5: resolved cone-splicing.}
+
+Let
+
+\[
+A\to B\to C
+\]
+
+be a distinguished triangle in $D^b_{\mathrm{coh}}(X\times X)$. Suppose $A$ and $C$ are represented by product twisted complexes of amplitudes $a$ and $c$, respectively, and suppose the triangle is represented in the dg enhancement so that
+
+\[
+B\simeq \operatorname{Cone}(C[-1]\to A).
+\]
+
+Then
+
+\[
+\operatorname{pdepth}_X(B)\le \max\{a,c+1\}.
+\]
+
+\noindent\emph{Proof.} Represent $A$ by a product complex in degrees $0,\dots,a$, and $C$ by a product complex in degrees $0,\dots,c$. Then $C[-1]$ contributes terms in degrees $1,\dots,c+1$. The mapping cone has terms
+
+\[
+A^r\oplus C^{r-1},
+\]
+
+and therefore lies in degrees
+
+\[
+0,\dots,\max\{a,c+1\}.
+\]
+
+Each term is a finite direct sum of product kernels. This proves the claim.
+
+\noindent\textbf{Lemma 2.6: Rouquier bound.}
+
+For $X$ smooth proper,
+
+\[
+\operatorname{Rdim}D^b_{\mathrm{coh}}(X)\le \operatorname{CPD}(X).
+\]
+
+\noindent\emph{Proof.} A product kernel
+
+\[
+A\boxtimes B
+\]
+
+acts by the Fourier--Mukai functor
+
+\[
+F\mapsto B\otimes R\Gamma(X,A\otimes F).
+\]
+
+Thus its image lies in the triangulated subcategory generated by $B$. A product twisted complex resolving $\mathcal O_{\Delta_X}$ gives a filtration of the identity functor with the same number of extension steps. Applying this filtration to an arbitrary object of $D^b_{\mathrm{coh}}(X)$ shows that a finite direct sum of the objects appearing as right factors in the product kernels strongly generates $D^b_{\mathrm{coh}}(X)$ in at most $\operatorname{CPD}(X)$ steps.
+
+\noindent\textbf{Lemma 2.7: products.}
+
+For smooth proper $X$ and $Y$,
+
+\[
+\operatorname{CPD}(X\times Y)
+\le
+\operatorname{CPD}(X)+\operatorname{CPD}(Y).
+\]
+
+\noindent\emph{Proof.} The diagonal satisfies
+
+\[
+\mathcal O_{\Delta_{X\times Y}}
+\simeq
+\mathcal O_{\Delta_X}\boxtimes\mathcal O_{\Delta_Y}.
+\]
+
+Taking product twisted complexes for the two factors and totalizing by total degree gives a product twisted complex of amplitude the sum of the two amplitudes.
+
+\noindent\textbf{Lemma 2.8: projective spaces.}
+
+For every $m\ge0$,
+
+\[
+\operatorname{CPD}(\mathbb P^m)=m.
+\]
+
+\noindent\emph{Proof.} Beilinson's resolution of the diagonal gives a product resolution of $\mathcal O_{\Delta_{\mathbb P^m}}$ of length $m$. Hence
+
+\[
+\operatorname{CPD}(\mathbb P^m)\le m.
+\]
+
+The reverse inequality follows from Rouquier's lower bound and Lemma 2.6.
+
+\noindent\textbf{Lemma 2.9: projective bundles.}
+
+Let
+
+\[
+\pi:\mathbb P_X(\mathcal V)\to X
+\]
+
+be a projective bundle with $\operatorname{rank}\mathcal V=r$. Then
+
+\[
+\operatorname{CPD}(\mathbb P_X(\mathcal V))
+\le
+\operatorname{CPD}(X)+r-1.
+\]
+
+\noindent\emph{Proof.} The relative diagonal of $\mathbb P_X(\mathcal V)$ over $X$ has the relative Beilinson resolution of length $r-1$. Pulling back a product twisted complex for $\mathcal O_{\Delta_X}$ and tensoring with this relative resolution gives a product twisted complex for the absolute diagonal of total amplitude at most
+
+\[
+\operatorname{CPD}(X)+r-1.
+\]
+
+\section{Orlov's blow-up formula and the base projector}
+
+Let
+
+\[
+i:Z\hookrightarrow X
+\]
+
+be a smooth closed subvariety of codimension $c$, and let
+
+\[
+f:Y=\operatorname{Bl}_ZX\to X
+\]
+
+be the blow-up. If $c=1$, then $Y\simeq X$, and all statements below are immediate. Thus, throughout the proof of the blow-up theorem, we assume $c\ge2$.
+
+Let
+
+\[
+j:E\hookrightarrow Y,
+\qquad
+p:E=\mathbb P_Z(N_{Z/X})\to Z
+\]
+
+be the exceptional divisor and its projection. We use the convention
+
+\[
+\mathcal O_E(E)=\mathcal O_E(-1).
+\]
+
+For $m=1,\dots,c-1$, define
+
+\[
+\Phi_m:D^b_{\mathrm{coh}}(Z)\to D^b_{\mathrm{coh}}(Y),
+\qquad
+\Phi_m(F)=j_*\bigl(p^*F\otimes\mathcal O_E(-m)\bigr).
+\]
+
+Orlov's blow-up formula gives a semiorthogonal decomposition
+
+\[
+D^b_{\mathrm{coh}}(Y)
+\left\langle
+\Phi_{c-1}D^b_{\mathrm{coh}}(Z),
+\Phi_{c-2}D^b_{\mathrm{coh}}(Z),
+\dots,
+\Phi_1D^b_{\mathrm{coh}}(Z),
+f^*D^b_{\mathrm{coh}}(X)
+\right\rangle.
+\tag{3.1}
+\]
+
+Let
+
+\[
+\mathcal E:=
+\left\langle
+\Phi_{c-1}D^b(Z),
+\dots,
+\Phi_1D^b(Z)
+\right\rangle.
+\]
+
+Then
+
+\[
+\mathcal E=\ker Rf_*.
+\]
+
+The functor
+
+\[
+P_X:=Lf^*Rf_*:D^b(Y)\to D^b(Y)
+\]
+
+has Fourier--Mukai kernel
+
+\[
+K_X=\mathcal O_{Y\times_X^L Y}
+\simeq L(f\times f)^*\mathcal O_{\Delta_X}.
+\tag{3.2}
+\]
+
+The counit
+
+\[
+Lf^*Rf_*\to \operatorname{id}
+\]
+
+gives a triangle of Fourier--Mukai kernels
+
+\[
+K_X\longrightarrow \mathcal O_{\Delta_Y}\longrightarrow K_{\mathcal E}.
+\tag{3.3}
+\]
+
+Here $K_{\mathcal E}$ is the complementary projector: it kills $f^*D^b(X)$ and restricts to the identity on $\mathcal E$.
+
+By Lemma 2.3,
+
+\[
+\operatorname{pdepth}_Y(K_X)\le \operatorname{CPD}(X).
+\tag{3.4}
+\]
+
+Thus the blow-up theorem reduces to bounding $K_{\mathcal E}$.
+
+\section{The exceptional relative bar complex}
+
+This section proves the technical core.
+
+Let
+
+\[
+d_Z:=\operatorname{CPD}(Z).
+\]
+
+Choose a product twisted complex
+
+\[
+P_Z^\bullet\to\mathcal O_{\Delta_Z}
+\]
+
+of amplitude $d_Z$. Thus
+
+\[
+P_Z^r=
+\bigoplus_\alpha A_{\alpha,r}\boxtimes B_{\alpha,r},
+\qquad
+0\le r\le d_Z.
+\]
+
+If $V\in\operatorname{Perf}(Z)$, then
+
+\[
+P_Z^\bullet\otimes q_2^*V
+\]
+
+is again a product twisted complex of the same amplitude, since
+
+\[
+(A\boxtimes B)\otimes q_2^*V
+\simeq
+A\boxtimes(B\otimes V).
+\]
+
+Similarly, tensoring by perfect complexes pulled back from the first factor preserves product amplitude.
+
+Hence every kernel of the form
+
+\[
+\mathcal O_{\Delta_Z}\otimes q_1^*V_1\otimes q_2^*V_2,
+\qquad
+V_1,V_2\in \operatorname{Perf}(Z),
+\]
+
+has product depth at most $d_Z$.
+
+\noindent\textbf{Lemma 4.1: block bimodules.}
+
+For $m,n\in{1,\dots,c-1}$, let
+
+\[
+\mathcal M_{mn}(F,G)
+:=
+R\operatorname{Hom}_Y(\Phi_mF,\Phi_nG)
+\]
+
+be the bimodule between the $m$-th and $n$-th exceptional blocks. This bimodule is represented by a kernel on $Z\times Z$ of the form
+
+\[
+\Delta_{Z*}V_{mn}
+\]
+
+for some
+
+\[
+V_{mn}\in\operatorname{Perf}(Z).
+\]
+
+In particular, $\mathcal M_{mn}$ has product depth at most $d_Z$.
+
+\noindent\emph{Proof.} The functor $\Phi_m$ is
+
+\[
+\Phi_m(F)=j_*(p^*F\otimes\mathcal O_E(-m)).
+\]
+
+Since
+
+\[
+j^!(-)=Lj^*(-)\otimes\mathcal O_E(-1)[-1],
+\]
+
+the right adjoint of $\Phi_m$ is
+
+\[
+\Phi_m^R(H)
+Rp_*\left(
+Lj^*H\otimes\mathcal O_E(m-1)
+\right)[-1].
+\tag{4.1}
+\]
+
+Applying this to $H=\Phi_n(G)$, we obtain
+
+\[
+\Phi_m^R\Phi_n(G)
+Rp_*\left(
+Lj^*j_*(p^*G\otimes\mathcal O_E(-n))
+\otimes\mathcal O_E(m-1)
+\right)[-1].
+\]
+
+For the divisor embedding $j:E\hookrightarrow Y$, the derived self-intersection $Lj^*j_*(-)$ is given by tensoring with the two-term Koszul complex
+
+\[
+[\mathcal O_E(1)\to \mathcal O_E],
+\]
+
+up to the standard cohomological convention. Therefore $\Phi_m^R\Phi_n$ is a finite extension of tensor functors
+
+\[
+G\longmapsto
+G\otimes Rp_*\mathcal O_E(m-n-1+\epsilon)[s_\epsilon],
+\qquad
+\epsilon\in{0,1}.
+\]
+
+Since $p:E\to Z$ is projective, these coefficients are perfect complexes on $Z$. Hence $\Phi_m^R\Phi_n$ is represented by a diagonal kernel
+
+\[
+\Delta_{Z*}V_{mn}
+\]
+
+for some $V_{mn}\in \operatorname{Perf}(Z)$.
+
+Replacing $\mathcal O_{\Delta_Z}$ by $P_Z^\bullet$ gives a product twisted complex of amplitude $d_Z$. Thus $\mathcal M_{mn}$ has product depth at most $d_Z$.
+
+\noindent\textbf{Lemma 4.2: endpoint kernels.}
+
+The embedding of the $m$-th exceptional block into $D^b(Y)$ is represented by a kernel
+
+\[
+K_m^{\mathrm{in}}\in D^b(Z\times Y)
+\]
+
+supported on the graph of $p:E\to Z$, followed by the embedding $j:E\hookrightarrow Y$. Up to the convention of source and target factors,
+
+\[
+K_m^{\mathrm{in}}
+(\operatorname{id}_Z\times j)_*
+\left(
+\mathcal O_{\Gamma_p}\otimes q_E^*\mathcal O_E(-m)
+\right).
+\]
+
+The corresponding outgoing kernel representing the relevant adjoint is of the same graph type, with twist $\mathcal O_E(m-1)$ and a cohomological shift.
+
+Consequently, if a chain of block bimodules produces a kernel
+
+\[
+\Delta_{Z*}V
+\]
+
+on $Z\times Z$, then inserting the endpoint kernels gives a kernel on $Y\times Y$ of the form
+
+\[
+(j\times j)_*
+\left(
+(p\times p)^*\mathcal O_{\Delta_Z}
+\otimes q_1^*L
+\otimes q_2^*M
+\otimes (p\times p)^*q_Z^*V
+\right)[s],
+\tag{4.2}
+\]
+
+where $L,M$ are line bundles on $E$, $V\in\operatorname{Perf}(Z)$, and $s\in\mathbb Z$. Every kernel of the form (4.2) has product depth at most $d_Z$.
+
+\noindent\emph{Proof.} The first assertion follows directly from the Fourier--Mukai kernel of
+
+\[
+F\mapsto j_*(p^*F\otimes\mathcal O_E(-m)).
+\]
+
+The adjoint kernel is obtained from (4.1), hence is again supported on the same incidence correspondence, with the indicated twist and shift.
+
+Now insert a diagonal kernel $\Delta_{Z*}V$ between these two endpoint kernels. The convolution identifies the two $Z$-coordinates and produces exactly a kernel supported on
+
+\[
+E\times_ZE
+\]
+
+and then pushed forward to $Y\times Y$ by $j\times j$. This gives (4.2).
+
+Replacing $\mathcal O_{\Delta_Z}$ by $P_Z^\bullet$, a product term
+
+\[
+A_{\alpha,r}\boxtimes B_{\alpha,r}
+\]
+
+becomes
+
+\[
+j_*\bigl(p^*A_{\alpha,r}\otimes L\bigr)
+\boxtimes
+j_*\bigl(p^*(B_{\alpha,r}\otimes V)\otimes M\bigr).
+\]
+
+Thus the product amplitude remains $d_Z$.
+
+\noindent\textbf{Lemma 4.3: directed dg model.}
+
+Choose dg enhancements of all categories involved. The exceptional category $\mathcal E$ is Morita equivalent to a finite directed dg category $\mathfrak A$ with components
+
+\[
+\mathfrak A_m\simeq \operatorname{Perf}_{\mathrm{dg}}(Z),
+\qquad
+m=1,\dots,c-1.
+\]
+
+The ordering is chosen so that morphisms in the forbidden semiorthogonal direction vanish. Let
+
+\[
+\mathfrak A_0:=\prod_{m=1}^{c-1}\mathfrak A_m
+\]
+
+be the diagonal subcategory, and let
+
+\[
+J:=\mathfrak A/\mathfrak A_0
+\]
+
+be the strictly triangular radical bimodule.
+
+Then
+
+\[
+J^{\otimes_{\mathfrak A_0}\ell}=0
+\qquad
+\text{for }\ell\ge c-1.
+\]
+
+The identity bimodule of $\mathfrak A$ has the relative bar resolution
+
+\[
+\operatorname{Bar}_{\mathfrak A_0}(\mathfrak A)
+\left[
+\mathfrak A
+\otimes_{\mathfrak A_0}
+J^{\otimes_{\mathfrak A_0}\ell}
+\otimes_{\mathfrak A_0}
+\mathfrak A
+\right]_{\ell\ge0}.
+\]
+
+The term of bar degree $\ell$ is a direct sum over strict chains of exceptional blocks
+
+\[
+m_0<m_1<\cdots<m_\ell.
+\]
+
+No chain has length $\ell>c-2$.
+
+\noindent\emph{Proof.} This is the standard directed dg model associated to a semiorthogonal decomposition. The relative bar resolution over the diagonal subcategory resolves the identity bimodule. Since there are $c-1$ ordered components and $J$ is strictly triangular, there are no strict chains of length $c-1$ or more.
+
+\noindent\textbf{Lemma 4.4: kernel realization of bar terms.}
+
+Under the Fourier--Mukai realization of the Morita equivalence $\mathfrak A\simeq\mathcal E$, the bar term attached to a chain
+
+\[
+\sigma=(m_0<m_1<\cdots<m_\ell)
+\]
+
+is represented by the convolution
+
+\[
+K_{m_\ell}^{\mathrm{in}}
+*
+\mathcal M_{m_{\ell-1},m_\ell}
+*
+\cdots
+*
+\mathcal M_{m_0,m_1}
+*
+K_{m_0}^{\mathrm{out}}.
+\]
+
+This convolution is a kernel of the form
+
+\[
+(j\times j)_*
+\left(
+(p\times p)^*\mathcal O_{\Delta_Z}
+\otimes q_1^*L_\sigma
+\otimes q_2^*M_\sigma
+\otimes (p\times p)^*q_Z^*V_\sigma
+\right)[s_\sigma],
+\tag{4.3}
+\]
+
+where $L_\sigma,M_\sigma$ are line bundles on $E$, $V_\sigma\in\operatorname{Perf}(Z)$, and $s_\sigma\in\mathbb Z$. Hence every such chain kernel has product depth at most $d_Z$.
+
+\noindent\emph{Proof.} Each middle factor $\mathcal M_{m_i,m_{i+1}}$ is represented on $Z\times Z$ by
+
+\[
+\Delta_{Z*}V_i.
+\]
+
+Convolution of diagonal kernels is diagonal:
+
+\[
+\Delta_{Z*}V_1 * \Delta_{Z*}V_2
+\simeq
+\Delta_{Z*}(V_1\otimes V_2).
+\]
+
+By induction,
+
+\[
+\mathcal M_{m_{\ell-1},m_\ell}
+*
+\cdots
+*
+\mathcal M_{m_0,m_1}
+\simeq
+\Delta_{Z*}V_\sigma
+\]
+
+for
+
+\[
+V_\sigma:=V_{\ell-1}\otimes\cdots\otimes V_0.
+\]
+
+Inserting the endpoint kernels gives (4.3) by Lemma 4.2. The product-depth estimate follows by replacing $\mathcal O_{\Delta_Z}$ with the fixed product complex $P_Z^\bullet$.
+
+\noindent\textbf{Lemma 4.5: compatibility with the bar differential.}
+
+The product complexes representing the chain kernels in Lemma 4.4 may be chosen so that the bar differential has filtration degree (0) in the $P_Z^\bullet$-direction.
+
+\noindent\emph{Proof.} The same product complex
+
+\[
+P_Z^\bullet\to \mathcal O_{\Delta_Z}
+\]
+
+is used for every chain kernel. The data varying with the chain $\sigma$ are only
+
+\[
+L_\sigma,\quad M_\sigma,\quad V_\sigma,\quad s_\sigma.
+\]
+
+The face maps in the bar differential are induced by composition of adjacent block bimodules. On the kernel side, these maps are induced by canonical composition morphisms
+
+\[
+\Delta_{Z*}V_i * \Delta_{Z*}V_{i+1}
+\longrightarrow
+\Delta_{Z*}(V_i\otimes V_{i+1})
+\]
+
+and by the corresponding composition maps among endpoint line-bundle twists. These morphisms act on the coefficient factors
+
+\[
+q_1^*L_\sigma
+\otimes q_2^*M_\sigma
+\otimes (p\times p)^*q_Z^*V_\sigma
+\]
+
+and leave the fixed product complex $P_Z^\bullet$ unchanged. Therefore each face map is represented by a morphism of product twisted complexes of degree (0) in the $P_Z^\bullet$-filtration.
+
+\noindent\textbf{Proposition 4.6: exceptional projector depth.}
+
+The exceptional projector kernel $K_{\mathcal E}$ satisfies
+
+\[
+\operatorname{pdepth}_Y(K_{\mathcal E})
+\le
+\operatorname{CPD}(Z)+c-2.
+\]
+
+\noindent\emph{Proof.} The relative bar complex of Lemma 4.3 resolves the identity bimodule of the directed dg category modeling $\mathcal E$. Under the Fourier--Mukai realization, it becomes a twisted complex resolving the exceptional projector kernel $K_{\mathcal E}$.
+
+The bar complex has bar degree
+
+\[
+0\le \ell\le c-2.
+\]
+
+By Lemma 4.4, each bar-degree-$\ell$ summand is represented by a product twisted complex of amplitude $d_Z$. By Lemma 4.5, the bar differential is compatible with the $P_Z^\bullet$-filtration. Thus totalizing with
+
+\[
+\deg_{\mathrm{tot}}=\deg_{P_Z}+\ell
+\]
+
+gives a product twisted complex of amplitude
+
+\[
+d_Z+c-2.
+\]
+
+This proves the proposition.
+
+\section{The blow-up theorem}
+
+\noindent\textbf{Theorem 5.1.}
+
+Let $X$ be smooth proper and let $Z\subset X$ be a smooth closed subvariety of codimension $c$. Let
+
+\[
+Y=\operatorname{Bl}_ZX.
+\]
+
+Then
+
+\[
+\operatorname{CPD}(Y)
+\le
+\max\left\{
+\operatorname{CPD}(X),
+\operatorname{CPD}(Z)+c-1
+\right\}.
+\]
+
+\noindent\emph{Proof.} If $c=1$, the blow-up is isomorphic to $X$, so the result is immediate. Assume $c\ge2$.
+
+Set
+
+\[
+d_X:=\operatorname{CPD}(X),
+\qquad
+d_Z:=\operatorname{CPD}(Z).
+\]
+
+By (3.4),
+
+\[
+\operatorname{pdepth}_Y(K_X)\le d_X.
+\]
+
+By Proposition 4.6,
+
+\[
+\operatorname{pdepth}_Y(K_{\mathcal E})\le d_Z+c-2.
+\]
+
+Using the triangle
+
+\[
+K_X\longrightarrow \mathcal O_{\Delta_Y}\longrightarrow K_{\mathcal E}
+\]
+
+and the resolved cone-splicing Lemma 2.5, we obtain
+
+\[
+\operatorname{CPD}(Y)
+\le
+\max\{d_X,d_Z+c-1\}.
+\]
+
+\noindent\textbf{Corollary 5.2: defect form.}
+
+Let
+
+\[
+\eta(T):=\operatorname{CPD}(T)-\dim T.
+\]
+
+Then
+
+\[
+\eta(\operatorname{Bl}_ZX)
+\le
+\max\{\eta(X),\eta(Z)-1\}.
+\]
+
+\noindent\emph{Proof.} Since
+
+\[
+\dim Z+c=\dim X=\dim Y,
+\]
+
+Theorem 5.1 gives
+
+\[
+\begin{aligned}
+\eta(Y)
+&\le
+\max\{
+\operatorname{CPD}(X)-\dim X,
+\operatorname{CPD}(Z)+c-1-\dim X
+\}\\
+&=
+\max\{\eta(X),\eta(Z)-1\}.
+\end{aligned}
+\]
+
+\noindent\textbf{Corollary 5.3.}
+
+If $X$ is CPD-optimal and $\eta(Z)\le1$, then $\operatorname{Bl}_ZX$ is CPD-optimal. In particular, if both $X$ and $Z$ are CPD-optimal, then $\operatorname{Bl}_ZX$ is CPD-optimal.
+
+\noindent\emph{Proof.} If $X$ is CPD-optimal, then
+
+\[
+\eta(X)=0.
+\]
+
+If
+
+\[
+\eta(Z)\le1,
+\]
+
+then Corollary 5.2 gives
+
+\[
+\eta(\operatorname{Bl}_ZX)\le0.
+\]
+
+Since $\operatorname{CPD}(Y)\ge\dim Y$, we have $\eta(Y)=0$.
+
+\noindent\textbf{Lemma 5.4: blow-down monotonicity.}
+
+Let
+
+\[
+f:Y=\operatorname{Bl}_ZX\to X.
+\]
+
+Then
+
+\[
+\operatorname{CPD}(X)\le\operatorname{CPD}(Y).
+\]
+
+\noindent\emph{Proof.} Since
+
+\[
+Rf_*\mathcal O_Y\simeq\mathcal O_X,
+\]
+
+we have
+
+\[
+R(f\times f)_*\mathcal O_{\Delta_Y}
+\simeq
+\mathcal O_{\Delta_X}.
+\]
+
+Indeed,
+
+\[
+(f\times f)\circ \Delta_Y=\Delta_X\circ f.
+\]
+
+Applying $R(f\times f)_*$ to a product complex for $\mathcal O_{\Delta_Y}$ gives a product complex for $\mathcal O_{\Delta_X}$, because
+
+\[
+R(f\times f)_*(A\boxtimes B)
+\simeq
+Rf_*A\boxtimes Rf_*B.
+\]
+
+Thus
+
+\[
+\operatorname{CPD}(X)\le\operatorname{CPD}(Y).
+\]
+
+\section{Wonderful compactifications}
+
+We recall the minimum needed from the theory of wonderful compactifications.
+
+Let $X$ be smooth proper. A clean arrangement $\mathcal S$ is a finite collection of smooth closed subvarieties, closed under clean intersections. A building set $\mathcal G\subseteq\mathcal S$ is a subcollection such that every stratum $S\in\mathcal S$ is obtained as a transverse intersection of the minimal elements of $\mathcal G$ containing $S$.
+
+The wonderful model $X_{\mathcal G}$ is obtained by blowing up the elements of $\mathcal G$ in an admissible order. If
+
+\[
+G_1,\dots,G_N
+\]
+
+is such an order, set
+
+\[
+X_0=X,
+\qquad
+X_k=\operatorname{Bl}_{C_k}X_{k-1},
+\]
+
+where $C_k\subset X_{k-1}$ is the dominant transform of $G_k$. Then
+
+\[
+X_N=X_{\mathcal G},
+\]
+
+and all $C_k$ are smooth.
+
+We use the following trace property.
+
+\noindent\textbf{Lemma 6.1: trace centers.}
+
+After blowing up $G_1,\dots,G_{k-1}$, the center $C_k$ is the wonderful model of $G_k$ for the trace building set induced by the earlier centers. Its strata are precisely the strata
+
+\[
+S\in\mathcal S(\mathcal G)
+\]
+
+such that
+
+\[
+S\subseteq G_k.
+\]
+
+Moreover,
+
+\[
+\operatorname{codim}_{X_{k-1}}C_k
+\operatorname{codim}_XG_k,
+\]
+
+and for $S\subseteq G_k$,
+
+\[
+\operatorname{codim}_{G_k}S+\operatorname{codim}_XG_k
+\operatorname{codim}_XS.
+\]
+
+\noindent\emph{Proof.} This is the standard compatibility of dominant transforms with clean restriction in the construction of wonderful models. The admissibility of the order guarantees that the earlier centers restrict to a building set on $G_k$, and cleanliness gives additivity of codimension.
+
+\noindent\textbf{Theorem 6.2: wonderful defect bound.}
+
+Let $X$ be smooth proper and let $\mathcal G$ be a clean building set with induced arrangement $\mathcal S(\mathcal G)$, including $X$. Then
+
+\[
+\operatorname{CPD}(X_{\mathcal G})
+\le
+\max\left\{
+\operatorname{CPD}(X),
+\max_{\substack{S\in\mathcal S(\mathcal G)\\ S\ne X}}
+\bigl(
+\operatorname{CPD}(S)+\operatorname{codim}_XS-1
+\bigr)
+\right\}.
+\]
+
+Equivalently,
+
+\[
+\eta(X_{\mathcal G})
+\le
+\max\left\{
+\eta(X),
+\max_{\substack{S\in\mathcal S(\mathcal G)\\ S\ne X}}
+(\eta(S)-1)
+\right\}.
+\]
+
+\noindent\emph{Proof.} Let
+
+\[
+M:=
+\max\left\{
+\operatorname{CPD}(X),
+\max_{\substack{S\in\mathcal S(\mathcal G)\\ S\ne X}}
+\bigl(
+\operatorname{CPD}(S)+\operatorname{codim}_XS-1
+\bigr)
+\right\}.
+\]
+
+We prove by induction over an admissible blow-up order that
+
+\[
+\operatorname{CPD}(X_k)\le M.
+\]
+
+For $k=0$, this is true by the definition of $M$.
+
+Assume it for $X_{k-1}$. By Theorem 5.1,
+
+\[
+\operatorname{CPD}(X_k)
+\le
+\max\left\{
+\operatorname{CPD}(X_{k-1}),
+\operatorname{CPD}(C_k)+
+\operatorname{codim}_{X_{k-1}}C_k-1
+\right\}.
+\]
+
+It remains to bound the second term.
+
+By Lemma 6.1, $C_k$ is the wonderful model of $G_k$ for the trace building set. We apply the present theorem by induction on the pair
+
+\[
+(\dim X,\ |\mathcal G|)
+\]
+
+ordered lexicographically. Since $G_k$ has smaller dimension than $X$, the induction is well-founded. We get
+
+\[
+\operatorname{CPD}(C_k)
+\le
+\max\left\{
+\operatorname{CPD}(G_k),
+\max_{S\subsetneq G_k}
+\bigl(
+\operatorname{CPD}(S)+\operatorname{codim}_{G_k}S-1
+\bigr)
+\right\}.
+\]
+
+Adding
+
+\[
+\operatorname{codim}_{X_{k-1}}C_k-1
+\operatorname{codim}_XG_k-1
+\]
+
+gives two types of terms.
+
+First,
+
+\[
+\operatorname{CPD}(G_k)+\operatorname{codim}_XG_k-1\le M.
+\]
+
+Second, for $S\subsetneq G_k$,
+
+\[
+\begin{aligned}
+&
+\operatorname{CPD}(S)
++\operatorname{codim}_{G_k}S-1
++\operatorname{codim}_XG_k-1
+\\
+&=
+\operatorname{CPD}(S)+\operatorname{codim}_XS-2
+\le M.
+\end{aligned}
+\]
+
+Thus
+
+\[
+\operatorname{CPD}(C_k)+
+\operatorname{codim}_{X_{k-1}}C_k-1
+\le M.
+\]
+
+Therefore
+
+\[
+\operatorname{CPD}(X_k)\le M.
+\]
+
+At the final step, $X_N=X_{\mathcal G}$, so the theorem follows.
+
+\noindent\textbf{Corollary 6.3.}
+
+If every stratum $S\in\mathcal S(\mathcal G)$ is CPD-optimal, then $X_{\mathcal G}$ is CPD-optimal.
+
+\noindent\emph{Proof.} For $S=X$, the contribution is
+
+\[
+\operatorname{CPD}(X)=\dim X.
+\]
+
+For $S\ne X$,
+
+\[
+\operatorname{CPD}(S)+\operatorname{codim}_XS-1
+\dim S+\operatorname{codim}_XS-1
+\dim X-1.
+\]
+
+Thus Theorem 6.2 gives
+
+\[
+\operatorname{CPD}(X_{\mathcal G})\le \dim X.
+\]
+
+Since
+
+\[
+\dim X_{\mathcal G}=\dim X
+\]
+
+and
+
+\[
+\operatorname{CPD}(X_{\mathcal G})\ge\dim X_{\mathcal G},
+\]
+
+equality follows.
+
+\section{Linear wonderful models and moduli spaces of pointed curves}
+
+\noindent\textbf{Proposition 7.1: linear wonderful models.}
+
+Let $X=\mathbb P^N$, and let $\mathcal G$ be a building set of linear subspaces. Then the wonderful model $X_{\mathcal G}$ is CPD-optimal:
+
+\[
+\operatorname{CPD}(X_{\mathcal G})=\dim X_{\mathcal G}.
+\]
+
+\noindent\emph{Proof.} Every stratum of a linear arrangement is a projective space. By Lemma 2.8, projective spaces are CPD-optimal. The result follows from Corollary 6.3.
+
+\noindent\textbf{Theorem 7.2: Rouquier dimension of $\overline M_{0,n}$.}
+
+For all $n\ge3$,
+
+\[
+\operatorname{Rdim}D^b_{\mathrm{coh}}(\overline M_{0,n})=n-3.
+\]
+
+\noindent\emph{Proof.} Kapranov realizes $\overline M_{0,n}$ as an iterated blow-up of
+
+\[
+\mathbb P^{n-3}
+\]
+
+along the linear spans of subsets of $n-1$ points in linear general position, blown up in increasing order of dimension. Equivalently, this is the wonderful model of the corresponding linear arrangement.
+
+By Proposition 7.1,
+
+\[
+\operatorname{CPD}(\overline M_{0,n})
+\dim \overline M_{0,n}
+n-3.
+\]
+
+By Lemma 2.6,
+
+\[
+\operatorname{Rdim}D^b_{\mathrm{coh}}(\overline M_{0,n})
+\le
+\operatorname{CPD}(\overline M_{0,n})
+n-3.
+\]
+
+Rouquier's lower bound gives
+
+\[
+\operatorname{Rdim}D^b_{\mathrm{coh}}(\overline M_{0,n})
+\ge
+\dim \overline M_{0,n}
+n-3.
+\]
+
+Thus equality holds.
+
+\noindent\textbf{Remark 7.3: relation with the Castravet--Tevelev program.}
+
+Castravet and Tevelev construct full $S_n$-invariant exceptional collections on $\overline M_{0,n}$. Their construction is crucial for equivariant and representation-theoretic refinements. The proof above is different: it is non-equivariant and uses only Kapranov's blow-up model together with Theorem 5.1. In particular, it does not rely on diagonal-depth optimality for the even Hassett blocks appearing in the Castravet--Tevelev reduction.
+
+\section{Fulton--MacPherson compactifications}
+
+Let $X$ be smooth proper of dimension $d$. The Fulton--MacPherson compactification $X[n]$ is the wonderful compactification of $X^n$ associated to the building set of diagonals
+
+\[
+\Delta_I\subset X^n,
+\qquad
+|I|\ge2.
+\]
+
+The strata of the polydiagonal arrangement are products $X^r$, corresponding to partitions of ${1,\dots,n}$ into $r$ blocks.
+
+\noindent\textbf{Theorem 8.1.}
+
+For every smooth proper $X$,
+
+\[
+\operatorname{CPD}(X[n])
+\le
+n,\operatorname{CPD}(X).
+\]
+
+If $X$ is CPD-optimal, then $X[n]$ is CPD-optimal. Consequently,
+
+\[
+\operatorname{Rdim}D^b_{\mathrm{coh}}(X[n])
+\dim X[n].
+\]
+
+\noindent\emph{Proof.} Let
+
+\[
+e:=\operatorname{CPD}(X),
+\qquad
+d:=\dim X.
+\]
+
+By Lemma 2.7,
+
+\[
+\operatorname{CPD}(X^n)\le ne.
+\]
+
+A proper polydiagonal stratum is isomorphic to $X^r$ for some $1\le r<n$. Its codimension in $X^n$ is
+
+\[
+(n-r)d.
+\]
+
+Again by Lemma 2.7,
+
+\[
+\operatorname{CPD}(X^r)\le re.
+\]
+
+The contribution of this stratum in Theorem 6.2 is at most
+
+\[
+re+(n-r)d-1.
+\]
+
+Since $e\ge d$, this is at most
+
+\[
+ne-1.
+\]
+
+The ambient term contributes at most (ne). Hence
+
+\[
+\operatorname{CPD}(X[n])\le ne.
+\]
+
+If $X$ is CPD-optimal, then $e=d$, and the bound becomes
+
+\[
+\operatorname{CPD}(X[n])\le nd=\dim X[n].
+\]
+
+The reverse inequality follows from Rouquier's lower bound and Lemma 2.6.
+
+\noindent\textbf{Corollary 8.2.}
+
+For every $d\ge0$ and $n\ge1$,
+
+\[
+\operatorname{CPD}(\mathbb P^d[n])=nd,
+\]
+
+and
+
+\[
+\operatorname{Rdim}D^b_{\mathrm{coh}}(\mathbb P^d[n])=nd.
+\]
+
+More generally, the same holds for $X[n]$ whenever $X$ is CPD-optimal.
+
+\section{Birational consequences in dimension at most three}
+
+In this section assume $k$ has characteristic zero.
+
+\noindent\textbf{Lemma 9.1.}
+
+Let
+
+\[
+f:Y=\operatorname{Bl}_ZX\to X
+\]
+
+be a blow-up along a smooth center. If $Y$ is CPD-optimal, then $X$ is CPD-optimal.
+
+\noindent\emph{Proof.} By Lemma 5.4,
+
+\[
+\operatorname{CPD}(X)\le \operatorname{CPD}(Y)=\dim Y=\dim X.
+\]
+
+The reverse inequality follows from Rouquier's lower bound and Lemma 2.6. Hence $X$ is CPD-optimal.
+
+\noindent\textbf{Lemma 9.2.}
+
+If $C$ is a smooth proper curve, then
+
+\[
+\eta(C)\le1.
+\]
+
+\noindent\emph{Proof.} If $C\simeq\mathbb P^1$, then $C$ is CPD-optimal. If $C$ has positive genus, then its diagonal dimension is (2). Thus
+
+\[
+\operatorname{CPD}(C)\le2,
+\]
+
+and since
+
+\[
+\dim C=1,
+\]
+
+we get
+
+\[
+\eta(C)\le1.
+\]
+
+Points have defect (0).
+
+\noindent\textbf{Theorem 9.3.}
+
+Over a field of characteristic zero, CPD-optimality is a birational invariant for smooth projective varieties of dimension at most three.
+
+\noindent\emph{Proof.} Let $X$ and $Y$ be smooth projective birational varieties of dimension at most three. By weak factorization, the birational map between them factors into a sequence of blow-ups and blow-downs along smooth centers.
+
+A nontrivial smooth blow-up center in dimension at most three has dimension (0) or (1). Points have defect (0), and smooth proper curves have defect at most (1) by Lemma 9.2. Therefore Corollary 5.3 shows that blowing up preserves CPD-optimality, and Lemma 9.1 shows that blowing down preserves CPD-optimality.
+
+Thus CPD-optimality is preserved along the factorization.
+
+\noindent\textbf{Corollary 9.4.}
+
+Every smooth projective rational variety of dimension at most three is CPD-optimal. In particular, if $X$ is such a variety, then
+
+\[
+\operatorname{Rdim}D^b_{\mathrm{coh}}(X)=\dim X.
+\]
+
+\noindent\emph{Proof.} A smooth projective rational variety of dimension at most three is birational to $\mathbb P^d$. Projective space is CPD-optimal by Lemma 2.8. Apply Theorem 9.3 and Lemma 2.6.
+
+\section{Further directions}
+
+\subsection{Equivariant and stacky versions}
+
+The arguments in this paper are non-equivariant. If a finite group $G$ acts on a building set $(X,\mathcal G)$, it is natural to ask for an equivariant version for quotient stacks
+
+\[
+[X_{\mathcal G}/G].
+\]
+
+One expects a bound in terms of stabilizer-equivariant defects of the strata. Such a theorem would apply to unordered configuration compactifications and to quotient stacks such as
+
+\[
+[\overline M_{0,n}/S_n].
+\]
+
+\subsection{Castravet--Tevelev and Hassett spaces}
+
+The Castravet--Tevelev construction gives full $S_n$-invariant exceptional collections on $\overline M_{0,n}$ and passes through Hassett spaces. The proof in this paper bypasses this route for the non-equivariant Rouquier dimension. However, the equivariant problem should still require understanding the diagonal depth of the Hassett blocks appearing in their construction, especially the even/torsion blocks.
+
+\subsection{Beyond dimension three}
+
+The birational argument in Section 9 is special to dimension at most three. In dimension four, weak factorization may involve smooth surface centers. Smooth surfaces can have diagonal-depth defect larger than one, so Theorem 5.1 no longer implies birational invariance of optimality. The correct higher-dimensional birational statement should involve the maximal defect of centers appearing in a weak factorization.
+
+\begin{thebibliography}{99}
+\bibitem{AKMW02}
+D. Abramovich, K. Karu, K. Matsuki, and J. Wlodarczyk, Torification and factorization of birational maps, J. Amer. Math. Soc. 15 (2002), 531--572.
+
+\bibitem{Bei78}
+A. Beilinson, Coherent sheaves on $\mathbb P^n$ and problems in linear algebra, Functional Analysis and Its Applications 12 (1978), 214--216.
+
+\bibitem{BFK12}
+M. Ballard, D. Favero, and L. Katzarkov, Orlov spectra: bounds and gaps, Invent. Math. 189 (2012), 359--430.
+
+\bibitem{CT}
+A.-M. Castravet and J. Tevelev, Derived category of moduli of pointed curves II, arXiv:2002.02889.
+
+\bibitem{DCP95}
+C. De Concini and C. Procesi, Wonderful models of subspace arrangements, Selecta Math. $N.S.$ 1 (1995), 459--494.
+
+\bibitem{EL21}
+A. Elagin and V. Lunts, Three notions of dimension for triangulated categories, J. Algebra 569 (2021), 334--376.
+
+\bibitem{FM94}
+W. Fulton and R. MacPherson, A compactification of configuration spaces, Ann. of Math. 139 (1994), 183--225.
+
+\bibitem{Kap93a}
+M. Kapranov, Chow quotients of Grassmannians I, in I. M. Gelfand Seminar, Adv. Soviet Math. 16, Part 2, Amer. Math. Soc., 1993, 29--110.
+
+\bibitem{Kap93b}
+M. Kapranov, Veronese curves and Grothendieck--Knudsen moduli space $\overline M_{0,n}$, J. Algebraic Geom. 2 (1993), 239--262.
+
+\bibitem{Kel94}
+B. Keller, Deriving DG categories, Ann. Sci. Ecole Norm. Sup. 27 (1994), 63--102.
+
+\bibitem{Li09a}
+L. Li, Wonderful compactification of an arrangement of subvarieties, Michigan Math. J. 58 (2009), no. 2, 535--563.
+
+\bibitem{Li09b}
+L. Li, Chow motives of wonderful compactifications, J. Differential Geom. 81 (2009), no. 1, 167--199.
+
+\bibitem{Ola24}
+N. Olander, Diagonal dimension of curves, Int. Math. Res. Not. IMRN 2024, no. 10, 8172--8184.
+
+\bibitem{Orl93}
+D. Orlov, Projective bundles, monoidal transformations, and derived categories of coherent sheaves, Izv. Math. 41 (1993), 133--141.
+
+\bibitem{Pir19}
+A. Pirozhkov, Rouquier dimension of some blow-ups, arXiv:1908.08283.
+
+\bibitem{Rou08}
+R. Rouquier, Dimensions of triangulated categories, J. K-Theory 1 (2008), 193--256.
+
+\bibitem{Uly99}
+A. Ulyanov, Polydiagonal compactification of configuration spaces, arXiv:math/9904049.
+\end{thebibliography}
+\end{document}

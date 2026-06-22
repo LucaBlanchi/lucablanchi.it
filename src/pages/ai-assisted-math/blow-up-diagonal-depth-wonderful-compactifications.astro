@@ -3,13 +3,13 @@ import { readFileSync } from "node:fs";
 import AiAssistedMathNotice from "../../components/AiAssistedMathNotice.astro";
 import PreliminaryStatusNotice from "../../components/PreliminaryStatusNotice.astro";
 import SectionBackLink from "../../components/SectionBackLink.astro";
-import { renderMarkdownPaper } from "../../lib/markdownPaper";
+import { renderTexPaper } from "../../lib/texPaper";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const assetBase = "/assets/ai-assisted-math/conway-thrackle-proof-strategy";
-const stem = "switch-corridors-boundary-rigid-lenses-conway";
-const paper = renderMarkdownPaper(readFileSync(`public${assetBase}/${stem}.md`, "utf8"), {
-  idPrefix: "conway",
+const assetBase = "/assets/ai-assisted-math/blow-up-diagonal-depth-wonderful-compactifications";
+const stem = "blow-up-diagonal-depth-wonderful-compactifications";
+const paper = renderTexPaper(readFileSync(`public${assetBase}/${stem}.tex`, "utf8"), {
+  idPrefix: "cat-blow-up",
 });
 
 const pdfHref = `${assetBase}/${stem}.pdf`;
@@ -17,9 +17,9 @@ const texHref = `${assetBase}/${stem}.tex`;
 ---
 
 <BaseLayout
-  title="Switch Corridors and Boundary-Rigid Lenses in Even Dumbbell Thrackles"
-  description="A proof strategy for Conway's thrackle conjecture via boundary-rigid switch corridors."
-  currentPath="/ai-assisted-math/conway-thrackle-proof-strategy.html"
+  title="Blow-up Diagonal Depth and Wonderful Compactifications"
+  description="A preliminary AI-assisted note on coherent product diagonal depth, blow-ups, wonderful compactifications, and Rouquier dimension."
+  currentPath="/ai-assisted-math/blow-up-diagonal-depth-wonderful-compactifications.html"
   bodyClass="paper-surface"
 >
   <script is:inline>
@@ -43,7 +43,7 @@ const texHref = `${assetBase}/${stem}.tex`;
           <time datetime="2026-06">June 2026</time>
         </div>
         <h1>{paper.title}</h1>
-        <p class="paper-author">Luca Blanchi</p>
+        <p class="paper-author">{paper.author}</p>
         <div class="paper-actions" aria-label="Downloads">
           <a href={pdfHref} download>Download PDF</a>
           <a href={texHref} download>Download TeX</a>
@@ -62,7 +62,7 @@ const texHref = `${assetBase}/${stem}.tex`;
             paper.tocEntries.map((entry) => (
               <li class={entry.level === "subsection" ? "paper-toc-subsection" : undefined}>
                 <a href={`#${entry.id}`}>
-                  {entry.number && <span>{entry.number}</span>}
+                  <span>{entry.number}</span>
                   {entry.title}
                 </a>
               </li>
@@ -72,6 +72,11 @@ const texHref = `${assetBase}/${stem}.tex`;
       </nav>
 
       <div class="paper-body" set:html={paper.bodyHtml} />
+
+      <section class="paper-references" aria-label={`${paper.title} references`}>
+        <h2>References</h2>
+        <div set:html={paper.bibliographyHtml} />
+      </section>
     </article>
   </main>
 </BaseLayout>

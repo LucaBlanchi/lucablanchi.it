@@ -1,0 +1,427 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\DeclareMathOperator{\Rdim}{Rdim}
+\DeclareMathOperator{\RHom}{RHom}
+\DeclareMathOperator{\SPD}{SPD}
+\DeclareMathOperator{\dep}{dep}
+\newcommand{\Db}{D^b_{\mathrm{coh}}}
+\newcommand{\OO}{\mathcal O}
+\newcommand{\boxt}{\boxtimes}
+\begin{document}
+\title[Dependency depth and odd Hassett spaces]{Dependency Depth, Strict Product Diagonal Depth, and Rouquier Dimension of Odd Hassett Spaces}
+\author{Luca Blanchi}
+\date{June 2026}
+\begin{abstract}
+We introduce a presentational invariant of exceptional collections, the dependency depth, measuring the height of the directed graph of nonzero Ext-dependencies rather than the number of exceptional objects. We use a strict product variant of diagonal dimension, called strict product diagonal depth, to make the projective-bundle step explicit at the level of diagonal kernels. Applying this to the full strong exceptional collections of Castravet--Tevelev on the symmetric Hassett spaces $M_p$ with $p$ odd, and then to their odd-heavy towers $M_{p,q}$, we obtain
+\[
+\Rdim \Db(M_p)=p-3,
+\qquad
+\Rdim \Db(M_{p,q})=p+q-3
+\]
+for all odd $p$. The even-heavy case and the moduli spaces $\overline M_{0,n}$ require additional control of the torsion blocks in the Castravet--Tevelev collections and are left as the next step.
+\end{abstract}
+\maketitle
+
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+During the preparation of this work, ChatGPT, by OpenAI, was used to assist with mathematical drafting, formalization, review, and editing. This work is shared as a preliminary AI-assisted mathematical note. The mathematical content may have been only partially reviewed and may contain errors; it should not be treated as peer-reviewed or as a fully verified manuscript.
+
+\section*{Preliminary status}
+This note is shared as a preliminary research note. Some arguments, reductions, or technical lemmas may still contain gaps, errors, or unverified steps; the text should be read as a working draft rather than as a fully checked manuscript.
+
+\section{Introduction}
+
+Rouquier dimension measures the minimum number of cone layers needed to generate a triangulated category from one object. It is therefore a categorical analogue of parallel time rather than of total presentation length. A full exceptional collection may be very long, but its useful generation depth can be much smaller if many objects are mutually orthogonal or if the collection decomposes into shallow dependency layers.
+
+The purpose of this note is to isolate a simple invariant of exceptional presentations, the dependency depth, and to apply it to the exceptional collections of Castravet--Tevelev on odd Hassett spaces. The guiding principle is
+\[
+\text{presentation volume is not presentation depth.}
+\]
+The number of objects in an exceptional collection measures work. The height of the Ext-dependency graph measures the sequential depth forced by the presentation.
+
+The main geometric application is the following.
+
+\begin{theorem}
+Let $p\ge 3$ be odd and let $q\ge0$. Let $M_{p,q}$ be the Hassett space with $p$ heavy markings and $q$ light markings in the sense of Castravet--Tevelev. Then
+\[
+\Rdim \Db(M_{p,q})=p+q-3.
+\]
+\end{theorem}
+
+For $q=0$, this is extracted directly from the full strong exceptional collection of Castravet--Tevelev on $M_p$. For $q>0$, we use their description of $M_{p,q}\to M_p$ as an iterated $q$-fold universal $\mathbb P^1$-bundle, together with a strict product diagonal estimate for $\mathbb P^1$-bundles.
+
+The lower bound is Rouquier's geometric lower bound
+\[
+\Rdim \Db(X)\ge \dim X
+\]
+for reduced separated schemes of finite type over a field. The contribution here is the optimal upper bound, extracted from the presentation.
+
+The method is deliberately modest. We do not treat the even-heavy Hassett spaces, where the Castravet--Tevelev collections include torsion sheaves supported on collision loci, and we do not prove the corresponding statement for $\overline M_{0,n}$ by this route. Those require a further analysis of the torsion blocks and their strict product diagonal depth.
+
+\section{Rouquier dimension and generation time}
+
+We fix a field $k$. All schemes are assumed to be separated and of finite type over $k$, and all derived categories are bounded derived categories of coherent sheaves unless stated otherwise.
+
+Let $\mathcal T$ be an idempotent-complete triangulated category. For an object $G\in\mathcal T$, let $\langle G\rangle_0$ denote the smallest full subcategory of $\mathcal T$ containing $G$ and closed under finite direct sums, direct summands, and shifts. Define inductively
+\[
+\langle G\rangle_{d+1}
+=
+\operatorname{add}\bigl(\langle G\rangle_d * \langle G\rangle_0\bigr),
+\]
+where $\mathcal A*\mathcal B$ consists of objects $C$ fitting into a distinguished triangle
+\[
+A\to C\to B\to A[1]
+\]
+with $A\in\mathcal A$ and $B\in\mathcal B$, and where $\operatorname{add}$ denotes closure under finite sums, shifts, and direct summands.
+
+The Rouquier dimension of $\mathcal T$ is
+\[
+\Rdim(\mathcal T)=
+\inf\{d:\exists G\in\mathcal T,\ \mathcal T=\langle G\rangle_d\}.
+\]
+
+\begin{remark}
+Some authors use a shifted convention, writing $\langle G\rangle_{d+1}$ for what is here $\langle G\rangle_d$. All statements below use the convention just fixed: $d$ means $d$ cone layers.
+\end{remark}
+
+We shall use Rouquier's lower bound: if $X$ is a reduced separated scheme of finite type over a field, then
+\[
+\Rdim \Db(X)\ge \dim X.
+\]
+
+\section{Dependency depth of exceptional presentations}
+
+Let
+\[
+\mathbb E=(E_1,\dots,E_N)
+\]
+be a full exceptional collection in a triangulated category $\mathcal T$. Define its dependency graph $Q_{\mathbb E}$ by putting an arrow
+\[
+E_i\longrightarrow E_j
+\]
+if $i\ne j$ and $\RHom(E_i,E_j)\ne0$. Since $\mathbb E$ is exceptional and ordered, this graph is acyclic.
+
+\begin{definition}
+The dependency depth of $\mathbb E$, denoted $\dep(\mathbb E)$, is the largest number of arrows in a directed path in $Q_{\mathbb E}$. Equivalently, it is the smallest integer $d$ for which there exists a function
+\[
+\rho:\mathbb E\to\{0,\dots,d\}
+\]
+such that
+\[
+\RHom(E,F)\ne0,\quad E\ne F
+\quad\Longrightarrow\quad
+\rho(E)<\rho(F).
+\]
+\end{definition}
+
+\begin{proposition}
+Let $\mathbb E$ be a full exceptional collection in $\mathcal T$. Then
+\[
+\Rdim(\mathcal T)\le \dep(\mathbb E).
+\]
+\end{proposition}
+
+\begin{proof}
+Choose a function $\rho:\mathbb E\to\{0,\dots,d\}$ satisfying the strict monotonicity condition, with $d=\dep(\mathbb E)$.
+
+For $0\le r\le d$, let
+\[
+\mathcal A_r=\langle E\in\mathbb E:\rho(E)=r\rangle.
+\]
+If $E,F$ are distinct exceptional objects with $\rho(E)=\rho(F)$, then both
+\[
+\RHom(E,F)=0,
+\qquad
+\RHom(F,E)=0.
+\]
+Indeed, any nonzero Ext in either direction would force a strict inequality between equal grades. Hence each $\mathcal A_r$ is generated in time $0$ by
+\[
+G_r=\bigoplus_{\rho(E)=r}E.
+\]
+
+Ordering the objects by increasing $\rho$, and refining within each grade arbitrarily, gives a semiorthogonal decomposition
+\[
+\mathcal T=
+\langle
+\mathcal A_0,\mathcal A_1,\dots,\mathcal A_d
+\rangle.
+\]
+Let
+\[
+G=\bigoplus_{r=0}^dG_r.
+\]
+Every object of $\mathcal T$ has a semiorthogonal filtration with one graded piece in each $\mathcal A_r$. Since all graded pieces lie in $\langle G\rangle_0$, reconstructing the object uses at most $d$ cones. Thus $\mathcal T=\langle G\rangle_d$, and therefore $\Rdim(\mathcal T)\le d$.
+\end{proof}
+
+\section{Strict product diagonal depth}
+
+We use a slightly stricter form of product diagonal generation than an abstract Postnikov tower. This avoids a technical ambiguity in the projective-bundle step, where the relative diagonal is cut out naturally on $Y\times_XY$, not on all of $Y\times Y$.
+
+Let $X$ be smooth and proper.
+
+\begin{definition}
+A strict product resolution of length $d$ of $\mathcal O_{\Delta_X}$ is a bounded complex
+\[
+P^\bullet=
+\left[
+P^{-d}\to P^{-d+1}\to\cdots\to P^0
+\right]
+\]
+on $X\times X$, quasi-isomorphic to $\mathcal O_{\Delta_X}$, such that every $P^{-i}$ is a finite direct sum of weak product vector bundles
+\[
+A\boxtimes B,
+\qquad
+A,B\in \operatorname{Vect}(X).
+\]
+We define the strict product diagonal depth by
+\[
+\SPD(X)=
+\inf\{d:\mathcal O_{\Delta_X}\text{ admits a strict product resolution of length }d\}.
+\]
+\end{definition}
+
+\begin{remark}
+This is a concrete product-kernel variant of diagonal dimension. It is stronger than merely requiring the diagonal to lie in the triangulated subcategory generated by product kernels in $d$ steps, but it is the right version for the present argument because it behaves transparently under the relative diagonal of a projective bundle.
+\end{remark}
+
+\begin{lemma}
+For smooth proper $X$,
+\[
+\Rdim D^b(X)\le \SPD(X).
+\]
+\end{lemma}
+
+\begin{proof}
+Let $P^\bullet\to \mathcal O_{\Delta_X}$ be a strict product resolution of length $d$. Write each term as a finite direct sum of products
+\[
+P^{-i}=\bigoplus_j A_{ij}\boxtimes B_{ij}.
+\]
+Let
+\[
+G=\bigoplus_{i,j}(A_{ij}\oplus B_{ij}).
+\]
+The Fourier--Mukai transform with kernel $A_{ij}\boxtimes B_{ij}$ sends every object of $D^b(X)$ to an object of $\langle G\rangle_0$. Since $\mathcal O_{\Delta_X}$ is the identity kernel, applying the complex $P^\bullet$ to any $F\in D^b(X)$ expresses $F$ by a length-$d$ complex whose terms lie in $\langle G\rangle_0$. Hence $F\in\langle G\rangle_d$, and $\Rdim D^b(X)\le d$.
+\end{proof}
+
+\section{Exceptional levels and strict diagonal depth}
+
+Let
+\[
+\mathbb E=(E_1,\dots,E_N)
+\]
+be a full exceptional collection of vector bundles on a smooth proper variety $X$. Suppose the collection is divided into ordered levels
+\[
+\mathbb E=\mathbb E_0\sqcup\mathbb E_1\sqcup\cdots\sqcup\mathbb E_d
+\]
+such that the collection is ordered by increasing level and, if $E,F\in\mathbb E_a$ with $E\ne F$, then
+\[
+\RHom(E,F)=0=\RHom(F,E).
+\]
+
+\begin{proposition}
+Under these hypotheses,
+\[
+\SPD(X)\le d.
+\]
+Consequently, $\Rdim D^b(X)\le d$.
+\end{proposition}
+
+\begin{proof}
+Let $\mathbb E^\vee$ be the dual exceptional collection. The standard resolution of the diagonal associated to a full exceptional collection gives a finite twisted complex whose terms are weak product kernels $(E_i^\vee)\boxtimes E_i$. Because objects in the same level are mutually completely orthogonal, the terms belonging to the same level may be grouped into a direct sum
+\[
+P_a=\bigoplus_{E_i\in\mathbb E_a}(E_i^\vee)\boxtimes E_i.
+\]
+The diagonal kernel $\mathcal O_{\Delta_X}$ is represented by a complex
+\[
+\left[
+P_0\to P_1\to\cdots\to P_d
+\right]
+\]
+up to the usual choice of signs and shifts dictated by the exceptional collection. Each $P_a$ is a finite direct sum of weak product vector bundles. Hence $\mathcal O_{\Delta_X}$ has a strict product resolution of length at most $d$, and $\SPD(X)\le d$.
+\end{proof}
+
+\section{The projective-bundle step}
+
+The following proposition is the technical point that replaces any false semiorthogonal-decomposition estimate.
+
+\begin{proposition}
+Let $X$ be smooth and proper, let $\mathcal V$ be a rank-two vector bundle on $X$, and let
+\[
+\pi:Y=\mathbb P_X(\mathcal V)\to X
+\]
+be the projective bundle of one-dimensional quotients of $\mathcal V$. Then
+\[
+\SPD(Y)\le \SPD(X)+1.
+\]
+\end{proposition}
+
+\begin{proof}
+Let
+\[
+f=\pi\times\pi:Y\times Y\to X\times X.
+\]
+Let $Z=Y\times_XY=f^{-1}(\Delta_X)$. Since $\pi$ is smooth, the square is Tor-independent, so
+\[
+\mathcal O_Z\simeq \mathbf L f^*\mathcal O_{\Delta_X}.
+\]
+Let $d=\SPD(X)$, and choose a strict product resolution $P^\bullet\to\mathcal O_{\Delta_X}$ of length $d$, with each term a finite direct sum of product vector bundles on $X\times X$. Pulling back gives a locally free resolution
+\[
+Q^\bullet:=\mathbf L f^*P^\bullet\to\mathcal O_Z
+\]
+on $Y\times Y$. Each term of $Q^\bullet$ is again a finite direct sum of product vector bundles, since
+\[
+f^*(A\boxtimes B)\simeq \pi^*A\boxtimes \pi^*B.
+\]
+
+We now cut out the relative diagonal inside $Z$. Let $p_1,p_2:Z=Y\times_XY\to Y$ be the two projections. Since $Y=\mathbb P_X(\mathcal V)$ parametrizes one-dimensional quotients, we have the universal sequence
+\[
+0\to \mathcal S\to \pi^*\mathcal V\to \mathcal O_Y(1)\to0,
+\]
+where $\mathcal S$ is a line bundle. The relative diagonal $\Delta_Y\subset Z$ is the zero locus of the natural morphism
+\[
+p_1^*\mathcal S\longrightarrow p_2^*\mathcal O_Y(1).
+\]
+Equivalently, it is cut out by a regular section of
+\[
+p_1^*\mathcal S^\vee\otimes p_2^*\mathcal O_Y(1).
+\]
+Thus on $Z$ there is an exact sequence
+\[
+0\to
+p_1^*\mathcal S\otimes p_2^*\mathcal O_Y(-1)
+\longrightarrow
+\mathcal O_Z
+\longrightarrow
+\mathcal O_{\Delta_Y}
+\to0.
+\]
+Let $M:=\mathcal S\boxtimes \mathcal O_Y(-1)$ on $Y\times Y$. The first term above is $\mathcal O_Z\otimes M$. Hence the relative diagonal is represented as the cone of a morphism
+\[
+\mathcal O_Z\otimes M\longrightarrow \mathcal O_Z.
+\]
+Since $Q^\bullet\to\mathcal O_Z$ is a locally free resolution, this morphism can be represented by a chain map
+\[
+Q^\bullet\otimes M\longrightarrow Q^\bullet.
+\]
+Its cone is a locally free complex quasi-isomorphic to $\mathcal O_{\Delta_Y}$. The cone complex has terms
+\[
+Q^{-i}\oplus (Q^{-i+1}\otimes M).
+\]
+Each $Q^{-i}$ is a finite direct sum of product vector bundles, and tensoring by the product line bundle $M=\mathcal S\boxtimes\mathcal O_Y(-1)$ preserves this property. Since $Q^\bullet$ has length $d$, the cone complex has length at most $d+1$. Hence $\SPD(Y)\le d+1=\SPD(X)+1$.
+\end{proof}
+
+\begin{corollary}
+If
+\[
+X_q\to X_{q-1}\to\cdots\to X_0
+\]
+is a tower of $q$ $\mathbb P^1$-bundles between smooth proper varieties, then
+\[
+\SPD(X_q)\le \SPD(X_0)+q.
+\]
+\end{corollary}
+
+\section{Odd Hassett spaces}
+
+We now apply the preceding formalism to the Hassett spaces considered by Castravet--Tevelev.
+
+Let $p=2r+1$ be odd. Let $M_p$ denote the symmetric Hassett space appearing in the Castravet--Tevelev construction. They construct a full strong $S_p$-equivariant exceptional collection
+\[
+F_{l,E}
+\]
+indexed by subsets $E\subseteq\{1,\dots,p\}$, with $e=|E|$, satisfying
+\[
+l+\min(e,p-e)\le r-1,
+\qquad
+l+e\equiv0\pmod 2.
+\]
+The collection is ordered by increasing $e$, and the order is arbitrary for fixed $e$.
+
+\begin{lemma}
+For $p=2r+1$, the number of nonempty $e$-levels in the Castravet--Tevelev collection on $M_p$ is $p-2$.
+\end{lemma}
+
+\begin{proof}
+The level $e$ is nonempty precisely when there exists $l\ge0$ such that
+\[
+l+\min(e,p-e)\le r-1
+\]
+and $l+e\equiv0\pmod2$. The smallest admissible $l$ is $0$ if $e$ is even and $1$ if $e$ is odd. For $0\le e\le r$, this gives $e+\epsilon(e)\le r-1$, where $\epsilon(e)=0$ for even $e$ and $\epsilon(e)=1$ for odd $e$. For $r+1\le e\le 2r+1$, by symmetry it is equivalent to the analogous condition for $p-e$, with the parity shifted. Counting the admissible levels on both sides gives $p-2=2r-1$ nonempty levels.
+\end{proof}
+
+\begin{theorem}
+For $p$ odd,
+\[
+\Rdim \Db(M_p)=p-3.
+\]
+\end{theorem}
+
+\begin{proof}
+The Castravet--Tevelev collection is full and strong. Since the order is arbitrary for fixed $e$, objects with the same $e$-value are mutually completely orthogonal. Therefore the collection has dependency depth equal to the number of nonempty $e$-levels minus $1$, namely $p-3$. The strict product diagonal estimate gives $\Rdim \Db(M_p)\le p-3$. Since $\dim M_p=p-3$, Rouquier's lower bound gives the reverse inequality.
+\end{proof}
+
+\section{Odd-heavy Hassett towers}
+
+Let $M_{p,q}$ be the Hassett space with $p$ heavy markings and $q$ light markings in the Castravet--Tevelev setting. For $p$ odd and $q>0$, Castravet--Tevelev describe $M_{p,q}\to M_p$ as an iterated $q$-fold universal $\mathbb P^1$-bundle, and their full exceptional collection is obtained by repeated application of the projective-bundle construction.
+
+\begin{theorem}
+Let $p\ge3$ be odd and let $q\ge0$. Then
+\[
+\Rdim \Db(M_{p,q})=p+q-3.
+\]
+\end{theorem}
+
+\begin{proof}
+For $q=0$, this is the previous theorem. For $q>0$, write $M_{p,q}$ as a tower of $q$ $\mathbb P^1$-bundles over $M_p$. By the previous theorem and the strict product diagonal estimate from the Castravet--Tevelev collection on $M_p$,
+\[
+\SPD(M_p)\le p-3.
+\]
+Iterating the projective-bundle step gives
+\[
+\SPD(M_{p,q})\le p-3+q=p+q-3.
+\]
+Therefore $\Rdim \Db(M_{p,q})\le p+q-3$. Since $\dim M_{p,q}=p+q-3$, Rouquier's lower bound gives equality.
+\end{proof}
+
+\section{Examples and outlook}
+
+For $p=5$, the admissible $e$-levels in $M_5$ are
+\[
+e=0,4,5.
+\]
+Thus the dependency depth is $2$, and $\Rdim \Db(M_5)=2=\dim M_5$.
+
+For $p=7$, the admissible $e$-levels are
+\[
+e=0,1,2,6,7.
+\]
+Thus the dependency depth is $4$, and $\Rdim \Db(M_7)=4=\dim M_7$.
+
+The even-heavy Hassett spaces $M_{p,q}$ with $p$ even are more subtle. In the Castravet--Tevelev collection, torsion sheaves supported on collision loci appear in the central wall-crossing block. The next problem is to analyze the strict product diagonal depth of these torsion blocks. This is the natural route toward the even case and toward equivariant refinements for $\overline M_{0,n}$.
+
+\begin{thebibliography}{9}
+\bibitem{CT}
+A.-M. Castravet and J. Tevelev, \emph{Derived category of moduli of pointed curves II}, arXiv:2002.02889.
+
+\bibitem{EL}
+A. Elagin and V. Lunts, \emph{Three notions of dimension for triangulated categories}, J. Algebra 569 (2021), 334--376.
+
+\bibitem{OrlovProjective}
+D. Orlov, \emph{Projective bundles, monoidal transformations, and derived categories of coherent sheaves}, Izv. Math. 41 (1993), 133--141.
+
+\bibitem{Rouquier}
+R. Rouquier, \emph{Dimensions of triangulated categories}, J. K-Theory 1 (2008), no. 2, 193--256.
+\end{thebibliography}
+\end{document}
