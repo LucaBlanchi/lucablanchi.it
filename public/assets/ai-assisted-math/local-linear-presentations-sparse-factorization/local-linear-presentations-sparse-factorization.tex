@@ -1,0 +1,534 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{example}[theorem]{Example}
+
+\title{Local Linear Presentations and Sparse Factorization Complexity}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We introduce two algebraic invariants for exact linear representation problems: local presentation rank and sparse factorization complexity. Let $P\subseteq \mathbb F^n$ be a family of linear observers. The $t$-local presentation rank $\lambda_t(P)$ is the minimum number of stored linear atoms $B=\{b_1,\ldots,b_s\}\subseteq \mathbb F^n$ such that every observer in $P$ is a linear combination of at most $t$ atoms from $B$. We prove that $\lambda_t(P)$ exactly characterizes static exact linear data structures with $s$ stored linear cells and $t$-probe linear queries. Over finite fields, $\lambda_t(P)$ satisfies a sphere-covering lower bound, and for the full observer space $P=\mathbb F_q^r$ it is exactly the minimum length of a $q$-ary linear code of codimension $r$ and covering radius at most $t$.
+
+We then study dynamic exact linear representations. Given a workload matrix $A\in \mathbb F^{m\times n}$, we prove that an exact dynamic linear data structure with $s$ cells, query locality $q$, and update locality $u$ exists if and only if
+\[
+A=RM,
+\]
+where $M\in\mathbb F^{s\times n}$, $R\in\mathbb F^{m\times s}$, each row of $R$ has sparsity at most $q$, and each column of $M$ has sparsity at most $u$. Thus exact dynamic linear data structures and exact dynamic materialized aggregate views are precisely sparse matrix factorizations with asymmetric row and column locality constraints.
+
+We prove generic finite-field lower bounds for sparse factorization, formulate the prefix-matrix sparse-factorization problem, and isolate the cancellation-free support-faithful obstruction via chain-intersection set systems. We also give a workload-biased interval-tree construction for dynamic prefix sums, showing that nonuniform update/query distributions admit entropy-sensitive expected costs via optimal alphabetic search trees.
+\end{abstract}
+
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+This article belongs to the AI-assisted math section. Generative AI, including ChatGPT by \mbox{OpenAI}, was used to assist with mathematical drafting, formalization, review, and editing. The note may be preliminary, may have been only partially reviewed, and in some cases may be only AI-reviewed.
+
+\section{Introduction}
+
+Many data structures store linear summaries of an input vector. A static sketch stores linear cells
+\[
+b_1x,\ldots,b_sx
+\]
+and answers linear queries by combining some of these cells. A dynamic linear data structure maintains such cells under coordinate updates. A materialized aggregate view stores precomputed linear aggregates and answers workload queries by combining a few stored views.
+
+This paper isolates the exact algebraic structure of such representations. Let $x\in\mathbb F^n$ be an input vector. A linear observer is a row vector $p\in\mathbb F^n$ which asks for $px$. A static exact linear representation stores cells $b_1x,\ldots,b_sx$. A query has local access $t$ if every observer $p$ is answerable by reading at most $t$ cells and forming a linear combination.
+
+The natural invariant is the $t$-local presentation rank
+\[
+\lambda_t(P)
+=
+\min\{|B|:P\subseteq \operatorname{span}_{\le t}(B)\}.
+\]
+It is a storage/access frontier for exact static linear representations.
+
+For dynamic workloads, let $A\in\mathbb F^{m\times n}$ be a workload matrix. Query $i$ asks for the $i$-th coordinate of $Ax$. A dynamic representation stores $Mx\in\mathbb F^s$. If query $i$ reads at most $q$ cells, row $i$ of $A$ must be a $q$-sparse linear combination of rows of $M$. If an update to coordinate $j$ changes at most $u$ cells, column $j$ of $M$ has sparsity at most $u$. Therefore dynamic exact linear representations are exactly factorizations
+\[
+A=RM
+\]
+with row-sparse $R$ and column-sparse $M$.
+
+The purpose of the paper is not to replace general cell-probe lower bounds. Rather, it identifies a representation-native algebraic model in which exact linear workloads become local generation and sparse factorization problems.
+
+\subsection{Contributions}
+
+The main contributions are:
+\begin{itemize}
+\item We define the $t$-local presentation rank $\lambda_t(P)$ and prove that it exactly characterizes exact static linear data structures with local query access.
+\item Over finite fields, we prove the sphere-counting lower bound
+\[
+|P|\le \sum_{j=0}^t {s\choose j}(q-1)^j
+\]
+for every $t$-local presentation of size $s$.
+\item For the full observer space $P=\mathbb F_q^r$, we identify $\lambda_t(P)$ with the minimum length of a linear $q$-ary code of codimension $r$ and covering radius at most $t$.
+\item For a workload matrix $A$, we define $\operatorname{sf}_{\mathbb F}(A;q,u)$ as the minimum $s$ for which $A=RM$ with row sparsity of $R$ at most $q$ and column sparsity of $M$ at most $u$, and prove that this exactly characterizes exact dynamic linear data structures.
+\item We prove generic lower bounds over finite fields by counting sparse factorizations.
+\item We formulate the prefix sparse-factorization problem for the lower-triangular all-ones matrix $L_n$, isolate a support-faithful cancellation-free obstruction, and state the arbitrary-field cancellation case as a central open problem.
+\item We give a workload-biased interval-tree construction for dynamic prefix sums, where the expected cost is a weighted path-length objective minimized by optimal alphabetic trees.
+\end{itemize}
+
+\section{Static Local Linear Presentations}
+
+Let $\mathbb F$ be a field. For a vector $v$, write $|v|_0$ for its support size. For a finite set $B=\{b_1,\ldots,b_s\}\subseteq\mathbb F^n$, define
+\[
+\operatorname{span}_{\le t}(B)
+=
+\left\{
+\sum_{j\in J}\alpha_j b_j:
+J\subseteq [s],\ |J|\le t,\ \alpha_j\in\mathbb F
+\right\}.
+\]
+
+\begin{definition}[Local presentation rank]
+Let $P\subseteq\mathbb F^n$ be a finite set of linear observers. The $t$-local presentation rank of $P$ is
+\[
+\lambda_t(P)
+=
+\min\left\{
+s:
+\exists B\subseteq\mathbb F^n,\ |B|=s,\ P\subseteq \operatorname{span}_{\le t}(B)
+\right\}.
+\]
+A set $B$ achieving this condition is called a $t$-local presentation of $P$.
+\end{definition}
+
+\begin{theorem}[Static local-linear characterization]
+There exists an exact static linear data structure for $P$ with $s$ stored linear cells and at most $t$ probes per query if and only if
+\[
+\lambda_t(P)\le s.
+\]
+\end{theorem}
+
+\begin{proof}
+Suppose the data structure exists. Its cells are $b_1x,\ldots,b_sx$. For every $p\in P$, the query algorithm reads cells indexed by some set $J_p\subseteq [s]$ with $|J_p|\le t$ and outputs
+\[
+\sum_{j\in J_p}\alpha_{p,j} b_jx.
+\]
+Correctness for all $x\in\mathbb F^n$ implies
+\[
+p=\sum_{j\in J_p}\alpha_{p,j}b_j.
+\]
+Thus $p\in \operatorname{span}_{\le t}(B)$ for every $p\in P$, so $\lambda_t(P)\le s$.
+
+Conversely, suppose $P\subseteq \operatorname{span}_{\le t}(B)$ for some $B=\{b_1,\ldots,b_s\}$. Store the cells $b_jx$. For each $p\in P$, fix a representation of $p$ as a linear combination of at most $t$ elements of $B$. The query reads those cells and combines them using the fixed coefficients. This returns $px$ exactly.
+\end{proof}
+
+\begin{proposition}[Basic properties]
+The invariant $\lambda_t$ satisfies:
+\begin{enumerate}
+\item if $P\subseteq Q$, then $\lambda_t(P)\le \lambda_t(Q)$;
+\item if $t\le t'$, then $\lambda_{t'}(P)\le \lambda_t(P)$;
+\item if $r=\operatorname{rank}(P)$, then $\lambda_r(P)\le r$;
+\item $\lambda_1(P)$ is the number of distinct projective directions among nonzero elements of $P$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The first two assertions are monotonicity in the observer family and in locality. For the third, choose a basis of the linear span of $P$. For the fourth, a nonzero observer lies in the one-local span of $B$ precisely when it is a scalar multiple of an atom of $B$.
+\end{proof}
+
+\section{Finite Fields and Covering Codes}
+
+Assume now that $\mathbb F=\mathbb F_q$. Define
+\[
+V_q(s,t)=\sum_{j=0}^t {s\choose j}(q-1)^j.
+\]
+This is the number of formal vectors of Hamming weight at most $t$ in $\mathbb F_q^s$.
+
+\begin{theorem}[Local sphere-counting lower bound]
+For every finite $P\subseteq\mathbb F_q^n$,
+\[
+|P|\le V_q(\lambda_t(P),t)
+=
+\sum_{j=0}^t {\lambda_t(P)\choose j}(q-1)^j.
+\]
+Equivalently,
+\[
+\lambda_t(P)
+\ge
+\min\left\{
+s:\sum_{j=0}^t {s\choose j}(q-1)^j\ge |P|
+\right\}.
+\]
+For fixed $q$ and $t$,
+\[
+\lambda_t(P)=\Omega_{q,t}(|P|^{1/t}).
+\]
+\end{theorem}
+
+\begin{proof}
+Let $B$ be a $t$-local presentation of $P$ with $|B|=s$. Every vector in $\operatorname{span}_{\le t}(B)$ is obtained by choosing at most $t$ atoms and nonzero coefficients on those atoms. The number of such formal choices is at most $V_q(s,t)$. Different choices may produce the same vector, so this is an upper bound on $|\operatorname{span}_{\le t}(B)|$. Since $P\subseteq \operatorname{span}_{\le t}(B)$, we have $|P|\le V_q(s,t)$. Taking $s=\lambda_t(P)$ proves the first claim. The asymptotic lower bound follows from $V_q(s,t)=O_{q,t}(s^t)$.
+\end{proof}
+
+Let
+\[
+\Lambda_q(r,t)=\lambda_t(\mathbb F_q^r).
+\]
+
+\begin{theorem}[Local presentation rank equals covering-code length]
+\[
+\Lambda_q(r,t)
+=
+\min\left\{
+s:
+\exists C\le\mathbb F_q^s
+\text{ linear of codimension }r
+\text{ and covering radius }\le t
+\right\}.
+\]
+\end{theorem}
+
+\begin{proof}
+Let $B=\{b_1,\ldots,b_s\}\subseteq\mathbb F_q^r$ be a $t$-local presentation of $\mathbb F_q^r$. Define $G:\mathbb F_q^s\to\mathbb F_q^r$ by $G(e_j)=b_j$. Since $B$ locally spans all of $\mathbb F_q^r$, the map $G$ is surjective. Let $C=\ker G$. Then $C$ has codimension $r$. For every $a\in\mathbb F_q^r$, $t$-local spanning means there exists $z\in\mathbb F_q^s$ of Hamming weight at most $t$ such that $Gz=a$. The fiber $G^{-1}(a)$ is a coset of $C$, so every coset of $C$ contains a word of weight at most $t$.
+
+Conversely, suppose $C\le\mathbb F_q^s$ has codimension $r$ and covering radius at most $t$. Let $G:\mathbb F_q^s\to\mathbb F_q^r$ be a parity-check map with kernel $C$, and set $b_j=G(e_j)$. For every $a\in\mathbb F_q^r$, the coset $G^{-1}(a)$ contains some $z$ of Hamming weight at most $t$. Therefore $a=Gz$ is a linear combination of at most $t$ columns $b_j$. Hence the $b_j$ form a $t$-local presentation of $\mathbb F_q^r$.
+\end{proof}
+
+\begin{corollary}
+For fixed $q$ and $t$,
+\[
+\Lambda_q(r,t)\ge \Omega_{q,t}(q^{r/t}).
+\]
+\end{corollary}
+
+\section{Dynamic Sparse Factorization}
+
+Let $A\in\mathbb F^{m\times n}$ be a workload matrix. The database is $x\in\mathbb F^n$, and query $i\in[m]$ asks for $(Ax)_i$. A dynamic linear representation stores $Mx\in\mathbb F^s$ for some $M\in\mathbb F^{s\times n}$. A coordinate update $x_j\leftarrow x_j+\delta$ changes precisely those stored cells $k$ for which $M_{k,j}\ne 0$. Thus update locality is column sparsity of $M$. A query reads cells of $Mx$ and combines them linearly. Thus query locality is row sparsity of a decoding matrix $R$.
+
+\begin{definition}[Sparse factorization complexity]
+For $A\in\mathbb F^{m\times n}$ and locality parameters $q,u$, define $\operatorname{sf}_{\mathbb F}(A;q,u)$ as the minimum $s$ for which there are matrices
+\[
+R\in\mathbb F^{m\times s},
+\qquad
+M\in\mathbb F^{s\times n}
+\]
+such that
+\[
+A=RM,
+\qquad
+|R_{i,*}|_0\le q\ \forall i,
+\qquad
+|M_{*,j}|_0\le u\ \forall j.
+\]
+Here $s$ is storage width, $q$ is query locality, and $u$ is update locality.
+\end{definition}
+
+\begin{theorem}[Dynamic linear representations are sparse factorizations]
+There exists an exact dynamic linear data structure for workload $A$ with $s$ stored linear cells, at most $q$ cell probes per query, and at most $u$ cell changes per coordinate update if and only if
+\[
+A=RM
+\]
+with $R\in\mathbb F^{m\times s}$, $M\in\mathbb F^{s\times n}$, every row of $R$ having sparsity at most $q$, and every column of $M$ having sparsity at most $u$.
+\end{theorem}
+
+\begin{proof}
+Suppose a dynamic linear data structure exists. Since stored cells are linear functions of $x$, there is a matrix $M\in\mathbb F^{s\times n}$ such that the stored state is $Mx$. An update to coordinate $j$ changes cell $k$ exactly when $M_{k,j}\ne0$, so update locality gives $|M_{*,j}|_0\le u$.
+
+For query $i$, the algorithm reads at most $q$ cells and returns a linear combination. Therefore there is a row vector $R_i\in\mathbb F^s$ with $|R_i|_0\le q$ such that $(Ax)_i=R_iMx$ for all $x$. Hence $A_i=R_iM$. Stacking these rows gives $A=RM$.
+
+Conversely, given such a factorization, store $Mx$. A coordinate update to $x_j$ changes exactly the cells corresponding to nonzero entries of $M_{*,j}$, at most $u$ of them. Query $i$ reads the cells corresponding to the support of $R_i$, at most $q$ cells, and returns $R_iMx=(Ax)_i$.
+\end{proof}
+
+\section{Generic Lower Bounds Over Finite Fields}
+
+Let $A$ be uniformly random in $\mathbb F_q^{m\times n}$. Define
+\[
+N_R(s,q)=\sum_{a=0}^q {s\choose a}(q-1)^a,
+\qquad
+N_M(s,u)=\sum_{b=0}^u {s\choose b}(q-1)^b.
+\]
+
+\begin{theorem}[Generic sparse-factorization lower bound]
+For random $A\sim \operatorname{Unif}(\mathbb F_q^{m\times n})$,
+\[
+\Pr[\operatorname{sf}_{\mathbb F_q}(A;q,u)\le s]
+\le
+q^{-mn}N_R(s,q)^mN_M(s,u)^n.
+\]
+Equivalently,
+\[
+\Pr[\operatorname{sf}_{\mathbb F_q}(A;q,u)\le s]
+\le
+q^{m\log_q N_R(s,q)+n\log_q N_M(s,u)-mn}.
+\]
+\end{theorem}
+
+\begin{proof}
+There are $q^{mn}$ possible $m\times n$ matrices. The number of possible matrices $R$ with row sparsity at most $q$ is at most $N_R(s,q)^m$, and the number of possible matrices $M$ with column sparsity at most $u$ is at most $N_M(s,u)^n$. Each pair $(R,M)$ determines at most one matrix $A=RM$. Dividing by $q^{mn}$ gives the probability bound.
+\end{proof}
+
+\begin{corollary}
+If
+\[
+m\log_q N_R(s,q)+n\log_q N_M(s,u)\le mn-c,
+\]
+then
+\[
+\Pr[\operatorname{sf}_{\mathbb F_q}(A;q,u)\le s]\le q^{-c}.
+\]
+Thus almost all workloads require large storage, large query locality, or large update locality.
+\end{corollary}
+
+\section{The Prefix Matrix and Cancellation}
+
+Let $L_n\in\mathbb F^{n\times n}$ be the lower-triangular all-ones matrix:
+\[
+(L_n)_{i,j}
+=
+\begin{cases}
+1,&j\le i,\\
+0,&j>i.
+\end{cases}
+\]
+This matrix represents dynamic prefix sums. Fenwick trees and segment trees give
+\[
+s=O(n),
+\qquad
+q=O(\log n),
+\qquad
+u=O(\log n).
+\]
+In sparse-factorization language, these are factorizations $L_n=RM$ with $s=O(n)$, row sparsity $O(\log n)$, and column sparsity $O(\log n)$.
+
+\begin{definition}[Support-faithful factorization]
+A factorization $A=RM$ is support-faithful if, for every $(i,j)$,
+\[
+A_{i,j}=0
+\quad\Longleftrightarrow\quad
+\text{there is no middle index }k\text{ such that }R_{i,k}M_{k,j}\ne0.
+\]
+Equivalently, the support of $A$ is the Boolean product of the supports of $R$ and $M$.
+\end{definition}
+
+Support-faithfulness holds in semigroup or noncancelling models. It is stronger than ordinary field-linear factorization, because over fields zeros may arise by cancellation.
+
+\begin{proposition}[Prefix systems and intersections]
+Suppose $L_n=RM$ is support-faithful. For each coordinate $j$, define
+\[
+A_j=\operatorname{supp}(M_{*,j}),
+\]
+and for each prefix query $i$, define
+\[
+B_i=\operatorname{supp}(R_{i,*}).
+\]
+Then
+\[
+j\le i
+\quad\Longleftrightarrow\quad
+A_j\cap B_i\ne\varnothing,
+\]
+with $|A_j|\le u$ and $|B_i|\le q$.
+\end{proposition}
+
+\begin{proof}
+Support-faithfulness says $(L_n)_{i,j}=1$ if and only if there is some middle index $k$ with $R_{i,k}M_{k,j}\ne0$, equivalently $A_j\cap B_i\ne\varnothing$. Since $(L_n)_{i,j}=1$ exactly when $j\le i$, the claim follows.
+\end{proof}
+
+\begin{proposition}[Support-faithful prefix systems induce skew set-pair systems]
+Every support-faithful factorization $L_n=RM$ with row sparsity at most $q$, column sparsity at most $u$, and middle dimension $s$ induces a skew set-pair system
+\[
+(A_{k+1},B_k)_{k=1}^{n-1}
+\]
+on a ground set of size $s$, with $|A_{k+1}|\le u$ and $|B_k|\le q$. Consequently, any upper bound on the size of such skew set-pair systems gives a lower bound on the possible parameters $(s,q,u)$ of support-faithful prefix factorizations.
+\end{proposition}
+
+\begin{proof}
+For each $k$, the prefix relation gives $A_{k+1}\cap B_k=\varnothing$ because $k+1>k$. If $\ell\ge k+1$, then $A_{k+1}\cap B_\ell\ne\varnothing$. These are precisely triangular intersection conditions on the middle universe $[s]$.
+\end{proof}
+
+\begin{remark}
+This support-faithful obstruction is deliberately modest. Earlier informal versions of this program suggested a ground-set-free Bollobas-type bound for the triangular condition. That is too strong in this generality. The correct cancellation-free obstruction is via skew set-pair systems on a middle universe of size $s$, and the resulting inequality depends on the precise skew-Bollobas theorem used. Stronger logarithmic lower bounds require additional structure or a cancellation-resistant algebraic argument.
+\end{remark}
+
+\begin{problem}[Prefix sparse-factorization lower bound]
+Let $\mathbb F$ be a field. Suppose
+\[
+L_n=RM,
+\qquad
+R\in\mathbb F^{n\times s},
+\qquad
+M\in\mathbb F^{s\times n},
+\]
+every row of $R$ has sparsity at most $q$, and every column of $M$ has sparsity at most $u$. Determine the optimal tradeoff among $s,q,u$. In particular, for $s=O(n)$, is it true that
+\[
+\max\{q,u\}=\Omega(\log n)?
+\]
+\end{problem}
+
+\section{Workload-Biased Prefix Presentations}
+
+The classical balanced interval decomposition gives worst-case $O(\log n)$ update and query cost. If the workload is nonuniform, a biased tree can do better in expectation.
+
+Let point update $j$ occur with probability $p_j$. Let prefix query at boundary $i$ occur with probability $r_i$. Construct an alphabetic binary tree on the ordered leaves $1,\ldots,n$. Store at each internal node the sum of its interval, or equivalently maintain a tree-based interval representation.
+
+\begin{theorem}[Biased interval presentation]
+For every alphabetic binary tree $T$ on $[n]$, there is a dynamic prefix-sum representation with expected operation cost
+\[
+C_T
+=
+\sum_{j=1}^n p_j d_T(j)
++
+\sum_{i=0}^{n} r_i d_T^{\mathrm{gap}}(i)
++
+O(1),
+\]
+where $d_T(j)$ is the depth of leaf $j$ and $d_T^{\mathrm{gap}}(i)$ is the depth of the boundary or gap corresponding to prefix query $i$. Consequently, choosing an optimal alphabetic tree minimizes the expected operation cost over this interval-tree representation class.
+\end{theorem}
+
+\begin{proof}
+A point update modifies exactly the stored interval sums on the path from leaf $j$ to the root, so its cost is $d_T(j)+O(1)$. A prefix query at boundary $i$ can be decomposed into the disjoint union of $O(d_T^{\mathrm{gap}}(i))$ canonical subtrees encountered along the search path to the boundary. Reading their stored sums yields the prefix sum. Taking expectation over update and query probabilities gives the formula. Optimizing over alphabetic trees gives the final statement.
+\end{proof}
+
+\begin{corollary}[Entropy-sensitive expected cost]
+For distributions with entropy $H$ over update leaves and query gaps, an optimal alphabetic tree achieves expected cost
+\[
+O(H+1)
+\]
+within the standard alphabetic-coding overheads.
+\end{corollary}
+
+\section{Materialized Aggregate Views}
+
+Let $x\in\mathbb F^n$ represent base data values and let $A\in\mathbb F^{m\times n}$ be a linear aggregate workload. A materialized view design stores $Mx$. A query plan combines stored views, so query locality is row sparsity of $R$. A base update to coordinate $j$ updates the views whose definitions depend on $x_j$, so update locality is column sparsity of $M$.
+
+\begin{theorem}[Materialized-view sparse-factorization theorem]
+An exact linear materialized-view design for workload $A$ with $s$ stored views, at most $q$ views combined per query, and at most $u$ views updated per base-coordinate update exists if and only if
+\[
+A=RM
+\]
+where $R\in\mathbb F^{m\times s}$ and $M\in\mathbb F^{s\times n}$, with $|R_{i,*}|_0\le q$ for every $i$ and $|M_{*,j}|_0\le u$ for every $j$.
+\end{theorem}
+
+\begin{proof}
+This is Theorem 4.2 translated into materialized-view language.
+\end{proof}
+
+\section{Variants and Open Problems}
+
+The exact theory suggests several relaxations. One may allow approximate sparse factorization $A\approx RM$ under a workload norm, randomized representations with correctness in expectation or with high probability, semiring factorizations over Boolean, tropical, or nonnegative semirings, or multi-layer factorizations
+\[
+A=M_dM_{d-1}\cdots M_1
+\]
+with sparsity constraints per layer.
+
+\begin{problem}
+Prove or refute the field-linear prefix lower bound
+\[
+L_n=RM,\ s=O(n)
+\quad\Longrightarrow\quad
+\max\{q,u\}=\Omega(\log n)
+\]
+over every field.
+\end{problem}
+
+\begin{problem}
+Determine the optimal lower bound on $q$ and $u$ as a function of storage $s$ for $L_n=RM$.
+\end{problem}
+
+\begin{problem}
+Extend the sparse-factorization analysis from prefix matrices to interval matrices and multidimensional box-query matrices.
+\end{problem}
+
+\begin{problem}
+Develop lower bounds for approximate factorizations $A\approx RM$ under query-relevant norms.
+\end{problem}
+
+\begin{problem}
+Given $A$, determine the computational complexity of finding near-optimal sparse factors $R,M$.
+\end{problem}
+
+\section{Conclusion}
+
+This paper introduced local presentation rank and sparse factorization complexity as algebraic invariants for exact linear representations. For static linear query workloads, $\lambda_t(P)$ exactly characterizes storage under $t$-local query access. For the full observer space over a finite field, it is equivalent to the length of a linear code of specified codimension and covering radius.
+
+For dynamic linear workloads, exact representations are precisely sparse factorizations
+\[
+A=RM,
+\]
+where row sparsity of $R$ is query locality and column sparsity of $M$ is update locality. This framework gives exact characterizations of static and dynamic linear representations, finite-field generic lower bounds, coding-theoretic connections, a sparse-factorization formulation of dynamic prefix sums, a materialized-view interpretation, workload-biased prefix presentations via optimal alphabetic trees, and concrete open problems in algebraic lower bounds.
+
+The main thesis is:
+\[
+\text{exact linear representation complexity is local generation and sparse factorization.}
+\]
+The strongest open direction is to prove sharp arbitrary-field lower bounds for sparse factorizations of the prefix matrix. Such a result would give a representation-native algebraic explanation of dynamic prefix-sum hardness.
+
+\begin{thebibliography}{99}
+
+\bibitem{Fenwick}
+P. M. Fenwick.
+A new data structure for cumulative frequency tables.
+\emph{Software: Practice and Experience} 24 (1994), 327--336.
+
+\bibitem{FredmanSaks}
+M. L. Fredman and M. E. Saks.
+The cell probe complexity of dynamic data structures.
+In \emph{Proceedings of STOC 1989}, 345--354.
+
+\bibitem{PatrascuDemaine}
+M. Patrascu and E. D. Demaine.
+Logarithmic lower bounds in the cell-probe model.
+\emph{SIAM Journal on Computing} 35 (2006), 932--963.
+
+\bibitem{CoveringCodes}
+G. Cohen, I. Honkala, S. Litsyn, and A. Lobstein.
+\emph{Covering Codes}.
+North-Holland, 1997.
+
+\bibitem{CoveringSurvey}
+G. D. Cohen, M. G. Karpovsky, H. F. Mattson, and J. R. Schatz.
+Covering radius: survey and recent results.
+\emph{IEEE Transactions on Information Theory} 31 (1985), 328--343.
+
+\bibitem{Bollobas}
+B. Bollobas.
+On generalized graphs.
+\emph{Acta Mathematica Academiae Scientiarum Hungaricae} 16 (1965), 447--452.
+
+\bibitem{Frankl}
+P. Frankl.
+An extremal problem for two families of sets.
+\emph{European Journal of Combinatorics} 3 (1982), 125--127.
+
+\bibitem{Knuth}
+D. E. Knuth.
+Optimum binary search trees.
+\emph{Acta Informatica} 1 (1971), 14--25.
+
+\bibitem{HuTucker}
+T. C. Hu and A. C. Tucker.
+Optimal computer search trees and variable-length alphabetical codes.
+\emph{SIAM Journal on Applied Mathematics} 21 (1971), 514--532.
+
+\bibitem{GarsiaWachs}
+A. M. Garsia and M. L. Wachs.
+A new algorithm for minimum cost binary trees.
+\emph{SIAM Journal on Computing} 6 (1977), 622--642.
+
+\bibitem{ChaudhuriDayal}
+S. Chaudhuri and U. Dayal.
+An overview of data warehousing and OLAP technology.
+\emph{SIGMOD Record} 26 (1997), 65--74.
+
+\bibitem{GuptaMumick}
+A. Gupta and I. S. Mumick, editors.
+\emph{Materialized Views: Techniques, Implementations, and Applications}.
+MIT Press, 1999.
+
+\end{thebibliography}
+
+\end{document}
