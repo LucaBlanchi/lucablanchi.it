@@ -113,4 +113,32 @@ function initLanguageTabs() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", initLanguageTabs)
+function initSourceCopyButtons() {
+  for (const button of document.querySelectorAll("[data-copy-source]")) {
+    button.addEventListener("click", async () => {
+      const disclosure = button.closest(".source-disclosure")
+      const activePanel = disclosure?.querySelector(".source-panel:not([hidden]) pre")
+      const sourceText = activePanel?.textContent || ""
+
+      if (!sourceText) return
+
+      try {
+        await navigator.clipboard.writeText(sourceText)
+        button.textContent = "Copied"
+        window.setTimeout(() => {
+          button.textContent = "Copy"
+        }, 1600)
+      } catch {
+        button.textContent = "Copy failed"
+        window.setTimeout(() => {
+          button.textContent = "Copy"
+        }, 1600)
+      }
+    })
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initLanguageTabs()
+  initSourceCopyButtons()
+})

@@ -37,7 +37,8 @@ export function renderTexPaper(tex: string, options: { idPrefix?: string } = {})
     tex.match(/\\begin\{thebibliography\}\{99\}([\s\S]*?)\\end\{thebibliography\}/)?.[1] ??
     tex.match(/\\begin\{thebibliography\}\{9\}([\s\S]*?)\\end\{thebibliography\}/)?.[1] ??
     "";
-  const bodyStart = tex.indexOf("\\section{Introduction}");
+  const firstSectionMatch = /\\section\{/.exec(tex);
+  const bodyStart = firstSectionMatch?.index ?? -1;
   const bodyEnd = tex.indexOf("\\begin{thebibliography}");
   const bodySource = bodyStart >= 0 && bodyEnd > bodyStart ? tex.slice(bodyStart, bodyEnd) : "";
   const citeLabels = collectCiteLabels(bibliographySource);
