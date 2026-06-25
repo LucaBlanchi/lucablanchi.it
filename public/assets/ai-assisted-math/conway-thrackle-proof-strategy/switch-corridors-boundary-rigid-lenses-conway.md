@@ -586,21 +586,152 @@ If the marker object has a nonprimitive local closed marker word, Lemma 6.4 cuts
 
 ## 7. Support-Gate and Ported-Disk Routers
 
-The central support-gate problem is handled as a router theorem.
+This section is the B6 part of the proof. Its role is not to prove, by one
+geometric stroke, that every support-gate disk with original vertices is
+reducible. That implication is false as stated: inside a pure even dumbbell, an
+ordinary-vertex disk may contain only ported path pieces, not a smaller dumbbell
+or an automatic replacement edge. The correct statement is a router theorem. A
+B6 object is either cell-clean and $v$-free, ordinary-original-vertex ported,
+common-vertex/marker data, or near-whole/whole-capture data. Each case is
+terminal, strictly lowers $\mathfrak K^\ast$, or is exported with full typed data
+to B5, B7, endpoint discharge, or B4p.
 
-**Lemma 7.1 (Cell-clean support-gate disk).** A $v$-free support-gate disk with no original vertices in its interior routes to a typed identity deletion, same-relation splice, smaller support-gate loop, smaller train, direct typed normality contradiction, or lower $\mathfrak K^\ast$.
+A **typed support-gate disk** is a compact PL disk whose boundary is a simple
+closed support-gate curve, with full boundary state data: side, orientation,
+domain pair, support, gate, endpoint role, marker word, anchor state, and
+replacement ledger. It is **active** only as an obligation in the ledger
+$\Lambda$ of Section 2. A support-gate operation is legal only when it preserves
+the full typed boundary relation or produces an explicitly named obligation of
+lower ledger rank.
 
-**Proof.** With no original vertices, $v$-markers, or replacement data inside, the disk is a finite typed carrier. If its two boundary readings agree, deletion or splice is legal because side, orientation, domain, support/gate, endpoint, marker, anchor, and replacement labels all match. If they do not agree, the first mismatch is a typed normality failure or a smaller labelled support-gate loop/train subobject.
+**Lemma 7.1 (Cell-clean refinement).** Let $B$ be a simple support-gate loop in a finite PL witness complex. After subdividing support and gate arcs at the finitely many points where $B$ changes type or meets existing cell-boundary vertices, $B$ is a subcomplex of the one-skeleton. In the refined complex no support-switch cell crosses $B$ transversely: every cell interior lies entirely inside $B$, entirely outside $B$, or is disjoint from $B$ and meets it only along boundary vertices or boundary arcs.
 
-**Theorem 7.2 (Ordinary-original-vertex ported disk router).** Let $D$ be a residual $v$-free ported disk containing ordinary original vertices in a minimal witness. Then $D$ produces a terminal contradiction, a certified B7 move, a lower $\mathfrak K^\ast$ witness, endpoint or marker data, a near-whole/whole-capture non-descent, or a $\theta,\delta,\varrho$-rigid whole-boundary dirty cycle that opens back into B4p and endpoint discharge. No independent ordinary-vertex disk residual remains.
+**Proof.** The refinement only subdivides existing support and gate arcs. It does not change lane continuation, labels, terminal sections, marker data, endpoint data, or the number of original vertices. Once refined, $B$ is a simple closed PL subcomplex. By the Jordan curve theorem, its complement has an inside and an outside. The interior of each support-switch cell is connected and disjoint from the one-skeleton containing $B$, so it lies on one side. Hence no cell interior crosses through $B$. Any remaining intersection is on the boundary of the cell and is, after refinement, a union of boundary vertices or boundary arcs. If such a refinement were impossible, the obstruction would already be a gate-identification, cell-overlap, returning-lane, or non-support-gate normality defect.
 
-**Proof.** First split ported path components by length. Length $0,1,2$ components form a finite short-port table. After exporting certified boundary R3, blocked boundary R3, and endpoint/anchor defects, the remaining relation is the unique ordinary degree-two chain continuation; hence it is a typed continuation/splice or a typed normality failure. Therefore a minimal unresolved disk contains a long path component with an internal R3 candidate.
+**Lemma 7.2 (B6a cell-clean support-gate router).** Let $D$ be an innermost typed support-gate disk in a minimal reduced witness package. Assume
 
-Choose a blocked R3 candidate of minimal active triangle-content rank $\theta$. If the triangle is empty and the graph path has the required degree-two middle vertices and prescribed crossing, B7 certifies edge removal. If the triangle is blocked, inspect the first blocker. Marker or $v$ data routes to B5/B6c; endpoint or anchor data routes to endpoint discharge; replacement data routes to B7; ordinary original-vertex blockers produce a blocker dependency graph. Every rank-changing blocker arrow lowers $P,B,U$ or an active $\delta/\varrho$ coordinate. Terminal strongly connected components are therefore $\theta$-rigid.
+$$
+D\cap V_{\mathrm{orig}}=\varnothing,\qquad v\notin D,
+$$
 
-The SCC compiler turns a terminal rigid blocker SCC into an alternating blocker polygon. Certified ears and diagonals route or descend. Geometric-only diagonals are not used as proof cuts. If all ears are dirty, the boundary becomes a $\theta$-rigid certified-diagonal-free full alternating enclosure. The diagonal-obstruction rank $\delta$ removes non-rigid first-blocker returns. Replacement dirt is controlled by $\varrho$. The remaining signature-rigid whole-boundary dirty cycle either has an admissible cut state, in which case it opens to an ordered typed boundary corridor and feeds into B4p, or the failure to cut is already marker, endpoint, replacement, near-whole, whole-capture, normality, or lower-cost data.
+and assume that $D$ contains no pending marker, endpoint, replacement, or edge-removal obligation. Then $D$ routes to one of the following:
 
-**Lemma 7.3 (Near-whole anchor router).** A near-whole capture of one original cycle routes as follows:
+1. full typed identity deletion;
+2. same-relation splice;
+3. smaller typed support-gate loop or smaller typed corridor;
+4. smaller closed train;
+5. direct typed normality contradiction;
+6. a strict descent in $\mathfrak K^\ast$.
+
+**Proof.** By Lemma 7.1, refine so that the boundary of $D$ is a subcomplex. Since $D$ contains no original vertices, no $v$, and no pending replacement or marker data, its interior is a finite typed carrier made only of crossing vertices, support edgelets, gate intervals, lane components, and typed boundary states.
+
+If the two boundary readings give the full typed identity relation, deletion is legal because all labels agree, including marker, endpoint, anchor, and replacement coordinates. The deletion removes cells or edgelets and lowers one of the carrier coordinates of $\mathfrak K^\ast$. If the boundary readings give the same active relation, splice the two boundary intervals; again the full typed relation is unchanged and the carrier size decreases.
+
+If the boundary relation is nontrivial, choose an innermost component of the finite relation graph realizing it. If it has the same boundary problem as the active object, promote it to the active support-gate object; it is proper, so $Q$, $S$, $E$, $L$, or $U$ decreases. If it has different typed boundary data, it is an explicitly smaller typed support-gate loop or corridor and is routed with lower obligation rank. If the finite gate graph inside $D$ has a cyclic component, that component is a closed typed train with fewer cells than the ambient object, lowering the train coordinate $L$.
+
+The remaining possibilities in the finite incidence graph are repeated support, double crossing, gate identification, terminal lane, returning lane, or branching/merging. A double crossing is terminal. The others either cut off a smaller cell-clean disk or are typed normality defects. Thus no independent cell-clean B6 residual remains.
+
+**Definition 7.3 (Port graph of an original-vertex disk).** Let $D$ be a typed support-gate disk. The port graph $P_D$ has as vertices the original vertices lying in $D$ together with the boundary ports where original supports meet $\partial D$. Its edges are connected original-support pieces inside $D$ between original vertices and boundary ports. Interior ordinary vertices have degree $2$ in the original dumbbell; the common vertex $v$ has degree $4$; boundary ports have degree $1$ in $P_D$.
+
+A $v$-free ported path component has **short length** $0,1$, or $2$ when it is respectively a single ordinary vertex, a one-edge ordinary path, or a two-edge ordinary path. It is **long** when it contains four consecutive ordinary vertices
+
+$$
+x_0,x_1,x_2,x_3
+$$
+
+on one original cycle, hence a graph $3$-path $x_0x_1x_2x_3$.
+
+**Lemma 7.4 (Pure dumbbell port-graph classification).** Let $D$ be an innermost label-essential support-gate disk in a pure even dumbbell $A\cup B$ with $A\cap B=\{v\}$. Then every original-vertex component of $P_D$ is one of the following:
+
+1. a $v$-free ported path segment lying in $A\setminus\{v\}$ or $B\setminus\{v\}$;
+2. a singular $v$-arm package, routed to B5/B6c with marker data preserved;
+3. a boundary-closed support-gate object using original arcs and support-gate boundary arcs, routed to the ordinary support-gate router;
+4. a near-whole or whole-cycle capture, routed by Lemma 7.10 below;
+5. label-inessential original material, deletable or splicable only with a full typed certificate.
+
+In particular, an ordinary-original-vertex disk does not automatically contain a smaller $T_3$-critical dumbbell core.
+
+**Proof.** The original graph has exactly two graph-theoretic cycles, $A$ and $B$, and both contain $v$. Therefore a connected component of $P_D$ avoiding $v$ lies in a cycle with $v$ removed, hence in an ordinary path. Cutting by $\partial D$ turns it into a ported path segment, possibly together with support-gate boundary arcs if the witness closes around it.
+
+If a component contains $v$, the local degree is four and the rank-one common-vertex ledger is active; this is not an ordinary ported path and must be routed to B5/B6c. If a disk captures essentially all of one cycle, then it is a near-whole or whole-cycle endpoint/anchor object, not a smaller dumbbell counterexample. If it captures both cycles, it is the whole original witness and is a non-descent unless a separate marker, anchor, B7, or replacement certificate is supplied. These cases exhaust subgraphs of two cycles sharing a single vertex.
+
+**Lemma 7.5 (Short-port chain router).** Let $P$ be a $v$-free short ported path component of a minimal reduced B6 disk. After exporting certified boundary R3 candidates, blocked boundary R3 candidates, and endpoint/anchor defects, the remaining two-terminal typed relation of $P$ is the unique ordinary degree-two chain continuation. Hence it is a typed identity or ordinary splice if the terminal states match, and a typed normality defect otherwise.
+
+The finite short-port table is:
+
+| short type | possible nontrivial event | route |
+| --- | --- | --- |
+| $x_i$ | ordinary degree-two turn | typed continuation, splice, or normality defect |
+| $x_i x_{i+1}$ | boundary $3$-path using both adjacent port edges | B7 if certified; otherwise B6b/B7 blocker or endpoint/anchor router |
+| $x_i x_{i+1}x_{i+2}$ | left or right boundary $3$-path using one adjacent port edge | B7 if certified; otherwise B6b/B7 blocker or endpoint/anchor router |
+
+Consequently, if every ordinary ported component of a $v$-free B6 disk has length at most $2$, then the disk is not a residual ordinary-original-vertex disk: it routes to B7, B6b/B7 blocker routing, endpoint/anchor discharge, typed continuation/splice, typed normality failure, or the cell-clean router of Lemma 7.2 after the short components have been removed.
+
+**Proof.** At a single ordinary vertex $x\ne v$, a small disk meets exactly two edge germs and has two sectors. There is no marker transition and no support-switch choice at $x$; the local passage is forced by the ordinary degree-two continuation. If the typed terminal states agree with this continuation, the component is deletable or splicable. If they do not, the failure is endpoint, anchor, side/orientation, or normality data.
+
+For a length-one or length-two short path, compose these forced local continuations along the ordinary path. Since the path is $v$-free, the marker word is unchanged. Since the path is short, the only graph $3$-paths involving it are the boundary candidates listed in the table, obtained by adjoining adjacent port edges. Once certified and blocked boundary-R3 cases and endpoint/anchor failures are exported, no independent short-port relation remains. Removing all matched short components leaves either a cell-clean disk or an already named routed obligation.
+
+**Lemma 7.6 (R3 candidate and saturation router).** Let a $v$-free ported disk contain a long ported path component with a graph $3$-path
+
+$$
+P=x_0x_1x_2x_3,
+$$
+
+where $x_1,x_2$ are ordinary degree-two vertices. Let $Q$ be the crossing of the first and third edges, and let $\Delta(P)$ be the standard edge-removal triangle bounded by the middle edge $x_1x_2$ and the subarcs from $x_1,x_2$ to $Q$. Then exactly one of the following occurs:
+
+1. $\Delta(P)$ is empty of original vertices and label-essential data, and the B7 edge-removal certificate applies;
+2. $\Delta(P)$ contains a proper label-essential support-gate disk, yielding a lower $Q,S,E,L$, or $U$ obligation;
+3. $\Delta(P)$ contains a proper ordinary-original-vertex ported disk, yielding a lower $P$ or $\mathsf B_{\mathrm{blk}}$ B6 obligation;
+4. $\Delta(P)$ contains $v$ or marker data, routed to B5/B6c;
+5. $\Delta(P)$ contains endpoint, anchor, near-whole, or replacement data, routed to endpoint discharge, Lemma 7.10, or B7;
+6. $\Delta(P)$ contains only label-inessential material, which collapses by a full typed identity certificate and then returns to the first row.
+
+Thus a long ported path gives an R3 candidate, not an R3 theorem. If the candidate is not certified, its first obstruction is a named lower router or a strictly lower obligation.
+
+**Proof.** The first and third edges of $P$ are nonadjacent original edges in a thrackle drawing, so they cross exactly once. This defines the standard R3 triangle. If the triangle is empty and all typed labels on its boundary satisfy the edge-removal and obstruction-persistence certificate, Section 8 applies. Otherwise inspect the first datum preventing that certificate. A label-essential support-gate subdisk or ordinary-vertex ported disk inside $\Delta(P)$ is proper because it lies inside the triangle. Marker, endpoint, anchor, near-whole, and replacement data are not R3 certificates; they are precisely the B5, endpoint, B6d, and B7 ledgers. If the interior data are label-inessential, the full typed identity calculus deletes them before the same R3 candidate is tested again.
+
+**Lemma 7.7 (Blocked-triangle normal form).** In a minimal residual $v$-free B6b disk, choose a blocked R3 candidate $P$ whose active triangle-content rank
+
+$$
+\theta(P)=
+\bigl(
+|\Delta(P)\cap V_{\mathrm{orig}}|,
+\#\{\text{ported components meeting }\Delta(P)\},
+\#\{\text{boundary exits from }\Delta(P)\},
+\#\{\text{unresolved R3 candidates inside }\Delta(P)\}
+\bigr)
+$$
+
+is lexicographically minimal after the earlier coordinates of $\mathfrak K^\ast$. Then every blocker inside $\Delta(P)$ either routes to B5/B6c, B7, endpoint/anchor discharge, Lemma 7.5, or a lower $P,\mathsf B_{\mathrm{blk}},U$ obligation, or else belongs to a triangle-saturated blocker dependency cycle preserving $\theta$.
+
+Equivalently, after condensing the finite blocker dependency graph into strongly connected components, every terminal residual component is $\theta$-rigid: every internal blocker arrow preserves active triangle rank. Every rank-changing arrow or SCC exit is a descent or an already named router output.
+
+**Proof.** Consider an innermost connected original-vertex component or labelled obstruction inside $\Delta(P)$. If it exits through a boundary port or replacement side, the blocked triangle has produced endpoint, anchor, or B7 data. If it contains $v$, it is B5/B6c. If all ordinary ported pieces in it are short, Lemma 7.5 applies. If it contains a long ported subpath, its R3 candidate has either a certified triangle, handled by B7, or a blocked triangle. If the new blocked triangle has smaller active content rank, minimality of $\theta(P)$ is contradicted; hence any residual blocker must have the same rank and continue the dependency chain.
+
+The blocker graph is finite. Its condensation is a finite DAG. A terminal SCC cannot contain a lowering arrow, by minimality. It also cannot contain a strictly raising arrow without a lowering arrow somewhere on the directed cycle returning to the starting rank. Therefore every terminal residual SCC is $\theta$-rigid. Nonterminal exits are exactly the routed outputs already listed.
+
+**Theorem 7.8 (B6 ordinary-original-vertex router integration).** Let $D$ be a minimal reduced typed support-gate disk containing ordinary original vertices. Then B6 has one of the following admissible outputs:
+
+1. typed identity deletion, same-relation splice, typed continuation, smaller support-gate loop, smaller corridor, or smaller train, hence strict descent in $\mathfrak K^\ast$;
+2. a certified R3 or certified replacement obligation for B7;
+3. a blocked-R3 obligation whose first obstruction routes to B5/B6c, B6d, endpoint discharge, B7, or a lower B6 obligation;
+4. a $\theta$-rigid blocker SCC, which the SCC compiler turns into a certified-diagonal-free alternating blocker enclosure;
+5. a $\theta,\delta,\varrho$-rigid whole-boundary dirty cycle, which either has an admissible cut state and opens to an ordered typed boundary corridor for B4p, or fails to open by visible endpoint, marker, replacement, near-whole, whole-capture, typed-normality, or lower-cost data;
+6. a whole-witness capture or whole-witness return marked as inert non-progress.
+
+No proper ordinary-original-vertex disk remains as an independent residual.
+
+**Proof.** First apply the port-graph classification. Components containing $v$ are B5/B6c, and near-whole or whole-capture components are handled by Lemma 7.10. A $v$-free ordinary component is a ported path. If all such components are short, Lemma 7.5 removes the disk as a residual. Therefore any remaining $v$-free ordinary-original-vertex disk contains a long ported path and hence an R3 candidate.
+
+Apply Lemma 7.6 to a long candidate. A certified empty triangle is a B7 output. Any proper support-gate or original-vertex obstruction inside the triangle lowers the corresponding coordinate of $\mathfrak K^\ast$. Marker, endpoint, anchor, near-whole, and replacement data are exported with full typed labels. Hence the only residual case is a blocked R3 candidate with no lower first obstruction.
+
+Choose a blocked candidate of minimal $\theta$. Lemma 7.7 shows that the terminal residual blocker graph is $\theta$-rigid. The SCC compiler is finite: if a blocker edge leaves the SCC or changes rank, it gives a descent or a named router. A terminal rank-rigid SCC induces an alternating blocker enclosure. Certified ears, certified diagonals, and double crossings are terminal or descending; geometric-only diagonals are recorded as diagonal-obstruction data and are not used as proof cuts. The diagonal-obstruction coordinate $\delta$ and replacement-obligation coordinate $\varrho$ remove every non-rigid first-blocker return by descent or router output.
+
+Thus the only geometric remainder is a $\theta,\delta,\varrho$-rigid whole-boundary dirty cycle. If it has an admissible cut state, cut it there and read the full typed boundary relation as an ordered typed boundary corridor; B4p then applies. If it has no admissible cut state, the first obstruction to cutting is visible in the typed ledger: endpoint, marker, replacement, near-whole, whole-capture, normality, or a lower coordinate. That is an admissible router output. A whole-witness return is recorded as $N$ and removed from the active ledger, not counted as proof progress. Therefore no independent B6 ordinary-vertex residual remains.
+
+**Remark 7.9 (Scope of the B6 integration theorem).** The theorem is deliberately a router integration theorem. It does not assert that every blocked R3 triangle is itself terminal, nor that a whole-boundary dirty cycle is a contradiction. It asserts that each such object has a finite typed destination: certified B7, endpoint discharge, B5/B6c, B6d, B4p, strict descent, or inert whole-witness rejection. Section 8 supplies the B7 certificates, and Section 9 discharges the endpoint outputs.
+
+**Lemma 7.10 (Near-whole anchor router).** A near-whole capture of one original cycle routes as follows:
 
 | case | output |
 | --- | --- |
@@ -609,32 +740,48 @@ The SCC compiler turns a terminal rigid blocker SCC into an alternating blocker 
 | ports cap through $v$ | B5 marker endpoint |
 | whole original witness | non-descent, not proof progress |
 
-**Proof.** A literal whole-cycle capture contains $v$ and is marker/common-vertex data. A $v$-free near-whole capture of an even cycle of length at least $6$ contains an internal ordinary graph 3-path not using $v$, so it is an R3 interface. The length-$4$ case has the path $x_1x_2x_3$ with ports on $vx_1$ and $x_3v$. Its two boundary R3 candidates are certified empty, blocked, or endpoint-defective; after these are exported, the short-port chain router gives typed continuation/splice or normality failure. A whole-witness capture is rejected as $N$.
+**Proof.** A literal whole-cycle capture contains $v$, so any cap through the missing vertex is marker/common-vertex data and belongs to B5/B6c. If the near-whole capture is $v$-free and the captured even cycle has length at least $6$, then the captured ordinary path contains a graph $3$-path not using $v$. Lemma 7.6 makes it an R3 candidate; the outcome is certified B7, blocked-R3/B6b routing, endpoint/anchor data, or lower complexity.
+
+If the cycle has length $4$, the captured path has the form $x_1x_2x_3$ with ports on the two edges incident with $v$. The only boundary graph $3$-paths are the two candidates obtained by adjoining one adjacent $v$-edge at a time. Each is certified empty, blocked, or endpoint/marker defective. After those rows are exported, Lemma 7.5 gives the unique ordinary degree-two chain relation, hence typed continuation/splice or typed normality failure. If the capture is the whole active original witness, it is recorded as $N$ and cannot be used as a descent or terminal contradiction.
 
 ## 8. Certified Edge Removal and Replacement
 
-The edge-removal principle used here is the standard three-path criterion: a graph 3-path $x_0x_1x_2x_3$ with degree-two middle vertices and the prescribed crossing between the first and third edges may be reduced when the associated triangular domain is empty of original vertices.
+The B7 block is a certificate ledger. Its purpose is to prevent the proof from using the words "edge removal", "replacement", or "smaller core" as proof steps before the required finite certificate has been checked. In the presentation-complexity language, each accepted B7 move is a description-level transfer of the active obstruction package: either the transfer is terminal, or it is cost-controlled by a strict decrease in $\mathfrak K^\ast$. If the certificate is missing, the object remains an active obligation in $\Lambda$.
 
-**Lemma 8.1 (B7 obligation normal form).** Every B7 output in a minimal witness falls into exactly one row:
+The edge-removal principle used below is the standard three-path criterion. A graph $3$-path
+
+$$
+x_0x_1x_2x_3
+$$
+
+with degree-two middle vertices and the prescribed crossing between the first and third edges may be reduced only when the associated edge-removal triangle is empty of original vertices and all typed obstruction data persist. A long ported path produces such a candidate, not by itself such a certificate.
+
+**Lemma 8.1 (B7 obligation normal form).** Every B7 output in a minimal reduced witness falls into exactly one of the following rows, after applying the first row whose hypotheses are satisfied:
 
 | row | status |
 | --- | --- |
-| double crossing of the same original support pair | terminal |
+| double crossing of the same original support pair | terminal contradiction |
 | full typed identity, same-relation splice, or typed collapse | strict descent |
 | certified R3 edge removal | terminal or lower $G$ |
-| blocked R3 candidate | routes to B6b, B5/B6c, B6d, endpoint, or B7 by first obstruction |
-| strong replacement certificate with obstruction persistence | terminal or descent |
+| blocked R3 candidate | route by first obstruction to B6b, B5/B6c, B6d, endpoint discharge, or nested B7 |
+| carrier-local strong replacement | removes or lowers a replacement obligation |
+| graph-changing strong replacement with obstruction persistence | graph-level descent |
 | uncertified replacement/R2 candidate | pending replacement obligation |
+| rejected whole-witness or $T_3$-collapsing replacement | inert non-descent, followed by pullback routing if proper |
 
-**Proof.** The first row contradicts the thrackle condition. The second is legal only because the full typed boundary relation, including markers, anchors, endpoint roles, and replacement ledger, is unchanged. The third is exactly the edge-removal criterion, with the additional internal requirement that the non-$T_3$ obstruction or a lower witness persists. A blocked triangle routes according to its first obstructing datum. A replacement is terminal only with a strong certificate; otherwise it remains typed boundary data.
+**Proof.** A double crossing of the same original support pair contradicts the thrackle condition. A full typed identity, same-relation splice, or typed collapse is legal only because the entire boundary relation agrees, including marker, anchor, endpoint, domain, support/gate, and replacement labels; applying it removes finite carrier data and lowers $\mathfrak K^\ast$.
 
-A pending replacement obligation is
+A certified R3 edge removal requires a real graph $3$-path, degree-two middle vertices, the prescribed crossing, an empty or fully controlled edge-removal triangle, and persistence of the non-$T_3$ obstruction or production of a lower witness. Without those data it is only a blocked R3 candidate, and the first obstruction in the triangle determines the downstream router: ordinary original vertices go to B6b, $v$ or marker data to B5/B6c, near-whole or anchor data to B6d or endpoint discharge, and replacement data to B7.
+
+A replacement is terminal or descending only with a strong certificate and an obstruction-persistence certificate. If it is carrier-local, the abstract proof-obstruction package is unchanged and only the active replacement ledger improves. If it changes the graph, it must supply a fresh non-$T_3$ certificate and a comparison map lowering $\mathfrak K^\ast$. Otherwise the proposed replacement is merely an obligation.
+
+A pending replacement obligation is recorded as
 
 $$
 R=(\partial R,\alpha_R,\beta_R,\tau_R,\omega_R),
 $$
 
-where $\alpha_R$ is the old arc, $\beta_R$ the proposed replacement, $\tau_R$ the full typed endpoint data, and $\omega_R$ the first obstruction to certification. Its active rank is
+where $\partial R$ is the typed boundary interval, $\alpha_R$ is the old arc or edge segment, $\beta_R$ is the proposed replacement arc, $\tau_R$ is the full typed endpoint data, and $\omega_R$ is the first obstruction to certification. Its active rank is
 
 $$
 \varrho(R)=
@@ -642,69 +789,174 @@ $$
 \operatorname{return}(R),\operatorname{bdry}(R)).
 $$
 
-**Lemma 8.2 (Strong replacement certification).** If $R$ has a strong replacement certificate, then applying the replacement preserves the thrackle condition and either preserves the relevant non-$T_3$ obstruction while removing $R$, or produces a witness of strictly lower $\mathfrak K^\ast$.
+Here $\operatorname{span}$ is the affected boundary length, $\operatorname{int}$ counts unresolved interior events before the first stable obstruction, $\operatorname{obs}$ records the obstruction type, $\operatorname{return}$ records whether the attempt is terminal, routed, descending, or same-complexity, and $\operatorname{bdry}$ is the shortest boundary interval needed to read the obligation. The multiset of active $\varrho$-ranks is part of $\mathfrak K^\ast$, so a nested or improved replacement obligation is a genuine descent only when this multiset strictly decreases.
 
-The certificate consists of typed endpoint match; a replacement lens bounded by old arc, new arc, and endpoint caps; no hidden original vertex, marker, anchor, near-whole, whole-capture, or nested replacement data; controlled through-strand crossings; endpoint-germ compatibility; and obstruction persistence.
+**Lemma 8.2 (Strong replacement certification).** Let $R=(\partial R,\alpha_R,\beta_R,\tau_R,\omega_R)$ be a pending replacement obligation. A strong replacement certificate consists of the following finite data:
 
-**Proof.** Pairs of supports not involving the replacement are unchanged. The endpoint match and endpoint-germ compatibility preserve adjacent-edge incidences. Controlled crossings ensure that each nonadjacent support crossing the old arc crosses the new arc in the same prescribed class and does not acquire a second crossing. The no-hidden-data row prevents the replacement from jumping over graph or ledger data. Obstruction persistence supplies either the same typed non-$T_3$ package with $R$ removed or an explicit lower witness.
+1. typed endpoint match: the endpoints of $\alpha_R$ and $\beta_R$ are the same two stable full typed states;
+2. replacement lens: $\alpha_R$, $\beta_R$, and two endpoint caps bound a disk $D_R$ in the carrier;
+3. no hidden data: the interior of $D_R$ contains no original vertex, $v$-marker event, anchor endpoint, near-whole or whole-capture data, or unresolved replacement obligation;
+4. controlled crossings: every support meeting $D_R$ is a through-strand meeting $\alpha_R$ and $\beta_R$ in the same prescribed crossing class, and no support meets $\beta_R$ twice;
+5. endpoint-germ compatibility: adjacent original edges keep their allowed common endpoint contacts;
+6. obstruction persistence: either the carrier-level obstruction package is unchanged and $R$ is removed or lowered, or a graph-level output package is supplied with a B1 non-$T_3$ certificate and strictly lower $\mathfrak K^\ast$.
+
+If $R$ has this certificate, applying the replacement preserves the thrackle condition and either removes/lowers $R$ in the same witness package or produces a strictly lower non-$T_3$ witness.
+
+**Proof.** Supports not meeting the replacement lens are unchanged. The endpoint match and endpoint-germ compatibility preserve adjacent-edge incidences at the ends of the replacement. Controlled crossings preserve the crossing pattern with all nonadjacent through-strands and prevent a second crossing with the same support. The no-hidden-data row prevents the replacement from jumping over graph vertices or typed ledger data.
+
+Thus the local drawing after replacement is still a thrackle drawing. The obstruction-persistence row is what makes the move useful for this proof. In the carrier-level case, $T,p,q,\gamma_0,\gamma_1$, the anchored boundary relation, the marker ledger, the anchor ledger, and all active router ledgers are unchanged except that $R$ is removed or replaced by lower $\varrho$ data. In the graph-level case, the certificate supplies a new even dumbbell drawing $T'$, new B1/B2 data, a new anchored obstruction package, and a comparison map proving strict decrease of $\mathfrak K^\ast$. Hence the replacement is an admissible B7 transfer.
 
 **Lemma 8.3 (Local replacement-failure router).** A local failure of a strong replacement certificate routes to B4p, B5/B6c, B6b, B6d, nested B7 with lower $\varrho$, endpoint/anchor discharge, double crossing, or lower $\mathfrak K^\ast$.
 
-**Proof.** Inspect the first failed certificate row in the smallest typed region where it is visible. Endpoint mismatch is endpoint or anchor dirt. Absence of a proper replacement lens is a boundary regularization problem. Hidden ordinary vertices give a B6b ported disk. Hidden $v$ or marker data gives B5/B6c. Near-whole data gives B6d. Hidden replacement data gives a nested B7 obligation; if it is proper, its span or first-obstruction rank is smaller. A support meeting the proposed new arc twice is a double crossing when the support pair is the same, and otherwise a B6b blocker configuration.
+More precisely:
 
-**Lemma 8.4 (Domain-certificate persistence).** Let an admissible graph-changing even-dumbbell surgery $T\leadsto T'$ have a strong geometric certificate. Suppose a B1 domain certificate for $T\notin T_3$ survives outside the surgery lens: all ordinary certificate vertices survive, their incident domain pairs are preserved by the outside face bijection, and the four $v$-domains are identified in the $v$-certificate case. Then the transported certificate proves $T'\notin T_3$.
+| failed certificate row | router/output |
+| --- | --- |
+| typed endpoint mismatch | endpoint/anchor defect, typed normality failure, or lower $A$ |
+| no proper replacement lens | B4p/B6b boundary regularization or typed normality defect |
+| hidden ordinary original vertex | B6b ported-disk or blocked-R3 router |
+| hidden $v$ or marker event | B5/B6c |
+| near-whole or whole-capture data | B6d or endpoint discharge |
+| hidden replacement data | nested B7 obligation, lower $\varrho$, or replacement-rigid dirt |
+| support meets $\beta_R$ twice | double crossing or B6b blocker |
+| obstruction does not persist | not a local proof step; keep as B7 unless Lemma 8.4 or Lemma 8.5 applies |
 
-**Proof.** In the ordinary case, the transported four matched domain edges remain pairwise disjoint in $G_D(T')$, so $G_D(T')$ has matching number at least $4$ and no three domains cover the ordinary vertices. In the $v$-certificate case, for each $d\in I(v')$ the transported matching of size $3$ in $G_D(T')-d$ prevents a two-domain cover after deleting $d$.
+**Proof.** Inspect the first failed row in the smallest proper typed region where it is visible. Endpoint mismatch is endpoint or anchor data, because the proposed replacement cannot even identify its typed terminal states. Failure of the lens condition is a boundary regularization problem: if the region is cell-clean it is B4p, if it contains ordinary vertices it is B6b, and if it contains $v$ or marker data it is B5/B6c.
 
-**Lemma 8.5 (Full-propagation output test).** Suppose the outside cover of a residual domain-critical replacement propagates across the entire affected interval and all endpoint caps are compatible. Then all ordinary vertices of $T'$ are covered by at most three transported domains. Exactly one of the following occurs:
+Hidden original vertices, marker data, near-whole data, and replacement data are precisely the named ledgers in Sections 6, 7, and 8. If hidden replacement data is proper, its span, interior-event count, obstruction type, or boundary-reading interval is smaller, so the active $\varrho$-multiset decreases. If the same support pair is forced to meet twice, the thrackle condition is contradicted; if another ordinary obstruction mediates the second encounter, it is the B6b blocker problem. The only failure not decided locally is obstruction persistence, which is handled by the next two lemmas.
 
-1. the transported cover meets $I(v')$, so $T'$ is $T_3$ and the replacement is rejected as non-descending;
-2. the cover misses $I(v')$ and every $G_D(T')-d$ has matching number at least $3$, giving a fresh B1 $v$-certificate and graph-level descent persistence;
-3. the cover misses $I(v')$ and some $G_D(T')-d$ has matching number at most $2$, so Konig gives a three-domain cover of all original vertices and $T'$ is $T_3$.
+**Lemma 8.4 (Domain-certificate persistence).** Let $T\leadsto T'$ be a graph-changing admissible even-dumbbell surgery with a strong geometric certificate. Suppose a B1 domain certificate for $T\notin T_3$ survives outside the surgery lens:
 
-**Proof.** Full propagation covers all ordinary vertices of $T'$. If one transported domain is incident with $v'$, the same at-most-three domains cover every original vertex, hence $T'$ is $T_3$. If no transported domain is incident with $v'$, then B1 case 2 is decided by the finite matching tests in the four graphs $G_D(T')-d$.
+1. all ordinary certificate vertices survive as ordinary vertices of $T'$;
+2. the replacement lens is disjoint from their small neighborhoods and from the common vertex;
+3. the outside face bijection preserves the two incident domains of every certificate vertex;
+4. in the $v$-certificate case, the four domains incident to $v$ are identified with the four domains incident to $v'$.
 
-**Lemma 8.6 (Rejected replacement pullback).** If the full-propagation test rejects because $T'$ is $T_3$, then pulling the three-domain cover of $T'$ back to $T$ either produces a local B5/B6b/B6d/B7 or endpoint router, lowers $\varrho$, or proves the affected interval was the whole active witness and hence a non-descent.
+Then the transported certificate proves $T'\notin T_3$. If the surgery lowers the graph coordinate $G$, it gives graph-level descent persistence.
 
-**Proof.** Outside the affected interval the face bijection pulls the cover back to $T$. Since $T\notin T_3$, the pulled-back cover cannot extend across all of $T$. The first obstruction to extension occurs at an ordinary vertex, crossing/through-strand domain change, marker/common-vertex event, endpoint cap, anchor mismatch, near-whole boundary, or replacement ledger boundary. These are precisely B6b, B5/B6c, endpoint/B6d, or nested B7 rows. If no proper first obstruction exists, the affected interval is the whole witness and the attempted replacement is rejected as $N$.
+**Proof.** In the ordinary B1 case, the certificate is a matching of size $4$ in the ordinary domain graph. The four matched ordinary vertices survive, and their incident domain pairs are transported by the outside face bijection. Therefore the same four domain edges are pairwise disjoint in $G_D(T')$. Since $G_D(T')$ is bipartite, a three-domain cover of the ordinary vertices would be a vertex cover of size at most $3$, contradicting the matching of size $4$.
+
+In the $v$-certificate case, fix $d'\in I_{T'}(v')$ and let $d\in I_T(v)$ be the corresponding transported domain. The stored certificate in $G_D(T)-d$ is a matching of size $3$ using vertices untouched by the surgery. Transporting it gives a matching of size $3$ in $G_D(T')-d'$. Hence no two domains away from $d'$ cover the ordinary vertices after deleting $d'$. This holds for every $d'\in I_{T'}(v')$, so no three-domain cover can cover both all ordinary vertices and $v'$. Thus $T'\notin T_3$.
+
+**Lemma 8.5 (Domain-critical replacement and full-propagation test).** Let $R:T\leadsto T'$ be a residual strong graph-changing replacement after local failures and certificate-preserving surgeries have been removed. If no B1 certificate survives outside the affected interval, then the outside part of the domain graph is $T_3$-critical in the following finite sense:
+
+1. in the ordinary B1 case, the preserved ordinary vertices are coverable by at most three preserved domains;
+2. in the $v$-certificate case, if the $v$-domain ledger is preserved, then for some $d\in I_T(v)$ the preserved ordinary vertices outside the affected interval are coverable by $d$ and at most two further preserved domains.
+
+Let $S_R$ be such an outside cover and let $J_R$ be the affected original-cycle interval. If $S_R$ fails to propagate across $J_R$, the first failure event is endpoint/anchor, marker/common-vertex, uncovered ordinary vertex, crossing face-bijection change, replacement ledger, near-whole/whole-capture, or double-crossing data; the corresponding output is endpoint discharge, B5/B6c, B6b, nested B7 or lower $\varrho$, B6d, direct terminal contradiction, or lower $\mathfrak K^\ast$.
+
+If $S_R$ propagates across all of $J_R$ and all endpoint caps are compatible, then all ordinary vertices of $T'$ are covered by at most three transported domains. Exactly one of the following occurs:
+
+1. the transported cover meets $I_{T'}(v')$, so $T'$ is $T_3$ and the replacement is rejected as non-descending;
+2. the cover misses $I_{T'}(v')$ and every $G_D(T')-d$ has matching number at least $3$, giving a fresh B1 $v$-certificate and graph-level descent persistence;
+3. the cover misses $I_{T'}(v')$ and some $G_D(T')-d$ has matching number at most $2$, so Konig's theorem gives a three-domain cover of all original vertices and $T'$ is $T_3$.
+
+**Proof.** If an ordinary B1 certificate does not survive outside the affected interval, then the preserved outside domain graph has no matching of size $4$; by Konig's theorem it has a vertex cover of size at most $3$. In the $v$-certificate case, absence of a surviving certificate means that for some preserved $v$-domain $d$, the graph outside the affected interval after deleting $d$ has no matching of size $3$; by Konig, it has a two-domain cover. Adding $d$ gives the stated outside cover.
+
+Propagation of $S_R$ is locally constant along open edgelets of the affected interval. Hence a failure has a first finite event. It cannot occur at a smooth point, so it occurs at an endpoint cap, ordinary vertex, crossing, marker/common vertex, replacement boundary, near-whole boundary, or attempted repeated support crossing. These are exactly the router rows listed in the statement.
+
+If no first failure occurs, the cover propagates over all ordinary vertices of $T'$. If one transported domain is incident with $v'$, then the same at-most-three domains cover every original vertex, and $T'$ is $T_3$. If the transported cover misses $I_{T'}(v')$, the B1 case-2 test is finite. When every $G_D(T')-d$ has a matching of size at least $3$, those matchings are a fresh $v$-certificate for $T'\notin T_3$. If some $G_D(T')-d$ has matching number at most $2$, Konig gives a cover $C_d$ of size at most $2$ after deleting $d$, and $C_d\cup\{d\}$ covers all original vertices of $T'$. Hence $T'$ is $T_3$.
+
+**Lemma 8.6 (Rejected replacement pullback).** If the full-propagation test rejects a strong graph-changing replacement because $T'$ is $T_3$, then pulling the resulting three-domain cover of $T'$ back to $T$ either produces a local B5/B6b/B6d/B7 or endpoint router, lowers $\varrho$, or proves that the affected interval was the whole active witness and hence a non-descent.
+
+**Proof.** Let $S'$ be the three-domain cover of $T'$ obtained in Lemma 8.5. Pull it back through the outside face bijection on the complement of the affected interval $J_R$. The pulled-back cover is well-defined and covers every original vertex outside $J_R$. It cannot extend to all of $T$, because $T\notin T_3$.
+
+Read along $J_R$ from either endpoint cap. Since the event list is finite, either there is a first obstruction to extending the pulled-back cover, or $J_R$ is the whole active witness. A first obstruction cannot occur at a smooth point of a preserved edgelet. If it is an ordinary vertex or a crossing/through-strand face change, it is B6b ported-disk or blocked-R3 data. If it is $v$ or a marker event, it is B5/B6c. If it is an endpoint cap, anchor mismatch, or near-whole boundary, it is endpoint or B6d data. If it is replacement-ledger data, it is a nested B7 obligation; when proper, its $\varrho$-rank is lower. If no proper first obstruction exists, the attempted replacement was a whole-witness transformation and is recorded as $N$, not as a contradiction or descent.
+
+**Remark 8.7 (Scope of B7).** B7 is closed only as a productive certificate test. Certified R3, full typed deletion/splice, double crossing, carrier-local replacement, and graph-changing replacement with a transported or fresh B1 certificate are terminal or descending. Blocked R3, uncertified replacement, rejected $T_3$ output, and whole-witness replacement are not terminal; they must route through B5, B6, endpoint discharge, nested B7, or the inert ledger.
 
 ## 9. Endpoint Discharge
 
-Many branches export an endpoint object
+Endpoint discharge is the router for failures concentrated at a terminal section,
+an anchor cap, a marker cap, or the boundary of a replacement/R3 obligation. It
+is the place where several downstream outputs meet:
 
 $$
-E=(\partial E,\tau,\mu,a,\rho),
+\text{B5 marker endpoint},\qquad
+\text{B6d near-whole anchor object},\qquad
+\text{B7 endpoint obligation}.
 $$
 
-where $\partial E$ is the typed boundary trace, $\tau$ records side/orientation/domain/support/gate data, $\mu$ is the marker word, $a$ is the anchor state, and $\rho$ is the replacement or blocked-R3 ledger.
+This phrase is useful only if endpoint objects are finite, typed, and controlled
+by the same global witness complexity. An endpoint object is therefore recorded
+as
 
-The endpoint cost is
+$$
+E=(\partial E,\tau,\mu,a,\rho,\Pi),
+$$
+
+where $\partial E$ is the typed boundary trace entering and leaving the endpoint
+region, $\tau$ records side, orientation, domain, support, gate, and endpoint
+role data, $\mu$ is the common-vertex marker word when present, $a$ records the
+anchor state, $\rho$ is the replacement or blocked-R3 ledger, and $\Pi$ is the
+finite multiset of active B7 candidates attached to the endpoint.
+
+The endpoint cost is the endpoint projection of the global scale, not a new
+minimality:
 
 $$
 \eta(E)=(M_E,A_E,R_E,U_E),
 $$
 
-compatible with $\mathfrak K^\ast$.
+where $M_E$ is marker complexity, $A_E$ is anchor defect, $R_E$ is the active
+replacement/R3 multiset, and $U_E$ is finite boundary tie-breaker data. More
+precisely, after Section 8,
 
-**Lemma 9.1 (Endpoint normal form).** Before the near-whole router is applied, every non-discharged endpoint object in a minimal reduced witness is one of:
+$$
+R_E^\star=
+\bigl(\{\!\{\varrho(R):R\in\Pi(E)\}\!\},|\Pi(E)|,U_E\bigr)
+$$
+
+is the endpoint replacement coordinate. Rejected whole-witness B7 candidates are
+removed from $\Pi(E)$ and stored only in the inert ledger. Thus an endpoint step
+is productive only if it is terminal, lowers $\mathfrak K^\ast$, enters a named
+router with full typed data, or removes a whole-witness non-descent from the
+active ledger.
+
+**Lemma 9.1 (Endpoint normal form).** Before applying the near-whole router and the B7 productive ledger, every non-discharged endpoint object in a minimal reduced witness is one of:
 
 1. a primitive marker pair $m_A m_B$ or $m_B m_A$;
-2. an anchor-rigid near-whole cycle capture;
-3. a pending B7 replacement/R3 obligation or blocked R3 obligation.
+2. an anchor-rigid near-whole cycle capture with no proper anchored subobject of lower $A_E$;
+3. a pending B7 replacement/R3 obligation or blocked R3 obligation carried by $\Pi(E)$.
 
-**Proof.** Nonprimitive marker words are reduced by Lemma 6.4. A whole-capture endpoint containing or capping through $v$ is marker data. A $v$-free near-whole endpoint has all ordinary vertices of one original cycle except the two ports near $v$; if it had a proper anchored subobject with the same boundary relation, $A,P$, or $U$ would decrease. Certified empty R3 triangles and strong replacements are B7 terminal/descent rows; blocked or uncertified ones are pending B7 obligations.
+**Proof.** If the marker word has nonprimitive local length, Lemma 6.4 cuts off a shorter marker package. Lemma 6.3 prevents this package from being erased by ordinary moves. Therefore a reduced endpoint cannot retain a nonprimitive marker word unless it has already produced a marker cancellation, strict descent, B7 certificate, or routed endpoint/B6/B7 object. The only local marker residual is a primitive pair.
 
-**Lemma 9.2 (Productive endpoint discipline).** Evaluating the active B7 candidates of an endpoint object has exactly one productive outcome: certified terminal/descent, local router or lower $\mathfrak K^\ast$, nested B7 with lower $\varrho$, or whole-witness rejection removed from the active endpoint ledger.
+A whole-capture endpoint containing or capping through $v$ is marker/common-vertex data and belongs to B5/B6c, not to an ordinary endpoint residual. If it is $v$-free but contains all ordinary vertices of one original cycle except the two ports near $v$, then it is a near-whole anchor object. If it had a proper anchored subobject with the same full typed boundary relation, then the anchor defect $A_E$, ported-disk coordinate $P$, or tie-breaker $U_E$ would decrease. Hence the residual case is anchor-rigid.
 
-**Proof.** Certified R3, typed splice/collapse, carrier-local replacement, and obstruction-persistent graph-changing replacement are B7 terminal or descent rows. Local failures route by Lemma 8.3. Domain-critical discontinuities and rejected replacements route or become whole-witness non-descents by Lemmas 8.5 and 8.6. Nested replacement data lowers the active $\varrho$ multiset unless it is replacement-rigid dirt already recorded in cyclic boundary regularization.
+Finally, an endpoint may carry an R3 or replacement candidate. If the R3 triangle is certified empty and obstruction-persistent, or if the replacement has the certificate of Lemma 8.2, Section 8 makes it terminal or descending. If the triangle is blocked or the replacement is uncertified, it is exactly a pending B7 obligation in $\Pi(E)$. These alternatives exhaust the typed data $(\mu,a,\rho,\Pi)$ of a reduced endpoint object.
+
+**Lemma 9.2 (Productive endpoint discipline).** Evaluating an active B7 candidate in $\Pi(E)$ has exactly one productive outcome:
+
+1. certified terminal/descent;
+2. local router or lower $\mathfrak K^\ast$;
+3. nested B7 with strictly lower $\varrho$;
+4. whole-witness rejection, which removes the candidate from $\Pi(E)$ but is not terminal progress.
+
+After all active B7 candidates of $E$ have been evaluated, either $E$ has produced one of the first three outputs, or $E$ has no productive B7 output and must be discharged by marker, anchor, near-whole, B6b blocked-R3, typed continuation/splice, or whole-witness non-descent rows.
+
+**Proof.** Certified R3, full typed splice/collapse, carrier-local replacement, and obstruction-persistent graph-changing replacement are exactly the terminal or descending rows of Lemma 8.1. Local certificate failures route by Lemma 8.3. Domain-critical discontinuities and rejected graph-changing replacements route or become whole-witness non-descents by Lemmas 8.5 and 8.6. A nested replacement obligation is productive only if its span, interior-event count, obstruction type, return type, or boundary-reading interval is lower; equivalently, the active $\varrho$ multiset decreases. If none of these coordinates decreases, the same-complexity data is replacement-rigid dirt already recorded in the B6/B4p cyclic boundary ledger, not an endpoint terminal move.
+
+The only nonproductive B7 status is an explicitly rejected whole-witness candidate. Removing it from $\Pi(E)$ lowers the finite active candidate count and prevents the proof from using the same rejected branch again as if it were terminal. Since $\Pi(E)$ is finite, repeated endpoint B7 evaluation terminates. If no active B7 candidate remains, the endpoint must be routed by its non-B7 data $(\tau,\mu,a)$, not declared solved by B7.
 
 **Lemma 9.3 (No proper inert-only endpoint residual).** After primitive marker normalization, rank-one cap cancellation, near-whole routing, short-port routing, and productive B7 evaluation, a proper endpoint object cannot have all B7 candidates inert and no remaining marker, anchor, B6b, B6d, B7, or typed-continuation output.
 
-**Proof.** Endpoint normal form leaves only primitive marker pairs, anchor-rigid near-whole captures, and B7/blocked-R3 obligations. Primitive consecutive marker pairs cancel by Lemma 6.5; failures of cap eligibility route to separated marker, endpoint/anchor, B5/B6/B7, or lower cost. Near-whole captures route by Lemma 7.3. B7 obligations are productive by Lemma 9.2, and blocked R3 obligations are B6b/B7 outputs by definition.
+**Proof.** By Lemma 9.1, a non-discharged endpoint object is a primitive marker pair, an anchor-rigid near-whole capture, or a B7/blocked-R3 obligation.
+
+For a primitive marker pair, the consecutive cap-eligible case cancels by Lemma 6.5 and lowers $M_E$. Failure of cap eligibility is not inert: terminal-state mismatch is endpoint/anchor data, ordinary carrier data between the markers is a separated marker or B6/B7 object, hidden graph data gives B6, and replacement boundary data gives B7. Thus a primitive marker endpoint always lowers $M_E$ or routes.
+
+For an anchor-rigid near-whole capture, Lemma 7.10 gives the length dichotomy. Captures of length at least $6$ contain internal R3 candidates and route to B6b/B7. The length-$4$ case is the finite two-edge port table: caps through $v$ are B5 marker data, boundary R3 rows are B7 or B6b/B7, endpoint/anchor failures lower or repair $A_E$, and the remaining ordinary chain is typed continuation/splice or normality failure. Whole-witness captures are moved to the inert ledger and are not proper endpoint residuals.
+
+For B7 data, Lemma 9.2 evaluates every active candidate. A certified candidate is productive; a local or rejected candidate routes by Lemma 8.3, Lemma 8.5, or Lemma 8.6; a nested candidate lowers $\varrho$; and a whole-witness rejection is removed from $\Pi(E)$. A blocked R3 obligation is, by definition, a B6b/B7 router output rather than an inert endpoint. Hence a proper endpoint with no active B7 candidate and no marker, anchor, B6b, B6d, B7, or typed-continuation output contradicts the normal form.
 
 **Theorem 9.4 (Endpoint discharge router).** Every proper endpoint object routes to terminal/lower $\mathfrak K^\ast$, B5/B6b/B6d/B7 productive routing, anchor repair, typed continuation/splice, or whole-witness non-descent. Endpoint discharge has no independent residual beyond the B6b/B7 routers to which it legitimately exports.
 
-**Proof.** Combine Lemmas 9.1-9.3 with the marker cap table, the near-whole length dichotomy, the short-port router, and the B7 certification ledger. Each proper endpoint either lowers a coordinate, is certified terminal, enters a named downstream router, or is rejected as a whole-witness non-descent.
+**Proof.** Let $E$ be a reduced endpoint object. If it is not in normal form, the reduction to Lemma 9.1 gives a lower endpoint projection of $\mathfrak K^\ast$ or a named router. In normal form, there are three cases.
+
+Primitive marker pairs are discharged by the cap-relation table of Lemma 6.5, unless a cap-eligibility hypothesis fails; every failure is endpoint/anchor, separated-marker, B5/B6/B7, or lower-cost data. Anchor-rigid near-whole captures route by Lemma 7.10 and either produce B5 marker data, B6b/B7 blocker data, endpoint/anchor repair, typed continuation/splice, or whole-witness non-descent. B7 candidates are evaluated by Lemma 9.2; by Lemma 9.3, once inert whole-witness candidates are removed, no proper endpoint can remain with no productive output.
+
+Thus every proper endpoint either lowers $M_E,A_E,R_E^\star$, or $U_E$, supplies a certified terminal/descent, enters B5, B6b, B6d, endpoint/anchor repair, or B7 with full typed data, or is explicitly marked as a whole-witness non-descent. These are exactly the admissible outputs in Section 2.
+
+**Remark 9.5 (Endpoint scope).** Endpoint discharge is a router, not an additional terminal theorem. It closes the bookkeeping gap that would otherwise allow rejected replacements, whole-cycle captures, or primitive marker pairs to be reused as fake progress. The only endpoint non-output is an explicitly inert whole-witness non-descent; every proper endpoint remains productive or strictly lower.
 
 ## 10. Internal Minimal-Witness Closure
 
@@ -712,7 +964,7 @@ compatible with $\mathfrak K^\ast$.
 
 **Proof.** Lemma 3.1 and the complementary path construction supply $p,q,\gamma_0,\gamma_1$ and hence a witness package. Apply Theorem 4.6. A terminal output contradicts the standing assumptions. A descent contradicts minimality. A B5/B6/B7 output enters the corresponding productive router. Otherwise B3 supplies an anchored ordered typed corridor.
 
-Apply Theorem 5.8. Again terminal and descending branches close. Exported marker, ordinary-vertex, endpoint, replacement, and train/support-gate branches are productive router outputs. The regular corridor branch feeds the ladder/train/support-gate analysis through Propositions 5.6 and 5.7: cell-clean disks are handled by Lemma 7.1; ordinary-vertex disks by Theorem 7.2; marker data by Section 6; endpoint data by Section 9; and edge-removal/replacement data by Section 8.
+Apply Theorem 5.8. Again terminal and descending branches close. Exported marker, ordinary-vertex, endpoint, replacement, and train/support-gate branches are productive router outputs. The regular corridor branch feeds the ladder/train/support-gate analysis through Propositions 5.6 and 5.7: cell-clean disks are handled by Lemmas 7.1 and 7.2; ordinary-vertex disks by Theorem 7.8; near-whole captures by Lemma 7.10; marker data by Section 6; endpoint data by Section 9; and edge-removal/replacement data by Section 8.
 
 By Lemma 2.1, any downstream router chain is finite unless it produces a terminal output or a strict descent. Certificate tests are finite B7 or endpoint tests. Rejected whole-witness candidates are marked inert and removed from the active ledger; they cannot be counted as progress. If no active obligation remains, the package is resolved. If an active obligation remains, minimality applies to that obligation and Lemma 2.1 prevents a cycle.
 
