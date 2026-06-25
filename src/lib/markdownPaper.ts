@@ -224,6 +224,7 @@ function formatInline(value: string) {
   let html = escapeHtml(protectedText)
     .replace(/&lt;strong&gt;(.+?)&lt;\/strong&gt;/g, "<strong>$1</strong>")
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*([^*]+?)\*/g, "<em>$1</em>")
     .replace(/`([^`]+)`/g, "<code>$1</code>");
 
   tokens.forEach((token, index) => {
