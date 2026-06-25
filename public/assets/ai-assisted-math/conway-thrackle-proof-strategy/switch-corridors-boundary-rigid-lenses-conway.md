@@ -1,12 +1,32 @@
-# Switch Corridors and Boundary-Rigid Lenses in Even Dumbbell Thrackles: A Router Reduction and Minimal-Witness Strategy
+# Switch Corridors and Boundary-Rigid Lenses in Even Dumbbell Thrackles: A Local Reduction and Minimal-Witness Strategy
 
 ## Abstract
 
-We develop a typed router reduction for the irreducible even-dumbbell stage of Conway's thrackle program. Starting from a non-$T_3$ even dumbbell thrackle, the domain-incidence graph supplies a same-cycle pair of ordinary vertices $p,q$ carrying the relevant obstruction data. From this pair one constructs anchored carriers, proves a complexity-controlled no-backtracking theorem, and compiles minimal reachability data into ordered typed switch corridors. The corridor regularization step then reduces every nonregular output to a terminal contradiction, a strict descent, or a named downstream router. The common vertex is controlled by a rank-one marker ledger; support-gate disks containing original vertices are handled through ported-disk and blocked-R3 machinery; and edge-removal or replacement moves are admitted only with finite certificates. The resulting blueprint has an internal minimal-witness closure theorem: with respect to a single well-founded witness complexity, every unresolved package terminates, strictly descends, enters a lower active router, or is rejected as a whole-witness non-descent. The remaining work is to write the router chain in final manuscript order, attach the stated certificates to every terminal move, and connect the internal theorem to the external reductions in the standard Conway-thrackle program.
+We give a detailed reduction framework for the irreducible even-dumbbell stage
+of Conway's thrackle program. The starting point is a non-$T_3$ even dumbbell
+thrackle. A finite domain-incidence argument first selects two ordinary
+same-cycle vertices $p,q$ with separated incident-domain data. The two
+complementary $p$-to-$q$ paths are then treated as anchored traces rather than
+as free local corridors: every subsequent simplification must preserve the
+original endpoint data or record a precise lower subproblem. From this anchored
+setup we construct typed carriers, prove a no-backtracking theorem by a
+well-founded minimal-witness cost, and compile the remaining reachability data
+into ordered switch corridors. The corridor analysis separates regular
+switching cells from the genuinely singular residuals: common-vertex marker
+data, support-gate disks containing original vertices, blocked R3 moves,
+replacement lenses, and endpoint failures. Each residual is routed to a
+terminal contradiction, a strict descent, a lower named subproblem, or a finite
+local verification. The internal closure theorem states that, once the listed
+finite local verifications are supplied, no unresolved irreducible non-$T_3$
+even-dumbbell obstruction survives. Thus the manuscript reduces the internal
+Conway step to a finite collection of explicit local checks together with the
+standard external reductions to the even-dumbbell and $T_3$ cases.
 
 ## 1. Overview of the Reduction
 
-The target of this paper is the internal even-dumbbell step in the usual strategy for Conway's thrackle conjecture. The external route has the form
+The target of this paper is the internal even-dumbbell step in the usual
+strategy for Conway's thrackle conjecture. We use the following standard
+external route as background:
 
 $$
 \text{Conway false}
@@ -20,31 +40,107 @@ T_3
 \text{Conway bound}.
 $$
 
-The external reductions and the theorem that $T_3$-thrackles satisfy the Conway bound are not reproved here. The contribution is a detailed router architecture for the internal assertion:
+The external reductions and the theorem that $T_3$-thrackles satisfy the Conway
+bound are not reproved here. The object of the paper is the middle implication:
 
 $$
-\text{there is no irreducible non-}T_3\text{ even dumbbell thrackle surviving the audited blueprint.}
+\text{there is no irreducible non-}T_3\text{ even dumbbell thrackle
+surviving the local reduction scheme.}
 $$
 
-The reduction is organized around five output types.
+The reduction has six conceptual stages.
+
+First, Section 3 replaces the non-$T_3$ hypothesis by finite domain data. The
+ordinary vertices determine a bipartite domain graph. By Koenig's theorem, the
+failure of a three-domain cover supplies explicit matchings. These matchings
+give two ordinary same-cycle vertices $p,q$ whose incident-domain pairs are
+disjoint. The point is deliberately modest: this step only produces anchored
+endpoint data and the two complementary graph paths between $p$ and $q$.
+
+Second, Section 4 turns one of those graph paths into an anchored carrier. This
+is where the proof must avoid a common pitfall. A smaller local corridor is not
+useful if it forgets the original $p,q$ endpoints or their domain, orientation,
+marker, and replacement data. The carrier is therefore a typed object with
+terminal sections built into the data. A finite layered reachability graph
+records which typed boundary states can be connected through the carrier. A
+minimal-witness argument then removes backtracking: every non-monotone return
+contains a smaller typed disk, a lower carrier, or a named residual subproblem.
+
+Third, Section 5 regularizes the resulting ordered corridor. Regular
+alternating cells are kept; nonregular strips are not simply discarded. They
+are either simplified by a typed identity or same-relation splice, shown to
+lower the global cost, or exported to one of the residual analyses. This is the
+main place where the switch-corridor language enters.
+
+Fourth, Sections 6 and 7 handle the residuals caused by the graph itself. The
+common vertex is treated by a rank-one marker record: passages through $v$ are
+singular events and cannot be silently replaced by ordinary continuations.
+Support-gate disks containing ordinary original vertices are reduced by port
+graphs, short-port chains, and blocked-R3 alternatives. The role of these
+sections is not to declare every residual terminal; it is to assign each
+residual a controlled destination.
+
+Fifth, Sections 8 and 9 handle replacement and endpoint phenomena. A proposed
+R3 move or edge replacement is useful only when the required local data are
+explicit: endpoint matching, crossing control, absence of hidden vertices or
+marker events, and persistence of the non-$T_3$ obstruction. When such data are
+missing, the first failure is routed to a smaller local problem or to endpoint
+discharge. Endpoint discharge prevents whole-witness attempts, rejected
+replacements, and near-whole captures from being counted as progress.
+
+Finally, Section 10 assembles the local reductions by a single
+well-founded cost. This is the only role played by the presentation-complexity
+language in the paper. The proof uses a finite description of the current
+obstruction package and a cost $\mathfrak K^\ast$ that records the global
+drawing size, marker and anchor defects, carrier complexity, support-gate and
+ported-disk data, blocked moves, replacement ranks, and the finite multiset of
+active subproblems. A local step is admissible only if it is terminal, strictly
+lowers this cost, or replaces the active subproblem by lower-ranked subproblems.
+This converts the usual minimal-counterexample method into a bookkeeping
+statement strong enough to rule out cycles among the different local
+minimalities.
+
+For reference, we organize all local outputs into five classes.
 
 | type | meaning | allowed use |
 | --- | --- | --- |
-| $T$ | terminal contradiction | contradicts the thrackle condition, non-$T_3$ status, or irreducibility by a certified theorem |
+| $T$ | terminal contradiction | contradicts the thrackle condition, non-$T_3$ status, or irreducibility |
 | $D$ | strict descent | produces a witness package of strictly lower $\mathfrak K^\ast$ |
-| $R$ | productive router | enters a named downstream router without losing typed data |
-| $C$ | certificate test | becomes $T$, $D$, $R$, or $N$ after a finite certificate check |
-| $N$ | whole-witness non-descent | rejected; it is never counted as proof progress |
+| $R$ | routed subproblem | enters a named downstream analysis without losing typed data |
+| $C$ | finite verification | becomes $T$, $D$, $R$, or $N$ after checking a finite list of local cases |
+| $N$ | whole-witness non-descent | rejected as a non-progress move; never used as a contradiction |
 
-This taxonomy is part of the proof. A routed output is not a contradiction merely because it has been named. It must be sent to its downstream router, certified, or shown to lower the declared complexity. A certificate test is not terminal until the finite certificate has been checked. A whole-witness non-descent is bookkeeping, not progress.
+This taxonomy is part of the proof. A routed output is not a contradiction
+merely because it has been named. It must be sent to its downstream analysis,
+verified locally, or shown to lower the declared cost. A finite verification is
+not terminal until all of its rows have been evaluated. A whole-witness
+non-descent is bookkeeping, not progress.
 
-The main internal theorem is stated in Section 10. Its proof uses one complexity ledger throughout, so that the different local minimalities of the construction cannot cycle.
+We use the word **certificate** only in the standard finite-witness sense: a
+certificate is explicitly stored finite data, such as a matching in the domain
+graph or a local replacement table, whose verification is part of the proof. It
+is not a black-box assertion that a desired local move exists.
 
-## 2. Witness Packages as a Presentation System
+The main internal theorem is stated in Section 10. Its proof uses one
+well-founded cost throughout, so that the different local minimalities of the
+construction cannot cycle.
 
-We now fix the presentation-complexity language used by the proof. This is the point at which the different local minimalities in the construction are replaced by one global well-founded cost. After this section, a phrase such as "smaller corridor", "smaller blocker", or "proper endpoint object" is admissible only when it is interpreted as a strict decrease in the resource scale defined below, or as a handoff to an active obligation of strictly lower ledger rank.
+## 2. Witness Packages and the Global Cost
 
-### 2.1. The Conway obstruction presentation system
+This section formalizes the bookkeeping used in the minimal-counterexample
+argument. The terminology is taken from presentation complexity only where it
+does real work: we describe each obstruction by a finite combinatorial
+description, define a well-founded cost on such descriptions, and require every
+nonterminal local move to lower that cost or to replace the current problem by
+lower-ranked subproblems. No probabilistic, algorithmic, or Kolmogorov
+complexity is being invoked.
+
+After this section, a phrase such as "smaller corridor", "smaller blocker", or
+"proper endpoint object" has a precise meaning: it is either a strict decrease
+in the resource scale below, or a handoff to an active subproblem of strictly
+lower rank.
+
+### 2.1. Finite descriptions of Conway obstruction packages
 
 Let $\mathcal X_{\mathrm{Con}}$ be the class of typed Conway obstruction packages considered up to PL homeomorphism preserving all graph, side, orientation, domain, support, gate, marker, anchor, port, and replacement labels. A description of such a package is a finite planarized combinatorial encoding
 
@@ -53,7 +149,17 @@ d=
 (T,p,q,\gamma_0,\gamma_1,C,\mathcal L,\mathcal M,\mathcal D,\mathcal B,\mathcal O).
 $$
 
-The entries have the following roles. The drawing $T$ is the planarized even dumbbell drawing. The vertices $p,q$ are same-cycle ordinary vertices supplied by the domain graph. The paths $\gamma_0,\gamma_1$ are the two complementary $p$-to-$q$ paths. The carrier $C$ is an anchored carrier, ordered corridor, support-gate carrier, or the local carrier currently being evaluated. The finite layered graph $\mathcal L$ records typed reachability states. The marker ledger $\mathcal M$ records the rank-one common-vertex marker data. The routed disk $\mathcal D$ is the current support-gate, ported, endpoint, or dirty-boundary disk, when one is active. The blocker relation $\mathcal B$ records blocked R3 and replacement obligations. Finally, $\mathcal O$ is the finite multiset of active router obligations still requiring evaluation.
+The entries have the following roles. The drawing $T$ is the planarized even
+dumbbell drawing. The vertices $p,q$ are same-cycle ordinary vertices supplied
+by the domain graph. The paths $\gamma_0,\gamma_1$ are the two complementary
+$p$-to-$q$ paths. The carrier $C$ is an anchored carrier, ordered corridor,
+support-gate carrier, or the local carrier currently being evaluated. The
+finite layered graph $\mathcal L$ records typed reachability states. The marker
+record $\mathcal M$ stores the rank-one common-vertex marker data. The routed
+disk $\mathcal D$ is the current support-gate, ported, endpoint, or
+dirty-boundary disk, when one is active. The blocker relation $\mathcal B$
+records blocked R3 and replacement obligations. Finally, $\mathcal O$ is the
+finite multiset of active local obligations still requiring evaluation.
 
 Let $\mathcal D_{\mathrm{Con}}$ be the class of all such finite descriptions satisfying the local typing rules. The realization map
 
@@ -69,7 +175,9 @@ $$
 (\mathcal D_{\mathrm{Con}},\rho_{\mathrm{Con}},\kappa_{\mathrm{Con}}),
 $$
 
-where the cost $\kappa_{\mathrm{Con}}$ is the value $\mathfrak K^\ast$ defined below. Thus the relevant bounded part is
+where the cost $\kappa_{\mathrm{Con}}$ is the value $\mathfrak K^\ast$ defined
+below. This notation is only a compact way to say that we work with finite
+encodings and a well-founded cost. The relevant bounded part is
 
 $$
 \mathcal X_{\Gamma_{\mathrm{Con}}}^{\le b}
@@ -77,7 +185,10 @@ $$
 \rho_{\mathrm{Con}}\{d\in\mathcal D_{\mathrm{Con}}:\mathfrak K^\ast(d)\le b\}.
 $$
 
-A description is **unresolved** if it realizes a nonterminal proof-obstruction package and has at least one active obligation not yet evaluated by the router catalogue. Terminal contradictions, certified descents, and inert whole-witness rejections are not unresolved states.
+A description is **unresolved** if it realizes a nonterminal obstruction package
+and has at least one active subproblem not yet evaluated by the reduction
+scheme. Terminal contradictions, verified descents, and inert whole-witness
+rejections are not unresolved states.
 
 ### 2.2. The resource scale
 
@@ -111,7 +222,13 @@ The coordinates are, in order:
 
 The symbol $\mathsf B_{\mathrm{blk}}$ is deliberately not denoted $B_0$, because $B_{\mathrm{base}}$ is the base resource scale. This avoids a collision between the scale and the blocker coordinate.
 
-There are two further families of local certificate ranks. Let $\Delta$ be the well-founded rank set used by certified-diagonal-free alternating enclosures, with rank $\delta(P_i)$ for the $i$-th active enclosure. Let $\mathcal R_{\mathrm{rep}}$ be the well-founded rank set used by pending replacement-edge or R2 obligations, with rank $\varrho(R_j)$ for the $j$-th active replacement obligation. These ranks are local certificate ranks: they are not observables by themselves, but finite data attached to the corresponding active certificate problem.
+There are two further families of local verification ranks. Let $\Delta$ be the
+well-founded rank set used by diagonal-free alternating enclosures, with rank
+$\delta(P_i)$ for the $i$-th active enclosure. Let
+$\mathcal R_{\mathrm{rep}}$ be the well-founded rank set used by pending
+replacement-edge or R2 obligations, with rank $\varrho(R_j)$ for the $j$-th
+active replacement obligation. These ranks are not observables by themselves;
+they are finite records attached to the corresponding active local problem.
 
 For a well-founded ordered set $A$, write
 
@@ -119,7 +236,8 @@ $$
 \operatorname{MSet}_{\mathrm{fin}}(A)
 $$
 
-for the finite-multiset extension of $A$. The witness cost before router obligations is
+for the finite-multiset extension of $A$. The witness cost before adding active
+local obligations is
 
 $$
 \mathfrak K(d)=
@@ -136,7 +254,10 @@ B_{\mathrm{base}}
 \operatorname{MSet}_{\mathrm{fin}}(\mathcal R_{\mathrm{rep}}).
 $$
 
-An active obligation $O\in\mathcal O(d)$ is a typed subobject still requiring evaluation: a B3/B4 routed object, marker endpoint, ported B6 disk, blocked R3 candidate, dirty boundary cycle, B7 certificate candidate, endpoint object, or whole-witness candidate not yet rejected. Its obligation rank is
+An active obligation $O\in\mathcal O(d)$ is a typed subobject still requiring
+evaluation: a B3/B4 routed object, marker endpoint, ported B6 disk, blocked R3
+candidate, dirty boundary cycle, B7 verification candidate, endpoint object, or
+whole-witness candidate not yet rejected. Its obligation rank is
 
 $$
 \lambda(O)=
@@ -157,12 +278,12 @@ Proper subobjects are ranked below whole-boundary and whole-witness candidates,
 because replacing a global pending object by a proper localized obligation is
 progress only when the localization data is recorded in $\Lambda$. The kind
 coordinate records the router priority, ordered so that already localized
-splice/collapse, marker/anchor endpoint, B7 certificate, blocked-R3/B6b,
+splice/collapse, marker/anchor endpoint, B7 verification, blocked-R3/B6b,
 dirty-cycle/B4p, and same-complexity pending states appear in increasing order
-of danger. The size coordinate is the relevant local finite size: boundary
+of priority. The size coordinate is the relevant local finite size: boundary
 length, number of ports or original vertices, blocker graph size, endpoint
-candidate count, or typed state count. The certificate coordinate records
-whether the finite certificate is unchecked, checked-routed, checked-certified,
+candidate count, or typed state count. The verification coordinate records
+whether the finite check is unchecked, checked-routed, checked-terminal,
 or checked-rejected. Checked-rejected whole-witness candidates are removed from
 $\mathcal O(d)$ rather than kept as active obligations.
 
@@ -195,15 +316,30 @@ $$
 
 **Lemma 2.1 (Well-foundedness of the Conway scale).** The strict order induced by $B_\ast$ is well-founded.
 
-**Proof.** The lexicographic order on $\mathbb N^{12}$ is well-founded. The certificate rank sets $\Delta$ and $\mathcal R_{\mathrm{rep}}$ are finite or finite lexicographic products of natural-number ranks, hence well-founded. The obligation rank set $\mathcal A$ is well-founded by construction. The finite-multiset extension of a well-founded order is well-founded, and a finite lexicographic product of well-founded orders is well-founded. Therefore $B_\ast$ is well-founded.
+**Proof.** The lexicographic order on $\mathbb N^{12}$ is well-founded. The
+local rank sets $\Delta$ and $\mathcal R_{\mathrm{rep}}$ are finite or finite
+lexicographic products of natural-number ranks, hence well-founded. The
+obligation rank set $\mathcal A$ is well-founded by construction. The
+finite-multiset extension of a well-founded order is well-founded, and a finite
+lexicographic product of well-founded orders is well-founded. Therefore
+$B_\ast$ is well-founded.
 
 ### 2.3. Observables versus costs
 
-The following data are observables in the sense of presentation complexity: the $T_3$ domain-cover data, the domain-incidence graph, the boundary relation of a carrier, the marker word, the Reeb graph type of a lane, the blocker dependency graph, and the braid word of a train segment. They may select a router or a certificate test, but they are not descents by themselves.
+The following data are observables: the $T_3$ domain-cover data, the
+domain-incidence graph, the boundary relation of a carrier, the marker word,
+the Reeb graph type of a lane, the blocker dependency graph, and the braid word
+of a train segment. They may select a local analysis or a finite verification,
+but they are not descents by themselves.
 
-For example, "the boundary relation is nontrivial" is not a proof step. It becomes a proof step only after the typed subcarrier theorem produces a terminal contradiction, a lower-cost description, or a lower-ranked active obligation. Likewise, "an R3 candidate is blocked" is merely an observation until the blocker router lowers $P$, $\mathsf B_{\mathrm{blk}}$, $U$, $\delta$, $\varrho$, or the active obligation ledger.
+For example, "the boundary relation is nontrivial" is not a proof step. It
+becomes a proof step only after the typed subcarrier theorem produces a
+terminal contradiction, a lower-cost description, or a lower-ranked active
+obligation. Likewise, "an R3 candidate is blocked" is merely an observation
+until the blocker analysis lowers $P$, $\mathsf B_{\mathrm{blk}}$, $U$,
+$\delta$, $\varrho$, or the active-obligation multiset.
 
-### 2.4. Cost-controlled router outputs
+### 2.4. Cost-controlled local outputs
 
 A local block is admissible only if every output has one of the following forms.
 
@@ -211,30 +347,35 @@ A local block is admissible only if every output has one of the following forms.
 | --- | --- |
 | $T$ | terminal contradiction; no unresolved description is produced |
 | $D$ | strict descent; an unresolved description $d'$ is produced with $\mathfrak K^\ast(d')<\mathfrak K^\ast(d)$ |
-| $R$ | productive router; the output is a named downstream obligation, with no loss of typed data, and either lowers $\mathfrak K$ or replaces the active obligation by a finite multiset strictly smaller in the multiset order on $\Lambda$ |
-| $C$ | certificate test; a finite check whose every row is $T$, $D$, $R$, or $N$ |
+| $R$ | routed subproblem; the output is a named downstream obligation, with no loss of typed data, and either lowers $\mathfrak K$ or replaces the active obligation by a finite multiset strictly smaller in the multiset order on $\Lambda$ |
+| $C$ | finite verification; a finite check whose every row is $T$, $D$, $R$, or $N$ |
 | $N$ | whole-witness non-descent; the attempted object is proved to be the whole active witness, is marked inert, and is never counted as proof progress |
 
-Thus an $R$-output is not a theorem, and a $C$-output is not a theorem. They are promises to continue inside a finite, lower-ranked evaluation problem. An $N$-output is allowed only as a rejection of a whole-witness attempt. It cannot be used to dispose of a proper residual subobject.
+Thus an $R$-output is not a theorem, and a $C$-output is not a theorem. They are
+instructions to continue inside a finite, lower-ranked evaluation problem. An
+$N$-output is allowed only as a rejection of a whole-witness attempt. It cannot
+be used to dispose of a proper residual subobject.
 
 In the terminology of presentation complexity, a nonterminal local row is a
 description-level transfer inside the same presentation system
 $\Gamma_{\mathrm{Con}}$: it replaces the current description, or one active
 obligation inside it, by a new finite description with all typed data needed for
-the next router. Since the transfer stays inside the same presentation system,
+the next local analysis. Since the transfer stays inside the same presentation system,
 the ambient overhead is the identity on $B_\ast$; admissibility requires strict
 descent in that scale. Concretely, a $D$-row lowers $\mathfrak K^\ast$; an
 $R$-row either lowers $\mathfrak K$ or replaces the active obligation by a
 finite multiset of lower $\lambda$-rank obligations; a $C$-row is a finite table
 whose rows are evaluated in the same sense; and an $N$-row removes a
-whole-witness candidate from the active ledger. Thus every continued
+whole-witness candidate from the active record. Thus every continued
 nonterminal branch has strictly smaller $B_\ast$-cost in the same presentation
 system $\Gamma_{\mathrm{Con}}$.
 
-**Theorem 2.2 (No router cycle).** Assume each invoked local block is admissible in the sense above. Then there is no infinite chain of productive router evaluations starting from a fixed unresolved description.
+**Theorem 2.2 (No cycle of local reductions).** Assume each invoked local block
+is admissible in the sense above. Then there is no infinite chain of productive
+local evaluations starting from a fixed unresolved description.
 
 **Proof.** Consider one nonterminal evaluation step after expanding any finite
-certificate table. If it is a $D$-step, then $\mathfrak K^\ast$ strictly
+verification table. If it is a $D$-step, then $\mathfrak K^\ast$ strictly
 decreases. If it is an $R$-step and $\mathfrak K$ decreases, then
 $\mathfrak K^\ast$ decreases. If it is an $R$-step preserving $\mathfrak K$, then
 one active obligation is replaced by a finite multiset of obligations strictly
@@ -247,7 +388,7 @@ unresolved. Therefore every continued nonterminal evaluation decreases the
 well-founded value $\mathfrak K^\ast$. An infinite chain would give an infinite
 descending sequence in $B_\ast$, contradicting Lemma 2.1.
 
-**Theorem 2.3 (Minimal-witness principle).** Let $\mathcal U\subseteq\mathcal D_{\mathrm{Con}}$ be the set of unresolved descriptions surviving the external reductions to the irreducible non-$T_3$ even-dumbbell case. Suppose that every $d\in\mathcal U$ admits a closed admissible router evaluation: starting from some active obligation of $d$, the router catalogue produces only $T$, $D$, $R$, $C$, and $N$ outputs as above, and every $R$ or $C$ output is sent to its named downstream admissible evaluation. Then $\mathcal U$ is empty.
+**Theorem 2.3 (Minimal-witness principle).** Let $\mathcal U\subseteq\mathcal D_{\mathrm{Con}}$ be the set of unresolved descriptions surviving the external reductions to the irreducible non-$T_3$ even-dumbbell case. Suppose that every $d\in\mathcal U$ admits a closed admissible local evaluation: starting from some active obligation of $d$, the reduction catalogue produces only $T$, $D$, $R$, $C$, and $N$ outputs as above, and every $R$ or $C$ output is sent to its named downstream admissible evaluation. Then $\mathcal U$ is empty.
 
 **Proof.** If $\mathcal U$ were nonempty, Lemma 2.1 would give a
 $\mathfrak K^\ast$-minimal element $d_0\in\mathcal U$. Apply the closed
@@ -255,17 +396,24 @@ admissible evaluation to an active obligation of $d_0$. A terminal output $T$
 resolves the obstruction, contradicting $d_0\in\mathcal U$. A strict descent
 $D$ produces an unresolved description $d'$ with
 $\mathfrak K^\ast(d')<\mathfrak K^\ast(d_0)$, contradicting the minimal choice
-of $d_0$. A productive router or certificate output cannot persist forever by
+of $d_0$. A routed or finite-verification output cannot persist forever by
 Theorem 2.2; its finite downstream evaluation must therefore end in $T$, $D$, or
 $N$. The first two cases have already been excluded. In the $N$ case the
 attempted object has been proved to be the whole active witness and is removed
 as inert; if no active obligation remains, the description is resolved. If
 another active obligation remains, the description with the inert candidate
-removed has strictly smaller active ledger, hence strictly smaller final cost,
+removed has strictly smaller active-obligation multiset, hence strictly smaller final cost,
 contradicting the minimality of the original choice. Thus $d_0$ cannot be
 unresolved. This contradiction proves $\mathcal U=\varnothing$.
 
-**Remark 2.4 (Relation with bounded-counterexample arguments).** This follows the bounded counterexample pattern from the presentation complexity framework, with the bound chosen internally. If a bad irreducible non-$T_3$ even-dumbbell obstruction exists, then the bad set has an element of minimal $B_\ast$-cost. The router catalogue is the exclusion theorem for that minimal bounded part: every possible local failure at that bound is terminal, strictly lower, or inert. The role of the remaining sections is therefore precise. They must prove that the geometric B3, B4, B5, B6, B7, and endpoint blocks are admissible routers in the sense of this section.
+**Remark 2.4 (Relation with bounded-counterexample arguments).** This is the
+bounded-counterexample method with the bound chosen internally. If a bad
+irreducible non-$T_3$ even-dumbbell obstruction exists, then the bad set has an
+element of minimal $B_\ast$-cost. The local catalogue is the exclusion theorem
+for that minimal bounded part: every possible local failure at that bound is
+terminal, strictly lower, or inert. The role of the remaining sections is
+therefore precise. They must prove that the geometric B3, B4, B5, B6, B7, and
+endpoint blocks are admissible in the sense of this section.
 
 
 ## 3. Domain-Pair Separation
@@ -683,7 +831,16 @@ In particular, B5 never licenses replacing $m_A$ or $m_B$ by an ordinary support
 
 **Proof.** Lemma 6.1 excludes the alternating rank-zero local order. Definition 6.2 gives the surviving local sector model: same-cycle passages are the ordinary continuations $c_A,c_B$, while mixed passages are the marked arrows $m_A,m_B$. Lemma 6.3 makes the marker word invariant under all ordinary $v$-free operations, so any legal removal of a marker must be named.
 
-If the marker object has a nonprimitive local closed marker word, Lemma 6.4 cuts off a shorter marker subpackage; minimality then forces terminal cancellation, strict descent, B7 certification, or a routed endpoint/B6/B7 object. If the residual primitive pair is consecutive and cap-eligible, Lemma 6.5 cancels it and lowers $M$. If it is not cap-eligible, the failure table in Lemma 6.5 names the downstream router or descent. If the marker trace is separated by ordinary carrier data, it is not a purely local B5 object; it is an endpoint, near-whole/anchor, B6, or B7 obligation. A whole-witness marker return is recorded as $N$ and removed from the active ledger. All outputs are therefore admissible in the sense of Section 2.
+If the marker object has a nonprimitive local closed marker word, Lemma 6.4
+cuts off a shorter marker subpackage; minimality then forces terminal
+cancellation, strict descent, B7 verification, or a routed endpoint/B6/B7
+object. If the residual primitive pair is consecutive and cap-eligible, Lemma
+6.5 cancels it and lowers $M$. If it is not cap-eligible, the failure table in
+Lemma 6.5 names the downstream local analysis or descent. If the marker trace
+is separated by ordinary carrier data, it is not a purely local B5 object; it is
+an endpoint, near-whole/anchor, B6, or B7 obligation. A whole-witness marker
+return is recorded as $N$ and removed from the active record. All outputs are
+therefore admissible in the sense of Section 2.
 
 **Remark 6.7 (Scope of B5).** B5 is a safety and normalization block. It proves that the common vertex is singular, that mixed passages must be carried as rank-one marker data, and that local cap-eligible primitive pairs discharge by a named marker-cap cancellation. It does not by itself prove that every marker-containing support-gate disk is terminal; nonlocal marker objects are deliberately exported to endpoint discharge, B6, or B7.
 
@@ -816,7 +973,7 @@ The blocker graph is finite. Its condensation is a finite DAG. A terminal SCC ca
 **Theorem 7.8 (B6 ordinary-original-vertex router integration).** Let $D$ be a minimal reduced typed support-gate disk containing ordinary original vertices. Then B6 has one of the following admissible outputs:
 
 1. $D$: typed identity deletion, same-relation splice, typed continuation, smaller support-gate loop, smaller corridor, or smaller train, hence strict descent in $\mathfrak K^\ast$;
-2. $C$ or $R$: a certified R3 or certified replacement obligation for the B7 certificate ledger;
+2. $C$ or $R$: a verified R3 or verified replacement obligation for B7;
 3. $R$ or $D$: a blocked-R3 obligation whose first obstruction routes to B5/B6c, B6d, endpoint discharge, B7, or a lower B6 obligation;
 4. $R$: a $\theta$-rigid blocker SCC, which the SCC compiler turns into a certified-diagonal-free alternating blocker enclosure with recorded $\delta$-rank;
 5. $R$, $D$, or $N$: a $\theta,\delta,\varrho$-rigid whole-boundary dirty cycle, which either has an admissible cut state and opens to an ordered typed boundary corridor for B4p, fails to open by visible endpoint, marker, replacement, near-whole, whole-capture, typed-normality, or lower-cost data, or is proved to be the whole active witness;
@@ -832,7 +989,13 @@ Choose a blocked candidate of minimal $\theta$. Lemma 7.7 shows that the termina
 
 Thus the only geometric remainder is a $\theta,\delta,\varrho$-rigid whole-boundary dirty cycle. If it has an admissible cut state, cut it there and read the full typed boundary relation as an ordered typed boundary corridor; B4p then applies. If it has no admissible cut state, the first obstruction to cutting is visible in the typed ledger: endpoint, marker, replacement, near-whole, whole-capture, normality, or a lower coordinate. That is an admissible router output. A whole-witness return is recorded as $N$ and removed from the active ledger, not counted as proof progress. Therefore no independent B6 ordinary-vertex residual remains.
 
-**Remark 7.9 (Scope of the B6 integration theorem).** The theorem is deliberately a router integration theorem. It does not assert that every blocked R3 triangle is itself terminal, nor that a whole-boundary dirty cycle is a contradiction. It asserts that each such object has a finite typed destination: certified B7, endpoint discharge, B5/B6c, B6d, B4p, strict descent, or inert whole-witness rejection. Section 8 supplies the B7 certificates, and Section 9 discharges the endpoint outputs.
+**Remark 7.9 (Scope of the B6 integration theorem).** The theorem is an
+integration statement for the ordinary-vertex residuals. It does not assert
+that every blocked R3 triangle is itself terminal, nor that a whole-boundary
+dirty cycle is a contradiction. It asserts that each such object has a finite
+typed destination: a B7 verification, endpoint discharge, B5/B6c, B6d, B4p, a
+strict descent, or an inert whole-witness rejection. Section 8 supplies the B7
+local checks, and Section 9 discharges the endpoint outputs.
 
 **Lemma 7.10 (Near-whole anchor router).** A near-whole capture of one original cycle routes as follows:
 
@@ -849,7 +1012,14 @@ If the cycle has length $4$, the captured path has the form $x_1x_2x_3$ with por
 
 ## 8. Certified Edge Removal and Replacement
 
-The B7 block is a certificate ledger. Its purpose is to prevent the proof from using the words "edge removal", "replacement", or "smaller core" as proof steps before the required finite certificate has been checked. In the presentation-complexity language, each accepted B7 move is a description-level transfer of the active obstruction package: either the transfer is terminal, or it is cost-controlled by a strict decrease in $\mathfrak K^\ast$. If the certificate is missing, the object remains an active obligation in $\Lambda$.
+The B7 block records the finite data required before an edge removal, an R3
+move, or a replacement arc may be used in the minimal-witness argument. The
+basic principle is simple: a proposed local surgery is a proof step only after
+its local hypotheses and its effect on the non-$T_3$ obstruction have both been
+checked. If the required data are present, the surgery is either terminal or
+strictly decreases $\mathfrak K^\ast$. If some datum is missing, the first
+failure becomes a named lower local problem rather than an implicit
+contradiction.
 
 The edge-removal principle used below is the standard three-path criterion. A graph $3$-path
 
@@ -857,7 +1027,10 @@ $$
 x_0x_1x_2x_3
 $$
 
-with degree-two middle vertices and the prescribed crossing between the first and third edges may be reduced only when the associated edge-removal triangle is empty of original vertices and all typed obstruction data persist. A long ported path produces such a candidate, not by itself such a certificate.
+with degree-two middle vertices and the prescribed crossing between the first
+and third edges may be reduced only when the associated edge-removal triangle
+is empty of original vertices and all typed obstruction data persist. A long
+ported path produces such a candidate, not by itself a valid edge removal.
 
 **Lemma 8.1 (B7 obligation normal form).** Every B7 output in a minimal reduced witness falls into exactly one of the following rows, after applying the first row whose hypotheses are satisfied:
 
@@ -865,7 +1038,7 @@ with degree-two middle vertices and the prescribed crossing between the first an
 | --- | --- |
 | double crossing of the same original support pair | terminal contradiction |
 | full typed identity, same-relation splice, or typed collapse | strict descent |
-| certified R3 edge removal | terminal or lower $G$ |
+| verified R3 edge removal | terminal or lower $G$ |
 | blocked R3 candidate | route by first obstruction to B6b, B5/B6c, B6d, endpoint discharge, or nested B7 |
 | carrier-local strong replacement | removes or lowers a replacement obligation |
 | graph-changing strong replacement with obstruction persistence | graph-level descent |
@@ -874,9 +1047,20 @@ with degree-two middle vertices and the prescribed crossing between the first an
 
 **Proof.** A double crossing of the same original support pair contradicts the thrackle condition. A full typed identity, same-relation splice, or typed collapse is legal only because the entire boundary relation agrees, including marker, anchor, endpoint, domain, support/gate, and replacement labels; applying it removes finite carrier data and lowers $\mathfrak K^\ast$.
 
-A certified R3 edge removal requires a real graph $3$-path, degree-two middle vertices, the prescribed crossing, an empty or fully controlled edge-removal triangle, and persistence of the non-$T_3$ obstruction or production of a lower witness. Without those data it is only a blocked R3 candidate, and the first obstruction in the triangle determines the downstream router: ordinary original vertices go to B6b, $v$ or marker data to B5/B6c, near-whole or anchor data to B6d or endpoint discharge, and replacement data to B7.
+A verified R3 edge removal requires a real graph $3$-path, degree-two middle
+vertices, the prescribed crossing, an empty or fully controlled edge-removal
+triangle, and persistence of the non-$T_3$ obstruction or production of a lower
+witness. Without those data it is only a blocked R3 candidate, and the first
+obstruction in the triangle determines the downstream analysis: ordinary
+original vertices go to B6b, $v$ or marker data to B5/B6c, near-whole or anchor
+data to B6d or endpoint discharge, and replacement data to B7.
 
-A replacement is terminal or descending only with a strong certificate and an obstruction-persistence certificate. If it is carrier-local, the abstract proof-obstruction package is unchanged and only the active replacement ledger improves. If it changes the graph, it must supply a fresh non-$T_3$ certificate and a comparison map lowering $\mathfrak K^\ast$. Otherwise the proposed replacement is merely an obligation.
+A replacement is terminal or descending only with strong local data and
+obstruction persistence. If it is carrier-local, the abstract obstruction
+package is unchanged and only the active replacement record improves. If it
+changes the graph, it must supply fresh non-$T_3$ data and a comparison map
+lowering $\mathfrak K^\ast$. Otherwise the proposed replacement is merely an
+active obligation.
 
 A pending replacement obligation is recorded as
 
@@ -884,7 +1068,10 @@ $$
 R=(\partial R,\alpha_R,\beta_R,\tau_R,\omega_R),
 $$
 
-where $\partial R$ is the typed boundary interval, $\alpha_R$ is the old arc or edge segment, $\beta_R$ is the proposed replacement arc, $\tau_R$ is the full typed endpoint data, and $\omega_R$ is the first obstruction to certification. Its active rank is
+where $\partial R$ is the typed boundary interval, $\alpha_R$ is the old arc or
+edge segment, $\beta_R$ is the proposed replacement arc, $\tau_R$ is the full
+typed endpoint data, and $\omega_R$ is the first obstruction to verification.
+Its active rank is
 
 $$
 \varrho(R)=
@@ -894,7 +1081,7 @@ $$
 
 Here $\operatorname{span}$ is the affected boundary length, $\operatorname{int}$ counts unresolved interior events before the first stable obstruction, $\operatorname{obs}$ records the obstruction type, $\operatorname{return}$ records whether the attempt is terminal, routed, descending, or same-complexity, and $\operatorname{bdry}$ is the shortest boundary interval needed to read the obligation. The multiset of active $\varrho$-ranks is part of $\mathfrak K^\ast$, so a nested or improved replacement obligation is a genuine descent only when this multiset strictly decreases.
 
-**Lemma 8.2 (Strong replacement certification).** Let $R=(\partial R,\alpha_R,\beta_R,\tau_R,\omega_R)$ be a pending replacement obligation. A strong replacement certificate consists of the following finite data:
+**Lemma 8.2 (Strong replacement data).** Let $R=(\partial R,\alpha_R,\beta_R,\tau_R,\omega_R)$ be a pending replacement obligation. A strong replacement datum consists of the following finite data:
 
 1. typed endpoint match: the endpoints of $\alpha_R$ and $\beta_R$ are the same two stable full typed states;
 2. replacement lens: $\alpha_R$, $\beta_R$, and two endpoint caps bound a disk $D_R$ in the carrier;
@@ -903,17 +1090,30 @@ Here $\operatorname{span}$ is the affected boundary length, $\operatorname{int}$
 5. endpoint-germ compatibility: adjacent original edges keep their allowed common endpoint contacts;
 6. obstruction persistence: either the carrier-level obstruction package is unchanged and $R$ is removed or lowered, or a graph-level output package is supplied with a B1 non-$T_3$ certificate and strictly lower $\mathfrak K^\ast$.
 
-If $R$ has this certificate, applying the replacement preserves the thrackle condition and either removes/lowers $R$ in the same witness package or produces a strictly lower non-$T_3$ witness.
+If $R$ has these data, applying the replacement preserves the thrackle condition
+and either removes/lowers $R$ in the same witness package or produces a
+strictly lower non-$T_3$ witness.
 
 **Proof.** Supports not meeting the replacement lens are unchanged. The endpoint match and endpoint-germ compatibility preserve adjacent-edge incidences at the ends of the replacement. Controlled crossings preserve the crossing pattern with all nonadjacent through-strands and prevent a second crossing with the same support. The no-hidden-data row prevents the replacement from jumping over graph vertices or typed ledger data.
 
-Thus the local drawing after replacement is still a thrackle drawing. The obstruction-persistence row is what makes the move useful for this proof. In the carrier-level case, $T,p,q,\gamma_0,\gamma_1$, the anchored boundary relation, the marker ledger, the anchor ledger, and all active router ledgers are unchanged except that $R$ is removed or replaced by lower $\varrho$ data. In the graph-level case, the certificate supplies a new even dumbbell drawing $T'$, new B1/B2 data, a new anchored obstruction package, and a comparison map proving strict decrease of $\mathfrak K^\ast$. Hence the replacement is an admissible B7 transfer.
+Thus the local drawing after replacement is still a thrackle drawing. The
+obstruction-persistence row is what makes the move useful for this proof. In
+the carrier-level case, $T,p,q,\gamma_0,\gamma_1$, the anchored boundary
+relation, the marker record, the anchor record, and all active local records
+are unchanged except that $R$ is removed or replaced by lower $\varrho$ data. In
+the graph-level case, the finite data supply a new even dumbbell drawing $T'$,
+new B1/B2 data, a new anchored obstruction package, and a comparison map
+proving strict decrease of $\mathfrak K^\ast$. Hence the replacement is an
+admissible B7 transfer.
 
-**Lemma 8.3 (Local replacement-failure router).** A local failure of a strong replacement certificate routes to B4p, B5/B6c, B6b, B6d, nested B7 with lower $\varrho$, endpoint/anchor discharge, double crossing, or lower $\mathfrak K^\ast$.
+**Lemma 8.3 (Local replacement-failure reduction).** A local failure of strong
+replacement data routes to B4p, B5/B6c, B6b, B6d, nested B7 with lower
+$\varrho$, endpoint/anchor discharge, double crossing, or lower
+$\mathfrak K^\ast$.
 
 More precisely:
 
-| failed certificate row | router/output |
+| failed row | output |
 | --- | --- |
 | typed endpoint mismatch | endpoint/anchor defect, typed normality failure, or lower $A$ |
 | no proper replacement lens | B4p/B6b boundary regularization or typed normality defect |
@@ -926,16 +1126,26 @@ More precisely:
 
 **Proof.** Inspect the first failed row in the smallest proper typed region where it is visible. Endpoint mismatch is endpoint or anchor data, because the proposed replacement cannot even identify its typed terminal states. Failure of the lens condition is a boundary regularization problem: if the region is cell-clean it is B4p, if it contains ordinary vertices it is B6b, and if it contains $v$ or marker data it is B5/B6c.
 
-Hidden original vertices, marker data, near-whole data, and replacement data are precisely the named ledgers in Sections 6, 7, and 8. If hidden replacement data is proper, its span, interior-event count, obstruction type, or boundary-reading interval is smaller, so the active $\varrho$-multiset decreases. If the same support pair is forced to meet twice, the thrackle condition is contradicted; if another ordinary obstruction mediates the second encounter, it is the B6b blocker problem. The only failure not decided locally is obstruction persistence, which is handled by the next two lemmas.
+Hidden original vertices, marker data, near-whole data, and replacement data
+are precisely the named records in Sections 6, 7, and 8. If hidden replacement
+data is proper, its span, interior-event count, obstruction type, or
+boundary-reading interval is smaller, so the active $\varrho$-multiset
+decreases. If the same support pair is forced to meet twice, the thrackle
+condition is contradicted; if another ordinary obstruction mediates the second
+encounter, it is the B6b blocker problem. The only failure not decided locally
+is obstruction persistence, which is handled by the next two lemmas.
 
-**Lemma 8.4 (Domain-certificate persistence).** Let $T\leadsto T'$ be a graph-changing admissible even-dumbbell surgery with a strong geometric certificate. Suppose a B1 domain certificate for $T\notin T_3$ survives outside the surgery lens:
+**Lemma 8.4 (Domain-data persistence).** Let $T\leadsto T'$ be a graph-changing
+admissible even-dumbbell surgery with strong local data. Suppose B1 domain data
+for $T\notin T_3$ survive outside the surgery lens:
 
-1. all ordinary certificate vertices survive as ordinary vertices of $T'$;
+1. all ordinary matched vertices survive as ordinary vertices of $T'$;
 2. the replacement lens is disjoint from their small neighborhoods and from the common vertex;
-3. the outside face bijection preserves the two incident domains of every certificate vertex;
+3. the outside face bijection preserves the two incident domains of every matched vertex;
 4. in the $v$-certificate case, the four domains incident to $v$ are identified with the four domains incident to $v'$.
 
-Then the transported certificate proves $T'\notin T_3$. If the surgery lowers the graph coordinate $G$, it gives graph-level descent persistence.
+Then the transported data prove $T'\notin T_3$. If the surgery lowers the graph
+coordinate $G$, it gives graph-level descent persistence.
 
 **Proof.** In the ordinary B1 case, the certificate is a matching of size $4$ in the ordinary domain graph. The four matched ordinary vertices survive, and their incident domain pairs are transported by the outside face bijection. Therefore the same four domain edges are pairwise disjoint in $G_D(T')$. Since $G_D(T')$ is bipartite, a three-domain cover of the ordinary vertices would be a vertex cover of size at most $3$, contradicting the matching of size $4$.
 
@@ -966,7 +1176,12 @@ If no first failure occurs, the cover propagates over all ordinary vertices of $
 
 Read along $J_R$ from either endpoint cap. Since the event list is finite, either there is a first obstruction to extending the pulled-back cover, or $J_R$ is the whole active witness. A first obstruction cannot occur at a smooth point of a preserved edgelet. If it is an ordinary vertex or a crossing/through-strand face change, it is B6b ported-disk or blocked-R3 data. If it is $v$ or a marker event, it is B5/B6c. If it is an endpoint cap, anchor mismatch, or near-whole boundary, it is endpoint or B6d data. If it is replacement-ledger data, it is a nested B7 obligation; when proper, its $\varrho$-rank is lower. If no proper first obstruction exists, the attempted replacement was a whole-witness transformation and is recorded as $N$, not as a contradiction or descent.
 
-**Remark 8.7 (Scope of B7).** B7 is closed only as a productive certificate test. Certified R3, full typed deletion/splice, double crossing, carrier-local replacement, and graph-changing replacement with a transported or fresh B1 certificate are terminal or descending. Blocked R3, uncertified replacement, rejected $T_3$ output, and whole-witness replacement are not terminal; they must route through B5, B6, endpoint discharge, nested B7, or the inert ledger.
+**Remark 8.7 (Scope of B7).** B7 closes only after its finite local data have
+been checked. Verified R3, full typed deletion/splice, double crossing,
+carrier-local replacement, and graph-changing replacement with transported or
+fresh B1 data are terminal or descending. Blocked R3, unverified replacement,
+rejected $T_3$ output, and whole-witness replacement are not terminal; they must
+route through B5, B6, endpoint discharge, nested B7, or the inert record.
 
 ## 9. Endpoint Discharge
 
@@ -1064,47 +1279,47 @@ Thus every proper endpoint either lowers $M_E,A_E,R_E^\star$, or $U_E$, supplies
 ## 10. Internal Minimal-Witness Closure
 
 This section is the internal closure step. It does not introduce another
-geometric obstruction. It records the exact point at which the preceding local
-routers, once supplied with their finite certificates, become a
-presentation-complexity exclusion argument.
+geometric obstruction. It records the point at which the preceding local
+reductions, once supplied with the finite verifications explicitly named in the
+statements, become a single minimal-counterexample argument.
 
 Let $\mathcal U_{\mathrm{Con}}\subset\mathcal D_{\mathrm{Con}}$ be the set of
 unresolved descriptions surviving the external reductions to irreducible
 non-$T_3$ even dumbbell thrackles. Thus $d\in\mathcal U_{\mathrm{Con}}$ carries
-the B1/B2 endpoint certificate, the anchored-carrier data produced by B3 when
-available, and the active obligation ledger $\Lambda(d)$ of Section 2.
+the B1/B2 endpoint data, the anchored-carrier data produced by B3 when
+available, and the active-obligation multiset $\Lambda(d)$ of Section 2.
 
-**Definition 10.1 (Admissible Conway router catalogue).** A Conway router
-catalogue is admissible for a description $d$ if the B1/B2 setup initializes the
-description and every subsequent local block in Sections 4--9 is a
+**Definition 10.1 (Admissible Conway reduction catalogue).** A Conway reduction
+catalogue is admissible for a description $d$ if the B1/B2 setup initializes
+the description and every subsequent local block in Sections 4--9 is a
 cost-controlled description-level transfer for $\Gamma_{\mathrm{Con}}$ with only
 the following outputs:
 
 | block | admissible outputs |
 | --- | --- |
-| B1/B2 domain and path extraction | certified setup data for the initial description; not a descent output |
+| B1/B2 domain and path extraction | finite setup data for the initial description; not a descent output |
 | B3 anchored-carrier handoff | $T$, $D$, or $R$, where the anchored ordered corridor is the named $R_{\mathrm{B4}}$ handoff |
 | B4 typed corridor regularization | $T$, $D$, $R$, or $N$, where a typed regular corridor is the named $R_{\mathrm{reg}}$ handoff |
 | B5 common-vertex marker discharge | $D$, $R$, or $N$ |
-| B6 support-gate and ordinary-vertex routers | $T$, $D$, $R$, $C$, or $N$ |
-| B7 replacement/certificate ledger | $T$, $D$, $R$, $C$, or $N$ |
+| B6 support-gate and ordinary-vertex reductions | $T$, $D$, $R$, $C$, or $N$ |
+| B7 replacement and finite-verification reductions | $T$, $D$, $R$, $C$, or $N$ |
 | endpoint discharge | $T$, $D$, $R$, or $N$; typed continuations, splices, and anchor repairs are $D$ when they lower cost and $R$ when they create a named downstream obligation |
 
 Here $T,D,R,C,N$ have the meanings of Section 2.4. In particular, an $R$-output
 is not a completed proof step: it is a named downstream obligation with full
-typed data preserved. A $C$-output is not terminal until its finite certificate
+typed data preserved. A $C$-output is not terminal until its finite verification
 table has been evaluated. An $N$-output is admissible only for a candidate proved
 to be the whole active witness, and it is removed from $\Lambda(d)$.
 
 **Lemma 10.2 (Catalogue admissibility of the developed blocks).** Subject to the
-finite certificate rows explicitly named in Sections 5--9, the local blocks
-developed in this manuscript form an admissible Conway router catalogue.
+finite verification rows explicitly named in Sections 5--9, the local blocks
+developed in this manuscript form an admissible Conway reduction catalogue.
 
 **Proof.** The assertion is a bookkeeping verification against the output
 taxonomy of Section 2.4.
 
-The B1/B2 block of Section 3 is a finite setup compiler. It adds the domain
-certificate and complementary paths; it is not used as a descent. The B3 block,
+The B1/B2 block of Section 3 is a finite setup step. It adds the domain
+matching data and complementary paths; it is not used as a descent. The B3 block,
 Theorem 4.6, either gives a terminal contradiction, gives a strict descent in
 $\mathfrak K^\ast$, exports a named active obligation, or produces the anchored
 ordered corridor needed by B4. The proof of Theorem 4.6 preserves the original
@@ -1131,16 +1346,16 @@ handled by Lemmas 7.1 and 7.2; pure short-port chains by Lemma 7.5; R3 candidate
 and saturation data by Lemmas 7.6 and 7.7; ordinary-vertex integration by
 Theorem 7.8; and near-whole capture by Lemma 7.10. Each nonterminal branch
 lowers a recorded carrier, port, blocker, diagonal, or obligation rank, or else
-exports a fully typed B5/B6d/B7/endpoint obligation. The ordinary-vertex router
+exports a fully typed B5/B6d/B7/endpoint obligation. The ordinary-vertex reduction
 therefore supplies $T,D,R,C,N$ outputs only.
 
 The replacement block is Section 8. Lemma 8.1 puts every replacement obligation
 in terminal, descent, routed, pending, or inert normal form. Lemma 8.2 identifies
-the finite data required for a strong replacement certificate. Lemmas 8.3, 8.5,
-and 8.6 handle local failure, domain-critical failure, and rejected replacement
-by routing, descent, lower $\varrho$, or inert whole-witness rejection. No
+the finite data required for a strong replacement move. Lemmas 8.3, 8.5, and
+8.6 handle local failure, domain-critical failure, and rejected replacement by
+routing, descent, lower $\varrho$, or inert whole-witness rejection. No
 replacement is used as a contradiction without obstruction persistence and the
-strong certificate rows.
+strong finite-verification rows.
 
 Finally, endpoint discharge is Section 9. Lemma 9.1 gives endpoint normal form,
 Lemma 9.2 evaluates active B7 candidates with respect to the endpoint projection
@@ -1151,13 +1366,13 @@ whole-witness non-descent.
 
 Thus every local output is one of the admissible $T,D,R,C,N$ outputs, and every
 $R$ or $C$ output is assigned to its named downstream evaluation with the
-relevant typed labels and certificate ranks still present.
+relevant typed labels and local ranks still present.
 
 **Theorem 10.3 (Internal minimal-witness closure).** Assume the external
 reductions have produced an irreducible non-$T_3$ even dumbbell obstruction, and
-assume the local finite certificate rows invoked in Lemma 10.2. Then
+assume the local finite verification rows invoked in Lemma 10.2. Then
 $\mathcal U_{\mathrm{Con}}$ is empty. Equivalently, no unresolved Conway
-obstruction package survives the admissible router catalogue.
+obstruction package survives the admissible reduction catalogue.
 
 **Proof.** Suppose, for contradiction, that
 $\mathcal U_{\mathrm{Con}}\ne\varnothing$. Since $B_\ast$ is well-founded by
@@ -1181,11 +1396,11 @@ cell data, ordinary-vertex disks, replacement candidates, marker endpoints, and
 near-whole captures are precisely the B5, B6, B7, or endpoint objects listed in
 Lemma 10.2.
 
-It remains only to see that the downstream router chain cannot be a same-cost
+It remains only to see that the downstream reduction chain cannot be a same-cost
 cycle. This is exactly Theorem 2.2 applied to the catalogue verified in Lemma
 10.2. A productive step that preserves $\mathfrak K$ replaces the active
-obligation by a finite multiset of lower $\lambda$-rank; a certificate step is a
-finite table of such steps; and an inert whole-witness rejection removes the
+obligation by a finite multiset of lower $\lambda$-rank; a finite-verification
+step is a finite table of such steps; and an inert whole-witness rejection removes the
 candidate from $\Lambda$ rather than creating progress. Hence every nonterminal
 evaluation strictly decreases $\mathfrak K^\ast$.
 
@@ -1202,22 +1417,23 @@ All possible final states are impossible. Therefore
 $\mathcal U_{\mathrm{Con}}=\varnothing$.
 
 **Remark 10.4 (Scope of the closure theorem).** Theorem 10.3 is the internal
-minimal-counterexample closure of the router architecture. In the language of
-presentation complexity, the bad set is excluded from the minimal bounded part
-of $\Gamma_{\mathrm{Con}}$ because every possible proof failure is terminal,
-strictly cheaper, or inert. The theorem becomes a proof of the Conway reduction
-once the remaining finite certificate rows are written in full and the external
-reductions to the irreducible non-$T_3$ even-dumbbell case, together with the
-$T_3$ bound, are cited or reproved.
+minimal-counterexample closure of the local reduction scheme. In the language
+of finite descriptions and well-founded cost, the bad set is excluded from the
+minimal bounded part of $\Gamma_{\mathrm{Con}}$ because every possible local
+failure is terminal, strictly cheaper, or inert. The theorem becomes a proof of
+the Conway reduction once the remaining finite verification rows are written in
+full and the external reductions to the irreducible non-$T_3$ even-dumbbell
+case, together with the $T_3$ bound, are cited or reproved.
 
 ## 11. Remaining Integration Tasks
 
-The proof front is now a finite-certification and manuscript-integration front,
-not a search for a new obstruction class. The remaining tasks are the following.
+The present reduction isolates a finite list of local verifications rather than
+a new family of global obstructions. To turn the internal closure theorem into a
+complete proof, the following points must be supplied in full.
 
-1. Write the finite certificate appendices. The manuscript still needs the full
+1. Write the finite-verification appendices. The manuscript still needs the full
    tables for B4p cyclic cut states, B6b short-port and blocked-R3 outcomes, the
-   SCC compiler, strong replacement certificates, rejected B7 pullbacks,
+   SCC compiler, strong replacement data, rejected B7 pullbacks,
    near-whole length-four captures, primitive marker caps, and endpoint B7
    evaluations.
 2. Audit every descent coordinate. Each identity splice, same-relation splice,
@@ -1225,29 +1441,29 @@ not a search for a new obstruction class. The remaining tasks are the following.
    replacement, endpoint discharge, and whole-witness rejection must name the
    coordinate of $\mathfrak K^\ast$ it lowers, or the exact downstream
    obligation it creates.
-3. Preserve the global anchors and ledgers. No local transfer may silently
-   change the $p,q$ endpoints, the B1 non-$T_3$ certificate, the marker ledger,
-   the anchor ledger, the replacement ledger, or the active
+3. Preserve the global anchors and records. No local transfer may silently
+   change the $p,q$ endpoints, the B1 non-$T_3$ data, the marker record,
+   the anchor record, the replacement record, or the active
    $\theta,\delta,\varrho$ ranks.
 4. Synchronize the manuscript artifacts. The Markdown proof now contains the
-   expanded router architecture through the internal closure theorem; the TeX
+   expanded local reduction through the internal closure theorem; the TeX
    and PDF versions must be regenerated and checked after the remaining
-   certificate tables are inserted.
+   finite-verification tables are inserted.
 5. Insert the external reductions. The final proof must cite or reprove the
    reduction from a Conway counterexample to an irreducible non-$T_3$ even
    dumbbell obstruction, and the theorem that $T_3$-thrackles satisfy Conway's
    bound.
 6. Perform the final no-hidden-router audit. After the TeX rewrite, every
-   exported B5/B6/B7/endpoint object must be traced to a terminal certificate, a
+   exported B5/B6/B7/endpoint object must be traced to a terminal verification, a
    strict $\mathfrak K^\ast$ descent, a lower active obligation, or an inert
    whole-witness rejection. No routed object may be treated as terminal merely
    because it has been named.
 
-Thus the current manuscript is best read as a detailed, presentation-complexity
-proof strategy with an internal minimal-counterexample closure theorem. The
-remaining work needed for a complete proof is finite but substantial: write the
-certificate tables in full, verify each transfer against $\mathfrak K^\ast$, and
-splice in the external Conway reductions.
+Thus the current manuscript is best read as a detailed local-reduction strategy
+with an internal minimal-counterexample closure theorem. The remaining work
+needed for a complete proof is finite but substantial: write the local tables in
+full, verify each transfer against $\mathfrak K^\ast$, and splice in the
+external Conway reductions.
 
 ## References
 

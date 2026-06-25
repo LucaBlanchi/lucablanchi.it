@@ -148,11 +148,17 @@ function renderBlocks(source: string, state: RenderState, collectToc: boolean) {
       const items = [listMatch[2]];
 
       while (index + 1 < lines.length) {
-        const next = lines[index + 1].trim();
+        const rawNext = lines[index + 1];
+        const next = rawNext.trim();
         const nextItem = next.match(/^(\*|\d+\.)\s+(.+)$/);
         if (nextItem && (nextItem[1] !== "*") === ordered) {
           index += 1;
           items.push(nextItem[2]);
+          continue;
+        }
+        if (/^\s{2,}\S/.test(rawNext)) {
+          index += 1;
+          items[items.length - 1] = `${items[items.length - 1]} ${next}`;
           continue;
         }
         if (!next && index + 2 < lines.length) {

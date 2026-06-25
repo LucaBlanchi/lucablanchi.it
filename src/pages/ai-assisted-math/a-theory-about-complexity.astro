@@ -1,6 +1,7 @@
 ---
 import { readFileSync } from "node:fs";
 import AiAssistedMathNotice from "../../components/AiAssistedMathNotice.astro";
+import PreliminaryStatusNotice from "../../components/PreliminaryStatusNotice.astro";
 import SectionBackLink from "../../components/SectionBackLink.astro";
 import SourceDisclosure from "../../components/SourceDisclosure.astro";
 import { complexitySources } from "../../data/aiAssistedMathComplexitySources";
@@ -37,6 +38,7 @@ const texHref = `${assetBase}/${stem}.tex`;
     <article class="plain-page ai-article paper-page">
       <SectionBackLink href="/ai-assisted-math.html" label="Back to AI-assisted math" />
       <AiAssistedMathNotice />
+      <PreliminaryStatusNotice />
 
       <header class="plain-header paper-header">
         <div class="article-meta">
