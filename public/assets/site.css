@@ -801,6 +801,11 @@ h2 {
   padding-left: 1.3rem;
 }
 
+.paper-toc ol {
+  list-style: none;
+  padding-left: 0;
+}
+
 .paper-list-roman {
   list-style-type: lower-roman;
 }

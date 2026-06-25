@@ -237,6 +237,33 @@ function normalizeInlineMath(value: string) {
   let normalized = "";
 
   for (let index = 0; index < value.length; index += 1) {
+    if (value[index] === "$") {
+      const end = findUnescaped(value, "$", index + 1);
+      if (end > index) {
+        normalized += value.slice(index, end + 1);
+        index = end;
+        continue;
+      }
+    }
+
+    if (value.startsWith("\\(", index)) {
+      const end = value.indexOf("\\)", index + 2);
+      if (end > index) {
+        normalized += value.slice(index, end + 2);
+        index = end + 1;
+        continue;
+      }
+    }
+
+    if (value.startsWith("\\[", index)) {
+      const end = value.indexOf("\\]", index + 2);
+      if (end > index) {
+        normalized += value.slice(index, end + 2);
+        index = end + 1;
+        continue;
+      }
+    }
+
     if (value[index] !== "(") {
       normalized += value[index];
       continue;
@@ -258,6 +285,18 @@ function normalizeInlineMath(value: string) {
   }
 
   return normalized;
+}
+
+function findUnescaped(value: string, needle: string, start: number) {
+  for (let index = start; index < value.length; index += 1) {
+    if (value[index] !== needle) continue;
+    let backslashes = 0;
+    for (let cursor = index - 1; cursor >= 0 && value[cursor] === "\\"; cursor -= 1) {
+      backslashes += 1;
+    }
+    if (backslashes % 2 === 0) return index;
+  }
+  return -1;
 }
 
 function looksLikeMath(value: string) {
