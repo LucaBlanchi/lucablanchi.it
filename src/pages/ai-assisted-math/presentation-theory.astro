@@ -3,15 +3,13 @@ import { readFileSync } from "node:fs";
 import AiAssistedMathNotice from "../../components/AiAssistedMathNotice.astro";
 import PreliminaryStatusNotice from "../../components/PreliminaryStatusNotice.astro";
 import SectionBackLink from "../../components/SectionBackLink.astro";
-import SourceDisclosure from "../../components/SourceDisclosure.astro";
-import { complexitySources } from "../../data/aiAssistedMathComplexitySources";
 import { renderTexPaper } from "../../lib/texPaper";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const assetBase = "/assets/ai-assisted-math/foundations-presentation-complexity";
-const stem = "foundations-presentation-complexity";
+const assetBase = "/assets/ai-assisted-math/presentation-theory";
+const stem = "presentation-theory";
 const paper = renderTexPaper(readFileSync(`public${assetBase}/${stem}.tex`, "utf8"), {
-  idPrefix: "presentation-complexity",
+  idPrefix: "presentation-theory",
 });
 
 const pdfHref = `${assetBase}/${stem}.pdf`;
@@ -19,9 +17,9 @@ const texHref = `${assetBase}/${stem}.tex`;
 ---
 
 <BaseLayout
-  title="Foundations of Presentation Complexity"
-  description="A preliminary AI-assisted note introducing presentation systems, bounded parts, cost-controlled maps, observables, and observer-cost barriers."
-  currentPath="/ai-assisted-math/a-theory-about-complexity.html"
+  title="Presentation Theory"
+  description="A preliminary AI-assisted note introducing presentation systems, realization fibres, observables, witness growth, normal forms, and reusable proof principles."
+  currentPath="/ai-assisted-math/presentation-theory.html"
   bodyClass="paper-surface"
 >
   <script is:inline>
@@ -78,29 +76,6 @@ const texHref = `${assetBase}/${stem}.tex`;
       <section class="paper-references" aria-label={`${paper.title} references`}>
         <h2>References</h2>
         <div set:html={paper.bibliographyHtml} />
-      </section>
-
-      <section class="source-notes" aria-labelledby="source-notes-title">
-        <h2 id="source-notes-title">Ideas, philosophy, and handoff notes</h2>
-        <p>
-          These earlier idea notes and handoffs are kept as source material for
-          the presentation-complexity framework. Some of them may be superseded
-          by the article above, but they remain useful historical and research
-          context.
-        </p>
-
-        <div class="source-list">
-          {
-            complexitySources.map((source) => (
-              <SourceDisclosure
-                id={source.id}
-                title={source.title}
-                english={source.english}
-                italian={source.italian}
-              />
-            ))
-          }
-        </div>
       </section>
     </article>
   </main>

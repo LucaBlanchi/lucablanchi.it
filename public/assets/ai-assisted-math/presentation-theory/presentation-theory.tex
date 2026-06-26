@@ -1,0 +1,1927 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.08in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\title{Presentation Theory}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note lays out a foundational formalism for presentation theory. It treats mathematical objects through chosen description systems, realization fibres, observables, indistinguishability fibres, resource scales, bounded parts, cost-controlled transfers, and simulations between presentation systems. The central objects are presentation systems and the filtrations, fibre profiles, observable profiles, reconstruction maps, normal-form resolutions, and observer-cost barriers they generate. The framework gives a common language for height theory, Kolmogorov complexity, circuit complexity, group presentations, algebraic straight-line complexity, finite test families, positive witness growth, and lower-bound criteria.
+\end{abstract}
+
+\section{Guiding idea}
+
+Many mathematical objects come with natural ways of being presented: by coordinates, generators and relations, equations, circuits, words, modules, kernels, local models, proof data, or finite approximations.
+
+A presentation theory studies four related questions.
+
+First, which descriptions are allowed?
+
+Second, which observations are allowed?
+
+Third, what fibres are created by realization maps and by observables?
+
+Fourth, how do costs on descriptions or observations make these questions quantitative?
+
+The basic principle is:
+
+\[
+\begin{gathered}
+\text{presentations realize objects, observables forget information,}\\
+\text{and costs turn both processes into filtrations.}
+\end{gathered}
+\]
+
+Conversely, an observation incompatible with every low-cost object proves that the object lies outside the corresponding bounded presentation class.
+
+Complexity is assigned relative to a specified presentation system.
+
+Presentation, observation, and cost play distinct roles. A description produces or specifies an object. An observable extracts information from an object. A cost imposes a budget on descriptions or observations.
+
+This gives three complementary layers: presentation complexity for objects, observer complexity for tests, and fibre structure for the information forgotten by a chosen family of observables. In many examples, all observers of bounded arity, degree, rank, or test size factor through a smaller structural statistic.
+
+
+\section{Object classes}
+
+An \textbf{object class} is a class
+
+\[
+\mathcal X
+\]
+
+of mathematical objects.
+
+Depending on the application, \(\mathcal X\) may be a set of objects, a set of isomorphism classes, or a category/groupoid whose objects are studied up to an equivalence relation.
+
+Examples include:
+
+\[
+\mathcal X=\mathbb P^n(\mathbb Q),
+\]
+
+\[
+\mathcal X={\text{finite groups up to isomorphism}},
+\]
+
+\[
+\mathcal X={\text{Boolean functions on }n\text{ variables}},
+\]
+
+\[
+\mathcal X={\text{polynomials over a fixed field}}.
+\]
+
+The first step is to choose what counts as the object class.
+
+This choice is not cosmetic. A finite group considered as an abstract group, a marked group, a permutation group, a matrix group, or a group equipped with structural data may lead to different presentation systems and different costs.
+
+
+\section{Resource scales}
+
+A \textbf{resource scale} is a preordered set
+
+\[
+(B,\leq)
+\]
+
+whose elements represent possible resource bounds.
+
+The simplest case is
+
+\[
+B=\mathbb N
+\]
+
+with the usual order.
+
+More generally, \(B\) may be a multi-resource scale such as
+
+\[
+B=\mathbb N^k
+\]
+
+with coordinatewise order.
+
+This allows one to record several resources at once, such as size, depth, height, degree, arity, number of generators, number of relations, or total relation length.
+
+A \textbf{cost bound} is an element
+
+\[
+b\in B.
+\]
+
+Informally, \(b\) is the available budget.
+
+Costs may be scalar or multi-resource. In many applications the bounded part is defined by several simultaneous constraints.
+
+
+\section{Presentation systems}
+
+A \textbf{presentation system} for an object class \(\mathcal X\) consists of a triple
+
+\[
+\Gamma=(\mathcal D,\rho,\kappa),
+\]
+
+where:
+
+\[
+\mathcal D
+\]
+
+is a class of descriptions,
+
+\[
+\rho:\mathcal D\to \mathcal X
+\]
+
+is a realization map, and
+
+\[
+\kappa:\mathcal D\to B
+\]
+
+is a cost function.
+
+An element
+
+\[
+d\in\mathcal D
+\]
+
+is a description. The object realized by \(d\) is
+
+\[
+\rho(d).
+\]
+
+The cost of the description is
+
+\[
+\kappa(d).
+\]
+
+The presentation system tells us which descriptions are allowed and how expensive they are.
+
+The same object class may admit many different presentation systems. This plurality is central to the theory.
+
+For example, finite groups may be presented by generators and relations, multiplication tables, permutation actions, matrix representations, semidirect-product data, module data, commutator tensors, normal covers, or finite local models.
+
+Different presentation systems measure different mathematical resources.
+
+
+\section{Bounded descriptions and bounded objects}
+
+For a cost bound \(b\in B\), define the bounded description class
+
+\[
+\mathcal D^{\leq b}=\{d\in\mathcal D:\kappa(d)\leq b\}.
+\]
+
+The corresponding bounded part of \(\mathcal X\) is
+
+\[
+\mathcal X_\Gamma^{\leq b}=\rho(\mathcal D^{\leq b}).
+\]
+
+Thus
+
+\[
+\mathcal X_\Gamma^{\leq b}
+\]
+
+is the class of objects admitting at least one \(\Gamma\)-description of cost at most \(b\).
+
+Equivalently, an object \(x\in\mathcal X\) is \(b\)-presentable if
+
+\[
+x\in \mathcal X_\Gamma^{\leq b}.
+\]
+
+If \(b\leq b'\), then
+
+\[
+\mathcal X_\Gamma^{\leq b}\subseteq \mathcal X_\Gamma^{\leq b'}.
+\]
+
+Hence the bounded parts form a filtration of \(\mathcal X\):
+
+\[
+\mathcal X_\Gamma^{\leq b}
+\subseteq
+\mathcal X_\Gamma^{\leq b'}
+\quad
+\text{whenever }b\leq b'.
+\]
+
+This is the \textbf{bounded-presentation filtration} associated with \(\Gamma\).
+
+The filtration is often the primary object. A single numerical complexity value may be less informative than the entire family of bounded parts.
+
+
+\section{Presentation complexity}
+
+When the resource scale admits a meaningful notion of infimum or minimum, one may define the \textbf{presentation complexity} of an object \(x\in\mathcal X\) by
+
+\[
+C_\Gamma(x)=\inf\{\kappa(d): d\in\mathcal D,\ \rho(d)=x\}.
+\]
+
+In discrete settings this is often a minimum:
+
+\[
+C_\Gamma(x)=\min\{\kappa(d):\rho(d)=x\}.
+\]
+
+Thus \(C_\Gamma(x)\) is the cost of the cheapest allowed description of \(x\).
+
+The bounded part can then be written as
+
+\[
+\mathcal X_\Gamma^{\leq b}=\{x\in\mathcal X:C_\Gamma(x)\leq b\},
+\]
+
+whenever the minimum is attained or the inequality is interpreted as the existence of a description of cost at most \(b\).
+
+The primary object is often the full filtration
+
+\[
+b\mapsto \mathcal X_\Gamma^{\leq b},
+\]
+
+with \(C_\Gamma(x)\) as its pointwise numerical summary when such a summary is available.
+
+
+\section{Basic upper bound principle}
+
+If \(d\in\mathcal D\) is a description of \(x\), meaning
+
+\[
+\rho(d)=x,
+\]
+
+then
+
+\[
+C_\Gamma(x)\leq \kappa(d).
+\]
+
+Thus every explicit description gives an upper bound on presentation complexity.
+
+This is the constructive half of the theory.
+
+
+\section{Presentation fibres}
+
+The realization map
+
+\[
+\rho:\mathcal D\to\mathcal X
+\]
+
+is not only a way to assign objects to descriptions. It is a map with fibres.
+
+For \(x\in\mathcal X\), define the \textbf{presentation fibre}
+
+\[
+\mathfrak F_\rho(x)=\rho^{-1}(x)=\{d\in\mathcal D:\rho(d)=x\}.
+\]
+
+Thus \(\mathfrak F_\rho(x)\) is the class of all descriptions realizing \(x\).
+
+The numerical invariant \(C_\Gamma(x)\) sees only the cheapest point in this fibre:
+
+\[
+C_\Gamma(x)=\inf\{\kappa(d):d\in\mathfrak F_\rho(x)\}.
+\]
+
+The full fibre may contain many other descriptions, with their own logic, computability, and geometry. A small value of \(C_\Gamma(x)\) says that the fibre meets a low-cost region of \(\mathcal D\); it does not by itself determine how difficult the fibre is to recognize, normalize, or navigate.
+
+For a cost bound \(b\), the truncated fibre is
+
+\[
+\mathfrak F_\rho^{\leq b}(x)=\{d\in\mathfrak F_\rho(x):\kappa(d)\leq b\}.
+\]
+
+Studying the family
+
+\[
+b\mapsto \mathfrak F_\rho^{\leq b}(x)
+\]
+
+refines the study of \(C_\Gamma(x)\). It records how the descriptions of a fixed object populate the bounded parts of the description space.
+
+
+\section{Recognition and positive witnesses}
+
+In effective settings, assume the description class is encoded by finite words and let
+
+\[
+\ell:\mathcal D\to\mathbb N
+\]
+
+be a coding length. For a fixed object \(x\), the \textbf{fibre recognition problem} is the decision problem
+
+\[
+d\longmapsto [\rho(d)=x].
+\]
+
+This problem may be much harder than producing one economical description of \(x\).
+
+A \textbf{positive witness system} for the fibre of \(x\) is a decidable relation
+
+\[
+R_x(d,\pi)
+\]
+
+such that
+
+\[
+\rho(d)=x
+\quad\Longleftrightarrow\quad
+\exists \pi\ R_x(d,\pi).
+\]
+
+The word \(\pi\) is proof data for the positive membership statement \(d\in\mathfrak F_\rho(x)\).
+
+Define the minimum positive witness length
+
+\[
+w_{\rho,x}(d)=\min\{|\pi|:R_x(d,\pi)\},
+\]
+
+for \(d\in\mathfrak F_\rho(x)\), and the bounded witness profile
+
+\[
+W_{\rho,x}(n)=
+\max_{\substack{\ell(d)\leq n\\ d\in\mathfrak F_\rho(x)}}
+w_{\rho,x}(d),
+\]
+
+with the usual convention that the maximum over an empty set is \(0\).
+
+This profile measures the length of the shortest positive proof data needed to recognize all fibre elements of coding length at most \(n\).
+
+
+\section{Move systems on fibres}
+
+A \textbf{move system} on descriptions is a relation
+
+\[
+d\sim_{\mathcal M} e
+\]
+
+on \(\mathcal D\), usually chosen so that moves preserve realization:
+
+\[
+d\sim_{\mathcal M} e
+\quad\Longrightarrow\quad
+\rho(d)=\rho(e).
+\]
+
+Then every presentation fibre becomes a graph. Its vertices are the descriptions in \(\mathfrak F_\rho(x)\), and its edges are the elementary moves.
+
+Let
+
+\[
+d_{\mathcal M}(d,e)
+\]
+
+be the shortest path length from \(d\) to \(e\), with value \(\infty\) if no path exists.
+
+After fixing a base description \(d_x\in\mathfrak F_\rho(x)\), define the \textbf{bridge profile}
+
+\[
+B_{\rho,\mathcal M,x,d_x}(n)=
+\sup_{\substack{\ell(d)\leq n\\ d\in\mathfrak F_\rho(x)}}
+d_{\mathcal M}(d,d_x).
+\]
+
+This measures how hard it is to return bounded descriptions of \(x\) to a chosen base description using the allowed moves.
+
+A complementary invariant is the packing profile
+
+\[
+\operatorname{Pack}_{\rho,\mathcal M}(x;n,R)
+=
+\sup\{|S|:S\subseteq\mathfrak F_\rho(x),\ \ell(d)\leq n\ \forall d\in S,\ d_{\mathcal M}(d,e)>R\ \forall d\neq e\}.
+\]
+
+The bridge profile measures long normalization paths; the packing profile measures many mutually distant descriptions. Diameter and entropy-type quantities can be recovered from these by taking pairwise suprema or logarithms of packing numbers.
+
+
+\section{Cost-controlled maps}
+
+Let
+
+\[
+\Gamma_\mathcal X=(\mathcal D_\mathcal X,\rho_\mathcal X,\kappa_\mathcal X)
+\]
+
+be a presentation system for \(\mathcal X\), and let
+
+\[
+\Gamma_\mathcal Y=(\mathcal D_\mathcal Y,\rho_\mathcal Y,\kappa_\mathcal Y)
+\]
+
+be a presentation system for \(\mathcal Y\).
+
+Let
+
+\[
+F:\mathcal X\to\mathcal Y
+\]
+
+be a map of object classes.
+
+A \textbf{description-level transfer} for \(F\) is a map
+
+\[
+\widehat F:\mathcal D_\mathcal X\to\mathcal D_\mathcal Y
+\]
+
+such that
+
+\[
+\rho_\mathcal Y(\widehat F(d))=F(\rho_\mathcal X(d))
+\]
+
+for every \(d\in\mathcal D_\mathcal X\).
+
+The transfer is \textbf{cost-controlled with overhead \(f:B_\mathcal X\to B_\mathcal Y\)} if
+
+\[
+\kappa_\mathcal Y(\widehat F(d))
+\leq
+f(\kappa_\mathcal X(d))
+\]
+
+for every \(d\in\mathcal D_\mathcal X\).
+
+In that case,
+
+\[
+F(\mathcal X_{\Gamma_\mathcal X}^{\leq b})
+\subseteq
+\mathcal Y_{\Gamma_\mathcal Y}^{\leq f(b)}.
+\]
+
+When presentation complexities are defined, this gives
+
+\[
+C_{\Gamma_\mathcal Y}(F(x))
+\leq
+f(C_{\Gamma_\mathcal X}(x)).
+\]
+
+Thus cost-controlled transfers formalize the idea that natural operations transport low-cost descriptions to low-cost descriptions.
+
+
+\section{Cost-controlled operations}
+
+More generally, let
+
+\[
+F:\mathcal X_1\times\cdots\times \mathcal X_n\to \mathcal Y
+\]
+
+be an (n)-ary operation.
+
+A description-level transfer for \(F\) is a map
+
+\[
+\widehat F:
+\mathcal D_1\times\cdots\times \mathcal D_n
+\to
+\mathcal D_\mathcal Y
+\]
+
+such that
+
+\[
+\rho_\mathcal Y(\widehat F(d_1,\dots,d_n))=F(\rho_1(d_1),\dots,\rho_n(d_n)).
+\]
+
+It is cost-controlled with overhead (f) if
+
+\[
+\kappa_\mathcal Y(\widehat F(d_1,\dots,d_n))
+\leq
+f(\kappa_1(d_1),\dots,\kappa_n(d_n)).
+\]
+
+Then
+
+\[
+C_{\Gamma_\mathcal Y}(F(x_1,\dots,x_n))
+\leq
+f(C_{\Gamma_1}(x_1),\dots,C_{\Gamma_n}(x_n))
+\]
+
+whenever the corresponding presentation complexities are defined.
+
+This is the basic form of a \textbf{cost calculus}.
+
+Examples include products, quotients, extensions, tensor products, composition of maps, base change, blow-ups, reductions modulo primes, and passage to associated graded or local models.
+
+
+\section{Simulation between presentation systems}
+
+Let
+
+\[
+\Gamma=(\mathcal D_\Gamma,\rho_\Gamma,\kappa_\Gamma)
+\]
+
+and
+
+\[
+\Delta=(\mathcal D_\Delta,\rho_\Delta,\kappa_\Delta)
+\]
+
+be presentation systems for the same object class \(\mathcal X\).
+
+A \textbf{translation} from \(\Gamma\) to \(\Delta\) with overhead (f) is a map
+
+\[
+T:\mathcal D_\Gamma\to\mathcal D_\Delta
+\]
+
+such that
+
+\[
+\rho_\Delta(T(d))=\rho_\Gamma(d)
+\]
+
+and
+
+\[
+\kappa_\Delta(T(d))\leq f(\kappa_\Gamma(d)).
+\]
+
+Then
+
+\[
+\mathcal X_\Gamma^{\leq b}
+\subseteq
+\mathcal X_\Delta^{\leq f(b)}.
+\]
+
+When numerical presentation complexity is defined,
+
+\[
+C_\Delta(x)
+\leq
+f(C_\Gamma(x)).
+\]
+
+Thus \(\Delta\) simulates \(\Gamma\) up to overhead (f).
+
+If there are translations in both directions with controlled overheads, then the two presentation systems are equivalent up to the corresponding resource distortion.
+
+Separations between presentation systems arise when a family (\(x_n\)) has low complexity in one system and high complexity in another.
+
+
+\section{Counting and volume}
+
+The bounded parts define a counting function whenever cardinality is meaningful:
+
+\[
+b\mapsto |\mathcal X_\Gamma^{\leq b}|.
+\]
+
+This is the \textbf{volume profile} of the presentation system.
+
+Counting arguments give generic lower bounds. If a family \(\mathcal S\subseteq\mathcal X\) satisfies
+
+\[
+|\mathcal S|>|\mathcal D^{\leq b}|,
+\]
+
+then some \(x\in\mathcal S\) has no description of cost at most \(b\).
+
+This follows from
+
+\[
+|\mathcal X_\Gamma^{\leq b}|
+\leq
+|\mathcal D^{\leq b}|.
+\]
+
+Similarly, if
+
+\[
+|\omega(\mathcal S)|>|\operatorname{Val}_{\Gamma,\omega}(b)|,
+\]
+
+then some \(x\in\mathcal S\) has no description of cost at most \(b\).
+
+Thus volume and observable volume provide nonconstructive lower bounds.
+
+Counting arguments prove the existence of complex objects. Additional structure turns those existence statements into explicit examples.
+
+
+\section{Observables}
+
+Let \(\mathcal X\) be an object class.
+
+An \textbf{observable} on \(\mathcal X\) is a map
+
+\[
+\omega:\mathcal X\to A
+\]
+
+to an observation space \(A\).
+
+The value
+
+\[
+\omega(x)
+\]
+
+is the information about \(x\) seen by the observable.
+
+The observation space \(A\) need not be numerical. It may consist of numbers, vectors, modules, lattices, distributions, ranks, graphs, isomorphism classes, hom-counts, reductions modulo primes, local data, cohomology groups, or other structured data.
+
+A cost measures the expense of a description. An observable measures information extracted from the object.
+
+A numerical invariant may serve as an observable independently of any presentation-cost interpretation.
+
+
+\section{Attainable observations below a bound}
+
+Let
+
+\[
+\Gamma=(\mathcal D,\rho,\kappa)
+\]
+
+be a presentation system for \(\mathcal X\), and let
+
+\[
+\omega:\mathcal X\to A
+\]
+
+be an observable.
+
+For a cost bound \(b\in B\), define
+
+\[
+\operatorname{Val}_{\Gamma,\omega}(b)=\omega(\mathcal X_\Gamma^{\leq b})=\{\omega(x):x\in\mathcal X_\Gamma^{\leq b}\}.
+\]
+
+This is the set of \textbf{attainable observations below \(b\)}.
+
+Equivalently, it is the set of observable values attained by objects admitting a \(\Gamma\)-description of cost at most \(b\).
+
+If \(b\leq b'\), then
+
+\[
+\operatorname{Val}_{\Gamma,\omega}(b)
+\subseteq
+\operatorname{Val}_{\Gamma,\omega}(b').
+\]
+
+Thus
+
+\[
+b\mapsto \operatorname{Val}_{\Gamma,\omega}(b)
+\]
+
+is an increasing profile of observable values.
+
+The phrase \textbf{attainable observations below \(b\)} will be used for this set.
+
+
+\section{Observable profiles}
+
+The \textbf{observable profile} of \(\omega\) relative to \(\Gamma\) is the function
+
+\[
+b\longmapsto \operatorname{Val}_{\Gamma,\omega}(b).
+\]
+
+It records how the observable sees the bounded-presentation filtration.
+
+Instead of the full set \(\operatorname{Val}_{\Gamma,\omega}(b)\), one may study numerical summaries, such as
+
+\[
+b\mapsto |\operatorname{Val}_{\Gamma,\omega}(b)|,
+\]
+
+\[
+b\mapsto \dim \operatorname{span}(\operatorname{Val}_{\Gamma,\omega}(b)),
+\]
+
+or other sizes, ranks, volumes, supports, or distributional statistics.
+
+However, the full observable profile is the primary object.
+
+
+\section{Observable lower-bound principle}
+
+Let
+
+\[
+x\in\mathcal X.
+\]
+
+If
+
+\[
+\omega(x)\notin \operatorname{Val}_{\Gamma,\omega}(b),
+\]
+
+then
+
+\[
+x\notin \mathcal X_\Gamma^{\leq b}.
+\]
+
+Equivalently, \(x\) has no \(\Gamma\)-description of cost at most \(b\).
+
+When presentation complexity is numerical, this gives
+
+\[
+C_\Gamma(x)> b.
+\]
+
+This is the basic observable lower-bound principle.
+
+
+\section{Cost-observable bounds}
+
+In practice, one often works with proved outer bounds for the full set
+
+\[
+\operatorname{Val}_{\Gamma,\omega}(b).
+\]
+
+One proves an inclusion
+
+\[
+\operatorname{Val}_{\Gamma,\omega}(b)\subseteq S_b
+\]
+
+for some explicit subset
+
+\[
+S_b\subseteq A.
+\]
+
+Then
+
+\[
+\omega(x)\notin S_b
+\]
+
+implies
+
+\[
+x\notin \mathcal X_\Gamma^{\leq b}.
+\]
+
+Thus
+
+\[
+\omega(x)\notin S_b
+\quad\Longrightarrow\quad
+C_\Gamma(x)> b
+\]
+
+whenever numerical presentation complexity is defined.
+
+This gives the usual form of a lower-bound criterion:
+
+\[
+\text{low-cost descriptions force observations in }S_b;
+\]
+
+\[
+\text{the object has observation outside }S_b;
+\]
+
+therefore the object lies outside the bounded presentation class.
+
+
+\section{Observed sizes}
+
+Suppose the observation space \(A\) has a size function
+
+\[
+s:A\to R
+\]
+
+to another ordered resource scale (R). Then
+
+\[
+s\circ\omega:\mathcal X\to R
+\]
+
+is an \textbf{observed size}.
+
+It is a numerical or resource-valued invariant of objects.
+
+An observed size becomes a presentation complexity when it is induced by a presentation system.
+
+The important mathematical question is often to relate observed sizes to presentation complexity. For example, if one proves
+
+\[
+x\in\mathcal X_\Gamma^{\leq b}
+\quad\Longrightarrow\quad
+s(\omega(x))\leq F(b),
+\]
+
+then
+
+\[
+s(\omega(x))>F(b)
+\quad\Longrightarrow\quad
+x\notin\mathcal X_\Gamma^{\leq b}.
+\]
+
+When numerical presentation complexity is defined,
+
+\[
+s(\omega(x))>F(b)
+\quad\Longrightarrow\quad
+C_\Gamma(x)> b.
+\]
+
+This covers many familiar lower-bound arguments: degree too large, rank too large, denominator too large, dimension too large, relation lattice too constrained, or observable distribution outside the attainable range.
+
+A useful distinction is:
+\[
+\begin{gathered}
+\text{presentation costs come from description systems,}\\
+\text{observed sizes come from observables.}
+\end{gathered}
+\]
+
+
+\section{Families of observables}
+
+A \textbf{family of observables} on \(\mathcal X\) is a collection
+
+\[
+\Omega={\omega_i:\mathcal X\to A_i}_{i\in I}.
+\]
+
+It may be viewed as a joint observable
+
+\[
+\omega_\Omega:\mathcal X\to \prod_{i\in I}A_i
+\]
+
+defined by
+
+\[
+\omega_\Omega(x)=(\omega_i(x))_{i\in I}.
+\]
+
+The family \(\Omega\) is \textbf{complete on a subclass \(\mathcal C\subseteq\mathcal X\)} if, for all \(x,y\in\mathcal C\),
+
+\[
+\omega_i(x)=\omega_i(y)\quad\text{for every }i\in I
+\]
+
+implies
+
+\[
+x=y,
+\]
+
+or, in an isomorphism-based context,
+
+\[
+x\cong y.
+\]
+
+A central problem is to determine which families of observables are complete on which bounded parts or natural subclasses.
+
+
+\section{Indistinguishability fibres}
+
+Given an observable
+
+\[
+\omega:\mathcal X\to A,
+\]
+
+the fibre
+
+\[
+\omega^{-1}(a)
+\]
+
+is the class of objects indistinguishable by \(\omega\) from the observable value (a).
+
+If
+
+\[
+\omega(x)=\omega(y),
+\]
+
+then any method depending on \(\omega\) gives the same output on \(x\) and \(y\).
+
+Thus every observable carries an intrinsic equivalence relation: it distinguishes objects up to its fibres.
+
+For a family of observables \(\Omega\), define
+
+\[
+x\sim_\Omega y
+\]
+
+if
+
+\[
+\omega(x)=\omega(y)
+\]
+
+for every \(\omega\in\Omega\).
+
+The equivalence classes of \(\sim_\Omega\) are the \textbf{indistinguishability fibres} of \(\Omega\).
+
+Large fibres indicate blindness; small or trivial fibres indicate completeness.
+
+Studying these fibres is essential when observables are used for classification.
+
+
+\section{Reconstruction by observables}
+
+A family of observables may do more than distinguish objects. It may reconstruct a structural invariant.
+
+Let
+
+\[
+\tau:\mathcal X\to T
+\]
+
+be a structural invariant, such as a module, tensor, rank profile, support profile, lattice, isomorphism class, or moduli parameter.
+
+A family \(\Omega\) \textbf{reconstructs} \(\tau\) on \(\mathcal C\subseteq\mathcal X\) if
+
+\[
+x\sim_\Omega y
+\quad\Longrightarrow\quad
+\tau(x)=\tau(y)
+\]
+
+for all \(x,y\in\mathcal C\).
+
+Equivalently, \(\tau\) factors through the observational quotient
+
+\[
+\mathcal C/!\sim_\Omega.
+\]
+
+If \(\tau\) is a complete invariant on \(\mathcal C\), then reconstruction of \(\tau\) implies classification.
+
+Many concrete results have this form:
+
+\[
+\text{word distributions reconstruct a rank profile,}
+\]
+
+\[
+\text{commutator moments reconstruct a tensor pencil,}
+\]
+
+\[
+\text{hom-count profiles reconstruct a module,}
+\]
+
+\[
+\text{finite differences reconstruct coefficient data.}
+\]
+
+Thus reconstruction is a central use of observables beyond lower bounds.
+
+
+\section{Costed observables}
+
+Observations may also have costs.
+
+A \textbf{costed observable family} on \(\mathcal X\) is a triple
+
+\[
+\mathfrak O=(\Omega,\chi,R),
+\]
+
+where:
+
+\[
+\Omega
+\]
+
+is a class of observables,
+
+\[
+R
+\]
+
+is an observation-resource scale, and
+
+\[
+\chi:\Omega\to R
+\]
+
+assigns an observation cost to each observable.
+
+For an observation bound \(r\in R\), define
+
+\[
+\Omega^{\leq r}=\{\omega\in\Omega:\chi(\omega)\leq r\}.
+\]
+
+Thus \(\Omega^{\leq r}\) is the family of observables available with observation budget \(r\).
+
+Examples of observation costs include arity of a word observer, length of a word, number or order of test groups, degree of a polynomial probe, rank or matrix size of a linear observer, number of evaluations, depth of a logical formula, or quantifier rank.
+
+This distinction is essential:
+
+\[
+\text{presentation cost of objects}
+\]
+
+and
+
+\[
+\text{observation cost of tests}
+\]
+
+are different resources.
+
+Costed observables form a second resource layer. They measure the complexity of observing, testing, and distinguishing once the object class and presentation systems have been fixed.
+
+
+\section{Distinguishing cost}
+
+Let
+
+\[
+\mathfrak O=(\Omega,\chi,R)
+\]
+
+be a costed observable family.
+
+For two objects \(x,y\in\mathcal X\), define their \textbf{distinguishing cost} by
+
+\[
+\operatorname{dc}_{\mathfrak O}(x,y)=\inf\{\chi(\omega):\omega\in\Omega,\ \omega(x)\neq\omega(y)\}.
+\]
+
+If no observable in \(\Omega\) distinguishes \(x\) and (y), then
+
+\[
+\operatorname{dc}_{\mathfrak O}(x,y)=\infty.
+\]
+
+This measures the minimum observation budget needed to tell \(x\) and (y) apart using the allowed observables.
+
+Observer-barrier results have the form:
+
+\[
+\Omega^{\leq r}\text{ is not complete on }\mathcal C,
+\]
+
+but
+
+\[
+\Omega^{\leq r'}\text{ is complete on }\mathcal C
+\]
+
+for some larger \(r'\), often with \(r'\) optimal.
+
+Such results show that observation itself has irreducible resource requirements.
+
+
+\section{Normal-form compilers}
+
+Many applications depend on a theorem that converts raw descriptions or raw observables into a simpler algebraic normal form.
+
+A \textbf{normal-form compiler} is a result showing that a class of descriptions or observables is equivalent to a more structured class.
+
+For descriptions, a normal-form compiler may have the form:
+
+\[
+d\in\mathcal D^{\leq b}
+\quad\Longrightarrow\quad
+\exists d'\in\mathcal D_{\mathrm{nf}}^{\leq f(b)}
+\text{ with }
+\rho(d')=\rho(d).
+\]
+
+This says that every low-cost description can be replaced by a normal-form description with controlled overhead.
+
+For observables, a normal-form compiler may have the form
+
+\[
+\omega_{\mathrm{raw}}
+\rightsquigarrow
+\omega_{\mathrm{nf}},
+\]
+
+where the raw observable and the normal-form observable determine the same information on the class under study.
+
+Examples include:
+
+\[
+\text{word equations in class-two groups}
+\rightsquigarrow
+\text{linear and alternating quadratic data,}
+\]
+
+\[
+\text{relative word observers}
+\rightsquigarrow
+\text{matrix-rank observers,}
+\]
+
+\[
+\text{Boolean lift constraints}
+\rightsquigarrow
+\text{Möbius coefficient constraints,}
+\]
+
+\[
+\text{commutator-word moments}
+\rightsquigarrow
+\text{rank probes of alternating tensors,}
+\]
+
+\[
+\text{coordinate descriptions}
+\rightsquigarrow
+\text{primitive height-normalized coordinates.}
+\]
+
+Normal-form compilers are often the technical heart of applications. They make bounded objects and attainable observations computable, constrainable, or reconstructive.
+
+
+\section{Complete normal forms as resolutions}
+
+A stronger object is a complete normal form for the realization map itself.
+
+Let
+
+\[
+\rho:\mathcal D\to\mathcal X
+\]
+
+be a realization map. A \textbf{complete normal form} for \(\rho\) is a computable map
+
+\[
+N:\mathcal D\to\mathcal N
+\]
+
+to a space of normal forms such that
+
+\[
+N(d)=N(e)
+\quad\Longleftrightarrow\quad
+\rho(d)=\rho(e).
+\]
+
+Such an \(N\) is a computable resolution of the equivalence relation induced by \(\rho\). It replaces the problem of deciding whether two descriptions realize the same object by equality of their normal forms.
+
+This is stronger than a cost-controlled compiler into a convenient class of descriptions. A compiler may give good representatives in a bounded range or for a structured subclass. A complete normal form resolves every fibre at once.
+
+Consequently, undecidable fibres obstruct complete computable normalization: if \(d_x\) is a description of \(x\), then a complete normal form decides membership in \(\mathfrak F_\rho(x)\) by testing whether \(N(d)=N(d_x)\).
+
+
+\section{Realization images and algebraic obstructions}
+
+A presentation system contains a realization map
+
+\[
+\rho:\mathcal D\to\mathcal X.
+\]
+
+Often the key problem is to understand the image of \(\rho\), or the image of a bounded, evaluated, linearized, or reduced version of \(\rho\).
+
+For a bound \(b\), the bounded image is
+
+\[
+\mathcal X_\Gamma^{\leq b}=\rho(\mathcal D^{\leq b}).
+\]
+
+In algebraic settings, obstructions may arise from failure to lie in an image, cokernel classes, congruence conditions, rank constraints, lattice constraints, support constraints, or coefficient alphabet restrictions.
+
+Thus some lower bounds are not initially about size. They are about realizability.
+
+The general pattern is:
+
+\[
+\text{low-cost descriptions land inside a constrained image;}
+\]
+
+\[
+\text{the target object or observation lies outside that image;}
+\]
+
+therefore
+
+\[
+\text{no low-cost description exists.}
+\]
+
+This is especially important when the presentation system is algebraic, linear, modular, or arithmetic.
+
+
+\section{Pullback and transport of observables}
+
+Let
+
+\[
+F:\mathcal X\to\mathcal Y
+\]
+
+be a map of object classes, and let
+
+\[
+\eta:\mathcal Y\to A
+\]
+
+be an observable on \(\mathcal Y\).
+
+Then
+
+\[
+\omega=\eta\circ F:\mathcal X\to A
+\]
+
+is an observable on \(\mathcal X\).
+
+This is the \textbf{pullback observable} induced by \(F\) and \(\eta\).
+
+If \(F\) is cost-controlled with overhead (f), then
+
+\[
+F(\mathcal X_{\Gamma_\mathcal X}^{\leq b})
+\subseteq
+\mathcal Y_{\Gamma_\mathcal Y}^{\leq f(b)}.
+\]
+
+Therefore,
+
+\[
+\operatorname{Val}_{\Gamma_\mathcal X,\eta\circ F}(b)
+\subseteq
+\operatorname{Val}_{\Gamma_\mathcal Y,\eta}(f(b)).
+\]
+
+Thus maps between object classes transport observable profiles.
+
+This is useful when (F(x)) is a quotient, reduction, abelianization, associated graded object, local model, or simpler invariant of \(x\).
+
+A transported lower bound has the following form.
+
+If
+
+\[
+C_{\Gamma_\mathcal Y}(F(x))> f(b),
+\]
+
+then
+
+\[
+C_{\Gamma_\mathcal X}(x)> b.
+\]
+
+Thus a lower bound for a simpler transported object can imply a lower bound for the original object.
+
+
+\section{Relative and fibre methods}
+
+Sometimes an object is studied through a map
+
+\[
+q:\mathcal X\to\mathcal Y.
+\]
+
+The object (q(x)) may be a quotient, reduction, base object, abelianization, associated graded object, invariant, or observable component of \(x\).
+
+The fibre
+
+\[
+q^{-1}(q(x))
+\]
+
+contains the information not determined by (q(x)).
+
+One may try to decompose the cost of \(x\) into the cost of the base object (q(x)) and the residual cost of specifying \(x\) inside the fibre.
+
+Informally,
+
+\[
+\text{cost of }x
+\approx
+\text{cost of }q(x)
++
+\text{cost of lifting data}.
+\]
+
+This method is useful for extensions, quotients, fibrations, local-to-global problems, model-plus-residual descriptions, cohomological classification, and situations where an observable sees only part of the object.
+
+A full relative theory may introduce conditional presentation systems or relative costs
+
+\[
+C_\Gamma(x\mid q(x)).
+\]
+
+But the core idea is already present in the basic formalism through fibres of maps and observables.
+
+
+\section{Bounded-counterexample arguments}
+
+Let \(P\) be a property of objects in \(\mathcal X\). Define the bad set
+
+\[
+B_P={x\in\mathcal X : P(x)\text{ fails}}.
+\]
+
+Thus proving \(P\) for all objects in \(\mathcal X\) is the same as proving
+
+\[
+B_P=\varnothing.
+\]
+
+Let \(\Gamma\) be a presentation system on \(\mathcal X\), and let \(b\) be a cost bound.
+
+A \textbf{bounded-counterexample principle} for \(P\), with respect to \(\Gamma\) and \(b\), is an implication of the form
+
+\[
+B_P\neq\varnothing
+\quad\Longrightarrow\quad
+B_P\cap \mathcal X_\Gamma^{\leq b}\neq\varnothing.
+\]
+
+In words: if \(P\) fails somewhere, then it already fails on a \(\Gamma\)-presentable object of cost at most \(b\).
+
+This principle reduces a universal statement to the bounded part \(\mathcal X_\Gamma^{\leq b}\): any failure of \(P\) has a low-cost witness.
+
+To prove \(P\), one combines it with an exclusion result:
+
+\[
+B_P\cap \mathcal X_\Gamma^{\leq b}=\varnothing.
+\]
+
+Together, the two statements imply
+
+\[
+B_P=\varnothing.
+\]
+
+Indeed, if \(B_P\neq\varnothing\), the bounded-counterexample principle gives an element of
+
+\[
+B_P\cap \mathcal X_\Gamma^{\leq b},
+\]
+
+contradicting the exclusion result.
+
+The exclusion result may be proved directly, by finite enumeration, by a normal-form theorem, or by observables.
+
+The observable form is the following. Suppose there is an observable
+
+\[
+\omega:\mathcal X\to A
+\]
+
+and a subset \(S_b\subseteq A\) such that all objects of cost at most \(b\) have observable value in \(S_b\):
+
+\[
+\mathcal X_\Gamma^{\leq b}\subseteq \omega^{-1}(S_b),
+\]
+
+while every bad object has observable value outside \(S_b\):
+
+\[
+B_P\subseteq \mathcal X\setminus \omega^{-1}(S_b).
+\]
+
+Then no bad object can lie in the bounded part. If bad objects, if they exist, must lie in the bounded part, then no bad objects exist.
+
+In slogan form:
+
+\[
+\begin{gathered}
+\text{counterexamples must be cheap,}\\
+\text{the bounded class contains no counterexamples,}\\
+\text{therefore no counterexamples exist.}
+\end{gathered}
+\]
+
+The argument has a precise form: an independent mathematical reason forces counterexamples into a bounded presentation class, and a second argument excludes counterexamples from that bounded class.
+
+
+\section{Admissibility and naturality}
+
+The formal definition of a presentation system is intentionally broad.
+
+A presentation system is paired with admissibility conditions appropriate to the application. Common conditions include:
+\begin{enumerate}[label=(\roman*)]
+\item the realization map is effectively computable, or at least mathematically canonical;
+\item bounded description classes are finite, compact, constructible, recursively enumerable, or otherwise controllable;
+\item the cost is monotone under the natural enlargements of descriptions;
+\item equivalent descriptions of the same object have controlled effects on cost;
+\item the chosen observables are canonical, or their selection cost is explicitly charged.
+\end{enumerate}
+
+These conditions keep the formalism aligned with the intended mathematical presentation problem.
+
+The corresponding methodological convention is:
+\[
+\begin{gathered}
+\text{costs are attached to declared description or observation systems,}\\
+\text{and lower-bound observables are either canonical or explicitly costed.}
+\end{gathered}
+\]
+
+
+\section{Basic examples}
+
+
+\subsection{Heights}
+
+For rational points in projective space,
+
+\[
+\mathcal X=\mathbb P^n(\mathbb Q),
+\]
+
+one may take descriptions to be primitive integer coordinate vectors
+
+\[
+(a_0,\dots,a_n)\in \mathbb Z^{n+1}_{\mathrm{prim}}\setminus\{0\},
+\]
+
+with realization
+
+\[
+\rho(a_0,\dots,a_n)=[a_0:\dots:a_n]
+\]
+
+and cost
+
+\[
+\kappa(a_0,\dots,a_n)=\log\max_i|a_i|.
+\]
+
+The resulting presentation complexity is the logarithmic height.
+
+Thus height theory is an arithmetic instance of presentation complexity.
+
+Height balls are bounded parts. Height inequalities under morphisms are cost-controlled maps. Counting points of bounded height is volume theory for bounded parts.
+
+
+\subsection{Kolmogorov complexity}
+
+For finite binary strings,
+
+\[
+\mathcal X=\{0,1\}^*,
+\]
+
+take descriptions to be programs for a universal machine \(U\):
+
+\[
+\mathcal D=\{0,1\}^*,
+\]
+
+with realization
+
+\[
+\rho(p)=U(p)
+\]
+
+and cost
+
+\[
+\kappa(p)=|p|.
+\]
+
+Then
+
+\[
+K_U(x)=\min\{|p|:U(p)=x\}
+\]
+
+is Kolmogorov complexity relative to \(U\).
+
+
+\subsection{Circuit complexity}
+
+For Boolean functions,
+
+\[
+\mathcal X=\{f:\{0,1\}^n\to\{0,1\}\},
+\]
+
+descriptions may be Boolean circuits, realization is the computed function, and cost is circuit size or depth.
+
+The presentation complexity is minimum circuit size or depth.
+
+
+\subsection{Group presentations}
+
+For finite groups, one possible presentation system uses finite presentations
+
+\[
+\langle S\mid R\rangle,
+\]
+
+with realization
+
+\[
+\rho(S,R)=F(S)/\langle\!\langle R\rangle\!\rangle
+\]
+
+and cost such as
+
+\[
+\kappa(S,R)=\bigl(|S|,|R|,\sum_{r\in R}|r|\bigr).
+\]
+
+Another presentation system may use multiplication tables, word circuits, semidirect-product data, module data, commutator tensors, finite local models, or permutation-cover data.
+
+Different presentation systems measure different mathematical resources.
+
+Words may play two distinct roles. As relators, words are part of descriptions and contribute to presentation cost. As word maps or word equations, words define observables and contribute to observation cost.
+
+
+\subsection{Algebraic and straight-line complexity}
+
+For polynomials or algebraic expressions, descriptions may be arithmetic circuits or straight-line programs.
+
+The realization map sends a circuit to the polynomial or function it computes.
+
+The cost may be the number of operations, depth, degree of allowed gates, or circuit size.
+
+Observables may include degree, rank of partial derivative spaces, support, evaluation data, or factorization patterns.
+
+This gives a presentation-theoretic view of algebraic complexity.
+
+
+\section{Reusable General Theorems}
+
+The formalism gives stable proof patterns. The following theorems are abstract templates for height balls, coefficient boxes, word observers, hom-count tests, rank probes, normal forms, proof languages, and bounded counterexample searches.
+
+\begin{theorem}[Bounded realization-image obstruction]
+Let \(\Gamma=(\mathcal D,\rho,\kappa)\) be a presentation system on \(\mathcal X\). Let
+\[
+\theta:\mathcal X\to T
+\]
+be any invariant or observable, and suppose that for a cost bound \(b\) one has a proved inclusion
+\[
+\theta(\mathcal X_\Gamma^{\leq b})\subseteq S_b
+\]
+for some subset \(S_b\subseteq T\). Then
+\[
+\theta(x)\notin S_b
+\quad\Longrightarrow\quad
+x\notin\mathcal X_\Gamma^{\leq b}.
+\]
+If numerical presentation complexity is defined, then \(C_\Gamma(x)>b\).
+\end{theorem}
+
+\begin{proof}
+If \(x\in\mathcal X_\Gamma^{\leq b}\), then by the proved inclusion \(\theta(x)\in S_b\). The contrapositive gives the claim.
+\end{proof}
+
+This is the common lower-bound pattern behind coefficient constraints, bounded realization images, rank constraints, height denominators, volume estimates, and algebraic support restrictions. The bounded set \(\mathcal X_\Gamma^{\leq b}\) supplies the constrained image \(S_b\).
+
+\begin{theorem}[Normal-form transfer]
+Let \(\Gamma_{\mathrm{raw}}\) and \(\Gamma_{\mathrm{nf}}\) be presentation systems for the same object class \(\mathcal X\), with
+\[
+\Gamma_{\mathrm{raw}}=(\mathcal D_{\mathrm{raw}},\rho_{\mathrm{raw}},\kappa_{\mathrm{raw}})
+\]
+and
+\[
+\Gamma_{\mathrm{nf}}=(\mathcal D_{\mathrm{nf}},\rho_{\mathrm{nf}},\kappa_{\mathrm{nf}}).
+\]
+Suppose there is a compiler
+\[
+T:\mathcal D_{\mathrm{raw}}\to\mathcal D_{\mathrm{nf}}
+\]
+and an overhead function \(f\) such that
+\[
+\rho_{\mathrm{nf}}(T(d))=\rho_{\mathrm{raw}}(d)
+\]
+and
+\[
+\kappa_{\mathrm{nf}}(T(d))\leq f(\kappa_{\mathrm{raw}}(d))
+\]
+for all \(d\in\mathcal D_{\mathrm{raw}}\). Then
+\[
+\mathcal X_{\Gamma_{\mathrm{raw}}}^{\leq b}
+\subseteq
+\mathcal X_{\Gamma_{\mathrm{nf}}}^{\leq f(b)}.
+\]
+Consequently, every lower bound against \(\Gamma_{\mathrm{nf}}\)-normal forms below \(f(b)\) is also a lower bound against raw presentations below \(b\).
+\end{theorem}
+
+\begin{proof}
+If \(x=\rho_{\mathrm{raw}}(d)\) with \(\kappa_{\mathrm{raw}}(d)\leq b\), then \(T(d)\) is a normal-form description of the same object and has cost at most \(f(b)\).
+\end{proof}
+
+The compiler is the mathematical content: the cost inequality turns a normal form into a transfer theorem.
+
+\begin{theorem}[Observer factorization]
+Let \(\mathfrak O=(\Omega,\chi,R)\) be a costed observable family on \(\mathcal X\), and let \(r\in R\). Let \(\mathcal C\subseteq\mathcal X\), and suppose there is a structural statistic
+\[
+\tau_r:\mathcal C\to T_r
+\]
+such that every observer of cost at most \(r\) factors through \(\tau_r\) on \(\mathcal C\):
+\[
+\omega=a_\omega\circ\tau_r
+\qquad
+(\omega\in\Omega^{\leq r})
+\]
+for suitable maps \(a_\omega:T_r\to A_\omega\). Then
+\[
+\tau_r(x)=\tau_r(y)
+\quad\Longrightarrow\quad
+\omega(x)=\omega(y)
+\quad
+\text{for all }\omega\in\Omega^{\leq r}.
+\]
+Thus observers of budget \(r\) distinguish objects only up to the fibres of \(\tau_r\).
+\end{theorem}
+
+\begin{proof}
+If \(\tau_r(x)=\tau_r(y)\), then \(a_\omega(\tau_r(x))=a_\omega(\tau_r(y))\) for every factorizing observer \(\omega\).
+\end{proof}
+
+This theorem is the basic mechanism of observer complexity: bounded observers see the compressed statistic \(\tau_r\).
+
+\begin{corollary}[Finite-observer blindness]
+In the setting of the observer factorization theorem, if one fibre of \(\tau_r\) contains two non-equivalent objects \(x,y\in\mathcal C\), then \(\Omega^{\leq r}\) is not complete on \(\mathcal C\). In particular,
+\[
+\operatorname{dc}_{\mathfrak O}(x,y)\not\leq r,
+\]
+provided the distinguishing cost is interpreted in the preorder \(R\).
+\end{corollary}
+
+This is the abstract form of many bounded-observer blindness results.
+
+\begin{theorem}[Reconstruction from factored observers]
+Keep the notation of the observer factorization theorem. Suppose, conversely, that \(\tau_r\) is determined by the observers \(\Omega^{\leq r}\): whenever \(x,y\in\mathcal C\) satisfy
+\[
+\omega(x)=\omega(y)
+\qquad(\omega\in\Omega^{\leq r}),
+\]
+one has \(\tau_r(x)=\tau_r(y)\). Then the observational quotient of \(\mathcal C\) by \(\Omega^{\leq r}\) is exactly the quotient by the fibres of \(\tau_r\). If \(\tau_r\) is a complete invariant on \(\mathcal C\), then \(\Omega^{\leq r}\) is complete on \(\mathcal C\).
+\end{theorem}
+
+\begin{proof}
+The observer factorization theorem gives one implication: equal \(\tau_r\) implies equal observations. The hypothesis gives the reverse implication. Hence the two equivalence relations coincide.
+\end{proof}
+
+\begin{proposition}[Cost-sensitive fibration bound]
+Let \(q:\mathcal X\to\mathcal Y\) be a structural map. Suppose \(\mathcal Y\) has a presentation system \(\Gamma_\mathcal Y\), and suppose that for every \(y\in\mathcal Y\) there is a relative presentation system \(\Gamma_{\mathrm{rel}}(y)\) for the fibre \(q^{-1}(y)\). Assume objects of \(\mathcal X\) can be assembled from base and relative descriptions with overhead \(A\):
+\[
+\kappa_\mathcal X(\operatorname{Asm}(e,h))
+\leq
+A(\kappa_\mathcal Y(e),\kappa_{\mathrm{rel}}(h)).
+\]
+Then
+\[
+C_{\Gamma_\mathcal X}(x)
+\leq
+\inf_{e,h}
+A(\kappa_\mathcal Y(e),\kappa_{\mathrm{rel}}(h)),
+\]
+where the infimum ranges over descriptions \(e\) of \(q(x)\) and relative descriptions \(h\) of \(x\) in the fibre over \(q(x)\).
+\end{proposition}
+
+\begin{proof}
+Every admissible pair \((e,h)\) assembles to a description of \(x\) with the stated cost. Taking the infimum gives the bound.
+\end{proof}
+
+This proposition is an upper-bound assembly statement. Relative lower bounds arise from converse hypotheses showing that every low-cost description of \(x\) yields low-cost base and fibre data.
+
+\begin{theorem}[Busy witness principle]
+Let \(S\subseteq\{0,1\}^*\) be recursively enumerable but not decidable. Suppose there is a decidable relation \(R(u,\pi)\) such that
+\[
+u\in S
+\quad\Longleftrightarrow\quad
+\exists \pi\ R(u,\pi).
+\]
+For \(u\in S\), define
+\[
+m_R(u)=\min\{|\pi|:R(u,\pi)\},
+\]
+and define
+\[
+b_R(n)=
+\max_{\substack{|u|\leq n\\u\in S}}
+m_R(u),
+\]
+with value \(0\) if the maximum is taken over an empty set. Then \(b_R\) is not bounded above by any total computable function.
+\end{theorem}
+
+\begin{proof}
+Suppose \(b_R(n)\leq F(n)\) for some total computable function \(F\). Given \(u\), compute \(F(|u|)\) and check the finitely many words \(\pi\) with \(|\pi|\leq F(|u|)\). Since \(R\) is decidable, this finite search decides whether \(u\in S\). This contradicts the undecidability of \(S\).
+\end{proof}
+
+The theorem is elementary but important: recursively enumerable positive membership, once undecidable, forces shortest positive proof data to escape every computable uniform bound.
+
+\begin{theorem}[Undecidable fibres force nonrecursive witness growth]
+Let \(\rho:\mathcal D\to\mathcal X\) be a realization map with effectively coded descriptions and coding length \(\ell\). Fix \(x\in\mathcal X\), and suppose the fibre
+\[
+\mathfrak F_\rho(x)=\{d\in\mathcal D:\rho(d)=x\}
+\]
+is recursively enumerable but not decidable. Suppose moreover that positive membership in this fibre is represented by a decidable witness relation
+\[
+\rho(d)=x
+\quad\Longleftrightarrow\quad
+\exists \pi\ R_x(d,\pi).
+\]
+Then the bounded witness profile
+\[
+W_{\rho,x}(n)=
+\max_{\substack{\ell(d)\leq n\\d\in\mathfrak F_\rho(x)}}
+\min\{|\pi|:R_x(d,\pi)\}
+\]
+is not bounded above by any total computable function.
+\end{theorem}
+
+\begin{proof}
+Apply the busy witness principle to the recursively enumerable undecidable set \(\mathfrak F_\rho(x)\), using the effective coding of descriptions.
+\end{proof}
+
+This turns undecidability of a presentation fibre into a quantitative lower bound on positive proof data.
+
+\begin{corollary}[Effective move systems force nonrecursive bridge growth]
+Let \(\mathcal M\) be an effective finite-branching move system on \(\mathcal D\) preserving realization. Fix \(d_x\in\mathfrak F_\rho(x)\). Suppose
+\[
+d\in\mathfrak F_\rho(x)
+\quad\Longleftrightarrow\quad
+d\text{ is connected to }d_x\text{ by an }\mathcal M\text{-path}.
+\]
+If membership in \(\mathfrak F_\rho(x)\) is undecidable, then the bridge profile
+\[
+B_{\rho,\mathcal M,x,d_x}(n)=
+\sup_{\substack{\ell(d)\leq n\\ d\in\mathfrak F_\rho(x)}}
+d_{\mathcal M}(d,d_x)
+\]
+is not bounded above by any total computable function.
+\end{corollary}
+
+\begin{proof}
+If \(B_{\rho,\mathcal M,x,d_x}(n)\leq F(n)\) for a total computable \(F\), then membership in the fibre could be decided as follows. Given \(d\), search the finite ball of \(\mathcal M\)-paths of length at most \(F(\ell(d))\) starting at \(d\), and check whether \(d_x\) occurs. By the connectivity hypothesis this decides \(d\in\mathfrak F_\rho(x)\), a contradiction.
+\end{proof}
+
+\begin{theorem}[No complete computable resolution]
+Let \(\rho:\mathcal D\to\mathcal X\) be a realization map with effectively coded descriptions. Suppose there is a computable map
+\[
+N:\mathcal D\to\mathcal N
+\]
+such that
+\[
+N(d)=N(e)
+\quad\Longleftrightarrow\quad
+\rho(d)=\rho(e).
+\]
+Then every represented fibre \(\mathfrak F_\rho(x)\), with a fixed description \(d_x\) satisfying \(\rho(d_x)=x\), is decidable.
+\end{theorem}
+
+\begin{proof}
+Given \(d\), compute \(N(d)\) and \(N(d_x)\). Then
+\[
+d\in\mathfrak F_\rho(x)
+\quad\Longleftrightarrow\quad
+N(d)=N(d_x).
+\]
+Thus the fibre membership problem is decidable.
+\end{proof}
+
+Consequently, if a represented fibre is undecidable, the realization map admits no complete computable normal form in the above sense. Normal forms of this strength are resolutions of the fibre equivalence relation.
+
+\begin{corollary}[Non-collapse of fibre complexity]
+There are presentation systems with an object \(x\) satisfying
+\[
+C_\Gamma(x)=0
+\]
+while the positive witness profile of \(\mathfrak F_\rho(x)\) is not bounded above by any total computable function. Hence no function of minimal presentation complexity alone can bound fibre recognition or positive witness growth in general.
+\end{corollary}
+
+\begin{proof}
+Let \(S\subseteq\{0,1\}^*\) be recursively enumerable but undecidable, with decidable witness relation \(R(u,\pi)\). Let
+\[
+\mathcal D=\{\ast\}\sqcup\{d_u:u\in\{0,1\}^*\}.
+\]
+Let \(\equiv\) be the equivalence relation generated by
+\[
+d_u\equiv\ast
+\quad\Longleftrightarrow\quad
+u\in S,
+\]
+and let \(\mathcal X=\mathcal D/\!\equiv\), with \(\rho:\mathcal D\to\mathcal X\) the quotient map. Put \(\kappa(\ast)=0\) and \(\kappa(d_u)=1+|u|\). For \(x=\rho(\ast)\), one has \(C_\Gamma(x)=0\), while \(d_u\in\mathfrak F_\rho(x)\) exactly when \(u\in S\). The busy witness principle gives the claimed nonrecursive growth.
+\end{proof}
+
+\begin{theorem}[Prefix-free search penalty]
+Let \((X,\mu)\) be a finite measure space, and let \(\{A_c\}_{c\in\mathcal C}\) be a countable family of searched events. Suppose each event has a computable volume bound
+\[
+\mu(A_c)\leq V_c
+\]
+and a prefix-free search cost \(\ell(c)\) satisfying
+\[
+\sum_{c\in\mathcal C}2^{-\ell(c)}\leq 1.
+\]
+Then, for every \(\alpha>0\),
+\[
+\mu\left(
+\bigcup_{\{c:\,V_c\leq \alpha 2^{-\ell(c)}\}} A_c
+\right)
+\leq \alpha.
+\]
+\end{theorem}
+
+\begin{proof}
+By the union bound,
+\[
+\mu\left(
+\bigcup_{\{c:\,V_c\leq \alpha 2^{-\ell(c)}\}} A_c
+\right)
+\leq
+\sum_{\{c:\,V_c\leq \alpha 2^{-\ell(c)}\}} V_c
+\leq
+\alpha\sum_c2^{-\ell(c)}
+\leq\alpha.
+\]
+\end{proof}
+
+This is the formal search-penalty principle behind adaptive discovery. The relevant budget is the description cost of the searched event.
+
+\begin{theorem}[Cheap-counterexample exclusion]
+Let \(P\) be a property of objects in \(\mathcal X\), and let
+\[
+B_P=\{x\in\mathcal X:P(x)\text{ fails}\}.
+\]
+Suppose a presentation system \(\Gamma\) and a bound \(b\) satisfy:
+\[
+B_P\neq\varnothing
+\quad\Longrightarrow\quad
+B_P\cap\mathcal X_\Gamma^{\leq b}\neq\varnothing
+\]
+and
+\[
+B_P\cap\mathcal X_\Gamma^{\leq b}=\varnothing.
+\]
+Then \(P\) holds for all objects in \(\mathcal X\).
+\end{theorem}
+
+\begin{proof}
+If \(B_P\) were nonempty, the first hypothesis would produce an element of \(B_P\cap\mathcal X_\Gamma^{\leq b}\), contradicting the second hypothesis.
+\end{proof}
+
+This theorem captures finite-reduction arguments: counterexamples must be cheap, but cheap counterexamples are excluded.
+
+
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+During the preparation of this work, ChatGPT, by OpenAI, was used to assist with mathematical drafting, formalization, review, and editing. This work is shared as a preliminary AI-assisted mathematical note. The mathematical content may have been only partially reviewed and may contain errors; it should not be treated as peer-reviewed or as a fully verified manuscript.
+
+\begin{thebibliography}{9}
+\bibitem{AroraBarak2009}
+S. Arora and B. Barak,
+\emph{Computational Complexity: A Modern Approach},
+Cambridge University Press, 2009.
+
+\bibitem{Kolmogorov1965}
+A. N. Kolmogorov,
+Three approaches to the quantitative definition of information,
+\emph{Problems of Information Transmission} 1 (1965), 1--7.
+
+\bibitem{LiVitanyi2008}
+M. Li and P. Vitanyi,
+\emph{An Introduction to Kolmogorov Complexity and Its Applications},
+third edition, Springer, 2008.
+
+\bibitem{Northcott1950}
+D. G. Northcott,
+An inequality in the theory of arithmetic on algebraic varieties,
+\emph{Proceedings of the Cambridge Philosophical Society} 45 (1950), 502--509.
+\end{thebibliography}
+
+\end{document}
