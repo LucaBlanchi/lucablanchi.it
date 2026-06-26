@@ -1,0 +1,550 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\title{Exact Preimage Layers and Effective Primitive Divisors for Rational Maps on \(\mathbb P^1\)}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Let \(K\) be a number field, let
+\[
+\varphi:\mathbb P^1_K\longrightarrow \mathbb P^1_K
+\]
+be a rational map of degree \(d\ge2\), and let \(\gamma\in\mathbb P^1(K)\) be a periodic point of exact period \(k\). Put \(f=\varphi^k\), so that \(\gamma\) is fixed by \(f\). For each \(\ell\ge1\), let
+\[
+B_\ell=(f^{-\ell}(\gamma))_{\mathrm{red}}
+\]
+be the reduced \(\ell\)-th preimage divisor of \(\gamma\), and define the exact preimage layer
+\[
+E_\ell=B_\ell-B_{\ell-1}
+\]
+as the reduced divisor supported on points whose first entrance into \(\gamma\) under \(f\) occurs after exactly \(\ell\) iterates.
+
+We prove the following conditional-effective criterion. If \(\deg E_\ell\ge3\) for some \(\ell\ge1\), then, for every wandering point \(P\in\mathbb P^1(K)\) whose orbit avoids \(\gamma\), the dynamical Zsigmondy set relative to \((\varphi,P,\gamma)\), outside an explicitly computable finite set of primes, is finite and effectively computable once the associated finite \(S\)-integral problem is solved. More precisely, the exceptional indices in the tail \(n\ge k\ell\) are contained in a finite computable union of \(S\)-integral hits of the orbit against \(E_\ell\), and the remaining candidates are checked by finite ideal factorization.
+
+As a consequence, on a Zariski-open locus of rational maps of degree \(d\ge2\) with a marked periodic point, the exact-layer criterion applies in every degree. For the return map degree \(D=d^k\), one may take
+\[
+\ell=
+\begin{cases}
+1,&D\ge4,\\
+2,&D=3,\\
+3,&D=2.
+\end{cases}
+\]
+Thus the exact-layer refinement gives a generic effective route even in quadratic and cubic return degree, where the immediate residual divisor may have degree \(1\) or \(2\).
+\end{abstract}
+
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+During the preparation of this work, ChatGPT, by OpenAI, was used to assist with mathematical drafting, formalization, review, and editing. This work is shared as a preliminary AI-assisted mathematical note. The mathematical content may have been only partially reviewed and may contain errors; it should not be treated as peer-reviewed or as a fully verified manuscript.
+
+\section{Introduction}
+
+Primitive divisor problems in arithmetic dynamics ask whether, for all sufficiently large \(n\), the congruence
+\[
+\varphi^n(P)\equiv\gamma\pmod{\mathfrak p}
+\]
+has a prime ideal \(\mathfrak p\) that does not occur at any earlier iterate. Ingram and Silverman proved a qualitative dynamical Zsigmondy theorem for rational maps on \(\mathbb P^1\) with periodic target points, under a non-polynomial-type hypothesis. Their theorem is broad, but the general proof is not designed to produce an effective upper bound for the last exceptional index.
+
+The purpose of this note is to isolate a large effective subcase. The key point is that one need not work only with the immediate residual divisor
+\[
+f^{-1}(\gamma)-e[\gamma].
+\]
+Instead, one may use higher exact preimage layers. A prime at which an orbit point meets \(E_\ell\) is forced, after exactly \(\ell\) return steps, to meet \(\gamma\), and it cannot have met \(\gamma\) earlier, outside a finite bad set. Thus failure of primitive divisors forces \(S\)-integrality of an earlier orbit point relative to \(E_\ell\). If \(\deg E_\ell\ge3\), the relevant \(S\)-integral points are finite and effectively computable in the usual sense of reducing to \(S\)-unit or Thue--Mahler equations.
+
+This exact-layer formulation has two advantages over the immediate residual criterion. First, it fixes the indexing issue: an encounter with \(E_\ell\) at return time \(m\) produces a primitive divisor at return time \(m+\ell\). Second, it greatly expands the generic range. For a generic return map of degree \(D\), the exact layer has degree
+\[
+\deg E_\ell=D^\ell-D^{\ell-1}.
+\]
+Thus some layer of degree at least \(3\) appears uniformly with \(\ell\le3\) in every degree \(D\ge2\).
+
+\section{Notation and Conventions}
+
+Let \(K\) be a number field with ring of integers \(\mathcal O_K\). By a prime we mean a non-zero prime ideal \(\mathfrak p\subset\mathcal O_K\). All congruences are taken outside finite sets of primes large enough to make the relevant models integral and well behaved.
+
+Let
+\[
+\varphi:\mathbb P^1_K\to\mathbb P^1_K
+\]
+be a rational map of degree \(d\ge2\). Let \(\gamma\in\mathbb P^1(K)\) be periodic of exact period \(k\), and put
+\[
+f=\varphi^k.
+\]
+Then \(\gamma\) is fixed by \(f\). For a point \(P\in\mathbb P^1(K)\), write
+\[
+P_n=\varphi^n(P).
+\]
+
+\begin{definition}[Primitive prime]
+A prime \(\mathfrak p\) is primitive for the \(n\)-th encounter of \(P\) with \(\gamma\) if
+\[
+P_n\equiv\gamma\pmod{\mathfrak p}
+\]
+and
+\[
+P_m\not\equiv\gamma\pmod{\mathfrak p}
+\qquad
+0\le m<n.
+\]
+\end{definition}
+
+\begin{definition}[\(S\)-Zsigmondy set]
+For a finite set \(S\) of primes, the \(S\)-Zsigmondy set is
+\[
+\mathcal Z_S(\varphi,P,\gamma)
+=
+\left\{
+n\ge0:
+\text{there is no primitive prime }\mathfrak p\notin S
+\text{ for the }n\text{-th encounter}
+\right\}.
+\]
+\end{definition}
+
+If \(D\) is a reduced effective divisor on \(\mathbb P^1_K\), we say that \(Q\in\mathbb P^1(K)\) is \(S\)-integral relative to \(D\) if, for every \(\mathfrak p\notin S\), the reduction of \(Q\) does not lie on the reduction of \(D\). After choosing a homogeneous form \(H(X,Y)\in K[X,Y]\) defining \(D\) and clearing denominators, this is equivalent to requiring that, for primitive coordinates \(Q=[A:B]\), all prime divisors outside the fixed model bad set of \(H(A,B)\) lie in \(S\).
+
+All divisors \(B_\ell\) and \(E_\ell\) below are geometric divisors, i.e. after base change to \(\overline K\). Their degrees are geometric degrees.
+
+\section{Exact Preimage Layers}
+
+Since \(\gamma\) is fixed by \(f\), the reduced preimage divisors
+\[
+B_\ell=(f^{-\ell}(\gamma))_{\mathrm{red}}
+\]
+form an increasing sequence:
+\[
+B_0\subseteq B_1\subseteq B_2\subseteq\cdots.
+\]
+Indeed, if \(f^j(Q)=\gamma\), then \(f^{j+1}(Q)=\gamma\).
+
+\begin{definition}[Exact preimage layer]
+The \(\ell\)-th exact preimage layer is
+\[
+E_\ell=B_\ell-B_{\ell-1},
+\]
+the reduced divisor supported on
+\[
+\operatorname{Supp}(B_\ell)\setminus\operatorname{Supp}(B_{\ell-1}).
+\]
+Thus \(Q\in E_\ell(\overline K)\) if and only if
+\[
+f^\ell(Q)=\gamma
+\]
+and
+\[
+f^j(Q)\ne\gamma
+\qquad
+0\le j<\ell.
+\]
+\end{definition}
+
+The exact layer is the correct object for primitive divisors: a prime at which an orbit point reduces into \(E_\ell\) yields an encounter with \(\gamma\) exactly \(\ell\) return steps later, and not before, provided the prime is outside a finite bad set.
+
+\section{The Exact-Layer Primitive Divisor Lemma}
+
+\begin{lemma}
+Let \(f:\mathbb P^1_K\to\mathbb P^1_K\) be a rational map of degree \(D\ge2\), and let \(\gamma\in\mathbb P^1(K)\) be fixed by \(f\). Fix \(\ell\ge1\). There is a finite effectively computable set \(S_\ell\) of primes of \(K\) such that the following holds.
+
+Let \(Q_m=f^m(Q_0)\). If
+\[
+Q_m\bmod\mathfrak p\in E_\ell
+\]
+for some \(\mathfrak p\notin S_\ell\), then
+\[
+Q_{m+\ell}\equiv\gamma\pmod{\mathfrak p},
+\]
+and \(\mathfrak p\) is primitive for this encounter within the \(f\)-orbit:
+\[
+Q_t\not\equiv\gamma\pmod{\mathfrak p}
+\qquad
+0\le t<m+\ell.
+\]
+\end{lemma}
+
+\begin{proof}
+Choose integral models for \(f^j\), \(0\le j\le\ell\), and homogeneous squarefree forms defining the reduced divisors \(B_j\) and \(E_\ell\). Let \(S_\ell\) contain:
+\begin{enumerate}[label=(\roman*)]
+\item primes of bad reduction for \(f^j\), \(1\le j\le\ell\);
+\item primes at which the models of the divisors \(B_j\) or \(E_\ell\) acquire bad reduction;
+\item primes at which \(E_\ell\) collides with \(B_j\) for some \(0\le j<\ell\);
+\item primes introduced by denominators and contents of the chosen models.
+\end{enumerate}
+This set is finite and effectively computable by resultants of the defining binary forms and the usual bad-reduction resultants of the maps.
+
+Now let \(\mathfrak p\notin S_\ell\), and suppose
+\[
+Q_m\bmod\mathfrak p\in E_\ell.
+\]
+Because \(E_\ell\subseteq f^{-\ell}(\gamma)\), good reduction gives
+\[
+Q_{m+\ell}=f^\ell(Q_m)\equiv\gamma\pmod{\mathfrak p}.
+\]
+
+We prove primitivity. Suppose first that for some \(t<m\),
+\[
+Q_t\equiv\gamma\pmod{\mathfrak p}.
+\]
+Since \(\gamma\) is fixed modulo \(\mathfrak p\), good reduction gives
+\[
+Q_m=f^{m-t}(Q_t)\equiv\gamma\pmod{\mathfrak p}.
+\]
+Thus \(Q_m\bmod\mathfrak p\in B_0\). But \(E_\ell\cap B_0=\varnothing\), and this disjointness remains true modulo \(\mathfrak p\notin S_\ell\), a contradiction.
+
+Suppose next that \(m\le t<m+\ell\) and
+\[
+Q_t\equiv\gamma\pmod{\mathfrak p}.
+\]
+Then
+\[
+f^{t-m}(Q_m)\equiv\gamma\pmod{\mathfrak p},
+\]
+so \(Q_m\bmod\mathfrak p\in B_{t-m}\). Since \(0\le t-m<\ell\), the divisor \(B_{t-m}\) is disjoint from \(E_\ell\), and the disjointness persists modulo \(\mathfrak p\notin S_\ell\), again a contradiction. Therefore no earlier point of the \(f\)-orbit meets \(\gamma\) modulo \(\mathfrak p\).
+\end{proof}
+
+\section{Passage from Fixed to Periodic Targets}
+
+Let \(\gamma\) have exact period \(k\) for \(\varphi\), and put
+\[
+f=\varphi^k.
+\]
+For \(0\le i<k\), define
+\[
+P_i=\varphi^i(P).
+\]
+Then the \(\varphi\)-orbit decomposes into the \(k\) \(f\)-orbits
+\[
+P_i,\ f(P_i),\ f^2(P_i),\ldots.
+\]
+
+\begin{lemma}[Separation of residue classes modulo the period]
+There is a finite effectively computable set \(S_{\mathrm{cyc}}\) of primes such that, for every \(\mathfrak p\notin S_{\mathrm{cyc}}\), if
+\[
+\varphi^a(P)\equiv\gamma\pmod{\mathfrak p}
+\]
+and
+\[
+\varphi^b(P)\equiv\gamma\pmod{\mathfrak p},
+\]
+then
+\[
+a\equiv b\pmod k.
+\]
+\end{lemma}
+
+\begin{proof}
+Let
+\[
+\gamma_j=\varphi^j(\gamma),
+\qquad
+0\le j<k.
+\]
+Enlarge \(S_{\mathrm{cyc}}\) so that \(\varphi\) has good reduction outside \(S_{\mathrm{cyc}}\) and the distinct points
+\[
+\gamma_0,\gamma_1,\ldots,\gamma_{k-1}
+\]
+remain distinct modulo every \(\mathfrak p\notin S_{\mathrm{cyc}}\). This is achieved by including the finitely many primes at which two cycle points collide.
+
+If \(\varphi^a(P)\equiv\gamma\pmod{\mathfrak p}\), then after \(b-a\) further iterates,
+\[
+\varphi^b(P)\equiv \varphi^{b-a}(\gamma)\pmod{\mathfrak p}.
+\]
+If also \(\varphi^b(P)\equiv\gamma\pmod{\mathfrak p}\), then
+\[
+\varphi^{b-a}(\gamma)\equiv\gamma\pmod{\mathfrak p}.
+\]
+Since the cycle points remain distinct modulo \(\mathfrak p\), this forces \(b-a\equiv0\pmod k\).
+\end{proof}
+
+Thus a primitive prime for a subsequence modulo \(k\) is primitive for the full \(\varphi\)-orbit, outside \(S_{\mathrm{cyc}}\).
+
+\section{Main Theorem}
+
+\begin{theorem}[Exact-layer effective Zsigmondy theorem]
+Let \(K\) be a number field, let
+\[
+\varphi:\mathbb P^1_K\to\mathbb P^1_K
+\]
+be a rational map of degree \(d\ge2\), and let \(\gamma\in\mathbb P^1(K)\) be periodic of exact period \(k\). Put \(f=\varphi^k\). For \(\ell\ge1\), let
+\[
+E_\ell=(f^{-\ell}(\gamma))_{\mathrm{red}}-(f^{-(\ell-1)}(\gamma))_{\mathrm{red}}.
+\]
+Assume
+\[
+\deg E_\ell\ge3
+\]
+for some \(\ell\ge1\).
+
+Let \(P\in\mathbb P^1(K)\) be wandering, and suppose that the orbit of \(P\) avoids \(\gamma\). Then there is a finite effectively computable set \(S\) of primes such that \(\mathcal Z_S(\varphi,P,\gamma)\) is finite and computable after solving the finite \(S\)-integral problem for \((\mathbb P^1,E_\ell)\).
+
+More precisely, for \(n\ge k\ell\), write
+\[
+n=i+k(m+\ell),
+\qquad
+0\le i<k,\quad m\ge0.
+\]
+Then
+\[
+n\in\mathcal Z_S(\varphi,P,\gamma)
+\]
+only if
+\[
+f^m(\varphi^i(P))
+\]
+is \(S\)-integral relative to \(E_\ell\). Consequently,
+\[
+\mathcal Z_S(\varphi,P,\gamma)\cap[k\ell,\infty)
+\]
+is contained in a finite effectively computable candidate set. After a finite direct check of these candidate indices, the exact \(S\)-Zsigmondy set is computable.
+\end{theorem}
+
+\begin{proof}
+Let
+\[
+S=S_\ell\cup S_{\mathrm{cyc}}\cup S_P,
+\]
+where \(S_\ell\) is the finite set from the exact-layer lemma for the return map \(f\), \(S_{\mathrm{cyc}}\) is the finite set from the residue-class separation lemma, and \(S_P\) contains the finitely many primes needed to make the reductions of the finitely many initial points and models well defined.
+
+Fix \(n\ge k\ell\), and write
+\[
+n=i+k(m+\ell),
+\qquad
+0\le i<k,\quad m\ge0.
+\]
+Set
+\[
+Q_m=f^m(\varphi^i(P)).
+\]
+If \(Q_m\) is not \(S\)-integral relative to \(E_\ell\), then there is a prime \(\mathfrak p\notin S\) such that
+\[
+Q_m\bmod\mathfrak p\in E_\ell.
+\]
+By the exact-layer lemma, this prime is primitive for the encounter
+\[
+f^{m+\ell}(\varphi^i(P))\equiv\gamma\pmod{\mathfrak p}
+\]
+within the \(f\)-suborbit of \(\varphi^i(P)\). In global \(\varphi\)-time, this is exactly the time
+\[
+i+k(m+\ell)=n.
+\]
+By the residue-class separation lemma, \(\mathfrak p\) cannot have occurred in a different residue class modulo \(k\). Hence \(\mathfrak p\) is primitive for the full \(\varphi\)-orbit.
+
+Therefore, if \(n\in\mathcal Z_S(\varphi,P,\gamma)\), then \(f^m(\varphi^i(P))\) must be \(S\)-integral relative to \(E_\ell\).
+
+Since \(\deg E_\ell\ge3\), the set
+\[
+\mathcal I(E_\ell,S)
+=
+\{Q\in\mathbb P^1(K):Q\text{ is }S\text{-integral relative to }E_\ell\}
+\]
+is finite and effectively computable in principle. Explicitly, after choosing a squarefree binary form \(H_\ell(X,Y)\) defining \(E_\ell\), the condition that \(Q=[A:B]\) be \(S\)-integral relative to \(E_\ell\) says that
+\[
+H_\ell(A,B)
+\]
+has no prime divisors outside \(S\), up to fixed content and denominator primes already included in \(S\). For \(\deg H_\ell\ge3\), this reduces to finitely many \(S\)-unit or Thue--Mahler computations.
+
+Thus the possible exceptional indices in the tail are contained in
+\[
+\bigcup_{i=0}^{k-1}
+\left\{
+i+k(m+\ell):
+f^m(\varphi^i(P))\in\mathcal I(E_\ell,S)
+\right\}.
+\]
+It remains to see that this set is effectively bounded. Let \(D=\deg f=d^k\). There is an effectively computable constant \(C_f\) such that
+\[
+h(f(Q))\ge D h(Q)-C_f
+\]
+for all \(Q\in\mathbb P^1(\overline K)\). Let
+\[
+H_0=\max_{Q\in\mathcal I(E_\ell,S)}h(Q)
+\]
+and set
+\[
+T=\max\left\{H_0,\frac{C_f}{D-1}\right\}.
+\]
+If \(h(Q)>T\), then \(h(f(Q))>h(Q)\). Since \(P\) is wandering under \(\varphi\), each subsequence \(f^m(\varphi^i(P))\) is wandering under \(f\), hence has positive canonical height for \(f\). Therefore its height tends to infinity. We may enumerate each subsequence until its height exceeds \(T\). After this point it cannot return to \(\mathcal I(E_\ell,S)\).
+
+This gives a finite computable candidate set. A direct finite computation of the relevant reductions or ideal factorizations determines which candidate indices truly have primitive divisors outside \(S\). Hence the \(S\)-Zsigmondy set is computable.
+\end{proof}
+
+\section{Genericity in All Degrees}
+
+The exact-layer theorem is generic in every degree. Let \(D=\deg f=d^k\). For a generic rational map \(f\) of degree \(D\) with a marked fixed point \(\gamma\), the point \(\gamma\) is not critical, and the backward orbit of \(\gamma\) has no collisions up to any prescribed finite level. In that case
+\[
+\deg B_\ell=D^\ell
+\]
+and
+\[
+\deg E_\ell
+=\deg B_\ell-\deg B_{\ell-1}
+=D^\ell-D^{\ell-1}
+=D^{\ell-1}(D-1).
+\]
+Thus \(\deg E_\ell\ge3\) for
+\[
+\ell=
+\begin{cases}
+1,&D\ge4,\\
+2,&D=3,\\
+3,&D=2.
+\end{cases}
+\]
+
+\begin{theorem}[Generic effective Zsigmondy in every degree]
+Fix \(d\ge2\) and \(k\ge1\). In the parameter space of degree-\(d\) rational maps with a marked \(k\)-periodic point \(\gamma\), there is a nonempty Zariski-open subset on which the conclusion of the exact-layer theorem holds for every wandering point \(P\) whose orbit avoids \(\gamma\). Moreover, one may take an exact layer with \(\ell\le3\).
+\end{theorem}
+
+\begin{proof}
+Let \(D=d^k\). On a nonempty Zariski-open subset of the marked parameter space, the return map \(f=\varphi^k\) has degree \(D\), the point \(\gamma\) is not critical for \(f\), and the first three levels of the backward orbit of \(\gamma\) are simple and collision-free. These conditions are algebraic open conditions: they are expressed by non-vanishing of appropriate derivatives and pairwise resultants among the defining equations of the preimage divisors.
+
+On this open set,
+\[
+\deg E_\ell=D^{\ell-1}(D-1)
+\]
+for \(\ell=1,2,3\). The displayed choice of \(\ell\) gives \(\deg E_\ell\ge3\). The exact-layer theorem applies.
+\end{proof}
+
+\section{Consequences and Examples}
+
+\subsection{Degree at Least Four}
+
+If \(d^k\ge4\), the immediate exact layer \(E_1\) generically has degree
+\[
+d^k-1\ge3.
+\]
+Thus the original residual criterion already proves effective Zsigmondy. The exact-layer formulation recovers this as the first case.
+
+\subsection{Cubic Return Maps}
+
+If \(d^k=3\), the immediate layer has generic degree \(2\), which is not enough for \(S\)-integral finiteness. The second exact layer has degree
+\[
+\deg E_2=3^2-3=6.
+\]
+Therefore a generic cubic return map satisfies the effective Zsigmondy theorem using \(E_2\).
+
+\subsection{Quadratic Return Maps}
+
+If \(d^k=2\), the immediate layer has degree \(1\), and the second exact layer has degree
+\[
+\deg E_2=2.
+\]
+Neither is enough. But
+\[
+\deg E_3=2^3-2^2=4.
+\]
+Thus a generic quadratic return map satisfies the effective Zsigmondy theorem using \(E_3\). This is the main improvement over the immediate residual theorem.
+
+\subsection{Explicit Fixed-Point Example}
+
+Let
+\[
+\phi(x)=\frac{x(x^3+x+1)}{x^4+2}.
+\]
+Then \(0\) is fixed, and
+\[
+\phi^{-1}(0)=\{0\}\cup\{x^3+x+1=0\}.
+\]
+Here \(E_1\) has degree \(3\), so the exact-layer theorem applies with \(\ell=1\). For every wandering \(P\in\mathbb P^1(\mathbb Q)\) whose orbit avoids \(0\), the numerator Zsigmondy set is finite and computable outside a finite bad set after solving the associated Thue--Mahler problem for the binary cubic
+\[
+X^3+XY^2+Y^3.
+\]
+
+\subsection{Quadratic-Type Application}
+
+Let \(f\) be a quadratic rational map over \(K\) with a marked fixed point \(\gamma\), and suppose that the first three preimage layers of \(\gamma\) are simple and collision-free. Then \(\deg E_3=4\). Hence the exact-layer theorem applies with \(\ell=3\). The relevant finite computation is \(S\)-integrality relative to a degree-four divisor, equivalently a quartic Thue--Mahler computation after choosing a binary form defining \(E_3\).
+
+\section{Algorithmic Implementation}
+
+Given \((K,\varphi,\gamma,P,\ell)\), the algorithm is as follows.
+\begin{enumerate}[label=(\arabic*)]
+\item Compute the period \(k\) of \(\gamma\) and set \(f=\varphi^k\).
+\item Compute homogeneous models for \(f^j\), \(0\le j\le\ell\).
+\item Compute reduced preimage divisors \(B_j=(f^{-j}(\gamma))_{\mathrm{red}}\).
+\item Compute the exact layer \(E_\ell=B_\ell-B_{\ell-1}\) by factoring the defining binary forms for \(B_\ell\), removing the factors defining \(B_{\ell-1}\), and taking the squarefree part.
+\item If \(\deg E_\ell<3\), this layer does not give the hyperbolic effective criterion.
+\item Construct the finite bad set \(S\), including primes of bad reduction, denominator and content primes, collision resultants between \(E_\ell\) and \(B_j\) for \(0\le j<\ell\), primes where cycle points collide, and primes needed for the chosen initial point models.
+\item Compute
+\[
+\mathcal I(E_\ell,S)
+=
+\{Q\in\mathbb P^1(K):Q\text{ is }S\text{-integral relative to }E_\ell\}.
+\]
+This reduces to \(S\)-unit equations or Thue--Mahler equations for a binary form defining \(E_\ell\).
+\item For each \(0\le i<k\), enumerate the \(f\)-orbit of \(P_i=\varphi^i(P)\) until the height exceeds
+\[
+T=\max\left\{
+\max_{Q\in\mathcal I(E_\ell,S)}h(Q),
+\frac{C_f}{\deg f-1}
+\right\},
+\]
+where \(C_f\) satisfies \(h(f(Q))\ge \deg(f)h(Q)-C_f\).
+\item Record all \(m\) for which \(f^m(P_i)\in\mathcal I(E_\ell,S)\). These give candidate exceptional indices \(n=i+k(m+\ell)\).
+\item Check the finite set of candidates directly by factoring the relevant ideals and testing primitive occurrence outside \(S\).
+\end{enumerate}
+
+\section{Relation to Known Work}
+
+Ingram and Silverman prove a qualitative primitive divisor theorem for rational maps on \(\mathbb P^1\) with periodic target, under the non-polynomial-type hypothesis. The present theorem is more restrictive in scope but gives an effective generic criterion by using higher exact preimage layers.
+
+Silverman's divisor-theoretic framework is substantially broader, but it relies on Vojta's conjecture with truncated counting functions. The present argument is unconditional within its range because it reduces to \(S\)-integral points on \(\mathbb P^1\) minus at least three points.
+
+The exact-layer refinement is the main conceptual point: instead of using only the immediate residual divisor, one uses a first entrance layer \(E_\ell\). This is what makes the result generic in all return degrees.
+
+\section{Boundary of the Method}
+
+The method requires some exact layer \(E_\ell\) of degree at least \(3\). If all relevant exact layers remain of degree at most \(2\), the complement is an affine line or a one-dimensional torus, and \(S\)-integral points may be infinite. Then one is led to the last \(S\)-unit hit problem along an orbit.
+
+This toric residual case is a genuine frontier. Bounds on the number of \(S\)-integral hits do not automatically provide an effective bound on the last hit. Uniform \(S\)-unit problems in arithmetic dynamics are connected to deep Diophantine conjectures. Thus the exact-layer theorem should be viewed as an effective generic theorem, not as a complete replacement for the qualitative theorem of Ingram--Silverman.
+
+\begin{thebibliography}{9}
+
+\bibitem{EvertseGyory}
+J.-H. Evertse and K. Gyory.
+\newblock Effective results for unit equations over finitely generated domains.
+\newblock Preprint, 2011.
+
+\bibitem{GhergaSiksek}
+A. Gherga and S. Siksek.
+\newblock Efficient resolution of Thue--Mahler equations.
+\newblock Preprint, 2022.
+
+\bibitem{IngramSilverman}
+P. Ingram and J. H. Silverman.
+\newblock Primitive divisors in arithmetic dynamics.
+\newblock \emph{Mathematical Proceedings of the Cambridge Philosophical Society} 146 (2009), 289--302.
+
+\bibitem{KriegerLevinScherrTuckerYasufukuZieve}
+H. Krieger, A. Levin, Z. Scherr, T. J. Tucker, Y. Yasufuku, and M. Zieve.
+\newblock Uniform boundedness of \(S\)-units in arithmetic dynamics.
+\newblock \emph{Pacific Journal of Mathematics} 274 (2015), 97--119.
+
+\bibitem{Silverman}
+J. H. Silverman.
+\newblock Primitive divisors, dynamical Zsigmondy sets, and Vojta's conjecture.
+\newblock \emph{Journal of Number Theory} 133 (2013), 2948--2963.
+
+\bibitem{Yap}
+J. W. Yap.
+\newblock \(S\)-integral points in orbits on \(\mathbb P^1\).
+\newblock Preprint, 2023.
+
+\end{thebibliography}
+
+\end{document}
