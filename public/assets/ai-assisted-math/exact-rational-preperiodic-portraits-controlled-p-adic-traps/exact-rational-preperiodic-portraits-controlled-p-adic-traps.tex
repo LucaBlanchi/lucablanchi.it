@@ -1,0 +1,816 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\title{Exact Rational Preperiodic Portraits from Controlled \(p\)-adic Traps}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Fix \(D\ge1\). For every degree
+\[
+d\ge D+2,
+\]
+there are adelically open and Zariski-dense families in the fixed-point marked degree-\(d\) moduli cover of rational maps \(\mathbb P^1\to\mathbb P^1\) such that, for every map \(\phi\) in the family and every number field \(K\) with
+\[
+[K:\mathbb Q]\le D,
+\]
+one has the exact rational preperiodic portrait
+\[
+\operatorname{PrePer}(\phi,K)=\{\alpha\},
+\]
+where \(\alpha\) is the marked fixed point.
+
+More generally, in a full-dimensional fixed-point chart one obtains the exact formula
+\[
+\operatorname{PrePer}(\phi,K)
+=
+\{\alpha\}\cup\{\text{\(K\)-rational roots of }Q\},
+\]
+where \(Q\) is an explicitly visible degree-\((d-1)\) polynomial defining the non-marked part of the fiber above the trap point. By choosing the factorization of \(Q\), one prescribes rational preperiodic portraits of height one.
+
+The key device is controlled bad reduction:
+\[
+F=G+\ell(x-\alpha)Q,
+\]
+rather than good reduction plus a universal residue vanishing polynomial. This replaces a large residue-field threshold by the full-dimensional optimal threshold \(d\ge D+2\). The proofs use only elementary non-archimedean estimates, irreducibility over finite fields, Eisenstein irreducibility, weak approximation, and the fact that a degree-\(d\) rational map has fibers of degree \(d\).
+\end{abstract}
+
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+During the preparation of this work, ChatGPT, by OpenAI, was used to assist with mathematical drafting, formalization, review, and editing. This work is shared as a preliminary AI-assisted mathematical note. The mathematical content may have been only partially reviewed and may contain errors; it should not be treated as peer-reviewed or as a fully verified manuscript.
+
+\section{Introduction}
+
+Let \(\phi:\mathbb P^1\to\mathbb P^1\) be a rational map of degree \(d\) defined over a number field \(K\). A point \(P\in\mathbb P^1(K)\) is preperiodic if its forward orbit
+\[
+P,\phi(P),\phi^2(P),\ldots
+\]
+is finite. The set of \(K\)-rational preperiodic points is denoted
+\[
+\operatorname{PrePer}(\phi,K).
+\]
+
+Uniform boundedness questions ask how large this set can be as \(\phi\), \(K\), and \(d\) vary. This note goes in a complementary direction: it constructs large and explicit families of maps whose rational preperiodic set over all fields of bounded degree is exactly prescribed.
+
+The construction uses a single non-archimedean trap. Fix a rational prime \(\ell\). In a coordinate where the marked fixed point is \(1\), write
+\[
+\phi(x)=\frac{F(x)}{G(x)}
+\]
+with
+\[
+F(x)=G(x)+\ell(x-1)Q(x).
+\]
+The map is congruent to \(1\) modulo \(\ell\) wherever the denominator is a unit. If the reduction of \(G\) has no zero in any residue field of degree at most \(D\), then every \(K\)-rational point, for every \([K:\mathbb Q]\le D\), maps in one step into the \(v\)-adic ball
+\[
+B_v(1)=\{x:v(x-1)>0\}
+\]
+at any place \(v\mid\ell\). Inside this ball, the fixed point \(1\) is attracting in a strictly valuation-increasing sense:
+\[
+v(\phi(x)-1)>v(x-1)
+\]
+for all \(x\ne1\) in the ball, provided \(Q(1)\) is a unit. Thus the only preperiodic point in the trap is \(1\).
+
+Consequently every rational preperiodic point must lie in the first fiber above \(1\):
+\[
+\phi^{-1}(1)=\{1\}\cup\{Q=0\}.
+\]
+This gives the exact portrait formula.
+
+The degree threshold for minimal portraits in the full-dimensional fixed-point chart is \(d\ge D+2\). The reason is simple. The residual fiber \(\phi^{-1}(1)-[1]\) has degree \(d-1\). To ensure that it has no point over any field of degree at most \(D\), one chooses it to be irreducible of degree \(d-1>D\). Conversely, if the marked fixed point is a simple point of its own fiber and \(d-1\le D\), the residual fiber contains a closed point of degree at most \(D\), producing another preperiodic point. Thus the threshold is optimal in the simple-fiber, full-dimensional setting.
+
+\section{The normalized fixed-point chart}
+
+Fix a coordinate \(x\) on \(\mathbb P^1\). We work in the chart where the marked fixed point is
+\[
+\alpha=1.
+\]
+
+Let \(d\ge2\). Let
+\[
+G(x)=x^d+g_{d-1}x^{d-1}+\cdots+g_0
+\]
+be monic of degree \(d\), and let
+\[
+Q(x)=q_{d-1}x^{d-1}+\cdots+q_0
+\]
+have degree \(d-1\). Fix a rational prime \(\ell\). Define
+\[
+F(x)=G(x)+\ell(x-1)Q(x),
+\]
+and
+\[
+\phi(x)=\frac{F(x)}{G(x)}.
+\]
+
+Then
+\[
+F(1)=G(1),
+\]
+so \(1\) is a fixed point of \(\phi\). The expression
+\[
+F-G=\ell(x-1)Q
+\]
+is a normalized form of the fixed-point condition.
+
+We impose the nondegeneracy condition
+\[
+\gcd(G,(x-1)Q)=1
+\]
+over \(\overline{\mathbb Q}\). Equivalently,
+\[
+\operatorname{Res}(G,(x-1)Q)\ne0.
+\]
+This ensures that \(F\) and \(G\) are coprime and that \(\phi\) is a rational map of degree \(d\).
+
+We also assume
+\[
+q_{d-1}\ne0.
+\]
+Then
+\[
+\phi(\infty)=1+\ell q_{d-1}\ne1.
+\]
+Thus \(\infty\) is not in the fiber \(\phi^{-1}(1)\).
+
+\section{The local controlled bad-reduction trap}
+
+Let \(K\) be a number field with
+\[
+[K:\mathbb Q]\le D,
+\]
+and let \(v\mid\ell\) be a place of \(K\). Normalize
+\[
+v(K_v^\ast)=\mathbb Z.
+\]
+Let \(\mathcal O_v\) be the valuation ring, and let \(k_v\) be the residue field. Then
+\[
+k_v\simeq \mathbb F_{\ell^f}
+\]
+for some \(1\le f\le D\), and
+\[
+e:=v(\ell)\le D.
+\]
+
+For \(\beta\in K_v\), write
+\[
+B_v(\beta)=\{x\in K_v:v(x-\beta)>0\}.
+\]
+
+\begin{lemma}[No residual zero implies no rational pole]
+Assume \(G\in\mathbb Z_{(\ell)}[x]\) is monic and that \(\bar G\in\mathbb F_\ell[x]\) has no zero in any field
+\[
+\mathbb F_{\ell^f},
+\qquad
+1\le f\le D.
+\]
+Then for every number field \(K\) with \([K:\mathbb Q]\le D\), the polynomial \(G\) has no root in \(K\).
+\end{lemma}
+
+\begin{proof}
+Let \(x\in K\) and suppose \(G(x)=0\). Since \(G\) is monic with coefficients integral at \(v\), every root of \(G\) is \(v\)-integral. Hence \(x\in\mathcal O_v\). Reducing the equation \(G(x)=0\) modulo \(v\) gives
+\[
+\bar G(\bar x)=0
+\]
+in \(k_v\simeq\mathbb F_{\ell^f}\) for some \(f\le D\). This contradicts the hypothesis on \(\bar G\). Therefore \(G\) has no root in \(K\).
+\end{proof}
+
+\begin{lemma}[One-step entry into the trap]
+Assume:
+\begin{enumerate}
+\item \(G,Q\in\mathbb Z_{(\ell)}[x]\);
+\item \(G\) is monic of degree \(d\);
+\item \(\bar G\) has no zero in any \(\mathbb F_{\ell^f}\), \(1\le f\le D\).
+\end{enumerate}
+Then for every \(K\) with \([K:\mathbb Q]\le D\), every \(v\mid\ell\), and every
+\[
+P\in\mathbb P^1(K),
+\]
+one has
+\[
+\phi(P)\in B_v(1).
+\]
+\end{lemma}
+
+\begin{proof}
+By the previous lemma, \(G\) has no \(K\)-rational zero, so \(\phi\) has no finite pole in \(K\).
+
+Let \(x\in K\). First suppose \(v(x)\ge0\). Then \(x\in\mathcal O_v\). Since \(\bar G\) has no zero in \(k_v\), the value \(G(x)\) is a \(v\)-adic unit. Also \((x-1)Q(x)\in\mathcal O_v\), since \(Q\) is \(v\)-integral. Therefore
+\[
+\phi(x)-1=\frac{\ell(x-1)Q(x)}{G(x)}
+\]
+has positive valuation. Hence
+\[
+\phi(x)\in B_v(1).
+\]
+
+Now suppose \(v(x)<0\). Since \(G\) is monic of degree \(d\), the leading term dominates:
+\[
+v(G(x))=d\,v(x).
+\]
+Since \(Q\) has degree at most \(d-1\), the polynomial \((x-1)Q(x)\) has degree at most \(d\) and \(v\)-integral coefficients. Hence
+\[
+v((x-1)Q(x))\ge d\,v(x).
+\]
+Consequently
+\[
+v\left(\frac{\ell(x-1)Q(x)}{G(x)}\right)\ge v(\ell)>0.
+\]
+Thus again \(\phi(x)\in B_v(1)\).
+
+Finally, at infinity,
+\[
+\phi(\infty)=
+\frac{\text{leading coefficient of }F}{\text{leading coefficient of }G}
+=1+\ell q_{d-1}.
+\]
+Since \(q_{d-1}\in\mathbb Z_{(\ell)}\), this point lies in \(B_v(1)\). Therefore every point of \(\mathbb P^1(K)\) maps into \(B_v(1)\).
+\end{proof}
+
+\begin{lemma}[The trap contains only the fixed point]
+Assume in addition that
+\[
+Q(1)\in\mathbb Z_{(\ell)}^\ast.
+\]
+Then, for every \(K\) with \([K:\mathbb Q]\le D\) and every \(v\mid\ell\), the point \(1\) is the only preperiodic point of \(\phi\) in \(B_v(1)\).
+\end{lemma}
+
+\begin{proof}
+Let
+\[
+x=1+u,
+\qquad
+v(u)>0.
+\]
+Then
+\[
+\phi(1+u)-1
+=
+\frac{\ell u Q(1+u)}{G(1+u)}.
+\]
+Since \(\bar G(1)\ne0\), the value \(G(1)\) is a \(v\)-adic unit. Hence \(G(1+u)\) is also a unit for \(v(u)>0\). Since \(Q(1)\) is a unit, \(Q(1+u)\) is also a unit. Therefore
+\[
+v(\phi(1+u)-1)=v(\ell)+v(u)>v(u).
+\]
+Thus the distance to \(1\), measured by the valuation of \(x-1\), strictly increases under iteration.
+
+Moreover
+\[
+\phi(1+u)=1
+\]
+if and only if
+\[
+\ell u Q(1+u)=0.
+\]
+Since \(\ell\ne0\) and \(Q(1+u)\) is a unit, this implies
+\[
+u=0.
+\]
+Therefore
+\[
+\phi^{-1}(1)\cap B_v(1)=\{1\}.
+\]
+
+If \(x\in B_v(1)\setminus\{1\}\), its iterates never hit \(1\), and the valuations
+\[
+v(\phi^n(x)-1)
+\]
+strictly increase. Hence the iterates are pairwise distinct. Thus \(x\) is not preperiodic. The only preperiodic point in \(B_v(1)\) is \(1\).
+\end{proof}
+
+\section{Exact fiber portrait theorem}
+
+\begin{theorem}[Exact preperiodic portrait]
+Let \(D\ge1\), let \(d>D\), and let \(\ell\) be a rational prime. Let
+\[
+\phi(x)=\frac{G(x)+\ell(x-1)Q(x)}{G(x)}
+\]
+with \(G,Q\in\mathbb Z_{(\ell)}[x]\), where:
+\begin{enumerate}
+\item \(G\) is monic of degree \(d\);
+\item \(\bar G\in\mathbb F_\ell[x]\) has no zero in any \(\mathbb F_{\ell^f}\), \(1\le f\le D\);
+\item \(Q\) has degree \(d-1\);
+\item \(Q(1)\in\mathbb Z_{(\ell)}^\ast\);
+\item \(q_{d-1}\ne0\), where \(q_{d-1}\) is the leading coefficient of \(Q\);
+\item \(\gcd(G,(x-1)Q)=1\).
+\end{enumerate}
+Then for every number field \(K\) with
+\[
+[K:\mathbb Q]\le D,
+\]
+one has
+\[
+\operatorname{PrePer}(\phi,K)
+=
+\{1\}\cup\{x\in K:Q(x)=0\}.
+\]
+In particular,
+\[
+\#\operatorname{PrePer}(\phi,K)
+=
+1+\#\{x\in K:Q(x)=0\}
+\le d.
+\]
+\end{theorem}
+
+\begin{proof}
+Fix \(K\) with \([K:\mathbb Q]\le D\), and choose \(v\mid\ell\).
+
+By one-step entry, \(\phi(\mathbb P^1(K))\subseteq B_v(1)\). By the trap lemma, the only preperiodic point inside \(B_v(1)\) is \(1\).
+
+Let \(P\in\operatorname{PrePer}(\phi,K)\). Then \(\phi(P)\) is also preperiodic, and by one-step entry it lies in \(B_v(1)\). Hence the trap lemma gives
+\[
+\phi(P)=1.
+\]
+Therefore
+\[
+P\in \phi^{-1}(1)(K).
+\]
+
+Conversely, if \(P\in\phi^{-1}(1)(K)\), then
+\[
+P\mapsto1\mapsto1,
+\]
+so \(P\) is preperiodic. Hence
+\[
+\operatorname{PrePer}(\phi,K)=\phi^{-1}(1)(K).
+\]
+
+Now compute the fiber. For finite \(x\),
+\[
+\phi(x)=1
+\]
+is equivalent to
+\[
+G(x)+\ell(x-1)Q(x)=G(x),
+\]
+hence
+\[
+(x-1)Q(x)=0.
+\]
+Therefore the finite part of the fiber is
+\[
+\{1\}\cup\{x\in K:Q(x)=0\}.
+\]
+At infinity,
+\[
+\phi(\infty)=1+\ell q_{d-1}\ne1,
+\]
+because \(q_{d-1}\ne0\). Thus \(\infty\) does not lie in \(\phi^{-1}(1)\). This proves the formula.
+
+Since \(Q\) has degree \(d-1\), the number of \(K\)-rational roots of \(Q\) is at most \(d-1\). Hence
+\[
+\#\operatorname{PrePer}(\phi,K)\le d.
+\]
+\end{proof}
+
+\section{Adelically open dense families}
+
+We now show that the hypotheses of the exact portrait theorem hold on adelically open and Zariski-dense families.
+
+\begin{lemma}[Residual denominator condition]
+Let \(d>D\). There exists a monic polynomial
+\[
+G_\ast(x)\in\mathbb F_\ell[x]
+\]
+of degree \(d\) having no zero in any
+\[
+\mathbb F_{\ell^f},
+\qquad
+1\le f\le D.
+\]
+\end{lemma}
+
+\begin{proof}
+It suffices to take \(G_\ast\) irreducible of degree \(d\) over \(\mathbb F_\ell\). Such a polynomial exists over every finite field. If \(G_\ast\) had a zero in \(\mathbb F_{\ell^f}\), then an irreducible polynomial of degree \(d\) would have a root in an extension of degree \(f\), forcing \(d\mid f\). But \(f\le D<d\), impossible.
+\end{proof}
+
+\begin{lemma}[Adelic non-emptiness and Zariski density]
+Let \(\mathcal A\) be the affine parameter space with coordinates given by the coefficients of a monic degree-\(d\) polynomial \(G\) and a degree-\((d-1)\) polynomial \(Q\). Let \(U\subset\mathcal A\) be the Zariski open locus where:
+\begin{enumerate}
+\item \(Q\) has degree \(d-1\);
+\item \(Q(1)\ne0\);
+\item \(\gcd(G,(x-1)Q)=1\).
+\end{enumerate}
+Fix finitely many primes \(p_1,\ldots,p_s\), and for each \(p_i\) fix a nonempty \(p_i\)-adic open subset
+\[
+\Omega_i\subset U(\mathbb Q_{p_i}).
+\]
+Then
+\[
+U(\mathbb Q)\cap\bigcap_i\Omega_i
+\]
+is Zariski dense in \(U\).
+\end{lemma}
+
+\begin{proof}
+Let \(W\subset U\) be a nonempty Zariski open subset. It is enough to show that
+\[
+W(\mathbb Q)\cap\bigcap_i\Omega_i\ne\varnothing.
+\]
+
+For each \(i\), the set \(W(\mathbb Q_{p_i})\) is nonempty and Zariski open in the \(p_i\)-adic analytic space \(U(\mathbb Q_{p_i})\). Since a nonzero polynomial cannot vanish on a nonempty \(p_i\)-adic open set, \(\Omega_i\cap W(\mathbb Q_{p_i})\) is nonempty and \(p_i\)-adically open.
+
+By weak approximation in affine space, there exists a rational point arbitrarily close to chosen local points in all \(\Omega_i\cap W(\mathbb Q_{p_i})\). Such a rational point lies in all \(\Omega_i\) and in \(W\). Hence the adelically constrained rational points meet every nonempty Zariski open \(W\), and are Zariski dense.
+\end{proof}
+
+\section{Minimal portrait theorem}
+
+\begin{theorem}[Minimal portrait in the optimal full-dimensional range]
+Let \(D\ge1\), and let
+\[
+d\ge D+2.
+\]
+Then there exists an adelically open and Zariski-dense subfamily in the fixed-point marked degree-\(d\) parameter chart such that, for every map \(\phi\) in the family and every number field \(K\) with
+\[
+[K:\mathbb Q]\le D,
+\]
+one has
+\[
+\operatorname{PrePer}(\phi,K)=\{1\}.
+\]
+\end{theorem}
+
+\begin{proof}
+Choose two distinct rational primes \(\ell\) and \(r\).
+
+At the prime \(\ell\), impose the open condition on \(G\)
+\[
+G\bmod \ell=G_\ast,
+\]
+where \(G_\ast\in\mathbb F_\ell[x]\) is monic irreducible of degree \(d\). This is possible because \(d>D\). Also impose
+\[
+Q(1)\in\mathbb Z_\ell^\ast
+\]
+and
+\[
+q_{d-1}\in\mathbb Z_\ell^\ast.
+\]
+
+At the prime \(r\), impose the Eisenstein conditions on \(Q\):
+\[
+v_r(q_{d-1})=0,
+\]
+\[
+v_r(q_i)\ge1\quad(0\le i\le d-2),
+\]
+and
+\[
+v_r(q_0)=1.
+\]
+Then \(Q\) is irreducible over \(\mathbb Q\) and has degree \(d-1\).
+
+These conditions are nonempty and adelically open. By adelic density, after additionally imposing the Zariski open condition
+\[
+\gcd(G,(x-1)Q)=1,
+\]
+the rational points satisfying all conditions are Zariski dense in the fixed-point chart.
+
+Now let \(\phi\) be any map in this family and let \(K\) be a number field with \([K:\mathbb Q]\le D\). By the exact portrait theorem,
+\[
+\operatorname{PrePer}(\phi,K)=\{1\}\cup\{x\in K:Q(x)=0\}.
+\]
+Since \(Q\) is irreducible of degree \(d-1\) over \(\mathbb Q\), and
+\[
+d-1>D,
+\]
+the polynomial \(Q\) has no root in any number field of degree at most \(D\). Hence
+\[
+\operatorname{PrePer}(\phi,K)=\{1\}.
+\]
+\end{proof}
+
+\section{Optimality of the threshold}
+
+The threshold \(d\ge D+2\) is optimal for full-dimensional minimal portraits when the marked fixed point is a simple point of its own fiber.
+
+\begin{proposition}[Optimality]
+Let \(\phi\in\mathbb Q(x)\) have degree \(d\), and let \(\alpha\in\mathbb P^1(\mathbb Q)\) be a fixed point. Suppose:
+\begin{enumerate}
+\item \(\alpha\) occurs with multiplicity one in the fiber \(\phi^{-1}(\alpha)\);
+\item for every number field \(K\) with \([K:\mathbb Q]\le D\),
+\[
+\operatorname{PrePer}(\phi,K)=\{\alpha\}.
+\]
+\end{enumerate}
+Then
+\[
+d\ge D+2.
+\]
+\end{proposition}
+
+\begin{proof}
+The fiber
+\[
+\phi^{-1}(\alpha)
+\]
+is an effective divisor of degree \(d\) on \(\mathbb P^1\), defined over \(\mathbb Q\). Since \(\alpha\) occurs in this divisor with multiplicity one, the residual divisor
+\[
+E:=\phi^{-1}(\alpha)-[\alpha]
+\]
+is an effective divisor of degree
+\[
+d-1
+\]
+defined over \(\mathbb Q\), and its support does not contain \(\alpha\).
+
+If \(d-1\le D\), then \(E\) contains at least one closed point \(P\) of degree at most \(d-1\le D\). Let \(K=\mathbb Q(P)\). Then \(P\in\mathbb P^1(K)\), \(P\ne\alpha\), and
+\[
+\phi(P)=\alpha.
+\]
+Thus \(P\) is preperiodic over \(K\), contradicting
+\[
+\operatorname{PrePer}(\phi,K)=\{\alpha\}.
+\]
+Therefore \(d-1>D\), equivalently
+\[
+d\ge D+2.
+\]
+\end{proof}
+
+\begin{remark}
+If \(\alpha\) is allowed to occur with higher multiplicity in the fiber \(\phi^{-1}(\alpha)\), the threshold can be lower. This gives ramified trap families.
+\end{remark}
+
+\section{Ramified trap families}
+
+Let \(1\le m\le d\). Consider
+\[
+F(x)=G(x)+\ell(x-1)^mQ(x),
+\]
+where
+\[
+\deg Q=d-m
+\]
+and \(Q(1)\in\mathbb Z_{(\ell)}^\ast\). Assume \(G\) satisfies the same residual no-root condition as before.
+
+The same proof as the exact portrait theorem gives the following.
+
+\begin{theorem}[Ramified exact portrait]
+Under the above hypotheses,
+\[
+\operatorname{PrePer}(\phi,K)
+=
+\{1\}\cup\{x\in K:Q(x)=0\}
+\]
+for every number field \(K\) with \([K:\mathbb Q]\le D\), provided \(\phi(\infty)\ne1\) when the leading term contributes to the value at infinity.
+
+If \(Q\) is irreducible of degree \(d-m>D\), then
+\[
+\operatorname{PrePer}(\phi,K)=\{1\}.
+\]
+If \(m=d\), then \(Q\) is constant and nonzero, and one obtains
+\[
+\operatorname{PrePer}(\phi,K)=\{1\}
+\]
+for every \([K:\mathbb Q]\le D\), provided \(d>D\) so that \(G\) can be chosen with the residual no-root property.
+\end{theorem}
+
+Thus for every
+\[
+d\ge D+1
+\]
+there are ramified trap families with minimal portrait. These families lie in higher-codimension loci where the marked fixed point occurs with multiplicity \(m\) in its own fiber.
+
+\section{Prescribed height-one portraits}
+
+The exact portrait formula lets us prescribe finite height-one rational portraits.
+
+Let \(1\le s\le d\). Choose distinct rational numbers
+\[
+a_1,\dots,a_{s-1}\in\mathbb Q\setminus\{1\}.
+\]
+Choose a polynomial
+\[
+R(x)\in\mathbb Q[x]
+\]
+whose irreducible factors all have degree \(>D\). Set
+\[
+Q(x)=\prod_{i=1}^{s-1}(x-a_i)R(x),
+\]
+with
+\[
+\deg Q=d-1.
+\]
+
+Then the corresponding trap construction gives
+\[
+\operatorname{PrePer}(\phi,K)=\{1,a_1,\dots,a_{s-1}\}
+\]
+for every number field \(K\) with \([K:\mathbb Q]\le D\).
+
+This realizes exact rational preperiodic portraits of height one.
+
+The construction is naturally full-dimensional only when one does not mark the rational roots. If the rational roots are prescribed, one works in the corresponding incidence space. The union over all rational choices of the \(a_i\) is Zariski dense in the relevant parameter space.
+
+\section{Base-change spectrum}
+
+Let
+\[
+Q=\prod_i Q_i
+\]
+be the factorization of \(Q\) into irreducible polynomials over \(\mathbb Q\). Then the exact portrait theorem gives, for every number field \(K\),
+\[
+\operatorname{PrePer}(\phi,K)
+=
+\{1\}\cup\bigcup_i\{x\in K:Q_i(x)=0\}.
+\]
+
+Thus new rational preperiodic points appear under base change exactly when \(K\) contains a root of one of the irreducible factors \(Q_i\). By choosing the degrees and splitting fields of the \(Q_i\), one can prescribe the degree thresholds at which new preperiodic points appear.
+
+\section{Polynomial escape chambers}
+
+There is a polynomial analogue.
+
+\begin{theorem}[Polynomial escape chamber]
+Let \(D\ge1\) and \(d>D\). Let \(\ell\) be a prime. Let
+\[
+P(x)\in\mathbb Z_{(\ell)}[x]
+\]
+be monic of degree \(d\), and assume that \(\bar P\in\mathbb F_\ell[x]\) is irreducible of degree \(d\). Define
+\[
+f(x)=\frac{P(x)}{\ell}.
+\]
+Then, for every number field \(K\) with \([K:\mathbb Q]\le D\),
+\[
+\operatorname{PrePer}(f,K)=\{\infty\}.
+\]
+\end{theorem}
+
+\begin{proof}
+Fix \(K\) with \([K:\mathbb Q]\le D\) and \(v\mid\ell\).
+
+Let \(x\in K\). If \(v(x)\ge0\), then \(x\) is \(v\)-integral. Since \(\bar P\) has no root in \(k_v\simeq\mathbb F_{\ell^f}\), \(f\le D\), the value \(P(x)\) is a \(v\)-adic unit. Hence
+\[
+v(f(x))=v(P(x))-v(\ell)=-v(\ell)<0.
+\]
+
+If \(v(x)<0\), then the leading term of \(P\) dominates:
+\[
+v(P(x))=d\,v(x),
+\]
+and therefore
+\[
+v(f(x))=d\,v(x)-v(\ell)<v(x).
+\]
+Thus every affine point enters the region \(v(x)<0\) after at most one step, and once there its valuations strictly decrease to \(-\infty\). Hence no affine point is preperiodic.
+
+The point \(\infty\) is fixed for a polynomial of degree \(d\ge2\). Therefore
+\[
+\operatorname{PrePer}(f,K)=\{\infty\}.
+\]
+\end{proof}
+
+The set of monic polynomials \(P\) whose reduction modulo \(\ell\) is a fixed irreducible polynomial of degree \(d\) is \(\ell\)-adically open and Zariski dense in the affine space of monic degree-\(d\) polynomials.
+
+\section{Positive density in coefficient boxes}
+
+Work in the affine coefficient space for pairs \((G,Q)\), with \(G\) monic of degree \(d\) and \(Q\) of degree \(d-1\).
+
+Fix primes \(\ell\ne r\), a residual irreducibility condition for \(G\bmod \ell\), and an Eisenstein condition for \(Q\) at \(r\). These are congruence conditions modulo a fixed integer \(M\). Let
+\[
+\mathcal B_B=[-B,B]^N\cap\mathbb Z^N
+\]
+be a coefficient box.
+
+The number of integer points in \(\mathcal B_B\) satisfying a fixed admissible system of congruences modulo \(M\) is asymptotic to
+\[
+\frac{1}{M^N}\#(\text{admissible residue classes})\cdot (2B+1)^N.
+\]
+The additional bad locus
+\[
+\operatorname{Res}(G,(x-1)Q)=0
+\]
+is a proper hypersurface and contributes \(O(B^{N-1})\) integer points. Hence the trap families have positive asymptotic congruence density in coefficient boxes.
+
+\section{Arbitrary local behavior away from trap primes}
+
+Let \(S\) be a finite set of primes disjoint from \(\{\ell,r\}\). At each \(p\in S\), impose any nonempty open condition on the coefficients in \(\mathbb Q_p\), for instance prescribed reduction type, prescribed congruence class, or prescribed bad reduction.
+
+By weak approximation and adelic density, these local conditions can be imposed simultaneously with the trap condition at \(\ell\) and the Eisenstein condition at \(r\). The exact preperiodic portrait over all degree-\(\le D\) fields is unchanged.
+
+Thus the preperiodic portrait is controlled by one trap prime and is insensitive to arbitrary finite local behavior away from the trap and Eisenstein primes.
+
+\section{Passage to moduli}
+
+Let \(\operatorname{Rat}_d\) be the parameter space of degree-\(d\) rational maps on \(\mathbb P^1\), and let
+\[
+\mathrm M_d=\operatorname{Rat}_d/\operatorname{PGL}_2
+\]
+be the moduli space.
+
+Let
+\[
+\operatorname{FixRat}_d
+=
+\{(\phi,\alpha):\phi(\alpha)=\alpha\}
+\]
+be the fixed-point marked cover. A generic degree-\(d\) rational map has \(d+1\) distinct fixed points, so the forgetful map
+\[
+\operatorname{FixRat}_d\to \operatorname{Rat}_d
+\]
+is generically finite.
+
+Our chart corresponds to the affine open where the marked fixed point is \(\alpha=1\), the denominator has nonzero leading coefficient, and it is normalized to be monic. The coordinate pair \((G,Q)\) gives a full-dimensional affine chart of this fixed-point marked cover.
+
+The adelically open families constructed above are Zariski dense in this chart. Therefore their images are Zariski dense in \(\mathrm M_d\).
+
+On the open locus where the marked fixed point is simple and the map has no nontrivial automorphisms, the quotient by \(\operatorname{PGL}_2\) is etale locally a geometric quotient. After restricting to such a locus, an adelically open subset of the marked chart maps to a \(p\)-adically open subset in an etale analytic chart of moduli.
+
+\section{Main theorem package}
+
+Combining the results above gives the following.
+
+\begin{theorem}[Exact fiber portraits]
+Let \(D\ge1\), \(d>D\), and let \(\ell\) be a prime. There exists an \(\ell\)-adically open, Zariski-dense family in the fixed-point marked degree-\(d\) parameter chart such that every map in the family satisfies
+\[
+\operatorname{PrePer}(\phi,K)=\{1\}\cup\{x\in K:Q(x)=0\}
+\]
+for every number field \(K\) with \([K:\mathbb Q]\le D\).
+\end{theorem}
+
+\begin{theorem}[Minimal portraits, optimal full-dimensional threshold]
+Let \(D\ge1\) and
+\[
+d\ge D+2.
+\]
+There exists an adelically open, Zariski-dense family in the fixed-point marked degree-\(d\) parameter chart such that every map in the family satisfies
+\[
+\operatorname{PrePer}(\phi,K)=\{1\}
+\]
+for every \(K\) with \([K:\mathbb Q]\le D\).
+
+Moreover, if the marked fixed point is required to be a simple point of its own fiber, then the threshold \(d\ge D+2\) is necessary.
+\end{theorem}
+
+\begin{theorem}[Ramified trap portraits]
+For \(d\ge D+1\), there exist higher-codimension ramified trap families satisfying
+\[
+\operatorname{PrePer}(\phi,K)=\{1\}
+\]
+for every \(K\) with \([K:\mathbb Q]\le D\).
+\end{theorem}
+
+\begin{theorem}[Polynomial escape chambers]
+For \(d>D\), there exist \(p\)-adically open, Zariski-dense families of degree-\(d\) polynomials satisfying
+\[
+\operatorname{PrePer}(f,K)=\{\infty\}
+\]
+for every \(K\) with \([K:\mathbb Q]\le D\).
+\end{theorem}
+
+\section{Final audit of dependencies}
+
+The proofs use only the following ingredients:
+\begin{enumerate}
+\item valuation estimates at one non-archimedean place;
+\item irreducibility of polynomials over finite fields;
+\item Eisenstein irreducibility over \(\mathbb Q\);
+\item weak approximation;
+\item the elementary fact that a degree-\(d\) rational map has fibers of length \(d\);
+\item basic geometry of the fixed-point marked cover of \(\mathrm M_d\).
+\end{enumerate}
+
+No conjecture is used. No hidden height dependence is present. The bounds and portraits are uniform over all number fields of degree at most \(D\).
+
+\begin{thebibliography}{99}
+
+\bibitem{Benedetto}
+R. L. Benedetto.
+Heights and preperiodic points of polynomials over function fields.
+\emph{International Mathematics Research Notices} 2005, no. 62, 3855--3866.
+
+\bibitem{MortonSilverman}
+P. Morton and J. H. Silverman.
+Rational periodic points of rational functions.
+\emph{International Mathematics Research Notices} 1994, no. 2, 97--110.
+
+\bibitem{Silverman}
+J. H. Silverman.
+\emph{The Arithmetic of Dynamical Systems}.
+Graduate Texts in Mathematics 241, Springer, 2007.
+
+\bibitem{SilvermanModuli}
+J. H. Silverman.
+The space of rational maps on \(\mathbb P^1\).
+\emph{Duke Mathematical Journal} 94 (1998), 41--77.
+
+\end{thebibliography}
+
+\end{document}
