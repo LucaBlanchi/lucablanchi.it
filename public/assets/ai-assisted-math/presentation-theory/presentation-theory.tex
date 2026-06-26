@@ -24,7 +24,7 @@
 \maketitle
 
 \begin{abstract}
-This note lays out a foundational formalism for presentation theory. It treats mathematical objects through chosen description systems, realization fibres, observables, indistinguishability fibres, resource scales, bounded parts, cost-controlled transfers, and simulations between presentation systems. The central objects are presentation systems and the filtrations, fibre profiles, observable profiles, reconstruction maps, normal-form resolutions, and observer-cost barriers they generate. The framework gives a common language for height theory, Kolmogorov complexity, circuit complexity, group presentations, algebraic straight-line complexity, finite test families, positive witness growth, and lower-bound criteria.
+This note develops a formal language for studying mathematical objects through chosen systems of description. A presentation system consists of descriptions, a realization map, and resource bounds; it induces bounded parts, presentation complexity, and realization fibres. The theory also treats observables and costed observables, whose fibres measure indistinguishability and whose bounded profiles give lower-bound criteria. Cost-controlled maps and normal-form compilers provide transfer principles between presentation systems. The final section collects reusable abstract theorems, including bounded-image obstructions, observer factorization, normal-form transfer, witness-growth barriers, and no-resolution results.
 \end{abstract}
 
 \section{Guiding idea}
@@ -71,6 +71,16 @@ of mathematical objects.
 
 Depending on the application, \(\mathcal X\) may be a set of objects, a set of isomorphism classes, or a category/groupoid whose objects are studied up to an equivalence relation.
 
+We write
+
+\[
+\equiv_\mathcal X
+\]
+
+for the chosen equivalence relation on \(\mathcal X\). If \(\mathcal X\) is already a set of equivalence classes, then \(\equiv_\mathcal X\) is equality. In categorical or groupoid settings it may be isomorphism or another declared equivalence.
+
+Maps between object classes are assumed to respect the declared equivalence relations.
+
 Examples include:
 
 \[
@@ -89,7 +99,7 @@ Examples include:
 \mathcal X={\text{polynomials over a fixed field}}.
 \]
 
-The first step is to choose what counts as the object class.
+The first step is to choose what counts as the object class and what equivalence relation is being imposed.
 
 This choice is not cosmetic. A finite group considered as an abstract group, a marked group, a permutation group, a matrix group, or a group equipped with structural data may lead to different presentation systems and different costs.
 
@@ -187,6 +197,47 @@ For example, finite groups may be presented by generators and relations, multipl
 
 Different presentation systems measure different mathematical resources.
 
+Throughout, when an object class is studied up to \(\equiv_\mathcal X\), the notation
+
+\[
+\rho(d)=x
+\]
+
+means \(\rho(d)\equiv_\mathcal X x\). This convention keeps the notation light while allowing the same formalism to cover equality of functions, isomorphism of groups, and equivalence of structured objects.
+
+
+\section{Admissibility and naturality}
+
+The formal definition of a presentation system is intentionally broad. In applications it is paired with admissibility conditions appropriate to the mathematical problem.
+
+Common conditions include:
+\begin{enumerate}[label=(\roman*)]
+\item the realization map is effectively computable, verifiable, or mathematically canonical;
+\item bounded description classes are finite, compact, constructible, recursively enumerable, or otherwise controllable;
+\item the cost is monotone under natural enlargements of descriptions;
+\item equivalent descriptions of the same object have controlled effects on cost;
+\item natural operations in the domain admit cost-controlled transfers when such transfers are used;
+\item low-cost descriptions do not encode target objects by ad hoc labels unless such labels are part of the declared presentation system;
+\item observables used for lower bounds are canonical, or their selection and evaluation costs are explicitly charged.
+\end{enumerate}
+
+These conditions keep the formalism aligned with the intended mathematical presentation problem. They also make clear that the generality of the definition is not a license to choose arbitrary encodings after the target object is known.
+
+The corresponding methodological convention is:
+\[
+\begin{gathered}
+\text{costs are attached to declared description or observation systems,}\\
+\text{and lower-bound observables are either canonical or explicitly costed.}
+\end{gathered}
+\]
+
+
+\section{What the formalism does not claim}
+
+Presentation theory does not assign an absolute complexity to an object independently of a declared description system. It does not turn every invariant into a cost, and it does not make every presentation system mathematically natural.
+
+The general theorems below are proof templates. They do not replace domain-specific normal forms, counting estimates, observer factorizations, or lower-bound arguments. Their role is to make explicit which part of an argument is formal transport and which part is genuine mathematical input.
+
 
 \section{Bounded descriptions and bounded objects}
 
@@ -199,7 +250,10 @@ For a cost bound \(b\in B\), define the bounded description class
 The corresponding bounded part of \(\mathcal X\) is
 
 \[
-\mathcal X_\Gamma^{\leq b}=\rho(\mathcal D^{\leq b}).
+\mathcal X_\Gamma^{\leq b}
+=
+\{x\in\mathcal X:\exists d\in\mathcal D^{\leq b}
+\text{ with }\rho(d)\equiv_\mathcal X x\}.
 \]
 
 Thus
@@ -242,13 +296,13 @@ The filtration is often the primary object. A single numerical complexity value 
 When the resource scale admits a meaningful notion of infimum or minimum, one may define the \textbf{presentation complexity} of an object \(x\in\mathcal X\) by
 
 \[
-C_\Gamma(x)=\inf\{\kappa(d): d\in\mathcal D,\ \rho(d)=x\}.
+C_\Gamma(x)=\inf\{\kappa(d): d\in\mathcal D,\ \rho(d)\equiv_\mathcal X x\}.
 \]
 
 In discrete settings this is often a minimum:
 
 \[
-C_\Gamma(x)=\min\{\kappa(d):\rho(d)=x\}.
+C_\Gamma(x)=\min\{\kappa(d):\rho(d)\equiv_\mathcal X x\}.
 \]
 
 Thus \(C_\Gamma(x)\) is the cost of the cheapest allowed description of \(x\).
@@ -302,7 +356,7 @@ is not only a way to assign objects to descriptions. It is a map with fibres.
 For \(x\in\mathcal X\), define the \textbf{presentation fibre}
 
 \[
-\mathfrak F_\rho(x)=\rho^{-1}(x)=\{d\in\mathcal D:\rho(d)=x\}.
+\mathfrak F_\rho(x)=\rho^{-1}(x)=\{d\in\mathcal D:\rho(d)\equiv_\mathcal X x\}.
 \]
 
 Thus \(\mathfrak F_\rho(x)\) is the class of all descriptions realizing \(x\).
@@ -397,7 +451,7 @@ d\sim_{\mathcal M} e
 \rho(d)=\rho(e).
 \]
 
-Then every presentation fibre becomes a graph. Its vertices are the descriptions in \(\mathfrak F_\rho(x)\), and its edges are the elementary moves.
+Then every presentation fibre becomes a graph. Its vertices are the descriptions in \(\mathfrak F_\rho(x)\), and its edges are the elementary moves. In this note, bridge profiles use symmetric move systems; directed move systems can be treated by choosing an orientation convention for paths.
 
 Let
 
@@ -426,6 +480,31 @@ A complementary invariant is the packing profile
 \]
 
 The bridge profile measures long normalization paths; the packing profile measures many mutually distant descriptions. Diameter and entropy-type quantities can be recovered from these by taking pairwise suprema or logarithms of packing numbers.
+
+
+\section{Running example: group presentations}
+
+Finite presentations of groups give a useful model for the preceding definitions. Descriptions are finite presentations
+
+\[
+\langle S\mid R\rangle,
+\]
+
+and the realization map sends such a presentation to the group
+
+\[
+F(S)/\langle\!\langle R\rangle\!\rangle,
+\]
+
+viewed up to isomorphism. A natural cost records quantities such as
+
+\[
+\bigl(|S|,|R|,\sum_{r\in R}|r|\bigr).
+\]
+
+The presentation fibre of a group \(G\) is the class of all finite presentations realizing a group isomorphic to \(G\). Tietze transformations form a natural reversible move system on this fibre, and the associated bridge profile measures how hard it is to connect a bounded presentation of \(G\) to a chosen base presentation.
+
+This example also shows why presentation and observation must be kept separate. Words used as relators are part of a description and contribute to presentation cost. Words used as word maps, word equations, or counting tests are observables and contribute to observation cost.
 
 
 \section{Cost-controlled maps}
@@ -466,7 +545,7 @@ such that
 
 for every \(d\in\mathcal D_\mathcal X\).
 
-The transfer is \textbf{cost-controlled with overhead \(f:B_\mathcal X\to B_\mathcal Y\)} if
+The transfer is \textbf{cost-controlled with monotone overhead \(f:B_\mathcal X\to B_\mathcal Y\)} if
 
 \[
 \kappa_\mathcal Y(\widehat F(d))
@@ -484,7 +563,7 @@ F(\mathcal X_{\Gamma_\mathcal X}^{\leq b})
 \mathcal Y_{\Gamma_\mathcal Y}^{\leq f(b)}.
 \]
 
-When presentation complexities are defined, this gives
+When presentation complexities are defined and the minima or infima are compatible with the overhead, this gives
 
 \[
 C_{\Gamma_\mathcal Y}(F(x))
@@ -520,7 +599,7 @@ such that
 \rho_\mathcal Y(\widehat F(d_1,\dots,d_n))=F(\rho_1(d_1),\dots,\rho_n(d_n)).
 \]
 
-It is cost-controlled with overhead (f) if
+It is cost-controlled with monotone overhead (f) if
 
 \[
 \kappa_\mathcal Y(\widehat F(d_1,\dots,d_n))
@@ -559,7 +638,7 @@ and
 
 be presentation systems for the same object class \(\mathcal X\).
 
-A \textbf{translation} from \(\Gamma\) to \(\Delta\) with overhead (f) is a map
+A \textbf{translation} from \(\Gamma\) to \(\Delta\) with monotone overhead (f) is a map
 
 \[
 T:\mathcal D_\Gamma\to\mathcal D_\Delta
@@ -593,7 +672,7 @@ C_\Delta(x)
 f(C_\Gamma(x)).
 \]
 
-Thus \(\Delta\) simulates \(\Gamma\) up to overhead (f).
+Thus \(\Delta\) simulates \(\Gamma\) up to monotone overhead (f).
 
 If there are translations in both directions with controlled overheads, then the two presentation systems are equivalent up to the corresponding resource distortion.
 
@@ -758,11 +837,13 @@ x\notin \mathcal X_\Gamma^{\leq b}.
 
 Equivalently, \(x\) has no \(\Gamma\)-description of cost at most \(b\).
 
-When presentation complexity is numerical, this gives
+When presentation complexity is numerical in an ordered resource scale, this gives
 
 \[
-C_\Gamma(x)> b.
+C_\Gamma(x)\nleq b.
 \]
+
+In a totally ordered numerical scale this is the familiar statement \(C_\Gamma(x)>b\).
 
 This is the basic observable lower-bound principle.
 
@@ -804,10 +885,12 @@ Thus
 \[
 \omega(x)\notin S_b
 \quad\Longrightarrow\quad
-C_\Gamma(x)> b
+C_\Gamma(x)\nleq b
 \]
 
 whenever numerical presentation complexity is defined.
+
+For totally ordered numerical costs this may be written as \(C_\Gamma(x)>b\).
 
 This gives the usual form of a lower-bound criterion:
 
@@ -863,7 +946,7 @@ When numerical presentation complexity is defined,
 \[
 s(\omega(x))>F(b)
 \quad\Longrightarrow\quad
-C_\Gamma(x)> b.
+C_\Gamma(x)\nleq b.
 \]
 
 This covers many familiar lower-bound arguments: degree too large, rank too large, denominator too large, dimension too large, relation lattice too constrained, or observable distribution outside the attainable range.
@@ -1193,12 +1276,12 @@ be a realization map. A \textbf{complete normal form} for \(\rho\) is a computab
 N:\mathcal D\to\mathcal N
 \]
 
-to a space of normal forms such that
+to an effectively coded space of normal forms with decidable equality, such that
 
 \[
 N(d)=N(e)
 \quad\Longleftrightarrow\quad
-\rho(d)=\rho(e).
+\rho(d)\equiv_\mathcal X\rho(e).
 \]
 
 Such an \(N\) is a computable resolution of the equivalence relation induced by \(\rho\). It replaces the problem of deciding whether two descriptions realize the same object by equality of their normal forms.
@@ -1273,7 +1356,7 @@ is an observable on \(\mathcal X\).
 
 This is the \textbf{pullback observable} induced by \(F\) and \(\eta\).
 
-If \(F\) is cost-controlled with overhead (f), then
+If \(F\) is cost-controlled with monotone overhead (f), then
 
 \[
 F(\mathcal X_{\Gamma_\mathcal X}^{\leq b})
@@ -1298,13 +1381,13 @@ A transported lower bound has the following form.
 If
 
 \[
-C_{\Gamma_\mathcal Y}(F(x))> f(b),
+C_{\Gamma_\mathcal Y}(F(x))\nleq f(b),
 \]
 
 then
 
 \[
-C_{\Gamma_\mathcal X}(x)> b.
+C_{\Gamma_\mathcal X}(x)\nleq b.
 \]
 
 Thus a lower bound for a simpler transported object can imply a lower bound for the original object.
@@ -1432,30 +1515,6 @@ In slogan form:
 \]
 
 The argument has a precise form: an independent mathematical reason forces counterexamples into a bounded presentation class, and a second argument excludes counterexamples from that bounded class.
-
-
-\section{Admissibility and naturality}
-
-The formal definition of a presentation system is intentionally broad.
-
-A presentation system is paired with admissibility conditions appropriate to the application. Common conditions include:
-\begin{enumerate}[label=(\roman*)]
-\item the realization map is effectively computable, or at least mathematically canonical;
-\item bounded description classes are finite, compact, constructible, recursively enumerable, or otherwise controllable;
-\item the cost is monotone under the natural enlargements of descriptions;
-\item equivalent descriptions of the same object have controlled effects on cost;
-\item the chosen observables are canonical, or their selection cost is explicitly charged.
-\end{enumerate}
-
-These conditions keep the formalism aligned with the intended mathematical presentation problem.
-
-The corresponding methodological convention is:
-\[
-\begin{gathered}
-\text{costs are attached to declared description or observation systems,}\\
-\text{and lower-bound observables are either canonical or explicitly costed.}
-\end{gathered}
-\]
 
 
 \section{Basic examples}
@@ -1601,7 +1660,7 @@ for some subset \(S_b\subseteq T\). Then
 \quad\Longrightarrow\quad
 x\notin\mathcal X_\Gamma^{\leq b}.
 \]
-If numerical presentation complexity is defined, then \(C_\Gamma(x)>b\).
+If numerical presentation complexity is defined, then \(C_\Gamma(x)\nleq b\). In a totally ordered numerical scale this may be written \(C_\Gamma(x)>b\).
 \end{theorem}
 
 \begin{proof}
@@ -1623,7 +1682,7 @@ Suppose there is a compiler
 \[
 T:\mathcal D_{\mathrm{raw}}\to\mathcal D_{\mathrm{nf}}
 \]
-and an overhead function \(f\) such that
+and a monotone overhead function \(f\) such that
 \[
 \rho_{\mathrm{nf}}(T(d))=\rho_{\mathrm{raw}}(d)
 \]
@@ -1772,8 +1831,8 @@ Apply the busy witness principle to the recursively enumerable undecidable set \
 
 This turns undecidability of a presentation fibre into a quantitative lower bound on positive proof data.
 
-\begin{corollary}[Effective move systems force nonrecursive bridge growth]
-Let \(\mathcal M\) be an effective finite-branching move system on \(\mathcal D\) preserving realization. Fix \(d_x\in\mathfrak F_\rho(x)\). Suppose
+\begin{corollary}[Effective reversible move systems force nonrecursive bridge growth]
+Let \(\mathcal M\) be an effective finite-branching reversible move system on \(\mathcal D\) preserving realization. Fix \(d_x\in\mathfrak F_\rho(x)\). Suppose
 \[
 d\in\mathfrak F_\rho(x)
 \quad\Longleftrightarrow\quad
@@ -1797,11 +1856,12 @@ Let \(\rho:\mathcal D\to\mathcal X\) be a realization map with effectively coded
 \[
 N:\mathcal D\to\mathcal N
 \]
+to an effectively coded set \(\mathcal N\) with decidable equality
 such that
 \[
 N(d)=N(e)
 \quad\Longleftrightarrow\quad
-\rho(d)=\rho(e).
+\rho(d)\equiv_\mathcal X\rho(e).
 \]
 Then every represented fibre \(\mathfrak F_\rho(x)\), with a fixed description \(d_x\) satisfying \(\rho(d_x)=x\), is decidable.
 \end{theorem}
@@ -1813,7 +1873,7 @@ d\in\mathfrak F_\rho(x)
 \quad\Longleftrightarrow\quad
 N(d)=N(d_x).
 \]
-Thus the fibre membership problem is decidable.
+Since equality in \(\mathcal N\) is decidable, the fibre membership problem is decidable.
 \end{proof}
 
 Consequently, if a represented fibre is undecidable, the realization map admits no complete computable normal form in the above sense. Normal forms of this strength are resolutions of the fibre equivalence relation.
@@ -1840,21 +1900,25 @@ u\in S,
 and let \(\mathcal X=\mathcal D/\!\equiv\), with \(\rho:\mathcal D\to\mathcal X\) the quotient map. Put \(\kappa(\ast)=0\) and \(\kappa(d_u)=1+|u|\). For \(x=\rho(\ast)\), one has \(C_\Gamma(x)=0\), while \(d_u\in\mathfrak F_\rho(x)\) exactly when \(u\in S\). The busy witness principle gives the claimed nonrecursive growth.
 \end{proof}
 
+This construction is deliberately schematic. Natural non-collapse examples require specific undecidability or lower-bound results.
+
+The point of the corollary is that minimal presentation complexity alone cannot be a general bound for fibre recognition or witness growth.
+
 \begin{theorem}[Prefix-free search penalty]
-Let \((X,\mu)\) be a finite measure space, and let \(\{A_c\}_{c\in\mathcal C}\) be a countable family of searched events. Suppose each event has a computable volume bound
+Let \((X,\mu)\) be a probability space, and let \(\{A_c\}_{c\in\mathcal C}\) be a countable family of searched events. Suppose
 \[
-\mu(A_c)\leq V_c
+\mu(A_c)\leq p_c
 \]
-and a prefix-free search cost \(\ell(c)\) satisfying
+with \(p_c>0\), and suppose a search cost \(K(c)\) satisfies Kraft's inequality
 \[
-\sum_{c\in\mathcal C}2^{-\ell(c)}\leq 1.
+\sum_{c\in\mathcal C}2^{-K(c)}\leq 1.
 \]
-Then, for every \(\alpha>0\),
+Then, for every \(t\geq 0\),
 \[
 \mu\left(
-\bigcup_{\{c:\,V_c\leq \alpha 2^{-\ell(c)}\}} A_c
+\bigcup_{\{c:\,-\log_2 p_c-K(c)\geq t\}} A_c
 \right)
-\leq \alpha.
+\leq 2^{-t}.
 \]
 \end{theorem}
 
@@ -1862,17 +1926,25 @@ Then, for every \(\alpha>0\),
 By the union bound,
 \[
 \mu\left(
-\bigcup_{\{c:\,V_c\leq \alpha 2^{-\ell(c)}\}} A_c
+\bigcup_{\{c:\,-\log_2 p_c-K(c)\geq t\}} A_c
 \right)
 \leq
-\sum_{\{c:\,V_c\leq \alpha 2^{-\ell(c)}\}} V_c
+\sum_{\{c:\,-\log_2 p_c-K(c)\geq t\}} p_c.
+\]
+For every index in the displayed sum,
+\[
+p_c\leq 2^{-t}2^{-K(c)}.
+\]
+Hence
+\[
+\sum_{\{c:\,-\log_2 p_c-K(c)\geq t\}} p_c
 \leq
-\alpha\sum_c2^{-\ell(c)}
-\leq\alpha.
+2^{-t}\sum_c2^{-K(c)}
+\leq 2^{-t}.
 \]
 \end{proof}
 
-This is the formal search-penalty principle behind adaptive discovery. The relevant budget is the description cost of the searched event.
+This is the formal search-penalty principle behind adaptive discovery. The relevant budget is the description cost of the searched event. For \(N\) independent samples, one replaces \(p_c\) by \(p_c^N\), producing the score \(N\log_2(1/p_c)-K(c)\).
 
 \begin{theorem}[Cheap-counterexample exclusion]
 Let \(P\) be a property of objects in \(\mathcal X\), and let
