@@ -24,7 +24,7 @@
 \maketitle
 
 \begin{abstract}
-This note develops a formal language for studying mathematical objects through chosen systems of description. A presentation system consists of descriptions, a realization map, and resource bounds; it induces bounded parts, presentation complexity, and realization fibres. The theory also treats observables and costed observables, whose fibres measure indistinguishability and whose bounded profiles give lower-bound criteria. Cost-controlled maps and normal-form compilers provide transfer principles between presentation systems. The final section collects reusable abstract theorems, including bounded-image obstructions, observer factorization, normal-form transfer, witness-growth barriers, and no-resolution results.
+This note develops a formal language for studying mathematical objects through chosen systems of description. A presentation system consists of descriptions, a realization map, and resource bounds; it induces bounded parts, presentation complexity, and realization fibres. The theory also treats observables and costed observables, whose fibres measure indistinguishability and whose bounded profiles give lower-bound criteria. Cost-controlled maps and normal-form compilers provide transfer principles between presentation systems. The final section collects reusable abstract theorems, including bounded-image obstructions, observer factorization, normal-form transfer, certificate-length barriers, and no-resolution results.
 \end{abstract}
 
 \section{Guiding idea}
@@ -231,12 +231,37 @@ The corresponding methodological convention is:
 \end{gathered}
 \]
 
+\section{Effectively finitary presentation systems}
 
-\section{What the formalism does not claim}
+In effective applications one often works with presentation systems whose bounded parts can actually be searched.
 
-Presentation theory does not assign an absolute complexity to an object independently of a declared description system. It does not turn every invariant into a cost, and it does not make every presentation system mathematically natural.
+A presentation system
+\[
+\Gamma=(\mathcal D,\rho,\kappa)
+\]
+is \textbf{effectively finitary} if, for every cost bound \(b\),
+\[
+\mathcal D^{\leq b}:=\{d\in\mathcal D:\kappa(d)\leq b\}
+\]
+is finite and effectively enumerable, and the relevant realization comparisons
+\[
+\rho(d)\equiv_\mathcal X x
+\]
+are decidable for the bounded descriptions under consideration.
 
-The general theorems below are proof templates. They do not replace domain-specific normal forms, counting estimates, observer factorizations, or lower-bound arguments. Their role is to make explicit which part of an argument is formal transport and which part is genuine mathematical input.
+This condition is deliberately modest. It says that bounded search is meaningful once the bound is fixed. It does not say that the unbounded realization problem, equivalence problem, or fibre recognition problem is decidable.
+
+\begin{proposition}[Bounded membership in effectively finitary systems]
+Let \(\Gamma\) be effectively finitary. In any representation in which the comparisons \(\rho(d)\equiv_\mathcal X x\) are decidable for \(d\in\mathcal D^{\leq b}\), the predicate
+\[
+x\in\mathcal X_\Gamma^{\leq b}
+\]
+is decidable.
+\end{proposition}
+
+\begin{proof}
+Enumerate the finite set \(\mathcal D^{\leq b}\) and test whether any enumerated description realizes an object equivalent to \(x\). The search terminates because the bounded description set is finite.
+\end{proof}
 
 
 \section{Bounded descriptions and bounded objects}
@@ -384,7 +409,7 @@ b\mapsto \mathfrak F_\rho^{\leq b}(x)
 refines the study of \(C_\Gamma(x)\). It records how the descriptions of a fixed object populate the bounded parts of the description space.
 
 
-\section{Recognition and positive witnesses}
+\section{Fibre membership and verification}
 
 In effective settings, assume the description class is encoded by finite words and let
 
@@ -400,7 +425,7 @@ d\longmapsto [\rho(d)=x].
 
 This problem may be much harder than producing one economical description of \(x\).
 
-A \textbf{positive witness system} for the fibre of \(x\) is a decidable relation
+A \textbf{verification relation} for the fibre of \(x\) is a decidable relation
 
 \[
 R_x(d,\pi)
@@ -414,25 +439,25 @@ such that
 \exists \pi\ R_x(d,\pi).
 \]
 
-The word \(\pi\) is proof data for the positive membership statement \(d\in\mathfrak F_\rho(x)\).
+The word \(\pi\) is a membership certificate, or witness in the standard complexity-theoretic terminology, for the statement \(d\in\mathfrak F_\rho(x)\).
 
-Define the minimum positive witness length
+Define the minimum certificate length
 
 \[
-w_{\rho,x}(d)=\min\{|\pi|:R_x(d,\pi)\},
+c_{R_x}(d)=\min\{|\pi|:R_x(d,\pi)\},
 \]
 
-for \(d\in\mathfrak F_\rho(x)\), and the bounded witness profile
+for \(d\in\mathfrak F_\rho(x)\), and the bounded certificate-length profile
 
 \[
-W_{\rho,x}(n)=
+L_{R_x}(n)=
 \max_{\substack{\ell(d)\leq n\\ d\in\mathfrak F_\rho(x)}}
-w_{\rho,x}(d),
+c_{R_x}(d),
 \]
 
 with the usual convention that the maximum over an empty set is \(0\).
 
-This profile measures the length of the shortest positive proof data needed to recognize all fibre elements of coding length at most \(n\).
+This profile measures the length of the shortest membership certificates needed to verify all fibre elements of coding length at most \(n\).
 
 
 \section{Move systems on fibres}
@@ -771,6 +796,8 @@ This is the set of \textbf{attainable observations below \(b\)}.
 
 Equivalently, it is the set of observable values attained by objects admitting a \(\Gamma\)-description of cost at most \(b\).
 
+It may also be called the \textbf{bounded observable image} of \(\mathcal X_\Gamma^{\leq b}\) under \(\omega\).
+
 If \(b\leq b'\), then
 
 \[
@@ -1001,6 +1028,52 @@ x\cong y.
 A central problem is to determine which families of observables are complete on which bounded parts or natural subclasses.
 
 
+\section{Observer refinement, coarsening, and products}
+
+Observables carry a simple algebra.
+
+If
+\[
+\omega:\mathcal X\to A
+\]
+is an observable and
+\[
+q:A\to B
+\]
+is a map, then
+\[
+q\circ\omega:\mathcal X\to B
+\]
+is a \textbf{coarsening} of \(\omega\).
+
+An observable
+\[
+\eta:\mathcal X\to E
+\]
+\textbf{refines} \(\omega\) if \(\omega=q\circ\eta\) for some map \(q:E\to A\). Refinement can only distinguish at least as much as the original observable.
+
+Given observables
+\[
+\omega:\mathcal X\to A
+\qquad\text{and}\qquad
+\eta:\mathcal X\to E,
+\]
+their product observable is
+\[
+(\omega,\eta):\mathcal X\to A\times E.
+\]
+
+For any presentation system \(\Gamma\) and cost bound \(b\),
+\[
+\operatorname{Val}_{\Gamma,(\omega,\eta)}(b)
+\subseteq
+\operatorname{Val}_{\Gamma,\omega}(b)\times
+\operatorname{Val}_{\Gamma,\eta}(b).
+\]
+
+The inclusion can be strict. Strictness records correlations among observations imposed by the common bounded presentation class.
+
+
 \section{Indistinguishability fibres}
 
 Given an observable
@@ -1073,7 +1146,7 @@ for all \(x,y\in\mathcal C\).
 Equivalently, \(\tau\) factors through the observational quotient
 
 \[
-\mathcal C/!\sim_\Omega.
+\mathcal C/\!\sim_\Omega.
 \]
 
 If \(\tau\) is a complete invariant on \(\mathcal C\), then reconstruction of \(\tau\) implies classification.
@@ -1138,6 +1211,8 @@ For an observation bound \(r\in R\), define
 Thus \(\Omega^{\leq r}\) is the family of observables available with observation budget \(r\).
 
 Examples of observation costs include arity of a word observer, length of a word, number or order of test groups, degree of a polynomial probe, rank or matrix size of a linear observer, number of evaluations, depth of a logical formula, or quantifier rank.
+
+A declared costed observable family is also an \textbf{observer scheme}: it specifies which tests are allowed before a lower-bound argument begins. If an observer is selected using target-dependent information, then the selection procedure must be canonical or its cost must be included in \(\chi\). Otherwise singleton tests would trivialize distinguishability; such tests are part of the theory only when the declared observer scheme explicitly allows and charges for them.
 
 This distinction is essential:
 
@@ -1517,6 +1592,22 @@ In slogan form:
 The argument has a precise form: an independent mathematical reason forces counterexamples into a bounded presentation class, and a second argument excludes counterexamples from that bounded class.
 
 
+\begin{proposition}[No universal bounded-counterexample procedure]
+There is no algorithm which, given an arbitrary decidable predicate \(P(n)\) on \(\mathbb N\), outputs a finite set \(S\subseteq\mathbb N\) such that
+\[
+\exists n\ \neg P(n)
+\quad\Longrightarrow\quad
+\exists s\in S\ \neg P(s).
+\]
+\end{proposition}
+
+\begin{proof}
+If such an algorithm existed, it would decide the halting problem. Given a Turing machine \(M\), let \(P_M(t)\) be the decidable predicate saying that \(M\) has not halted within \(t\) steps. Apply the hypothetical algorithm to \(P_M\), obtaining a finite set \(S\). Checking \(P_M(s)\) for all \(s\in S\) would decide whether some counterexample to \(P_M\) exists, equivalently whether \(M\) ever halts.
+\end{proof}
+
+Thus bounded-counterexample principles require separate mathematical input. They are powerful when available, but they cannot be generated uniformly from decidability alone.
+
+
 \section{Basic examples}
 
 
@@ -1779,7 +1870,7 @@ Every admissible pair \((e,h)\) assembles to a description of \(x\) with the sta
 
 This proposition is an upper-bound assembly statement. Relative lower bounds arise from converse hypotheses showing that every low-cost description of \(x\) yields low-cost base and fibre data.
 
-\begin{theorem}[Busy witness principle]
+\begin{theorem}[Unbounded certificate-length principle]
 Let \(S\subseteq\{0,1\}^*\) be recursively enumerable but not decidable. Suppose there is a decidable relation \(R(u,\pi)\) such that
 \[
 u\in S
@@ -1803,22 +1894,22 @@ with value \(0\) if the maximum is taken over an empty set. Then \(b_R\) is not 
 Suppose \(b_R(n)\leq F(n)\) for some total computable function \(F\). Given \(u\), compute \(F(|u|)\) and check the finitely many words \(\pi\) with \(|\pi|\leq F(|u|)\). Since \(R\) is decidable, this finite search decides whether \(u\in S\). This contradicts the undecidability of \(S\).
 \end{proof}
 
-The theorem is elementary but important: recursively enumerable positive membership, once undecidable, forces shortest positive proof data to escape every computable uniform bound.
+The theorem is elementary but important: recursively enumerable membership, once undecidable, forces shortest membership certificates to escape every computable uniform bound.
 
-\begin{theorem}[Undecidable fibres force nonrecursive witness growth]
+\begin{theorem}[Undecidable fibres force nonrecursive certificate-length growth]
 Let \(\rho:\mathcal D\to\mathcal X\) be a realization map with effectively coded descriptions and coding length \(\ell\). Fix \(x\in\mathcal X\), and suppose the fibre
 \[
 \mathfrak F_\rho(x)=\{d\in\mathcal D:\rho(d)=x\}
 \]
-is recursively enumerable but not decidable. Suppose moreover that positive membership in this fibre is represented by a decidable witness relation
+is recursively enumerable but not decidable. Suppose moreover that membership in this fibre is represented by a decidable verification relation
 \[
 \rho(d)=x
 \quad\Longleftrightarrow\quad
 \exists \pi\ R_x(d,\pi).
 \]
-Then the bounded witness profile
+Then the bounded certificate-length profile
 \[
-W_{\rho,x}(n)=
+L_{R_x}(n)=
 \max_{\substack{\ell(d)\leq n\\d\in\mathfrak F_\rho(x)}}
 \min\{|\pi|:R_x(d,\pi)\}
 \]
@@ -1826,10 +1917,10 @@ is not bounded above by any total computable function.
 \end{theorem}
 
 \begin{proof}
-Apply the busy witness principle to the recursively enumerable undecidable set \(\mathfrak F_\rho(x)\), using the effective coding of descriptions.
+Apply the unbounded certificate-length principle to the recursively enumerable undecidable set \(\mathfrak F_\rho(x)\), using the effective coding of descriptions.
 \end{proof}
 
-This turns undecidability of a presentation fibre into a quantitative lower bound on positive proof data.
+This turns undecidability of a presentation fibre into a quantitative lower bound on membership verification.
 
 \begin{corollary}[Effective reversible move systems force nonrecursive bridge growth]
 Let \(\mathcal M\) be an effective finite-branching reversible move system on \(\mathcal D\) preserving realization. Fix \(d_x\in\mathfrak F_\rho(x)\). Suppose
@@ -1883,11 +1974,11 @@ There are presentation systems with an object \(x\) satisfying
 \[
 C_\Gamma(x)=0
 \]
-while the positive witness profile of \(\mathfrak F_\rho(x)\) is not bounded above by any total computable function. Hence no function of minimal presentation complexity alone can bound fibre recognition or positive witness growth in general.
+while the certificate-length profile of \(\mathfrak F_\rho(x)\) is not bounded above by any total computable function. Hence no function of minimal presentation complexity alone can bound fibre recognition or membership-verification cost in general.
 \end{corollary}
 
 \begin{proof}
-Let \(S\subseteq\{0,1\}^*\) be recursively enumerable but undecidable, with decidable witness relation \(R(u,\pi)\). Let
+Let \(S\subseteq\{0,1\}^*\) be recursively enumerable but undecidable, with decidable verification relation \(R(u,\pi)\). Let
 \[
 \mathcal D=\{\ast\}\sqcup\{d_u:u\in\{0,1\}^*\}.
 \]
@@ -1897,12 +1988,12 @@ d_u\equiv\ast
 \quad\Longleftrightarrow\quad
 u\in S,
 \]
-and let \(\mathcal X=\mathcal D/\!\equiv\), with \(\rho:\mathcal D\to\mathcal X\) the quotient map. Put \(\kappa(\ast)=0\) and \(\kappa(d_u)=1+|u|\). For \(x=\rho(\ast)\), one has \(C_\Gamma(x)=0\), while \(d_u\in\mathfrak F_\rho(x)\) exactly when \(u\in S\). The busy witness principle gives the claimed nonrecursive growth.
+and let \(\mathcal X=\mathcal D/\!\equiv\), with \(\rho:\mathcal D\to\mathcal X\) the quotient map. Put \(\kappa(\ast)=0\) and \(\kappa(d_u)=1+|u|\). For \(x=\rho(\ast)\), one has \(C_\Gamma(x)=0\), while \(d_u\in\mathfrak F_\rho(x)\) exactly when \(u\in S\). The unbounded certificate-length principle gives the claimed nonrecursive growth.
 \end{proof}
 
 This construction is deliberately schematic. Natural non-collapse examples require specific undecidability or lower-bound results.
 
-The point of the corollary is that minimal presentation complexity alone cannot be a general bound for fibre recognition or witness growth.
+The point of the corollary is that minimal presentation complexity alone cannot be a general bound for fibre recognition or membership-verification growth.
 
 \begin{theorem}[Prefix-free search penalty]
 Let \((X,\mu)\) be a probability space, and let \(\{A_c\}_{c\in\mathcal C}\) be a countable family of searched events. Suppose
