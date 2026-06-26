@@ -1,0 +1,1170 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{example}[theorem]{Example}
+
+\newcommand{\T}{\mathbb T}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\R}{\mathbb R}
+
+\title{Toric Certificates for Effective Skolem Tails and Subspace Orbit Reachability}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We develop a certificate framework for proving effective zero-free tails for scalar and vector algebraic linear recurrence sequences. The framework applies to the Skolem Problem, the Simultaneous Skolem Problem, and certified instances of the Subspace Orbit Problem.
+
+After passing to a common Binet representation, splitting root-of-unity degeneracies, saturating residual torsion, and peeling globally cancelled dominant shells, each branch of a vector recurrence is put in the form
+\[
+\mathbf u_{Mk+r}
+=
+\Lambda^k\bigl(\mathbf D(k,z(k))+\mathbf E(k)\bigr),
+\]
+where
+\[
+z(k)=c\eta^k\in \T^\rho,
+\qquad
+\mathbf D(T,X)\in L[T][X_1^{\pm1},\ldots,X_\rho^{\pm1}]^m,
+\]
+and
+\[
+|\mathbf E(k)|\le C_E(k+1)^s\theta^k,
+\qquad
+0<\theta<1.
+\]
+The toric rank, the order of the recurrence, the number of dominant roots, and the root multiplicities are unrestricted.
+
+The main theorem is a soundness theorem. If the dominant vector admits a verified toric lower-bound certificate, then all zeros of the branch lie below a computable bound unless the branch is identically zero. The remaining prefix is checked exactly. We give several verifiable certificate formats: joint semialgebraic certificates, Positivstellensatz and sum-of-squares certificates, Bezout--toric certificates, and scalar character-polynomial certificates. We then describe a partial compiler, Factor--Reduce--Certify, which constructs certificates automatically for leading-vector zero-free branches and for quotient-character factors.
+
+The method is sound but incomplete: failure to certify an instance does not imply anything about its zero set. The contribution is not a solution of the general Skolem Problem. It is a checkable and partially automatic mechanism for proving effective Skolem tails in high-rank, high-order families, including vector examples where scalar coordinatewise certification fails.
+\end{abstract}
+
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+During the preparation of this work, ChatGPT, by OpenAI, was used to assist with mathematical drafting, formalization, review, and editing. This work is shared as a preliminary AI-assisted mathematical note. The mathematical content may have been only partially reviewed and may contain errors; it should not be treated as peer-reviewed or as a fully verified manuscript.
+
+\section{Introduction}
+
+Let \(K\) be a number field. A scalar linear recurrence sequence over \(K\) is a sequence \(u=(u_n)_{n\ge0}\) satisfying
+\[
+u_{n+d}=a_{d-1}u_{n+d-1}+\cdots+a_0u_n
+\]
+for some \(a_0,\ldots,a_{d-1}\in K\). The Skolem Problem asks whether there exists \(n\ge0\) such that
+\[
+u_n=0.
+\]
+The strong computational form asks to compute the entire zero set
+\[
+Z(u)=\{n\ge0:u_n=0\}.
+\]
+
+The Skolem--Mahler--Lech theorem asserts that \(Z(u)\) is a finite union of arithmetic progressions together with a finite exceptional set. Its known proofs do not provide a general algorithm for computing the finite exceptional set. The computational heart of Skolem is therefore the construction of an effective zero-free tail.
+
+This paper studies such tails through toric certificates. The scalar case is included, but the natural level of generality is vectorial. Let
+\[
+\mathbf u_n=(u_1(n),\ldots,u_m(n))\in K^m
+\]
+be a vector of algebraic linear recurrence sequences. The simultaneous zero set is
+\[
+Z(\mathbf u)=\{n\ge0:\mathbf u_n=0\}.
+\]
+This formulation covers the Simultaneous Skolem Problem. It also covers affine subspace orbit reachability: if \(A\in K^{d\times d}\), \(x_0\in K^d\), and
+\[
+V=\{y\in K^d:By=b\},
+\]
+then
+\[
+A^n x_0\in V
+\quad\Longleftrightarrow\quad
+BA^n x_0-b=0.
+\]
+
+The central idea is to separate the dominant vector from zero. On each branch, after standard spectral reductions, we obtain
+\[
+\mathbf u_{Mk+r}
+=
+\Lambda^k\bigl(\mathbf D(k,z(k))+\mathbf E(k)\bigr),
+\]
+where \(z(k)\) is a toric orbit on a compact toric coset, \(\mathbf D\) is the normalized dominant vector, and \(\mathbf E\) is exponentially smaller. If one can certify that
+\[
+\mathbf D(k,z(k))\ne0
+\quad\Longrightarrow\quad
+|\mathbf D(k,z(k))|
+\ge
+\exp(-C(\log(k+2))^A)
+\]
+outside a computable prefix, then the exponentially small error cannot cancel the dominant vector outside that prefix. The rest is an exact finite computation.
+
+The vector viewpoint is essential. A scalar coordinate may contain a factor such as
+\[
+X+Y-1,
+\]
+which is outside the automatic one-character Baker class. But a system such as
+\[
+(X+Y-1,\ X-Y)
+\]
+has no common zero on \(\T^2\), and the norm of the vector is bounded away from zero by a semialgebraic certificate. Thus the vector method proves effective tails in cases not visible to scalar coordinatewise methods.
+
+The contributions are:
+\begin{enumerate}
+\item a global vector dominant-shell normal form with torsion saturation;
+\item a verifier theorem for toric lower-bound certificates;
+\item joint semialgebraic and Positivstellensatz/SOS certificates;
+\item Bezout--toric certificates converting scalar lower bounds into vector lower bounds;
+\item a scalar Baker--Matveev lemma for expressions \(F(k,\delta^k)\);
+\item quotient-character reduction, producing scalar atoms automatically from Laurent factors whose exponent supports become one-dimensional modulo the toric relation lattice;
+\item a partial Factor--Reduce--Certify compiler;
+\item applications to Simultaneous Skolem, Subspace Orbit, affine linear-loop reachability, algebraic target hitting, and eventual cone membership.
+\end{enumerate}
+
+The framework is intentionally conservative. It proves effective tails for certified toric dominant shells. It does not decide arbitrary toric shells of rank at least two and does not solve the general Skolem Problem.
+
+\section{Effective input and certificate model}
+
+An input consists of:
+\begin{enumerate}
+\item a number field \(K\), represented effectively;
+\item either a scalar or vector linear recurrence sequence over \(K\), or a linear dynamical system \((A,x_0,B,b)\);
+\item a complex embedding \(\sigma:K\hookrightarrow \C\).
+\end{enumerate}
+
+All computations take place in finite extensions of \(K\). We use standard exact algorithms in number fields: arithmetic, factorization, construction of splitting fields, root-of-unity testing, exact zero testing, comparison of algebraic absolute values under \(\sigma\), and computation of multiplicative relation lattices. These algorithms are not claimed to be efficient in general; they are used as exact symbolic subroutines.
+
+A certificate is extended input. The algorithms in this paper are sound: if the certificate verifies, then the output zero set is correct. They are not complete: failure to certify means ``not certified'', not ``no zero'' and not ``undecidable''.
+
+We separate three layers.
+\begin{itemize}
+\item The verifier theorem: a valid certificate implies an effective zero-free tail.
+\item Automatic certificate generation: for certain structural classes, the certificate is constructed by the compiler.
+\item Positive search: for some certificates, such as Bezout--toric identities of bounded degree, one may search positively, but failure of the search has no mathematical consequence.
+\end{itemize}
+
+\section{Vector Binet form and global shells}
+
+Let
+\[
+\mathbf u_n=(u_1(n),\ldots,u_m(n))\in K^m
+\]
+be a vector of algebraic linear recurrence sequences. Passing to a common splitting field \(L/K\), we may write
+\[
+\mathbf u_n=\sum_{\lambda\in\mathcal R}\mathbf P_\lambda(n)\lambda^n,
+\]
+where \(\mathcal R\subset L^\times\) is finite and
+\[
+\mathbf P_\lambda(T)\in L[T]^m.
+\]
+
+Zero characteristic roots contribute only to a finite initial segment. That segment is checked exactly, and the sequence is shifted. Hence all roots in the remaining Binet representation are nonzero.
+
+Fix an embedding
+\[
+\sigma:L\hookrightarrow\C.
+\]
+A global vector shell is a set
+\[
+S_\rho=\{\lambda\in\mathcal R:|\sigma(\lambda)|=\rho\}.
+\]
+The shell contribution is
+\[
+\mathbf U_\rho(n)=\sum_{\lambda\in S_\rho}\mathbf P_\lambda(n)\lambda^n.
+\]
+The shell is vectorially cancelled if
+\[
+\mathbf U_\rho(n)\equiv0
+\]
+as a vector-valued exponential-polynomial function. This means every coordinate is identically zero.
+
+After torsion splitting, distinct bases with no root-of-unity quotient give linearly independent exponential-polynomial functions. Therefore vectorial cancellation is decidable exactly.
+
+\section{Torsion splitting and torsion saturation}
+
+If \(\lambda/\mu\) is a root of unity, let \(o(\lambda,\mu)\) be its order. Let
+\[
+M_0=\operatorname{lcm}\{o(\lambda,\mu):\lambda,\mu\in\mathcal R,\ \lambda/\mu\in\mu_\infty\}.
+\]
+For each residue class \(r\pmod{M_0}\), define
+\[
+\mathbf v^{(r)}_k=\mathbf u_{M_0k+r}.
+\]
+Equal bases in the resulting Binet representation are combined exactly.
+
+A second torsion issue remains. A shell with relative multiplicative rank \(\rho\) modulo torsion need not be an exact toric coset. Its roots have the form
+\[
+\lambda=\Lambda\,\xi_\lambda\,\gamma^a,
+\]
+where \(\xi_\lambda\) is a root of unity and
+\[
+\gamma^a=\gamma_1^{a_1}\cdots\gamma_\rho^{a_\rho},
+\qquad
+a\in\Z^\rho.
+\]
+Let
+\[
+Q=\operatorname{lcm}_{\lambda}\operatorname{ord}(\xi_\lambda).
+\]
+Passing to subbranches
+\[
+k=Qh+s
+\]
+makes
+\[
+\xi_\lambda^k=\xi_\lambda^s
+\]
+constant. The polynomial coefficients are transformed by
+\[
+\mathbf P_\lambda(k)\mapsto \mathbf P_\lambda(Qh+s),
+\]
+and the bases by
+\[
+\lambda^k\mapsto \lambda^s(\lambda^Q)^h.
+\]
+All new data are computable. We call this step torsion saturation.
+
+\section{Vector toric normal form}
+
+After torsion splitting and torsion saturation, peel globally cancelled shells until the first non-cancelled global shell is reached. Let \(S\) be that shell. Choose \(\Lambda\in S\). The roots in \(S\) can be written as
+\[
+\lambda=\Lambda\gamma^a,
+\qquad
+a\in A\subset\Z^\rho.
+\]
+Since all roots in \(S\) have the same \(\sigma\)-absolute value, the toric parameters satisfy
+\[
+|\sigma(\gamma_j)|=1.
+\]
+
+Define
+\[
+z(k)=(\gamma_1^k,\ldots,\gamma_\rho^k).
+\]
+Then the contribution of \(S\) has the form
+\[
+\Lambda^k\mathbf D(k,z(k)),
+\]
+where
+\[
+\mathbf D(T,X)\in L[T][X_1^{\pm1},\ldots,X_\rho^{\pm1}]^m.
+\]
+
+All lower shells have strictly smaller \(\sigma\)-absolute value. Hence the branch has normal form
+\[
+\mathbf v_k=\Lambda^k\bigl(\mathbf D(k,z(k))+\mathbf E(k)\bigr),
+\]
+with
+\[
+|\mathbf E(k)|\le C_E(k+1)^s\theta^k,
+\qquad
+0<\theta<1.
+\]
+Here
+\[
+|\mathbf w|^2=\sum_{i=1}^m|\sigma(w_i)|^2.
+\]
+
+\section{Toric cosets}
+
+After reindexing, it is convenient to write
+\[
+z(k)=c\eta^k=(c_1\eta_1^k,\ldots,c_\rho\eta_\rho^k),
+\]
+with
+\[
+|\sigma(c_j)|=|\sigma(\eta_j)|=1.
+\]
+Define the exact relation lattice
+\[
+\mathcal L_\eta
+=
+\{a=(a_1,\ldots,a_\rho)\in\Z^\rho:\eta^a=1\},
+\]
+where
+\[
+\eta^a=\eta_1^{a_1}\cdots\eta_\rho^{a_\rho}.
+\]
+This lattice is computable.
+
+Let
+\[
+T_\eta=\{y\in\T^\rho:y^a=1\text{ for all }a\in\mathcal L_\eta\}.
+\]
+The orbit closure of \(z(k)=c\eta^k\) is the compact toric coset
+\[
+C=cT_\eta.
+\]
+Equivalently,
+\[
+C=\{x\in\T^\rho:x^a=c^a\text{ for all }a\in\mathcal L_\eta\}.
+\]
+
+We do not assume \(T_\eta\) is connected. If finite torsion remains in \(\eta\), \(T_\eta\) may have finitely many components. The equations above describe the full compact coset.
+
+For effective real-algebraic verification, write
+\[
+X_j=x_j+iy_j.
+\]
+The torus is defined by
+\[
+x_j^2+y_j^2=1,
+\]
+and the coset equations are the real and imaginary parts of
+\[
+X^a=c^a
+\]
+for a basis of \(\mathcal L_\eta\).
+
+\section{The certified-tail theorem}
+
+\begin{theorem}[Certified-tail soundness]
+Let a saturated branch have vector toric normal form
+\[
+\mathbf v_k=\Lambda^k\bigl(\mathbf D(k,z(k))+\mathbf E(k)\bigr),
+\]
+where
+\[
+|\mathbf E(k)|\le C_E(k+1)^s\theta^k,
+\qquad
+0<\theta<1.
+\]
+Assume there are computable constants \(A,C,N_0\) such that, for every \(k\ge N_0\),
+\[
+\mathbf D(k,z(k))\ne0
+\quad\Longrightarrow\quad
+|\mathbf D(k,z(k))|
+\ge
+\exp(-C(\log(k+2))^A).
+\]
+Assume also that exact zeros of
+\[
+\mathbf D(k,z(k))
+\]
+are either contained in a computable prefix or occur only on subbranches where the global dominant vector is identically cancelled and hence peeled.
+
+Then the branch has a computable zero-free tail. Consequently the zeros on the branch are computable exactly as a finite set plus any identically zero subprogressions.
+\end{theorem}
+
+\begin{proof}
+Choose \(B\ge N_0\) such that
+\[
+C_E(k+1)^s\theta^k
+<
+\frac12\exp(-C(\log(k+2))^A)
+\]
+for all \(k\ge B\). Such \(B\) is computable. For \(k\ge B\), if \(\mathbf D(k,z(k))\ne0\), then
+\[
+|\mathbf D(k,z(k))+\mathbf E(k)|
+\ge
+|\mathbf D(k,z(k))|-|\mathbf E(k)|
+>0.
+\]
+Hence \(\mathbf v_k\ne0\). The remaining possible zeros are in a computable prefix or in identically zero subbranches produced by peeling. The finite prefix is checked exactly in \(L\).
+\end{proof}
+
+\section{Joint semialgebraic certificates}
+
+\begin{definition}[Joint semialgebraic certificate]
+Let
+\[
+\mathbf D(T,X)=(D_1(T,X),\ldots,D_m(T,X)).
+\]
+A joint semialgebraic certificate, or joint S-certificate, on a toric coset \(C=cT_\eta\) consists of explicit data
+\[
+B_0\in\mathbb N,\qquad L_0\in\mathbb N,\qquad q\in\Q_{>0}
+\]
+such that
+\[
+\sum_{i=1}^m|\sigma(D_i(t,x))|^2
+\ge
+q(t+1)^{-L_0}
+\]
+for every
+\[
+t\ge B_0,
+\qquad
+x\in C.
+\]
+\end{definition}
+
+The assertion is a universal formula over a real closed field. Laurent monomials are represented on the torus by
+\[
+X_j=x_j+iy_j,
+\qquad
+X_j^{-1}=x_j-iy_j.
+\]
+The coset \(C\) is represented by polynomial equations
+\[
+x_j^2+y_j^2=1
+\]
+and the real and imaginary parts of
+\[
+X^a=c^a
+\]
+for a basis of \(\mathcal L_\eta\).
+
+The certificate condition becomes
+\[
+\forall t,x,y:\ 
+\left(t\ge B_0\wedge (x+iy)\in C\right)
+\Rightarrow
+(t+1)^{L_0}\sum_i|\sigma(D_i(t,x+iy))|^2-q\ge0.
+\]
+This formula is effectively decidable by quantifier elimination over real closed fields.
+
+\begin{proposition}
+A joint S-certificate implies the hypothesis of the certified-tail theorem with a polynomial lower bound:
+\[
+|\mathbf D(k,z(k))|\ge q^{1/2}(k+1)^{-L_0/2}.
+\]
+\end{proposition}
+
+\begin{proof}
+Since \(z(k)\in C\), substituting \(t=k\) and \(x=z(k)\) into the certificate gives the result.
+\end{proof}
+
+\section{SOS and Positivstellensatz certificates}
+
+Quantifier elimination proves decidability, but one may also use algebraic certificates that are easier to verify.
+
+Let \(C\) be represented by equalities
+\[
+f_1=\cdots=f_r=0
+\]
+and inequalities
+\[
+g_1\ge0,\ldots,g_s\ge0.
+\]
+These include the torus equations, the coset equations, and the tail condition \(t-B_0\ge0\). A Positivstellensatz/SOS certificate for the joint lower bound consists of an identity
+\[
+(t+1)^L\sum_i |D_i(t,X)|^2-q
+=
+\sigma_0+\sum_j\sigma_j g_j+\sum_\ell h_\ell f_\ell,
+\]
+where the \(\sigma_j\) are sums of squares and the \(h_\ell\) are arbitrary polynomials, all with algebraic coefficients.
+
+Such an identity is checked by exact polynomial arithmetic and by verifying the supplied sum-of-squares decompositions. When present, it gives a joint S-certificate.
+
+This SOS formulation is not required for decidability, but it gives a more explicit certificate format than quantifier elimination.
+
+\section{Automatic joint certificates from leading vectors}
+
+Write
+\[
+\mathbf D(T,X)=T^d\mathbf D_d(X)+T^{d-1}\mathbf D_{d-1}(X)+\cdots+\mathbf D_0(X),
+\]
+with \(\mathbf D_d\ne0\).
+
+\begin{proposition}[Leading-vector criterion]
+If
+\[
+\mathbf D_d(x)\ne0
+\qquad\text{for every }x\in C,
+\]
+then a joint S-certificate exists and can be effectively found.
+\end{proposition}
+
+\begin{proof}
+The function
+\[
+x\mapsto |\mathbf D_d(x)|^2
+\]
+is continuous and positive on the compact coset \(C\). Its positivity can be verified by quantifier elimination. Once verified, one can find a rational \(q_0>0\) such that
+\[
+|\mathbf D_d(x)|^2\ge q_0
+\]
+for all \(x\in C\).
+
+For \(j<d\), compute an upper bound \(M_j\) for \(|\mathbf D_j(x)|\) on \(C\). Since monomials have modulus \(1\) on the torus, summing absolute values of algebraic coefficients gives an effective upper bound.
+
+For \(t\) large enough,
+\[
+\left|\sum_{j<d}t^j\mathbf D_j(x)\right|
+\le
+\frac12q_0^{1/2}t^d
+\]
+uniformly on \(C\). Hence
+\[
+|\mathbf D(t,x)|\ge \frac12q_0^{1/2}t^d.
+\]
+This is a joint S-certificate.
+\end{proof}
+
+\section{Scalar character-polynomial atoms}
+
+A scalar atom is an expression
+\[
+F(T,\chi(X)),
+\]
+where
+\[
+F(T,Y)\in L[T,Y]\setminus\{0\}
+\]
+and
+\[
+\chi(X)=X_1^{a_1}\cdots X_\rho^{a_\rho}
+\]
+is a toric character. Along the branch
+\[
+z(k)=c\eta^k,
+\]
+we have
+\[
+\chi(z(k))=\chi(c)\chi(\eta)^k.
+\]
+Absorbing the constant \(\chi(c)\) into \(F\), one reduces to
+\[
+F(k,\delta^k),
+\qquad
+\delta=\chi(\eta).
+\]
+
+\section{The Baker--Matveev lemma}
+
+We use the following standard consequence of effective lower bounds for linear forms in logarithms.
+
+\begin{lemma}[Scalar character lower bound]
+Let
+\[
+F(T,Y)\in L[T,Y]\setminus\{0\},
+\]
+let
+\[
+\delta\in L^\times,
+\qquad
+|\sigma(\delta)|=1,
+\]
+and suppose \(\delta\) is not a root of unity. Then there exist computable constants
+\[
+C>0,
+\qquad
+N_0\in\mathbb N
+\]
+such that, for every \(k\ge N_0\),
+\[
+F(k,\delta^k)\ne0
+\quad\Longrightarrow\quad
+|\sigma(F(k,\delta^k))|
+\ge
+\exp(-C(\log(k+2))^2).
+\]
+Moreover, exact zeros of \(F(k,\delta^k)\) are contained in a computable finite prefix.
+\end{lemma}
+
+\begin{proof}
+Write
+\[
+F(T,Y)=\sum_{j=0}^r f_j(T)Y^j.
+\]
+For each \(k\), let
+\[
+F_k(Y)=F(k,Y).
+\]
+The set of \(k\) such that \(F_k\equiv0\) is finite and computable unless all \(f_j\) vanish identically, which is excluded. The case in which \(F_k\) is constant nonzero is harmless and gives a Liouville lower bound.
+
+Assume \(F_k\) is nonconstant. Factor
+\[
+F_k(Y)=a_k\prod_\nu(Y-\eta_{\nu,k})
+\]
+over \(\overline{\Q}\). The degree of \(F_k\) is at most \(r\), though it may drop for special \(k\). This only decreases the number of factors.
+
+The coefficients \(f_j(k)\) have logarithmic height \(O(\log(k+2))\). Standard height estimates for roots of a polynomial give
+\[
+h(\eta_{\nu,k})\le C_1\log(k+2)
+\]
+with \(C_1\) effective. Liouville's inequality gives
+\[
+|\sigma(a_k)|\ge\exp(-C_2\log(k+2))
+\]
+whenever \(a_k\ne0\).
+
+Let \(\eta=\eta_{\nu,k}\). If \(\eta=0\), then
+\[
+|\sigma(\delta^k-\eta)|=1.
+\]
+Assume \(\eta\ne0\) and \(\delta^k\ne\eta\). Apply an effective lower bound for linear forms in logarithms to
+\[
+\eta^{-1}\delta^k-1.
+\]
+The degree of the field \(\Q(\delta,\eta)\) is uniformly bounded in terms of \(L\) and \(r\). The height of \(\eta\) is \(O(\log k)\), and the exponent of \(\delta\) is \(k\). A standard Baker--Wuestholz or Matveev estimate yields
+\[
+|\sigma(\eta^{-1}\delta^k)-1|
+\ge
+\exp(-C_3(\log(k+2))^2).
+\]
+Liouville gives
+\[
+|\sigma(\eta)|\ge\exp(-C_4\log(k+2)).
+\]
+Therefore
+\[
+|\sigma(\delta^k-\eta)|
+\ge
+\exp(-C_5(\log(k+2))^2).
+\]
+
+If \(F(k,\delta^k)\ne0\), no factor vanishes. Multiplying the lower bounds for the leading coefficient and all nonzero factors gives
+\[
+|\sigma(F(k,\delta^k))|
+\ge
+\exp(-C(\log(k+2))^2).
+\]
+
+Now suppose
+\[
+F(k,\delta^k)=0.
+\]
+Then \(\delta^k\) is a root of \(F_k\), so
+\[
+h(\delta^k)\le C_1\log(k+2).
+\]
+Since \(\delta\) is not a root of unity, \(h(\delta)>0\), and
+\[
+h(\delta^k)=k h(\delta).
+\]
+Thus
+\[
+k h(\delta)\le C_1\log(k+2),
+\]
+which fails beyond a computable bound.
+\end{proof}
+
+\section{Torsion scalar atoms}
+
+If \(\delta\) is a root of unity of order \(Q\), pass to subbranches
+\[
+k=Qh+s.
+\]
+Then
+\[
+F(k,\delta^k)=F(Qh+s,\delta^s)=G_s(h),
+\]
+where \(G_s\in L[h]\).
+
+If \(G_s\not\equiv0\), its integer zeros are finite and computable, and Liouville gives a polynomial lower bound for nonzero values.
+
+If \(G_s\equiv0\), the scalar atom vanishes identically on that subbranch. In a scalar product certificate this may force the dominant scalar to vanish. In a vector or Bezout certificate it means only that the particular scalar test has failed. The algorithm either peels the branch if the full dominant vector is identically zero, or requires a new certificate on that subbranch.
+
+Termination follows because every peeling removes one global shell and all splitting operations are finite.
+
+\section{Bezout--toric certificates}
+
+Let
+\[
+\mathbf D=(D_1,\ldots,D_m).
+\]
+Let
+\[
+a^{(1)},\ldots,a^{(\ell)}
+\]
+be a basis of \(\mathcal L_\eta\), and define the coset binomials
+\[
+G_j(X)=X^{a^{(j)}}-c^{a^{(j)}}.
+\]
+Then
+\[
+G_j(z(k))=0.
+\]
+
+\begin{definition}[Bezout--toric certificate]
+A Bezout--toric certificate consists of Laurent polynomials
+\[
+A_i(T,X),\quad B_j(T,X),\quad M(T,X)
+\]
+such that
+\[
+M(T,X)=\sum_{i=1}^m A_i(T,X)D_i(T,X)+\sum_{j=1}^\ell B_j(T,X)G_j(X),
+\]
+together with a scalar certificate for \(M(k,z(k))\) giving
+\[
+|M(k,z(k))|\ge \exp(-C(\log(k+2))^A)
+\]
+outside a computable prefix.
+\end{definition}
+
+The identity is verified exactly in the Laurent polynomial ring.
+
+\begin{lemma}
+There exist computable constants \(C_A,R\) such that
+\[
+\left(\sum_i|A_i(k,z(k))|^2\right)^{1/2}
+\le C_A(k+1)^R.
+\]
+\end{lemma}
+
+\begin{proof}
+Write
+\[
+A_i(T,X)=\sum_\nu a_{i,\nu}(T)X^{b_{i,\nu}}.
+\]
+On the torus,
+\[
+|X^{b_{i,\nu}}|=1.
+\]
+Each polynomial \(a_{i,\nu}(k)\) grows at most polynomially in \(k\). Summing finitely many terms gives the stated bound.
+\end{proof}
+
+\begin{proposition}
+A Bezout--toric certificate implies the lower-bound hypothesis of the certified-tail theorem.
+\end{proposition}
+
+\begin{proof}
+Along the orbit,
+\[
+M(k,z(k))=\sum_i A_i(k,z(k))D_i(k,z(k)).
+\]
+By Cauchy--Schwarz,
+\[
+|M(k,z(k))|
+\le
+\left(\sum_i|A_i(k,z(k))|^2\right)^{1/2}|\mathbf D(k,z(k))|.
+\]
+Using the preceding lemma,
+\[
+|M(k,z(k))|\le C_A(k+1)^R|\mathbf D(k,z(k))|.
+\]
+A subexponential lower bound for \(M\) therefore gives a subexponential lower bound for \(|\mathbf D|\).
+\end{proof}
+
+One may search for Bezout--toric certificates by fixing degree bounds for the unknown \(A_i,B_j,M\), imposing the identity as a finite linear system over \(L\), and checking whether \(M\) admits a scalar S/B/T certificate. If the search succeeds, the certificate is valid. If it fails at a chosen bound, no conclusion follows. Thus this is a positive semidecision procedure, not a complete algorithm.
+
+\section{Quotient-character reduction}
+
+Let
+\[
+H(T,X)=\sum_{a\in A}h_a(T)X^a
+\]
+be a Laurent factor. Consider the image of \(A\) in
+\[
+\Z^\rho/\mathcal L_\eta.
+\]
+We say that \(H\) has quotient affine rank at most one if the differences
+\[
+a-a_0,
+\qquad
+a\in A,
+\]
+span a vector space of dimension at most one in
+\[
+(\Z^\rho/\mathcal L_\eta)\otimes_\Z\Q.
+\]
+
+\begin{proposition}
+If \(H\) has quotient affine rank at most one, then after finite torsion splitting,
+\[
+H(k,z(k))=\alpha_0^k F(k,\delta^k)
+\]
+for some algebraic \(\alpha_0,\delta\) of \(\sigma\)-absolute value \(1\) and some
+\[
+F(T,Y)\in L[T,Y].
+\]
+\end{proposition}
+
+\begin{proof}
+Choose \(a_0\in A\). Since the quotient affine rank is at most one, there exists \(v\in\Z^\rho\) such that every \(a-a_0\) maps to a rational multiple of \(v\) in the quotient. Clearing denominators and splitting finite torsion in the quotient, we may assume that for each \(a\in A\),
+\[
+a=a_0+r_av+\ell_a
+\]
+with \(r_a\in\Z\) and \(\ell_a\in\mathcal L_\eta\).
+
+On the coset \(z(k)=c\eta^k\),
+\[
+z(k)^a
+=
+c^a\eta^{ak}
+=
+c^a\eta^{a_0k}(\eta^v)^{r_ak},
+\]
+because \(\eta^{\ell_a}=1\). Thus
+\[
+H(k,z(k))
+=
+\eta^{a_0k}\sum_{a\in A}h_a(k)c^a(\eta^v)^{r_ak}.
+\]
+After multiplying by a power of \(Y\) if necessary, the sum becomes \(F(k,\delta^k)\) with
+\[
+\delta=\eta^v.
+\]
+The factor \(\eta^{a_0k}\) is \(\alpha_0^k\) and has modulus \(1\).
+\end{proof}
+
+\begin{corollary}
+A quotient-affine-rank-one factor is automatically converted into a scalar Baker or torsion atom.
+\end{corollary}
+
+\section{The Factor--Reduce--Certify compiler}
+
+The partial compiler operates branchwise.
+\begin{enumerate}
+\item Compute the vector toric normal form.
+\item Compute the toric coset \(C=cT_\eta\).
+\item Attempt the leading-vector criterion.
+\item If it fails, attempt to construct a Bezout--toric certificate by bounded-degree linear algebra.
+\item For scalar factors or scalar tests, factor in the Laurent polynomial ring.
+\item For each irreducible factor, compute its quotient affine rank modulo \(\mathcal L_\eta\).
+\item If the rank is at most one, reduce it to a scalar atom.
+\item Verify remaining S-certificates by quantifier elimination, SOS identities, or Positivstellensatz identities.
+\item If every branch is certified, compute the zero-free tails and exact prefixes.
+\item If some branch is not certified, return ``not certified''.
+\end{enumerate}
+
+\begin{theorem}[Compiler soundness]
+If Factor--Reduce--Certify succeeds on all branches of a vector recurrence \(\mathbf u\), then it computes
+\[
+Z(\mathbf u)=\{n\ge0:\mathbf u_n=0\}
+\]
+exactly as a finite union of arithmetic progressions and a finite set.
+\end{theorem}
+
+\begin{proof}
+Every successful branch satisfies the certified-tail theorem through a joint S-certificate, a Bezout--toric certificate, or scalar atoms combined into a vector certificate. Identically zero branches give progressions. Nonzero certified branches have zero-free tails and exact finite prefix checks.
+\end{proof}
+
+\section{Applications}
+
+\begin{theorem}[Simultaneous Skolem]
+Let
+\[
+u^{(1)},\ldots,u^{(m)}
+\]
+be algebraic linear recurrence sequences and set
+\[
+\mathbf u_n=(u^{(1)}_n,\ldots,u^{(m)}_n).
+\]
+If Factor--Reduce--Certify succeeds on \(\mathbf u\), then
+\[
+\{n\ge0:u^{(1)}_n=\cdots=u^{(m)}_n=0\}
+\]
+is computable exactly.
+\end{theorem}
+
+This is stronger than separately solving the scalar Skolem instances and intersecting their zero sets, because a joint vector certificate may exist even when a scalar coordinate is outside the automatic scalar certificate class.
+
+\begin{theorem}[Subspace Orbit and affine linear loops]
+Let
+\[
+A\in K^{d\times d},
+\qquad
+x_0\in K^d,
+\]
+and let
+\[
+V=\{y\in K^d:By=b\}
+\]
+be an affine subspace. Define
+\[
+\mathbf u_n=BA^nx_0-b.
+\]
+If Factor--Reduce--Certify succeeds on \(\mathbf u_n=BA^nx_0-b\), then the hitting-time set
+\[
+\{n\ge0:A^nx_0\in V\}
+\]
+is computable exactly.
+\end{theorem}
+
+\begin{proof}
+We have
+\[
+A^nx_0\in V
+\quad\Longleftrightarrow\quad
+BA^nx_0-b=0.
+\]
+Apply compiler soundness.
+\end{proof}
+
+This gives a certified reachability theorem for affine linear loops
+\[
+x:=Ax
+\]
+with target condition \(Bx=b\).
+
+\begin{corollary}[Algebraic target hitting]
+Let
+\[
+W=\{y:P_1(y)=\cdots=P_m(y)=0\}
+\]
+be an affine algebraic set over \(K\). Since coordinates of \(A^nx_0\) are linear recurrence sequences and such sequences are closed under addition and pointwise multiplication, each sequence
+\[
+P_i(A^nx_0)
+\]
+is a linear recurrence sequence. If Factor--Reduce--Certify succeeds on
+\[
+\bigl(P_1(A^nx_0),\ldots,P_m(A^nx_0)\bigr),
+\]
+then
+\[
+\{n\ge0:A^nx_0\in W\}
+\]
+is computable exactly.
+\end{corollary}
+
+\section{Eventual cone membership and ultimate positivity}
+
+Let \(C\subseteq\R^m\) be a semialgebraic cone or a closed semialgebraic set. Suppose a real vector recurrence has normal form
+\[
+\mathbf u_k=\Lambda^k(\mathbf D(k,z(k))+\mathbf E(k))
+\]
+with \(\Lambda>0\), and suppose a certificate proves that \(\mathbf D(k,z(k))\) has distance at least
+\[
+c(k+1)^{-L}
+\]
+from the boundary of \(C\) for \(k\ge B\), with a fixed side of the boundary. Then \(\mathbf u_k\in C\) eventually if and only if the dominant vector lies on that side. The finite prefix is checked exactly.
+
+For \(m=1\) and \(C=[0,\infty)\), this gives certified ultimate positivity.
+
+\section{A high-rank vector family}
+
+Let \(\rho\ge2\), and let
+\[
+\gamma_1,\ldots,\gamma_\rho\in L^\times
+\]
+satisfy
+\[
+|\sigma(\gamma_i)|=1
+\]
+and be multiplicatively independent modulo torsion.
+
+Define
+\[
+\mathbf D_\rho(X_1,\ldots,X_\rho)
+=
+\left(
+X_2-X_1,\,
+X_3-X_1,\,
+\ldots,\,
+X_\rho-X_1,\,
+X_1+\cdots+X_\rho-1
+\right).
+\]
+
+\begin{proposition}
+The vector \(\mathbf D_\rho\) has no zero on \(\T^\rho\).
+\end{proposition}
+
+\begin{proof}
+If \(\mathbf D_\rho(X)=0\), then
+\[
+X_2=X_1,\quad \ldots,\quad X_\rho=X_1.
+\]
+Thus
+\[
+X_1=\cdots=X_\rho.
+\]
+The last component gives
+\[
+\rho X_1=1.
+\]
+But \(|X_1|=1\), whereas \(|1/\rho|<1\) for \(\rho\ge2\). This is impossible.
+\end{proof}
+
+Therefore
+\[
+Q_\rho(X)=|\mathbf D_\rho(X)|^2
+\]
+has a strictly positive minimum on \(\T^\rho\), and a joint S-certificate can be verified.
+
+Let
+\[
+\mathbf u_n
+=
+\Lambda^n\left(\mathbf D_\rho(\gamma_1^n,\ldots,\gamma_\rho^n)+\mathbf E(n)\right),
+\]
+where
+\[
+|\mathbf E(n)|\le C\theta^n,
+\qquad
+0<\theta<1.
+\]
+Then Factor--Reduce--Certify succeeds and computes the simultaneous zero set.
+
+The scalar coordinate
+\[
+X_1+\cdots+X_\rho-1
+\]
+has exponent support of affine rank \(\rho\), so it is not an automatic quotient-character scalar factor. The vector system is nevertheless certified by joint separation. This demonstrates the genuine advantage of the vector method.
+
+\section{Realization as Subspace Orbit}
+
+Let
+\[
+A=\operatorname{diag}(\gamma_1,\ldots,\gamma_\rho),
+\qquad
+x_0=(1,\ldots,1).
+\]
+Then
+\[
+A^nx_0=(\gamma_1^n,\ldots,\gamma_\rho^n).
+\]
+Let \(V_\rho\subseteq K^\rho\) be the affine subspace defined by
+\[
+x_2-x_1=0,\quad
+x_3-x_1=0,\quad\ldots,\quad x_\rho-x_1=0,
+\]
+and
+\[
+x_1+\cdots+x_\rho=1.
+\]
+Then
+\[
+A^nx_0\in V_\rho
+\quad\Longleftrightarrow\quad
+\mathbf D_\rho(\gamma_1^n,\ldots,\gamma_\rho^n)=0.
+\]
+By the preceding proposition, the pure dominant model has no hitting time. With exponentially smaller subdominant perturbations, the subspace-orbit certificate theorem gives a computable zero-free tail and exact prefix check.
+
+This gives a high-rank family of certified Subspace Orbit instances in which one scalar equation contains high-rank toric support, but the vector system is jointly separated.
+
+\section{Relation to previous work}
+
+The Skolem Problem is open in general. The Skolem--Mahler--Lech theorem gives the eventual structure of the zero set but is not a general algorithm for computing the finite exceptional set.
+
+Low-order and few-dominant-root results decide important special cases. The present framework is different: it is not based on low order or few dominant roots, but on a verifiable toric separation certificate.
+
+Modern algorithms for broader recurrence classes often produce correct certificates when they terminate, with termination proved under strong Diophantine conjectures. The present method is unconditional inside the certified class.
+
+The Evertse--Schlickewei--Schmidt theory gives explicit upper bounds for the number of nondegenerate solutions of linear equations in variables from a finite-rank multiplicative group \cite{ESS}. Such results are close in spirit, but a bound on the number of solutions does not by itself give a computable bound on the positions of the indices \(n\). The present method produces an explicit zero-free tail once a certificate is verified.
+
+Bacik and Varonka study Subspace Orbit and Simultaneous Skolem from a dimension-theoretic perspective \cite{BacikVaronka}. Their results are orthogonal to the present work. They prove decidability in certain target-dimension regimes and hardness in others. The present framework imposes no a priori target-dimension threshold; it requires a toric separation certificate for the dominant vector.
+
+The vector feature is essential. The family above shows that scalar coordinatewise certification can fail while joint vector certification succeeds.
+
+\section{Limitations}
+
+The framework does not decide arbitrary toric shells.
+
+A scalar expression such as
+\[
+X+Y-1
+\]
+on a genuinely rank-two orbit is not automatically handled by the scalar quotient-character method. It can be handled only if it appears in a joint vector system with a joint S-certificate, a Bezout--toric certificate, or some other verified lower-bound mechanism.
+
+Thus the result is
+\[
+\text{effective tails for certified toric dominant shells,}
+\]
+not
+\[
+\text{decidability for all toric dominant shells.}
+\]
+The compiler is sound but incomplete.
+
+\section{Conclusion}
+
+We have developed a certificate framework for effective zero-free tails in scalar and vector linear recurrence sequences. The main novelty is the vector toric viewpoint: for Simultaneous Skolem and Subspace Orbit, it is enough to separate the dominant vector from zero. This can succeed even when scalar coordinatewise methods fail.
+
+The framework includes:
+\begin{enumerate}
+\item global vector dominant-shell normal form;
+\item torsion saturation and toric coset closures;
+\item certified-tail soundness;
+\item joint semialgebraic and SOS certificates;
+\item Bezout--toric certificates;
+\item scalar Baker character-polynomial atoms;
+\item quotient-character reduction;
+\item a partial Factor--Reduce--Certify compiler;
+\item applications to Simultaneous Skolem, Subspace Orbit, linear-loop reachability, algebraic target hitting, and ultimate positivity;
+\item a high-rank vector family showing genuine advantage over scalar methods.
+\end{enumerate}
+
+This is not a breakthrough on the general Skolem Problem. It is a rigorous, checkable, and partially automatic framework for proving decidability in high-rank, high-order certified families.
+
+\begin{thebibliography}{99}
+
+\bibitem{Baker}
+A. Baker.
+\emph{Transcendental Number Theory}.
+Cambridge University Press, 1975.
+
+\bibitem{BakerWuestholz}
+A. Baker and G. Wuestholz.
+\emph{Logarithmic Forms and Diophantine Geometry}.
+Cambridge University Press, 2007.
+
+\bibitem{BacikOrder4}
+P. Bacik.
+Completing the picture for the Skolem Problem on order-4 linear recurrence sequences.
+arXiv:2409.01221.
+
+\bibitem{BacikPadic}
+P. Bacik, J. Ouaknine, D. Purser, and J. Worrell.
+On the \(p\)-adic Skolem Problem.
+arXiv:2504.14413.
+
+\bibitem{BacikVaronka}
+P. Bacik and A. Varonka.
+On the Subspace Orbit Problem and the Simultaneous Skolem Problem.
+arXiv:2601.18349.
+
+\bibitem{Basu}
+S. Basu.
+Algorithms in real algebraic geometry: a survey.
+arXiv:1409.1534.
+
+\bibitem{Bilu}
+Y. Bilu.
+Skolem Problem for linear recurrence sequences with 4 dominant roots, after Mignotte, Shorey, Tijdeman, Vereshchagin and Bacik.
+arXiv:2501.16290.
+
+\bibitem{Schanuel}
+Y. Bilu, F. Luca, J. Nieuwveld, J. Ouaknine, D. Purser, and J. Worrell.
+Skolem meets Schanuel.
+arXiv:2204.13417.
+
+\bibitem{Chonev}
+V. Chonev, J. Ouaknine, and J. Worrell.
+The Orbit Problem in higher dimensions.
+In \emph{Proceedings of LICS 2013}.
+
+\bibitem{ESS}
+J.-H. Evertse, H. P. Schlickewei, and W. M. Schmidt.
+Linear equations in variables which lie in a multiplicative group.
+\emph{Annals of Mathematics} 155 (2002), 807--836.
+
+\bibitem{Jeronimo}
+G. Jeronimo, D. Perrucci, and E. Tsigaridas.
+On the minimum of a polynomial function on a basic closed semialgebraic set and applications.
+arXiv:1112.0544.
+
+\bibitem{KannanLipton}
+R. Kannan and R. Lipton.
+The Orbit Problem is decidable.
+In \emph{Proceedings of STOC 1980}.
+
+\bibitem{Mignotte}
+M. Mignotte, T. N. Shorey, and R. Tijdeman.
+The distance between terms of an algebraic recurrence sequence.
+\emph{Journal fuer die reine und angewandte Mathematik}.
+
+\bibitem{SchlickeweiSchmidt}
+H. P. Schlickewei and W. M. Schmidt.
+The number of solutions of polynomial-exponential equations.
+\emph{Compositio Mathematica} 120 (2000), 193--225.
+
+\bibitem{ShoreyTijdeman}
+T. N. Shorey and R. Tijdeman.
+\emph{Exponential Diophantine Equations}.
+Cambridge University Press, 1986.
+
+\bibitem{Vereshchagin}
+N. K. Vereshchagin.
+The problem of the occurrence of zero in a linear recursive sequence.
+\emph{Mathematical Notes}.
+
+\end{thebibliography}
+
+\end{document}
