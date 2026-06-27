@@ -1,0 +1,668 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.05in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\title{Presentation Incidence and Rank-Invariant Fibres in Multiparameter Persistence}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study a class of finitely generated multiparameter persistence modules whose first relation degrees form an antichain. Let \(R=k[x_1,\ldots,x_d]\), with its standard \(\mathbb N^d\)-grading. Given incomparable degrees \(a_1,\ldots,a_r\), a finite-dimensional vector space \(V\), and labelled subspaces \(L_i\subset V\), define
+\[
+M_{\mathbf L}=
+(R\otimes_k V)\Big/
+\sum_{i=1}^r x^{a_i}R\otimes_k L_i .
+\]
+The antichain condition makes the first relation blocks intrinsic: the construction gives a fully faithful embedding of labelled subspace arrangements into graded \(R\)-modules. The rank invariant, however, records only the active restriction of the span-rank function
+\[
+\pi_{\mathbf L}(S)=\dim_k\sum_{i\in S}L_i
+\]
+to the subsets \(S_b=\{i:a_i\le b\}\) selected by the presentation skeleton. Thus rank-derived invariants factor through an active polymatroid profile, while the presentation still contains the full incidence geometry of the subspace arrangement. Rank-invariant fibres decompose into locally closed presentation strata indexed by representable polymatroids extending the same active profile. In rank one these strata are matroid realization spaces. For a diagonal two-parameter antichain, the active subsets are intervals, so every projective realization space of a loopless realizable matroid occurs as a locally closed presentation stratum inside a single two-parameter rank-invariant fibre. In the coordinate \(r\)-parameter skeleton, rank-invariant fibres are exactly realization strata of representable polymatroids. Finally, finite quiver representation varieties embed into antichain presentation strata, transporting controlled wildness, endomorphism-algebra phenomena, King moduli, and quiver Grassmannian universality into the presentation geometry of multiparameter persistence.
+\end{abstract}
+
+\section{Introduction}
+
+The rank invariant is one of the basic computable invariants of multiparameter persistence. If
+\[
+M=\bigoplus_{b\in\mathbb N^d}M_b
+\]
+is a finitely generated \(\mathbb N^d\)-graded module over
+\[
+R=k[x_1,\ldots,x_d],
+\]
+then its rank invariant is
+\[
+\rho_M(b,c)=\operatorname{rank}_k(M_b\to M_c),
+\qquad b\le c.
+\]
+In one parameter this data is equivalent to the barcode. In several parameters there is no analogous complete discrete invariant, and rank-derived invariants necessarily forget part of the module.
+
+This note isolates a concrete source of that loss of information. The examples are not arbitrary wild modules. They are generated in degree zero and have first relation blocks placed at pairwise incomparable degrees. Such modules are elementary enough that their rank invariant can be written down explicitly, but rich enough to contain subspace arrangement geometry, matroid realization spaces, and quiver representation varieties.
+
+The organizing distinction is:
+\[
+\begin{gathered}
+\text{the presentation contains labelled incidence data,}\\
+\text{the rank invariant records only selected span ranks.}
+\end{gathered}
+\]
+The selected span ranks form an \emph{active polymatroid profile}. This is standard linear-algebraic data: it is the restriction of a representable polymatroid rank function to the subsets that occur as active relation sets in the chosen presentation skeleton.
+
+The point is not merely that multiparameter persistence is wild. The sharper statement is that, already in small antichain presentation families, rank-derived invariants collapse the passage
+\[
+\text{presentation incidence}
+\longrightarrow
+\text{full representable polymatroid}
+\longrightarrow
+\text{active polymatroid profile}.
+\]
+The first arrow forgets projective and incidence geometry while retaining all span ranks. The second arrow forgets all span ranks outside the active range of the skeleton.
+
+\section{Antichain Presentation Modules}
+
+Fix a field \(k\), and let
+\[
+R=k[x_1,\ldots,x_d]
+\]
+with its standard \(\mathbb N^d\)-grading. For \(b=(b_1,\ldots,b_d)\), write
+\[
+x^b=x_1^{b_1}\cdots x_d^{b_d}.
+\]
+The partial order on \(\mathbb N^d\) is coordinatewise:
+\[
+b\le c
+\quad\Longleftrightarrow\quad
+b_i\le c_i\ \text{ for all }i.
+\]
+
+\begin{definition}[Antichain presentation skeleton]
+An antichain presentation skeleton consists of finite data
+\[
+\Sigma=(V;(a_1,m_1),\ldots,(a_r,m_r)),
+\]
+where \(V\) is a finite-dimensional \(k\)-vector space,
+\[
+a_i\in\mathbb N^d\setminus\{0\},
+\qquad
+1\le m_i\le \dim V,
+\]
+and the degrees \(a_1,\ldots,a_r\) are pairwise incomparable:
+\[
+a_i\not\le a_j
+\quad
+\text{for }i\ne j.
+\]
+\end{definition}
+
+Let
+\[
+\mathbf L=(L_1,\ldots,L_r),
+\qquad
+L_i\in\operatorname{Gr}(m_i,V),
+\]
+be a labelled subspace arrangement of type \((m_1,\ldots,m_r)\). Define
+\[
+N_{\mathbf L}
+=
+\sum_{i=1}^r x^{a_i}R\otimes_k L_i
+\subseteq
+R\otimes_k V
+\]
+and
+\[
+M_{\mathbf L}
+=
+(R\otimes_k V)/N_{\mathbf L}.
+\]
+Equivalently, \(M_{\mathbf L}\) has a first presentation
+\[
+\bigoplus_{i=1}^r R(-a_i)\otimes_k L_i
+\longrightarrow
+R\otimes_k V
+\longrightarrow
+M_{\mathbf L}
+\longrightarrow 0,
+\]
+where \(f\otimes \ell\in R(-a_i)\otimes L_i\) is sent to
+\[
+fx^{a_i}\otimes\ell.
+\]
+This first presentation need not be a free resolution of length one. There may be higher syzygies. The antichain condition controls only the minimal degree-zero generators and the first relation blocks.
+
+\section{Fully Faithful Embedding}
+
+Let \(\mathsf{Arr}_r\) be the category of labelled subspace arrangements. An object is a pair
+\[
+(V;L_1,\ldots,L_r),
+\]
+and a morphism
+\[
+(V;\mathbf L)\to(W;\mathbf K)
+\]
+is a linear map
+\[
+T:V\to W
+\]
+such that
+\[
+T(L_i)\subseteq K_i
+\qquad
+\text{for every }i.
+\]
+
+The assignment
+\[
+(V;\mathbf L)\longmapsto M_{\mathbf L}
+\]
+is functorial: a map \(T\) of arrangements induces \(R\otimes V\to R\otimes W\), sends \(N_{\mathbf L}\) into \(N_{\mathbf K}\), and therefore descends to \(M_{\mathbf L}\to M_{\mathbf K}\).
+
+\begin{theorem}[Fully faithful antichain embedding]
+Let \(a_1,\ldots,a_r\in\mathbb N^d\setminus\{0\}\) be an antichain. For labelled subspace arrangements \((V;\mathbf L)\) and \((W;\mathbf K)\), the natural map
+\[
+\operatorname{Hom}_{\mathsf{Arr}_r}((V;\mathbf L),(W;\mathbf K))
+\longrightarrow
+\operatorname{Hom}_{R\text{-gr}}(M_{\mathbf L},M_{\mathbf K})
+\]
+is a bijection. Equivalently,
+\[
+\operatorname{Hom}_{R\text{-gr}}(M_{\mathbf L},M_{\mathbf K})
+\cong
+\{T:V\to W: T(L_i)\subseteq K_i\text{ for all }i\}.
+\]
+\end{theorem}
+
+\begin{proof}
+Since all \(a_i\) are nonzero, \((M_{\mathbf L})_0\cong V\). Since \(M_{\mathbf L}\) is generated in degree zero, every graded \(R\)-module morphism
+\[
+F:M_{\mathbf L}\to M_{\mathbf K}
+\]
+is determined by its degree-zero component \(T=F_0:V\to W\).
+
+The map \(T\) descends if and only if the induced \(R\)-linear map \(R\otimes V\to R\otimes W\) sends \(N_{\mathbf L}\) into \(N_{\mathbf K}\). If \(T(L_i)\subseteq K_i\) for every \(i\), then
+\[
+x^{a_i}R\otimes T(L_i)
+\subseteq
+x^{a_i}R\otimes K_i
+\subseteq
+N_{\mathbf K},
+\]
+so \(T\) descends.
+
+Conversely, assume \(T\) descends. Fix \(i\) and \(\ell\in L_i\). Then \(x^{a_i}\otimes \ell\in N_{\mathbf L}\), hence
+\[
+x^{a_i}\otimes T(\ell)\in (N_{\mathbf K})_{a_i}.
+\]
+In degree \(a_i\), the only relation blocks that can contribute are those with \(a_j\le a_i\). Since the \(a_j\) form an antichain, this forces \(j=i\). Therefore \(T(\ell)\in K_i\). Thus \(T(L_i)\subseteq K_i\), as required.
+\end{proof}
+
+\begin{corollary}[Isomorphism classification]
+Under the hypotheses of the theorem,
+\[
+M_{\mathbf L}\simeq M_{\mathbf K}
+\]
+if and only if there is a linear isomorphism \(g:V\to W\) such that
+\[
+g(L_i)=K_i
+\qquad
+\text{for every }i.
+\]
+For a fixed \(V\), the natural unrigidified moduli stack of modules in this presentation family is
+\[
+\left[
+\prod_i \operatorname{Gr}(m_i,V)/GL(V)
+\right].
+\]
+The quotient by \(PGL(V)\) describes the rigidified or coarse projective classification, not the unrigidified module stack.
+\end{corollary}
+
+\section{The Active Polymatroid Profile}
+
+For a subspace arrangement \(\mathbf L=(L_1,\ldots,L_r)\) in \(V\), define its span-rank function
+\[
+\pi_{\mathbf L}:2^{[r]}\to\mathbb N
+\]
+by
+\[
+\pi_{\mathbf L}(S)=
+\dim_k\sum_{i\in S}L_i.
+\]
+This is a representable polymatroid rank function.
+
+For a presentation skeleton \(\Sigma=(a_1,\ldots,a_r)\), define the active set at \(b\in\mathbb N^d\) by
+\[
+S_b=\{i:a_i\le b\}.
+\]
+The active range is
+\[
+\mathcal A_\Sigma=\{S_b:b\in\mathbb N^d\}
+\subseteq
+2^{[r]}.
+\]
+
+\begin{definition}[Active polymatroid profile]
+The active polymatroid profile of \(\mathbf L\) with respect to \(\Sigma\) is the restriction
+\[
+\pi_{\mathbf L}\vert_{\mathcal A_\Sigma}.
+\]
+\end{definition}
+
+\begin{theorem}[Rank formula]
+Let \(M_{\mathbf L}\) be an antichain presentation module. For every \(b\in\mathbb N^d\),
+\[
+(M_{\mathbf L})_b
+\cong
+V\Big/\sum_{i\in S_b}L_i.
+\]
+If \(b\le c\), the structure map
+\[
+(M_{\mathbf L})_b\to (M_{\mathbf L})_c
+\]
+is the quotient map
+\[
+V/\sum_{i\in S_b}L_i
+\longrightarrow
+V/\sum_{i\in S_c}L_i.
+\]
+Consequently,
+\[
+\rho_{M_{\mathbf L}}(b,c)
+=
+\dim V-\pi_{\mathbf L}(S_c).
+\]
+Thus, on this antichain presentation family, the rank invariant is determined by the active polymatroid profile.
+\end{theorem}
+
+\begin{proof}
+The degree \(b\) part of \(R\otimes V\) is \(x^b\otimes V\), canonically identified with \(V\). The degree \(b\) part of \(N_{\mathbf L}\) is the sum of the blocks \(x^b\otimes L_i\) for which \(a_i\le b\). Therefore
+\[
+(M_{\mathbf L})_b
+\cong
+V/\sum_{i\in S_b}L_i.
+\]
+If \(b\le c\), multiplication by \(x^{c-b}\) identifies the structure map with the quotient map from the smaller active sum to the larger active sum. Since \(S_b\subseteq S_c\), that quotient map is surjective, and its rank is
+\[
+\dim V-\dim\sum_{i\in S_c}L_i.
+\]
+\end{proof}
+
+\begin{corollary}[Rank-derived invariants]
+Any invariant that factors through the rank invariant is constant on pairs of antichain presentation modules with the same active polymatroid profile.
+\end{corollary}
+
+\section{Rank-Fibre Strata}
+
+Fix \(V\), dimensions \(m_i\), and a skeleton \(\Sigma\). The presentation parameter space is
+\[
+X_\Sigma(V,\mathbf m)
+=
+\prod_{i=1}^r\operatorname{Gr}(m_i,V).
+\]
+
+For any function \(\pi:2^{[r]}\to\mathbb N\), define
+\[
+X_\pi
+=
+\{\mathbf L\in X_\Sigma(V,\mathbf m):
+\pi_{\mathbf L}(S)=\pi(S)\text{ for every }S\subseteq[r]\}.
+\]
+When nonempty, \(X_\pi\) is a locally closed subspace-arrangement stratum. Indeed, conditions of the form
+\[
+\dim\sum_{i\in S}L_i\le q
+\]
+are closed rank conditions, and equality is obtained by subtracting adjacent closed conditions.
+
+For a function \(\sigma:\mathcal A_\Sigma\to\mathbb N\), define the skeletal rank fibre
+\[
+X_\sigma
+=
+\{\mathbf L\in X_\Sigma(V,\mathbf m):
+\pi_{\mathbf L}(A)=\sigma(A)\text{ for every }A\in\mathcal A_\Sigma\}.
+\]
+
+\begin{theorem}[Rank-fibre decomposition]
+The skeletal rank fibre decomposes as
+\[
+X_\sigma
+=
+\bigsqcup_{\pi\vert_{\mathcal A_\Sigma}=\sigma}
+X_\pi,
+\]
+where the union ranges over representable polymatroid rank functions arising from subspace arrangements of type \(\mathbf m\) in \(V\).
+\end{theorem}
+
+\begin{proof}
+Every arrangement \(\mathbf L\) has a full span-rank function \(\pi_{\mathbf L}\). By the rank formula, the rank invariant of \(M_{\mathbf L}\) in the skeleton \(\Sigma\) depends exactly on \(\pi_{\mathbf L}\vert_{\mathcal A_\Sigma}\). Therefore the locus with fixed active profile \(\sigma\) is the disjoint union of the loci with full profile \(\pi\) restricting to \(\sigma\).
+\end{proof}
+
+This separates three levels of information:
+\[
+\text{presentation incidence}
+\longrightarrow
+\text{full representable polymatroid}
+\longrightarrow
+\text{active polymatroid profile}.
+\]
+The rank invariant occupies the last level.
+
+\section{Rank-One Arrangements and Matroid Realization Spaces}
+
+Assume \(m_i=1\) for all \(i\), so that
+\[
+L_i=kv_i
+\]
+is a labelled line in \(V\). The span-rank function
+\[
+S\longmapsto \dim\sum_{i\in S}L_i
+\]
+is the rank function of the represented matroid on \([r]\), after removing loops if necessary.
+
+\begin{theorem}[Matroid realization strata]
+Let \(\mathcal M\) be a loopless matroid on \([r]\) representable over \(k\). In the rank-one antichain presentation family, the locus of arrangements whose represented matroid is \(\mathcal M\) is exactly the labelled realization stratum of \(\mathcal M\). Its image under \(\mathbf L\mapsto M_{\mathbf L}\) is a locally closed presentation stratum of multiparameter persistence modules.
+\end{theorem}
+
+\begin{proof}
+In rank one, specifying all values of \(\pi_{\mathbf L}(S)\) is the same as specifying the represented matroid. The fully faithful embedding identifies isomorphisms of the associated modules with linear isomorphisms carrying each labelled line to the corresponding labelled line. Passing to a projective quotient gives the usual projective realization space.
+\end{proof}
+
+\begin{example}[Cross-ratio]
+For four labelled points on \(\mathbb P^1\), the uniform matroid \(U_{2,4}\) fixes all matroid ranks but not the cross-ratio. Thus the corresponding rank-derived data can be constant while the presentation-incidence stratum varies in a one-parameter projective family.
+\end{example}
+
+\section{Diagonal Two-Parameter Skeletons}
+
+Let \(d=2\) and choose the diagonal antichain
+\[
+a_i=(r-i,i-1),
+\qquad
+i=1,\ldots,r.
+\]
+For \(b=(p,q)\in\mathbb N^2\), the active set is
+\[
+S_b
+=
+\{i:r-i\le p,\ i-1\le q\}.
+\]
+Equivalently,
+\[
+S_b=[r-p,q+1]\cap [r],
+\]
+with the convention that the interval may be empty.
+
+\begin{lemma}[Active sets are intervals]
+For the diagonal two-parameter skeleton, the active subsets are exactly the intervals in \([r]\), including the empty interval.
+\end{lemma}
+
+\begin{proof}
+The inequalities \(r-i\le p\) and \(i-1\le q\) are equivalent to
+\[
+i\ge r-p,
+\qquad
+i\le q+1.
+\]
+Thus \(S_b\) is an interval. Conversely, every interval \([u,v]\subseteq[r]\) is obtained by choosing \(p=r-u\) and \(q=v-1\), with empty intervals obtained by incompatible choices.
+\end{proof}
+
+\begin{theorem}[Matroid strata inside two-parameter rank fibres]
+Let \(\mathcal M\) be a loopless matroid on \([r]\) representable over \(k\). In the rank-one diagonal two-parameter skeleton, the projective realization space of \(\mathcal M\) occurs as a locally closed presentation stratum inside a single rank-invariant fibre.
+\end{theorem}
+
+\begin{proof}
+By the lemma, the rank invariant sees only interval values of the matroid rank function:
+\[
+\rho_{M_{\mathbf L}}(b,c)
+=
+\dim V-\operatorname{rk}_{\mathcal M}(S_c),
+\]
+where \(S_c\) is the interval active at \(c\). These interval ranks are fixed on the realization stratum of \(\mathcal M\). Hence all presentations representing \(\mathcal M\) lie in one rank-invariant fibre. The previous theorem identifies the presentation stratum with the corresponding realization stratum.
+\end{proof}
+
+\begin{remark}
+This does not say that an entire two-parameter rank-invariant fibre is a matroid realization space. The fibre may contain several locally closed strata, corresponding to different polymatroids or matroids with the same interval-rank data.
+\end{remark}
+
+\section{Coordinate Skeletons and Inverse Obstructions}
+
+Now let \(d=r\) and choose
+\[
+a_i=e_i,
+\qquad
+i=1,\ldots,r.
+\]
+Then every subset \(S\subseteq[r]\) occurs as an active set: take
+\[
+b_S=\sum_{i\in S}e_i.
+\]
+
+\begin{theorem}[Exact polymatroid fibre theorem]
+In the coordinate \(r\)-parameter antichain skeleton, the rank invariant of \(M_{\mathbf L}\) determines and is determined by the full representable polymatroid
+\[
+S\longmapsto \dim\sum_{i\in S}L_i.
+\]
+Consequently, rank-invariant fibres in this fixed skeleton are exactly realization strata of representable polymatroids. In rank one, they are exactly matroid realization strata.
+\end{theorem}
+
+\begin{proof}
+Since every subset is active, the active polymatroid profile is the full span-rank function. The rank formula gives
+\[
+\pi_{\mathbf L}(S)
+=
+\dim V-\rho_{M_{\mathbf L}}(0,b_S).
+\]
+Thus the rank invariant and the full polymatroid determine one another.
+\end{proof}
+
+This gives inverse obstructions for skeletal rank data. A candidate rank invariant in the coordinate skeleton determines a candidate function
+\[
+\pi(S)=\dim V-\rho(0,b_S).
+\]
+If \(\rho\) is realized by such a module, then \(\pi\) must be a representable polymatroid rank function over \(k\). Hence every linear rank inequality valid for representable subspace arrangements over \(k\) becomes a necessary condition for inverse realization of skeletal persistence rank data.
+
+\begin{corollary}[Computational lower bounds for inverse rank-realizability]
+Over \(\mathbb R\), the skeletal rank-fibre nonemptiness problem in the coordinate rank-one skeleton contains real matroid representability. In formulations where real matroid representability is \(\exists\mathbb R\)-complete, this inverse persistence problem is \(\exists\mathbb R\)-hard.
+\end{corollary}
+
+\begin{corollary}[Subspace-valued undecidability]
+If the common dimension \(c=\dim L_i\) is allowed to vary, the coordinate skeletal inverse rank-fibre problem contains the undecidable problem of matroid representability by \(c\)-arrangements. Thus no general decision procedure exists in that level of generality.
+\end{corollary}
+
+\section{Presentation Incidence}
+
+The rank invariant forgets incidence data. The antichain presentation itself recovers it.
+
+\begin{definition}[Presentation incidence]
+For an antichain presentation module \(M_{\mathbf L}\), define
+\[
+\operatorname{PInc}(M_{\mathbf L})
+=
+\left(M_0;K_1,\ldots,K_r\right),
+\]
+where
+\[
+K_i=\ker(M_0\to M_{a_i}).
+\]
+\end{definition}
+
+Because the degrees \(a_i\) form an antichain, no other relation block contributes in degree \(a_i\). Therefore
+\[
+K_i=L_i.
+\]
+Thus \(\operatorname{PInc}\) recovers the labelled subspace arrangement.
+
+\begin{definition}[Presentation polymatroid]
+The presentation polymatroid of \(M_{\mathbf L}\) is
+\[
+\operatorname{PPoly}_{M_{\mathbf L}}(S)
+=
+\dim\sum_{i\in S}K_i.
+\]
+\end{definition}
+
+The rank invariant recovers only the active restriction of this function:
+\[
+\rho_{M_{\mathbf L}}(b,c)
+=
+\dim M_0-\operatorname{PPoly}_{M_{\mathbf L}}(S_c).
+\]
+
+\begin{corollary}[Completeness on antichain presentation families]
+On a fixed antichain presentation family, presentation incidence is a complete structural invariant: two modules \(M_{\mathbf L}\) and \(M_{\mathbf K}\) are isomorphic if and only if their presentation-incidence data are isomorphic as labelled subspace arrangements.
+\end{corollary}
+
+\section{Quiver Representation Geometry}
+
+The preceding construction also contains ordinary quiver representation geometry.
+
+Let \(Q=(Q_0,Q_1)\) be a finite quiver and let \(X\) be a representation with vector spaces \(X_v\) and arrow maps
+\[
+\phi_a:X_{s(a)}\to X_{t(a)}.
+\]
+Set
+\[
+V_X=\bigoplus_{v\in Q_0}X_v.
+\]
+Inside \(V_X\), record the coordinate subspaces
+\[
+C_v=X_v
+\]
+and, for each arrow \(a:u\to v\), the graph subspace
+\[
+\Gamma_a=\{x+\phi_a(x):x\in X_u\}
+\subseteq C_u\oplus C_v
+\subseteq V_X.
+\]
+
+\begin{proposition}[Quiver representations as subspace arrangements]
+The assignment
+\[
+X\longmapsto (V_X;\{C_v\}_{v\in Q_0},\{\Gamma_a\}_{a\in Q_1})
+\]
+is fully faithful from the category of representations of \(Q\) with fixed dimension vector into a category of labelled subspace arrangements with fixed dimensions.
+\end{proposition}
+
+\begin{proof}
+A linear map preserving all coordinate subspaces decomposes as a direct sum
+\[
+T=\bigoplus_{v\in Q_0}T_v.
+\]
+Preserving the graph \(\Gamma_a\) for an arrow \(a:u\to v\) is equivalent to
+\[
+T_v\phi_a=\psi_a T_u,
+\]
+which is precisely the condition for a morphism of quiver representations.
+\end{proof}
+
+Composing this with the fully faithful antichain embedding gives:
+
+\begin{theorem}[Quiver representation embedding]
+For every finite quiver \(Q\), every fixed dimension vector, and every antichain with enough relation degrees to label the coordinate and graph subspaces above, the corresponding quiver representation variety embeds as a locally closed presentation stratum of finitely generated multiparameter persistence modules.
+\end{theorem}
+
+Consequences can be transported along this embedding. Wild quivers give controlled wildness inside antichain presentation families. Bound quiver algebras give prescribed endomorphism algebras. King semistable loci and their GIT quotients become stability loci and moduli spaces inside presentation strata. Quiver Grassmannians become presentation incidence Grassmannians.
+
+\begin{remark}
+These are statements about presentation strata, not automatically about entire rank-invariant fibres. Rank-derived invariants see only the active polymatroid profile of the graph arrangement. The representation-theoretic geometry lives in the finer presentation-incidence layer.
+\end{remark}
+
+\section{Universality and Scope}
+
+The matroid and quiver embeddings give several consequences.
+
+\begin{enumerate}[label=(\roman*)]
+\item Mn\"ev-type universality for oriented matroid realization spaces gives semialgebraic universality inside locally closed presentation strata contained in two-parameter rank-invariant fibres.
+\item Scheme-theoretic incidence universality for points and lines gives Murphy-type behaviour for presentation-incidence strata.
+\item Reineke's theorem that every projective variety is a quiver Grassmannian gives projective universality for presentation-incidence Grassmannians.
+\item Real matroid representability gives \(\exists\mathbb R\)-hard inverse skeletal rank-realizability problems.
+\item \(c\)-arrangement representability gives undecidable inverse problems when the common subspace dimension is allowed to vary.
+\end{enumerate}
+
+The scope is precise. The objects here are algebraic multiparameter persistence modules, equivalently finitely generated multigraded modules over polynomial rings. The antichain presentation modules have minimal degree-zero generators and minimal first relation blocks, but may have higher syzygies. The two-parameter theorem produces locally closed presentation strata inside rank-invariant fibres; it does not identify whole two-parameter fibres with matroid realization spaces. The exact fibre theorem holds in the coordinate \(r\)-parameter skeleton. Finally, presentation incidence is a structural invariant; its stability properties are not addressed here.
+
+\section*{References}
+
+\begin{thebibliography}{99}
+
+\bibitem{CZ09}
+G. Carlsson and A. Zomorodian,
+\emph{The theory of multidimensional persistence},
+Discrete \& Computational Geometry 42 (2009), 71--93.
+
+\bibitem{LW22}
+M. Lesnick and M. Wright,
+\emph{Computing minimal presentations and bigraded Betti numbers of 2-parameter persistent homology},
+SIAM Journal on Applied Algebra and Geometry 6 (2022), no. 2, 267--298.
+
+\bibitem{HOST19}
+H. A. Harrington, N. Otter, H. Schenck, and U. Tillmann,
+\emph{Stratifying multiparameter persistent homology},
+SIAM Journal on Applied Algebra and Geometry 3 (2019), no. 3, 439--471.
+
+\bibitem{King94}
+A. D. King,
+\emph{Moduli of representations of finite-dimensional algebras},
+Quarterly Journal of Mathematics 45 (1994), 515--530.
+
+\bibitem{Reineke13}
+M. Reineke,
+\emph{Every projective variety is a quiver Grassmannian},
+Algebras and Representation Theory 16 (2013), 1313--1314.
+
+\bibitem{Mnev88}
+N. E. Mn\"ev,
+\emph{The universality theorems on the classification problem of configuration varieties and convex polytopes varieties},
+in \emph{Topology and Geometry--Rohlin Seminar}, Lecture Notes in Mathematics 1346, Springer, 1988, 527--543.
+
+\bibitem{Sturmfels87}
+B. Sturmfels,
+\emph{On the decidability of Diophantine problems in combinatorial geometry},
+Bulletin of the American Mathematical Society 17 (1987), no. 1, 121--124.
+
+\bibitem{RichterGebert96}
+J. Richter-Gebert,
+\emph{Realization Spaces of Polytopes},
+Lecture Notes in Mathematics 1643, Springer, 1996.
+
+\bibitem{Vakil06}
+R. Vakil,
+\emph{Murphy's law in algebraic geometry: badly-behaved deformation spaces},
+Inventiones Mathematicae 164 (2006), 569--590.
+
+\bibitem{LeeVakil13}
+S. H. Lee and R. Vakil,
+\emph{Mn\"ev--Sturmfels universality for schemes},
+in \emph{A Celebration of Algebraic Geometry}, Clay Mathematics Proceedings 18, American Mathematical Society, 2013, 457--468.
+
+\bibitem{KMM24}
+E. J. Kim, A. de Mesmay, and T. Miltzow,
+\emph{Representing matroids over the reals is \(\exists\mathbb R\)-complete},
+Discrete Mathematics \& Theoretical Computer Science 26 (2024), no. 1.
+
+\bibitem{KY22}
+L. K\"uhne and G. Yashfe,
+\emph{Representability of matroids by \(c\)-arrangements is undecidable},
+Israel Journal of Mathematics 247 (2022), 107--134.
+
+\bibitem{Kinser11}
+R. Kinser,
+\emph{New inequalities for subspace arrangements},
+Journal of Combinatorial Theory, Series A 118 (2011), 152--161.
+
+\end{thebibliography}
+
+\end{document}
