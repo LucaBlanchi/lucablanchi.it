@@ -1,0 +1,8627 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\setlist{nosep}
+\sloppy
+
+\title{Atlante dei Transfer Packages Controllati}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+
+\begin{abstract}
+Questo addendum raccoglie un atlante operativo di transfer packages per Presentation Theory. Non e' formulato come una sequenza di nuovi teoremi chiusi, ma come una mappa riutilizzabile di contesti, descrizioni, osservabili, dati di verifica, fibre, scale e funzioni di overhead. Ogni rete indica quali oggetti dovrebbero essere confrontati, quali osservabili vanno tirati indietro o spinti avanti, quali dati di verifica devono restare controllabili, e quale geometria delle fibre misura la perdita informativa. Lo scopo e' fornire un repertorio completo di schemi da cui estrarre, in lavori successivi, teoremi di trasporto con ipotesi e budget espliciti.
+\end{abstract}
+
+\section{Status e guida di lettura}
+L'atlante va letto come un documento fondazionale di supporto. Una freccia tra due teorie non afferma automaticamente l'esistenza di un'equivalenza o di un risultato di trasferimento completo: registra invece il tipo di compilatore, pullback osservazionale, dato di verifica, fibra e overhead che bisognerebbe controllare per ottenere un teorema. In questo senso l'oggetto centrale non e' la traduzione informale tra domini, ma il pacchetto controllato di accesso all'informazione.
+
+Per ogni rete si devono distinguere tre livelli. Il primo e' descrittivo: individua contesti gia' naturalmente collegati nella pratica matematica. Il secondo e' formale: specifica quali mappe tra descrizioni, osservabili, dati di verifica e fibre dovrebbero entrare nel package. Il terzo e' dimostrativo: richiede stime effettive sugli overhead e condizioni di stabilita'. Solo il terzo livello produce un teorema autonomo; i primi due servono come grammatica per formularlo senza perdere i budget.
+
+La terminologia usata qui segue la versione corrente della teoria: gli osservabili sono le funzioni, invarianti o procedure che misurano un oggetto attraverso un canale dichiarato; i profili osservabili sono le immagini finite o parziali prodotte da tali canali; i dati di verifica sono le informazioni controllabili che permettono di giustificare una proprieta' nel source o nel target; le fibre sono classi di oggetti indistinguibili rispetto a un profilo fissato. Le funzioni di overhead misurano quanto crescono dimensione descrittiva, costo osservazionale, costo di verifica e costo di navigazione nelle fibre sotto trasporto.
+
+\section{Grammatica comune dell'atlante}
+
+\subsection{Contesti presentazionali}
+
+Un nodo dell'atlante non è solo una teoria (T), ma una teoria equipaggiata con una struttura di accesso:
+
+\[
+\mathfrak P=
+(\mathcal X,\Gamma,\mathfrak O,\Sigma,\mathfrak V,\mathfrak F,\mathfrak M).
+\]
+
+Dove:
+
+\[
+\mathcal X
+\]
+
+è la classe degli oggetti.
+
+\[
+\Gamma=(\mathcal D,\rho,\kappa)
+\]
+
+è il sistema di presentazione: descrizioni, realizzazione e costo.
+
+\[
+\mathfrak O
+\]
+
+è il sistema degli osservabili.
+
+\[
+\Sigma
+\]
+
+è la struttura operazionale: somme, prodotti, composizioni, limiti, gluing, mutazioni, evoluzioni.
+
+\[
+\mathfrak V
+\]
+
+è il sistema dei dati di verifica.
+
+\[
+\mathfrak F
+\]
+
+è la geometria delle fibre.
+
+\[
+\mathfrak M
+\]
+
+è l'eventuale struttura di misura, densità, probabilità o distribuzione sugli oggetti.
+
+La complessità di un oggetto non è una proprietà assoluta. È relativa a:
+
+\[
+\text{come l'oggetto è descritto}
+\]
+
+\[
+\text{come l'oggetto è osservato}
+\]
+
+\[
+\text{come l'oggetto è verificato}
+\]
+
+\[
+\text{come ci si muove tra descrizioni equivalenti.}
+\]
+
+\medskip
+
+
+\subsection{Transfer package}
+
+Un transfer package da un contesto \(\mathfrak P_A\) a un contesto \(\mathfrak P_B\) è indicato con:
+
+\[
+\mathfrak T:A\longrightarrow B.
+\]
+
+La forma ideale contiene:
+
+\[
+(F,\widehat F,F^\ast,\Sigma,V,\Phi,\mu).
+\]
+
+Dove:
+
+\[
+F:\mathcal X_A\to\mathcal X_B
+\]
+
+trasporta oggetti.
+
+\[
+\widehat F:\mathcal D_A\to\mathcal D_B
+\]
+
+compila descrizioni.
+
+\[
+F^\ast:\mathfrak O_B\to\mathfrak O_A
+\]
+
+tira indietro osservabili.
+
+\[
+\Sigma
+\]
+
+controlla il comportamento rispetto alle operazioni.
+
+\[
+V
+\]
+
+trasporta dati di verifica.
+
+\[
+\Phi
+\]
+
+controlla fibre, mosse e bridge profiles.
+
+\[
+\mu
+\]
+
+trasporta misure, densità, distribuzioni o limiti probabilistici.
+
+Il transfer package porta un vettore di overhead:
+
+\[
+\mathbf f_{\mathfrak T}=
+(f_{\mathrm{pres}},
+f_{\mathrm{obs}},
+f_{\mathrm{op}},
+f_{\mathrm{ver}},
+f_{\mathrm{fib}},
+f_{\mathrm{meas}},
+f_{\mathrm{lim}},
+f_{\mathrm{reg}},
+f_{\mathrm{scale}}).
+\]
+
+Non esiste un solo costo. Esistono molti costi.
+
+\medskip
+
+
+\subsection{Risorse fondamentali}
+
+Useremo queste risorse:
+
+\[
+P=\text{costo presentazionale}
+\]
+
+\[
+O=\text{costo osservazionale}
+\]
+
+\[
+V=\text{costo di verifica}
+\]
+
+\[
+B=\text{costo di navigazione nella fibra}
+\]
+
+\[
+M=\text{costo metrico, probabilistico o misurale}
+\]
+
+\[
+R=\text{regolarità}
+\]
+
+\[
+S=\text{scala}
+\]
+
+\[
+\varepsilon=\text{precisione}
+\]
+
+\[
+T=\text{tempo di osservazione}
+\]
+
+\[
+\Lambda=\text{cutoff frequenziale o spettrale}
+\]
+
+\[
+d=\text{grado}
+\]
+
+\[
+q=\text{quantifier rank}
+\]
+
+\[
+n=\text{dimensione, taglia, numero di campioni o numero di stati.}
+\]
+
+\medskip
+
+
+\subsection{Principi generali}
+
+\subsection*{Principio 1: non si trasporta l'oggetto, si trasporta l'accesso}
+
+\[
+\boxed{
+\text{una mappa trasporta oggetti; un transfer package trasporta accesso agli oggetti.}
+}
+\]
+
+Una riduzione ordinaria dice:
+
+\[
+x\mapsto F(x).
+\]
+
+Un transfer package dice:
+
+\[
+\text{descrizioni di }x
+\mapsto
+\text{descrizioni di }F(x),
+\]
+
+\[
+\text{osservabili su }F(x)
+\mapsto
+\text{osservabili su }x,
+\]
+
+\[
+\text{dati di verifica nel target}
+\mapsto
+\text{dati di verifica nel source},
+\]
+
+\[
+\text{fibre del target}
+\leftrightarrow
+\text{fibre del source.}
+\]
+
+\medskip
+
+
+\subsection*{Principio 2: ogni osservazione limitata induce fibre}
+
+Dato un osservabile o una famiglia di osservabili limitati:
+
+\[
+\mathcal O_{\le r},
+\]
+
+si ottiene una partizione:
+
+\[
+x\sim_r y
+\quad\Longleftrightarrow\quad
+O(x)=O(y)
+\text{ per ogni } O\in\mathcal O_{\le r}.
+\]
+
+La complessità nascosta vive nelle classi:
+
+\[
+[x]_r.
+\]
+
+Quindi:
+
+\[
+\boxed{
+\text{la geometria delle fibre è la geometria dell'informazione dimenticata.}
+}
+\]
+
+\medskip
+
+
+\subsection*{Principio 3: i transfer packages compongono}
+
+Se:
+
+\[
+A\xrightarrow{\mathfrak T}B\xrightarrow{\mathfrak S}C,
+\]
+
+allora:
+
+\[
+A\xrightarrow{\mathfrak S\circ\mathfrak T}C.
+\]
+
+Gli overhead compongono:
+
+\[
+f_{\mathfrak S\circ\mathfrak T}
+\le
+f_{\mathfrak S}\circ f_{\mathfrak T}.
+\]
+
+Questo produce \textbf{grafi di trasporto}.
+
+\medskip
+
+
+\subsection*{Principio 4: Morita con budget}
+
+Due teorie possono essere considerate equivalenti non assolutamente, ma fino a una classe di overhead \(\mathcal H\):
+
+\[
+A\simeq_{\mathcal H}B.
+\]
+
+Questo significa che esistono pacchetti in entrambe le direzioni:
+
+\[
+A\to B,
+\qquad
+B\to A,
+\]
+
+le cui composizioni sono equivalenti all'identità con overhead controllato.
+
+Questa è una \textbf{Morita theory quantitativa}.
+
+\medskip
+
+
+\subsection*{Principio 5: ogni teoria ha molte profili osservabili}
+
+Ogni teoria produce molte profili osservabili:
+
+\[
+\text{spettri}
+\]
+
+\[
+\text{momenti}
+\]
+
+\[
+\text{entropie}
+\]
+
+\[
+\text{coomologie}
+\]
+
+\[
+\text{quozienti finiti}
+\]
+
+\[
+\text{troncamenti}
+\]
+
+\[
+\text{campionamenti}
+\]
+
+\[
+\text{invarianti}
+\]
+
+\[
+\text{categorie}
+\]
+
+\[
+\text{operatori}
+\]
+
+\[
+\text{kernel}
+\]
+
+\[
+\text{tensori}.
+\]
+
+Il compito dell'atlante è misurare il costo di passare da un profilo osservabile all'altro.
+
+\medskip
+
+
+\section{I grandi hub trasversali}
+
+L'atlante è enorme, ma molti archi passano attraverso pochi hub universali.
+
+\medskip
+
+
+\subsection{Hub degli osservabili}
+
+\[
+\mathcal O(\mathcal X)
+\]
+
+è l'algebra, categoria o sistema degli osservabili di una teoria.
+
+Ogni oggetto dà una valutazione:
+
+\[
+x\mapsto \operatorname{ev}_x:\mathcal O(\mathcal X)\to A.
+\]
+
+Ogni mappa:
+
+\[
+F:\mathcal X\to\mathcal Y
+\]
+
+induce un pullback:
+
+\[
+F^\ast:\mathcal O(\mathcal Y)\to\mathcal O(\mathcal X).
+\]
+
+Questo è il cuore controvariante della teoria del trasporto.
+
+\medskip
+
+
+\subsection{Hub delle fibre}
+
+Ogni mappa osservazionale:
+
+\[
+F:\mathcal X\to\mathcal Y
+\]
+
+produce fibre:
+
+\[
+F^{-1}(y).
+\]
+
+Le fibre vanno studiate con:
+
+\[
+\text{mosse}
+\]
+
+\[
+\text{bridge profiles}
+\]
+
+\[
+\text{diametri}
+\]
+
+\[
+\text{mixing}
+\]
+
+\[
+\text{singolarità}
+\]
+
+\[
+\text{moduli}
+\]
+
+\[
+\text{probabilità interne}
+\]
+
+\[
+\text{algoritmi di navigazione.}
+\]
+
+Esempi universali:
+
+\[
+\text{funzioni con stessi coefficienti Fourier bassi}
+\]
+
+\[
+\text{domini con stessi primi autovalori}
+\]
+
+\[
+\text{metriche con stesso heat trace troncato}
+\]
+
+\[
+\text{PDE con stessi dati input-output}
+\]
+
+\[
+\text{reti neurali che rappresentano la stessa funzione}
+\]
+
+\[
+\text{distribuzioni con stessi momenti}
+\]
+
+\[
+\text{grafi con stessi sottografi piccoli}
+\]
+
+\[
+\text{strutture con stessa teoria logica fino a quantifier rank }q.
+\]
+
+\medskip
+
+
+\subsection{Hub degli operatori}
+
+Molte teorie si trasportano in operatori:
+
+\[
+X\mapsto T_X.
+\]
+
+Esempi:
+
+\[
+M\mapsto \Delta_M
+\]
+
+\[
+G\mapsto L_G
+\]
+
+\[
+T:X\to X\mapsto U_T
+\]
+
+\[
+\text{Markov process}\mapsto L
+\]
+
+\[
+\text{kernel }K(x,y)\mapsto T_K
+\]
+
+\[
+\text{PDE}\mapsto P(x,D).
+\]
+
+Poi:
+
+\[
+T\mapsto \operatorname{Spec}(T),
+\]
+
+\[
+T\mapsto e^{tT},
+\]
+
+\[
+T\mapsto (z-T)^{-1},
+\]
+
+\[
+T\mapsto \operatorname{Tr}(e^{-tT}).
+\]
+
+\medskip
+
+
+\subsection{Hub dei kernel}
+
+\[
+K(x,y)
+\]
+
+compare in:
+
+\[
+\text{PDE}
+\]
+
+\[
+\text{machine learning}
+\]
+
+\[
+\text{operator theory}
+\]
+
+\[
+\text{probabilità}
+\]
+
+\[
+\text{graph limits}
+\]
+
+\[
+\text{quantum mechanics}
+\]
+
+\[
+\text{integral geometry}.
+\]
+
+Schema:
+
+\[
+\begin{gathered}
+\text{oggetto} \to \text{kernel} \to \text{operatore} \to \text{spettro} \\
+\to \text{features}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{Hub spettrale}
+
+\[
+\operatorname{Spec}
+\]
+
+collega:
+
+\[
+\text{grafi}
+\]
+
+\[
+\text{varietà}
+\]
+
+\[
+\text{operatori}
+\]
+
+\[
+\text{dinamica}
+\]
+
+\[
+\text{meccanica quantistica}
+\]
+
+\[
+\text{forme automorfe}
+\]
+
+\[
+\text{zeta functions}
+\]
+
+\[
+\text{trace formulas}.
+\]
+
+Schema:
+
+\[
+\begin{gathered}
+\text{oggetto} \to \text{operatore} \to \text{spettro} \to \text{zeta/trace} \\
+\to \text{aritmetica o geometria}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{Hub dei momenti}
+
+\[
+m_\alpha=\int x^\alpha,d\mu.
+\]
+
+I momenti collegano:
+
+\[
+\text{probabilità}
+\]
+
+\[
+\text{statistica}
+\]
+
+\[
+\text{SDP}
+\]
+
+\[
+\text{operator algebras}
+\]
+
+\[
+\text{quantum correlations}
+\]
+
+\[
+\text{inverse problems}.
+\]
+
+Schema:
+
+\[
+\begin{gathered}
+\text{oggetto} \to \text{momenti} \to \text{semidefinite relaxation} \to \text{dato di verifica}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{Hub entropico}
+
+\[
+H,\quad S,\quad \operatorname{Ent},\quad h_{\mathrm{top}},\quad h_\mu.
+\]
+
+Collega:
+
+\[
+\text{probabilità}
+\]
+
+\[
+\text{dinamica}
+\]
+
+\[
+\text{compressione}
+\]
+
+\[
+\text{statistical mechanics}
+\]
+
+\[
+\text{optimal transport}
+\]
+
+\[
+\text{learning theory}
+\]
+
+\[
+\text{quantum information}.
+\]
+
+Schema:
+
+\[
+\begin{gathered}
+\text{oggetto} \to \text{distribuzione} \to \text{entropia} \to \text{concentrazione/compressione/mixing}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{Hub sheaf}
+
+\[
+\mathcal F.
+\]
+
+Collega:
+
+\[
+\text{topologia}
+\]
+
+\[
+\text{PDE microlocali}
+\]
+
+\[
+\text{database}
+\]
+
+\[
+\text{CSP}
+\]
+
+\[
+\text{distributed systems}
+\]
+
+\[
+\text{algebraic geometry}
+\]
+
+\[
+\text{persistence}.
+\]
+
+Schema:
+
+\[
+\begin{gathered}
+\text{dati locali} \to \text{sheaf} \to \text{coomologia} \to \text{ostruzione}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{Hub tensoriale}
+
+\[
+T\in V_1\otimes\cdots\otimes V_k.
+\]
+
+Collega:
+
+\[
+\text{algebra}
+\]
+
+\[
+\text{quantum information}
+\]
+
+\[
+\text{PDE kernels}
+\]
+
+\[
+\text{statistica}
+\]
+
+\[
+\text{machine learning}
+\]
+
+\[
+\text{complexity theory}
+\]
+
+\[
+\text{coomologia}.
+\]
+
+Schema:
+
+\[
+\begin{gathered}
+\text{struttura multilineare} \to \text{tensore} \to \text{rank} \to \text{lower bound}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{Hub dei dati di verifica convessi}
+
+Comprende:
+
+\[
+\text{SOS}
+\]
+
+\[
+\text{SDP}
+\]
+
+\[
+\text{dual verification data}
+\]
+
+\[
+\text{Lyapunov functions}
+\]
+
+\[
+\text{entropy verification data}
+\]
+
+\[
+\text{barrier verification data}
+\]
+
+\[
+\text{moment relaxations}.
+\]
+
+Schema:
+
+\[
+\text{verità}
+\to
+\text{dato di verifica}
+\to
+\text{bound verificabile}.
+\]
+
+\medskip
+
+
+\subsection{Hub delle approssimazioni}
+
+Tutti questi sono varianti dello stesso schema:
+
+\[
+X\mapsto X_{\le r}.
+\]
+
+Esempi:
+
+\[
+\text{Taylor jets}
+\]
+
+\[
+\text{Fourier cutoffs}
+\]
+
+\[
+\text{finite quotients}
+\]
+
+\[
+\text{mesh refinements}
+\]
+
+\[
+\text{moment truncations}
+\]
+
+\[
+\text{logical quantifier-rank truncations}
+\]
+
+\[
+\text{spectral truncations}
+\]
+
+\[
+\text{prefixes of words}
+\]
+
+\[
+\text{finite samples}.
+\]
+
+\medskip
+
+
+\subsection{Hub delle dualità}
+
+Le dualità sono transfer packages bidirezionali.
+
+Esempi:
+
+\[
+\text{spazi compatti}
+\leftrightarrow
+\text{algebre commutative }C^\ast
+\]
+
+\[
+\text{gruppi localmente compatti abeliani}
+\leftrightarrow
+\text{duali di Pontryagin}
+\]
+
+\[
+\text{corpi convessi}
+\leftrightarrow
+\text{funzioni supporto}
+\]
+
+\[
+\text{misure}
+\leftrightarrow
+\text{momenti/funzioni caratteristiche}
+\]
+
+\[
+\text{D-modules}
+\leftrightarrow
+\text{perverse sheaves}
+\]
+
+\[
+\text{simplettica}
+\leftrightarrow
+\text{mirror algebraic geometry}
+\]
+
+\[
+\text{sintassi}
+\leftrightarrow
+\text{semantica}
+\]
+
+\[
+\text{automorfo}
+\leftrightarrow
+\text{Galois}.
+\]
+
+La domanda presentazionale non è solo se la dualità esiste, ma:
+
+\[
+\text{quanto crescono descrizioni, osservabili e dati di verifica attraverso la dualità?}
+\]
+
+\medskip
+
+
+\section{Atlante delle reti}
+
+Passiamo ora alle reti vere e proprie.
+
+Ogni rete è un grafo di teorie. Ogni arco è un possibile transfer package.
+
+\medskip
+
+
+\section{A. Reti fondazionali, logiche e sintattiche}
+
+\medskip
+
+
+\subsection{A1. Rete sintassi--semantica--CSP--database--proof complexity}
+
+Nodi:
+
+\[
+\text{teorie equazionali}
+\]
+
+\[
+\text{algebre universali}
+\]
+
+\[
+\text{Lawvere theories}
+\]
+
+\[
+\text{operadi}
+\]
+
+\[
+\text{monadi}
+\]
+
+\[
+\text{term rewriting}
+\]
+
+\[
+\text{CSP}
+\]
+
+\[
+\text{database theory}
+\]
+
+\[
+\text{finite model theory}
+\]
+
+\[
+\text{proof complexity}.
+\]
+
+Archi principali:
+
+\[
+\text{presentazione equazionale}
+\to
+\text{categoria dei modelli}
+\]
+
+\[
+\text{teoria equazionale}
+\to
+\text{CSP template}
+\]
+
+\[
+\text{database schema}
+\leftrightarrow
+\text{finite-limit theory}
+\]
+
+\[
+\text{term rewriting}
+\to
+\text{proof complexity}.
+\]
+
+Risorse:
+
+\[
+P=\text{numero di simboli, arità, lunghezza dei termini}
+\]
+
+\[
+O=\text{quantifier rank, larghezza, treewidth}
+\]
+
+\[
+V=\text{lunghezza di derivazione, grado, width}
+\]
+
+\[
+B=\text{distanza tra presentazioni equivalenti}.
+\]
+
+Idea centrale:
+
+\[
+\text{query di database}
+\Longleftrightarrow
+\text{osservabile}
+\]
+
+\[
+\text{proof derivation}
+\Longleftrightarrow
+\text{bridge nella fibra delle presentazioni equivalenti}.
+\]
+
+\medskip
+
+
+\subsection{A2. Rete tipi--prove--categorie--omotopia--formalizzazione}
+
+Nodi:
+
+\[
+\lambda\text{-calculus}
+\]
+
+\[
+\text{type theory}
+\]
+
+\[
+\text{dependent type theory}
+\]
+
+\[
+\text{proof assistants}
+\]
+
+\[
+\text{categories}
+\]
+
+\[
+\text{toposes}
+\]
+
+\[
+\text{homotopy type theory}
+\]
+
+\[
+\infty\text{-categories}
+\]
+
+\[
+\text{rewriting}
+\]
+
+\[
+\text{normalization}
+\]
+
+\[
+\text{proof data}.
+\]
+
+Archi:
+
+\[
+\text{proof}
+\to
+\text{term}
+\]
+
+\[
+\text{type theory}
+\to
+\text{category}
+\]
+
+\[
+\text{category}
+\to
+\text{internal language}
+\]
+
+\[
+\text{homotopy type}
+\to
+\text{space/simplicial object}
+\]
+
+\[
+\text{formal proof}
+\to
+\text{checkable proof data}.
+\]
+
+Risorse:
+
+\[
+P=\text{dimensione del contesto, universe levels, costruttori}
+\]
+
+\[
+O=\text{profondità dei tipi, truncation level}
+\]
+
+\[
+V=\text{tempo di type checking, lunghezza del proof term}
+\]
+
+\[
+B=\text{distanza tra prove equivalenti, normalization length}.
+\]
+
+Domanda centrale:
+
+\[
+\text{un risultato matematicamente semplice può essere formalmente costoso?}
+\]
+
+\medskip
+
+
+\subsection{A3. Rete logica continua--analisi funzionale--probabilità}
+
+Nodi:
+
+\[
+\text{continuous logic}
+\]
+
+\[
+\text{metric structures}
+\]
+
+\[
+\text{Banach spaces}
+\]
+
+\[
+C^\ast\text{-algebras}
+\]
+
+\[
+\text{probability algebras}
+\]
+
+\[
+\text{tracial von Neumann algebras}
+\]
+
+\[
+\text{ultraproducts metrici}
+\]
+
+\[
+\text{stability theory}
+\]
+
+\[
+\text{definability}.
+\]
+
+Archi:
+
+\[
+X\mapsto \operatorname{Th}_{\le q}(X)
+\]
+
+\[
+(X_n)\mapsto\prod_{\mathcal U}X_n
+\]
+
+\[
+A\mapsto \text{tracial moments}
+\]
+
+\[
+\text{Banach space}\mapsto \text{metric theory}.
+\]
+
+Risorse:
+
+\[
+O=\text{quantifier rank, modulus of continuity, precisione}
+\]
+
+\[
+V=\text{dati di verifica di approssimazione elementare}
+\]
+
+\[
+B=\text{fibre di strutture indistinguibili fino a rank }q.
+\]
+
+\medskip
+
+
+\subsection{A4. Rete o-minimalità--PDE tame--geometria reale--algoritmi}
+
+Nodi:
+
+\[
+\text{o-minimal structures}
+\]
+
+\[
+\text{semialgebraic sets}
+\]
+
+\[
+\text{subanalytic sets}
+\]
+
+\[
+\text{Pfaffian functions}
+\]
+
+\[
+\text{definable manifolds}
+\]
+
+\[
+\text{tame topology}
+\]
+
+\[
+\text{real analytic geometry}
+\]
+
+\[
+\text{optimization}
+\]
+
+\[
+\text{differential equations definable}.
+\]
+
+Archi:
+
+\[
+f\mapsto \operatorname{Graph}(f)
+\]
+
+\[
+\text{definable set}\mapsto \text{Betti numbers, cell decomposition}
+\]
+
+\[
+\text{ODE definibile}\mapsto \text{flow definibile}
+\]
+
+\[
+\text{optimization problem}\mapsto \text{critical point data}.
+\]
+
+Risorse:
+
+\[
+P=\text{format definibile, grado, chain length}
+\]
+
+\[
+O=\text{dimensione celle, complessità Betti}
+\]
+
+\[
+V=\text{dati di verifica di stratificazione, monotonicità}
+\]
+
+\[
+B=\text{fibre con stessa decomposizione tame}.
+\]
+
+Idea:
+
+\[
+\text{analisi con complessità topologica controllata}.
+\]
+
+\medskip
+
+
+\subsection{A5. Rete finite precision--computable analysis--real complexity}
+
+Nodi:
+
+\[
+\text{computable real numbers}
+\]
+
+\[
+\text{represented spaces}
+\]
+
+\[
+\text{Type-2 computability}
+\]
+
+\[
+\text{computable analysis}
+\]
+
+\[
+\text{Weihrauch degrees}
+\]
+
+\[
+\text{numerical algorithms}
+\]
+
+\[
+\text{real RAM models}
+\]
+
+\[
+\text{interval computation}
+\]
+
+\[
+\text{constructive analysis}.
+\]
+
+Archi:
+
+\[
+x\in\mathbb R\mapsto \text{name }(q_n)
+\]
+
+\[
+F:X\to Y\mapsto \text{realizer}
+\]
+
+\[
+\text{analytic theorem}\mapsto \text{Weihrauch degree}
+\]
+
+\[
+\text{numerical approximation}\mapsto \text{interval verification data}.
+\]
+
+Risorse:
+
+\[
+O=2^{-n}\text{ precisione}
+\]
+
+\[
+V=\text{modulo di continuità, convergenza, enclosure}
+\]
+
+\[
+B=\text{fibre di nomi diversi dello stesso oggetto}.
+\]
+
+\medskip
+
+
+\subsection{A6. Rete PDE--logica--proof mining--analisi costruttiva}
+
+Nodi:
+
+\[
+\text{proof mining}
+\]
+
+\[
+\text{constructive analysis}
+\]
+
+\[
+\text{functional interpretation}
+\]
+
+\[
+\text{fixed point theorems}
+\]
+
+\[
+\text{ergodic theorems}
+\]
+
+\[
+\text{PDE existence proofs}
+\]
+
+\[
+\text{compactness arguments}
+\]
+
+\[
+\text{rates of convergence}
+\]
+
+\[
+\text{metastability}.
+\]
+
+Archi:
+
+\[
+\text{classical proof}\mapsto \text{effective bound}
+\]
+
+\[
+\text{convergence theorem}\mapsto \text{metastability bound}
+\]
+
+\[
+\text{compactness proof}\mapsto \text{modulus extraction}
+\]
+
+\[
+\text{PDE existence}\mapsto \text{approximation scheme + bound}.
+\]
+
+Idea:
+
+\[
+\begin{gathered}
+\text{teorema qualitativo} \to \text{profilo quantitativo} \to \text{algoritmo} \to \text{dato di verifica}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\section{B. Reti algebriche, rappresentazionali e omologiche}
+
+\medskip
+
+
+\subsection{B1. Rete rappresentazioni--moduli--invarianti--deformazioni}
+
+Nodi:
+
+\[
+\text{gruppi finitamente presentati}
+\]
+
+\[
+\text{algebre associative}
+\]
+
+\[
+\text{algebre di Lie}
+\]
+
+\[
+\text{quiver}
+\]
+
+\[
+\text{anelli}
+\]
+
+\[
+\text{categorie tensoriali}
+\]
+
+\[
+\text{representation varieties}
+\]
+
+\[
+\text{character varieties}
+\]
+
+\[
+\text{GIT quotients}
+\]
+
+\[
+\text{moduli stacks}
+\]
+
+\[
+\text{deformation theory}.
+\]
+
+Archi:
+
+\[
+G\to \operatorname{Rep}_n(G)
+\]
+
+\[
+A\to \operatorname{Mod}_n(A)
+\]
+
+\[
+Q\to \operatorname{Rep}(Q,\mathbf d)
+\]
+
+\[
+\mathcal C\to K_0(\mathcal C)
+\]
+
+\[
+X\to \mathfrak g_X.
+\]
+
+Osservabili:
+
+\[
+\text{tracce di parole}
+\]
+
+\[
+\text{caratteri}
+\]
+
+\[
+\text{semi-invarianti}
+\]
+
+\[
+\text{stabilizzatori}
+\]
+
+\[
+\text{orbit closures}
+\]
+
+\[
+\text{coomologia di deformazione}.
+\]
+
+Fibre:
+
+\[
+\text{oggetti non isomorfi con stessi invarianti}
+\]
+
+\[
+\text{orbite con stessa chiusura}
+\]
+
+\[
+\text{moduli con stessa decategorificazione}.
+\]
+
+\medskip
+
+
+\subsection{B2. Rete tensoriale universale}
+
+Nodi:
+
+\[
+\text{algebre finite dimensionali}
+\]
+
+\[
+\text{moltiplicazione di matrici}
+\]
+
+\[
+\text{gruppi e algebre di gruppo}
+\]
+
+\[
+\text{coomologia e cup product}
+\]
+
+\[
+\text{forme multilineari}
+\]
+
+\[
+\text{probabilità discrete}
+\]
+
+\[
+\text{graphical models}
+\]
+
+\[
+\text{quantum states}
+\]
+
+\[
+\text{tensor networks}
+\]
+
+\[
+\text{PDE kernels}
+\]
+
+\[
+\text{complexity of bilinear maps}.
+\]
+
+Archi:
+
+\[
+A\mapsto T_A
+\]
+
+dove \(T_A\) è il tensore della moltiplicazione.
+
+\[
+X\mapsto T_{H^\ast(X)}
+\]
+
+cup product in coomologia.
+
+\[
+p(x_1,\ldots,x_n)\mapsto T_p
+\]
+
+distribuzione come tensore.
+
+\[
+\psi\mapsto T_\psi
+\]
+
+stato quantistico multipartito.
+
+\[
+K(x,y)\mapsto T_K
+\]
+
+kernel discretizzato o approssimato.
+
+Osservabili:
+
+\[
+\text{rank}
+\]
+
+\[
+\text{border rank}
+\]
+
+\[
+\text{slice rank}
+\]
+
+\[
+\text{partition rank}
+\]
+
+\[
+\text{flattening rank}
+\]
+
+\[
+\text{bond dimension}
+\]
+
+\[
+\text{entanglement entropy}.
+\]
+
+Idea:
+
+\[
+\text{ogni composizione bilineare o multilineare genera un transfer tensoriale.}
+\]
+
+\medskip
+
+
+\subsection{B3. Rete algebra lineare--matroidi--codici--data structures--rank methods}
+
+Nodi:
+
+\[
+\text{matrici}
+\]
+
+\[
+\text{matroidi}
+\]
+
+\[
+\text{codici lineari}
+\]
+
+\[
+\text{linear data structures}
+\]
+
+\[
+\text{communication matrices}
+\]
+
+\[
+\text{incidence geometries}
+\]
+
+\[
+\text{polynomial method}
+\]
+
+\[
+\text{linear circuits}
+\]
+
+\[
+\text{proof complexity algebrica}.
+\]
+
+Archi:
+
+\[
+\text{problem}\mapsto A_P
+\]
+
+matrice di incidenza, comunicazione o vincoli.
+
+\[
+A\mapsto M(A)
+\]
+
+matroide.
+
+\[
+A\mapsto C_A
+\]
+
+codice lineare.
+
+\[
+\text{data structure}\mapsto A=RM
+\]
+
+fattorizzazione sparsa.
+
+\[
+\text{polynomial proof}\mapsto \text{linear map of coefficients}.
+\]
+
+Risorse:
+
+\[
+P=\text{dimensione, sparsità, campo}
+\]
+
+\[
+O=\text{rank, local rank, support size}
+\]
+
+\[
+V=\text{dati di verifica di dipendenza, dual codewords}
+\]
+
+\[
+B=\text{distanza tra rappresentazioni dello stesso matroide}.
+\]
+
+\medskip
+
+
+\subsection{B4. Rete deformazioni--coomologia--ostruzioni--moduli derivati}
+
+Nodi:
+
+\[
+\text{varietà algebriche}
+\]
+
+\[
+\text{schemi}
+\]
+
+\[
+\text{complessi}
+\]
+
+\[
+\text{dg-algebras}
+\]
+
+\[
+\text{dg-Lie algebras}
+\]
+
+\[
+L_\infty\text{-algebras}
+\]
+
+\[
+\text{Hochschild cohomology}
+\]
+
+\[
+\text{André--Quillen cohomology}
+\]
+
+\[
+\text{deformation functors}
+\]
+
+\[
+\text{derived stacks}
+\]
+
+\[
+\text{obstruction theory}.
+\]
+
+Archi:
+
+\[
+X\mapsto \mathfrak g_X
+\]
+
+\[
+\mathfrak g\mapsto MC(\mathfrak g)
+\]
+
+\[
+MC(\mathfrak g)\mapsto H^\ast(\mathfrak g)
+\]
+
+\[
+\text{moduli problem}\mapsto \text{derived moduli stack}.
+\]
+
+Risorse:
+
+\[
+P=\text{dimensione del complesso, differenziali}
+\]
+
+\[
+O=\text{grado coomologico osservato}
+\]
+
+\[
+V=\text{ordine nilpotente della deformazione verificata}
+\]
+
+\[
+B=\text{gauge equivalence, omotopie, quasi-isomorfismi}.
+\]
+
+Idea:
+
+\[
+\text{classificazione non lineare}
+\to
+\text{dati lineari più ostruzioni superiori}.
+\]
+
+\medskip
+
+
+\subsection{B5. Rete algebra omologica--analisi funzionale--categorie derivate}
+
+Nodi:
+
+\[
+\text{complexes}
+\]
+
+\[
+\text{derived categories}
+\]
+
+\[
+\text{triangulated categories}
+\]
+
+\[
+\text{dg-categories}
+\]
+
+\[
+\text{Ext/Tor}
+\]
+
+\[
+\text{Hochschild homology}
+\]
+
+\[
+\text{cyclic homology}
+\]
+
+\[
+\text{topological cyclic homology}
+\]
+
+\[
+\text{operator K-theory}
+\]
+
+\[
+\text{index theory}.
+\]
+
+Archi:
+
+\[
+A\mapsto D(A)
+\]
+
+\[
+M,N\mapsto \operatorname{Ext}^\ast(M,N)
+\]
+
+\[
+A\mapsto HH_\ast(A)
+\]
+
+\[
+A\mapsto HC_\ast(A)
+\]
+
+\[
+\text{smooth algebra}\mapsto \text{de Rham-type invariants}.
+\]
+
+Fibre:
+
+\[
+\text{categorie con stessi invarianti omologici troncati}.
+\]
+
+\medskip
+
+
+\section{C. Reti geometriche, topologiche e categoriali}
+
+\medskip
+
+
+\subsection{C1. Rete tropicale--matroidale--poliedrale--ottimizzazione}
+
+Nodi:
+
+\[
+\text{varietà algebriche}
+\]
+
+\[
+\text{ideali}
+\]
+
+\[
+\text{schemi}
+\]
+
+\[
+\text{Newton polytopes}
+\]
+
+\[
+\text{tropical varieties}
+\]
+
+\[
+\text{matroidi}
+\]
+
+\[
+\text{oriented matroids}
+\]
+
+\[
+\text{fans}
+\]
+
+\[
+\text{cluster algebras}
+\]
+
+\[
+\text{linear programming}
+\]
+
+\[
+\text{integer programming}
+\]
+
+\[
+\text{phylogenetic geometry}.
+\]
+
+Archi:
+
+\[
+I\mapsto \operatorname{Trop}(I)
+\]
+
+\[
+I\mapsto \operatorname{in}_w(I)
+\]
+
+\[
+\text{linear arrangement}\mapsto \text{matroid}
+\]
+
+\[
+\text{varietà positiva}\mapsto \text{polytope}
+\]
+
+\[
+\text{cluster algebra}\mapsto \text{fan combinatorics}.
+\]
+
+Risorse:
+
+\[
+P=\text{grado, numero di monomi, bit-size}
+\]
+
+\[
+O=\text{dimensione del fan, numero di coni, rank matroidale}
+\]
+
+\[
+V=\text{dati di verifica tropicali, basi di Gröbner}
+\]
+
+\[
+B=\text{distanza di mutazione, distanza nel Gröbner fan}.
+\]
+
+\medskip
+
+
+\subsection{C2. Rete sheaf--cosheaf--consistenza locale--persistenza--sistemi distribuiti}
+
+Nodi:
+
+\[
+\text{sheaves}
+\]
+
+\[
+\text{cosheaves}
+\]
+
+\[
+\text{CSP locali}
+\]
+
+\[
+\text{database joins}
+\]
+
+\[
+\text{bundle theory}
+\]
+
+\[
+\text{Cech cohomology}
+\]
+
+\[
+\text{persistent homology}
+\]
+
+\[
+\text{distributed computing}
+\]
+
+\[
+\text{sensor networks}
+\]
+
+\[
+\text{local-to-global proof systems}
+\]
+
+\[
+\text{descent theory}.
+\]
+
+Archi:
+
+\[
+\text{CSP instance}\mapsto \mathcal F_{\text{solutions}}
+\]
+
+\[
+\text{database}\mapsto \text{sheaf of compatible records}
+\]
+
+\[
+\text{cover}\mapsto \check C^\bullet(\mathcal U,\mathcal F)
+\]
+
+\[
+\text{filtered data}\mapsto \text{persistence module}
+\]
+
+\[
+\text{distributed task}\mapsto \text{simplicial carrier/sheaf}.
+\]
+
+Idea:
+
+\[
+\begin{gathered}
+\text{CSP width}\leftrightarrow\text{cohomological obstruction degree}\\
+\leftrightarrow\text{database join complexity}\leftrightarrow\text{distributed task impossibility}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{C3. Rete topologia--gruppi--nodi--TQFT--skein--mapping class groups}
+
+Nodi:
+
+\[
+\text{complessi simpliciali}
+\]
+
+\[
+\text{varietà PL}
+\]
+
+\[
+\text{handle decompositions}
+\]
+
+\[
+\text{nodi e link}
+\]
+
+\[
+\text{gruppi fondamentali}
+\]
+
+\[
+\text{quandles}
+\]
+
+\[
+\text{skein modules}
+\]
+
+\[
+\text{TQFT}
+\]
+
+\[
+\text{mapping class groups}
+\]
+
+\[
+\text{modular tensor categories}
+\]
+
+\[
+\text{character varieties}.
+\]
+
+Archi:
+
+\[
+M\mapsto \pi_1(M)
+\]
+
+\[
+M\mapsto C_\bullet(M)
+\]
+
+\[
+K\mapsto \pi_1(S^3\setminus K)
+\]
+
+\[
+K\mapsto Q(K)
+\]
+
+\[
+M\mapsto Z_{\mathcal C}(M)
+\]
+
+\[
+K\mapsto \text{skein element}.
+\]
+
+Osservabili:
+
+\[
+\text{omologia}
+\]
+
+\[
+\text{gruppo fondamentale}
+\]
+
+\[
+\text{colorazioni quandle}
+\]
+
+\[
+\text{invarianti quantistici fino a livello }r.
+\]
+
+\medskip
+
+
+\subsection{C4. Rete topologia persistente--analisi funzionale--segnali--PDE}
+
+Nodi:
+
+\[
+\text{filtered spaces}
+\]
+
+\[
+\text{persistent homology}
+\]
+
+\[
+\text{persistence modules}
+\]
+
+\[
+\text{barcodes}
+\]
+
+\[
+\text{sheaf persistence}
+\]
+
+\[
+\text{signals}
+\]
+
+\[
+\text{images}
+\]
+
+\[
+\text{solutions of PDE}
+\]
+
+\[
+\text{random fields}
+\]
+
+\[
+\text{multiparameter persistence}.
+\]
+
+Archi:
+
+\[
+f:X\to\mathbb R\mapsto {X_{\le t}}_t
+\]
+
+\[
+{X_t}\mapsto H_k(X_t)
+\]
+
+\[
+\text{module}\mapsto \text{barcode}
+\]
+
+\[
+u(x,t)\mapsto \text{persistence over level/time}
+\]
+
+\[
+\text{random field}\mapsto \text{random barcode}.
+\]
+
+Fibra centrale:
+
+\[
+f\mapsto \operatorname{Barcode}(f)
+\]
+
+dimentica gran parte della geometria.
+
+\medskip
+
+
+\subsection{C5. Rete geometria simplettica--Floer--mirror symmetry--PDE ellittiche}
+
+Nodi:
+
+\[
+\text{symplectic manifolds}
+\]
+
+\[
+\text{Hamiltonian dynamics}
+\]
+
+\[
+\text{Lagrangian submanifolds}
+\]
+
+\[
+\text{pseudo-holomorphic curves}
+\]
+
+\[
+\text{Floer homology}
+\]
+
+\[
+\text{Fukaya categories}
+\]
+
+\[
+\text{mirror symmetry}
+\]
+
+\[
+\text{derived categories of coherent sheaves}
+\]
+
+\[
+\text{Gromov--Witten theory}
+\]
+
+\[
+\text{quantum cohomology}.
+\]
+
+Archi:
+
+\[
+(M,\omega)\mapsto \text{Hamiltonian flow}
+\]
+
+\[
+L_0,L_1\mapsto CF^\ast(L_0,L_1)
+\]
+
+\[
+J\mapsto \text{moduli of }J\text{-holomorphic curves}
+\]
+
+\[
+X\mapsto QH^\ast(X)
+\]
+
+\[
+\text{symplectic side}\mapsto \text{algebraic mirror}.
+\]
+
+\medskip
+
+
+\subsection{C6. Rete Teichmüller--quasiconformal--dinamica complessa}
+
+Nodi:
+
+\[
+\text{Riemann surfaces}
+\]
+
+\[
+\text{Teichmüller spaces}
+\]
+
+\[
+\text{moduli of curves}
+\]
+
+\[
+\text{quasiconformal maps}
+\]
+
+\[
+\text{mapping class groups}
+\]
+
+\[
+\text{measured foliations}
+\]
+
+\[
+\text{geodesic flows}
+\]
+
+\[
+\text{complex dynamics}
+\]
+
+\[
+\text{flat surfaces}
+\]
+
+\[
+\text{interval exchange transformations}.
+\]
+
+Archi:
+
+\[
+X\mapsto \mathcal T(X)
+\]
+
+\[
+q\mapsto \text{horizontal/vertical foliations}
+\]
+
+\[
+\text{flat surface}\mapsto \text{translation flow}
+\]
+
+\[
+\text{mapping class}\mapsto \text{action on curves/homology}
+\]
+
+\[
+\text{rational map}\mapsto \text{Julia set / lamination}.
+\]
+
+\medskip
+
+
+\subsection{C7. Rete geometria della misura--correnti--varifold--frattali}
+
+Nodi:
+
+\[
+\text{misure di Hausdorff}
+\]
+
+\[
+\text{rectifiability}
+\]
+
+\[
+\text{currents}
+\]
+
+\[
+\text{varifolds}
+\]
+
+\[
+\text{minimal surfaces}
+\]
+
+\[
+\text{free boundary}
+\]
+
+\[
+\text{fractals}
+\]
+
+\[
+\text{multifractal analysis}
+\]
+
+\[
+\text{geometric flows}
+\]
+
+\[
+\text{GMT compactness}.
+\]
+
+Archi:
+
+\[
+S\mapsto \mathcal H^d\llcorner S
+\]
+
+\[
+S\mapsto [S]
+\]
+
+\[
+S\mapsto V_S
+\]
+
+\[
+T\mapsto \partial T
+\]
+
+\[
+\mu\mapsto \dim_H(\mu),\tau(q),f(\alpha).
+\]
+
+Osservabili:
+
+\[
+\text{scala}
+\]
+
+\[
+\text{massa}
+\]
+
+\[
+\text{flat norm}
+\]
+
+\[
+\text{dimensione}
+\]
+
+\[
+\text{profilo multifrattale}.
+\]
+
+\medskip
+
+
+\subsection{C8. Rete frattali--dinamica iterata--spettri--probabilità}
+
+Nodi:
+
+\[
+\text{iterated function systems}
+\]
+
+\[
+\text{self-similar sets}
+\]
+
+\[
+\text{self-affine sets}
+\]
+
+\[
+\text{fractal measures}
+\]
+
+\[
+\text{analysis on fractals}
+\]
+
+\[
+\text{spectral decimation}
+\]
+
+\[
+\text{random fractals}
+\]
+
+\[
+\text{multifractal formalism}
+\]
+
+\[
+\text{substitution systems}.
+\]
+
+Archi:
+
+\[
+{S_i}\mapsto K
+\]
+
+\[
+K\mapsto \mu_K
+\]
+
+\[
+K\mapsto \Delta_K
+\]
+
+\[
+\Delta_K\mapsto \operatorname{Spec}(\Delta_K)
+\]
+
+\[
+\text{substitution}\mapsto \text{tiling dynamical system}.
+\]
+
+\medskip
+
+
+\section{D. Reti analitiche}
+
+Questa è la grande espansione analitica dell'atlante.
+
+\medskip
+
+
+\subsection{D1. Rete distribuzioni--Fourier--Sobolev--microlocale}
+
+Nodi:
+
+\[
+\text{funzioni lisce}
+\]
+
+\[
+L^p
+\]
+
+\[
+\text{distribuzioni}
+\]
+
+\[
+\text{misure}
+\]
+
+\[
+\text{trasformata di Fourier}
+\]
+
+\[
+\text{spazi di Sobolev}
+\]
+
+\[
+\text{spazi di Besov}
+\]
+
+\[
+\text{wavelets}
+\]
+
+\[
+\text{operatori pseudodifferenziali}
+\]
+
+\[
+\text{wavefront sets}
+\]
+
+\[
+\text{microlocal sheaves}.
+\]
+
+Archi:
+
+\[
+u\mapsto \widehat u
+\]
+
+\[
+u\mapsto |u|_{H^s}
+\]
+
+\[
+u\mapsto WF(u)
+\]
+
+\[
+P(x,D)\mapsto \sigma(P)
+\]
+
+\[
+u\mapsto {\langle u,\psi_{j,k}\rangle}.
+\]
+
+Fibre:
+
+\[
+u\mapsto \widehat u|_{|\xi|\le \Lambda}
+\]
+
+dimentica alte frequenze.
+
+\[
+u\mapsto WF(u)
+\]
+
+dimentica ampiezze e fasi fini.
+
+\[
+P\mapsto \sigma_{\mathrm{prin}}(P)
+\]
+
+dimentica simboli subprincipali.
+
+\medskip
+
+
+\subsection{D2. Rete PDE ellittiche--regolarità--geometria--topologia}
+
+Nodi:
+
+\[
+\text{operatori ellittici}
+\]
+
+\[
+\text{problemi al bordo}
+\]
+
+\[
+\text{spazi di Sobolev}
+\]
+
+\[
+\text{teoria Fredholm}
+\]
+
+\[
+\text{indice}
+\]
+
+\[
+\text{coomologia}
+\]
+
+\[
+\text{K-teoria}
+\]
+
+\[
+\text{geometria riemanniana}
+\]
+
+\[
+\text{teoria spettrale}
+\]
+
+\[
+\text{invarianti topologici}.
+\]
+
+Archi:
+
+\[
+P\mapsto \sigma(P)
+\]
+
+\[
+P\mapsto \operatorname{ind}(P)
+\]
+
+\[
+Pu=f\mapsto u=P^{-1}f
+\]
+
+\[
+(M,E,P)\mapsto [\sigma(P)]\in K(T^\ast M)
+\]
+
+\[
+P\mapsto \ker P,\operatorname{coker}P.
+\]
+
+Idea:
+
+\[
+\text{PDE ellittica}
+\to
+\text{topologia}
+\to
+\text{dati di verifica di non-invertibilità o esistenza}.
+\]
+
+\medskip
+
+
+\subsection{D3. Rete PDE paraboliche--semigruppi--probabilità--geometria}
+
+Nodi:
+
+\[
+\text{equazioni del calore}
+\]
+
+\[
+\text{semigruppi contrattivi}
+\]
+
+\[
+\text{operatori dissipativi}
+\]
+
+\[
+\text{processi di Markov}
+\]
+
+\[
+\text{forme di Dirichlet}
+\]
+
+\[
+\text{heat kernels}
+\]
+
+\[
+\text{curvature-dimension}
+\]
+
+\[
+\text{gradient flows}
+\]
+
+\[
+\text{optimal transport}.
+\]
+
+Archi:
+
+\[
+L\mapsto e^{tL}
+\]
+
+\[
+L\mapsto X_t
+\]
+
+\[
+L\mapsto p_t(x,y)
+\]
+
+\[
+p_t(x,y)\mapsto \operatorname{Tr}(e^{tL})
+\]
+
+\[
+\partial_t u=Lu\mapsto \text{gradient flow}
+\]
+
+\[
+\mathcal E(u,u)\mapsto \text{Dirichlet form}\mapsto \text{Markov process}.
+\]
+
+\medskip
+
+
+\subsection{D4. Rete PDE iperboliche--propagazione--causalità--scattering}
+
+Nodi:
+
+\[
+\text{equazioni delle onde}
+\]
+
+\[
+\text{operatori iperbolici}
+\]
+
+\[
+\text{geometria lorentziana}
+\]
+
+\[
+\text{propagatori}
+\]
+
+\[
+\text{fronti d'onda}
+\]
+
+\[
+\text{bicharacteristics}
+\]
+
+\[
+\text{scattering}
+\]
+
+\[
+\text{control theory}
+\]
+
+\[
+\text{inverse boundary problems}.
+\]
+
+Archi:
+
+\[
+P\mapsto \operatorname{Char}(P)
+\]
+
+\[
+\operatorname{Char}(P)\mapsto \text{flusso hamiltoniano}
+\]
+
+\[
+u_0,u_1\mapsto u(t)
+\]
+
+\[
+u(t)|_{\partial M}\mapsto \text{boundary observation}
+\]
+
+\[
+(M,g)\mapsto \Lambda_g.
+\]
+
+Domande:
+
+\[
+\text{quanto tempo serve per vedere una singolarità?}
+\]
+
+\[
+\text{quale apertura angolare serve per ricostruire una geometria?}
+\]
+
+\medskip
+
+
+\subsection{D5. Rete dispersiva--nonlineare--scattering--solitoni}
+
+Nodi:
+
+\[
+\text{Schrödinger nonlineare}
+\]
+
+\[
+\text{wave maps}
+\]
+
+\[
+\text{Klein--Gordon}
+\]
+
+\[
+\text{KdV}
+\]
+
+\[
+\text{Strichartz estimates}
+\]
+
+\[
+\text{profile decompositions}
+\]
+
+\[
+\text{concentration compactness}
+\]
+
+\[
+\text{scattering states}
+\]
+
+\[
+\text{solitons}.
+\]
+
+Archi:
+
+\[
+u_0\mapsto u(t)
+\]
+
+\[
+u(t)\mapsto u_\pm
+\]
+
+\[
+u_n\mapsto {\phi_j,\lambda_j,x_j,t_j}
+\]
+
+\[
+u\mapsto \text{massa, energia, momento}
+\]
+
+\[
+\text{nonlinear PDE}\mapsto \text{renormalized effective dynamics}.
+\]
+
+Fibre:
+
+\[
+u_0\mapsto (M(u_0),E(u_0))
+\]
+
+ha fibre dinamicamente ricche.
+
+\medskip
+
+
+\subsection{D6. Rete analisi armonica--operatori singolari--combinatoria additiva}
+
+Nodi:
+
+\[
+\text{Fourier analysis}
+\]
+
+\[
+\text{Calderón--Zygmund operators}
+\]
+
+\[
+\text{maximal functions}
+\]
+
+\[
+\text{restriction theory}
+\]
+
+\[
+\text{decoupling}
+\]
+
+\[
+\text{time-frequency analysis}
+\]
+
+\[
+\text{additive combinatorics}
+\]
+
+\[
+\text{incidence geometry}
+\]
+
+\[
+\text{ergodic averages}
+\]
+
+\[
+\text{PDE dispersive}.
+\]
+
+Archi:
+
+\[
+f\mapsto \widehat f|_\Sigma
+\]
+
+\[
+f\mapsto Tf
+\]
+
+\[
+\text{curvatura}\mapsto \text{decay/dispersion estimates}
+\]
+
+\[
+\text{decoupling}\mapsto \text{Vinogradov-type counting}
+\]
+
+\[
+\text{incidence bound}\mapsto \text{operator norm bound}.
+\]
+
+Schema:
+
+\[
+\begin{gathered}
+\text{curvatura} \to \text{oscillazione} \to \text{cancellazione} \to \text{stima} \\
+\to \text{conteggio}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{D7. Rete microlocale--simplettica--sheaf-theoretic--PDE}
+
+Nodi:
+
+\[
+\text{distribuzioni}
+\]
+
+\[
+\text{wavefront sets}
+\]
+
+\[
+\text{Lagrangiane coniche}
+\]
+
+\[
+\text{Fourier integral operators}
+\]
+
+\[
+\text{geometria simplettica}
+\]
+
+\[
+\text{microlocal sheaves}
+\]
+
+\[
+\text{Fukaya categories}
+\]
+
+\[
+\text{PDE propagation}
+\]
+
+\[
+\text{contact geometry}.
+\]
+
+Archi:
+
+\[
+u\mapsto WF(u)
+\]
+
+\[
+P\mapsto H_{\sigma(P)}
+\]
+
+\[
+\text{FIO}\mapsto \text{canonical relation}
+\]
+
+\[
+\mathcal F\mapsto SS(\mathcal F)
+\]
+
+\[
+\text{Lagrangian}\mapsto \text{sheaf quantization}.
+\]
+
+Idea:
+
+\[
+\begin{gathered}
+\text{PDE singularities} \to \text{Legendrian geometry} \to \text{sheaf categories} \to \text{topological invariants}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{D8. Rete teoria spettrale--scattering--zeta--tracce}
+
+Nodi:
+
+\[
+\text{operatori autoaggiunti}
+\]
+
+\[
+\text{operatori non autoaggiunti}
+\]
+
+\[
+\text{spettri discreti}
+\]
+
+\[
+\text{spettri continui}
+\]
+
+\[
+\text{resonances}
+\]
+
+\[
+\text{scattering matrices}
+\]
+
+\[
+\text{trace formulas}
+\]
+
+\[
+\text{zeta functions}
+\]
+
+\[
+\text{quantum chaos}
+\]
+
+\[
+\text{inverse spectral geometry}.
+\]
+
+Archi:
+
+\[
+P\mapsto \operatorname{Spec}(P)
+\]
+
+\[
+P\mapsto \zeta_P(s)
+\]
+
+\[
+P\mapsto \operatorname{Tr}(e^{-tP})
+\]
+
+\[
+\text{geodesic flow}\mapsto \text{trace formula}
+\]
+
+\[
+V(x)\mapsto S_V(\lambda).
+\]
+
+Fibre:
+
+\[
+P\mapsto {\lambda_1,\ldots,\lambda_N}
+\]
+
+ha fibre enormi a bassa energia.
+
+\medskip
+
+
+\subsection{D9. Rete geometria riemanniana--Ricci flow--PDE geometrica--topologia}
+
+Nodi:
+
+\[
+\text{metriche riemanniane}
+\]
+
+\[
+\text{curvature tensors}
+\]
+
+\[
+\text{Ricci flow}
+\]
+
+\[
+\text{mean curvature flow}
+\]
+
+\[
+\text{Yamabe flow}
+\]
+
+\[
+\text{geometric analysis}
+\]
+
+\[
+\text{singularity models}
+\]
+
+\[
+\text{topologia delle varietà}
+\]
+
+\[
+\text{spazi metrici limite}.
+\]
+
+Archi:
+
+\[
+g\mapsto \operatorname{Rm}(g),\operatorname{Ric}(g),R(g)
+\]
+
+\[
+g_0\mapsto g(t)
+\]
+
+\[
+g(t)\mapsto \text{singularity model}
+\]
+
+\[
+(M,g)\mapsto \text{volume growth, heat kernel, spectrum}
+\]
+
+\[
+(M,g_i)\mapsto \text{Gromov--Hausdorff limit}.
+\]
+
+Schema:
+
+\[
+\begin{gathered}
+\text{geometria} \to \text{PDE parabolica} \to \text{monotonicità} \to \text{topologia}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{D10. Rete geometria metrica--Ricci sintetico--trasporto ottimale}
+
+Nodi:
+
+\[
+\text{spazi metrici misura}
+\]
+
+\[
+\text{Wasserstein geometry}
+\]
+
+\[
+\text{curvature-dimension conditions}
+\]
+
+\[
+\text{optimal transport}
+\]
+
+\[
+\text{gradient flows}
+\]
+
+\[
+\text{entropy}
+\]
+
+\[
+\text{heat flow}
+\]
+
+\[
+\text{concentration}
+\]
+
+\[
+\text{Markov chains}.
+\]
+
+Archi:
+
+\[
+(X,d,\mu)\mapsto \mathcal P_2(X)
+\]
+
+\[
+\mu_0,\mu_1\mapsto \pi^\ast
+\]
+
+\[
+\operatorname{Ent}_\mu\mapsto \text{gradient flow}
+\]
+
+\[
+(X,d,\mu)\mapsto \text{CD}(K,N)\text{ profile}
+\]
+
+\[
+\text{Markov chain}\mapsto \text{discrete transport geometry}.
+\]
+
+Schema:
+
+\[
+\text{curvatura}
+\leftrightarrow
+\text{convessità dell'entropia}
+\leftrightarrow
+\text{contrazione del calore}
+\leftrightarrow
+\text{concentrazione}
+\leftrightarrow
+\text{mixing}.
+\]
+
+\medskip
+
+
+\subsection{D11. Rete calcolo delle variazioni--\(\Gamma\)-convergenza--materiali--PDE}
+
+Nodi:
+
+\[
+\text{funzionali}
+\]
+
+\[
+\text{minimizzatori}
+\]
+
+\[
+\Gamma\text{-convergence}
+\]
+
+\[
+\text{relaxation}
+\]
+
+\[
+\text{quasiconvexity}
+\]
+
+\[
+\text{Young measures}
+\]
+
+\[
+\text{microstructures}
+\]
+
+\[
+\text{elasticità}
+\]
+
+\[
+\text{free boundary problems}
+\]
+
+\[
+\text{optimal design}.
+\]
+
+Archi:
+
+\[
+F_\varepsilon\mapsto \Gamma\text{-}\lim F_\varepsilon
+\]
+
+\[
+u_\varepsilon\mapsto \nu_x
+\]
+
+\[
+\text{nonconvex energy}\mapsto \text{relaxed energy}
+\]
+
+\[
+\text{material microstructure}\mapsto \text{effective tensor}
+\]
+
+\[
+\text{shape}\mapsto \text{shape derivative}.
+\]
+
+Fibra fondamentale:
+
+\[
+\text{microstructure}\mapsto \text{effective material}
+\]
+
+ha fibre enormi.
+
+\medskip
+
+
+\subsection{D12. Rete omogeneizzazione--multiscala--random media}
+
+Nodi:
+
+\[
+\text{PDE con coefficienti oscillanti}
+\]
+
+\[
+\text{mezzi periodici}
+\]
+
+\[
+\text{mezzi casuali}
+\]
+
+\[
+H\text{-convergence}
+\]
+
+\[
+G\text{-convergence}
+\]
+
+\[
+\text{two-scale convergence}
+\]
+
+\[
+\text{correctors}
+\]
+
+\[
+\text{effective equations}
+\]
+
+\[
+\text{percolation}
+\]
+
+\[
+\text{random conductance models}.
+\]
+
+Archi:
+
+\[
+a(x/\varepsilon)\mapsto a_{\mathrm{hom}}
+\]
+
+\[
+u_\varepsilon\mapsto u_0
+\]
+
+\[
+u_\varepsilon\mapsto (u_0,u_1(x,y))
+\]
+
+\[
+\omega\mapsto a_{\mathrm{hom}}(\omega)
+\]
+
+\[
+\text{random medium}\mapsto \text{large-scale heat kernel}.
+\]
+
+Schema:
+
+\[
+\text{micro}
+\to
+\text{meso}
+\to
+\text{macro}.
+\]
+
+\medskip
+
+
+\subsection{D13. Rete fluidi--turbolenza--vorticità--statistica}
+
+Nodi:
+
+\[
+\text{Euler}
+\]
+
+\[
+\text{Navier--Stokes}
+\]
+
+\[
+\text{vorticità}
+\]
+
+\[
+\text{boundary layers}
+\]
+
+\[
+\text{turbulenza}
+\]
+
+\[
+\text{Reynolds averaging}
+\]
+
+\[
+\text{large eddy simulation}
+\]
+
+\[
+\text{Onsager regularity}
+\]
+
+\[
+\text{statistical solutions}
+\]
+
+\[
+\text{kinetic theory}.
+\]
+
+Archi:
+
+\[
+u\mapsto \omega=\nabla\times u
+\]
+
+\[
+u^\nu\mapsto u^0
+\]
+
+\[
+u\mapsto \overline u
+\]
+
+\[
+u\mapsto E(k)
+\]
+
+\[
+\text{particle system}\mapsto \text{kinetic equation}\mapsto \text{fluid equation}.
+\]
+
+Fibre:
+
+\[
+u\mapsto E(k)
+\]
+
+dimentica fasi e vortici coerenti.
+
+\[
+u\mapsto \overline u
+\]
+
+dimentica scale piccole.
+
+\medskip
+
+
+\subsection{D14. Rete teoria cinetica--Boltzmann--entropia--limiti idrodinamici}
+
+Nodi:
+
+\[
+\text{sistemi di particelle}
+\]
+
+\[
+\text{Liouville equation}
+\]
+
+\[
+\text{Boltzmann equation}
+\]
+
+\[
+\text{Landau equation}
+\]
+
+\[
+\text{Vlasov equation}
+\]
+
+\[
+\text{Fokker--Planck}
+\]
+
+\[
+\text{entropy methods}
+\]
+
+\[
+\text{hydrodynamic limits}
+\]
+
+\[
+\text{fluctuation theory}.
+\]
+
+Archi:
+
+\[
+{x_i,v_i}_{i=1}^N\mapsto f_N
+\]
+
+\[
+f_N\mapsto f
+\]
+
+\[
+f\mapsto \rho,u,T
+\]
+
+\[
+\text{Boltzmann}\mapsto \text{Euler/Navier--Stokes}
+\]
+
+\[
+f\mapsto H(f).
+\]
+
+\medskip
+
+
+\subsection{D15. Rete probabilità continua--Malliavin--SPDE--regolarità}
+
+Nodi:
+
+\[
+\text{Brownian motion}
+\]
+
+\[
+\text{martingales}
+\]
+
+\[
+\text{diffusions}
+\]
+
+\[
+\text{Malliavin calculus}
+\]
+
+\[
+\text{Dirichlet forms}
+\]
+
+\[
+\text{SPDE}
+\]
+
+\[
+\text{Gaussian fields}
+\]
+
+\[
+\text{random distributions}
+\]
+
+\[
+\text{stochastic quantization}.
+\]
+
+Archi:
+
+\[
+b,\sigma\mapsto X_t
+\]
+
+\[
+X_t\mapsto L
+\]
+
+\[
+L\mapsto \mathcal E
+\]
+
+\[
+X\mapsto DX
+\]
+
+\[
+\text{noise}\mapsto \text{random distribution}\mapsto \text{SPDE solution}.
+\]
+
+\medskip
+
+
+\subsection{D16. Rete rough paths--regularity structures--renormalization}
+
+Nodi:
+
+\[
+\text{rough paths}
+\]
+
+\[
+\text{controlled paths}
+\]
+
+\[
+\text{branched rough paths}
+\]
+
+\[
+\text{regularity structures}
+\]
+
+\[
+\text{paracontrolled distributions}
+\]
+
+\[
+\text{renormalization group}
+\]
+
+\[
+\text{Hopf algebras}
+\]
+
+\[
+\text{SPDE singulari}
+\]
+
+\[
+\text{stochastic analysis}.
+\]
+
+Archi:
+
+\[
+X\mapsto \mathbf X=(X,\mathbb X,\ldots)
+\]
+
+\[
+\mathbf X\mapsto \text{solution map}
+\]
+
+\[
+\text{SPDE}\mapsto \text{regularity structure}
+\]
+
+\[
+\text{diagramma divergente}\mapsto \text{counterterm}
+\]
+
+\[
+\text{trees}\mapsto \text{Hopf algebra}.
+\]
+
+Fibra fondamentale:
+
+\[
+\mathbf X\mapsto X
+\]
+
+dimentica aree iterate.
+
+Idea:
+
+\[
+\text{segnale grezzo}
+\not\Rightarrow
+\text{dinamica ben posta}
+\]
+
+ma
+
+\[
+\text{segnale arricchito}
+\Rightarrow
+\text{dinamica continua}.
+\]
+
+\medskip
+
+
+\subsection{D17. Rete teoria ergodica--operatori di trasferimento--termodinamica formale}
+
+Nodi:
+
+\[
+\text{sistemi dinamici misurabili}
+\]
+
+\[
+\text{sistemi topologici}
+\]
+
+\[
+\text{subshifts}
+\]
+
+\[
+\text{operatori di Koopman}
+\]
+
+\[
+\text{operatori di Perron--Frobenius}
+\]
+
+\[
+\text{entropia}
+\]
+
+\[
+\text{pressione}
+\]
+
+\[
+\text{misure Gibbs}
+\]
+
+\[
+\text{zeta dinamiche}
+\]
+
+\[
+\text{large deviations}.
+\]
+
+Archi:
+
+\[
+T\mapsto U_T:f\mapsto f\circ T
+\]
+
+\[
+T\mapsto \mathcal L_\phi
+\]
+
+\[
+T\mapsto h_\mu(T),h_{\mathrm{top}}(T)
+\]
+
+\[
+T\mapsto \zeta_T(z)
+\]
+
+\[
+\text{partition}\mapsto \text{symbolic coding}.
+\]
+
+\medskip
+
+
+\subsection{D18. Rete caos--KAM--small divisors--localizzazione}
+
+Nodi:
+
+\[
+\text{sistemi hamiltoniani}
+\]
+
+\[
+\text{tori invarianti}
+\]
+
+\[
+\text{KAM theory}
+\]
+
+\[
+\text{small divisors}
+\]
+
+\[
+\text{Diophantine approximation}
+\]
+
+\[
+\text{quasi-periodic Schrödinger operators}
+\]
+
+\[
+\text{Anderson localization}
+\]
+
+\[
+\text{Aubry--Mather theory}
+\]
+
+\[
+\text{renormalization}.
+\]
+
+Archi:
+
+\[
+H(I,\theta)\mapsto \omega(I)
+\]
+
+\[
+\omega\mapsto \text{Diophantine exponent}
+\]
+
+\[
+\text{perturbation}\mapsto \text{surviving tori}
+\]
+
+\[
+\text{quasi-periodic potential}\mapsto \text{spectrum}
+\]
+
+\[
+\text{cocycle}\mapsto \text{Lyapunov exponent}.
+\]
+
+Idea:
+
+\[
+\text{aritmetica fine}
+\to
+\text{stabilità dinamica}
+\to
+\text{analisi spettrale}.
+\]
+
+\medskip
+
+
+\subsection{D19. Rete integrable systems--Riemann--Hilbert--isomonodromia}
+
+Nodi:
+
+\[
+\text{equazioni integrabili}
+\]
+
+\[
+\text{Lax pairs}
+\]
+
+\[
+\text{spectral curves}
+\]
+
+\[
+\text{inverse scattering}
+\]
+
+\[
+\text{Riemann--Hilbert problems}
+\]
+
+\[
+\text{isomonodromic deformations}
+\]
+
+\[
+\text{Painlevé equations}
+\]
+
+\[
+\text{tau functions}
+\]
+
+\[
+\text{Frobenius manifolds}
+\]
+
+\[
+\text{random matrix theory}.
+\]
+
+Archi:
+
+\[
+\partial_t L=[P,L]\mapsto \operatorname{Spec}(L)
+\]
+
+\[
+u(x)\mapsto \text{scattering data}
+\]
+
+\[
+\text{scattering data}\mapsto \text{Riemann--Hilbert problem}
+\]
+
+\[
+\text{monodromy data}\mapsto \text{isomonodromic flow}
+\]
+
+\[
+\text{RHP}\mapsto \tau.
+\]
+
+\medskip
+
+
+\subsection{D20. Rete analisi complessa--SCV--pluripotenziale--PDE}
+
+Nodi:
+
+\[
+\text{funzioni olomorfe}
+\]
+
+\[
+\text{domini pseudoconvessi}
+\]
+
+\[
+\bar\partial\text{-problem}
+\]
+
+\[
+\text{Bergman spaces}
+\]
+
+\[
+\text{Hardy spaces}
+\]
+
+\[
+\text{plurisubharmonic functions}
+\]
+
+\[
+\text{Monge--Ampère complex}
+\]
+
+\[
+\text{Stein manifolds}
+\]
+
+\[
+\text{complex dynamics}
+\]
+
+\[
+\text{Kähler geometry}.
+\]
+
+Archi:
+
+\[
+\Omega\mapsto K_\Omega(z,w)
+\]
+
+\[
+\Omega\mapsto \bar\partial\text{-Neumann operator}
+\]
+
+\[
+\varphi\mapsto (dd^c\varphi)^n
+\]
+
+\[
+X\mapsto H^{p,q}_{\bar\partial}(X)
+\]
+
+\[
+f:\mathbb C^n\to\mathbb C^n\mapsto \text{Green current}.
+\]
+
+\medskip
+
+
+\subsection{D21. Rete potenziale--capacità--reti elettriche--probabilità}
+
+Nodi:
+
+\[
+\text{potenziale classico}
+\]
+
+\[
+\text{capacità}
+\]
+
+\[
+\text{Dirichlet energy}
+\]
+
+\[
+\text{reti elettriche}
+\]
+
+\[
+\text{random walks}
+\]
+
+\[
+\text{Brownian motion}
+\]
+
+\[
+\text{harmonic measure}
+\]
+
+\[
+\text{Laplacian growth}
+\]
+
+\[
+\text{potential theory on graphs}.
+\]
+
+Archi:
+
+\[
+D\mapsto \operatorname{cap}(D)
+\]
+
+\[
+f\mapsto \int|\nabla f|^2
+\]
+
+\[
+G\mapsto \text{electrical network}
+\]
+
+\[
+\text{network}\mapsto \text{effective resistance metric}
+\]
+
+\[
+\text{domain}\mapsto \omega^x_{\partial D}.
+\]
+
+\medskip
+
+
+\subsection{D22. Rete operatori non autoaggiunti--pseudospectra--stabilità numerica}
+
+Nodi:
+
+\[
+\text{operatori non normali}
+\]
+
+\[
+\text{pseudospectra}
+\]
+
+\[
+\text{semigruppi}
+\]
+
+\[
+\text{stabilità lineare}
+\]
+
+\[
+\text{transient growth}
+\]
+
+\[
+\text{fluid stability}
+\]
+
+\[
+\text{numerical analysis}
+\]
+
+\[
+\text{control}.
+\]
+
+Archi:
+
+\[
+A\mapsto \operatorname{Spec}(A)
+\]
+
+\[
+A\mapsto |(z-A)^{-1}|
+\]
+
+\[
+A\mapsto \operatorname{Pseudospec}_\varepsilon(A)
+\]
+
+\[
+A\mapsto e^{tA}
+\]
+
+\[
+A\mapsto \sup_t|e^{tA}|.
+\]
+
+Principio:
+
+\[
+\text{stesso spettro}
+\not\Rightarrow
+\text{stessa dinamica}.
+\]
+
+\medskip
+
+
+\subsection{D23. Rete approssimazione--wavelet--compressed sensing--learning numerico}
+
+Nodi:
+
+\[
+\text{approximation theory}
+\]
+
+\[
+\text{polynomial approximation}
+\]
+
+\[
+\text{splines}
+\]
+
+\[
+\text{wavelets}
+\]
+
+\[
+\text{sparse approximation}
+\]
+
+\[
+\text{compressed sensing}
+\]
+
+\[
+\text{reduced basis methods}
+\]
+
+\[
+\text{neural operators}
+\]
+
+\[
+\text{numerical PDE}
+\]
+
+\[
+\text{information-based complexity}.
+\]
+
+Archi:
+
+\[
+f\mapsto \text{best }n\text{-term approximation}
+\]
+
+\[
+f\mapsto {\langle f,\psi_\lambda\rangle}
+\]
+
+\[
+u_\mu\mapsto \text{reduced basis space}
+\]
+
+\[
+Au=f\mapsto A_hu_h=f_h
+\]
+
+\[
+\text{operator}\mapsto \text{learned operator surrogate}.
+\]
+
+Schema:
+
+\[
+\begin{gathered}
+\text{regolarità} \to \text{compressibilità} \to \text{campionamento} \to \text{algoritmi} \\
+\to \text{dati di verifica d'errore}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{D24. Rete analisi numerica--FEM--mesh--dati di verifica}
+
+Nodi:
+
+\[
+\text{finite elements}
+\]
+
+\[
+\text{finite volumes}
+\]
+
+\[
+\text{spectral methods}
+\]
+
+\[
+\text{mesh refinement}
+\]
+
+\[
+\text{adaptive algorithms}
+\]
+
+\[
+\text{a posteriori estimates}
+\]
+
+\[
+\text{verified numerics}
+\]
+
+\[
+\text{interval arithmetic}
+\]
+
+\[
+\text{computer-assisted proofs}.
+\]
+
+Archi:
+
+\[
+\text{PDE}\mapsto \text{weak formulation}
+\]
+
+\[
+\text{weak formulation}\mapsto \text{discrete variational problem}
+\]
+
+\[
+u_h\mapsto \eta_h
+\]
+
+\[
+\eta_h\mapsto \text{mesh refinement}
+\]
+
+\[
+\text{floating computation}\mapsto \text{interval verification data}.
+\]
+
+Schema:
+
+\[
+\begin{gathered}
+\text{analisi} \to \text{algoritmo} \to \text{dato di verifica} \to \text{formalizzazione}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{D25. Rete controllo--osservabilità--identificazione--ottimizzazione}
+
+Nodi:
+
+\[
+\text{sistemi dinamici controllati}
+\]
+
+\[
+\text{ODE}
+\]
+
+\[
+\text{PDE controllate}
+\]
+
+\[
+\text{Hamilton--Jacobi--Bellman}
+\]
+
+\[
+\text{Pontryagin maximum principle}
+\]
+
+\[
+\text{reachability}
+\]
+
+\[
+\text{observability}
+\]
+
+\[
+\text{system identification}
+\]
+
+\[
+\text{mean field games}
+\]
+
+\[
+\text{reinforcement learning}.
+\]
+
+Archi:
+
+\[
+\dot x=f(x,u)\mapsto \mathcal R_T(x_0)
+\]
+
+\[
+\text{control problem}\mapsto \text{value function}
+\]
+
+\[
+\text{value function}\mapsto \text{HJB equation}
+\]
+
+\[
+\text{trajectory data}\mapsto \hat f
+\]
+
+\[
+\text{multi-agent system}\mapsto \text{mean field limit}.
+\]
+
+Fibra:
+
+\[
+f\mapsto \text{input-output behavior}
+\]
+
+può avere fibre enormi.
+
+\medskip
+
+
+\subsection{D26. Rete functional analysis--Banach--operator ideals--geometria asintotica}
+
+Nodi:
+
+\[
+\text{Banach spaces}
+\]
+
+\[
+\text{Hilbert spaces}
+\]
+
+\[
+\text{operator ideals}
+\]
+
+\[
+\text{type/cotype}
+\]
+
+\[
+\text{local theory}
+\]
+
+\[
+\text{basis constants}
+\]
+
+\[
+\text{compact operators}
+\]
+
+\[
+\text{nuclear operators}
+\]
+
+\[
+\text{tensor norms}
+\]
+
+\[
+\text{nonlinear embeddings}.
+\]
+
+Archi:
+
+\[
+X\mapsto {E\subset X:\dim E\le n}
+\]
+
+\[
+T:X\to Y\mapsto (s_n(T))
+\]
+
+\[
+X\mapsto \text{type/cotype profile}
+\]
+
+\[
+X,Y\mapsto X\widehat\otimes_\pi Y,\ X\widehat\otimes_\varepsilon Y
+\]
+
+\[
+X\mapsto \operatorname{Lip}_0(X).
+\]
+
+\medskip
+
+
+\subsection{D27. Rete interpolazione--scale di spazi--regolarità adattiva}
+
+Nodi:
+
+\[
+L^p
+\]
+
+\[
+\text{Sobolev}
+\]
+
+\[
+\text{Besov}
+\]
+
+\[
+\text{Triebel--Lizorkin}
+\]
+
+\[
+\text{Hardy}
+\]
+
+\[
+\text{BMO}
+\]
+
+\[
+\text{Lorentz}
+\]
+
+\[
+\text{Orlicz}
+\]
+
+\[
+\text{interpolation spaces}
+\]
+
+\[
+\text{regularity estimates}.
+\]
+
+Archi:
+
+\[
+(X_0,X_1)\mapsto [X_0,X_1]_\theta
+\]
+
+\[
+(X_0,X_1)\mapsto (X_0,X_1)_{\theta,q}
+\]
+
+\[
+f\mapsto \text{regularity profile }s\mapsto |f|_{X_s}
+\]
+
+\[
+T:X_0\to Y_0,\ T:X_1\to Y_1
+\mapsto
+T:X_\theta\to Y_\theta.
+\]
+
+\medskip
+
+
+\subsection{D28. Rete nonlocalità analitica--operatori frazionari--jump processes}
+
+Nodi:
+
+\[
+\text{fractional Laplacians}
+\]
+
+\[
+\text{nonlocal PDE}
+\]
+
+\[
+\text{integro-differential operators}
+\]
+
+\[
+\text{stable processes}
+\]
+
+\[
+\text{nonlocal minimal surfaces}
+\]
+
+\[
+\text{peridynamics}
+\]
+
+\[
+\text{anomalous diffusion}.
+\]
+
+Archi:
+
+\[
+(-\Delta)^s\mapsto \text{stable Lévy process}
+\]
+
+\[
+u\mapsto \int\frac{u(x)-u(y)}{|x-y|^{n+2s}},dy
+\]
+
+\[
+s\to 1
+\]
+
+\[
+s\to 0
+\]
+
+\[
+K(x,y)\mapsto \text{jump process}.
+\]
+
+\medskip
+
+
+\subsection{D29. Rete memoria--equazioni ritardate--operatori storici--sistemi}
+
+Nodi:
+
+\[
+\text{delay differential equations}
+\]
+
+\[
+\text{Volterra equations}
+\]
+
+\[
+\text{fractional time derivatives}
+\]
+
+\[
+\text{memory kernels}
+\]
+
+\[
+\text{viscoelasticity}
+\]
+
+\[
+\text{control with memory}
+\]
+
+\[
+\text{non-Markovian processes}
+\]
+
+\[
+\text{state augmentation}.
+\]
+
+Archi:
+
+\[
+K(t)\mapsto \int_0^t K(t-s)u(s),ds
+\]
+
+\[
+\text{memory system}\mapsto \text{augmented Markovian system}
+\]
+
+\[
+K\mapsto \widehat K(\lambda)
+\]
+
+\[
+\text{fractional derivative}\mapsto \text{subordinated semigroup}.
+\]
+
+Idea:
+
+\[
+\text{la presentazione di un sistema può includere la quantità di passato necessaria.}
+\]
+
+\medskip
+
+
+\subsection{D30. Rete algebraic analysis--D-modules--PDE--perverse sheaves}
+
+Nodi:
+
+\[
+D\text{-modules}
+\]
+
+\[
+\text{linear PDE systems}
+\]
+
+\[
+\text{holonomic modules}
+\]
+
+\[
+\text{characteristic varieties}
+\]
+
+\[
+\text{Riemann--Hilbert correspondence}
+\]
+
+\[
+\text{perverse sheaves}
+\]
+
+\[
+\text{monodromy}
+\]
+
+\[
+\text{Fourier--Laplace transform}
+\]
+
+\[
+\text{irregular singularities}
+\]
+
+\[
+\text{Stokes data}.
+\]
+
+Archi:
+
+\[
+\text{PDE system}\mapsto D/D\langle P_i\rangle
+\]
+
+\[
+M\mapsto \operatorname{Char}(M)
+\]
+
+\[
+M_{\mathrm{hol}}\mapsto \operatorname{Sol}(M)
+\]
+
+\[
+\operatorname{Sol}(M)\mapsto \text{perverse sheaf}
+\]
+
+\[
+\text{irregular connection}\mapsto \text{Stokes data}.
+\]
+
+Schema:
+
+\[
+\text{PDE lineari}
+\leftrightarrow
+\text{algebra noncommutativa}
+\leftrightarrow
+\text{topologia costruttibile}.
+\]
+
+\medskip
+
+
+\subsection{D31. Rete transseries--asintotica--risorgenza--ODE/PDE}
+
+Nodi:
+
+\[
+\text{asymptotic expansions}
+\]
+
+\[
+\text{transseries}
+\]
+
+\[
+\text{resurgence}
+\]
+
+\[
+\text{Borel summation}
+\]
+
+\[
+\text{Stokes phenomena}
+\]
+
+\[
+\text{singular ODE}
+\]
+
+\[
+\text{WKB analysis}
+\]
+
+\[
+\text{quantum curves}
+\]
+
+\[
+\text{enumerative geometry}.
+\]
+
+Archi:
+
+\[
+f(\varepsilon)\mapsto \sum a_n\varepsilon^n
+\]
+
+\[
+\sum a_n\varepsilon^n\mapsto \mathcal Bf
+\]
+
+\[
+\text{Borel singularities}\mapsto \text{Stokes constants}
+\]
+
+\[
+\text{ODE semiclassica}\mapsto \text{WKB transseries}
+\]
+
+\[
+\text{enumerative generating function}\mapsto \text{resurgent structure}.
+\]
+
+Idea:
+
+\[
+\begin{gathered}
+\text{funzione} \to \text{serie divergente} \to \text{Borel singularities} \to \text{Stokes data} \\
+\to \text{monodromia}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{D32. Rete QFT analitica--renormalization--operator algebras--probabilità}
+
+Nodi:
+
+\[
+\text{Euclidean QFT}
+\]
+
+\[
+\text{constructive field theory}
+\]
+
+\[
+\text{renormalization group}
+\]
+
+\[
+\text{Gaussian free fields}
+\]
+
+\[
+\text{CFT}
+\]
+
+\[
+\text{OPE algebras}
+\]
+
+\[
+\text{stochastic quantization}
+\]
+
+\[
+\text{AQFT}
+\]
+
+\[
+\text{factorization algebras}
+\]
+
+\[
+\text{perturbative QFT}.
+\]
+
+Archi:
+
+\[
+S\mapsto e^{-S}\mathcal D\phi
+\]
+
+\[
+\text{field}\mapsto \text{correlation functions}
+\]
+
+\[
+\text{correlators}\mapsto \text{OPE coefficients}
+\]
+
+\[
+\text{cutoff theory}\mapsto \text{renormalized theory}
+\]
+
+\[
+\text{local net}\mapsto \text{operator algebra}.
+\]
+
+Idea:
+
+QFT ha molte presentazioni: lagrangiana, hamiltoniana, operatoriale, correlazionale, categoriale.
+
+\medskip
+
+
+\subsection{D33. Rete causalità--Lorentzian geometry--hyperbolic PDE--relatività}
+
+Nodi:
+
+\[
+\text{Lorentzian manifolds}
+\]
+
+\[
+\text{causal structures}
+\]
+
+\[
+\text{Einstein equations}
+\]
+
+\[
+\text{wave equations}
+\]
+
+\[
+\text{null geodesics}
+\]
+
+\[
+\text{Penrose diagrams}
+\]
+
+\[
+\text{conformal geometry}
+\]
+
+\[
+\text{inverse problems}
+\]
+
+\[
+\text{black hole scattering}.
+\]
+
+Archi:
+
+\[
+g\mapsto \text{light cones}
+\]
+
+\[
+g\mapsto \square_g
+\]
+
+\[
+\square_g\mapsto \text{propagator}
+\]
+
+\[
+\text{null geodesic flow}\mapsto \text{lens relation}
+\]
+
+\[
+\text{Einstein equations}\mapsto \text{constraint equations}.
+\]
+
+\medskip
+
+
+\subsection{D34. Rete condensed mathematics--functional analysis derivata}
+
+Nodi:
+
+\[
+\text{topological vector spaces}
+\]
+
+\[
+\text{locally convex spaces}
+\]
+
+\[
+\text{Fréchet spaces}
+\]
+
+\[
+\text{nuclear spaces}
+\]
+
+\[
+\text{Schwartz distributions}
+\]
+
+\[
+\text{condensed mathematics}
+\]
+
+\[
+\text{solid modules}
+\]
+
+\[
+\text{derived functional analysis}
+\]
+
+\[
+\text{analytic geometry over rings}.
+\]
+
+Archi:
+
+\[
+V\mapsto \underline V
+\]
+
+\[
+\text{functional analytic problem}\mapsto \text{abelian categorical problem}
+\]
+
+\[
+\text{distribution space}\mapsto \text{sheaf/condensed module}
+\]
+
+\[
+\text{topological tensor product}\mapsto \text{derived tensor}.
+\]
+
+Idea:
+
+\[
+\text{assorbire analisi funzionale in un linguaggio categoriale stabile.}
+\]
+
+\medskip
+
+
+\section{E. Probabilità, statistica, informazione, learning e applicazioni}
+
+\medskip
+
+
+\subsection{E1. Rete probabilità--statistica--informazione--geometria algebrica}
+
+Nodi:
+
+\[
+\text{distribuzioni discrete}
+\]
+
+\[
+\text{misure continue}
+\]
+
+\[
+\text{momenti}
+\]
+
+\[
+\text{exponential families}
+\]
+
+\[
+\text{graphical models}
+\]
+
+\[
+\text{algebraic statistics}
+\]
+
+\[
+\text{toric varieties}
+\]
+
+\[
+\text{information geometry}
+\]
+
+\[
+\text{optimal transport}
+\]
+
+\[
+\text{learning theory}
+\]
+
+\[
+\text{coding theory}.
+\]
+
+Archi:
+
+\[
+p\mapsto (m_\alpha(p))_{|\alpha|\le d}
+\]
+
+\[
+\text{graphical model}\mapsto \text{conditional independence ideal}
+\]
+
+\[
+\text{Bayesian network}\mapsto \text{semialgebraic model}
+\]
+
+\[
+\mu,\nu\mapsto W_p(\mu,\nu)
+\]
+
+\[
+\text{code}\mapsto \text{probability channel}.
+\]
+
+Fibra centrale:
+
+\[
+\theta\mapsto p_\theta
+\]
+
+misura identifiability e non-identifiability.
+
+\medskip
+
+
+\subsection{E2. Rete informazione--entropia--compressione--analisi}
+
+Nodi:
+
+\[
+\text{Shannon entropy}
+\]
+
+\[
+\text{Rényi entropy}
+\]
+
+\[
+\text{Fisher information}
+\]
+
+\[
+\text{log-Sobolev inequalities}
+\]
+
+\[
+\text{transport inequalities}
+\]
+
+\[
+\text{compression}
+\]
+
+\[
+\text{statistical estimation}
+\]
+
+\[
+\text{large deviations}
+\]
+
+\[
+\text{thermodynamic formalism}
+\]
+
+\[
+\text{quantum information}.
+\]
+
+Archi:
+
+\[
+\mu\mapsto H(\mu)
+\]
+
+\[
+\mu\mapsto I(\mu)
+\]
+
+\[
+\text{Markov semigroup}\mapsto \text{entropy dissipation}
+\]
+
+\[
+\text{source}\mapsto \text{code length profile}
+\]
+
+\[
+\rho\mapsto S(\rho).
+\]
+
+Schema:
+
+\[
+\text{entropia}
+\leftrightarrow
+\text{calore}
+\leftrightarrow
+\text{trasporto ottimale}
+\leftrightarrow
+\text{concentrazione}
+\leftrightarrow
+\text{compressione}
+\leftrightarrow
+\text{learning}.
+\]
+
+\medskip
+
+
+\subsection{E3. Rete grandi deviazioni--principi variazionali--PDE limite}
+
+Nodi:
+
+\[
+\text{probability measures}
+\]
+
+\[
+\text{large deviation principles}
+\]
+
+\[
+\text{rate functions}
+\]
+
+\[
+\text{Hamilton--Jacobi equations}
+\]
+
+\[
+\text{statistical mechanics}
+\]
+
+\[
+\text{mean field limits}
+\]
+
+\[
+\text{optimal control}
+\]
+
+\[
+\text{rare events}.
+\]
+
+Archi:
+
+\[
+X_\varepsilon\mapsto I
+\]
+
+\[
+I\mapsto \text{variational problem}
+\]
+
+\[
+\text{Markov process}\mapsto \text{Hamiltonian}
+\]
+
+\[
+\text{rare event}\mapsto \text{optimal path}.
+\]
+
+\medskip
+
+
+\subsection{E4. Rete meccanica statistica--Gibbs measures--phase transitions--complessità}
+
+Nodi:
+
+\[
+\text{spin systems}
+\]
+
+\[
+\text{Gibbs measures}
+\]
+
+\[
+\text{partition functions}
+\]
+
+\[
+\text{cluster expansions}
+\]
+
+\[
+\text{phase transitions}
+\]
+
+\[
+\text{random fields}
+\]
+
+\[
+\text{percolation}
+\]
+
+\[
+\text{Ising/Potts models}
+\]
+
+\[
+\text{statistical algorithms}
+\]
+
+\[
+\text{complexity of counting}.
+\]
+
+Archi:
+
+\[
+H(\sigma)\mapsto Z(\beta)
+\]
+
+\[
+H\mapsto \mu_\beta
+\]
+
+\[
+\mu_\beta\mapsto \text{correlation functions}
+\]
+
+\[
+\text{spin model}\mapsto \text{graphical expansion}
+\]
+
+\[
+\text{Gibbs sampler}\mapsto \text{Markov chain}.
+\]
+
+\medskip
+
+
+\subsection{E5. Rete machine learning matematico--kernels--operatori--geometria}
+
+Nodi:
+
+\[
+\text{kernel methods}
+\]
+
+\[
+\text{RKHS}
+\]
+
+\[
+\text{Gaussian processes}
+\]
+
+\[
+\text{neural networks}
+\]
+
+\[
+\text{neural tangent kernels}
+\]
+
+\[
+\text{mean field limits}
+\]
+
+\[
+\text{optimal transport}
+\]
+
+\[
+\text{statistical learning theory}
+\]
+
+\[
+\text{PAC-Bayes}
+\]
+
+\[
+\text{information bottleneck}.
+\]
+
+Archi:
+
+\[
+k(x,y)\mapsto \mathcal H_k
+\]
+
+\[
+\text{network}\mapsto \text{function class}
+\]
+
+\[
+\text{wide network}\mapsto \text{kernel/mean-field limit}
+\]
+
+\[
+\text{data distribution}\mapsto \text{risk functional}
+\]
+
+\[
+\text{training dynamics}\mapsto \text{gradient flow}.
+\]
+
+Fibra centrale:
+
+\[
+\text{parameters}\mapsto \text{function}
+\]
+
+ha fibre enormi.
+
+\medskip
+
+
+\subsection{E6. Rete scientific machine learning--PDE discovery--operator learning}
+
+Nodi:
+
+\[
+\text{PDE data}
+\]
+
+\[
+\text{symbolic regression}
+\]
+
+\[
+\text{operator learning}
+\]
+
+\[
+\text{neural operators}
+\]
+
+\[
+\text{physics-informed neural networks}
+\]
+
+\[
+\text{reduced order models}
+\]
+
+\[
+\text{Bayesian calibration}
+\]
+
+\[
+\text{uncertainty quantification}
+\]
+
+\[
+\text{digital twins}.
+\]
+
+Archi:
+
+\[
+\text{data }u(x,t)\mapsto \hat P
+\]
+
+\[
+P\mapsto \mathcal S_P
+\]
+
+\[
+\mathcal S_P\mapsto \widehat{\mathcal S}
+\]
+
+\[
+\text{surrogate}\mapsto \text{certified error bound}
+\]
+
+\[
+\text{physical constraints}\mapsto \text{loss terms}.
+\]
+
+Fibra:
+
+\[
+\text{dati osservati}
+\mapsto
+\text{insieme delle PDE compatibili}.
+\]
+
+\medskip
+
+
+\subsection{E7. Rete inverse problems--tomografia--machine learning--invarianti}
+
+Nodi:
+
+\[
+\text{segnali}
+\]
+
+\[
+\text{immagini}
+\]
+
+\[
+\text{varietà}
+\]
+
+\[
+\text{grafi}
+\]
+
+\[
+\text{gruppi}
+\]
+
+\[
+\text{Radon transforms}
+\]
+
+\[
+\text{scattering transforms}
+\]
+
+\[
+\text{graph neural networks}
+\]
+
+\[
+\text{kernel methods}
+\]
+
+\[
+\text{statistical queries}
+\]
+
+\[
+\text{invariant theory}.
+\]
+
+Archi:
+
+\[
+X\mapsto \mathcal O_{\le r}(X)
+\]
+
+\[
+G\curvearrowright X\mapsto k[X]^G_{\le d}
+\]
+
+\[
+\text{graph}\mapsto \text{message-passing features}
+\]
+
+\[
+\text{signal}\mapsto \text{wavelet/scattering coefficients}
+\]
+
+\[
+\text{measure}\mapsto \text{statistical query oracle}.
+\]
+
+Domanda:
+
+\[
+\text{che cosa può vedere una classe limitata di osservatori?}
+\]
+
+\medskip
+
+
+\subsection{E8. Rete inverse problems universale}
+
+Nodi:
+
+\[
+\text{oggetto nascosto}
+\]
+
+\[
+\text{forward map}
+\]
+
+\[
+\text{dati osservati}
+\]
+
+\[
+\text{regularization}
+\]
+
+\[
+\text{stability estimates}
+\]
+
+\[
+\text{Bayesian inverse problems}
+\]
+
+\[
+\text{optimal experimental design}
+\]
+
+\[
+\text{compressed sensing}
+\]
+
+\[
+\text{tomography}
+\]
+
+\[
+\text{learning-based inversion}.
+\]
+
+Arco fondamentale:
+
+\[
+x\mapsto F(x).
+\]
+
+Esempi:
+
+\[
+V\mapsto \text{scattering data}
+\]
+
+\[
+\text{dominio}\mapsto \text{boundary measurements}
+\]
+
+\[
+\text{immagine}\mapsto \text{Radon transform}
+\]
+
+\[
+\text{metrica}\mapsto \text{lens data}
+\]
+
+\[
+\text{coefficiente PDE}\mapsto \text{Dirichlet-to-Neumann map}.
+\]
+
+Principio:
+
+\[
+\text{quanto costa distinguere due oggetti nascosti tramite dati accessibili?}
+\]
+
+\medskip
+
+
+\subsection{E9. Rete economia matematica--equilibri--convessità--dinamica}
+
+Nodi:
+
+\[
+\text{fixed point theory}
+\]
+
+\[
+\text{game theory}
+\]
+
+\[
+\text{Nash equilibria}
+\]
+
+\[
+\text{market equilibria}
+\]
+
+\[
+\text{mechanism design}
+\]
+
+\[
+\text{optimal transport economics}
+\]
+
+\[
+\text{mean field games}
+\]
+
+\[
+\text{variational inequalities}
+\]
+
+\[
+\text{convex analysis}
+\]
+
+\[
+\text{algorithmic game theory}.
+\]
+
+Archi:
+
+\[
+\text{game}\mapsto \text{best response correspondence}
+\]
+
+\[
+\text{best response}\mapsto \text{fixed point problem}
+\]
+
+\[
+\text{market}\mapsto \text{convex program}
+\]
+
+\[
+\text{many-agent game}\mapsto \text{mean field game PDE}
+\]
+
+\[
+\text{mechanism}\mapsto \text{incentive constraints}.
+\]
+
+\medskip
+
+
+\subsection{E10. Rete biologia matematica--reti di reazione--dinamica--topologia}
+
+Nodi:
+
+\[
+\text{chemical reaction networks}
+\]
+
+\[
+\text{ODE systems}
+\]
+
+\[
+\text{stochastic reaction networks}
+\]
+
+\[
+\text{mass-action kinetics}
+\]
+
+\[
+\text{Petri nets}
+\]
+
+\[
+\text{persistence}
+\]
+
+\[
+\text{bifurcation theory}
+\]
+
+\[
+\text{network motifs}
+\]
+
+\[
+\text{phylogenetics}
+\]
+
+\[
+\text{algebraic statistics}.
+\]
+
+Archi:
+
+\[
+\text{reaction network}\mapsto \text{ODE}
+\]
+
+\[
+\text{reaction network}\mapsto \text{Petri net}
+\]
+
+\[
+\text{ODE}\mapsto \text{steady-state ideal}
+\]
+
+\[
+\text{stochastic network}\mapsto \text{master equation}
+\]
+
+\[
+\text{phylogenetic tree}\mapsto \text{statistical model variety}.
+\]
+
+\medskip
+
+
+\section{F. Aritmetica, automi, linguaggi, discreto e computabilità}
+
+\medskip
+
+
+\subsection{F1. Rete computabilità--tilings--subshift--gruppi--cellular automata}
+
+Nodi:
+
+\[
+\text{macchine di Turing}
+\]
+
+\[
+\text{tag systems}
+\]
+
+\[
+\text{Wang tilings}
+\]
+
+\[
+\text{subshifts of finite type}
+\]
+
+\[
+\text{cellular automata}
+\]
+
+\[
+\text{semigruppi finitamente presentati}
+\]
+
+\[
+\text{gruppi finitamente presentati}
+\]
+
+\[
+\text{rewriting systems}
+\]
+
+\[
+\text{model checking}
+\]
+
+\[
+\text{reachability}.
+\]
+
+Archi:
+
+\[
+\text{Turing machine}\mapsto \text{tiling system}
+\]
+
+\[
+\text{tiling}\mapsto \text{subshift}
+\]
+
+\[
+\text{subshift}\mapsto \text{cellular automaton}
+\]
+
+\[
+\text{rewriting}\mapsto \text{semigroup presentation}
+\]
+
+\[
+\text{semigroup}\mapsto \text{group embedding}.
+\]
+
+Effetto:
+
+\[
+\text{indecidibilità}
+\to
+\text{profili quantitativi non computabili}.
+\]
+
+\medskip
+
+
+\subsection{F2. Rete aritmetica--Galois--monodromia--automata--linguaggi}
+
+Nodi:
+
+\[
+\text{campi di numeri}
+\]
+
+\[
+\text{varietà aritmetiche}
+\]
+
+\[
+\text{rappresentazioni di Galois}
+\]
+
+\[
+\ell\text{-adic cohomology}
+\]
+
+\[
+\text{equazioni differenziali}
+\]
+
+\[
+\text{monodromia}
+\]
+
+\[
+\text{dessins d'enfants}
+\]
+
+\[
+\text{ricorrenze lineari}
+\]
+
+\[
+\text{sequenze automatiche}
+\]
+
+\[
+\text{linguaggi formali}
+\]
+
+\[
+\text{compressione}.
+\]
+
+Archi:
+
+\[
+X/\mathbb Q\mapsto \rho_{X,\ell}
+\]
+
+\[
+X\mapsto \#X(\mathbb F_p)
+\]
+
+\[
+\text{covering}\mapsto \text{monodromy permutation group}
+\]
+
+\[
+\text{linear recurrence}\mapsto \text{companion matrix}
+\]
+
+\[
+\alpha\mapsto \text{digit word}_b(\alpha)
+\]
+
+\[
+\text{sequence}\mapsto \text{automaton/minimal transducer}.
+\]
+
+Domande:
+
+\[
+\text{quanta aritmetica è visibile da un prefisso digitale?}
+\]
+
+\[
+\text{quanta geometria è visibile dai conteggi modulo primi piccoli?}
+\]
+
+\medskip
+
+
+\subsection{F3. Rete automorphic forms--L-functions--PDE spettrali--aritmetica}
+
+Nodi:
+
+\[
+\text{forme modulari}
+\]
+
+\[
+\text{forme automorfe}
+\]
+
+\[
+\text{rappresentazioni automorfe}
+\]
+
+\[
+L\text{-functions}
+\]
+
+\[
+\text{trace formulas}
+\]
+
+\[
+\text{Shimura varieties}
+\]
+
+\[
+\text{Galois representations}
+\]
+
+\[
+\text{spectral theory on locally symmetric spaces}
+\]
+
+\[
+\text{periods}.
+\]
+
+Archi:
+
+\[
+f\mapsto L(f,s)
+\]
+
+\[
+f\mapsto (a_n(f))_{n\le N}
+\]
+
+\[
+\pi\mapsto \rho_{\pi,\ell}
+\]
+
+\[
+\Gamma\backslash G/K\mapsto \operatorname{Spec}(\Delta)
+\]
+
+\[
+\text{trace formula}\mapsto \text{comparison of spectra}.
+\]
+
+\medskip
+
+
+\subsection{F4. Rete linguaggi formali--automata--analisi spettrale--dinamica simbolica}
+
+Nodi:
+
+\[
+\text{regular languages}
+\]
+
+\[
+\text{context-free languages}
+\]
+
+\[
+\text{weighted automata}
+\]
+
+\[
+\text{formal power series}
+\]
+
+\[
+\text{subshifts}
+\]
+
+\[
+\text{transfer matrices}
+\]
+
+\[
+\text{thermodynamic formalism}
+\]
+
+\[
+\text{zeta functions}
+\]
+
+\[
+\text{compression}
+\]
+
+\[
+\text{random walks on automata}.
+\]
+
+Archi:
+
+\[
+\mathcal A\mapsto L(\mathcal A)
+\]
+
+\[
+\mathcal A\mapsto A_{\mathcal A}
+\]
+
+\[
+A_{\mathcal A}\mapsto \operatorname{Spec}(A_{\mathcal A})
+\]
+
+\[
+L\mapsto \sum_n a_nz^n
+\]
+
+\[
+\text{subshift}\mapsto \zeta(z).
+\]
+
+Schema:
+
+\[
+\begin{gathered}
+\text{linguaggi} \to \text{matrici} \to \text{spettri} \to \text{dinamica} \\
+\to \text{analisi}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{F5. Rete finite observable profiles: quozienti, troncamenti, riduzioni, completamenti}
+
+Nodi:
+
+\[
+\text{oggetti infiniti}
+\]
+
+\[
+\text{quozienti finiti}
+\]
+
+\[
+\text{jets}
+\]
+
+\[
+\text{troncamenti}
+\]
+
+\[
+\text{riduzioni mod }p
+\]
+
+\[
+\text{completamenti profiniti}
+\]
+
+\[
+p\text{-adic completions}
+\]
+
+\[
+\text{localizations}
+\]
+
+\[
+\text{finite-dimensional approximations}.
+\]
+
+Archi:
+
+\[
+X\mapsto X_{\le r}
+\]
+
+\[
+G\mapsto G/N
+\]
+
+\[
+X/\mathbb Z\mapsto X_{\mathbb F_p}
+\]
+
+\[
+R\mapsto R/\mathfrak m^k
+\]
+
+\[
+A\mapsto A_n
+\]
+
+\[
+X\mapsto \widehat X.
+\]
+
+Idea:
+
+\[
+\text{ogni teoria ha profili osservabili finiti; la complessità è il profilo con cui essi rivelano l'oggetto.}
+\]
+
+\medskip
+
+
+\subsection{F6. Rete codici--reticoli--aritmetica--crittografia matematica}
+
+Nodi:
+
+\[
+\text{reticoli}
+\]
+
+\[
+\text{codici lineari}
+\]
+
+\[
+\text{codici algebro-geometrici}
+\]
+
+\[
+\text{geometry of numbers}
+\]
+
+\[
+\text{isogeny graphs}
+\]
+
+\[
+\text{modular forms}
+\]
+
+\[
+\text{finite fields}
+\]
+
+\[
+\text{group actions}
+\]
+
+\[
+\text{hard homogeneous spaces}
+\]
+
+\[
+\text{proof systems}.
+\]
+
+Archi:
+
+\[
+C\mapsto \Lambda_C
+\]
+
+\[
+X/\mathbb F_q\mapsto C_X
+\]
+
+\[
+\text{isogeny graph}\mapsto \text{expander/random walk}
+\]
+
+\[
+\text{lattice}\mapsto \text{theta series}
+\]
+
+\[
+\text{constraint system}\mapsto \text{interactive proof object}.
+\]
+
+Osservabili:
+
+\[
+[n,k,d]
+\]
+
+\[
+\text{theta series}
+\]
+
+\[
+\text{spectrum}
+\]
+
+\[
+\text{weight enumerator}.
+\]
+
+\medskip
+
+
+\subsection{F7. Rete simmetria--species--funzioni generatrici--rappresentazioni}
+
+Nodi:
+
+\[
+\text{combinatorial species}
+\]
+
+\[
+\text{operadi}
+\]
+
+\[
+\text{symmetric functions}
+\]
+
+\[
+S_n\text{-representations}
+\]
+
+\[
+\text{Hilbert schemes}
+\]
+
+\[
+\text{moduli spaces}
+\]
+
+\[
+\text{generating functions}
+\]
+
+\[
+D\text{-finite functions}
+\]
+
+\[
+\text{recurrences}
+\]
+
+\[
+\text{topological recursion}.
+\]
+
+Archi:
+
+\[
+\mathcal S\mapsto F_{\mathcal S}(x)
+\]
+
+\[
+\mathcal S\mapsto Z_{\mathcal S}
+\]
+
+\[
+X_n\mapsto H^\ast(X_n)
+\]
+
+\[
+\text{sequence}\mapsto \text{linear recurrence/differential equation}
+\]
+
+\[
+\text{moduli problem}\mapsto \text{generating series}.
+\]
+
+Domanda:
+
+\[
+\text{quanto di una struttura è visibile dalla sua funzione generatrice?}
+\]
+
+\medskip
+
+
+\subsection{F8. Rete geometric group theory--analisi--spettri--probabilità}
+
+Nodi:
+
+\[
+\text{gruppi finitamente generati}
+\]
+
+\[
+\text{Cayley graphs}
+\]
+
+\[
+\text{random walks}
+\]
+
+\[
+\text{growth functions}
+\]
+
+\[
+\text{isoperimetric profiles}
+\]
+
+\[
+\text{property T}
+\]
+
+\[
+\text{coarse embeddings}
+\]
+
+\[
+\text{boundaries}
+\]
+
+\[
+\text{operator algebras}
+\]
+
+\[
+L^2\text{-cohomology}.
+\]
+
+Archi:
+
+\[
+(G,S)\mapsto \operatorname{Cay}(G,S)
+\]
+
+\[
+G\mapsto \gamma_G(n)
+\]
+
+\[
+G\mapsto \text{return probabilities}
+\]
+
+\[
+G\mapsto C^\ast_r(G)
+\]
+
+\[
+G\mapsto \beta_i^{(2)}(G).
+\]
+
+\medskip
+
+
+\subsection{F9. Rete discreto-continuo: grafi, mesh, manifold, operatori}
+
+Nodi:
+
+\[
+\text{grafi}
+\]
+
+\[
+\text{simplicial complexes}
+\]
+
+\[
+\text{meshes}
+\]
+
+\[
+\text{manifolds}
+\]
+
+\[
+\text{discrete Laplacians}
+\]
+
+\[
+\text{finite element operators}
+\]
+
+\[
+\text{graph neural operators}
+\]
+
+\[
+\text{spectral convergence}
+\]
+
+\[
+\text{Gromov--Hausdorff convergence}.
+\]
+
+Archi:
+
+\[
+M\mapsto \mathcal T_h(M)
+\]
+
+\[
+\mathcal T_h\mapsto L_h
+\]
+
+\[
+L_h\mapsto \operatorname{Spec}(L_h)
+\]
+
+\[
+G_n\mapsto M
+\]
+
+\[
+\text{graph signal}\mapsto \text{continuum function}.
+\]
+
+\medskip
+
+
+\subsection{F10. Rete graph limits--analisi continua--combinatoria estrema}
+
+Nodi:
+
+\[
+\text{grafi finiti}
+\]
+
+\[
+\text{graphons}
+\]
+
+\[
+\text{hypergraphons}
+\]
+
+\[
+\text{flag algebras}
+\]
+
+\[
+\text{cut norm}
+\]
+
+\[
+\text{exchangeable arrays}
+\]
+
+\[
+\text{dense graph limits}
+\]
+
+\[
+\text{sparse graph limits}
+\]
+
+\[
+\text{property testing}.
+\]
+
+Archi:
+
+\[
+G_n\mapsto W
+\]
+
+\[
+G\mapsto (t(F,G))_F
+\]
+
+\[
+W\mapsto T_W
+\]
+
+\[
+W\mapsto \operatorname{Spec}(T_W)
+\]
+
+\[
+\text{exchangeable array}\mapsto \text{graphon representation}.
+\]
+
+\medskip
+
+
+\section{G. Reti quantistiche e non commutative}
+
+\medskip
+
+
+\subsection{G1. Rete quantistica--noncommutativa--operatoriale--tensor networks}
+
+Nodi:
+
+\[
+\text{quantum states}
+\]
+
+\[
+\text{quantum channels}
+\]
+
+\[
+\text{local Hamiltonians}
+\]
+
+\[
+\text{tensor networks}
+\]
+
+\[
+\text{stabilizer formalism}
+\]
+
+\[
+C^\ast\text{-algebras}
+\]
+
+\[
+\text{von Neumann algebras}
+\]
+
+\[
+\text{nonlocal games}
+\]
+
+\[
+\text{semidefinite programming}
+\]
+
+\[
+\text{noncommutative polynomial optimization}
+\]
+
+\[
+\text{modular tensor categories}.
+\]
+
+Archi:
+
+\[
+\text{nonlocal game}\mapsto \text{operator relations}
+\]
+
+\[
+H=\sum H_i\mapsto \text{quantum CSP}
+\]
+
+\[
+\psi\mapsto \text{tensor network ansatz}
+\]
+
+\[
+\text{operator inequalities}\mapsto \text{SDP hierarchy}
+\]
+
+\[
+\text{TQFT}\mapsto \text{quantum circuit representation}.
+\]
+
+\medskip
+
+
+\subsection{G2. Rete quantum many-body--PDE limite--tensor networks--operatori}
+
+Nodi:
+
+\[
+\text{many-body quantum systems}
+\]
+
+\[
+\text{local Hamiltonians}
+\]
+
+\[
+\text{mean field limits}
+\]
+
+\[
+\text{Hartree equation}
+\]
+
+\[
+\text{Gross--Pitaevskii}
+\]
+
+\[
+\text{density matrices}
+\]
+
+\[
+\text{BBGKY hierarchy}
+\]
+
+\[
+\text{tensor networks}
+\]
+
+\[
+\text{entanglement entropy}
+\]
+
+\[
+\text{operator algebras}.
+\]
+
+Archi:
+
+\[
+\Psi_N\mapsto \gamma_N^{(k)}
+\]
+
+\[
+\gamma_N^{(k)}\mapsto \gamma^{\otimes k}
+\]
+
+\[
+\Psi_N\mapsto \text{Hartree/NLS limit}
+\]
+
+\[
+\Psi\mapsto \text{MPS/PEPS approximation}
+\]
+
+\[
+H\mapsto \text{ground state}\mapsto \text{entanglement profile}.
+\]
+
+Fibra:
+
+\[
+\Psi\mapsto {\gamma^{(k)}}_{k\le r}
+\]
+
+dimentica correlazioni superiori.
+
+\medskip
+
+
+\subsection{G3. Rete operator algebras--indice--K-teoria--coarse geometry}
+
+Nodi:
+
+\[
+C^\ast\text{-algebras}
+\]
+
+\[
+\text{von Neumann algebras}
+\]
+
+\[
+\text{Fredholm modules}
+\]
+
+\[
+\text{spectral triples}
+\]
+
+\[
+K\text{-theory}
+\]
+
+\[
+K\text{-homology}
+\]
+
+\[
+\text{index theory}
+\]
+
+\[
+\text{coarse geometry}
+\]
+
+\[
+\text{group }C^\ast\text{-algebras}
+\]
+
+\[
+\text{noncommutative geometry}.
+\]
+
+Archi:
+
+\[
+X\mapsto C(X)
+\]
+
+\[
+\Gamma\mapsto C^\ast(\Gamma)
+\]
+
+\[
+(M,D)\mapsto \text{spectral triple}
+\]
+
+\[
+A\mapsto K_\ast(A)
+\]
+
+\[
+D\mapsto \operatorname{ind}(D).
+\]
+
+\medskip
+
+
+\section{H. Reti metriche, convesse e di ottimizzazione}
+
+\medskip
+
+
+\subsection{H1. Rete metrica--embedding--grafi--Banach--algoritmi}
+
+Nodi:
+
+\[
+\text{grafi}
+\]
+
+\[
+\text{metriche finite}
+\]
+
+\[
+\text{spazi di Banach}
+\]
+
+\[
+\text{manifolds metriche}
+\]
+
+\[
+\text{expanders}
+\]
+
+\[
+\text{optimal transport}
+\]
+
+\[
+\text{metric embeddings}
+\]
+
+\[
+\text{sketching}
+\]
+
+\[
+\text{nearest neighbor search}
+\]
+
+\[
+\text{communication complexity}.
+\]
+
+Archi:
+
+\[
+G\mapsto d_G
+\]
+
+\[
+(X,d)\mapsto \ell_p^n
+\]
+
+\[
+(X,d)\mapsto \operatorname{Lip}_1(X)
+\]
+
+\[
+\mu,\nu\mapsto W_p(\mu,\nu)
+\]
+
+\[
+\text{communication problem}\mapsto \text{matrix/metric}.
+\]
+
+\medskip
+
+
+\subsection{H2. Rete convexità--SOS--momenti--ottimizzazione--dati di verifica}
+
+Nodi:
+
+\[
+\text{semialgebraic sets}
+\]
+
+\[
+\text{polynomial optimization}
+\]
+
+\[
+\text{sum-of-squares}
+\]
+
+\[
+\text{moment problems}
+\]
+
+\[
+\text{convex bodies}
+\]
+
+\[
+\text{linear programming}
+\]
+
+\[
+\text{semidefinite programming}
+\]
+
+\[
+\text{control theory}
+\]
+
+\[
+\text{Lyapunov functions}
+\]
+
+\[
+\text{combinatorial optimization}
+\]
+
+\[
+\text{proof complexity}.
+\]
+
+Archi:
+
+\[
+S={f_i\ge 0}\mapsto \text{quadratic module}
+\]
+
+\[
+\text{polynomial optimization}\mapsto \text{moment relaxation}
+\]
+
+\[
+\text{polytope}\mapsto \text{slack matrix}
+\]
+
+\[
+\text{dynamical system}\mapsto \text{Lyapunov verification data}
+\]
+
+\[
+\text{combinatorial problem}\mapsto \text{LP/SDP hierarchy}.
+\]
+
+\medskip
+
+
+\subsection{H3. Rete convex geometry--isoperimetria--concentrazione--probabilità}
+
+Nodi:
+
+\[
+\text{convex bodies}
+\]
+
+\[
+\text{Brunn--Minkowski theory}
+\]
+
+\[
+\text{isoperimetric inequalities}
+\]
+
+\[
+\text{log-concave measures}
+\]
+
+\[
+\text{concentration of measure}
+\]
+
+\[
+\text{transport inequalities}
+\]
+
+\[
+\text{random polytopes}
+\]
+
+\[
+\text{asymptotic geometric analysis}
+\]
+
+\[
+\text{high-dimensional probability}.
+\]
+
+Archi:
+
+\[
+K\mapsto h_K
+\]
+
+\[
+K\mapsto \operatorname{Vol}(K+tB)
+\]
+
+\[
+\mu\mapsto \text{concentration profile}
+\]
+
+\[
+K\mapsto \text{isotropic constant}
+\]
+
+\[
+\mu,\nu\mapsto T_{\mu\to\nu}.
+\]
+
+\medskip
+
+
+\subsection{H4. Rete algebra tropicale--amoebas--analisi asintotica}
+
+Nodi:
+
+\[
+\text{varietà complesse}
+\]
+
+\[
+\text{amoebas}
+\]
+
+\[
+\text{tropical varieties}
+\]
+
+\[
+\text{Newton polytopes}
+\]
+
+\[
+\text{large deviations}
+\]
+
+\[
+\text{WKB asymptotics}
+\]
+
+\[
+\text{idempotent analysis}
+\]
+
+\[
+\text{max-plus algebra}
+\]
+
+\[
+\text{optimization}
+\]
+
+\[
+\text{control}.
+\]
+
+Archi:
+
+\[
+z\mapsto \log|z|
+\]
+
+\[
+\varepsilon\log(e^{f/\varepsilon}+e^{g/\varepsilon})\mapsto \max(f,g)
+\]
+
+\[
+\text{Hamilton--Jacobi}\mapsto \text{max-plus linearity}
+\]
+
+\[
+\text{polynomial}\mapsto \text{Newton polytope}.
+\]
+
+\medskip
+
+
+\section{Mega-reti composte}
+
+Le reti precedenti diventano potentissime quando si compongono.
+
+\medskip
+
+
+\subsection{M1. Mega-rete sintassi--geometria--complessità}
+
+\[
+\begin{gathered}
+\text{presentazione finita} \to \text{categoria dei modelli} \to \text{spazio di rappresentazioni} \to \text{invariant quotient} \\
+\to \text{tropicalizzazione} \to \text{matroide/fan} \to \text{CSP} \to \text{proof system}.
+\end{gathered}
+\]
+
+Trasporto complessivo:
+
+\[
+\begin{gathered}
+\text{complessità di classificazione} \to \text{complessità degli invarianti} \to \text{complessità tropicale} \\
+\to \text{complessità CSP} \to \text{complessità di prova}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{M2. Mega-rete topologia--quantum--operatori--algoritmi}
+
+\[
+\begin{gathered}
+\text{varietà/nodi} \to \text{gruppi fondamentali} \to \text{rappresentazioni} \to \text{operator algebras} \\
+\to \text{TQFT} \to \text{quantum circuits} \to \text{tensor networks} \to \text{SDP relaxations}.
+\end{gathered}
+\]
+
+Osservabili lungo la rete:
+
+\[
+\begin{gathered}
+\text{caratteri} \to \text{tracce operatoriali} \to \text{ampiezze quantistiche} \to \text{correlazioni} \\
+\to \text{momenti SDP}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{M3. Mega-rete aritmetica--dinamica--linguaggi--compressione}
+
+\[
+\begin{gathered}
+\text{numero/varietà aritmetica} \to \text{riduzioni finite} \to \text{sequenze} \to \text{automi} \\
+\to \text{linguaggi} \to \text{compressione} \to \text{complessità descrittiva}.
+\end{gathered}
+\]
+
+Osservabili:
+
+\[
+\text{primi piccoli}
+\]
+
+\[
+\text{prefissi digitali}
+\]
+
+\[
+\text{fattori di parole}
+\]
+
+\[
+\text{dimensione dell'automa}
+\]
+
+\[
+\text{parse size}
+\]
+
+\[
+\text{entropia subword}.
+\]
+
+Domanda:
+
+\[
+\text{quando un oggetto aritmetico produce profili osservabili linguisticamente semplici?}
+\]
+
+\medskip
+
+
+\subsection{M4. Mega-rete local-to-global universale}
+
+\[
+\begin{gathered}
+\text{oggetto globale} \to \text{cover locale} \to \text{presheaf} \to \text{cohomology} \\
+\to \text{obstruction class} \to \text{verification data} \to \text{algorithm/proof}.
+\end{gathered}
+\]
+
+Principio:
+
+\[
+\boxed{
+\text{ogni fallimento globale può essere presentato come fallimento di gluing.}
+}
+\]
+
+\medskip
+
+
+\subsection{M5. Mega-rete deformazione--dato di verifica--formalizzazione}
+
+\[
+\begin{gathered}
+\text{problema geometrico} \to \text{dg-Lie controller} \to \text{obstruction tower} \to \text{finite verification data} \\
+\to \text{formal proof} \to \text{machine-checkable object}.
+\end{gathered}
+\]
+
+Osservabili:
+
+\[
+H^0,H^1,H^2,\ldots
+\]
+
+dati di verifica:
+
+\[
+\text{vanishing}
+\]
+
+\[
+\text{obstruction nonzero}
+\]
+
+\[
+\text{formal smoothness}
+\]
+
+\[
+\text{rigidity}
+\]
+
+\[
+\text{extension to order }n.
+\]
+
+\medskip
+
+
+\subsection{M6. Mega-rete analitica composita}
+
+Prima catena:
+
+\[
+\begin{gathered}
+\text{funzioni/distribuzioni} \to \text{Fourier/wavelet coefficients} \to \text{spazi funzionali} \to \text{operatori} \\
+\to \text{PDE} \to \text{semigruppi} \to \text{kernel} \to \text{spettri} \\
+\to \text{geometria} \to \text{topologia}.
+\end{gathered}
+\]
+
+Seconda catena:
+
+\[
+\begin{gathered}
+\text{PDE singolare} \to \text{microlocal data} \to \text{simplectic geometry} \to \text{sheaf category} \\
+\to \text{Floer/Fukaya} \to \text{mirror algebra}.
+\end{gathered}
+\]
+
+Terza catena:
+
+\[
+\begin{gathered}
+\text{rumore} \to \text{random distributions} \to \text{SPDE} \to \text{regularity structures} \\
+\to \text{Hopf algebras} \to \text{renormalization} \to \text{QFT}.
+\end{gathered}
+\]
+
+Quarta catena:
+
+\[
+\begin{gathered}
+\text{microstructure} \to \text{homogenized tensor} \to \text{effective PDE} \to \text{macroscopic observable} \\
+\to \text{inverse design}.
+\end{gathered}
+\]
+
+Quinta catena:
+
+\[
+\begin{gathered}
+\text{dynamical system} \to \text{transfer operator} \to \text{spectrum} \to \text{zeta function} \\
+\to \text{entropy/pressure} \to \text{large deviations}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{M7. Mega-rete discreto--continuo--logico--numerico}
+
+\[
+\begin{gathered}
+\text{finite graph} \to \text{metric measure approximation} \to \text{continuum space} \to \text{PDE operator} \\
+\to \text{discretized operator} \to \text{numerical solution} \to \text{interval verification data} \to \text{formal proof}.
+\end{gathered}
+\]
+
+Ciclo:
+
+\[
+\begin{gathered}
+\text{discreto} \to \text{continuo} \to \text{discreto} \to \text{dato di verifica}.
+\end{gathered}
+\]
+
+\medskip
+
+
+\subsection{M8. Mega-rete aritmetica--analitica--spettrale}
+
+\[
+\begin{gathered}
+\text{varietà aritmetica} \to \text{rappresentazione di Galois} \to L\text{-function} \to \text{automorphic representation} \\
+\to \text{spectral theory} \to \text{trace formula} \to \text{geometric cycles}.
+\end{gathered}
+\]
+
+Osservabili:
+
+\[
+\text{Frobenius traces}
+\]
+
+\[
+\text{Euler factors}
+\]
+
+\[
+\text{Fourier coefficients}
+\]
+
+\[
+\text{eigenvalues}
+\]
+
+\[
+\text{periods}
+\]
+
+\[
+\text{intersection numbers}.
+\]
+
+\medskip
+
+
+\subsection{M9. Mega-rete probabilità--PDE--ottimizzazione--learning}
+
+\[
+\begin{gathered}
+\text{data distribution} \to \text{empirical measure} \to \text{gradient flow} \to \text{PDE mean-field} \\
+\to \text{risk minimization} \to \text{generalization verification data} \to \text{algorithm}.
+\end{gathered}
+\]
+
+Archi:
+
+\[
+\mu\to \operatorname{Ent}(\mu)
+\]
+
+\[
+\mu_t\to \partial_t\mu_t=\nabla\cdot(\mu_t\nabla V)
+\]
+
+\[
+\text{training}\to \text{mean-field PDE}
+\]
+
+\[
+\text{PDE}\to \text{convergence rate}.
+\]
+
+\medskip
+
+
+\subsection{M10. Mega-rete local-to-global analitica}
+
+\[
+\begin{gathered}
+\text{local estimates} \to \text{patching} \to \text{global regularity} \to \text{compactness} \\
+\to \text{existence} \to \text{verification datas}.
+\end{gathered}
+\]
+
+Nodi:
+
+\[
+\text{elliptic estimates}
+\]
+
+\[
+\text{partitions of unity}
+\]
+
+\[
+\text{Sobolev embeddings}
+\]
+
+\[
+\text{compactness}
+\]
+
+\[
+\text{weak convergence}
+\]
+
+\[
+\text{defect measures}
+\]
+
+\[
+\text{concentration compactness}.
+\]
+
+\medskip
+
+
+\subsection{M11. Mega-rete dell'osservazione limitata}
+
+Schema universale:
+
+\[
+X\mapsto \mathcal O_{\le r}(X).
+\]
+
+Esempi:
+
+\[
+u\mapsto \widehat u|_{|\xi|\le \Lambda}
+\]
+
+\[
+M\mapsto {\lambda_1,\ldots,\lambda_N}
+\]
+
+\[
+\mu\mapsto (m_\alpha)_{|\alpha|\le d}
+\]
+
+\[
+T\mapsto \operatorname{Tr}(T^k)_{k\le N}
+\]
+
+\[
+f\mapsto \text{samples }f(x_i)
+\]
+
+\[
+P\mapsto \text{boundary response up to time }T
+\]
+
+\[
+\text{graph}\mapsto \text{subgraph counts up to size }k
+\]
+
+\[
+\text{structure}\mapsto \text{sentences of quantifier rank }\le q.
+\]
+
+Principio:
+
+\[
+\boxed{
+\begin{gathered}
+\text{ogni osservazione limitata induce una partizione;}\\
+\text{la complessità è la geometria di quelle classi.}
+\end{gathered}
+}
+\]
+
+\medskip
+
+
+\section{Direzioni più fertili}
+
+Le direzioni più potenti emerse sono queste.
+
+\medskip
+
+
+\subsection{Sheafification universale dei problemi di complessità}
+
+Dato un problema globale (P), costruire:
+
+\[
+P\mapsto \mathcal F_P.
+\]
+
+Poi misurare:
+
+\[
+\text{minimo raggio locale o grado coomologico che vede il fallimento.}
+\]
+
+Applicabile a:
+
+\[
+\text{CSP}
+\]
+
+\[
+\text{database}
+\]
+
+\[
+\text{distributed computing}
+\]
+
+\[
+\text{proof complexity}
+\]
+
+\[
+\text{matching}
+\]
+
+\[
+\text{graph coloring}
+\]
+
+\[
+\text{SAT}
+\]
+
+\[
+\text{learning locale}
+\]
+
+\[
+\text{bundle theory}.
+\]
+
+\medskip
+
+
+\subsection{Tensorizzazione di strutture non tensoriali}
+
+Cercare il tensore nascosto:
+
+\[
+\text{gruppi}\to \text{tensore di commutatore}
+\]
+
+\[
+\text{spazi topologici}\to \text{tensore del cup product}
+\]
+
+\[
+\text{PDE}\to \text{kernel tensor}
+\]
+
+\[
+\text{database joins}\to \text{incidence tensor}
+\]
+
+\[
+\text{proof systems}\to \text{coefficient tensor}
+\]
+
+\[
+\text{quantum states}\to \text{entanglement tensor}
+\]
+
+\[
+\text{statistical models}\to \text{probability tensor}.
+\]
+
+Poi usare:
+
+\[
+\text{rank}
+\]
+
+\[
+\text{border rank}
+\]
+
+\[
+\text{slice rank}
+\]
+
+\[
+\text{flattening rank}
+\]
+
+per trasferire lower bounds.
+
+\medskip
+
+
+\subsection{Fibre come oggetti primari}
+
+Non studiare solo:
+
+\[
+I:X\to Y,
+\]
+
+ma:
+
+\[
+\operatorname{Fib}_I(y).
+\]
+
+Esempi:
+
+\[
+\text{spazi con stessa omologia}
+\]
+
+\[
+\text{grafi con stesso spettro}
+\]
+
+\[
+\text{modelli statistici con stessi momenti}
+\]
+
+\[
+\text{varietà con stessa tropicalizzazione}
+\]
+
+\[
+\text{gruppi con stessi quozienti finiti fino a }N
+\]
+
+\[
+\text{funzioni con stessi coefficienti bassi}
+\]
+
+\[
+\text{PDE con stessi dati al bordo}
+\]
+
+\[
+\text{reti neurali con stessa funzione}.
+\]
+
+\medskip
+
+
+\subsection{Transfer di dati di verifica}
+
+Per ogni arco chiedere:
+
+\[
+\text{un dato di verifica nel target si tira indietro?}
+\]
+
+\[
+\text{un dato di verifica nel source si spinge avanti?}
+\]
+
+dati di verifica da studiare:
+
+\[
+\text{SOS}
+\]
+
+\[
+\text{SDP}
+\]
+
+\[
+\text{energia}
+\]
+
+\[
+\text{indice}
+\]
+
+\[
+\text{coomologia}
+\]
+
+\[
+\text{entropia}
+\]
+
+\[
+\text{Lyapunov}
+\]
+
+\[
+\text{barrier}
+\]
+
+\[
+\text{interval enclosure}
+\]
+
+\[
+\text{formal proof term}.
+\]
+
+\medskip
+
+
+\subsection{Budgeted Morita theory}
+
+Due teorie sono equivalenti con budget:
+
+\[
+A\simeq_{\mathcal H}B.
+\]
+
+Possibili classi di overhead:
+
+\[
+\text{lineare}
+\]
+
+\[
+\text{polinomiale}
+\]
+
+\[
+\text{quasi-polinomiale}
+\]
+
+\[
+\text{elementare}
+\]
+
+\[
+\text{computabile}
+\]
+
+\[
+\text{non computabile}.
+\]
+
+Questa direzione permette di classificare non solo oggetti, ma intere teorie.
+
+\medskip
+
+
+\subsection{Microlocale--sheaf--PDE--simplettica}
+
+\[
+\begin{gathered}
+\text{PDE singularities} \to WF \to \text{Lagrangians} \to \text{microlocal sheaves} \\
+\to \text{Fukaya categories}.
+\end{gathered}
+\]
+
+Possibile uso:
+
+\[
+\text{lower bounds analitici}
+\to
+\text{lower bounds categoriali}.
+\]
+
+\medskip
+
+
+\subsection{SPDE--regularity structures--Hopf algebras--QFT}
+
+\[
+\begin{gathered}
+\text{noise} \to \text{singular PDE} \to \text{renormalization} \to \text{Hopf algebra} \\
+\to \text{field theory}.
+\end{gathered}
+\]
+
+Qui la presentazione corretta è l'oggetto rinormalizzato, non il dato grezzo.
+
+\medskip
+
+
+\subsection{Homogenization--inverse design--optimization--learning}
+
+\[
+\begin{gathered}
+\text{microstructure} \to \text{effective tensor} \to \text{target material} \to \text{inverse problem} \\
+\to \text{generative design}.
+\end{gathered}
+\]
+
+La fibra contiene tutti i materiali microscopici equivalenti.
+
+\medskip
+
+
+\subsection{Computable analysis--proof mining--verified numerics}
+
+\[
+\begin{gathered}
+\text{existence theorem} \to \text{effective modulus} \to \text{numerical scheme} \to \text{interval verification data} \\
+\to \text{formal proof}.
+\end{gathered}
+\]
+
+Questa è la rete che trasforma analisi qualitativa in matematica verificabile.
+
+\medskip
+
+
+\subsection{Dynamical systems--transfer operators--zeta--spectral geometry}
+
+\[
+\begin{gathered}
+T \to \mathcal L_T \to \operatorname{Spec} \to \zeta_T \\
+\to \text{periodic orbit data}.
+\end{gathered}
+\]
+
+È una rete ideale per trasportare dinamica in analisi spettrale.
+
+\medskip
+
+
+\subsection{Banach geometry--metric embeddings--algorithms}
+
+\[
+\begin{gathered}
+\text{metric spaces} \to \text{Banach embeddings} \to \text{distortion} \to \text{sketching} \\
+\to \text{communication complexity}.
+\end{gathered}
+\]
+
+È una rete naturale per lower bounds algoritmici.
+
+\medskip
+
+
+\subsection{Riemann--Hilbert--D-modules--monodromy--asymptotics}
+
+\[
+\begin{gathered}
+\text{PDE/ODE} \to D\text{-module} \to \text{perverse sheaf} \to \text{monodromy} \\
+\to \text{Stokes data}.
+\end{gathered}
+\]
+
+Questa trasforma analisi differenziale in topologia costruttibile e algebra.
+
+\medskip
+
+
+\section{Scheda operativa per costruire un transfer package}
+
+Per ogni arco dell'atlante bisogna compilare una scheda.
+
+\medskip
+
+
+\subsection{Scheda standard}
+
+Dato:
+
+\[
+\mathfrak T:A\to B,
+\]
+
+specificare:
+
+\subsection*{Oggetti source}
+
+\[
+\mathcal X_A.
+\]
+
+\subsection*{Oggetti target}
+
+\[
+\mathcal X_B.
+\]
+
+\subsection*{Descrizioni source}
+
+\[
+\mathcal D_A.
+\]
+
+\subsection*{Descrizioni target}
+
+\[
+\mathcal D_B.
+\]
+
+\subsection*{Compilatore}
+
+\[
+\widehat F:\mathcal D_A\to\mathcal D_B.
+\]
+
+\subsection*{Overhead presentazionale}
+
+\[
+\kappa_B(\widehat F(d))
+\le
+f(\kappa_A(d)).
+\]
+
+\subsection*{Osservabili target}
+
+\[
+\mathfrak O_B.
+\]
+
+\subsection*{Pullback osservazionale}
+
+\[
+F^\ast:\mathfrak O_B\to\mathfrak O_A.
+\]
+
+\subsection*{Overhead osservazionale}
+
+\[
+\chi_A(F^\ast O)
+\le
+g(\chi_B(O)).
+\]
+
+\subsection*{dati di verifica}
+
+\[
+V_A\leftrightarrow V_B.
+\]
+
+\subsection*{Fibre}
+
+\[
+F^{-1}(y).
+\]
+
+\subsection*{Mosse nella fibra}
+
+\[
+\text{generators, moves, deformations, homotopies, refinements}.
+\]
+
+\subsection*{Bridge profile}
+
+\[
+B_y(n)=\text{costo massimo/minimo per navigare nella fibra con budget }n.
+\]
+
+\subsection*{Misure}
+
+\[
+\mu_A\mapsto \mu_B.
+\]
+
+\subsection*{Limiti}
+
+\[
+X_n\to X
+\quad\mapsto\quad
+F(X_n)\to F(X).
+\]
+
+\subsection*{Domande fertili}
+
+\[
+\text{separazione}
+\]
+
+\[
+\text{indistinguibilità}
+\]
+
+\[
+\text{normalizzazione}
+\]
+
+\[
+\text{noncomputabilità}
+\]
+
+\[
+\text{lower bounds}
+\]
+
+\[
+\text{moduli}
+\]
+
+\[
+\text{dati di verifica}
+\]
+
+\[
+\text{fibre}
+\]
+
+\[
+\text{distorsione}.
+\]
+
+\medskip
+
+
+\section{Mappa globale finale}
+
+Una rappresentazione sintetica dell'intero atlante:
+
+\[
+\begin{array}{cccccc}
+\text{Sintassi} & \to & \text{Modelli} & \to & \text{Geometria} & \to \text{Analisi} \\
+\downarrow & & \downarrow & & \downarrow & \downarrow \\
+\text{Logica} & \to & \text{CSP} & \to & \text{Sheaves} & \to \text{PDE} \\
+\downarrow & & \downarrow & & \downarrow & \downarrow \\
+\text{Algoritmi} & \to & \text{Matrici} & \to & \text{Operatori} & \to \text{Spettri} \\
+\downarrow & & \downarrow & & \downarrow & \downarrow \\
+\text{Probabilità} & \to & \text{Momenti} & \to & \text{Entropia} & \to \text{Trasporto ottimale} \\
+\downarrow & & \downarrow & & \downarrow & \downarrow \\
+\text{Dinamica} & \to & \text{Transfer operators} & \to & \text{Zeta} & \to \text{Aritmetica} \\
+\downarrow & & \downarrow & & \downarrow & \downarrow \\
+\text{Topologia} & \to & \text{Coomologia} & \to & \text{Indice} & \to \text{K-teoria} \\
+\downarrow & & \downarrow & & \downarrow & \downarrow \\
+\text{Quantistica} & \to & \text{Tensori} & \to & \text{Operator algebras} & \to \text{QFT} \\
+\downarrow & & \downarrow & & \downarrow & \downarrow \\
+\text{Numerica} & \to & \text{Approssimazioni} & \to & \text{dati di verifica} & \to \text{Formalizzazione}.
+\end{array}
+\]
+
+Questa tabella non è statica. Ogni freccia rappresenta una famiglia di transfer packages.
+
+\medskip
+
+
+\section{Riassunto concettuale finale}
+
+L'atlante costruito può essere riassunto in sette strati.
+
+\medskip
+
+
+\subsection{Strato 1: oggetti}
+
+\[
+\text{funzioni}
+\]
+
+\[
+\text{spazi}
+\]
+
+\[
+\text{gruppi}
+\]
+
+\[
+\text{varietà}
+\]
+
+\[
+\text{operatori}
+\]
+
+\[
+\text{misure}
+\]
+
+\[
+\text{categorie}
+\]
+
+\[
+\text{grafi}
+\]
+
+\[
+\text{modelli}
+\]
+
+\[
+\text{processi}
+\]
+
+\[
+\text{sistemi dinamici}
+\]
+
+\[
+\text{PDE}
+\]
+
+\[
+\text{teorie logiche}
+\]
+
+\[
+\text{reti neurali}
+\]
+
+\[
+\text{oggetti quantistici}.
+\]
+
+\medskip
+
+
+\subsection{Strato 2: presentazioni}
+
+\[
+\text{equazioni}
+\]
+
+\[
+\text{generatori e relazioni}
+\]
+
+\[
+\text{coefficienti}
+\]
+
+\[
+\text{kernel}
+\]
+
+\[
+\text{triangolazioni}
+\]
+
+\[
+\text{dati locali}
+\]
+
+\[
+\text{grafi}
+\]
+
+\[
+\text{matrici}
+\]
+
+\[
+\text{tensori}
+\]
+
+\[
+\text{programmi}
+\]
+
+\[
+\text{reti}
+\]
+
+\[
+\text{schemi}
+\]
+
+\[
+\text{campioni}.
+\]
+
+\medskip
+
+
+\subsection{Strato 3: osservabili}
+
+\[
+\text{spettri}
+\]
+
+\[
+\text{momenti}
+\]
+
+\[
+\text{entropie}
+\]
+
+\[
+\text{coomologie}
+\]
+
+\[
+\text{omologie}
+\]
+
+\[
+\text{campioni}
+\]
+
+\[
+\text{query}
+\]
+
+\[
+\text{correlazioni}
+\]
+
+\[
+\text{invarianti}
+\]
+
+\[
+\text{heat kernels}
+\]
+
+\[
+\text{tracce}
+\]
+
+\[
+\text{barcodes}
+\]
+
+\[
+\text{ranks}
+\]
+
+\[
+\text{dimensioni}
+\]
+
+\[
+\text{profili di crescita}.
+\]
+
+\medskip
+
+
+\subsection{Strato 4: dati di verifica}
+
+\[
+\text{SOS}
+\]
+
+\[
+\text{SDP}
+\]
+
+\[
+\text{energia}
+\]
+
+\[
+\text{indice}
+\]
+
+\[
+\text{duali convessi}
+\]
+
+\[
+\text{coomologia}
+\]
+
+\[
+\text{stime a priori}
+\]
+
+\[
+\text{stabilità}
+\]
+
+\[
+\text{entropia}
+\]
+
+\[
+\text{Lyapunov}
+\]
+
+\[
+\text{barrier}
+\]
+
+\[
+\text{interval enclosures}
+\]
+
+\[
+\text{proof terms}
+\]
+
+\[
+\text{formal proof data}.
+\]
+
+\medskip
+
+
+\subsection{Strato 5: fibre}
+
+\[
+\text{oggetti indistinguibili sotto osservabili limitati}
+\]
+
+\[
+\text{descrizioni equivalenti}
+\]
+
+\[
+\text{parametri non identificabili}
+\]
+
+\[
+\text{microstrutture con stesso limite}
+\]
+
+\[
+\text{funzioni con stessi campioni}
+\]
+
+\[
+\text{operatori con stesso spettro troncato}
+\]
+
+\[
+\text{grafi con stessi sottografi piccoli}
+\]
+
+\[
+\text{teorie con stessi modelli finiti}
+\]
+
+\[
+\text{reti neurali con stessa funzione}
+\]
+
+\[
+\text{PDE con stessi dati al bordo}.
+\]
+
+\medskip
+
+
+\subsection{Strato 6: scale}
+
+\[
+\text{cutoff}
+\]
+
+\[
+\text{precisione}
+\]
+
+\[
+\text{tempo}
+\]
+
+\[
+\text{frequenza}
+\]
+
+\[
+\text{mesh}
+\]
+
+\[
+\text{quantifier rank}
+\]
+
+\[
+\text{dimensione}
+\]
+
+\[
+\text{grado}
+\]
+
+\[
+\text{numero di campioni}
+\]
+
+\[
+\text{numero di stati}
+\]
+
+\[
+\text{livello SDP}
+\]
+
+\[
+\text{ordine perturbativo}
+\]
+
+\[
+\text{scala semiclassica}
+\]
+
+\[
+\text{scala microscopica/macroscopica}.
+\]
+
+\medskip
+
+
+\subsection{Strato 7: trasporto}
+
+\[
+\text{compilatori tra descrizioni}
+\]
+
+\[
+\text{pullback di osservabili}
+\]
+
+\[
+\text{pushforward/pullback di dati di verifica}
+\]
+
+\[
+\text{trasporto di fibre}
+\]
+
+\[
+\text{trasporto di limiti}
+\]
+
+\[
+\text{trasporto di misure}
+\]
+
+\[
+\text{trasporto di regolarità}
+\]
+
+\[
+\text{trasporto di scale}
+\]
+
+\[
+\text{trasporto di lower bounds}.
+\]
+
+\medskip
+
+
+\section{Formula finale dell'atlante}
+
+L'intero progetto può essere condensato così:
+
+\[
+\boxed{
+\text{ogni teoria matematica possiede molte profili osservabili;}
+}
+\]
+
+\[
+\boxed{
+\text{ogni profilo osservabile è prodotta da un sistema di osservabili;}
+}
+\]
+
+\[
+\boxed{
+\text{ogni sistema di osservabili induce fibre;}
+}
+\]
+
+\[
+\boxed{
+\text{ogni fibra contiene informazione nascosta;}
+}
+\]
+
+\[
+\boxed{
+\begin{gathered}
+\text{ogni transfer package misura il costo di passare tra}\\
+\text{profili osservabili, descrizioni, dati di verifica e fibre;}
+\end{gathered}
+}
+\]
+
+\[
+\boxed{
+\text{la complessità è la geometria quantitativa dell'accesso agli oggetti.}
+}
+\]
+
+In forma ancora più breve:
+
+\[
+\boxed{
+\begin{gathered}
+\text{Presentation Theory + Transfer Packages}\\
+\Longleftrightarrow\\
+\text{geometria globale dei profili osservabili matematici}\\
+\text{e dei loro costi di traduzione.}
+\end{gathered}
+}
+\]
+
+Questo atlante raccoglie una rete di reti che collega logica, algebra, geometria, analisi, probabilità, topologia, aritmetica, algoritmi, fisica matematica, ottimizzazione, apprendimento, numerica e formalizzazione attraverso un unico linguaggio: \textbf{descrizioni, osservabili, dati di verifica, fibre, scale e trasporti controllati}.
+
+
+
+\begin{thebibliography}{99}
+\bibitem{presentation-theory}
+L. Blanchi, \emph{Presentation Theory}, AI-assisted math note, 2026.
+
+\bibitem{presentation-theory-ii}
+L. Blanchi, \emph{Presentation Theory II: Controlled Transfer, Observable Budgets, and the Geometry of Fibres}, AI-assisted math note, 2026.
+
+\bibitem{gromov}
+M. Gromov, \emph{Metric Structures for Riemannian and Non-Riemannian Spaces}, Birkhauser, 1999.
+
+\bibitem{lawvere}
+F. W. Lawvere and S. H. Schanuel, \emph{Conceptual Mathematics: A First Introduction to Categories}, Cambridge University Press, 2009.
+\end{thebibliography}
+
+\end{document}
