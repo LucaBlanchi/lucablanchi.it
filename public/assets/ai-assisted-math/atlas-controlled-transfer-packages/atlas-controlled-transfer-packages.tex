@@ -10,158 +10,157 @@
 \setlist{nosep}
 \sloppy
 
-\title{Atlante dei Transfer Packages Controllati}
+\title{Atlas of Controlled Transfer Packages}
 \author{Luca Blanchi}
 \date{June 2026}
 
 \begin{document}
 
 \begin{abstract}
-Questo addendum raccoglie un atlante operativo di transfer packages per Presentation Theory. Non e' formulato come una sequenza di nuovi teoremi chiusi, ma come una mappa riutilizzabile di contesti, descrizioni, osservabili, dati di verifica, fibre, scale e funzioni di overhead. Ogni rete indica quali oggetti dovrebbero essere confrontati, quali osservabili vanno tirati indietro o spinti avanti, quali dati di verifica devono restare controllabili, e quale geometria delle fibre misura la perdita informativa. Lo scopo e' fornire un repertorio completo di schemi da cui estrarre, in lavori successivi, teoremi di trasporto con ipotesi e budget espliciti.
+This addendum collects an operational atlas of transfer packages for Presentation Theory. It is not presented as a sequence of closed new theorems, but as a reusable map of contexts, descriptions, observables, verification data, fibres, scales, and overhead functions. Each network indicates which objects should be compared, which observables should be pulled back or pushed forward, which verification data must remain controllable, and which fibre geometry measures the loss of information. The purpose is to provide a complete repertoire of templates from which later work can extract transfer theorems with explicit hypotheses and budgets.
 \end{abstract}
 
-\section{Status e guida di lettura}
-L'atlante va letto come un documento fondazionale di supporto. Una freccia tra due teorie non afferma automaticamente l'esistenza di un'equivalenza o di un risultato di trasferimento completo: registra invece il tipo di compilatore, pullback osservazionale, dato di verifica, fibra e overhead che bisognerebbe controllare per ottenere un teorema. In questo senso l'oggetto centrale non e' la traduzione informale tra domini, ma il pacchetto controllato di accesso all'informazione.
+\section{Status and Reading Guide}
+The atlas should be read as a foundational support document. An arrow between two theories does not automatically assert the existence of an equivalence or of a complete transfer theorem. It records instead the type of compiler, observational pullback, verification datum, fibre, and overhead that would have to be controlled in order to obtain a theorem. In this sense the central object is not an informal translation between domains, but the controlled package of access to information.
 
-Per ogni rete si devono distinguere tre livelli. Il primo e' descrittivo: individua contesti gia' naturalmente collegati nella pratica matematica. Il secondo e' formale: specifica quali mappe tra descrizioni, osservabili, dati di verifica e fibre dovrebbero entrare nel package. Il terzo e' dimostrativo: richiede stime effettive sugli overhead e condizioni di stabilita'. Solo il terzo livello produce un teorema autonomo; i primi due servono come grammatica per formularlo senza perdere i budget.
+For each network one should distinguish three levels. The first is descriptive: it identifies contexts that are already naturally connected in mathematical practice. The second is formal: it specifies which maps between descriptions, observables, verification data, and fibres should enter the package. The third is demonstrative: it requires effective estimates for the overheads and suitable stability conditions. Only the third level produces an autonomous theorem; the first two provide a grammar for formulating it without losing the budgets.
 
-La terminologia usata qui segue la versione corrente della teoria: gli osservabili sono le funzioni, invarianti o procedure che misurano un oggetto attraverso un canale dichiarato; i profili osservabili sono le immagini finite o parziali prodotte da tali canali; i dati di verifica sono le informazioni controllabili che permettono di giustificare una proprieta' nel source o nel target; le fibre sono classi di oggetti indistinguibili rispetto a un profilo fissato. Le funzioni di overhead misurano quanto crescono dimensione descrittiva, costo osservazionale, costo di verifica e costo di navigazione nelle fibre sotto trasporto.
+The terminology used here follows the current version of the theory: observables are the functions, invariants, or procedures that measure an object through a declared channel; observable profiles are the finite or partial images produced by those channels; verification data are the controllable pieces of information that justify a property in the source or in the target; fibres are classes of objects indistinguishable with respect to a fixed profile. Overhead functions measure how descriptive size, observational cost, verification cost, and fibre-navigation cost grow under transfer.
 
-\section{Grammatica comune dell'atlante}
+\section{Common Grammar of the Atlas}
 
-\subsection{Contesti presentazionali}
+\subsection{Presentational Contexts}
 
-Un nodo dell'atlante non è solo una teoria (T), ma una teoria equipaggiata con una struttura di accesso:
+A node of the atlas is not merely a theory (T), but a theory equipped with an access structure:
 
 \[
 \mathfrak P=
 (\mathcal X,\Gamma,\mathfrak O,\Sigma,\mathfrak V,\mathfrak F,\mathfrak M).
 \]
 
-Dove:
+Where:
 
 \[
 \mathcal X
 \]
 
-è la classe degli oggetti.
+is the class of objects.
 
 \[
 \Gamma=(\mathcal D,\rho,\kappa)
 \]
 
-è il sistema di presentazione: descrizioni, realizzazione e costo.
+is the presentation system: descriptions, realization, and cost.
 
 \[
 \mathfrak O
 \]
 
-è il sistema degli osservabili.
+is the system of observables.
 
 \[
 \Sigma
 \]
 
-è la struttura operazionale: somme, prodotti, composizioni, limiti, gluing, mutazioni, evoluzioni.
+is the operational structure: sums, products, compositions, limits, gluing, mutations, evolutions.
 
 \[
 \mathfrak V
 \]
 
-è il sistema dei dati di verifica.
+is the system of verification data.
 
 \[
 \mathfrak F
 \]
 
-è la geometria delle fibre.
+is the geometry of fibres.
 
 \[
 \mathfrak M
 \]
 
-è l'eventuale struttura di misura, densità, probabilità o distribuzione sugli oggetti.
+is the possible structure of measure, density, probability, or distribution on the objects.
 
-La complessità di un oggetto non è una proprietà assoluta. È relativa a:
+The complexity of an object is not an absolute property. It is relative to:
 
 \[
-\text{come l'oggetto è descritto}
+\text{how the object is described}
 \]
 
 \[
-\text{come l'oggetto è osservato}
+\text{how the object is observed}
 \]
 
 \[
-\text{come l'oggetto è verificato}
+\text{how the object is verified}
 \]
 
 \[
-\text{come ci si muove tra descrizioni equivalenti.}
+\text{how one moves among equivalent descriptions.}
 \]
 
-\medskip
 
 
 \subsection{Transfer package}
 
-Un transfer package da un contesto \(\mathfrak P_A\) a un contesto \(\mathfrak P_B\) è indicato con:
+A transfer package from a context \(\mathfrak P_A\) to a context \(\mathfrak P_B\) is denoted by:
 
 \[
 \mathfrak T:A\longrightarrow B.
 \]
 
-La forma ideale contiene:
+The ideal form contains:
 
 \[
 (F,\widehat F,F^\ast,\Sigma,V,\Phi,\mu).
 \]
 
-Dove:
+Where:
 
 \[
 F:\mathcal X_A\to\mathcal X_B
 \]
 
-trasporta oggetti.
+transports objects.
 
 \[
 \widehat F:\mathcal D_A\to\mathcal D_B
 \]
 
-compila descrizioni.
+compiles descriptions.
 
 \[
 F^\ast:\mathfrak O_B\to\mathfrak O_A
 \]
 
-tira indietro osservabili.
+pulls back observables.
 
 \[
 \Sigma
 \]
 
-controlla il comportamento rispetto alle operazioni.
+controls the behavior with respect to operations.
 
 \[
 V
 \]
 
-trasporta dati di verifica.
+transports verification data.
 
 \[
 \Phi
 \]
 
-controlla fibre, mosse e bridge profiles.
+controls fibres, moves, and bridge profiles.
 
 \[
 \mu
 \]
 
-trasporta misure, densità, distribuzioni o limiti probabilistici.
+transports measures, densities, distributions, or probabilistic limits.
 
-Il transfer package porta un vettore di overhead:
+The transfer package carries an overhead vector:
 
 \[
 \mathbf f_{\mathfrak T}=
@@ -176,57 +175,56 @@ f_{\mathrm{reg}},
 f_{\mathrm{scale}}).
 \]
 
-Non esiste un solo costo. Esistono molti costi.
-
-\medskip
+There is not a single cost. There are many costs.
 
 
-\subsection{Risorse fondamentali}
 
-Useremo queste risorse:
+\subsection{Basic Resources}
+
+We use the following resources:
 
 \[
-P=\text{costo presentazionale}
+P=\text{presentational cost}
 \]
 
 \[
-O=\text{costo osservazionale}
+O=\text{observational cost}
 \]
 
 \[
-V=\text{costo di verifica}
+V=\text{verification cost}
 \]
 
 \[
-B=\text{costo di navigazione nella fibra}
+B=\text{cost of navigation in the fibre}
 \]
 
 \[
-M=\text{costo metrico, probabilistico o misurale}
+M=\text{metric, probabilistic, or measure-theoretic cost}
 \]
 
 \[
-R=\text{regolarità}
+R=\text{regularity}
 \]
 
 \[
-S=\text{scala}
+S=\text{scale}
 \]
 
 \[
-\varepsilon=\text{precisione}
+\varepsilon=\text{precision}
 \]
 
 \[
-T=\text{tempo di osservazione}
+T=\text{observation time}
 \]
 
 \[
-\Lambda=\text{cutoff frequenziale o spettrale}
+\Lambda=\text{frequency or spectral cutoff}
 \]
 
 \[
-d=\text{grado}
+d=\text{degree}
 \]
 
 \[
@@ -234,106 +232,103 @@ q=\text{quantifier rank}
 \]
 
 \[
-n=\text{dimensione, taglia, numero di campioni o numero di stati.}
+n=\text{dimension, size, number of samples, or number of states.}
 \]
 
-\medskip
 
 
-\subsection{Principi generali}
+\subsection{General Principles}
 
-\subsection*{Principio 1: non si trasporta l'oggetto, si trasporta l'accesso}
+\subsection*{Principle 1: one transfers access, not the object}
 
 \[
 \boxed{
-\text{una mappa trasporta oggetti; un transfer package trasporta accesso agli oggetti.}
+\text{a map transports objects; a transfer package transports access to the objects.}
 }
 \]
 
-Una riduzione ordinaria dice:
+An ordinary reduction says:
 
 \[
 x\mapsto F(x).
 \]
 
-Un transfer package dice:
+A transfer package says:
 
 \[
-\text{descrizioni di }x
+\text{descriptions of }x
 \mapsto
-\text{descrizioni di }F(x),
+\text{descriptions of }F(x),
 \]
 
 \[
-\text{osservabili su }F(x)
+\text{observables on }F(x)
 \mapsto
-\text{osservabili su }x,
+\text{observables on }x,
 \]
 
 \[
-\text{dati di verifica nel target}
+\text{verification data in the target}
 \mapsto
-\text{dati di verifica nel source},
+\text{verification data in the source},
 \]
 
 \[
-\text{fibre del target}
+\text{fibre of the target}
 \leftrightarrow
-\text{fibre del source.}
+\text{fibre of the source.}
 \]
 
-\medskip
 
 
-\subsection*{Principio 2: ogni osservazione limitata induce fibre}
+\subsection*{Principle 2: every bounded observation induces fibres}
 
-Dato un osservabile o una famiglia di osservabili limitati:
+Given an observable, or a family of bounded observables:
 
 \[
 \mathcal O_{\le r},
 \]
 
-si ottiene una partizione:
+one obtains a partition:
 
 \[
 x\sim_r y
 \quad\Longleftrightarrow\quad
 O(x)=O(y)
-\text{ per ogni } O\in\mathcal O_{\le r}.
+\text{ for every } O\in\mathcal O_{\le r}.
 \]
 
-La complessità nascosta vive nelle classi:
+The hidden complexity lives in the classes:
 
 \[
 [x]_r.
 \]
 
-Quindi:
+Therefore:
 
 \[
 \boxed{
-\text{la geometria delle fibre è la geometria dell'informazione dimenticata.}
+\text{the geometry of the fibre is the geometry of forgotten information.}
 }
 \]
 
-\medskip
 
 
-\subsection*{Principio 3: i transfer packages compongono}
+\subsection*{Principle 3: transfer packages compose}
 
-Se:
+If:
 
 \[
 A\xrightarrow{\mathfrak T}B\xrightarrow{\mathfrak S}C,
 \]
 
-allora:
+then:
 
 \[
 A\xrightarrow{\mathfrak S\circ\mathfrak T}C.
 \]
 
-Gli overhead compongono:
+The overheads compose:
 
 \[
 f_{\mathfrak S\circ\mathfrak T}
@@ -341,20 +336,19 @@ f_{\mathfrak S\circ\mathfrak T}
 f_{\mathfrak S}\circ f_{\mathfrak T}.
 \]
 
-Questo produce \textbf{grafi di trasporto}.
-
-\medskip
+This produces \textbf{transfer graphs}.
 
 
-\subsection*{Principio 4: Morita con budget}
 
-Due teorie possono essere considerate equivalenti non assolutamente, ma fino a una classe di overhead \(\mathcal H\):
+\subsection*{Principle 4: Morita theory with budgets}
+
+Two theories may be considered equivalent, not absolutely, but up to a declared class of overhead functions \(\mathcal H\):
 
 \[
 A\simeq_{\mathcal H}B.
 \]
 
-Questo significa che esistono pacchetti in entrambe le direzioni:
+This means that there are packages in both directions:
 
 \[
 A\to B,
@@ -362,55 +356,54 @@ A\to B,
 B\to A,
 \]
 
-le cui composizioni sono equivalenti all'identità con overhead controllato.
+whose compositions are equivalent to the identity with controlled overhead.
 
-Questa è una \textbf{Morita theory quantitativa}.
-
-\medskip
+This is a \textbf{quantitative Morita theory}.
 
 
-\subsection*{Principio 5: ogni teoria ha molte profili osservabili}
 
-Ogni teoria produce molte profili osservabili:
+\subsection*{Principle 5: every theory has many observable profiles}
+
+Every theory produces many observable profiles:
 
 \[
-\text{spettri}
+\text{spectra}
 \]
 
 \[
-\text{momenti}
+\text{moments}
 \]
 
 \[
-\text{entropie}
+\text{entropies}
 \]
 
 \[
-\text{coomologie}
+\text{cohomologies}
 \]
 
 \[
-\text{quozienti finiti}
+\text{finite quotients}
 \]
 
 \[
-\text{troncamenti}
+\text{truncations}
 \]
 
 \[
-\text{campionamenti}
+\text{samples}
 \]
 
 \[
-\text{invarianti}
+\text{invariants}
 \]
 
 \[
-\text{categorie}
+\text{categories}
 \]
 
 \[
-\text{operatori}
+\text{operators}
 \]
 
 \[
@@ -418,70 +411,67 @@ Ogni teoria produce molte profili osservabili:
 \]
 
 \[
-\text{tensori}.
+\text{tensors}.
 \]
 
-Il compito dell'atlante è misurare il costo di passare da un profilo osservabile all'altro.
-
-\medskip
+The task of the atlas is to measure the cost of passing from one observable profile to another.
 
 
-\section{I grandi hub trasversali}
 
-L'atlante è enorme, ma molti archi passano attraverso pochi hub universali.
+\section{The Main Transversal Hubs}
 
-\medskip
+The atlas is large, but many edges pass through a small number of universal hubs.
 
 
-\subsection{Hub degli osservabili}
+
+\subsection{Hub of Observables}
 
 \[
 \mathcal O(\mathcal X)
 \]
 
-è l'algebra, categoria o sistema degli osservabili di una teoria.
+is the algebra, category, or system of observables of a theory.
 
-Ogni oggetto dà una valutazione:
+Every object gives an evaluation:
 
 \[
 x\mapsto \operatorname{ev}_x:\mathcal O(\mathcal X)\to A.
 \]
 
-Ogni mappa:
+Every map:
 
 \[
 F:\mathcal X\to\mathcal Y
 \]
 
-induce un pullback:
+induces a pullback:
 
 \[
 F^\ast:\mathcal O(\mathcal Y)\to\mathcal O(\mathcal X).
 \]
 
-Questo è il cuore controvariante della teoria del trasporto.
-
-\medskip
+This is the contravariant core of the transfer theory.
 
 
-\subsection{Hub delle fibre}
 
-Ogni mappa osservazionale:
+\subsection{Hub of Fibres}
+
+Every observational map:
 
 \[
 F:\mathcal X\to\mathcal Y
 \]
 
-produce fibre:
+produces fibres:
 
 \[
 F^{-1}(y).
 \]
 
-Le fibre vanno studiate con:
+Fibres should be studied with:
 
 \[
-\text{mosse}
+\text{moves}
 \]
 
 \[
@@ -489,7 +479,7 @@ Le fibre vanno studiate con:
 \]
 
 \[
-\text{diametri}
+\text{diameters}
 \]
 
 \[
@@ -497,7 +487,7 @@ Le fibre vanno studiate con:
 \]
 
 \[
-\text{singolarità}
+\text{singularities}
 \]
 
 \[
@@ -505,59 +495,58 @@ Le fibre vanno studiate con:
 \]
 
 \[
-\text{probabilità interne}
+\text{internal probabilities}
 \]
 
 \[
-\text{algoritmi di navigazione.}
+\text{navigation algorithms}.
 \]
 
-Esempi universali:
+Universal examples:
 
 \[
-\text{funzioni con stessi coefficienti Fourier bassi}
-\]
-
-\[
-\text{domini con stessi primi autovalori}
+\text{functions with the same low Fourier coefficients}
 \]
 
 \[
-\text{metriche con stesso heat trace troncato}
+\text{domains with the same first eigenvalues}
 \]
 
 \[
-\text{PDE con stessi dati input-output}
+\text{metrics with the same truncated heat trace}
 \]
 
 \[
-\text{reti neurali che rappresentano la stessa funzione}
+\text{PDEs with the same input-output data}
 \]
 
 \[
-\text{distribuzioni con stessi momenti}
+\text{neural networks representing the same function}
 \]
 
 \[
-\text{grafi con stessi sottografi piccoli}
+\text{distributions with same moments}
 \]
 
 \[
-\text{strutture con stessa teoria logica fino a quantifier rank }q.
+\text{graphs with the same small subgraphs}
 \]
 
-\medskip
+\[
+\text{strutture with same theory logic up to a quantifier rank }q.
+\]
 
 
-\subsection{Hub degli operatori}
 
-Molte teorie si trasportano in operatori:
+\subsection{Hub of Operators}
+
+Many theories are transported into operators:
 
 \[
 X\mapsto T_X.
 \]
 
-Esempi:
+Examples:
 
 \[
 M\mapsto \Delta_M
@@ -583,7 +572,7 @@ T:X\to X\mapsto U_T
 \text{PDE}\mapsto P(x,D).
 \]
 
-Poi:
+Then:
 
 \[
 T\mapsto \operatorname{Spec}(T),
@@ -601,16 +590,15 @@ T\mapsto (z-T)^{-1},
 T\mapsto \operatorname{Tr}(e^{-tT}).
 \]
 
-\medskip
 
 
-\subsection{Hub dei kernel}
+\subsection{Hub of Kernels}
 
 \[
 K(x,y)
 \]
 
-compare in:
+appears in:
 
 \[
 \text{PDE}
@@ -625,7 +613,7 @@ compare in:
 \]
 
 \[
-\text{probabilità}
+\text{probability}
 \]
 
 \[
@@ -640,48 +628,47 @@ compare in:
 \text{integral geometry}.
 \]
 
-Schema:
+Scheme:
 
 \[
 \begin{gathered}
-\text{oggetto} \to \text{kernel} \to \text{operatore} \to \text{spettro} \\
+\text{object} \to \text{kernel} \to \text{operator} \to \text{spectrum} \\
 \to \text{features}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{Hub spettrale}
+\subsection{Spectral Hub}
 
 \[
 \operatorname{Spec}
 \]
 
-collega:
+connects:
 
 \[
-\text{grafi}
+\text{graphs}
 \]
 
 \[
-\text{varietà}
+\text{varieties}
 \]
 
 \[
-\text{operatori}
+\text{operators}
 \]
 
 \[
-\text{dinamica}
+\text{dynamics}
 \]
 
 \[
-\text{meccanica quantistica}
+\text{quantum mechanics}
 \]
 
 \[
-\text{forme automorfe}
+\text{automorphic forms}
 \]
 
 \[
@@ -692,32 +679,31 @@ collega:
 \text{trace formulas}.
 \]
 
-Schema:
+Scheme:
 
 \[
 \begin{gathered}
-\text{oggetto} \to \text{operatore} \to \text{spettro} \to \text{zeta/trace} \\
-\to \text{aritmetica o geometria}.
+\text{object} \to \text{operator} \to \text{spectrum} \to \text{zeta/trace} \\
+\to \text{arithmetic or geometry}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{Hub dei momenti}
+\subsection{Hub of Moments}
 
 \[
 m_\alpha=\int x^\alpha,d\mu.
 \]
 
-I momenti collegano:
+Moments connect:
 
 \[
-\text{probabilità}
+\text{probability}
 \]
 
 \[
-\text{statistica}
+\text{statistics}
 \]
 
 \[
@@ -736,35 +722,34 @@ I momenti collegano:
 \text{inverse problems}.
 \]
 
-Schema:
+Scheme:
 
 \[
 \begin{gathered}
-\text{oggetto} \to \text{momenti} \to \text{semidefinite relaxation} \to \text{dato di verifica}.
+\text{object} \to \text{moments} \to \text{semidefinite relaxation} \to \text{verification datum}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{Hub entropico}
+\subsection{Entropic Hub}
 
 \[
 H,\quad S,\quad \operatorname{Ent},\quad h_{\mathrm{top}},\quad h_\mu.
 \]
 
-Collega:
+Connects:
 
 \[
-\text{probabilità}
+\text{probability}
 \]
 
 \[
-\text{dinamica}
+\text{dynamics}
 \]
 
 \[
-\text{compressione}
+\text{compression}
 \]
 
 \[
@@ -783,27 +768,26 @@ Collega:
 \text{quantum information}.
 \]
 
-Schema:
+Scheme:
 
 \[
 \begin{gathered}
-\text{oggetto} \to \text{distribuzione} \to \text{entropia} \to \text{concentrazione/compressione/mixing}.
+\text{object} \to \text{distribution} \to \text{entropy} \to \text{concentration/compression/mixing}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{Hub sheaf}
+\subsection{Sheaf Hub}
 
 \[
 \mathcal F.
 \]
 
-Collega:
+Connects:
 
 \[
-\text{topologia}
+\text{topology}
 \]
 
 \[
@@ -830,24 +814,23 @@ Collega:
 \text{persistence}.
 \]
 
-Schema:
+Scheme:
 
 \[
 \begin{gathered}
-\text{dati locali} \to \text{sheaf} \to \text{coomologia} \to \text{ostruzione}.
+\text{local data} \to \text{sheaf} \to \text{cohomology} \to \text{obstruction}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{Hub tensoriale}
+\subsection{Tensorial Hub}
 
 \[
 T\in V_1\otimes\cdots\otimes V_k.
 \]
 
-Collega:
+Connects:
 
 \[
 \text{algebra}
@@ -862,7 +845,7 @@ Collega:
 \]
 
 \[
-\text{statistica}
+\text{statistics}
 \]
 
 \[
@@ -874,10 +857,10 @@ Collega:
 \]
 
 \[
-\text{coomologia}.
+\text{cohomology}.
 \]
 
-Schema:
+Scheme:
 
 \[
 \begin{gathered}
@@ -885,12 +868,11 @@ Schema:
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{Hub dei dati di verifica convessi}
+\subsection{Hub of Convex Verification Data}
 
-Comprende:
+Includes:
 
 \[
 \text{SOS}
@@ -920,28 +902,27 @@ Comprende:
 \text{moment relaxations}.
 \]
 
-Schema:
+Scheme:
 
 \[
-\text{verità}
+\text{truth}
 \to
-\text{dato di verifica}
+\text{verification datum}
 \to
-\text{bound verificabile}.
+\text{verifiable bound}.
 \]
 
-\medskip
 
 
-\subsection{Hub delle approssimazioni}
+\subsection{Hub of Approximations}
 
-Tutti questi sono varianti dello stesso schema:
+All of these are variants of the same scheme:
 
 \[
 X\mapsto X_{\le r}.
 \]
 
-Esempi:
+Examples:
 
 \[
 \text{Taylor jets}
@@ -979,37 +960,36 @@ Esempi:
 \text{finite samples}.
 \]
 
-\medskip
 
 
-\subsection{Hub delle dualità}
+\subsection{Hub of Dualities}
 
-Le dualità sono transfer packages bidirezionali.
+Dualities are bidirectional transfer packages.
 
-Esempi:
+Examples:
 
 \[
-\text{spazi compatti}
+\text{compact spaces}
 \leftrightarrow
-\text{algebre commutative }C^\ast
+\text{commutative }C^\ast\text{-algebras}
 \]
 
 \[
-\text{gruppi localmente compatti abeliani}
+\text{locally compact abelian groups}
 \leftrightarrow
-\text{duali di Pontryagin}
+\text{Pontryagin duals}
 \]
 
 \[
 \text{corpi convessi}
 \leftrightarrow
-\text{funzioni supporto}
+\text{support functions}
 \]
 
 \[
-\text{misure}
+\text{measures}
 \leftrightarrow
-\text{momenti/funzioni caratteristiche}
+\text{moments/characteristic functions}
 \]
 
 \[
@@ -1019,15 +999,15 @@ Esempi:
 \]
 
 \[
-\text{simplettica}
+\text{symplectic}
 \leftrightarrow
 \text{mirror algebraic geometry}
 \]
 
 \[
-\text{sintassi}
+\text{syntax}
 \leftrightarrow
-\text{semantica}
+\text{semantics}
 \]
 
 \[
@@ -1036,39 +1016,36 @@ Esempi:
 \text{Galois}.
 \]
 
-La domanda presentazionale non è solo se la dualità esiste, ma:
+The presentational question is not only whether the duality exists, but:
 
 \[
-\text{quanto crescono descrizioni, osservabili e dati di verifica attraverso la dualità?}
+\text{how much do descriptions, observables, and verification data grow across the duality?}
 \]
 
-\medskip
 
 
-\section{Atlante delle reti}
+\section{Atlas of Networks}
 
-Passiamo ora alle reti vere e proprie.
+We now pass to the networks themselves.
 
-Ogni rete è un grafo di teorie. Ogni arco è un possibile transfer package.
-
-\medskip
+Each network is a graph of theories. Each edge is a possible transfer package.
 
 
-\section{A. Reti fondazionali, logiche e sintattiche}
 
-\medskip
+\section{A. Foundational, Logical, and Syntactic Networks}
 
 
-\subsection{A1. Rete sintassi--semantica--CSP--database--proof complexity}
 
-Nodi:
+\subsection{A1. Network syntax--semantics--CSP--database--proof complexity}
+
+Nodes:
 
 \[
-\text{teorie equazionali}
+\text{equational theories}
 \]
 
 \[
-\text{algebre universali}
+\text{universal algebras}
 \]
 
 \[
@@ -1096,23 +1073,23 @@ Nodi:
 \]
 
 \[
-\text{finite model theory}
+\text{finite moof the theory}
 \]
 
 \[
 \text{proof complexity}.
 \]
 
-Archi principali:
+Main edges:
 
 \[
-\text{presentazione equazionale}
+\text{presentation equazionale}
 \to
-\text{categoria dei modelli}
+\text{category of models}
 \]
 
 \[
-\text{teoria equazionale}
+\text{equational theory}
 \to
 \text{CSP template}
 \]
@@ -1129,44 +1106,43 @@ Archi principali:
 \text{proof complexity}.
 \]
 
-Risorse:
+Resources:
 
 \[
-P=\text{numero di simboli, arità, lunghezza dei termini}
+P=\text{number of symbols, arity, term length}
 \]
 
 \[
-O=\text{quantifier rank, larghezza, treewidth}
+O=\text{quantifier rank, width, treewidth}
 \]
 
 \[
-V=\text{lunghezza di derivazione, grado, width}
+V=\text{derivation length, degree, width}
 \]
 
 \[
-B=\text{distanza tra presentazioni equivalenti}.
+B=\text{distance between equivalent presentations}.
 \]
 
-Idea centrale:
+Central idea:
 
 \[
-\text{query di database}
+\text{query of database}
 \Longleftrightarrow
-\text{osservabile}
+\text{observable}
 \]
 
 \[
 \text{proof derivation}
 \Longleftrightarrow
-\text{bridge nella fibra delle presentazioni equivalenti}.
+\text{bridge in the fibra of the presentations equivalent}.
 \]
 
-\medskip
 
 
-\subsection{A2. Rete tipi--prove--categorie--omotopia--formalizzazione}
+\subsection{A2. Network types--proofs--categories--homotopy--formalization}
 
-Nodi:
+Nodes:
 
 \[
 \lambda\text{-calculus}
@@ -1212,7 +1188,7 @@ Nodi:
 \text{proof data}.
 \]
 
-Archi:
+Edges:
 
 \[
 \text{proof}
@@ -1244,39 +1220,38 @@ Archi:
 \text{checkable proof data}.
 \]
 
-Risorse:
+Resources:
 
 \[
-P=\text{dimensione del contesto, universe levels, costruttori}
+P=\text{context dimension, universe levels, costruttori}
 \]
 
 \[
-O=\text{profondità dei tipi, truncation level}
+O=\text{depth of types, truncation level}
 \]
 
 \[
-V=\text{tempo di type checking, lunghezza del proof term}
+V=\text{type-checking time, proof-term length}
 \]
 
 \[
-B=\text{distanza tra prove equivalenti, normalization length}.
+B=\text{distance between equivalent proofs, normalization length}.
 \]
 
-Domanda centrale:
+Central question:
 
 \[
-\text{un risultato matematicamente semplice può essere formalmente costoso?}
+\text{can a mathematically simple result be formally expensive?}
 \]
 
-\medskip
 
 
-\subsection{A3. Rete logica continua--analisi funzionale--probabilità}
+\subsection{A3. Network continuous logic--functional analysis--probability}
 
-Nodi:
+Nodes:
 
 \[
-\text{continuous logic}
+\text{continuousus logic}
 \]
 
 \[
@@ -1311,7 +1286,7 @@ C^\ast\text{-algebras}
 \text{definability}.
 \]
 
-Archi:
+Edges:
 
 \[
 X\mapsto \operatorname{Th}_{\le q}(X)
@@ -1329,26 +1304,25 @@ A\mapsto \text{tracial moments}
 \text{Banach space}\mapsto \text{metric theory}.
 \]
 
-Risorse:
+Resources:
 
 \[
-O=\text{quantifier rank, modulus of continuity, precisione}
+O=\text{quantifier rank, modulus of continuity, precision}
 \]
 
 \[
-V=\text{dati di verifica di approssimazione elementare}
+V=\text{elementary approximation verification data}
 \]
 
 \[
-B=\text{fibre di strutture indistinguibili fino a rank }q.
+B=\text{fibres of indistinguishable structures up to a rank }q.
 \]
 
-\medskip
 
 
-\subsection{A4. Rete o-minimalità--PDE tame--geometria reale--algoritmi}
+\subsection{A4. Network o-minimality--PDE tame--real geometry--algorithms}
 
-Nodi:
+Nodes:
 
 \[
 \text{o-minimal structures}
@@ -1386,7 +1360,7 @@ Nodi:
 \text{differential equations definable}.
 \]
 
-Archi:
+Edges:
 
 \[
 f\mapsto \operatorname{Graph}(f)
@@ -1404,36 +1378,35 @@ f\mapsto \operatorname{Graph}(f)
 \text{optimization problem}\mapsto \text{critical point data}.
 \]
 
-Risorse:
+Resources:
 
 \[
-P=\text{format definibile, grado, chain length}
+P=\text{format definibile, degree, chain length}
 \]
 
 \[
-O=\text{dimensione celle, complessità Betti}
+O=\text{cell dimension, Betti complexity}
 \]
 
 \[
-V=\text{dati di verifica di stratificazione, monotonicità}
+V=\text{stratification verification data, monotonicity}
 \]
 
 \[
-B=\text{fibre con stessa decomposizione tame}.
+B=\text{fibres with the same tame decomposition}.
 \]
 
 Idea:
 
 \[
-\text{analisi con complessità topologica controllata}.
+\text{analysis with controlled topological complexity}.
 \]
 
-\medskip
 
 
-\subsection{A5. Rete finite precision--computable analysis--real complexity}
+\subsection{A5. Network finite precision--computable analysis--real complexity}
 
-Nodi:
+Nodes:
 
 \[
 \text{computable real numbers}
@@ -1471,7 +1444,7 @@ Nodi:
 \text{constructive analysis}.
 \]
 
-Archi:
+Edges:
 
 \[
 x\in\mathbb R\mapsto \text{name }(q_n)
@@ -1489,26 +1462,25 @@ F:X\to Y\mapsto \text{realizer}
 \text{numerical approximation}\mapsto \text{interval verification data}.
 \]
 
-Risorse:
+Resources:
 
 \[
-O=2^{-n}\text{ precisione}
+O=2^{-n}\text{ precision}
 \]
 
 \[
-V=\text{modulo di continuità, convergenza, enclosure}
+V=\text{modulus of continuity, convergenza, enclosure}
 \]
 
 \[
-B=\text{fibre di nomi diversi dello stesso oggetto}.
+B=\text{fibre of different names of the same object}.
 \]
 
-\medskip
 
 
-\subsection{A6. Rete PDE--logica--proof mining--analisi costruttiva}
+\subsection{A6. Network PDE--logic--proof mining--constructive analysis}
 
-Nodi:
+Nodes:
 
 \[
 \text{proof mining}
@@ -1546,7 +1518,7 @@ Nodi:
 \text{metastability}.
 \]
 
-Archi:
+Edges:
 
 \[
 \text{classical proof}\mapsto \text{effective bound}
@@ -1568,32 +1540,30 @@ Idea:
 
 \[
 \begin{gathered}
-\text{teorema qualitativo} \to \text{profilo quantitativo} \to \text{algoritmo} \to \text{dato di verifica}.
+\text{qualitative theorem} \to \text{quantitative profile} \to \text{algorithm} \to \text{verification datum}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\section{B. Reti algebriche, rappresentazionali e omologiche}
-
-\medskip
+\section{B. Algebraic, Representational, and Homological Networks}
 
 
-\subsection{B1. Rete rappresentazioni--moduli--invarianti--deformazioni}
 
-Nodi:
+\subsection{B1. Network representations--moduli--invariants--deformations}
+
+Nodes:
 
 \[
-\text{gruppi finitamente presentati}
+\text{finitely presented groups}
 \]
 
 \[
-\text{algebre associative}
+\text{associative algebras}
 \]
 
 \[
-\text{algebre di Lie}
+\text{Lie algebras}
 \]
 
 \[
@@ -1601,11 +1571,11 @@ Nodi:
 \]
 
 \[
-\text{anelli}
+\text{rings}
 \]
 
 \[
-\text{categorie tensoriali}
+\text{tensor categories}
 \]
 
 \[
@@ -1628,7 +1598,7 @@ Nodi:
 \text{deformation theory}.
 \]
 
-Archi:
+Edges:
 
 \[
 G\to \operatorname{Rep}_n(G)
@@ -1650,22 +1620,22 @@ Q\to \operatorname{Rep}(Q,\mathbf d)
 X\to \mathfrak g_X.
 \]
 
-Osservabili:
+Observables:
 
 \[
-\text{tracce di parole}
+\text{traces of words}
 \]
 
 \[
-\text{caratteri}
+\text{characters}
 \]
 
 \[
-\text{semi-invarianti}
+\text{semi-invariants}
 \]
 
 \[
-\text{stabilizzatori}
+\text{stabilizers}
 \]
 
 \[
@@ -1673,52 +1643,51 @@ Osservabili:
 \]
 
 \[
-\text{coomologia di deformazione}.
+\text{deformation cohomology}.
 \]
 
-Fibre:
+Fibres:
 
 \[
-\text{oggetti non isomorfi con stessi invarianti}
-\]
-
-\[
-\text{orbite con stessa chiusura}
+\text{non-isomorphic objects with the same invariants}
 \]
 
 \[
-\text{moduli con stessa decategorificazione}.
-\]
-
-\medskip
-
-
-\subsection{B2. Rete tensoriale universale}
-
-Nodi:
-
-\[
-\text{algebre finite dimensionali}
+\text{orbits with the same closure}
 \]
 
 \[
-\text{moltiplicazione di matrici}
+\text{moduli with the same decategorification}.
+\]
+
+
+
+\subsection{B2. Universal Tensorial Network}
+
+Nodes:
+
+\[
+\text{finite-dimensional algebras}
 \]
 
 \[
-\text{gruppi e algebre di gruppo}
+\text{matrix multiplication}
 \]
 
 \[
-\text{coomologia e cup product}
+\text{groups and group algebras}
 \]
 
 \[
-\text{forme multilineari}
+\text{cohomology and cup product}
 \]
 
 \[
-\text{probabilità discrete}
+\text{multilinear forms}
+\]
+
+\[
+\text{probability discrete}
 \]
 
 \[
@@ -1741,25 +1710,25 @@ Nodi:
 \text{complexity of bilinear maps}.
 \]
 
-Archi:
+Edges:
 
 \[
 A\mapsto T_A
 \]
 
-dove \(T_A\) è il tensore della moltiplicazione.
+where \(T_A\) is the multiplication tensor.
 
 \[
 X\mapsto T_{H^\ast(X)}
 \]
 
-cup product in coomologia.
+cup product in cohomology.
 
 \[
 p(x_1,\ldots,x_n)\mapsto T_p
 \]
 
-distribuzione come tensore.
+distribution come tensore.
 
 \[
 \psi\mapsto T_\psi
@@ -1771,9 +1740,9 @@ stato quantistico multipartito.
 K(x,y)\mapsto T_K
 \]
 
-kernel discretizzato o approssimato.
+kernel discretizzato or approssimato.
 
-Osservabili:
+Observables:
 
 \[
 \text{rank}
@@ -1806,26 +1775,25 @@ Osservabili:
 Idea:
 
 \[
-\text{ogni composizione bilineare o multilineare genera un transfer tensoriale.}
+\text{every composizione bilineare or multilineare genera a transfer tensoriale.}
 \]
 
-\medskip
 
 
-\subsection{B3. Rete algebra lineare--matroidi--codici--data structures--rank methods}
+\subsection{B3. Network linear algebra--matroids--codes--data structures--rank methods}
 
-Nodi:
-
-\[
-\text{matrici}
-\]
+Nodes:
 
 \[
-\text{matroidi}
+\text{matrices}
 \]
 
 \[
-\text{codici lineari}
+\text{matroids}
+\]
+
+\[
+\text{linear codes}
 \]
 
 \[
@@ -1852,25 +1820,25 @@ Nodi:
 \text{proof complexity algebrica}.
 \]
 
-Archi:
+Edges:
 
 \[
 \text{problem}\mapsto A_P
 \]
 
-matrice di incidenza, comunicazione o vincoli.
+matrice of incidenza, comunicazione or vincoli.
 
 \[
 A\mapsto M(A)
 \]
 
-matroide.
+matroid.
 
 \[
 A\mapsto C_A
 \]
 
-codice lineare.
+linear code.
 
 \[
 \text{data structure}\mapsto A=RM
@@ -1882,10 +1850,10 @@ fattorizzazione sparsa.
 \text{polynomial proof}\mapsto \text{linear map of coefficients}.
 \]
 
-Risorse:
+Resources:
 
 \[
-P=\text{dimensione, sparsità, campo}
+P=\text{dimension, sparsity, field}
 \]
 
 \[
@@ -1893,30 +1861,29 @@ O=\text{rank, local rank, support size}
 \]
 
 \[
-V=\text{dati di verifica di dipendenza, dual codewords}
+V=\text{dependence verification data, dual codewords}
 \]
 
 \[
-B=\text{distanza tra rappresentazioni dello stesso matroide}.
+B=\text{distance between representations of the same matroid}.
 \]
 
-\medskip
 
 
-\subsection{B4. Rete deformazioni--coomologia--ostruzioni--moduli derivati}
+\subsection{B4. Network deformations--cohomology--obstructions--derived moduli}
 
-Nodi:
-
-\[
-\text{varietà algebriche}
-\]
+Nodes:
 
 \[
-\text{schemi}
+\text{algebraic varieties}
 \]
 
 \[
-\text{complessi}
+\text{schemes}
+\]
+
+\[
+\text{complexes}
 \]
 
 \[
@@ -1951,7 +1918,7 @@ L_\infty\text{-algebras}
 \text{obstruction theory}.
 \]
 
-Archi:
+Edges:
 
 \[
 X\mapsto \mathfrak g_X
@@ -1969,38 +1936,37 @@ MC(\mathfrak g)\mapsto H^\ast(\mathfrak g)
 \text{moduli problem}\mapsto \text{derived moduli stack}.
 \]
 
-Risorse:
+Resources:
 
 \[
-P=\text{dimensione del complesso, differenziali}
+P=\text{dimension of the complesso, differentials}
 \]
 
 \[
-O=\text{grado coomologico osservato}
+O=\text{observed cohomological degree}
 \]
 
 \[
-V=\text{ordine nilpotente della deformazione verificata}
+V=\text{nilpotent order of the verified deformation}
 \]
 
 \[
-B=\text{gauge equivalence, omotopie, quasi-isomorfismi}.
+B=\text{gauge equivalence, homotopies, quasi-isomorphisms}.
 \]
 
 Idea:
 
 \[
-\text{classificazione non lineare}
+\text{nonlinear classification}
 \to
-\text{dati lineari più ostruzioni superiori}.
+\text{linear data plus higher obstructions}.
 \]
 
-\medskip
 
 
-\subsection{B5. Rete algebra omologica--analisi funzionale--categorie derivate}
+\subsection{B5. Network homological algebra--functional analysis--derived categories}
 
-Nodi:
+Nodes:
 
 \[
 \text{complexes}
@@ -2042,7 +2008,7 @@ Nodi:
 \text{index theory}.
 \]
 
-Archi:
+Edges:
 
 \[
 A\mapsto D(A)
@@ -2064,26 +2030,24 @@ A\mapsto HC_\ast(A)
 \text{smooth algebra}\mapsto \text{de Rham-type invariants}.
 \]
 
-Fibre:
+Fibres:
 
 \[
-\text{categorie con stessi invarianti omologici troncati}.
+\text{categories with same invariants omologici troncati}.
 \]
 
-\medskip
 
 
-\section{C. Reti geometriche, topologiche e categoriali}
-
-\medskip
+\section{C. Geometric, Topological, and Categorical Networks}
 
 
-\subsection{C1. Rete tropicale--matroidale--poliedrale--ottimizzazione}
 
-Nodi:
+\subsection{C1. Network tropical--matroidal--polyhedral--optimization}
+
+Nodes:
 
 \[
-\text{varietà algebriche}
+\text{algebraic varieties}
 \]
 
 \[
@@ -2091,7 +2055,7 @@ Nodi:
 \]
 
 \[
-\text{schemi}
+\text{schemes}
 \]
 
 \[
@@ -2103,7 +2067,7 @@ Nodi:
 \]
 
 \[
-\text{matroidi}
+\text{matroids}
 \]
 
 \[
@@ -2130,7 +2094,7 @@ Nodi:
 \text{phylogenetic geometry}.
 \]
 
-Archi:
+Edges:
 
 \[
 I\mapsto \operatorname{Trop}(I)
@@ -2145,37 +2109,36 @@ I\mapsto \operatorname{in}_w(I)
 \]
 
 \[
-\text{varietà positiva}\mapsto \text{polytope}
+\text{varieties positiva}\mapsto \text{polytope}
 \]
 
 \[
 \text{cluster algebra}\mapsto \text{fan combinatorics}.
 \]
 
-Risorse:
+Resources:
 
 \[
-P=\text{grado, numero di monomi, bit-size}
+P=\text{degree, number of monomials, bit-size}
 \]
 
 \[
-O=\text{dimensione del fan, numero di coni, rank matroidale}
+O=\text{dimension of the fan, number of cones, matroidal rank}
 \]
 
 \[
-V=\text{dati di verifica tropicali, basi di Gröbner}
+V=\text{tropical verification data, Groebner bases}
 \]
 
 \[
-B=\text{distanza di mutazione, distanza nel Gröbner fan}.
+B=\text{distance of mutazione, distance in the Gröbner fan}.
 \]
 
-\medskip
 
 
-\subsection{C2. Rete sheaf--cosheaf--consistenza locale--persistenza--sistemi distribuiti}
+\subsection{C2. Network sheaf--cosheaf--local consistency--persistence--distributed systems}
 
-Nodi:
+Nodes:
 
 \[
 \text{sheaves}
@@ -2221,7 +2184,7 @@ Nodi:
 \text{descent theory}.
 \]
 
-Archi:
+Edges:
 
 \[
 \text{CSP instance}\mapsto \mathcal F_{\text{solutions}}
@@ -2252,19 +2215,18 @@ Idea:
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{C3. Rete topologia--gruppi--nodi--TQFT--skein--mapping class groups}
+\subsection{C3. Network topology--groups--knots--TQFT--skein--mapping class groups}
 
-Nodi:
+Nodes:
 
 \[
-\text{complessi simpliciali}
+\text{complexes simpliciali}
 \]
 
 \[
-\text{varietà PL}
+\text{varieties PL}
 \]
 
 \[
@@ -2272,11 +2234,11 @@ Nodi:
 \]
 
 \[
-\text{nodi e link}
+\text{knots and link}
 \]
 
 \[
-\text{gruppi fondamentali}
+\text{fundamental groups}
 \]
 
 \[
@@ -2303,7 +2265,7 @@ Nodi:
 \text{character varieties}.
 \]
 
-Archi:
+Edges:
 
 \[
 M\mapsto \pi_1(M)
@@ -2329,10 +2291,10 @@ M\mapsto Z_{\mathcal C}(M)
 K\mapsto \text{skein element}.
 \]
 
-Osservabili:
+Observables:
 
 \[
-\text{omologia}
+\text{homology}
 \]
 
 \[
@@ -2344,15 +2306,14 @@ Osservabili:
 \]
 
 \[
-\text{invarianti quantistici fino a livello }r.
+\text{quantum invariants up to level }r.
 \]
 
-\medskip
 
 
-\subsection{C4. Rete topologia persistente--analisi funzionale--segnali--PDE}
+\subsection{C4. Network persistent topology--functional analysis--signals--PDE}
 
-Nodi:
+Nodes:
 
 \[
 \text{filtered spaces}
@@ -2394,7 +2355,7 @@ Nodi:
 \text{multiparameter persistence}.
 \]
 
-Archi:
+Edges:
 
 \[
 f:X\to\mathbb R\mapsto {X_{\le t}}_t
@@ -2416,20 +2377,19 @@ u(x,t)\mapsto \text{persistence over level/time}
 \text{random field}\mapsto \text{random barcode}.
 \]
 
-Fibra centrale:
+Central fibre:
 
 \[
 f\mapsto \operatorname{Barcode}(f)
 \]
 
-dimentica gran parte della geometria.
-
-\medskip
+forgets a large part of the geometry.
 
 
-\subsection{C5. Rete geometria simplettica--Floer--mirror symmetry--PDE ellittiche}
 
-Nodi:
+\subsection{C5. Network symplectic geometry--Floer--mirror symmetry--elliptic PDE}
+
+Nodes:
 
 \[
 \text{symplectic manifolds}
@@ -2471,7 +2431,7 @@ Nodi:
 \text{quantum cohomology}.
 \]
 
-Archi:
+Edges:
 
 \[
 (M,\omega)\mapsto \text{Hamiltonian flow}
@@ -2493,12 +2453,11 @@ X\mapsto QH^\ast(X)
 \text{symplectic side}\mapsto \text{algebraic mirror}.
 \]
 
-\medskip
 
 
-\subsection{C6. Rete Teichmüller--quasiconformal--dinamica complessa}
+\subsection{C6. Network Teichmüller--quasiconformal--complex dynamics}
 
-Nodi:
+Nodes:
 
 \[
 \text{Riemann surfaces}
@@ -2540,7 +2499,7 @@ Nodi:
 \text{interval exchange transformations}.
 \]
 
-Archi:
+Edges:
 
 \[
 X\mapsto \mathcal T(X)
@@ -2562,15 +2521,14 @@ q\mapsto \text{horizontal/vertical foliations}
 \text{rational map}\mapsto \text{Julia set / lamination}.
 \]
 
-\medskip
 
 
-\subsection{C7. Rete geometria della misura--correnti--varifold--frattali}
+\subsection{C7. Network measure geometry--currents--varifold--fractals}
 
-Nodi:
+Nodes:
 
 \[
-\text{misure di Hausdorff}
+\text{measures of Hausdorff}
 \]
 
 \[
@@ -2609,7 +2567,7 @@ Nodi:
 \text{GMT compactness}.
 \]
 
-Archi:
+Edges:
 
 \[
 S\mapsto \mathcal H^d\llcorner S
@@ -2631,10 +2589,10 @@ T\mapsto \partial T
 \mu\mapsto \dim_H(\mu),\tau(q),f(\alpha).
 \]
 
-Osservabili:
+Observables:
 
 \[
-\text{scala}
+\text{scale}
 \]
 
 \[
@@ -2646,19 +2604,18 @@ Osservabili:
 \]
 
 \[
-\text{dimensione}
+\text{dimension}
 \]
 
 \[
-\text{profilo multifrattale}.
+\text{multifractal profile}.
 \]
 
-\medskip
 
 
-\subsection{C8. Rete frattali--dinamica iterata--spettri--probabilità}
+\subsection{C8. Network fractals--iterated dynamics--spectra--probability}
 
-Nodi:
+Nodes:
 
 \[
 \text{iterated function systems}
@@ -2696,7 +2653,7 @@ Nodi:
 \text{substitution systems}.
 \]
 
-Archi:
+Edges:
 
 \[
 {S_i}\mapsto K
@@ -2718,22 +2675,20 @@ K\mapsto \Delta_K
 \text{substitution}\mapsto \text{tiling dynamical system}.
 \]
 
-\medskip
 
 
-\section{D. Reti analitiche}
+\section{D. Analytic Networks}
 
-Questa è la grande espansione analitica dell'atlante.
-
-\medskip
+This is the large analytic expansion of the atlas.
 
 
-\subsection{D1. Rete distribuzioni--Fourier--Sobolev--microlocale}
 
-Nodi:
+\subsection{D1. Network distributions--Fourier--Sobolev--microlocal}
+
+Nodes:
 
 \[
-\text{funzioni lisce}
+\text{smooth functions}
 \]
 
 \[
@@ -2741,23 +2696,23 @@ L^p
 \]
 
 \[
-\text{distribuzioni}
+\text{distributions}
 \]
 
 \[
-\text{misure}
+\text{measures}
 \]
 
 \[
-\text{trasformata di Fourier}
+\text{trasformata of Fourier}
 \]
 
 \[
-\text{spazi di Sobolev}
+\text{Sobolev spaces}
 \]
 
 \[
-\text{spazi di Besov}
+\text{Besov spaces}
 \]
 
 \[
@@ -2765,7 +2720,7 @@ L^p
 \]
 
 \[
-\text{operatori pseudodifferenziali}
+\text{operators pseudodifferenziali}
 \]
 
 \[
@@ -2776,7 +2731,7 @@ L^p
 \text{microlocal sheaves}.
 \]
 
-Archi:
+Edges:
 
 \[
 u\mapsto \widehat u
@@ -2798,35 +2753,34 @@ P(x,D)\mapsto \sigma(P)
 u\mapsto {\langle u,\psi_{j,k}\rangle}.
 \]
 
-Fibre:
+Fibres:
 
 \[
 u\mapsto \widehat u|_{|\xi|\le \Lambda}
 \]
 
-dimentica alte frequenze.
+forgets high frequencies.
 
 \[
 u\mapsto WF(u)
 \]
 
-dimentica ampiezze e fasi fini.
+forgets amplitudes and fine phases.
 
 \[
 P\mapsto \sigma_{\mathrm{prin}}(P)
 \]
 
-dimentica simboli subprincipali.
-
-\medskip
+forgets subprincipal symbols.
 
 
-\subsection{D2. Rete PDE ellittiche--regolarità--geometria--topologia}
 
-Nodi:
+\subsection{D2. Network elliptic PDE--regularity--geometry--topology}
+
+Nodes:
 
 \[
-\text{operatori ellittici}
+\text{operators ellittici}
 \]
 
 \[
@@ -2834,38 +2788,38 @@ Nodi:
 \]
 
 \[
-\text{spazi di Sobolev}
+\text{Sobolev spaces}
 \]
 
 \[
-\text{teoria Fredholm}
+\text{Fredholm theory}
 \]
 
 \[
-\text{indice}
+\text{index}
 \]
 
 \[
-\text{coomologia}
+\text{cohomology}
 \]
 
 \[
-\text{K-teoria}
+\text{K-theory}
 \]
 
 \[
-\text{geometria riemanniana}
+\text{Riemannian geometry}
 \]
 
 \[
-\text{teoria spettrale}
+\text{spectral theory}
 \]
 
 \[
-\text{invarianti topologici}.
+\text{invariants topologici}.
 \]
 
-Archi:
+Edges:
 
 \[
 P\mapsto \sigma(P)
@@ -2892,36 +2846,35 @@ Idea:
 \[
 \text{PDE ellittica}
 \to
-\text{topologia}
+\text{topology}
 \to
-\text{dati di verifica di non-invertibilità o esistenza}.
+\text{non-invertibility or existence verification data}.
 \]
 
-\medskip
 
 
-\subsection{D3. Rete PDE paraboliche--semigruppi--probabilità--geometria}
+\subsection{D3. Network parabolic PDE--semigroups--probability--geometry}
 
-Nodi:
-
-\[
-\text{equazioni del calore}
-\]
+Nodes:
 
 \[
-\text{semigruppi contrattivi}
+\text{heat equations}
 \]
 
 \[
-\text{operatori dissipativi}
+\text{contractive semigroups}
 \]
 
 \[
-\text{processi di Markov}
+\text{operators dissipativi}
 \]
 
 \[
-\text{forme di Dirichlet}
+\text{processi of Markov}
+\]
+
+\[
+\text{Dirichlet forms}
 \]
 
 \[
@@ -2940,7 +2893,7 @@ Nodi:
 \text{optimal transport}.
 \]
 
-Archi:
+Edges:
 
 \[
 L\mapsto e^{tL}
@@ -2966,23 +2919,22 @@ p_t(x,y)\mapsto \operatorname{Tr}(e^{tL})
 \mathcal E(u,u)\mapsto \text{Dirichlet form}\mapsto \text{Markov process}.
 \]
 
-\medskip
 
 
-\subsection{D4. Rete PDE iperboliche--propagazione--causalità--scattering}
+\subsection{D4. Network hyperbolic PDE--propagation--causality--scattering}
 
-Nodi:
+Nodes:
 
 \[
-\text{equazioni delle onde}
+\text{equazioni of the onde}
 \]
 
 \[
-\text{operatori iperbolici}
+\text{operators iperbolici}
 \]
 
 \[
-\text{geometria lorentziana}
+\text{geometry lorentziana}
 \]
 
 \[
@@ -2990,7 +2942,7 @@ Nodi:
 \]
 
 \[
-\text{fronti d'onda}
+\text{fronti of onda}
 \]
 
 \[
@@ -3009,7 +2961,7 @@ Nodi:
 \text{inverse boundary problems}.
 \]
 
-Archi:
+Edges:
 
 \[
 P\mapsto \operatorname{Char}(P)
@@ -3031,25 +2983,24 @@ u(t)|_{\partial M}\mapsto \text{boundary observation}
 (M,g)\mapsto \Lambda_g.
 \]
 
-Domande:
+Questions:
 
 \[
-\text{quanto tempo serve per vedere una singolarità?}
+\text{how much time is needed to see a singularity?}
 \]
 
 \[
-\text{quale apertura angolare serve per ricostruire una geometria?}
+\text{which angular aperture is needed to reconstruct a geometry?}
 \]
 
-\medskip
 
 
-\subsection{D5. Rete dispersiva--nonlineare--scattering--solitoni}
+\subsection{D5. Network dispersive--nonlinear--scattering--solitons}
 
-Nodi:
+Nodes:
 
 \[
-\text{Schrödinger nonlineare}
+\text{Schrödinger nonlinear}
 \]
 
 \[
@@ -3084,7 +3035,7 @@ Nodi:
 \text{solitons}.
 \]
 
-Archi:
+Edges:
 
 \[
 u_0\mapsto u(t)
@@ -3099,27 +3050,26 @@ u_n\mapsto {\phi_j,\lambda_j,x_j,t_j}
 \]
 
 \[
-u\mapsto \text{massa, energia, momento}
+u\mapsto \text{mass, energy, momentum}
 \]
 
 \[
 \text{nonlinear PDE}\mapsto \text{renormalized effective dynamics}.
 \]
 
-Fibre:
+Fibres:
 
 \[
 u_0\mapsto (M(u_0),E(u_0))
 \]
 
-ha fibre dinamicamente ricche.
-
-\medskip
+has dynamically rich fibres.
 
 
-\subsection{D6. Rete analisi armonica--operatori singolari--combinatoria additiva}
 
-Nodi:
+\subsection{D6. Network harmonic analysis--singular operators--additive combinatorics}
+
+Nodes:
 
 \[
 \text{Fourier analysis}
@@ -3161,7 +3111,7 @@ Nodi:
 \text{PDE dispersive}.
 \]
 
-Archi:
+Edges:
 
 \[
 f\mapsto \widehat f|_\Sigma
@@ -3172,7 +3122,7 @@ f\mapsto Tf
 \]
 
 \[
-\text{curvatura}\mapsto \text{decay/dispersion estimates}
+\text{curvature}\mapsto \text{decay/dispersion estimates}
 \]
 
 \[
@@ -3183,24 +3133,23 @@ f\mapsto Tf
 \text{incidence bound}\mapsto \text{operator norm bound}.
 \]
 
-Schema:
+Scheme:
 
 \[
 \begin{gathered}
-\text{curvatura} \to \text{oscillazione} \to \text{cancellazione} \to \text{stima} \\
-\to \text{conteggio}.
+\text{curvature} \to \text{oscillation} \to \text{cancellation} \to \text{estimate} \\
+\to \text{counting}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{D7. Rete microlocale--simplettica--sheaf-theoretic--PDE}
+\subsection{D7. Network microlocal--symplectic--sheaf-theoretic--PDE}
 
-Nodi:
+Nodes:
 
 \[
-\text{distribuzioni}
+\text{distributions}
 \]
 
 \[
@@ -3216,7 +3165,7 @@ Nodi:
 \]
 
 \[
-\text{geometria simplettica}
+\text{symplectic geometry}
 \]
 
 \[
@@ -3235,7 +3184,7 @@ Nodi:
 \text{contact geometry}.
 \]
 
-Archi:
+Edges:
 
 \[
 u\mapsto WF(u)
@@ -3265,27 +3214,26 @@ Idea:
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{D8. Rete teoria spettrale--scattering--zeta--tracce}
+\subsection{D8. Network spectral theory--scattering--zeta--traces}
 
-Nodi:
+Nodes:
 
 \[
-\text{operatori autoaggiunti}
+\text{operators autoaggiunti}
 \]
 
 \[
-\text{operatori non autoaggiunti}
+\text{non-self-adjoint operators}
 \]
 
 \[
-\text{spettri discreti}
+\text{spectra discreti}
 \]
 
 \[
-\text{spettri continui}
+\text{spectra continui}
 \]
 
 \[
@@ -3312,7 +3260,7 @@ Nodi:
 \text{inverse spectral geometry}.
 \]
 
-Archi:
+Edges:
 
 \[
 P\mapsto \operatorname{Spec}(P)
@@ -3334,23 +3282,22 @@ P\mapsto \operatorname{Tr}(e^{-tP})
 V(x)\mapsto S_V(\lambda).
 \]
 
-Fibre:
+Fibres:
 
 \[
 P\mapsto {\lambda_1,\ldots,\lambda_N}
 \]
 
-ha fibre enormi a bassa energia.
-
-\medskip
+has very large fibres at low energy.
 
 
-\subsection{D9. Rete geometria riemanniana--Ricci flow--PDE geometrica--topologia}
 
-Nodi:
+\subsection{D9. Network Riemannian geometry--Ricci flow--PDE geometric--topology}
+
+Nodes:
 
 \[
-\text{metriche riemanniane}
+\text{metric riemanniane}
 \]
 
 \[
@@ -3378,14 +3325,14 @@ Nodi:
 \]
 
 \[
-\text{topologia delle varietà}
+\text{topology of the varieties}
 \]
 
 \[
-\text{spazi metrici limite}.
+\text{limit metric spaces}.
 \]
 
-Archi:
+Edges:
 
 \[
 g\mapsto \operatorname{Rm}(g),\operatorname{Ric}(g),R(g)
@@ -3407,23 +3354,22 @@ g(t)\mapsto \text{singularity model}
 (M,g_i)\mapsto \text{Gromov--Hausdorff limit}.
 \]
 
-Schema:
+Scheme:
 
 \[
 \begin{gathered}
-\text{geometria} \to \text{PDE parabolica} \to \text{monotonicità} \to \text{topologia}.
+\text{geometry} \to \text{parabolic PDE} \to \text{monotonicity} \to \text{topology}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{D10. Rete geometria metrica--Ricci sintetico--trasporto ottimale}
+\subsection{D10. Network metric geometry--synthetic Ricci--optimal transport}
 
-Nodi:
+Nodes:
 
 \[
-\text{spazi metrici misura}
+\text{metric measure spaces}
 \]
 
 \[
@@ -3458,7 +3404,7 @@ Nodi:
 \text{Markov chains}.
 \]
 
-Archi:
+Edges:
 
 \[
 (X,d,\mu)\mapsto \mathcal P_2(X)
@@ -3480,29 +3426,28 @@ Archi:
 \text{Markov chain}\mapsto \text{discrete transport geometry}.
 \]
 
-Schema:
+Scheme:
 
 \[
-\text{curvatura}
+\text{curvature}
 \leftrightarrow
-\text{convessità dell'entropia}
+\text{convexity of the entropy}
 \leftrightarrow
-\text{contrazione del calore}
+\text{heat contraction}
 \leftrightarrow
-\text{concentrazione}
+\text{concentration}
 \leftrightarrow
 \text{mixing}.
 \]
 
-\medskip
 
 
-\subsection{D11. Rete calcolo delle variazioni--\(\Gamma\)-convergenza--materiali--PDE}
+\subsection{D11. Network calculus of variations--\(\Gamma\)-convergence--materials--PDE}
 
-Nodi:
+Nodes:
 
 \[
-\text{funzionali}
+\text{functionals}
 \]
 
 \[
@@ -3530,7 +3475,7 @@ Nodi:
 \]
 
 \[
-\text{elasticità}
+\text{elasticity}
 \]
 
 \[
@@ -3541,7 +3486,7 @@ Nodi:
 \text{optimal design}.
 \]
 
-Archi:
+Edges:
 
 \[
 F_\varepsilon\mapsto \Gamma\text{-}\lim F_\varepsilon
@@ -3563,23 +3508,22 @@ u_\varepsilon\mapsto \nu_x
 \text{shape}\mapsto \text{shape derivative}.
 \]
 
-Fibra fondamentale:
+Fundamental fibre:
 
 \[
 \text{microstructure}\mapsto \text{effective material}
 \]
 
-ha fibre enormi.
-
-\medskip
+has very large fibres.
 
 
-\subsection{D12. Rete omogeneizzazione--multiscala--random media}
 
-Nodi:
+\subsection{D12. Network homogenization--multiscale--random media}
+
+Nodes:
 
 \[
-\text{PDE con coefficienti oscillanti}
+\text{PDEs with oscillating coefficients}
 \]
 
 \[
@@ -3618,7 +3562,7 @@ G\text{-convergence}
 \text{random conductance models}.
 \]
 
-Archi:
+Edges:
 
 \[
 a(x/\varepsilon)\mapsto a_{\mathrm{hom}}
@@ -3640,7 +3584,7 @@ u_\varepsilon\mapsto (u_0,u_1(x,y))
 \text{random medium}\mapsto \text{large-scale heat kernel}.
 \]
 
-Schema:
+Scheme:
 
 \[
 \text{micro}
@@ -3650,12 +3594,11 @@ Schema:
 \text{macro}.
 \]
 
-\medskip
 
 
-\subsection{D13. Rete fluidi--turbolenza--vorticità--statistica}
+\subsection{D13. Network fluids--turbulence--vorticity--statistics}
 
-Nodi:
+Nodes:
 
 \[
 \text{Euler}
@@ -3666,7 +3609,7 @@ Nodi:
 \]
 
 \[
-\text{vorticità}
+\text{vorticity}
 \]
 
 \[
@@ -3697,7 +3640,7 @@ Nodi:
 \text{kinetic theory}.
 \]
 
-Archi:
+Edges:
 
 \[
 u\mapsto \omega=\nabla\times u
@@ -3719,29 +3662,28 @@ u\mapsto E(k)
 \text{particle system}\mapsto \text{kinetic equation}\mapsto \text{fluid equation}.
 \]
 
-Fibre:
+Fibres:
 
 \[
 u\mapsto E(k)
 \]
 
-dimentica fasi e vortici coerenti.
+forgets phases and coherent vortices.
 
 \[
 u\mapsto \overline u
 \]
 
-dimentica scale piccole.
-
-\medskip
+forgets small scales.
 
 
-\subsection{D14. Rete teoria cinetica--Boltzmann--entropia--limiti idrodinamici}
 
-Nodi:
+\subsection{D14. Network kinetic theory--Boltzmann--entropy--hydrodynamic limits}
+
+Nodes:
 
 \[
-\text{sistemi di particelle}
+\text{systems of particelle}
 \]
 
 \[
@@ -3776,7 +3718,7 @@ Nodi:
 \text{fluctuation theory}.
 \]
 
-Archi:
+Edges:
 
 \[
 {x_i,v_i}_{i=1}^N\mapsto f_N
@@ -3798,12 +3740,11 @@ f\mapsto \rho,u,T
 f\mapsto H(f).
 \]
 
-\medskip
 
 
-\subsection{D15. Rete probabilità continua--Malliavin--SPDE--regolarità}
+\subsection{D15. Network continuous probability--Malliavin--SPDE--regularity}
 
-Nodi:
+Nodes:
 
 \[
 \text{Brownian motion}
@@ -3841,7 +3782,7 @@ Nodi:
 \text{stochastic quantization}.
 \]
 
-Archi:
+Edges:
 
 \[
 b,\sigma\mapsto X_t
@@ -3863,12 +3804,11 @@ X\mapsto DX
 \text{noise}\mapsto \text{random distribution}\mapsto \text{SPDE solution}.
 \]
 
-\medskip
 
 
-\subsection{D16. Rete rough paths--regularity structures--renormalization}
+\subsection{D16. Network rough paths--regularity structures--renormalization}
 
-Nodi:
+Nodes:
 
 \[
 \text{rough paths}
@@ -3906,7 +3846,7 @@ Nodi:
 \text{stochastic analysis}.
 \]
 
-Archi:
+Edges:
 
 \[
 X\mapsto \mathbf X=(X,\mathbb X,\ldots)
@@ -3928,20 +3868,20 @@ X\mapsto \mathbf X=(X,\mathbb X,\ldots)
 \text{trees}\mapsto \text{Hopf algebra}.
 \]
 
-Fibra fondamentale:
+Fundamental fibre:
 
 \[
 \mathbf X\mapsto X
 \]
 
-dimentica aree iterate.
+forgets iterated areas.
 
 Idea:
 
 \[
 \text{segnale grezzo}
 \not\Rightarrow
-\text{dinamica ben posta}
+\text{dynamics ben posta}
 \]
 
 ma
@@ -3949,22 +3889,21 @@ ma
 \[
 \text{segnale arricchito}
 \Rightarrow
-\text{dinamica continua}.
+\text{dynamics continua}.
 \]
 
-\medskip
 
 
-\subsection{D17. Rete teoria ergodica--operatori di trasferimento--termodinamica formale}
+\subsection{D17. Network ergodic theory--transfer operators--thermodynamic formalism}
 
-Nodi:
+Nodes:
 
 \[
-\text{sistemi dinamici misurabili}
+\text{systems dinamici misurabili}
 \]
 
 \[
-\text{sistemi topologici}
+\text{systems topologici}
 \]
 
 \[
@@ -3972,15 +3911,15 @@ Nodi:
 \]
 
 \[
-\text{operatori di Koopman}
+\text{operators of Koopman}
 \]
 
 \[
-\text{operatori di Perron--Frobenius}
+\text{operators of Perron--Frobenius}
 \]
 
 \[
-\text{entropia}
+\text{entropy}
 \]
 
 \[
@@ -3988,7 +3927,7 @@ Nodi:
 \]
 
 \[
-\text{misure Gibbs}
+\text{measures Gibbs}
 \]
 
 \[
@@ -3999,7 +3938,7 @@ Nodi:
 \text{large deviations}.
 \]
 
-Archi:
+Edges:
 
 \[
 T\mapsto U_T:f\mapsto f\circ T
@@ -4021,19 +3960,18 @@ T\mapsto \zeta_T(z)
 \text{partition}\mapsto \text{symbolic coding}.
 \]
 
-\medskip
 
 
-\subsection{D18. Rete caos--KAM--small divisors--localizzazione}
+\subsection{D18. Network chaos--KAM--small divisors--localization}
 
-Nodi:
+Nodes:
 
 \[
-\text{sistemi hamiltoniani}
+\text{systems hamiltoniani}
 \]
 
 \[
-\text{tori invarianti}
+\text{tori invariants}
 \]
 
 \[
@@ -4064,7 +4002,7 @@ Nodi:
 \text{renormalization}.
 \]
 
-Archi:
+Edges:
 
 \[
 H(I,\theta)\mapsto \omega(I)
@@ -4089,19 +4027,18 @@ H(I,\theta)\mapsto \omega(I)
 Idea:
 
 \[
-\text{aritmetica fine}
+\text{arithmetic fine}
 \to
-\text{stabilità dinamica}
+\text{stability dynamics}
 \to
-\text{analisi spettrale}.
+\text{spectral analysis}.
 \]
 
-\medskip
 
 
-\subsection{D19. Rete integrable systems--Riemann--Hilbert--isomonodromia}
+\subsection{D19. Network integrable systems--Riemann--Hilbert--isomonodromy}
 
-Nodi:
+Nodes:
 
 \[
 \text{equazioni integrabili}
@@ -4143,7 +4080,7 @@ Nodi:
 \text{random matrix theory}.
 \]
 
-Archi:
+Edges:
 
 \[
 \partial_t L=[P,L]\mapsto \operatorname{Spec}(L)
@@ -4165,19 +4102,18 @@ u(x)\mapsto \text{scattering data}
 \text{RHP}\mapsto \tau.
 \]
 
-\medskip
 
 
-\subsection{D20. Rete analisi complessa--SCV--pluripotenziale--PDE}
+\subsection{D20. Network complex analysis--SCV--pluripotential--PDE}
 
-Nodi:
+Nodes:
 
 \[
-\text{funzioni olomorfe}
+\text{holomorphic functions}
 \]
 
 \[
-\text{domini pseudoconvessi}
+\text{pseudoconvex domains}
 \]
 
 \[
@@ -4212,7 +4148,7 @@ Nodi:
 \text{Kähler geometry}.
 \]
 
-Archi:
+Edges:
 
 \[
 \Omega\mapsto K_\Omega(z,w)
@@ -4234,19 +4170,18 @@ X\mapsto H^{p,q}_{\bar\partial}(X)
 f:\mathbb C^n\to\mathbb C^n\mapsto \text{Green current}.
 \]
 
-\medskip
 
 
-\subsection{D21. Rete potenziale--capacità--reti elettriche--probabilità}
+\subsection{D21. Network potential--capacity--electrical networks--probability}
 
-Nodi:
+Nodes:
 
 \[
-\text{potenziale classico}
+\text{potential classico}
 \]
 
 \[
-\text{capacità}
+\text{capacity}
 \]
 
 \[
@@ -4254,7 +4189,7 @@ Nodi:
 \]
 
 \[
-\text{reti elettriche}
+\text{electrical networks}
 \]
 
 \[
@@ -4277,7 +4212,7 @@ Nodi:
 \text{potential theory on graphs}.
 \]
 
-Archi:
+Edges:
 
 \[
 D\mapsto \operatorname{cap}(D)
@@ -4299,15 +4234,14 @@ G\mapsto \text{electrical network}
 \text{domain}\mapsto \omega^x_{\partial D}.
 \]
 
-\medskip
 
 
-\subsection{D22. Rete operatori non autoaggiunti--pseudospectra--stabilità numerica}
+\subsection{D22. Network non-self-adjoint operators--pseudospectra--numerical stability}
 
-Nodi:
+Nodes:
 
 \[
-\text{operatori non normali}
+\text{operators non normali}
 \]
 
 \[
@@ -4315,11 +4249,11 @@ Nodi:
 \]
 
 \[
-\text{semigruppi}
+\text{semigroups}
 \]
 
 \[
-\text{stabilità lineare}
+\text{linear stability}
 \]
 
 \[
@@ -4338,7 +4272,7 @@ Nodi:
 \text{control}.
 \]
 
-Archi:
+Edges:
 
 \[
 A\mapsto \operatorname{Spec}(A)
@@ -4360,20 +4294,19 @@ A\mapsto e^{tA}
 A\mapsto \sup_t|e^{tA}|.
 \]
 
-Principio:
+Principle:
 
 \[
-\text{stesso spettro}
+\text{same spectrum}
 \not\Rightarrow
-\text{stessa dinamica}.
+\text{same dynamics}.
 \]
 
-\medskip
 
 
-\subsection{D23. Rete approssimazione--wavelet--compressed sensing--learning numerico}
+\subsection{D23. Network approximation--wavelet--compressed sensing--numerical learning}
 
-Nodi:
+Nodes:
 
 \[
 \text{approximation theory}
@@ -4415,7 +4348,7 @@ Nodi:
 \text{information-based complexity}.
 \]
 
-Archi:
+Edges:
 
 \[
 f\mapsto \text{best }n\text{-term approximation}
@@ -4437,21 +4370,20 @@ Au=f\mapsto A_hu_h=f_h
 \text{operator}\mapsto \text{learned operator surrogate}.
 \]
 
-Schema:
+Scheme:
 
 \[
 \begin{gathered}
-\text{regolarità} \to \text{compressibilità} \to \text{campionamento} \to \text{algoritmi} \\
-\to \text{dati di verifica d'errore}.
+\text{regularity} \to \text{compressibility} \to \text{sampling} \to \text{algorithms} \\
+\to \text{error verification data}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{D24. Rete analisi numerica--FEM--mesh--dati di verifica}
+\subsection{D24. Network numerical analysis--FEM--mesh--verification data}
 
-Nodi:
+Nodes:
 
 \[
 \text{finite elements}
@@ -4489,7 +4421,7 @@ Nodi:
 \text{computer-assisted proofs}.
 \]
 
-Archi:
+Edges:
 
 \[
 \text{PDE}\mapsto \text{weak formulation}
@@ -4511,23 +4443,22 @@ u_h\mapsto \eta_h
 \text{floating computation}\mapsto \text{interval verification data}.
 \]
 
-Schema:
+Scheme:
 
 \[
 \begin{gathered}
-\text{analisi} \to \text{algoritmo} \to \text{dato di verifica} \to \text{formalizzazione}.
+\text{analysis} \to \text{algorithm} \to \text{verification datum} \to \text{formalization}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{D25. Rete controllo--osservabilità--identificazione--ottimizzazione}
+\subsection{D25. Network control--observability--identification--optimization}
 
-Nodi:
+Nodes:
 
 \[
-\text{sistemi dinamici controllati}
+\text{controlled dynamical systems}
 \]
 
 \[
@@ -4566,7 +4497,7 @@ Nodi:
 \text{reinforcement learning}.
 \]
 
-Archi:
+Edges:
 
 \[
 \dot x=f(x,u)\mapsto \mathcal R_T(x_0)
@@ -4588,20 +4519,19 @@ Archi:
 \text{multi-agent system}\mapsto \text{mean field limit}.
 \]
 
-Fibra:
+Fibre:
 
 \[
 f\mapsto \text{input-output behavior}
 \]
 
-può avere fibre enormi.
-
-\medskip
+may have very large fibres.
 
 
-\subsection{D26. Rete functional analysis--Banach--operator ideals--geometria asintotica}
 
-Nodi:
+\subsection{D26. Network functional analysis--Banach--operator ideals--asymptotic geometry}
+
+Nodes:
 
 \[
 \text{Banach spaces}
@@ -4643,7 +4573,7 @@ Nodi:
 \text{nonlinear embeddings}.
 \]
 
-Archi:
+Edges:
 
 \[
 X\mapsto {E\subset X:\dim E\le n}
@@ -4665,12 +4595,11 @@ X,Y\mapsto X\widehat\otimes_\pi Y,\ X\widehat\otimes_\varepsilon Y
 X\mapsto \operatorname{Lip}_0(X).
 \]
 
-\medskip
 
 
-\subsection{D27. Rete interpolazione--scale di spazi--regolarità adattiva}
+\subsection{D27. Network interpolation--scales of spaces--adaptive regularity}
 
-Nodi:
+Nodes:
 
 \[
 L^p
@@ -4712,7 +4641,7 @@ L^p
 \text{regularity estimates}.
 \]
 
-Archi:
+Edges:
 
 \[
 (X_0,X_1)\mapsto [X_0,X_1]_\theta
@@ -4732,12 +4661,11 @@ T:X_0\to Y_0,\ T:X_1\to Y_1
 T:X_\theta\to Y_\theta.
 \]
 
-\medskip
 
 
-\subsection{D28. Rete nonlocalità analitica--operatori frazionari--jump processes}
+\subsection{D28. Network analytic nonlocality--fractional operators--jump processes}
 
-Nodi:
+Nodes:
 
 \[
 \text{fractional Laplacians}
@@ -4767,7 +4695,7 @@ Nodi:
 \text{anomalous diffusion}.
 \]
 
-Archi:
+Edges:
 
 \[
 (-\Delta)^s\mapsto \text{stable Lévy process}
@@ -4789,12 +4717,11 @@ s\to 0
 K(x,y)\mapsto \text{jump process}.
 \]
 
-\medskip
 
 
-\subsection{D29. Rete memoria--equazioni ritardate--operatori storici--sistemi}
+\subsection{D29. Network memory--delay equations--history operators--systems}
 
-Nodi:
+Nodes:
 
 \[
 \text{delay differential equations}
@@ -4828,7 +4755,7 @@ Nodi:
 \text{state augmentation}.
 \]
 
-Archi:
+Edges:
 
 \[
 K(t)\mapsto \int_0^t K(t-s)u(s),ds
@@ -4849,15 +4776,14 @@ K\mapsto \widehat K(\lambda)
 Idea:
 
 \[
-\text{la presentazione di un sistema può includere la quantità di passato necessaria.}
+\text{the presentation of a system may include the amount of past needed}.
 \]
 
-\medskip
 
 
-\subsection{D30. Rete algebraic analysis--D-modules--PDE--perverse sheaves}
+\subsection{D30. Network algebraic analysis--D-modules--PDE--perverse sheaves}
 
-Nodi:
+Nodes:
 
 \[
 D\text{-modules}
@@ -4899,7 +4825,7 @@ D\text{-modules}
 \text{Stokes data}.
 \]
 
-Archi:
+Edges:
 
 \[
 \text{PDE system}\mapsto D/D\langle P_i\rangle
@@ -4921,22 +4847,21 @@ M_{\mathrm{hol}}\mapsto \operatorname{Sol}(M)
 \text{irregular connection}\mapsto \text{Stokes data}.
 \]
 
-Schema:
+Scheme:
 
 \[
-\text{PDE lineari}
+\text{linear PDEs}
 \leftrightarrow
-\text{algebra noncommutativa}
+\text{noncommutative algebra}
 \leftrightarrow
-\text{topologia costruttibile}.
+\text{constructible topology}.
 \]
 
-\medskip
 
 
-\subsection{D31. Rete transseries--asintotica--risorgenza--ODE/PDE}
+\subsection{D31. Network transseries--asymptotics--resurgence--ODE/PDE}
 
-Nodi:
+Nodes:
 
 \[
 \text{asymptotic expansions}
@@ -4974,7 +4899,7 @@ Nodi:
 \text{enumerative geometry}.
 \]
 
-Archi:
+Edges:
 
 \[
 f(\varepsilon)\mapsto \sum a_n\varepsilon^n
@@ -4989,7 +4914,7 @@ f(\varepsilon)\mapsto \sum a_n\varepsilon^n
 \]
 
 \[
-\text{ODE semiclassica}\mapsto \text{WKB transseries}
+\text{semiclassical ODE}\mapsto \text{WKB transseries}
 \]
 
 \[
@@ -5001,16 +4926,15 @@ Idea:
 \[
 \begin{gathered}
 \text{funzione} \to \text{serie divergente} \to \text{Borel singularities} \to \text{Stokes data} \\
-\to \text{monodromia}.
+\to \text{monodromy}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{D32. Rete QFT analitica--renormalization--operator algebras--probabilità}
+\subsection{D32. Network analytic QFT--renormalization--operator algebras--probability}
 
-Nodi:
+Nodes:
 
 \[
 \text{Euclidean QFT}
@@ -5052,7 +4976,7 @@ Nodi:
 \text{perturbative QFT}.
 \]
 
-Archi:
+Edges:
 
 \[
 S\mapsto e^{-S}\mathcal D\phi
@@ -5076,14 +5000,13 @@ S\mapsto e^{-S}\mathcal D\phi
 
 Idea:
 
-QFT ha molte presentazioni: lagrangiana, hamiltoniana, operatoriale, correlazionale, categoriale.
-
-\medskip
+QFT has many presentations: Lagrangian, Hamiltonian, operator-algebraic, correlational, and categorical.
 
 
-\subsection{D33. Rete causalità--Lorentzian geometry--hyperbolic PDE--relatività}
 
-Nodi:
+\subsection{D33. Network causality--Lorentzian geometry--hyperbolic PDE--relativity}
+
+Nodes:
 
 \[
 \text{Lorentzian manifolds}
@@ -5121,7 +5044,7 @@ Nodi:
 \text{black hole scattering}.
 \]
 
-Archi:
+Edges:
 
 \[
 g\mapsto \text{light cones}
@@ -5143,12 +5066,11 @@ g\mapsto \square_g
 \text{Einstein equations}\mapsto \text{constraint equations}.
 \]
 
-\medskip
 
 
-\subsection{D34. Rete condensed mathematics--functional analysis derivata}
+\subsection{D34. Network condensed mathematics--derived functional analysis}
 
-Nodi:
+Nodes:
 
 \[
 \text{topological vector spaces}
@@ -5186,7 +5108,7 @@ Nodi:
 \text{analytic geometry over rings}.
 \]
 
-Archi:
+Edges:
 
 \[
 V\mapsto \underline V
@@ -5207,31 +5129,29 @@ V\mapsto \underline V
 Idea:
 
 \[
-\text{assorbire analisi funzionale in un linguaggio categoriale stabile.}
+\text{absorbing functional analysis into a stable categorical language}.
 \]
 
-\medskip
 
 
-\section{E. Probabilità, statistica, informazione, learning e applicazioni}
-
-\medskip
+\section{E. Probability, Statistics, Information, Learning, and Applications}
 
 
-\subsection{E1. Rete probabilità--statistica--informazione--geometria algebrica}
 
-Nodi:
+\subsection{E1. Network probability--statistics--information--algebraic geometry}
+
+Nodes:
 
 \[
-\text{distribuzioni discrete}
-\]
-
-\[
-\text{misure continue}
+\text{distributions discrete}
 \]
 
 \[
-\text{momenti}
+\text{measures continue}
+\]
+
+\[
+\text{moments}
 \]
 
 \[
@@ -5266,7 +5186,7 @@ Nodi:
 \text{coding theory}.
 \]
 
-Archi:
+Edges:
 
 \[
 p\mapsto (m_\alpha(p))_{|\alpha|\le d}
@@ -5288,20 +5208,19 @@ p\mapsto (m_\alpha(p))_{|\alpha|\le d}
 \text{code}\mapsto \text{probability channel}.
 \]
 
-Fibra centrale:
+Central fibre:
 
 \[
 \theta\mapsto p_\theta
 \]
 
-misura identifiability e non-identifiability.
-
-\medskip
+measure identifiability and non-identifiability.
 
 
-\subsection{E2. Rete informazione--entropia--compressione--analisi}
 
-Nodi:
+\subsection{E2. Network information--entropy--compression--analysis}
+
+Nodes:
 
 \[
 \text{Shannon entropy}
@@ -5343,7 +5262,7 @@ Nodi:
 \text{quantum information}.
 \]
 
-Archi:
+Edges:
 
 \[
 \mu\mapsto H(\mu)
@@ -5365,28 +5284,27 @@ Archi:
 \rho\mapsto S(\rho).
 \]
 
-Schema:
+Scheme:
 
 \[
-\text{entropia}
+\text{entropy}
 \leftrightarrow
-\text{calore}
+\text{heat}
 \leftrightarrow
-\text{trasporto ottimale}
+\text{optimal transport}
 \leftrightarrow
-\text{concentrazione}
+\text{concentration}
 \leftrightarrow
-\text{compressione}
+\text{compression}
 \leftrightarrow
 \text{learning}.
 \]
 
-\medskip
 
 
-\subsection{E3. Rete grandi deviazioni--principi variazionali--PDE limite}
+\subsection{E3. Network large deviations--variational principles--limit PDE}
 
-Nodi:
+Nodes:
 
 \[
 \text{probability measures}
@@ -5420,7 +5338,7 @@ Nodi:
 \text{rare events}.
 \]
 
-Archi:
+Edges:
 
 \[
 X_\varepsilon\mapsto I
@@ -5438,12 +5356,11 @@ I\mapsto \text{variational problem}
 \text{rare event}\mapsto \text{optimal path}.
 \]
 
-\medskip
 
 
-\subsection{E4. Rete meccanica statistica--Gibbs measures--phase transitions--complessità}
+\subsection{E4. Network statistical mechanics--Gibbs measures--phase transitions--complexity}
 
-Nodi:
+Nodes:
 
 \[
 \text{spin systems}
@@ -5485,7 +5402,7 @@ Nodi:
 \text{complexity of counting}.
 \]
 
-Archi:
+Edges:
 
 \[
 H(\sigma)\mapsto Z(\beta)
@@ -5507,12 +5424,11 @@ H\mapsto \mu_\beta
 \text{Gibbs sampler}\mapsto \text{Markov chain}.
 \]
 
-\medskip
 
 
-\subsection{E5. Rete machine learning matematico--kernels--operatori--geometria}
+\subsection{E5. Network mathematical machine learning--kernels--operators--geometry}
 
-Nodi:
+Nodes:
 
 \[
 \text{kernel methods}
@@ -5554,7 +5470,7 @@ Nodi:
 \text{information bottleneck}.
 \]
 
-Archi:
+Edges:
 
 \[
 k(x,y)\mapsto \mathcal H_k
@@ -5576,20 +5492,19 @@ k(x,y)\mapsto \mathcal H_k
 \text{training dynamics}\mapsto \text{gradient flow}.
 \]
 
-Fibra centrale:
+Central fibre:
 
 \[
 \text{parameters}\mapsto \text{function}
 \]
 
-ha fibre enormi.
-
-\medskip
+has very large fibres.
 
 
-\subsection{E6. Rete scientific machine learning--PDE discovery--operator learning}
 
-Nodi:
+\subsection{E6. Network scientific machine learning--PDE discovery--operator learning}
+
+Nodes:
 
 \[
 \text{PDE data}
@@ -5627,7 +5542,7 @@ Nodi:
 \text{digital twins}.
 \]
 
-Archi:
+Edges:
 
 \[
 \text{data }u(x,t)\mapsto \hat P
@@ -5649,23 +5564,22 @@ P\mapsto \mathcal S_P
 \text{physical constraints}\mapsto \text{loss terms}.
 \]
 
-Fibra:
+Fibre:
 
 \[
-\text{dati osservati}
+\text{observed data}
 \mapsto
-\text{insieme delle PDE compatibili}.
+\text{insieme of the PDE compatibili}.
 \]
 
-\medskip
 
 
-\subsection{E7. Rete inverse problems--tomografia--machine learning--invarianti}
+\subsection{E7. Network inverse problems--tomography--machine learning--invariants}
 
-Nodi:
+Nodes:
 
 \[
-\text{segnali}
+\text{signals}
 \]
 
 \[
@@ -5673,15 +5587,15 @@ Nodi:
 \]
 
 \[
-\text{varietà}
+\text{varieties}
 \]
 
 \[
-\text{grafi}
+\text{graphs}
 \]
 
 \[
-\text{gruppi}
+\text{groups}
 \]
 
 \[
@@ -5708,7 +5622,7 @@ Nodi:
 \text{invariant theory}.
 \]
 
-Archi:
+Edges:
 
 \[
 X\mapsto \mathcal O_{\le r}(X)
@@ -5730,21 +5644,20 @@ G\curvearrowright X\mapsto k[X]^G_{\le d}
 \text{measure}\mapsto \text{statistical query oracle}.
 \]
 
-Domanda:
+Question:
 
 \[
-\text{che cosa può vedere una classe limitata di osservatori?}
+\text{what can a bounded class of observers see?}
 \]
 
-\medskip
 
 
-\subsection{E8. Rete inverse problems universale}
+\subsection{E8. Network universal inverse problems}
 
-Nodi:
+Nodes:
 
 \[
-\text{oggetto nascosto}
+\text{object nascosto}
 \]
 
 \[
@@ -5752,7 +5665,7 @@ Nodi:
 \]
 
 \[
-\text{dati osservati}
+\text{observed data}
 \]
 
 \[
@@ -5789,14 +5702,14 @@ Arco fondamentale:
 x\mapsto F(x).
 \]
 
-Esempi:
+Examples:
 
 \[
 V\mapsto \text{scattering data}
 \]
 
 \[
-\text{dominio}\mapsto \text{boundary measurements}
+\text{domain}\mapsto \text{boundary measurements}
 \]
 
 \[
@@ -5804,25 +5717,24 @@ V\mapsto \text{scattering data}
 \]
 
 \[
-\text{metrica}\mapsto \text{lens data}
+\text{metric}\mapsto \text{lens data}
 \]
 
 \[
 \text{coefficiente PDE}\mapsto \text{Dirichlet-to-Neumann map}.
 \]
 
-Principio:
+Principle:
 
 \[
-\text{quanto costa distinguere due oggetti nascosti tramite dati accessibili?}
+\text{how much does it cost to distinguish two hidden objects through accessible data?}
 \]
 
-\medskip
 
 
-\subsection{E9. Rete economia matematica--equilibri--convessità--dinamica}
+\subsection{E9. Network mathematical economics--equilibria--convexity--dynamics}
 
-Nodi:
+Nodes:
 
 \[
 \text{fixed point theory}
@@ -5864,7 +5776,7 @@ Nodi:
 \text{algorithmic game theory}.
 \]
 
-Archi:
+Edges:
 
 \[
 \text{game}\mapsto \text{best response correspondence}
@@ -5886,12 +5798,11 @@ Archi:
 \text{mechanism}\mapsto \text{incentive constraints}.
 \]
 
-\medskip
 
 
-\subsection{E10. Rete biologia matematica--reti di reazione--dinamica--topologia}
+\subsection{E10. Network mathematical biology--reaction networks--dynamics--topology}
 
-Nodi:
+Nodes:
 
 \[
 \text{chemical reaction networks}
@@ -5933,7 +5844,7 @@ Nodi:
 \text{algebraic statistics}.
 \]
 
-Archi:
+Edges:
 
 \[
 \text{reaction network}\mapsto \text{ODE}
@@ -5952,23 +5863,21 @@ Archi:
 \]
 
 \[
-\text{phylogenetic tree}\mapsto \text{statistical model variety}.
+\text{phylogenetic tree}\mapsto \text{statistical moof the variety}.
 \]
 
-\medskip
 
 
-\section{F. Aritmetica, automi, linguaggi, discreto e computabilità}
-
-\medskip
+\section{F. Arithmetic, Automata, Languages, Discrete Mathematics, and Computability}
 
 
-\subsection{F1. Rete computabilità--tilings--subshift--gruppi--cellular automata}
 
-Nodi:
+\subsection{F1. Network computability--tilings--subshift--groups--cellular automata}
+
+Nodes:
 
 \[
-\text{macchine di Turing}
+\text{macchine of Turing}
 \]
 
 \[
@@ -5988,11 +5897,11 @@ Nodi:
 \]
 
 \[
-\text{semigruppi finitamente presentati}
+\text{semifinitely presented groups}
 \]
 
 \[
-\text{gruppi finitamente presentati}
+\text{finitely presented groups}
 \]
 
 \[
@@ -6000,14 +5909,14 @@ Nodi:
 \]
 
 \[
-\text{model checking}
+\text{moof the checking}
 \]
 
 \[
 \text{reachability}.
 \]
 
-Archi:
+Edges:
 
 \[
 \text{Turing machine}\mapsto \text{tiling system}
@@ -6032,28 +5941,27 @@ Archi:
 Effetto:
 
 \[
-\text{indecidibilità}
+\text{undecidability}
 \to
-\text{profili quantitativi non computabili}.
+\text{noncomputable quantitative profiles}.
 \]
 
-\medskip
 
 
-\subsection{F2. Rete aritmetica--Galois--monodromia--automata--linguaggi}
+\subsection{F2. Network arithmetic--Galois--monodromy--automata--languages}
 
-Nodi:
-
-\[
-\text{campi di numeri}
-\]
+Nodes:
 
 \[
-\text{varietà aritmetiche}
+\text{campi of numeri}
 \]
 
 \[
-\text{rappresentazioni di Galois}
+\text{arithmetic varieties}
+\]
+
+\[
+\text{representations of Galois}
 \]
 
 \[
@@ -6061,15 +5969,15 @@ Nodi:
 \]
 
 \[
-\text{equazioni differenziali}
+\text{equazioni differentials}
 \]
 
 \[
-\text{monodromia}
+\text{monodromy}
 \]
 
 \[
-\text{dessins d'enfants}
+\text{dessins of enfants}
 \]
 
 \[
@@ -6077,18 +5985,18 @@ Nodi:
 \]
 
 \[
-\text{sequenze automatiche}
+\text{sequences automatiche}
 \]
 
 \[
-\text{linguaggi formali}
+\text{formal languages}
 \]
 
 \[
-\text{compressione}.
+\text{compression}.
 \]
 
-Archi:
+Edges:
 
 \[
 X/\mathbb Q\mapsto \rho_{X,\ell}
@@ -6114,33 +6022,32 @@ X\mapsto \#X(\mathbb F_p)
 \text{sequence}\mapsto \text{automaton/minimal transducer}.
 \]
 
-Domande:
+Questions:
 
 \[
-\text{quanta aritmetica è visibile da un prefisso digitale?}
+\text{how much arithmetic is visible from a digit prefix?}
 \]
 
 \[
-\text{quanta geometria è visibile dai conteggi modulo primi piccoli?}
+\text{how much geometry is visible from counts modulo small primes?}
 \]
 
-\medskip
 
 
-\subsection{F3. Rete automorphic forms--L-functions--PDE spettrali--aritmetica}
+\subsection{F3. Network automorphic forms--L-functions--spectral PDE--arithmetic}
 
-Nodi:
-
-\[
-\text{forme modulari}
-\]
+Nodes:
 
 \[
-\text{forme automorfe}
+\text{modular forms}
 \]
 
 \[
-\text{rappresentazioni automorfe}
+\text{automorphic forms}
+\]
+
+\[
+\text{representations automorfe}
 \]
 
 \[
@@ -6167,7 +6074,7 @@ L\text{-functions}
 \text{periods}.
 \]
 
-Archi:
+Edges:
 
 \[
 f\mapsto L(f,s)
@@ -6189,12 +6096,11 @@ f\mapsto (a_n(f))_{n\le N}
 \text{trace formula}\mapsto \text{comparison of spectra}.
 \]
 
-\medskip
 
 
-\subsection{F4. Rete linguaggi formali--automata--analisi spettrale--dinamica simbolica}
+\subsection{F4. Network formal languages--automata--spectral analysis--symbolic dynamics}
 
-Nodi:
+Nodes:
 
 \[
 \text{regular languages}
@@ -6236,7 +6142,7 @@ Nodi:
 \text{random walks on automata}.
 \]
 
-Archi:
+Edges:
 
 \[
 \mathcal A\mapsto L(\mathcal A)
@@ -6258,28 +6164,27 @@ L\mapsto \sum_n a_nz^n
 \text{subshift}\mapsto \zeta(z).
 \]
 
-Schema:
+Scheme:
 
 \[
 \begin{gathered}
-\text{linguaggi} \to \text{matrici} \to \text{spettri} \to \text{dinamica} \\
-\to \text{analisi}.
+\text{languages} \to \text{matrices} \to \text{spectra} \to \text{dynamics} \\
+\to \text{analysis}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{F5. Rete finite observable profiles: quozienti, troncamenti, riduzioni, completamenti}
+\subsection{F5. Network finite observable profiles: quotients, truncations, reductions, completions}
 
-Nodi:
+Nodes:
 
 \[
-\text{oggetti infiniti}
+\text{objects infiniti}
 \]
 
 \[
-\text{quozienti finiti}
+\text{finite quotients}
 \]
 
 \[
@@ -6287,15 +6192,15 @@ Nodi:
 \]
 
 \[
-\text{troncamenti}
+\text{truncations}
 \]
 
 \[
-\text{riduzioni mod }p
+\text{reductions mod }p
 \]
 
 \[
-\text{completamenti profiniti}
+\text{completions profiniti}
 \]
 
 \[
@@ -6310,7 +6215,7 @@ p\text{-adic completions}
 \text{finite-dimensional approximations}.
 \]
 
-Archi:
+Edges:
 
 \[
 X\mapsto X_{\le r}
@@ -6339,26 +6244,28 @@ X\mapsto \widehat X.
 Idea:
 
 \[
-\text{ogni teoria ha profili osservabili finiti; la complessità è il profilo con cui essi rivelano l'oggetto.}
+\begin{gathered}
+\text{every theory has finite observable profiles;}\\
+\text{complexity is the profile by which they reveal the object.}
+\end{gathered}
 \]
 
-\medskip
 
 
-\subsection{F6. Rete codici--reticoli--aritmetica--crittografia matematica}
+\subsection{F6. Network codes--lattices--arithmetic--mathematical cryptography}
 
-Nodi:
-
-\[
-\text{reticoli}
-\]
+Nodes:
 
 \[
-\text{codici lineari}
+\text{lattices}
 \]
 
 \[
-\text{codici algebro-geometrici}
+\text{linear codes}
+\]
+
+\[
+\text{codes algebro-geometrici}
 \]
 
 \[
@@ -6389,7 +6296,7 @@ Nodi:
 \text{proof systems}.
 \]
 
-Archi:
+Edges:
 
 \[
 C\mapsto \Lambda_C
@@ -6411,7 +6318,7 @@ X/\mathbb F_q\mapsto C_X
 \text{constraint system}\mapsto \text{interactive proof object}.
 \]
 
-Osservabili:
+Observables:
 
 \[
 [n,k,d]
@@ -6429,12 +6336,11 @@ Osservabili:
 \text{weight enumerator}.
 \]
 
-\medskip
 
 
-\subsection{F7. Rete simmetria--species--funzioni generatrici--rappresentazioni}
+\subsection{F7. Network symmetry--species--generating functions--representations}
 
-Nodi:
+Nodes:
 
 \[
 \text{combinatorial species}
@@ -6476,7 +6382,7 @@ D\text{-finite functions}
 \text{topological recursion}.
 \]
 
-Archi:
+Edges:
 
 \[
 \mathcal S\mapsto F_{\mathcal S}(x)
@@ -6498,21 +6404,20 @@ X_n\mapsto H^\ast(X_n)
 \text{moduli problem}\mapsto \text{generating series}.
 \]
 
-Domanda:
+Question:
 
 \[
-\text{quanto di una struttura è visibile dalla sua funzione generatrice?}
+\text{how much of a structure is visible from its generating function?}
 \]
 
-\medskip
 
 
-\subsection{F8. Rete geometric group theory--analisi--spettri--probabilità}
+\subsection{F8. Network geometric group theory--analysis--spectra--probability}
 
-Nodi:
+Nodes:
 
 \[
-\text{gruppi finitamente generati}
+\text{groups finitamente generati}
 \]
 
 \[
@@ -6551,7 +6456,7 @@ Nodi:
 L^2\text{-cohomology}.
 \]
 
-Archi:
+Edges:
 
 \[
 (G,S)\mapsto \operatorname{Cay}(G,S)
@@ -6573,15 +6478,14 @@ G\mapsto C^\ast_r(G)
 G\mapsto \beta_i^{(2)}(G).
 \]
 
-\medskip
 
 
-\subsection{F9. Rete discreto-continuo: grafi, mesh, manifold, operatori}
+\subsection{F9. Network discrete-continuous: graphs, meshes, manifolds, operators}
 
-Nodi:
+Nodes:
 
 \[
-\text{grafi}
+\text{graphs}
 \]
 
 \[
@@ -6616,7 +6520,7 @@ Nodi:
 \text{Gromov--Hausdorff convergence}.
 \]
 
-Archi:
+Edges:
 
 \[
 M\mapsto \mathcal T_h(M)
@@ -6638,15 +6542,14 @@ G_n\mapsto M
 \text{graph signal}\mapsto \text{continuum function}.
 \]
 
-\medskip
 
 
-\subsection{F10. Rete graph limits--analisi continua--combinatoria estrema}
+\subsection{F10. Network graph limits--continuous analysis--extremal combinatorics}
 
-Nodi:
+Nodes:
 
 \[
-\text{grafi finiti}
+\text{finite graphs}
 \]
 
 \[
@@ -6681,7 +6584,7 @@ Nodi:
 \text{property testing}.
 \]
 
-Archi:
+Edges:
 
 \[
 G_n\mapsto W
@@ -6703,17 +6606,15 @@ W\mapsto \operatorname{Spec}(T_W)
 \text{exchangeable array}\mapsto \text{graphon representation}.
 \]
 
-\medskip
 
 
-\section{G. Reti quantistiche e non commutative}
-
-\medskip
+\section{G. Quantum and Noncommutative Networks}
 
 
-\subsection{G1. Rete quantistica--noncommutativa--operatoriale--tensor networks}
 
-Nodi:
+\subsection{G1. Network quantum--noncommutative--operatorial--tensor networks}
+
+Nodes:
 
 \[
 \text{quantum states}
@@ -6759,7 +6660,7 @@ C^\ast\text{-algebras}
 \text{modular tensor categories}.
 \]
 
-Archi:
+Edges:
 
 \[
 \text{nonlocal game}\mapsto \text{operator relations}
@@ -6781,12 +6682,11 @@ H=\sum H_i\mapsto \text{quantum CSP}
 \text{TQFT}\mapsto \text{quantum circuit representation}.
 \]
 
-\medskip
 
 
-\subsection{G2. Rete quantum many-body--PDE limite--tensor networks--operatori}
+\subsection{G2. Network quantum many-body--limit PDE--tensor networks--operators}
 
-Nodi:
+Nodes:
 
 \[
 \text{many-body quantum systems}
@@ -6828,7 +6728,7 @@ Nodi:
 \text{operator algebras}.
 \]
 
-Archi:
+Edges:
 
 \[
 \Psi_N\mapsto \gamma_N^{(k)}
@@ -6850,20 +6750,19 @@ Archi:
 H\mapsto \text{ground state}\mapsto \text{entanglement profile}.
 \]
 
-Fibra:
+Fibre:
 
 \[
 \Psi\mapsto {\gamma^{(k)}}_{k\le r}
 \]
 
-dimentica correlazioni superiori.
-
-\medskip
+forgets higher correlations.
 
 
-\subsection{G3. Rete operator algebras--indice--K-teoria--coarse geometry}
 
-Nodi:
+\subsection{G3. Network operator algebras--index--K-theory--coarse geometry}
+
+Nodes:
 
 \[
 C^\ast\text{-algebras}
@@ -6905,7 +6804,7 @@ K\text{-homology}
 \text{noncommutative geometry}.
 \]
 
-Archi:
+Edges:
 
 \[
 X\mapsto C(X)
@@ -6927,32 +6826,30 @@ A\mapsto K_\ast(A)
 D\mapsto \operatorname{ind}(D).
 \]
 
-\medskip
 
 
-\section{H. Reti metriche, convesse e di ottimizzazione}
-
-\medskip
+\section{H. Metric, Convex, and Optimization Networks}
 
 
-\subsection{H1. Rete metrica--embedding--grafi--Banach--algoritmi}
 
-Nodi:
+\subsection{H1. Network metric--embedding--graphs--Banach--algorithms}
+
+Nodes:
 
 \[
-\text{grafi}
+\text{graphs}
 \]
 
 \[
-\text{metriche finite}
+\text{metric finite}
 \]
 
 \[
-\text{spazi di Banach}
+\text{Banach spaces}
 \]
 
 \[
-\text{manifolds metriche}
+\text{manifolds metric}
 \]
 
 \[
@@ -6979,7 +6876,7 @@ Nodi:
 \text{communication complexity}.
 \]
 
-Archi:
+Edges:
 
 \[
 G\mapsto d_G
@@ -7001,12 +6898,11 @@ G\mapsto d_G
 \text{communication problem}\mapsto \text{matrix/metric}.
 \]
 
-\medskip
 
 
-\subsection{H2. Rete convexità--SOS--momenti--ottimizzazione--dati di verifica}
+\subsection{H2. Network convexity--SOS--moments--optimization--verification data}
 
-Nodi:
+Nodes:
 
 \[
 \text{semialgebraic sets}
@@ -7052,7 +6948,7 @@ Nodi:
 \text{proof complexity}.
 \]
 
-Archi:
+Edges:
 
 \[
 S={f_i\ge 0}\mapsto \text{quadratic module}
@@ -7074,12 +6970,11 @@ S={f_i\ge 0}\mapsto \text{quadratic module}
 \text{combinatorial problem}\mapsto \text{LP/SDP hierarchy}.
 \]
 
-\medskip
 
 
-\subsection{H3. Rete convex geometry--isoperimetria--concentrazione--probabilità}
+\subsection{H3. Network convex geometry--isoperimetry--concentration--probability}
 
-Nodi:
+Nodes:
 
 \[
 \text{convex bodies}
@@ -7117,7 +7012,7 @@ Nodi:
 \text{high-dimensional probability}.
 \]
 
-Archi:
+Edges:
 
 \[
 K\mapsto h_K
@@ -7139,15 +7034,14 @@ K\mapsto \text{isotropic constant}
 \mu,\nu\mapsto T_{\mu\to\nu}.
 \]
 
-\medskip
 
 
-\subsection{H4. Rete algebra tropicale--amoebas--analisi asintotica}
+\subsection{H4. Network tropical algebra--amoebas--asymptotic analysis}
 
-Nodi:
+Nodes:
 
 \[
-\text{varietà complesse}
+\text{complex varieties}
 \]
 
 \[
@@ -7186,7 +7080,7 @@ Nodi:
 \text{control}.
 \]
 
-Archi:
+Edges:
 
 \[
 z\mapsto \log|z|
@@ -7204,83 +7098,79 @@ z\mapsto \log|z|
 \text{polynomial}\mapsto \text{Newton polytope}.
 \]
 
-\medskip
 
 
-\section{Mega-reti composte}
+\section{Composite Mega-networks}
 
-Le reti precedenti diventano potentissime quando si compongono.
-
-\medskip
+Le networks precedenti diventano potentissime quando compongono.
 
 
-\subsection{M1. Mega-rete sintassi--geometria--complessità}
+
+\subsection{M1. Mega-network syntax--geometry--complexity}
 
 \[
 \begin{gathered}
-\text{presentazione finita} \to \text{categoria dei modelli} \to \text{spazio di rappresentazioni} \to \text{invariant quotient} \\
-\to \text{tropicalizzazione} \to \text{matroide/fan} \to \text{CSP} \to \text{proof system}.
+\text{finite presentation} \to \text{category of models} \to \text{representation space} \to \text{invariant quotient} \\
+\to \text{tropicalization} \to \text{matroid/fan} \to \text{CSP} \to \text{proof system}.
 \end{gathered}
 \]
 
-Trasporto complessivo:
+Overall transfer:
 
 \[
 \begin{gathered}
-\text{complessità di classificazione} \to \text{complessità degli invarianti} \to \text{complessità tropicale} \\
-\to \text{complessità CSP} \to \text{complessità di prova}.
+\text{complexity of classificazione} \to \text{complexity of the invariants} \to \text{complexity tropical} \\
+\to \text{complexity CSP} \to \text{complexity of prova}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{M2. Mega-rete topologia--quantum--operatori--algoritmi}
+\subsection{M2. Mega-network topology--quantum--operators--algorithms}
 
 \[
 \begin{gathered}
-\text{varietà/nodi} \to \text{gruppi fondamentali} \to \text{rappresentazioni} \to \text{operator algebras} \\
+\text{varieties/knots} \to \text{fundamental groups} \to \text{representations} \to \text{operator algebras} \\
 \to \text{TQFT} \to \text{quantum circuits} \to \text{tensor networks} \to \text{SDP relaxations}.
 \end{gathered}
 \]
 
-Osservabili lungo la rete:
+Observables lungo the network:
 
 \[
 \begin{gathered}
-\text{caratteri} \to \text{tracce operatoriali} \to \text{ampiezze quantistiche} \to \text{correlazioni} \\
-\to \text{momenti SDP}.
+\text{characters} \to \text{operator traces} \to \text{quantum amplitudes} \to \text{correlations} \\
+\to \text{moments SDP}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{M3. Mega-rete aritmetica--dinamica--linguaggi--compressione}
+\subsection{M3. Mega-network arithmetic--dynamics--languages--compression}
 
 \[
 \begin{gathered}
-\text{numero/varietà aritmetica} \to \text{riduzioni finite} \to \text{sequenze} \to \text{automi} \\
-\to \text{linguaggi} \to \text{compressione} \to \text{complessità descrittiva}.
+\text{number/arithmetic variety} \to \text{finite reductions} \to \text{sequences} \to \text{automata} \\
+\to \text{languages} \to \text{compression} \to \text{complexity descrittiva}.
 \end{gathered}
 \]
 
-Osservabili:
+Observables:
 
 \[
-\text{primi piccoli}
+\text{small primes}
 \]
 
 \[
-\text{prefissi digitali}
+\text{digital prefixes}
 \]
 
 \[
-\text{fattori di parole}
+\text{factors of words}
 \]
 
 \[
-\text{dimensione dell'automa}
+\text{dimension of the automaton}
 \]
 
 \[
@@ -7288,54 +7178,52 @@ Osservabili:
 \]
 
 \[
-\text{entropia subword}.
+\text{entropy subword}.
 \]
 
-Domanda:
+Question:
 
 \[
-\text{quando un oggetto aritmetico produce profili osservabili linguisticamente semplici?}
+\text{when does an arithmetic object produce linguistically simple observable profiles?}
 \]
 
-\medskip
 
 
-\subsection{M4. Mega-rete local-to-global universale}
+\subsection{M4. Mega-network universal local-to-global}
 
 \[
 \begin{gathered}
-\text{oggetto globale} \to \text{cover locale} \to \text{presheaf} \to \text{cohomology} \\
+\text{object globale} \to \text{cover locale} \to \text{presheaf} \to \text{cohomology} \\
 \to \text{obstruction class} \to \text{verification data} \to \text{algorithm/proof}.
 \end{gathered}
 \]
 
-Principio:
+Principle:
 
 \[
 \boxed{
-\text{ogni fallimento globale può essere presentato come fallimento di gluing.}
+\text{every global failure can be presented as a gluing failure.}
 }
 \]
 
-\medskip
 
 
-\subsection{M5. Mega-rete deformazione--dato di verifica--formalizzazione}
+\subsection{M5. Mega-network deformation--verification datum--formalization}
 
 \[
 \begin{gathered}
-\text{problema geometrico} \to \text{dg-Lie controller} \to \text{obstruction tower} \to \text{finite verification data} \\
+\text{geometric problem} \to \text{dg-Lie controller} \to \text{obstruction tower} \to \text{finite verification data} \\
 \to \text{formal proof} \to \text{machine-checkable object}.
 \end{gathered}
 \]
 
-Osservabili:
+Observables:
 
 \[
 H^0,H^1,H^2,\ldots
 \]
 
-dati di verifica:
+Verification data:
 
 \[
 \text{vanishing}
@@ -7357,18 +7245,17 @@ dati di verifica:
 \text{extension to order }n.
 \]
 
-\medskip
 
 
-\subsection{M6. Mega-rete analitica composita}
+\subsection{M6. Composite analytic mega-network}
 
 Prima catena:
 
 \[
 \begin{gathered}
-\text{funzioni/distribuzioni} \to \text{Fourier/wavelet coefficients} \to \text{spazi funzionali} \to \text{operatori} \\
-\to \text{PDE} \to \text{semigruppi} \to \text{kernel} \to \text{spettri} \\
-\to \text{geometria} \to \text{topologia}.
+\text{functions/distributions} \to \text{Fourier/wavelet coefficients} \to \text{function spaces} \to \text{operators} \\
+\to \text{PDE} \to \text{semigroups} \to \text{kernel} \to \text{spectra} \\
+\to \text{geometry} \to \text{topology}.
 \end{gathered}
 \]
 
@@ -7408,10 +7295,9 @@ Quinta catena:
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{M7. Mega-rete discreto--continuo--logico--numerico}
+\subsection{M7. Mega-network discrete--continuous--logical--numerical}
 
 \[
 \begin{gathered}
@@ -7424,23 +7310,22 @@ Ciclo:
 
 \[
 \begin{gathered}
-\text{discreto} \to \text{continuo} \to \text{discreto} \to \text{dato di verifica}.
+\text{discrete} \to \text{continuous} \to \text{discrete} \to \text{verification datum}.
 \end{gathered}
 \]
 
-\medskip
 
 
-\subsection{M8. Mega-rete aritmetica--analitica--spettrale}
+\subsection{M8. Mega-network arithmetic--analytic--spectral}
 
 \[
 \begin{gathered}
-\text{varietà aritmetica} \to \text{rappresentazione di Galois} \to L\text{-function} \to \text{automorphic representation} \\
+\text{arithmetic variety} \to \text{rappresentazione of Galois} \to L\text{-function} \to \text{automorphic representation} \\
 \to \text{spectral theory} \to \text{trace formula} \to \text{geometric cycles}.
 \end{gathered}
 \]
 
-Osservabili:
+Observables:
 
 \[
 \text{Frobenius traces}
@@ -7466,10 +7351,9 @@ Osservabili:
 \text{intersection numbers}.
 \]
 
-\medskip
 
 
-\subsection{M9. Mega-rete probabilità--PDE--ottimizzazione--learning}
+\subsection{M9. Mega-network probability--PDE--optimization--learning}
 
 \[
 \begin{gathered}
@@ -7478,7 +7362,7 @@ Osservabili:
 \end{gathered}
 \]
 
-Archi:
+Edges:
 
 \[
 \mu\to \operatorname{Ent}(\mu)
@@ -7496,19 +7380,18 @@ Archi:
 \text{PDE}\to \text{convergence rate}.
 \]
 
-\medskip
 
 
-\subsection{M10. Mega-rete local-to-global analitica}
+\subsection{M10. Mega-network analytic local-to-global}
 
 \[
 \begin{gathered}
 \text{local estimates} \to \text{patching} \to \text{global regularity} \to \text{compactness} \\
-\to \text{existence} \to \text{verification datas}.
+\to \text{existence} \to \text{verification data}.
 \end{gathered}
 \]
 
-Nodi:
+Nodes:
 
 \[
 \text{elliptic estimates}
@@ -7538,18 +7421,17 @@ Nodi:
 \text{concentration compactness}.
 \]
 
-\medskip
 
 
-\subsection{M11. Mega-rete dell'osservazione limitata}
+\subsection{M11. Mega-network of bounded observation}
 
-Schema universale:
+Scheme universal:
 
 \[
 X\mapsto \mathcal O_{\le r}(X).
 \]
 
-Esempi:
+Examples:
 
 \[
 u\mapsto \widehat u|_{|\xi|\le \Lambda}
@@ -7583,30 +7465,28 @@ P\mapsto \text{boundary response up to time }T
 \text{structure}\mapsto \text{sentences of quantifier rank }\le q.
 \]
 
-Principio:
+Principle:
 
 \[
 \boxed{
 \begin{gathered}
-\text{ogni osservazione limitata induce una partizione;}\\
-\text{la complessità è la geometria di quelle classi.}
+\text{every bounded observation induces a partition;}\\
+\text{complexity is the geometry of those classes.}
 \end{gathered}
 }
 \]
 
-\medskip
 
 
-\section{Direzioni più fertili}
+\section{Most Fertile Directions}
 
-Le direzioni più potenti emerse sono queste.
-
-\medskip
+The strongest directions that emerge are the following.
 
 
-\subsection{Sheafification universale dei problemi di complessità}
 
-Dato un problema globale (P), costruire:
+\subsection{Universal sheafification of complexity problems}
+
+Dato a problema globale (P), costruire:
 
 \[
 P\mapsto \mathcal F_P.
@@ -7615,7 +7495,7 @@ P\mapsto \mathcal F_P.
 Poi misurare:
 
 \[
-\text{minimo raggio locale o grado coomologico che vede il fallimento.}
+\text{minimo raggio locale or degree coomological che vede the fallimento.}
 \]
 
 Applicabile a:
@@ -7656,19 +7536,18 @@ Applicabile a:
 \text{bundle theory}.
 \]
 
-\medskip
 
 
-\subsection{Tensorizzazione di strutture non tensoriali}
+\subsection{Tensorization of non-tensorial structures}
 
-Cercare il tensore nascosto:
+Cercare the tensore nascosto:
 
 \[
-\text{gruppi}\to \text{tensore di commutatore}
+\text{groups}\to \text{tensore of commutatore}
 \]
 
 \[
-\text{spazi topologici}\to \text{tensore del cup product}
+\text{topological spaces}\to \text{cup-product tensor}
 \]
 
 \[
@@ -7711,10 +7590,9 @@ Poi usare:
 
 per trasferire lower bounds.
 
-\medskip
 
 
-\subsection{Fibre come oggetti primari}
+\subsection{Fibres as primary objects}
 
 Non studiare solo:
 
@@ -7728,56 +7606,55 @@ ma:
 \operatorname{Fib}_I(y).
 \]
 
-Esempi:
+Examples:
 
 \[
-\text{spazi con stessa omologia}
+\text{spaces with the same homology}
 \]
 
 \[
-\text{grafi con stesso spettro}
+\text{graphs with same spectrum}
 \]
 
 \[
-\text{modelli statistici con stessi momenti}
+\text{modelli statistici with same moments}
 \]
 
 \[
-\text{varietà con stessa tropicalizzazione}
+\text{varieties with same tropicalization}
 \]
 
 \[
-\text{gruppi con stessi quozienti finiti fino a }N
+\text{groups with same finite quotients up to a }N
 \]
 
 \[
-\text{funzioni con stessi coefficienti bassi}
+\text{functions with the same low coefficients}
 \]
 
 \[
-\text{PDE con stessi dati al bordo}
+\text{PDEs with the same boundary data}
 \]
 
 \[
-\text{reti neurali con stessa funzione}.
+\text{neural networks with the same function}.
 \]
 
-\medskip
 
 
-\subsection{Transfer di dati di verifica}
+\subsection{Transfer of verification data}
 
-Per ogni arco chiedere:
+Per every arco chiedere:
 
 \[
-\text{un dato di verifica nel target si tira indietro?}
+\text{can target verification data be pulled back?}
 \]
 
 \[
-\text{un dato di verifica nel source si spinge avanti?}
+\text{can source verification data be pushed forward?}
 \]
 
-dati di verifica da studiare:
+verification data to study:
 
 \[
 \text{SOS}
@@ -7788,19 +7665,19 @@ dati di verifica da studiare:
 \]
 
 \[
-\text{energia}
+\text{energy}
 \]
 
 \[
-\text{indice}
+\text{index}
 \]
 
 \[
-\text{coomologia}
+\text{cohomology}
 \]
 
 \[
-\text{entropia}
+\text{entropy}
 \]
 
 \[
@@ -7819,49 +7696,47 @@ dati di verifica da studiare:
 \text{formal proof term}.
 \]
 
-\medskip
 
 
-\subsection{Budgeted Morita theory}
+\subsection{Budgeted Morita Theory}
 
-Due teorie sono equivalenti con budget:
+Two theories are equivalent with budget:
 
 \[
 A\simeq_{\mathcal H}B.
 \]
 
-Possibili classi di overhead:
+Possible classes of overhead:
 
 \[
-\text{lineare}
+\text{linear}
 \]
 
 \[
-\text{polinomiale}
+\text{polynomial}
 \]
 
 \[
-\text{quasi-polinomiale}
+\text{quasi-polynomial}
 \]
 
 \[
-\text{elementare}
+\text{elementary}
 \]
 
 \[
-\text{computabile}
+\text{computable}
 \]
 
 \[
-\text{non computabile}.
+\text{non-computable}.
 \]
 
-Questa direzione permette di classificare non solo oggetti, ma intere teorie.
-
-\medskip
+This direction makes it possible to classify not only objects, but whole theories.
 
 
-\subsection{Microlocale--sheaf--PDE--simplettica}
+
+\subsection{Microlocal--sheaf--PDE--symplectic}
 
 \[
 \begin{gathered}
@@ -7870,15 +7745,14 @@ Questa direzione permette di classificare non solo oggetti, ma intere teorie.
 \end{gathered}
 \]
 
-Possibile uso:
+Possible use:
 
 \[
-\text{lower bounds analitici}
+\text{analytic lower bounds}
 \to
-\text{lower bounds categoriali}.
+\text{categorical lower bounds}.
 \]
 
-\medskip
 
 
 \subsection{SPDE--regularity structures--Hopf algebras--QFT}
@@ -7890,9 +7764,8 @@ Possibile uso:
 \end{gathered}
 \]
 
-Qui la presentazione corretta è l'oggetto rinormalizzato, non il dato grezzo.
+Here the correct presentation is the renormalized object, not the raw datum.
 
-\medskip
 
 
 \subsection{Homogenization--inverse design--optimization--learning}
@@ -7904,9 +7777,8 @@ Qui la presentazione corretta è l'oggetto rinormalizzato, non il dato grezzo.
 \end{gathered}
 \]
 
-La fibra contiene tutti i materiali microscopici equivalenti.
+The fibre contains all equivalent microscopic materials.
 
-\medskip
 
 
 \subsection{Computable analysis--proof mining--verified numerics}
@@ -7918,9 +7790,8 @@ La fibra contiene tutti i materiali microscopici equivalenti.
 \end{gathered}
 \]
 
-Questa è la rete che trasforma analisi qualitativa in matematica verificabile.
+This is the network that turns qualitative analysis into verifiable mathematics.
 
-\medskip
 
 
 \subsection{Dynamical systems--transfer operators--zeta--spectral geometry}
@@ -7932,9 +7803,8 @@ T \to \mathcal L_T \to \operatorname{Spec} \to \zeta_T \\
 \end{gathered}
 \]
 
-È una rete ideale per trasportare dinamica in analisi spettrale.
+It is an ideal network for transporting dynamics into spectral analysis.
 
-\medskip
 
 
 \subsection{Banach geometry--metric embeddings--algorithms}
@@ -7946,9 +7816,8 @@ T \to \mathcal L_T \to \operatorname{Spec} \to \zeta_T \\
 \end{gathered}
 \]
 
-È una rete naturale per lower bounds algoritmici.
+It is a natural network for algorithmic lower bounds.
 
-\medskip
 
 
 \subsection{Riemann--Hilbert--D-modules--monodromy--asymptotics}
@@ -7960,19 +7829,17 @@ T \to \mathcal L_T \to \operatorname{Spec} \to \zeta_T \\
 \end{gathered}
 \]
 
-Questa trasforma analisi differenziale in topologia costruttibile e algebra.
-
-\medskip
+This turns differential analysis into constructible topology and algebra.
 
 
-\section{Scheda operativa per costruire un transfer package}
 
-Per ogni arco dell'atlante bisogna compilare una scheda.
+\section{Operational Sheet for Building a Transfer Package}
 
-\medskip
+For each edge of the atlas one should fill in a sheet.
 
 
-\subsection{Scheda standard}
+
+\subsection{Standard Sheet}
 
 Dato:
 
@@ -7982,37 +7849,37 @@ Dato:
 
 specificare:
 
-\subsection*{Oggetti source}
+\subsection*{Source Objects}
 
 \[
 \mathcal X_A.
 \]
 
-\subsection*{Oggetti target}
+\subsection*{Target Objects}
 
 \[
 \mathcal X_B.
 \]
 
-\subsection*{Descrizioni source}
+\subsection*{Source Descriptions}
 
 \[
 \mathcal D_A.
 \]
 
-\subsection*{Descrizioni target}
+\subsection*{Target Descriptions}
 
 \[
 \mathcal D_B.
 \]
 
-\subsection*{Compilatore}
+\subsection*{Compiler}
 
 \[
 \widehat F:\mathcal D_A\to\mathcal D_B.
 \]
 
-\subsection*{Overhead presentazionale}
+\subsection*{Presentational Overhead}
 
 \[
 \kappa_B(\widehat F(d))
@@ -8020,19 +7887,19 @@ specificare:
 f(\kappa_A(d)).
 \]
 
-\subsection*{Osservabili target}
+\subsection*{Target Observables}
 
 \[
 \mathfrak O_B.
 \]
 
-\subsection*{Pullback osservazionale}
+\subsection*{Observational Pullback}
 
 \[
 F^\ast:\mathfrak O_B\to\mathfrak O_A.
 \]
 
-\subsection*{Overhead osservazionale}
+\subsection*{Observational Overhead}
 
 \[
 \chi_A(F^\ast O)
@@ -8040,19 +7907,19 @@ F^\ast:\mathfrak O_B\to\mathfrak O_A.
 g(\chi_B(O)).
 \]
 
-\subsection*{dati di verifica}
+\subsection*{Verification Data}
 
 \[
 V_A\leftrightarrow V_B.
 \]
 
-\subsection*{Fibre}
+\subsection*{Fibres}
 
 \[
 F^{-1}(y).
 \]
 
-\subsection*{Mosse nella fibra}
+\subsection*{Moves in the Fibre}
 
 \[
 \text{generators, moves, deformations, homotopies, refinements}.
@@ -8061,16 +7928,16 @@ F^{-1}(y).
 \subsection*{Bridge profile}
 
 \[
-B_y(n)=\text{costo massimo/minimo per navigare nella fibra con budget }n.
+B_y(n)=\text{maximum/minimum cost for navigating in the fibre with budget }n.
 \]
 
-\subsection*{Misure}
+\subsection*{Measures}
 
 \[
 \mu_A\mapsto \mu_B.
 \]
 
-\subsection*{Limiti}
+\subsection*{Limits}
 
 \[
 X_n\to X
@@ -8078,14 +7945,14 @@ X_n\to X
 F(X_n)\to F(X).
 \]
 
-\subsection*{Domande fertili}
+\subsection*{Fertile Questions}
 
 \[
 \text{separazione}
 \]
 
 \[
-\text{indistinguibilità}
+\text{indistinguishability}
 \]
 
 \[
@@ -8093,7 +7960,7 @@ F(X_n)\to F(X).
 \]
 
 \[
-\text{noncomputabilità}
+\text{noncomputability}
 \]
 
 \[
@@ -8105,7 +7972,7 @@ F(X_n)\to F(X).
 \]
 
 \[
-\text{dati di verifica}
+\text{Verification Data}
 \]
 
 \[
@@ -8113,500 +7980,202 @@ F(X_n)\to F(X).
 \]
 
 \[
-\text{distorsione}.
+\text{distortion}.
 \]
 
-\medskip
 
 
-\section{Mappa globale finale}
+\section{Final Global Map}
 
-Una rappresentazione sintetica dell'intero atlante:
+The previous linear picture is useful as a mnemonic, but it is too small to represent the atlas: it hides algebra, representation theory, graph and matroid methods, moduli, arithmetic geometry, and several discrete-continuous bridges. A better final map should be read as three complementary layers.
+
+First, the large thematic regions are:
 
 \[
-\begin{array}{cccccc}
-\text{Sintassi} & \to & \text{Modelli} & \to & \text{Geometria} & \to \text{Analisi} \\
-\downarrow & & \downarrow & & \downarrow & \downarrow \\
-\text{Logica} & \to & \text{CSP} & \to & \text{Sheaves} & \to \text{PDE} \\
-\downarrow & & \downarrow & & \downarrow & \downarrow \\
-\text{Algoritmi} & \to & \text{Matrici} & \to & \text{Operatori} & \to \text{Spettri} \\
-\downarrow & & \downarrow & & \downarrow & \downarrow \\
-\text{Probabilità} & \to & \text{Momenti} & \to & \text{Entropia} & \to \text{Trasporto ottimale} \\
-\downarrow & & \downarrow & & \downarrow & \downarrow \\
-\text{Dinamica} & \to & \text{Transfer operators} & \to & \text{Zeta} & \to \text{Aritmetica} \\
-\downarrow & & \downarrow & & \downarrow & \downarrow \\
-\text{Topologia} & \to & \text{Coomologia} & \to & \text{Indice} & \to \text{K-teoria} \\
-\downarrow & & \downarrow & & \downarrow & \downarrow \\
-\text{Quantistica} & \to & \text{Tensori} & \to & \text{Operator algebras} & \to \text{QFT} \\
-\downarrow & & \downarrow & & \downarrow & \downarrow \\
-\text{Numerica} & \to & \text{Approssimazioni} & \to & \text{dati di verifica} & \to \text{Formalizzazione}.
+\begin{gathered}
+\text{logic, syntax, proof systems, formalization}\\
+\to \text{algebra, representations, moduli, homological algebra}\\
+\to \text{combinatorics, graphs, matroids, codes, discrete structures}\\
+\to \text{geometry, topology, sheaves, persistence, categories}\\
+\to \text{analysis, PDE, spectra, dynamics, probability}\\
+\to \text{arithmetic, automata, languages, symbolic dynamics, computability}\\
+\to \text{quantum, operator algebras, optimization, learning, numerics}.
+\end{gathered}
+\]
+
+Second, the main access hubs are:
+
+\[
+\begin{array}{cccc}
+\text{syntax} & \text{presentations} & \text{normal forms} & \text{compilers} \\
+\text{observables} & \text{moments} & \text{rank profiles} & \text{spectra} \\
+\text{rings/algebras} & \text{modules} & \text{representations} & \text{moduli} \\
+\text{graphs} & \text{matroids} & \text{codes} & \text{finite structures} \\
+\text{sheaves} & \text{cohomology} & \text{obstructions} & \text{local-to-global data} \\
+\text{operators} & \text{kernels} & \text{semigroups} & \text{resolvents} \\
+\text{probability} & \text{entropy} & \text{large deviations} & \text{optimal transport} \\
+\text{numerics} & \text{approximations} & \text{verification data} & \text{formal proofs}.
 \end{array}
 \]
 
-Questa tabella non è statica. Ogni freccia rappresenta una famiglia di transfer packages.
+Third, the atlas is organized by bridges rather than by isolated subjects:
 
-\medskip
-
-
-\section{Riassunto concettuale finale}
-
-L'atlante costruito può essere riassunto in sette strati.
-
-\medskip
-
-
-\subsection{Strato 1: oggetti}
-
-\[
-\text{funzioni}
-\]
-
-\[
-\text{spazi}
-\]
-
-\[
-\text{gruppi}
-\]
-
-\[
-\text{varietà}
-\]
-
-\[
-\text{operatori}
-\]
-
-\[
-\text{misure}
-\]
-
-\[
-\text{categorie}
-\]
-
-\[
-\text{grafi}
-\]
-
-\[
-\text{modelli}
-\]
-
-\[
-\text{processi}
-\]
-
-\[
-\text{sistemi dinamici}
-\]
-
-\[
-\text{PDE}
-\]
-
-\[
-\text{teorie logiche}
-\]
-
-\[
-\text{reti neurali}
-\]
-
-\[
-\text{oggetti quantistici}.
-\]
-
-\medskip
-
-
-\subsection{Strato 2: presentazioni}
-
-\[
-\text{equazioni}
-\]
-
-\[
-\text{generatori e relazioni}
-\]
-
-\[
-\text{coefficienti}
-\]
-
-\[
-\text{kernel}
-\]
-
-\[
-\text{triangolazioni}
-\]
-
-\[
-\text{dati locali}
-\]
-
-\[
-\text{grafi}
-\]
-
-\[
-\text{matrici}
-\]
-
-\[
-\text{tensori}
-\]
-
-\[
-\text{programmi}
-\]
-
-\[
-\text{reti}
-\]
-
-\[
-\text{schemi}
-\]
-
-\[
-\text{campioni}.
-\]
-
-\medskip
-
-
-\subsection{Strato 3: osservabili}
-
-\[
-\text{spettri}
-\]
-
-\[
-\text{momenti}
-\]
-
-\[
-\text{entropie}
-\]
-
-\[
-\text{coomologie}
-\]
-
-\[
-\text{omologie}
-\]
-
-\[
-\text{campioni}
-\]
-
-\[
-\text{query}
-\]
-
-\[
-\text{correlazioni}
-\]
-
-\[
-\text{invarianti}
-\]
-
-\[
-\text{heat kernels}
-\]
-
-\[
-\text{tracce}
-\]
-
-\[
-\text{barcodes}
-\]
-
-\[
-\text{ranks}
-\]
-
-\[
-\text{dimensioni}
-\]
-
-\[
-\text{profili di crescita}.
-\]
-
-\medskip
-
-
-\subsection{Strato 4: dati di verifica}
-
-\[
-\text{SOS}
-\]
-
-\[
-\text{SDP}
-\]
-
-\[
-\text{energia}
-\]
-
-\[
-\text{indice}
-\]
-
-\[
-\text{duali convessi}
-\]
-
-\[
-\text{coomologia}
-\]
-
-\[
-\text{stime a priori}
-\]
-
-\[
-\text{stabilità}
-\]
-
-\[
-\text{entropia}
-\]
-
-\[
-\text{Lyapunov}
-\]
-
-\[
-\text{barrier}
-\]
-
-\[
-\text{interval enclosures}
-\]
-
-\[
-\text{proof terms}
-\]
-
-\[
-\text{formal proof data}.
-\]
-
-\medskip
-
-
-\subsection{Strato 5: fibre}
-
-\[
-\text{oggetti indistinguibili sotto osservabili limitati}
-\]
-
-\[
-\text{descrizioni equivalenti}
-\]
-
-\[
-\text{parametri non identificabili}
-\]
-
-\[
-\text{microstrutture con stesso limite}
-\]
-
-\[
-\text{funzioni con stessi campioni}
-\]
-
-\[
-\text{operatori con stesso spettro troncato}
-\]
-
-\[
-\text{grafi con stessi sottografi piccoli}
-\]
-
-\[
-\text{teorie con stessi modelli finiti}
-\]
-
-\[
-\text{reti neurali con stessa funzione}
-\]
-
-\[
-\text{PDE con stessi dati al bordo}.
-\]
-
-\medskip
-
-
-\subsection{Strato 6: scale}
-
-\[
-\text{cutoff}
-\]
-
-\[
-\text{precisione}
-\]
-
-\[
-\text{tempo}
-\]
-
-\[
-\text{frequenza}
-\]
-
-\[
-\text{mesh}
-\]
-
 \[
-\text{quantifier rank}
+\begin{gathered}
+\text{syntax} \leftrightarrow \text{semantics} \leftrightarrow \text{CSP/database/proof complexity},\\
+\text{algebra} \leftrightarrow \text{representations} \leftrightarrow \text{moduli} \leftrightarrow \text{invariants},\\
+\text{combinatorics} \leftrightarrow \text{graphs} \leftrightarrow \text{matroids} \leftrightarrow \text{extremal/counting methods},\\
+\text{linear algebra} \leftrightarrow \text{matroids} \leftrightarrow \text{codes} \leftrightarrow \text{rank methods},\\
+\text{graphs} \leftrightarrow \text{limits} \leftrightarrow \text{operators} \leftrightarrow \text{spectra},\\
+\text{geometry} \leftrightarrow \text{sheaves} \leftrightarrow \text{cohomology} \leftrightarrow \text{obstructions},\\
+\text{PDE} \leftrightarrow \text{semigroups} \leftrightarrow \text{kernels} \leftrightarrow \text{probability},\\
+\text{arithmetic} \leftrightarrow \text{Galois/automata/languages} \leftrightarrow \text{compression},\\
+\text{optimization} \leftrightarrow \text{convexity/SOS/moments} \leftrightarrow \text{verification data}.
+\end{gathered}
 \]
 
-\[
-\text{dimensione}
-\]
-
-\[
-\text{grado}
-\]
+This map is still not a theorem. It is a navigation chart: every arrow represents a family of possible transfer packages, and every useful package must specify the compiler, observable pullback, verification data, fibre geometry, and overhead functions involved.
 
-\[
-\text{numero di campioni}
-\]
+\section{Final Conceptual Summary}
 
-\[
-\text{numero di stati}
-\]
+The atlas can be summarized in seven layers.
 
-\[
-\text{livello SDP}
-\]
+\subsection{Layer 1: objects}
 
 \[
-\text{ordine perturbativo}
+\begin{gathered}
+\text{functions, spaces, groups, varieties, operators, measures, categories},\\
+\text{graphs, models, processes, dynamical systems, PDEs},\\
+\text{logical theories, neural networks, quantum objects}.
+\end{gathered}
 \]
 
-\[
-\text{scala semiclassica}
-\]
+\subsection{Layer 2: presentations}
 
 \[
-\text{scala microscopica/macroscopica}.
+\begin{gathered}
+\text{equations, generators and relations, coefficients, kernels},\\
+\text{triangulations, local data, graphs, matrices, tensors},\\
+\text{programs, networks, schemes, samples}.
+\end{gathered}
 \]
-
-\medskip
 
+\subsection{Layer 3: observables}
 
-\subsection{Strato 7: trasporto}
-
 \[
-\text{compilatori tra descrizioni}
+\begin{gathered}
+\text{spectra, moments, entropies, cohomology, homology},\\
+\text{samples, queries, correlations, invariants, heat kernels},\\
+\text{traces, barcodes, ranks, dimensions, growth profiles}.
+\end{gathered}
 \]
 
-\[
-\text{pullback di osservabili}
-\]
+\subsection{Layer 4: verification data}
 
 \[
-\text{pushforward/pullback di dati di verifica}
+\begin{gathered}
+\text{SOS and SDP data, energy bounds, index data, convex dual data},\\
+\text{cohomological obstructions, a priori estimates, stability data},\\
+\text{entropy data, Lyapunov data, barriers, interval enclosures},\\
+\text{proof terms and formal proof data}.
+\end{gathered}
 \]
 
-\[
-\text{trasporto di fibre}
-\]
+\subsection{Layer 5: fibres}
 
 \[
-\text{trasporto di limiti}
+\begin{gathered}
+\text{objects indistinguishable under bounded observables},\\
+\text{equivalent descriptions and non-identifiable parameters},\\
+\text{microstructures with the same limit},\\
+\text{functions with the same samples},\\
+\text{operators with the same truncated spectrum},\\
+\text{graphs with the same small subgraphs},\\
+\text{theories with the same finite models},\\
+\text{neural networks with the same function},\\
+\text{PDEs with the same boundary data}.
+\end{gathered}
 \]
 
-\[
-\text{trasporto di misure}
-\]
+\subsection{Layer 6: scales}
 
 \[
-\text{trasporto di regolarità}
+\begin{gathered}
+\text{cutoff, precision, time, frequency, mesh, quantifier rank},\\
+\text{dimension, degree, number of samples, number of states},\\
+\text{SDP level, perturbative order, semiclassical scale},\\
+\text{microscopic and macroscopic scales}.
+\end{gathered}
 \]
 
-\[
-\text{trasporto di scale}
-\]
+\subsection{Layer 7: transfer}
 
 \[
-\text{trasporto di lower bounds}.
+\begin{gathered}
+\text{compilers between descriptions, pullbacks of observables},\\
+\text{pushforwards and pullbacks of verification data},\\
+\text{transfer of fibres, limits, measures, regularity, scales},\\
+\text{transfer of lower bounds}.
+\end{gathered}
 \]
-
-\medskip
-
 
-\section{Formula finale dell'atlante}
+\section{Final Formula of the Atlas}
 
-L'intero progetto può essere condensato così:
+The whole project can be condensed as follows:
 
 \[
 \boxed{
-\text{ogni teoria matematica possiede molte profili osservabili;}
+\text{every mathematical theory has many observable profiles;}
 }
 \]
 
 \[
 \boxed{
-\text{ogni profilo osservabile è prodotta da un sistema di osservabili;}
+\text{every observable profile is produced by a system of observables;}
 }
 \]
 
 \[
 \boxed{
-\text{ogni sistema di osservabili induce fibre;}
+\text{every system of observables induces fibres;}
 }
 \]
 
 \[
 \boxed{
-\text{ogni fibra contiene informazione nascosta;}
+\text{every fibre contains hidden information;}
 }
 \]
 
 \[
 \boxed{
 \begin{gathered}
-\text{ogni transfer package misura il costo di passare tra}\\
-\text{profili osservabili, descrizioni, dati di verifica e fibre;}
+\text{every transfer package measures the cost of passing between}\\
+\text{observable profiles, descriptions, verification data, and fibres;}
 \end{gathered}
 }
 \]
 
 \[
 \boxed{
-\text{la complessità è la geometria quantitativa dell'accesso agli oggetti.}
+\text{complexity is the quantitative geometry of access to objects.}
 }
 \]
 
-In forma ancora più breve:
+In an even shorter form:
 
 \[
 \boxed{
 \begin{gathered}
 \text{Presentation Theory + Transfer Packages}\\
 \Longleftrightarrow\\
-\text{geometria globale dei profili osservabili matematici}\\
-\text{e dei loro costi di traduzione.}
+\text{global geometry of mathematical observable profiles}\\
+\text{and of their translation costs.}
 \end{gathered}
 }
 \]
 
-Questo atlante raccoglie una rete di reti che collega logica, algebra, geometria, analisi, probabilità, topologia, aritmetica, algoritmi, fisica matematica, ottimizzazione, apprendimento, numerica e formalizzazione attraverso un unico linguaggio: \textbf{descrizioni, osservabili, dati di verifica, fibre, scale e trasporti controllati}.
+This atlas collects a network of networks connecting logic, algebra, combinatorics, geometry, analysis, probability, topology, arithmetic, algorithms, mathematical physics, optimization, learning, numerics, and formalization through a single language: \textbf{descriptions, observables, verification data, fibres, scales, and controlled transfers}.
 
 
 
