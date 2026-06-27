@@ -267,6 +267,115 @@ const articles = [
     datetime: "2026-06",
   },
 ];
+
+const articleGroups = [
+  {
+    title: "Foundations and Transfer",
+    hrefs: [
+      "/ai-assisted-math/presentation-theory.html",
+      "/ai-assisted-math/presentation-theory-ii-controlled-transfer-observable-budgets-geometry-fibres.html",
+      "/ai-assisted-math/fragmented-presentation-systems-resource-bound-degrees.html",
+      "/ai-assisted-math/presentation-incidence-rank-fibres-multiparameter-persistence.html",
+    ],
+  },
+  {
+    title: "Observable Geometry in Groups",
+    hrefs: [
+      "/ai-assisted-math/quadratic-presentational-complexity-observer-barriers.html",
+      "/ai-assisted-math/relative-linear-word-observers-semidirect-products.html",
+      "/ai-assisted-math/sharp-support-image-thresholds-alternating-pencils.html",
+      "/ai-assisted-math/star-support-image-profiles-class-two-p-groups.html",
+      "/ai-assisted-math/complete-commutator-word-tomography-alternating-pencils.html",
+      "/ai-assisted-math/generic-odd-pfaffian-reconstruction-commutator-word-moments.html",
+      "/ai-assisted-math/word-measure-twins-pfaffian-moduli-class-two-p-groups.html",
+      "/ai-assisted-math/finite-lovasz-profiles-coprime-affine-groups.html",
+      "/ai-assisted-math/degree-weighted-normal-covers-symmetric-alternating-groups.html",
+      "/ai-assisted-math/lef-growth-wreath-products.html",
+    ],
+  },
+  {
+    title: "Algebraic and Computational Complexity",
+    hrefs: [
+      "/ai-assisted-math/representation-theoretic-scalar-compression-linear-differential-equations.html",
+      "/ai-assisted-math/filtered-equivariant-membership-static-algebraic-proof-degree.html",
+      "/ai-assisted-math/local-linear-presentations-sparse-factorization.html",
+      "/ai-assisted-math/certified-adaptive-discovery-algebraic-laws.html",
+      "/ai-assisted-math/toric-certificates-effective-skolem-tails-subspace-orbit-reachability.html",
+      "/ai-assisted-math/proof-carrying-toric-guard-certificates-positivity-linear-recurrence-sequences.html",
+    ],
+  },
+  {
+    title: "Arithmetic Dynamics and Geometry",
+    hrefs: [
+      "/ai-assisted-math/exact-rational-preperiodic-portraits-controlled-p-adic-traps.html",
+      "/ai-assisted-math/exact-preimage-layers-effective-primitive-divisors-rational-maps-p1.html",
+      "/ai-assisted-math/blow-up-diagonal-depth-wonderful-compactifications.html",
+      "/ai-assisted-math/dependency-depth-odd-hassett-spaces.html",
+    ],
+  },
+  {
+    title: "Compression, Boolean Lifts, and Finite Structures",
+    hrefs: [
+      "/ai-assisted-math/previous-copy-compression-foundations.html",
+      "/ai-assisted-math/previous-copy-compression-quantitative-barriers.html",
+      "/ai-assisted-math/lattice-obstructions-coefficient-alphabets.html",
+      "/ai-assisted-math/sharp-random-thresholds-exact-ternary-lifts.html",
+      "/ai-assisted-math/random-saturation-real-homogeneous-threshold-boxes.html",
+      "/ai-assisted-math/relation-lattices-kolmogorov-deficiency-rational-points.html",
+      "/ai-assisted-math/box-closure-systems-downsets-products-of-chains.html",
+    ],
+  },
+  {
+    title: "Proof Strategies",
+    hrefs: ["/ai-assisted-math/conway-thrackle-proof-strategy.html"],
+  },
+];
+
+const articleByHref = new Map(articles.map((article) => [article.href, article]));
+const groupedHrefs = articleGroups.flatMap((section) => section.hrefs);
+const missingArticles = groupedHrefs.filter((href) => !articleByHref.has(href));
+const duplicateHrefs = groupedHrefs.filter(
+  (href, index) => groupedHrefs.indexOf(href) !== index,
+);
+const unlistedArticles = articles.filter(
+  (article) => !groupedHrefs.includes(article.href),
+);
+
+if (
+  missingArticles.length > 0 ||
+  duplicateHrefs.length > 0 ||
+  unlistedArticles.length > 0
+) {
+  throw new Error(
+    [
+      missingArticles.length > 0
+        ? `Missing article data: ${missingArticles.join(", ")}`
+        : "",
+      duplicateHrefs.length > 0
+        ? `Duplicate article entries: ${duplicateHrefs.join(", ")}`
+        : "",
+      unlistedArticles.length > 0
+        ? `Unlisted articles: ${unlistedArticles
+            .map((article) => article.href)
+            .join(", ")}`
+        : "",
+    ]
+      .filter(Boolean)
+      .join(" "),
+  );
+}
+
+const sectionId = (title) =>
+  `ai-assisted-math-${title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")}`;
+
+const articleSections = articleGroups.map((section) => ({
+  id: sectionId(section.title),
+  title: section.title,
+  articles: section.hrefs.map((href) => articleByHref.get(href)),
+}));
 ---
 
 <BaseLayout
@@ -296,14 +405,21 @@ const articles = [
         I mainly use ChatGPT 5.5 as of June 2026.
       </p>
 
-      <section class="article-list" aria-label="AI-assisted math articles">
+      <section class="article-sections" aria-label="AI-assisted math articles">
         {
-          articles.map((article) => (
-            <a class="article-list-item" href={article.href}>
-              <time datetime={article.datetime}>{article.date}</time>
-              <span>{article.title}</span>
-              <p>{article.description}</p>
-            </a>
+          articleSections.map((section) => (
+            <section class="article-section" aria-labelledby={section.id}>
+              <h2 id={section.id}>{section.title}</h2>
+              <div class="article-list">
+                {section.articles.map((article) => (
+                  <a class="article-list-item" href={article.href}>
+                    <time datetime={article.datetime}>{article.date}</time>
+                    <span>{article.title}</span>
+                    <p>{article.description}</p>
+                  </a>
+                ))}
+              </div>
+            </section>
           ))
         }
       </section>
