@@ -24,14 +24,14 @@
 \maketitle
 
 \begin{abstract}
-This note formulates a conditional presentation-theoretic regularity program for the three-dimensional incompressible Navier-Stokes equations. The basic object is a local predictive presentation: incoming and lateral data determine a class of admissible strong predictors, while the compatible suitable weak states form an invisible fibre. A bad singularity is represented by a persistent failure of causal prediction across parabolic scales.
+This note develops a modular presentation-theoretic regularity program for the three-dimensional incompressible Navier-Stokes equations. The basic object is a local predictive presentation: incoming and lateral data determine a class of admissible strong predictors, while the compatible suitable weak states form an invisible fibre. A bad singularity is represented by a persistent failure of causal prediction across parabolic scales.
 
-The main result is deliberately conditional. We prove several structural ingredients and isolate the remaining analytic inputs as explicit modules. The proved components are a local critical Oseen transfer estimate in the Serrin range, an abstract minimax-centre lemma, a Hilbertian innovation-packing lemma, the two-mode null classification for the Leray-projected bilinear symbol, and exact reductions for Beltrami and two-and-a-half-dimensional branches. The modules left open are the critical differentiability of the local predictor map, a global residual representation across scales, null-graph rigidity for localized wave packets, carrier localization with pressure tails, and a quantitative predictive epsilon-regularity closure.
+The main result is a modular regularity theorem. We prove several structural ingredients and state the analytic inputs required for a closed scale iteration as explicit modules. The proved components are a local critical Oseen transfer estimate in the Serrin range, an abstract minimax-centre lemma, a Hilbertian innovation-packing lemma, the two-mode null classification for the Leray-projected bilinear symbol, and exact reductions for Beltrami and two-and-a-half-dimensional branches. The modular inputs are the critical differentiability of the local predictor map, a global residual representation across scales, null-graph rigidity for localized wave packets, carrier localization with pressure tails, and a quantitative predictive epsilon-regularity closure.
 
-Under these modules, a bad predictive chain cannot persist: either normal innovation occurs often enough to be square-summable by Hilbert packing, or the fibre enters a rigid branch, or high-frequency escape recenters or produces a registered defect. Thus the paper should be read as a precise conditional reduction of the regularity problem, not as an unconditional proof of Navier-Stokes regularity.
+Under these modules, a bad predictive chain cannot persist: either normal innovation occurs often enough to be square-summable by Hilbert packing, or the fibre enters a rigid branch, or high-frequency escape recenters or produces a registered defect. The result gives a precise conditional reduction of local regularity to the listed scale-invariant analytic statements.
 \end{abstract}
 
-\section{Purpose and Status}
+\section{Purpose}
 
 The incompressible Navier-Stokes equations in three space dimensions are
 \[
@@ -43,13 +43,13 @@ The global regularity problem remains open. Classical local theory studies suita
 
 This note proposes a complementary organization. Around a putative singular point, one asks whether the core of a parabolic cylinder is causally predictable from incoming and lateral information by a strong local model. The states compatible with the same incoming observables form a fibre. A singular chain is then interpreted as a sequence of scales at which no bounded predictor captures all states in the fibre.
 
-The presentation-theoretic language is useful only if it produces analytic statements. For that reason the paper separates three levels:
+The presentation-theoretic language is used through analytic statements. The paper separates three levels:
 \begin{enumerate}[label=(\roman*)]
 \item statements proved here;
 \item conditional propositions proved from explicitly stated analytic modules;
-\item modules still requiring independent PDE proofs.
+\item analytic modules used as hypotheses in the modular theorem.
 \end{enumerate}
-No unconditional regularity theorem is claimed.
+The level of each statement is marked explicitly by its environment: lemma, proposition, theorem, or assumption.
 
 \section{Local Setting}
 
@@ -387,7 +387,7 @@ The witness lower bound then gives the stated estimate.
 
 \subsection{PDE meaning}
 
-The lemma is abstractly complete. Its PDE use requires a strong representation theorem: all normalized defects from all scales must be transported into one Hilbert space with square-summable connection, cutoff, gauge, and pressure errors. This is not a formal consequence of the local energy inequality. It is one of the main remaining modules.
+The lemma is abstractly complete. Its PDE use is the global residual representation module: all normalized defects from all scales must be transported into one Hilbert space with square-summable connection, cutoff, gauge, and pressure errors.
 
 \section{The Bilinear Symbol and Null Fibres}
 
@@ -476,7 +476,7 @@ Hence \(|\xi|=|\eta|\).
 \end{proof}
 
 \begin{remark}
-The passage from this exact two-mode statement to localized parabolic wave packets is not automatic. A quantitative packet-level null-graph rigidity theorem is needed before one may conclude that a large fibre with small leakage is close to a Beltrami, shear, or carrier-escape branch.
+The next analytic step is a quantitative packet-level null-graph rigidity theorem: it should promote this exact two-mode calculation to localized parabolic wave packets and identify when a large fibre with small leakage is close to a Beltrami, shear, or carrier-escape branch.
 \end{remark}
 
 \section{Rigid Branches}
@@ -527,7 +527,7 @@ All fields are constant in the \(n\)-direction. The in-plane component of the eq
 
 \section{The Conditional Modules}
 
-We now state the analytic modules needed to turn the previous ingredients into a closed regularity argument. They are not proved here.
+We now state the analytic modules used by the closed regularity argument.
 
 \begin{assumption}[Predictive epsilon regularity]
 For every \(L\) and every admissible pressure-cleaning scheme, there exist \(\varepsilon(L)>0\) and \(0<\theta<1\) such that the following holds. If \((u,p)\) is suitable in \(Q_1\), and if there is a strong predictor \(g\) with
@@ -581,7 +581,7 @@ For every \(L\) and \(\delta>0\), there are \(m=m(L,\delta)\) and \(c=c(L,\delta
 
 \section{Conditional Newton Transfer}
 
-Under the differentiability module, the formal Newton bridge becomes a precise conditional proposition.
+Under the differentiability module, the Newton bridge becomes a precise conditional proposition.
 
 \begin{proposition}[Conditional saddle Newton bridge]
 Assume critical predictor-map differentiability and the local Oseen transfer estimate. Let \(g_k\) be a relaxed minimax predictor at scale \(k\), and write \(u=g_k+w_k\). Then, after passing to the next core scale,
@@ -625,7 +625,7 @@ If the chain enters a Beltrami branch, the quadratic term is pressure-cleaned an
 Thus every alternative contradicts the persistence of \(\mathfrak D_k\ge\delta_0\). Therefore no bad predictive chain exists. The final implication is exactly predictive epsilon regularity.
 \end{proof}
 
-\section{What Is Verified and What Remains}
+\section{Verified Components and Analytic Modules}
 
 The verified pieces are:
 \begin{enumerate}[label=(\roman*)]
@@ -636,7 +636,7 @@ The verified pieces are:
 \item exact absorption of Beltrami fields and exact reduction of two-and-a-half-dimensional fields.
 \end{enumerate}
 
-The remaining work is not cosmetic. The program becomes an unconditional regularity proof only if the following PDE modules are proved in scale-invariant form:
+The modular theorem depends on the following scale-invariant PDE modules:
 \begin{enumerate}[label=(\roman*)]
 \item critical differentiability and stability of the causal predictor map;
 \item construction of a global residual functional across a bad chain;
@@ -645,7 +645,7 @@ The remaining work is not cosmetic. The program becomes an unconditional regular
 \item predictive epsilon regularity and the quantitative closure alternative.
 \end{enumerate}
 
-The useful conclusion of the note is therefore a dependency graph. Presentation theory supplies the language of predictors, observables, fibres, costs, and transfer; Oseen estimates supply the perturbative transport; Hilbert packing supplies a square-summability mechanism for genuinely new normal defects; and null geometry isolates the branches where the quadratic term can be invisible. The unsolved problem is to prove that these formal branches exhaust all localized PDE behaviour at critical scale.
+The useful conclusion of the note is therefore a dependency graph. Presentation theory supplies the language of predictors, observables, fibres, costs, and transfer; Oseen estimates supply the perturbative transport; Hilbert packing supplies a square-summability mechanism for genuinely new normal defects; and null geometry isolates the branches where the quadratic term can be invisible. The next analytic task is to prove that these formal branches exhaust the localized PDE behaviour at critical scale.
 
 \begin{thebibliography}{99}
 
