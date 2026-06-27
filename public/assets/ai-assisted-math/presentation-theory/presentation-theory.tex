@@ -24,7 +24,7 @@
 \maketitle
 
 \begin{abstract}
-This note develops a formal language for studying mathematical objects through chosen systems of description. A presentation system consists of descriptions, a realization map, and resource bounds; it induces bounded parts, presentation complexity, and realization fibres. The theory also treats observables and costed observables, whose fibres measure indistinguishability and whose bounded profiles give lower-bound criteria. Cost-controlled maps and normal-form compilers provide transfer principles between presentation systems. The final section collects reusable abstract theorems, including bounded-image obstructions, observer factorization, normal-form transfer, certificate-length barriers, and no-resolution results.
+This note develops a formal language for studying mathematical objects through chosen systems of description. A presentation system consists of descriptions, a realization map, and resource bounds; it induces bounded parts, presentation complexity, and realization fibres. The theory also treats observables and costed observables, whose fibres measure indistinguishability and whose bounded profiles give lower-bound criteria. Cost-controlled maps and normal-form compilers provide transfer principles between presentation systems. The final section collects reusable abstract theorems, including bounded-image obstructions, observable factorization, normal-form transfer, verification-length barriers, and no-resolution results.
 \end{abstract}
 
 \section{Guiding idea}
@@ -56,7 +56,7 @@ Complexity is assigned relative to a specified presentation system.
 
 Presentation, observation, and cost play distinct roles. A description produces or specifies an object. An observable extracts information from an object. A cost imposes a budget on descriptions or observations.
 
-This gives three complementary layers: presentation complexity for objects, observer complexity for tests, and fibre structure for the information forgotten by a chosen family of observables. In many examples, all observers of bounded arity, degree, rank, or test size factor through a smaller structural statistic.
+This gives three complementary layers: presentation complexity for objects, observable complexity for tests, and fibre structure for the information forgotten by a chosen family of observables. In many examples, all observables of bounded arity, degree, rank, or test size factor through a smaller structural statistic.
 
 
 \section{Object classes}
@@ -439,15 +439,15 @@ such that
 \exists \pi\ R_x(d,\pi).
 \]
 
-The word \(\pi\) is a membership certificate, or witness in the standard complexity-theoretic terminology, for the statement \(d\in\mathfrak F_\rho(x)\).
+The datum \(\pi\) is membership verification data for the statement \(d\in\mathfrak F_\rho(x)\).
 
-Define the minimum certificate length
+Define the minimum verification-data length
 
 \[
 c_{R_x}(d)=\min\{|\pi|:R_x(d,\pi)\},
 \]
 
-for \(d\in\mathfrak F_\rho(x)\), and the bounded certificate-length profile
+for \(d\in\mathfrak F_\rho(x)\), and the bounded verification-length profile
 
 \[
 L_{R_x}(n)=
@@ -457,7 +457,7 @@ c_{R_x}(d),
 
 with the usual convention that the maximum over an empty set is \(0\).
 
-This profile measures the length of the shortest membership certificates needed to verify all fibre elements of coding length at most \(n\).
+This profile measures the length of the shortest membership verification data needed to verify all fibre elements of coding length at most \(n\).
 
 
 \section{Move systems on fibres}
@@ -580,6 +580,8 @@ f(\kappa_\mathcal X(d))
 
 for every \(d\in\mathcal D_\mathcal X\).
 
+The overhead function \(f\) is part of the declared transfer data. It need not be optimal, but it must be monotone and compatible with the chosen source and target resource scales. In effective settings one usually requires \(f\) to be computable; in quantitative complexity settings one may restrict to linear, polynomial, or primitive recursive overheads.
+
 In that case,
 
 \[
@@ -624,7 +626,7 @@ such that
 \rho_\mathcal Y(\widehat F(d_1,\dots,d_n))=F(\rho_1(d_1),\dots,\rho_n(d_n)).
 \]
 
-It is cost-controlled with monotone overhead (f) if
+It is cost-controlled with monotone overhead \(f\) if
 
 \[
 \kappa_\mathcal Y(\widehat F(d_1,\dots,d_n))
@@ -663,7 +665,7 @@ and
 
 be presentation systems for the same object class \(\mathcal X\).
 
-A \textbf{translation} from \(\Gamma\) to \(\Delta\) with monotone overhead (f) is a map
+A \textbf{translation} from \(\Gamma\) to \(\Delta\) with monotone overhead \(f\) is a map
 
 \[
 T:\mathcal D_\Gamma\to\mathcal D_\Delta
@@ -697,7 +699,7 @@ C_\Delta(x)
 f(C_\Gamma(x)).
 \]
 
-Thus \(\Delta\) simulates \(\Gamma\) up to monotone overhead (f).
+Thus \(\Delta\) simulates \(\Gamma\) up to monotone overhead \(f\).
 
 If there are translations in both directions with controlled overheads, then the two presentation systems are equivalent up to the corresponding resource distortion.
 
@@ -1028,7 +1030,7 @@ x\cong y.
 A central problem is to determine which families of observables are complete on which bounded parts or natural subclasses.
 
 
-\section{Observer refinement, coarsening, and products}
+\section{Observable refinement, coarsening, and products}
 
 Observables carry a simple algebra.
 
@@ -1210,9 +1212,9 @@ For an observation bound \(r\in R\), define
 
 Thus \(\Omega^{\leq r}\) is the family of observables available with observation budget \(r\).
 
-Examples of observation costs include arity of a word observer, length of a word, number or order of test groups, degree of a polynomial probe, rank or matrix size of a linear observer, number of evaluations, depth of a logical formula, or quantifier rank.
+Examples of observation costs include arity of a word observable, length of a word, number or order of test groups, degree of a polynomial probe, rank or matrix size of a linear observable, number of evaluations, depth of a logical formula, or quantifier rank.
 
-A declared costed observable family is also an \textbf{observer scheme}: it specifies which tests are allowed before a lower-bound argument begins. If an observer is selected using target-dependent information, then the selection procedure must be canonical or its cost must be included in \(\chi\). Otherwise singleton tests would trivialize distinguishability; such tests are part of the theory only when the declared observer scheme explicitly allows and charges for them.
+A declared costed observable family is also an \textbf{observable scheme}: it specifies which tests are allowed before a lower-bound argument begins. If an observable is selected using target-dependent information, then the selection procedure must be canonical or its cost must be included in \(\chi\). Otherwise singleton tests would trivialize distinguishability; such tests are part of the theory only when the declared observable scheme explicitly allows and charges for them.
 
 This distinction is essential:
 
@@ -1255,7 +1257,7 @@ If no observable in \(\Omega\) distinguishes \(x\) and (y), then
 
 This measures the minimum observation budget needed to tell \(x\) and (y) apart using the allowed observables.
 
-Observer-barrier results have the form:
+Observable-barrier results have the form:
 
 \[
 \Omega^{\leq r}\text{ is not complete on }\mathcal C,
@@ -1309,9 +1311,9 @@ Examples include:
 \]
 
 \[
-\text{relative word observers}
+\text{relative word observables}
 \rightsquigarrow
-\text{matrix-rank observers,}
+\text{matrix-rank observables,}
 \]
 
 \[
@@ -1431,7 +1433,7 @@ is an observable on \(\mathcal X\).
 
 This is the \textbf{pullback observable} induced by \(F\) and \(\eta\).
 
-If \(F\) is cost-controlled with monotone overhead (f), then
+If \(F\) is cost-controlled with monotone overhead \(f\), then
 
 \[
 F(\mathcal X_{\Gamma_\mathcal X}^{\leq b})
@@ -1476,7 +1478,7 @@ Sometimes an object is studied through a map
 q:\mathcal X\to\mathcal Y.
 \]
 
-The object (q(x)) may be a quotient, reduction, base object, abelianization, associated graded object, invariant, or observable component of \(x\).
+The object \(q(x)\) may be a quotient, reduction, base object, abelianization, associated graded object, invariant, or observable component of \(x\).
 
 The fibre
 
@@ -1484,9 +1486,9 @@ The fibre
 q^{-1}(q(x))
 \]
 
-contains the information not determined by (q(x)).
+contains the information not determined by \(q(x)\).
 
-One may try to decompose the cost of \(x\) into the cost of the base object (q(x)) and the residual cost of specifying \(x\) inside the fibre.
+One may try to decompose the cost of \(x\) into the cost of the base object \(q(x)\) and the residual cost of specifying \(x\) inside the fibre.
 
 Informally,
 
@@ -1535,7 +1537,7 @@ B_P\cap \mathcal X_\Gamma^{\leq b}\neq\varnothing.
 
 In words: if \(P\) fails somewhere, then it already fails on a \(\Gamma\)-presentable object of cost at most \(b\).
 
-This principle reduces a universal statement to the bounded part \(\mathcal X_\Gamma^{\leq b}\): any failure of \(P\) has a low-cost witness.
+This principle reduces a universal statement to the bounded part \(\mathcal X_\Gamma^{\leq b}\): any failure of \(P\) has a low-cost counterexample.
 
 To prove \(P\), one combines it with an exclusion result:
 
@@ -1734,7 +1736,7 @@ This gives a presentation-theoretic view of algebraic complexity.
 
 \section{Reusable General Theorems}
 
-The formalism gives stable proof patterns. The following theorems are abstract templates for height balls, coefficient boxes, word observers, hom-count tests, rank probes, normal forms, proof languages, and bounded counterexample searches.
+The formalism gives stable proof patterns. The following theorems are abstract templates for height balls, coefficient boxes, word observables, hom-count tests, rank probes, normal forms, proof languages, and bounded counterexample searches.
 
 \begin{theorem}[Bounded realization-image obstruction]
 Let \(\Gamma=(\mathcal D,\rho,\kappa)\) be a presentation system on \(\mathcal X\). Let
@@ -1796,12 +1798,12 @@ If \(x=\rho_{\mathrm{raw}}(d)\) with \(\kappa_{\mathrm{raw}}(d)\leq b\), then \(
 
 The compiler is the mathematical content: the cost inequality turns a normal form into a transfer theorem.
 
-\begin{theorem}[Observer factorization]
+\begin{theorem}[Observable factorization]
 Let \(\mathfrak O=(\Omega,\chi,R)\) be a costed observable family on \(\mathcal X\), and let \(r\in R\). Let \(\mathcal C\subseteq\mathcal X\), and suppose there is a structural statistic
 \[
 \tau_r:\mathcal C\to T_r
 \]
-such that every observer of cost at most \(r\) factors through \(\tau_r\) on \(\mathcal C\):
+such that every observable of cost at most \(r\) factors through \(\tau_r\) on \(\mathcal C\):
 \[
 \omega=a_\omega\circ\tau_r
 \qquad
@@ -1815,27 +1817,27 @@ for suitable maps \(a_\omega:T_r\to A_\omega\). Then
 \quad
 \text{for all }\omega\in\Omega^{\leq r}.
 \]
-Thus observers of budget \(r\) distinguish objects only up to the fibres of \(\tau_r\).
+Thus observables of budget \(r\) distinguish objects only up to the fibres of \(\tau_r\).
 \end{theorem}
 
 \begin{proof}
-If \(\tau_r(x)=\tau_r(y)\), then \(a_\omega(\tau_r(x))=a_\omega(\tau_r(y))\) for every factorizing observer \(\omega\).
+If \(\tau_r(x)=\tau_r(y)\), then \(a_\omega(\tau_r(x))=a_\omega(\tau_r(y))\) for every factorizing observable \(\omega\).
 \end{proof}
 
-This theorem is the basic mechanism of observer complexity: bounded observers see the compressed statistic \(\tau_r\).
+This theorem is the basic mechanism of observable complexity: bounded observables see the compressed statistic \(\tau_r\).
 
-\begin{corollary}[Finite-observer blindness]
-In the setting of the observer factorization theorem, if one fibre of \(\tau_r\) contains two non-equivalent objects \(x,y\in\mathcal C\), then \(\Omega^{\leq r}\) is not complete on \(\mathcal C\). In particular,
+\begin{corollary}[Finite-observable blindness]
+In the setting of the observable factorization theorem, if one fibre of \(\tau_r\) contains two non-equivalent objects \(x,y\in\mathcal C\), then \(\Omega^{\leq r}\) is not complete on \(\mathcal C\). In particular,
 \[
 \operatorname{dc}_{\mathfrak O}(x,y)\not\leq r,
 \]
 provided the distinguishing cost is interpreted in the preorder \(R\).
 \end{corollary}
 
-This is the abstract form of many bounded-observer blindness results.
+This is the abstract form of many bounded-observable blindness results.
 
-\begin{theorem}[Reconstruction from factored observers]
-Keep the notation of the observer factorization theorem. Suppose, conversely, that \(\tau_r\) is determined by the observers \(\Omega^{\leq r}\): whenever \(x,y\in\mathcal C\) satisfy
+\begin{theorem}[Reconstruction from factored observables]
+Keep the notation of the observable factorization theorem. Suppose, conversely, that \(\tau_r\) is determined by the observables \(\Omega^{\leq r}\): whenever \(x,y\in\mathcal C\) satisfy
 \[
 \omega(x)=\omega(y)
 \qquad(\omega\in\Omega^{\leq r}),
@@ -1844,7 +1846,7 @@ one has \(\tau_r(x)=\tau_r(y)\). Then the observational quotient of \(\mathcal C
 \end{theorem}
 
 \begin{proof}
-The observer factorization theorem gives one implication: equal \(\tau_r\) implies equal observations. The hypothesis gives the reverse implication. Hence the two equivalence relations coincide.
+The observable factorization theorem gives one implication: equal \(\tau_r\) implies equal observations. The hypothesis gives the reverse implication. Hence the two equivalence relations coincide.
 \end{proof}
 
 \begin{proposition}[Cost-sensitive fibration bound]
@@ -1870,7 +1872,7 @@ Every admissible pair \((e,h)\) assembles to a description of \(x\) with the sta
 
 This proposition is an upper-bound assembly statement. Relative lower bounds arise from converse hypotheses showing that every low-cost description of \(x\) yields low-cost base and fibre data.
 
-\begin{theorem}[Unbounded certificate-length principle]
+\begin{theorem}[Unbounded verification-length principle]
 Let \(S\subseteq\{0,1\}^*\) be recursively enumerable but not decidable. Suppose there is a decidable relation \(R(u,\pi)\) such that
 \[
 u\in S
@@ -1894,9 +1896,9 @@ with value \(0\) if the maximum is taken over an empty set. Then \(b_R\) is not 
 Suppose \(b_R(n)\leq F(n)\) for some total computable function \(F\). Given \(u\), compute \(F(|u|)\) and check the finitely many words \(\pi\) with \(|\pi|\leq F(|u|)\). Since \(R\) is decidable, this finite search decides whether \(u\in S\). This contradicts the undecidability of \(S\).
 \end{proof}
 
-The theorem is elementary but important: recursively enumerable membership, once undecidable, forces shortest membership certificates to escape every computable uniform bound.
+The theorem is elementary but important: recursively enumerable membership, once undecidable, forces shortest membership verification data to escape every computable uniform bound.
 
-\begin{theorem}[Undecidable fibres force nonrecursive certificate-length growth]
+\begin{theorem}[Undecidable fibres force nonrecursive verification-length growth]
 Let \(\rho:\mathcal D\to\mathcal X\) be a realization map with effectively coded descriptions and coding length \(\ell\). Fix \(x\in\mathcal X\), and suppose the fibre
 \[
 \mathfrak F_\rho(x)=\{d\in\mathcal D:\rho(d)=x\}
@@ -1907,7 +1909,7 @@ is recursively enumerable but not decidable. Suppose moreover that membership in
 \quad\Longleftrightarrow\quad
 \exists \pi\ R_x(d,\pi).
 \]
-Then the bounded certificate-length profile
+Then the bounded verification-length profile
 \[
 L_{R_x}(n)=
 \max_{\substack{\ell(d)\leq n\\d\in\mathfrak F_\rho(x)}}
@@ -1917,7 +1919,7 @@ is not bounded above by any total computable function.
 \end{theorem}
 
 \begin{proof}
-Apply the unbounded certificate-length principle to the recursively enumerable undecidable set \(\mathfrak F_\rho(x)\), using the effective coding of descriptions.
+Apply the unbounded verification-length principle to the recursively enumerable undecidable set \(\mathfrak F_\rho(x)\), using the effective coding of descriptions.
 \end{proof}
 
 This turns undecidability of a presentation fibre into a quantitative lower bound on membership verification.
@@ -1974,7 +1976,7 @@ There are presentation systems with an object \(x\) satisfying
 \[
 C_\Gamma(x)=0
 \]
-while the certificate-length profile of \(\mathfrak F_\rho(x)\) is not bounded above by any total computable function. Hence no function of minimal presentation complexity alone can bound fibre recognition or membership-verification cost in general.
+while the verification-length profile of \(\mathfrak F_\rho(x)\) is not bounded above by any total computable function. Hence no function of minimal presentation complexity alone can bound fibre recognition or membership-verification cost in general.
 \end{corollary}
 
 \begin{proof}
@@ -1988,7 +1990,7 @@ d_u\equiv\ast
 \quad\Longleftrightarrow\quad
 u\in S,
 \]
-and let \(\mathcal X=\mathcal D/\!\equiv\), with \(\rho:\mathcal D\to\mathcal X\) the quotient map. Put \(\kappa(\ast)=0\) and \(\kappa(d_u)=1+|u|\). For \(x=\rho(\ast)\), one has \(C_\Gamma(x)=0\), while \(d_u\in\mathfrak F_\rho(x)\) exactly when \(u\in S\). The unbounded certificate-length principle gives the claimed nonrecursive growth.
+and let \(\mathcal X=\mathcal D/\!\equiv\), with \(\rho:\mathcal D\to\mathcal X\) the quotient map. Put \(\kappa(\ast)=0\) and \(\kappa(d_u)=1+|u|\). For \(x=\rho(\ast)\), one has \(C_\Gamma(x)=0\), while \(d_u\in\mathfrak F_\rho(x)\) exactly when \(u\in S\). The unbounded verification-length principle gives the claimed nonrecursive growth.
 \end{proof}
 
 This construction is deliberately schematic. Natural non-collapse examples require specific undecidability or lower-bound results.

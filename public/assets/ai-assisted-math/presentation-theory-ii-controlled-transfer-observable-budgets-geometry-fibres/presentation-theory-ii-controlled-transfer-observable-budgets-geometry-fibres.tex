@@ -34,7 +34,7 @@
 \begin{abstract}
 The first note on Presentation Theory introduced presentation systems, bounded parts, realization fibres, observables, observable costs, and normal-form compilers. This sequel develops the transfer calculus. A map between mathematical worlds is useful for Presentation Theory only when it controls access: descriptions, observables, operations, verification data, and fibres. We package this structure as a transfer package.
 
-The formal part proves reusable transfer principles. A presentation morphism sends bounded source objects to bounded target objects with controlled overhead. Its optimal distortion profile composes along paths. Observable-compatible morphisms pull back bounded observable images and distinguishing-cost lower bounds. Operation-compatible morphisms transport term constructions. Base-fibre decompositions split complexity into a base cost and a relative fibre cost when assembly and extraction are controlled. Verification relations transfer proof data in the directions supplied by the package. These ingredients assemble into a controlled transfer metatheorem for universal statements in a budgeted fragment.
+The formal part proves reusable transfer principles. A presentation morphism sends bounded source objects to bounded target objects with controlled overhead. Its optimal distortion profile composes along paths. Observable-compatible morphisms pull back bounded observable images and distinguishing-cost lower bounds. Operation-compatible morphisms transport term constructions. Base-fibre decompositions split complexity into a base cost and a relative fibre cost when assembly and extraction are controlled. Verification relations transfer proof data in the directions supplied by the package. These ingredients assemble into a controlled transfer schema for universal statements in a budgeted fragment.
 
 The sequel then isolates several engines that recur across applications. Fragmented positive predicates have optimal resource profiles of the same Turing degree as the underlying decision problem. Finite-window systems turn undecidable global existence into non-computable obstruction radii. Undecidable threshold problems for computable limiting quantities forbid computable convergence moduli. Move-connected presentation fibres have bridge-height profiles of the same Turing degree as recognition of the fibre. Rank-profile compilers transfer Murphy-type universality into fibres of observables. Wild-fibre compilers place matrix-pair classification problems inside fixed observable fibres. A budgeted Morita principle records when two presentation contexts have the same quantitative theory up to a chosen overhead class.
 
@@ -78,6 +78,10 @@ with the usual or coordinatewise orders. The scale records costs such as length,
 \begin{definition}[Overhead class]
 An overhead class \(\mathcal H\) between resource scales is a collection of monotone maps between resource scales, containing identities and closed under composition. Typical choices are linear, polynomial, primitive recursive, computable, or arbitrary monotone overheads.
 \end{definition}
+
+\begin{remark}[Admissible overheads]
+An overhead function is part of the declared comparison data. It is not required to be optimal, but it must be compatible with the resource scales under consideration and monotone with respect to their orders. In effective settings one usually restricts to computable overheads; in quantitative complexity settings one may restrict further to linear, polynomial, or primitive recursive overheads. The distortion profile records the possible overheads for a given comparison, while a chosen function \(f\) records a specific upper bound.
+\end{remark}
 
 \begin{definition}[Presentation system]
 A presentation system on an object class \(\mathcal X\) is a triple
@@ -156,7 +160,7 @@ If
 \[
 \omega(x)\notin S_b,
 \]
-then \(x\notin\mathcal X_\Gamma^{\leq b}\). In particular, when \(C_\Gamma\) is defined, \(C_\Gamma(x)>b\).
+then \(x\notin\mathcal X_\Gamma^{\leq b}\). In particular, when \(C_\Gamma\) is defined, \(C_\Gamma(x)\nleq b\). In a totally ordered numerical scale this may be written \(C_\Gamma(x)>b\).
 \end{proposition}
 
 \begin{proof}
@@ -215,10 +219,11 @@ is a declared verification relation satisfying
 \[
 R_P(x,\pi)\Longrightarrow x\in P.
 \]
-The verification cost of \(x\in P\) is
+The layer is complete on a subclass \(P_0\subseteq P\) if every \(x\in P_0\) admits some \(\pi\) with \(R_P(x,\pi)\). The verification cost of \(x\in P\) is
 \[
 v_P(x)=\inf\{\lambda(\pi):R_P(x,\pi)\}.
 \]
+If the displayed set is empty, \(v_P(x)\) is interpreted as \(\infty\) in the extended resource scale. All overhead functions used with verification costs are understood to extend by \(h(\infty)=\infty\).
 \end{definition}
 
 \begin{definition}[Realization fibre]
@@ -258,6 +263,7 @@ and
 \leq
 f(\kappa_\mathcal X(d)).
 \]
+Here \(f\) is a monotone map from the source resource scale to the target resource scale.
 \end{definition}
 
 \begin{theorem}[Elementary transfer of bounded parts]
@@ -277,7 +283,7 @@ C_{\Gamma_\mathcal Y}(F(x))
 \leq
 f(C_{\Gamma_\mathcal X}(x))
 \]
-whenever the displayed quantities are defined and \(f\) is monotone.
+whenever the displayed quantities are defined and either minimum costs are attained, or \(f\) is compatible with the relevant infimum. In particular, the statement holds in the usual discrete well-ordered cost scales.
 \end{theorem}
 
 \begin{proof}
@@ -297,10 +303,11 @@ and
 \]
 Thus \(F(x)\in\mathcal Y_{\Gamma_\mathcal Y}^{\leq f(b)}\).
 
-For the complexity inequality, choose descriptions of \(x\) with cost arbitrarily close to \(C_{\Gamma_\mathcal X}(x)\), apply the first part, and take the infimum. In well-ordered scales this is simply the same argument with a minimum-cost description.
+For the complexity inequality in a discrete well-ordered scale, apply the first part to a minimum-cost description of \(x\). In the infimum formulation, the same conclusion follows under the stated compatibility of \(f\) with the relevant infimum.
 \end{proof}
 
 \begin{corollary}[Reflection of lower bounds]
+Assume a totally ordered numerical resource scale, or read \(>\) below as ``not \(\leq\)'' in the declared preorder.
 If
 \[
 C_{\Gamma_\mathcal Y}(F(x))>f(b),
@@ -636,21 +643,39 @@ Let
 \[
 q:\mathcal X\to\mathcal Y.
 \]
-A relative presentation theory for the fibres of \(q\) assigns to each \(y\in\mathcal Y\) a class of relative descriptions of objects in \(q^{-1}(y)\), with a relative cost. The relative complexity is denoted
+A relative presentation theory for the fibres of \(q\) assigns to each \(y\in\mathcal Y\) a class \(\mathcal H_y\) of relative descriptions, a relative realization map
+\[
+\rho_y^{\mathrm{rel}}:\mathcal H_y\to q^{-1}(y),
+\]
+and a relative cost
+\[
+\kappa_y^{\mathrm{rel}}:\mathcal H_y\to B_{\mathrm{rel}}.
+\]
+The relative complexity is denoted
 \[
 C_{\mathrm{rel}}(x\mid q(x)).
 \]
 \end{definition}
 
 \begin{definition}[Controlled assembly]
-The map \(q\) has controlled assembly with overhead \(A\) if a description of \(q(x)\), together with a relative description of \(x\) over \(q(x)\), can be assembled into a description of \(x\) of cost at most
+The map \(q\) has controlled assembly with overhead \(A\) if there is an assembly procedure
 \[
-A(C_\mathcal Y(q(x)),C_{\mathrm{rel}}(x\mid q(x))).
+\operatorname{Asm}(e,h)\in\mathcal D_\mathcal X
+\]
+defined whenever \(e\) is a description of \(y\in\mathcal Y\) and \(h\in\mathcal H_y\), such that
+\[
+\rho_\mathcal X(\operatorname{Asm}(e,h))=\rho_y^{\mathrm{rel}}(h)
+\]
+and
+\[
+\kappa_\mathcal X(\operatorname{Asm}(e,h))
+\leq
+A(\kappa_\mathcal Y(e),\kappa_y^{\mathrm{rel}}(h)).
 \]
 \end{definition}
 
 \begin{theorem}[Upper base-fibre bound]
-If \(q\) has controlled assembly, then
+If \(q\) has controlled assembly and either the relevant minimum costs are attained or \(A\) is compatible with the corresponding infima, then
 \[
 C_\mathcal X(x)
 \leq
@@ -659,19 +684,29 @@ A(C_\mathcal Y(q(x)),C_{\mathrm{rel}}(x\mid q(x))).
 \end{theorem}
 
 \begin{proof}
-Choose a description of \(q(x)\) and a relative description of \(x\) over \(q(x)\). Applying the assembly procedure gives a description of \(x\) with the displayed cost. Taking infima over the two input descriptions gives the result.
+Choose a description \(e\) of \(q(x)\) and a relative description \(h\) of \(x\) over \(q(x)\). Applying the assembly procedure gives a description of \(x\) with cost at most
+\[
+A(\kappa_\mathcal Y(e),\kappa_{q(x)}^{\mathrm{rel}}(h)).
+\]
+Taking infima over the two input descriptions gives the displayed bound, whenever the infima are attained or the overhead \(A\) is compatible with the relevant infima. In the usual discrete cost scales this is the same argument with minimum-cost descriptions.
 \end{proof}
 
 \begin{definition}[Controlled extraction]
-The map \(q\) has controlled extraction if every description of \(x\) yields:
+The map \(q\) has controlled extraction if every description \(d\in\mathcal D_\mathcal X\) of an object \(x\) yields:
 \begin{enumerate}[label=(\roman*)]
-\item a description of \(q(x)\) with overhead \(a\);
-\item a relative description of \(x\mid q(x)\) with overhead \(r\).
+\item a description \(\operatorname{Base}(d)\) of \(q(x)\) satisfying
+\[
+\kappa_\mathcal Y(\operatorname{Base}(d))\leq a(\kappa_\mathcal X(d));
+\]
+\item a relative description \(\operatorname{Rel}(d)\in\mathcal H_{q(x)}\) of \(x\) satisfying
+\[
+\kappa_{q(x)}^{\mathrm{rel}}(\operatorname{Rel}(d))\leq r(\kappa_\mathcal X(d)).
+\]
 \end{enumerate}
 \end{definition}
 
 \begin{theorem}[Lower base-fibre bounds]
-If \(q\) has controlled extraction, then
+If \(q\) has controlled extraction and either the relevant minimum costs are attained or the overheads \(a\) and \(r\) are compatible with the corresponding infima, then
 \[
 C_\mathcal Y(q(x))\leq a(C_\mathcal X(x))
 \]
@@ -681,20 +716,21 @@ C_{\mathrm{rel}}(x\mid q(x))\leq r(C_\mathcal X(x)).
 \]
 Consequently,
 \[
-C_\mathcal Y(q(x))>a(b)\Longrightarrow C_\mathcal X(x)>b,
+C_\mathcal Y(q(x))\nleq a(b)\Longrightarrow C_\mathcal X(x)\nleq b,
 \]
 and
 \[
-C_{\mathrm{rel}}(x\mid q(x))>r(b)\Longrightarrow C_\mathcal X(x)>b.
+C_{\mathrm{rel}}(x\mid q(x))\nleq r(b)\Longrightarrow C_\mathcal X(x)\nleq b.
 \]
+In totally ordered numerical scales the last two implications may be written with \(>\).
 \end{theorem}
 
 \begin{proof}
-Apply extraction to a description of \(x\) of cost at most \(b\). If \(C_\mathcal X(x)\leq b\), then the extracted base and relative descriptions have costs at most \(a(b)\) and \(r(b)\). The displayed implications are contrapositives.
+In the minimum-cost case, apply extraction to a minimum-cost description of \(x\). The extracted base and relative descriptions have costs controlled by \(a\) and \(r\), giving the two upper bounds. The infimum version follows under the stated compatibility assumptions. The displayed implications are contrapositives.
 \end{proof}
 
 \begin{corollary}[Coarse base-fibre decomposition]
-If both assembly and extraction are controlled in an overhead class \(\mathcal H\), then \(C_\mathcal X(x)\) is equivalent, up to \(\mathcal H\)-distortion, to the joint data of \(C_\mathcal Y(q(x))\) and \(C_{\mathrm{rel}}(x\mid q(x))\).
+If both assembly and extraction are controlled in an overhead class \(\mathcal H\), and the relevant minimum or infimum hypotheses above hold, then \(C_\mathcal X(x)\) is equivalent, up to \(\mathcal H\)-distortion, to the joint data of \(C_\mathcal Y(q(x))\) and \(C_{\mathrm{rel}}(x\mid q(x))\).
 \end{corollary}
 
 \section{Verification Transfer}
@@ -740,7 +776,7 @@ p(\lambda_\mathcal X(\pi_\mathcal X)).
 \end{definition}
 
 \begin{theorem}[Upper transfer for verification cost]
-If a verification pullback exists with overhead \(h\), then
+If a verification pullback exists with overhead \(h\), then, in the extended resource scale and under the usual minimum or infimum-compatibility hypotheses,
 \[
 v_{P_\mathcal X}(x)
 \leq
@@ -749,11 +785,11 @@ h(v_{P_\mathcal Y}(F(x))).
 \end{theorem}
 
 \begin{proof}
-Pull back target verification data for \(F(x)\) and use the overhead bound. Taking the infimum over target data gives the inequality.
+If \(F(x)\) has no target verification data, then \(v_{P_\mathcal Y}(F(x))=\infty\) and the inequality is vacuous after extending \(h(\infty)=\infty\). Otherwise pull back arbitrary target verification data for \(F(x)\) and use the overhead bound. Taking the infimum over target data gives the inequality whenever the infimum operation is compatible with \(h\); in discrete cost scales this follows by taking minimum-cost data.
 \end{proof}
 
 \begin{theorem}[Lower transfer for verification cost]
-If a verification pushforward exists with overhead \(p\), then
+If a verification pushforward exists with overhead \(p\), then, in the extended resource scale and under the usual minimum or infimum-compatibility hypotheses,
 \[
 v_{P_\mathcal Y}(F(x))
 \leq
@@ -761,14 +797,15 @@ p(v_{P_\mathcal X}(x)).
 \]
 Hence
 \[
-v_{P_\mathcal Y}(F(x))>p(s)
+v_{P_\mathcal Y}(F(x))\nleq p(s)
 \Longrightarrow
-v_{P_\mathcal X}(x)>s.
+v_{P_\mathcal X}(x)\nleq s.
 \]
+In totally ordered numerical scales the last implication may be written with \(>\).
 \end{theorem}
 
 \begin{proof}
-Push forward source verification data and take infima. The lower-bound statement is the contrapositive.
+If \(x\) has no source verification data, then \(v_{P_\mathcal X}(x)=\infty\) and the first inequality is vacuous after extending \(p(\infty)=\infty\). Otherwise push forward arbitrary source verification data and use the overhead bound. Taking infima gives the inequality whenever the infimum operation is compatible with \(p\); in discrete cost scales this follows from minimum-cost data. The lower-bound statement is the contrapositive.
 \end{proof}
 
 \section{Transfer Packages}
@@ -875,7 +912,9 @@ if every atom and bounded quantifier appearing in the formula is supported by th
 
 For example, formulas involving bounded objects require presentation overhead; formulas involving observables require observable pullback; formulas involving verification data require verification transfer; target existential quantifiers require a controlled lifting or section; classification statements require reflection or fibre data.
 
-\begin{theorem}[Controlled transfer metatheorem]
+The next statement is a theorem schema. Once a concrete budgeted language and its translation rules have been fixed, it becomes an ordinary induction on formulas.
+
+\begin{theorem}[Controlled transfer schema]
 Let
 \[
 \mathfrak T:\mathfrak P_\mathcal X\to\mathfrak P_\mathcal Y
@@ -1273,13 +1312,13 @@ for every \(N\geq M(e,\varepsilon)\).
 \begin{proof}
 Suppose such an \(M\) exists. Choose a rational
 \[
-0<\varepsilon<\frac{\beta-\alpha}{3}.
+0<\varepsilon<\frac{\beta-\alpha}{4}.
 \]
 Given \(e\), compute
 \[
 N=M(e,\varepsilon).
 \]
-Compute \(a_{e,N}\) to error less than \(\varepsilon\). If the computed approximation is above \((\alpha+\beta)/2\), answer \(a_e\geq\beta\); if it is below \((\alpha+\beta)/2\), answer \(a_e\leq\alpha\). The two promised cases are separated by more than \(2\varepsilon\), so the answer is correct. This decides the promised threshold problem, contradiction.
+Compute \(a_{e,N}\) to error less than \(\varepsilon\). In the case \(a_e\leq\alpha\), the computed value is at most \(\alpha+2\varepsilon\), which is below \((\alpha+\beta)/2\). In the case \(a_e\geq\beta\), the computed value is at least \(\beta-2\varepsilon\), which is above \((\alpha+\beta)/2\). Comparing with the midpoint therefore decides the promised threshold problem, contradiction.
 \end{proof}
 
 \begin{theorem}[No computable finite-dimensional strategy budget]
@@ -1287,7 +1326,11 @@ For the families of finite nonlocal games arising from the \( \mathrm{MIP}^{\ast
 \[
 D(G,\varepsilon)
 \]
-such that strategies of local Hilbert-space dimension at most \(D(G,\varepsilon)\) approximate the entangled value \(\omega_q(G)\) to within \(\varepsilon\) for every game \(G\) in the family.
+such that
+\[
+\omega_q(G)-\omega_{\leq D(G,\varepsilon)}(G)\leq\varepsilon
+\]
+for every game \(G\) in the family and every rational \(\varepsilon>0\).
 \end{theorem}
 
 \begin{proof}
@@ -1300,13 +1343,21 @@ denote the supremal winning probability over strategies of local dimension at mo
 \omega_q(G)=\sup_d\omega_{\leq d}(G).
 \]
 
-If a computable dimension budget \(D(G,\varepsilon)\) existed, then \(\omega_q(G)\) would be computably approximable to arbitrary prescribed precision: compute \(d=D(G,\varepsilon)\) and approximate the finite-dimensional value \(\omega_{\leq d}(G)\). In particular, every constant-gap promise problem
+If a computable dimension budget \(D(G,\varepsilon)\) existed, then \(\omega_q(G)\) would be computably approximable to arbitrary prescribed precision: compute \(d=D(G,\varepsilon)\) and approximate the finite-dimensional value \(\omega_{\leq d}(G)\). For a constant-gap promise
 \[
 \omega_q(G)\leq\alpha
 \qquad\text{or}\qquad
 \omega_q(G)\geq\beta
 \]
-would be decidable. This contradicts the undecidability consequence of \( \mathrm{MIP}^{\ast}=\mathrm{RE}\), which gives finite nonlocal games with undecidable constant-gap entangled-value thresholds.
+with \(\alpha<\beta\), choose \(0<\varepsilon<(\beta-\alpha)/4\), compute \(d=D(G,\varepsilon)\), and approximate \(\omega_{\leq d}(G)\) to error less than \(\varepsilon\). Since
+\[
+\omega_{\leq d}(G)\leq \omega_q(G)
+\]
+and
+\[
+\omega_q(G)-\omega_{\leq d}(G)\leq\varepsilon,
+\]
+the same midpoint comparison as in the previous theorem decides the promised threshold. This contradicts the undecidability consequence of \( \mathrm{MIP}^{\ast}=\mathrm{RE}\), which gives finite nonlocal games with undecidable constant-gap entangled-value thresholds.
 \end{proof}
 
 \section{Move-Fibre Recognition}
@@ -1466,7 +1517,7 @@ If \(\mathfrak P\) and \(\mathfrak Q\) are \(\mathcal H\)-Morita equivalent, the
 \end{proposition}
 
 \begin{proof}
-Apply the controlled transfer metatheorem to the package \(\mathfrak P\to\mathfrak Q\) and then to the package \(\mathfrak Q\to\mathfrak P\). The comparison data for the composites identify the transported statements with the original ones, while the closure of \(\mathcal H\) under composition keeps the resulting overheads inside \(\mathcal H\). The listed profiles are defined by bounded existential or universal statements over the layers explicitly preserved by the equivalence, so their upper and lower bounds transport in both directions.
+Apply the controlled transfer schema to the package \(\mathfrak P\to\mathfrak Q\) and then to the package \(\mathfrak Q\to\mathfrak P\). The comparison data for the composites identify the transported statements with the original ones, while the closure of \(\mathcal H\) under composition keeps the resulting overheads inside \(\mathcal H\). The listed profiles are defined by bounded existential or universal statements over the layers explicitly preserved by the equivalence, so their upper and lower bounds transport in both directions.
 \end{proof}
 
 \section{Transfer Graphs}
@@ -2269,7 +2320,7 @@ In proof theory, algebraic geometry, and symbolic computation, transfer packages
 
 Presentation Theory begins with descriptions, realization maps, costs, observables, and fibres. This sequel develops the transfer calculus. A map between mathematical worlds becomes powerful when it controls access: descriptions, observable budgets, operations, verification data, and fibre geometry.
 
-The controlled transfer metatheorem turns this into a reusable mechanism. Every theorem written in an interpretable budgeted fragment transfers with the corresponding overheads. Fragmented positive predicates convert undecidability into non-computable resource profiles. Finite-window systems convert undecidable global existence into non-computable obstruction radii. Computable limiting systems convert undecidable threshold problems into failures of computable convergence moduli. Move-connected fibres convert recognition problems into bridge-height profiles. Rank-profile compilers convert incidence universality into Murphy-type fibres of observables. Wild-fibre compilers convert matrix-pair classification into fixed-fibre classification lower bounds.
+The controlled transfer schema turns this into a reusable mechanism. Every theorem written in an interpretable budgeted fragment transfers with the corresponding overheads. Fragmented positive predicates convert undecidability into non-computable resource profiles. Finite-window systems convert undecidable global existence into non-computable obstruction radii. Computable limiting systems convert undecidable threshold problems into failures of computable convergence moduli. Move-connected fibres convert recognition problems into bridge-height profiles. Rank-profile compilers convert incidence universality into Murphy-type fibres of observables. Wild-fibre compilers convert matrix-pair classification into fixed-fibre classification lower bounds.
 
 The applications show that these mechanisms convert universality and undecidability phenomena into quantitative statements about mathematical access: singular observable fibres, wild fixed-profile fibres, \(\exists\mathbb R\)-complete realization problems, non-computable finite-model and Diophantine search profiles, proof-length and Dehn-area explosion, non-computable time and ambiguity profiles, non-computable finite-window and convergence-modulus bounds, non-computable observable budgets, and non-recursive navigation heights inside single fibres.
 
