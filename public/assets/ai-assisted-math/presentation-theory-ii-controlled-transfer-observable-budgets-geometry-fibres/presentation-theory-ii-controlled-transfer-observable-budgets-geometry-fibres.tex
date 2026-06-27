@@ -1,0 +1,2381 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.05in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Fin}{Fin}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\height}{ht}
+\DeclareMathOperator{\Rec}{Rec}
+
+\title{Presentation Theory II: Controlled Transfer, Observable Budgets, and the Geometry of Fibres}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The first note on Presentation Theory introduced presentation systems, bounded parts, realization fibres, observables, observable costs, and normal-form compilers. This sequel develops the transfer calculus. A map between mathematical worlds is useful for Presentation Theory only when it controls access: descriptions, observables, operations, verification data, and fibres. We package this structure as a transfer package.
+
+The formal part proves reusable transfer principles. A presentation morphism sends bounded source objects to bounded target objects with controlled overhead. Its optimal distortion profile composes along paths. Observable-compatible morphisms pull back bounded observable images and distinguishing-cost lower bounds. Operation-compatible morphisms transport term constructions. Base-fibre decompositions split complexity into a base cost and a relative fibre cost when assembly and extraction are controlled. Verification relations transfer proof data in the directions supplied by the package. These ingredients assemble into a controlled transfer metatheorem for universal statements in a budgeted fragment.
+
+The sequel then isolates several engines that recur across applications. Fragmented positive predicates have optimal resource profiles of the same Turing degree as the underlying decision problem. Finite-window systems turn undecidable global existence into non-computable obstruction radii. Undecidable threshold problems for computable limiting quantities forbid computable convergence moduli. Move-connected presentation fibres have bridge-height profiles of the same Turing degree as recognition of the fibre. Rank-profile compilers transfer Murphy-type universality into fibres of observables. Wild-fibre compilers place matrix-pair classification problems inside fixed observable fibres. A budgeted Morita principle records when two presentation contexts have the same quantitative theory up to a chosen overhead class.
+
+The applications cover finite models, Diophantine equations, proof length, Dehn area, cellular automata, grammar ambiguity, matrix mortality, Wang tilings, nonlocal games, multiparameter persistence, rank-derived invariants, finite poset sheaves, quiver representations, finite group quotients, finite linear representations, Pachner moves, and Tietze moves. The common point is that transfer turns qualitative universality and undecidability results into quantitative statements about observable budgets and fibre geometry.
+\end{abstract}
+
+\section{Purpose}
+
+Presentation Theory studies mathematical objects through access systems:
+\[
+\text{descriptions}\longrightarrow\text{objects}.
+\]
+A presentation system tells us which descriptions are allowed, how they realize objects, and what they cost. Observables then extract information from objects, often with their own cost. Realization maps and observable maps have fibres, and those fibres measure the information forgotten by the chosen access system.
+
+The first note developed this basic language. This note studies the next question:
+\[
+\text{when can a block of mathematics be transported from one presentation context to another?}
+\]
+A plain map of object classes is rarely enough. If one wants to transport lower bounds, reconstruction statements, non-computability results, or fibre geometry, the map must control descriptions, observables, operations, verification data, and fibres. The resulting object is a transfer package.
+
+The guiding principle is:
+\[
+\begin{gathered}
+\text{a map transports objects;}\\
+\text{a transfer package transports access to objects.}
+\end{gathered}
+\]
+
+\section{Presentation Systems}
+
+We recall the basic objects, using notation compatible with the first note.
+
+\begin{definition}[Resource scale]
+A resource scale is a preordered set \((B,\leq)\). Examples include
+\[
+\mathbb N,\qquad \mathbb N^k,\qquad \mathbb R_{\geq0},
+\]
+with the usual or coordinatewise orders. The scale records costs such as length, degree, height, arity, number of generators, number of relations, circuit size, proof length, or a vector of several resources.
+\end{definition}
+
+\begin{definition}[Overhead class]
+An overhead class \(\mathcal H\) between resource scales is a collection of monotone maps between resource scales, containing identities and closed under composition. Typical choices are linear, polynomial, primitive recursive, computable, or arbitrary monotone overheads.
+\end{definition}
+
+\begin{definition}[Presentation system]
+A presentation system on an object class \(\mathcal X\) is a triple
+\[
+\Gamma=(\mathcal D,\rho,\kappa),
+\]
+where \(\mathcal D\) is a class of descriptions,
+\[
+\rho:\mathcal D\to\mathcal X
+\]
+is a realization map, and
+\[
+\kappa:\mathcal D\to B
+\]
+is a cost function.
+\end{definition}
+
+If \(\mathcal X\) is studied up to an equivalence relation \(\equiv_\mathcal X\), then \(\rho(d)=x\) means \(\rho(d)\equiv_\mathcal X x\).
+
+\begin{definition}[Bounded parts]
+For \(b\in B\), define
+\[
+\mathcal D^{\leq b}=\{d\in\mathcal D:\kappa(d)\leq b\}
+\]
+and
+\[
+\mathcal X_\Gamma^{\leq b}
+=
+\{x\in\mathcal X:\exists d\in\mathcal D,\ \rho(d)=x,\ \kappa(d)\leq b\}.
+\]
+When the infimum exists, the presentation complexity of \(x\) is
+\[
+C_\Gamma(x)=\inf\{\kappa(d):\rho(d)=x\}.
+\]
+\end{definition}
+
+The filtration \(b\mapsto \mathcal X_\Gamma^{\leq b}\) is often more fundamental than the numerical complexity \(C_\Gamma\), especially for vector-valued or partially ordered resource scales.
+
+\section{Observable Systems}
+
+Descriptions produce objects. Observables extract information from objects.
+
+\begin{definition}[Observable system]
+An observable system on \(\mathcal X\) is a triple
+\[
+\mathfrak O=(\Omega,\chi,R),
+\]
+where \(\Omega\) is a class of observables
+\[
+\omega:\mathcal X\to A_\omega,
+\]
+\(\chi:\Omega\to R\) is an observable-cost function, and \(R\) is a resource scale. For \(r\in R\), write
+\[
+\Omega^{\leq r}=\{\omega\in\Omega:\chi(\omega)\leq r\}.
+\]
+\end{definition}
+
+Examples of observable cost include arity of a word-count invariant, size of a finite test object, degree of a polynomial probe, rank of a linear representation, number of samples, quantifier rank, or matrix dimension.
+
+\begin{definition}[Bounded observable image]
+Given a presentation system \(\Gamma\) and an observable \(\omega\), define
+\[
+\operatorname{Val}_{\Gamma,\omega}(b)
+=
+\omega(\mathcal X_\Gamma^{\leq b})\subseteq A_\omega.
+\]
+This is the set of observable values attained by objects with descriptions of cost at most \(b\).
+\end{definition}
+
+\begin{proposition}[Bounded-image obstruction]
+Suppose \(S_b\subseteq A_\omega\) satisfies
+\[
+\operatorname{Val}_{\Gamma,\omega}(b)\subseteq S_b.
+\]
+If
+\[
+\omega(x)\notin S_b,
+\]
+then \(x\notin\mathcal X_\Gamma^{\leq b}\). In particular, when \(C_\Gamma\) is defined, \(C_\Gamma(x)>b\).
+\end{proposition}
+
+\begin{proof}
+If \(x\in\mathcal X_\Gamma^{\leq b}\), then by definition \(x\) is in the bounded class. Applying \(\omega\) gives
+\[
+\omega(x)\in\omega(\mathcal X_\Gamma^{\leq b})
+=
+\operatorname{Val}_{\Gamma,\omega}(b)
+\subseteq S_b.
+\]
+The stated implication is the contrapositive.
+\end{proof}
+
+\begin{definition}[Distinguishing cost]
+For \(x,x'\in\mathcal X\), define
+\[
+dc_{\mathfrak O}(x,x')
+=
+\inf\{\chi(\omega):\omega(x)\ne\omega(x')\}.
+\]
+If no allowed observable distinguishes \(x\) and \(x'\), set \(dc_{\mathfrak O}(x,x')=\infty\).
+\end{definition}
+
+\section{Presentation Contexts}
+
+A presentation system alone does not record all structures needed for transfer.
+
+\begin{definition}[Presentation context]
+A presentation context is a tuple
+\[
+\mathfrak P=(\mathcal X,\Gamma,\mathfrak O,\Sigma,\mathfrak V,\mathfrak F,\mathfrak M),
+\]
+where:
+\begin{enumerate}[label=(\roman*)]
+\item \(\mathcal X\) is an object class;
+\item \(\Gamma=(\mathcal D,\rho,\kappa)\) is a presentation system;
+\item \(\mathfrak O=(\Omega,\chi,R)\) is an observable system;
+\item \(\Sigma\) is a collection of operations or constructions on \(\mathcal X\);
+\item \(\mathfrak V\) is a verification layer, when proof data are part of the context;
+\item \(\mathfrak F\) is a chosen structure on realization fibres;
+\item \(\mathfrak M\), when present, is a family of measures or densities on bounded classes.
+\end{enumerate}
+Only the components actually supplied by a context are used.
+\end{definition}
+
+\begin{definition}[Verification relation]
+For a property \(P\subseteq\mathcal X\), a verification layer consists of data
+\[
+(\Pi,\lambda,R_P),
+\]
+where \(\Pi\) is a class of proof or verification data, \(\lambda:\Pi\to S\) is a cost, and
+\[
+R_P(x,\pi)
+\]
+is a declared verification relation satisfying
+\[
+R_P(x,\pi)\Longrightarrow x\in P.
+\]
+The verification cost of \(x\in P\) is
+\[
+v_P(x)=\inf\{\lambda(\pi):R_P(x,\pi)\}.
+\]
+\end{definition}
+
+\begin{definition}[Realization fibre]
+For \(\Gamma=(\mathcal D,\rho,\kappa)\), the fibre over \(x\in\mathcal X\) is
+\[
+\mathcal F_\rho(x)=\{d\in\mathcal D:\rho(d)=x\}.
+\]
+If a move system is specified on \(\mathcal D\), each fibre becomes a graph. Its geometry measures the cost of moving between descriptions of the same object.
+\end{definition}
+
+\section{Presentation Morphisms}
+
+\begin{definition}[Presentation morphism]
+Let
+\[
+\Gamma_\mathcal X=(\mathcal D_\mathcal X,\rho_\mathcal X,\kappa_\mathcal X)
+\]
+and
+\[
+\Gamma_\mathcal Y=(\mathcal D_\mathcal Y,\rho_\mathcal Y,\kappa_\mathcal Y)
+\]
+be presentation systems. A presentation morphism with overhead \(f\) is a pair
+\[
+(F,\widehat F):\Gamma_\mathcal X\to\Gamma_\mathcal Y,
+\]
+where \(F:\mathcal X\to\mathcal Y\) is a map on objects and
+\[
+\widehat F:\mathcal D_\mathcal X\to\mathcal D_\mathcal Y
+\]
+is a compiler satisfying
+\[
+\rho_\mathcal Y(\widehat F(d))=F(\rho_\mathcal X(d))
+\]
+and
+\[
+\kappa_\mathcal Y(\widehat F(d))
+\leq
+f(\kappa_\mathcal X(d)).
+\]
+\end{definition}
+
+\begin{theorem}[Elementary transfer of bounded parts]
+If
+\[
+(F,\widehat F):\Gamma_\mathcal X\to\Gamma_\mathcal Y
+\]
+is a presentation morphism with overhead \(f\), then
+\[
+F(\mathcal X_{\Gamma_\mathcal X}^{\leq b})
+\subseteq
+\mathcal Y_{\Gamma_\mathcal Y}^{\leq f(b)}.
+\]
+Consequently,
+\[
+C_{\Gamma_\mathcal Y}(F(x))
+\leq
+f(C_{\Gamma_\mathcal X}(x))
+\]
+whenever the displayed quantities are defined and \(f\) is monotone.
+\end{theorem}
+
+\begin{proof}
+Let \(x\in\mathcal X_{\Gamma_\mathcal X}^{\leq b}\). Choose \(d\in\mathcal D_\mathcal X\) such that
+\[
+\rho_\mathcal X(d)=x,\qquad \kappa_\mathcal X(d)\leq b.
+\]
+The compiler gives
+\[
+\rho_\mathcal Y(\widehat F(d))=F(x)
+\]
+and
+\[
+\kappa_\mathcal Y(\widehat F(d))
+\leq f(\kappa_\mathcal X(d))
+\leq f(b).
+\]
+Thus \(F(x)\in\mathcal Y_{\Gamma_\mathcal Y}^{\leq f(b)}\).
+
+For the complexity inequality, choose descriptions of \(x\) with cost arbitrarily close to \(C_{\Gamma_\mathcal X}(x)\), apply the first part, and take the infimum. In well-ordered scales this is simply the same argument with a minimum-cost description.
+\end{proof}
+
+\begin{corollary}[Reflection of lower bounds]
+If
+\[
+C_{\Gamma_\mathcal Y}(F(x))>f(b),
+\]
+then
+\[
+C_{\Gamma_\mathcal X}(x)>b.
+\]
+\end{corollary}
+
+\section{Distortion Profiles}
+
+The declared overhead of a compiler need not be optimal.
+
+\begin{definition}[Distortion upper set]
+Let \(F:\mathcal X\to\mathcal Y\) be a map between object classes equipped with presentation systems \(\Gamma\) and \(\Delta\). Define
+\[
+\operatorname{Dist}_{F,\Gamma\to\Delta}(b)
+=
+\{c:F(\mathcal X_\Gamma^{\leq b})\subseteq \mathcal Y_\Delta^{\leq c}\}.
+\]
+When this upper set has a least element, write it as
+\[
+|F|_{\Gamma\to\Delta}(b).
+\]
+\end{definition}
+
+\begin{proposition}[Minimality]
+If \(F\) is realized by a compiler with overhead \(f\), then
+\[
+f(b)\in \operatorname{Dist}_{F,\Gamma\to\Delta}(b)
+\]
+for every \(b\). If the least element exists, then
+\[
+|F|_{\Gamma\to\Delta}(b)\leq f(b).
+\]
+\end{proposition}
+
+\begin{proof}
+This is exactly the bounded-part transfer theorem.
+\end{proof}
+
+\begin{theorem}[Composition of distortion]
+Let
+\[
+\mathcal X\xrightarrow{F}\mathcal Y\xrightarrow{G}\mathcal Z
+\]
+be maps between presentation systems \(\Gamma,\Delta,\Theta\). If
+\[
+c\in\operatorname{Dist}_{F,\Gamma\to\Delta}(b)
+\]
+and
+\[
+d\in\operatorname{Dist}_{G,\Delta\to\Theta}(c),
+\]
+then
+\[
+d\in\operatorname{Dist}_{G\circ F,\Gamma\to\Theta}(b).
+\]
+In particular, when least elements exist,
+\[
+|G\circ F|_{\Gamma\to\Theta}(b)
+\leq
+|G|_{\Delta\to\Theta}\bigl(|F|_{\Gamma\to\Delta}(b)\bigr).
+\]
+If \(F\) and \(G\) are realized by compilers with overheads \(f\) and \(g\), then \(G\circ F\) is realized by the composed compiler with overhead \(g\circ f\).
+\end{theorem}
+
+\begin{proof}
+Take \(x\in\mathcal X_\Gamma^{\leq b}\). Since \(c\) controls \(F\),
+\[
+F(x)\in\mathcal Y_\Delta^{\leq c}.
+\]
+Since \(d\) controls \(G\) on the \(c\)-bounded target class,
+\[
+G(F(x))\in\mathcal Z_\Theta^{\leq d}.
+\]
+This proves the upper-set statement. The least-element inequality follows by substituting the least available \(c\) and then the least available \(d\).
+
+For compilers, define
+\[
+\widehat{G\circ F}=\widehat G\circ\widehat F.
+\]
+Then
+\[
+\rho_\mathcal Z(\widehat G(\widehat F(d)))
+=
+G(F(\rho_\mathcal X(d)))
+\]
+and
+\[
+\kappa_\mathcal Z(\widehat G(\widehat F(d)))
+\leq
+g(\kappa_\mathcal Y(\widehat F(d)))
+\leq
+g(f(\kappa_\mathcal X(d))).
+\]
+\end{proof}
+
+\section{Controlled Simulations}
+
+\begin{definition}[Controlled simulation]
+A presentation context \(\mathfrak P_\mathcal X\) is simulated by \(\mathfrak P_\mathcal Y\) with overhead \(f\) if there exists a presentation morphism
+\[
+\Gamma_\mathcal X\to\Gamma_\mathcal Y
+\]
+with overhead \(f\).
+\end{definition}
+
+\begin{definition}[\(\mathcal H\)-equivalence]
+Let \(\mathcal H\) be an overhead class. Two presentation systems \(\Gamma\) and \(\Delta\) are \(\mathcal H\)-equivalent if there are presentation morphisms
+\[
+F:\Gamma\to\Delta,\qquad G:\Delta\to\Gamma
+\]
+with overheads in \(\mathcal H\), such that
+\[
+G(F(x))\equiv x,\qquad F(G(y))\equiv y
+\]
+on the relevant object classes, or up to declared controlled fibre data.
+\end{definition}
+
+\begin{theorem}[Coarse invariance]
+If \(\Gamma\) and \(\Delta\) are \(\mathcal H\)-equivalent through maps \(F,G\) with overheads \(f,g\in\mathcal H\), then the corresponding complexity functions compare through \(f\) and \(g\). In particular, growth properties stable under \(\mathcal H\)-distortion are preserved.
+\end{theorem}
+
+\begin{proof}
+The bounded-part transfer theorem gives
+\[
+C_\Delta(F(x))\leq f(C_\Gamma(x))
+\]
+and
+\[
+C_\Gamma(G(y))\leq g(C_\Delta(y)).
+\]
+If \(G(F(x))\equiv x\), then
+\[
+C_\Gamma(x)
+=
+C_\Gamma(G(F(x)))
+\leq
+g(C_\Delta(F(x))).
+\]
+Thus \(C_\Gamma\) is controlled by \(C_\Delta\circ F\), and the reverse comparison is analogous.
+\end{proof}
+
+\section{Observable-Compatible Transfer}
+
+Presentation morphisms control descriptions. To transport lower bounds and indistinguishability results, one must also control observables.
+
+\begin{definition}[Observable-compatible morphism]
+Let \(F:\mathcal X\to\mathcal Y\) be a map between object classes equipped with observable systems
+\[
+\mathfrak O_\mathcal X=(\Omega_\mathcal X,\chi_\mathcal X,R_\mathcal X),
+\qquad
+\mathfrak O_\mathcal Y=(\Omega_\mathcal Y,\chi_\mathcal Y,R_\mathcal Y).
+\]
+We say that \(F\) is observable-compatible with overhead \(g\) if every target observable
+\[
+\eta\in\Omega_\mathcal Y
+\]
+pulls back to a source observable
+\[
+F^\ast\eta=\eta\circ F\in\Omega_\mathcal X
+\]
+and
+\[
+\chi_\mathcal X(F^\ast\eta)
+\leq
+g(\chi_\mathcal Y(\eta)).
+\]
+\end{definition}
+
+\begin{theorem}[Observable image transfer]
+Suppose \(F:\Gamma_\mathcal X\to\Gamma_\mathcal Y\) is a presentation morphism with overhead \(f\), and let \(\eta\) be a target observable. Then
+\[
+(\eta\circ F)(\mathcal X_{\Gamma_\mathcal X}^{\leq b})
+\subseteq
+\eta(\mathcal Y_{\Gamma_\mathcal Y}^{\leq f(b)}).
+\]
+Equivalently,
+\[
+\operatorname{Val}_{\Gamma_\mathcal X,\eta\circ F}(b)
+\subseteq
+\operatorname{Val}_{\Gamma_\mathcal Y,\eta}(f(b)).
+\]
+If \(F\) is observable-compatible, the pulled-back observable has cost controlled by \(g\).
+\end{theorem}
+
+\begin{proof}
+By bounded-part transfer,
+\[
+F(\mathcal X_{\Gamma_\mathcal X}^{\leq b})
+\subseteq
+\mathcal Y_{\Gamma_\mathcal Y}^{\leq f(b)}.
+\]
+Applying \(\eta\) gives the inclusion. Observable compatibility supplies the cost bound for the pulled-back observable.
+\end{proof}
+
+\begin{corollary}[Pullback of bounded-image obstructions]
+Suppose
+\[
+\eta(\mathcal Y_{\Gamma_\mathcal Y}^{\leq c})\subseteq S_c.
+\]
+Then
+\[
+(\eta\circ F)(\mathcal X_{\Gamma_\mathcal X}^{\leq b})
+\subseteq
+S_{f(b)}.
+\]
+Hence
+\[
+\eta(F(x))\notin S_{f(b)}
+\Longrightarrow
+x\notin\mathcal X_{\Gamma_\mathcal X}^{\leq b}.
+\]
+\end{corollary}
+
+\begin{proposition}[Distinguishing-cost transfer]
+Assume \(F\) is observable-compatible with overhead \(g\). If a target observable \(\eta\) of cost \(r\) distinguishes \(F(x)\) and \(F(x')\), then a source observable of cost at most \(g(r)\) distinguishes \(x\) and \(x'\). In well-ordered cost scales, this gives
+\[
+dc_{\mathcal X}(x,x')
+\leq
+g(dc_{\mathcal Y}(F(x),F(x'))).
+\]
+\end{proposition}
+
+\begin{proof}
+If \(\eta(F(x))\ne\eta(F(x'))\), then
+\[
+(\eta\circ F)(x)\ne(\eta\circ F)(x').
+\]
+Observable compatibility says that \(\eta\circ F\) is allowed in the source at cost at most \(g(r)\). Taking the least distinguishing cost gives the displayed inequality when minima exist.
+\end{proof}
+
+\begin{definition}[Observable density]
+Let \(\mathcal C\subseteq\mathcal X\). A map \(F:\mathcal X\to\mathcal Y\) is observable-dense on \(\mathcal C\) with overhead \(h\) if every source observable
+\[
+\omega\in\Omega_\mathcal X^{\leq r}
+\]
+factors on \(\mathcal C\) as
+\[
+\omega=a\circ\eta\circ F,
+\]
+where
+\[
+\eta\in\Omega_\mathcal Y^{\leq h(r)}
+\]
+and \(a\) is a post-processing map whose cost is either free by convention or separately accounted for.
+\end{definition}
+
+\begin{theorem}[Blindness transfer]
+Assume \(F\) is observable-dense on \(\mathcal C\) with overhead \(h\). If no target observable of cost at most \(h(r)\) distinguishes \(F(x)\) from \(F(x')\), then no source observable of cost at most \(r\) distinguishes \(x\) from \(x'\), for \(x,x'\in\mathcal C\).
+\end{theorem}
+
+\begin{proof}
+Suppose a source observable \(\omega\in\Omega_\mathcal X^{\leq r}\) distinguishes \(x\) and \(x'\). By observable density,
+\[
+\omega=a\circ\eta\circ F
+\]
+on \(\mathcal C\), with \(\eta\in\Omega_\mathcal Y^{\leq h(r)}\). Since \(a\) is a function, \(\omega(x)\ne\omega(x')\) implies
+\[
+\eta(F(x))\ne\eta(F(x')).
+\]
+This contradicts the assumed target indistinguishability.
+\end{proof}
+
+\section{Operations and Term Transfer}
+
+Many statements involve operations, not just individual objects.
+
+\begin{definition}[Operational presentation context]
+Let \(\Sigma\) be a signature of operations. A presentation context is \(\Sigma\)-operational if each operation \(\sigma\in\Sigma\), of arity \(n\), is realized by a map
+\[
+\sigma_\mathcal X:\mathcal X^n\to\mathcal X
+\]
+and by a description-level compiler
+\[
+\widehat\sigma:\mathcal D^n\to\mathcal D
+\]
+with overhead
+\[
+\kappa(\widehat\sigma(d_1,\ldots,d_n))
+\leq
+\alpha_\sigma(\kappa(d_1),\ldots,\kappa(d_n)).
+\]
+\end{definition}
+
+\begin{definition}[Operation-compatible morphism]
+A presentation morphism \(F:\mathcal X\to\mathcal Y\) is \(\Sigma\)-compatible if, for every \(\sigma\in\Sigma\),
+\[
+F(\sigma_\mathcal X(x_1,\ldots,x_n))
+\equiv
+\sigma_\mathcal Y(F(x_1),\ldots,F(x_n)),
+\]
+possibly modulo a declared fibre equivalence.
+\end{definition}
+
+\begin{theorem}[Term transfer]
+Let \(t\) be a term built from operations in \(\Sigma\). If \(F\) is \(\Sigma\)-compatible and all operations have controlled overhead, then there is a recursively defined overhead \(\alpha_t\) such that
+\[
+C_\mathcal Y(F(t_\mathcal X(x_1,\ldots,x_n)))
+\leq
+\alpha_t(C_\mathcal X(x_1),\ldots,C_\mathcal X(x_n)).
+\]
+\end{theorem}
+
+\begin{proof}
+Induct on the syntax tree of \(t\). If \(t\) is a variable, the claim is the bounded-part transfer inequality for \(F\). If
+\[
+t=\sigma(t_1,\ldots,t_m),
+\]
+then the induction hypothesis controls the costs of the transferred subterms
+\[
+F(t_i(x_1,\ldots,x_n)).
+\]
+Operation compatibility identifies
+\[
+F(\sigma_\mathcal X(t_1,\ldots,t_m))
+\]
+with
+\[
+\sigma_\mathcal Y(F(t_1),\ldots,F(t_m)).
+\]
+The operation overhead \(\alpha_\sigma\) then gives the recursive bound for \(t\).
+\end{proof}
+
+\section{Base-Fibre Decompositions}
+
+Useful maps often lose information. Their value lies in making the lost information measurable.
+
+\begin{definition}[Relative presentation over a map]
+Let
+\[
+q:\mathcal X\to\mathcal Y.
+\]
+A relative presentation theory for the fibres of \(q\) assigns to each \(y\in\mathcal Y\) a class of relative descriptions of objects in \(q^{-1}(y)\), with a relative cost. The relative complexity is denoted
+\[
+C_{\mathrm{rel}}(x\mid q(x)).
+\]
+\end{definition}
+
+\begin{definition}[Controlled assembly]
+The map \(q\) has controlled assembly with overhead \(A\) if a description of \(q(x)\), together with a relative description of \(x\) over \(q(x)\), can be assembled into a description of \(x\) of cost at most
+\[
+A(C_\mathcal Y(q(x)),C_{\mathrm{rel}}(x\mid q(x))).
+\]
+\end{definition}
+
+\begin{theorem}[Upper base-fibre bound]
+If \(q\) has controlled assembly, then
+\[
+C_\mathcal X(x)
+\leq
+A(C_\mathcal Y(q(x)),C_{\mathrm{rel}}(x\mid q(x))).
+\]
+\end{theorem}
+
+\begin{proof}
+Choose a description of \(q(x)\) and a relative description of \(x\) over \(q(x)\). Applying the assembly procedure gives a description of \(x\) with the displayed cost. Taking infima over the two input descriptions gives the result.
+\end{proof}
+
+\begin{definition}[Controlled extraction]
+The map \(q\) has controlled extraction if every description of \(x\) yields:
+\begin{enumerate}[label=(\roman*)]
+\item a description of \(q(x)\) with overhead \(a\);
+\item a relative description of \(x\mid q(x)\) with overhead \(r\).
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Lower base-fibre bounds]
+If \(q\) has controlled extraction, then
+\[
+C_\mathcal Y(q(x))\leq a(C_\mathcal X(x))
+\]
+and
+\[
+C_{\mathrm{rel}}(x\mid q(x))\leq r(C_\mathcal X(x)).
+\]
+Consequently,
+\[
+C_\mathcal Y(q(x))>a(b)\Longrightarrow C_\mathcal X(x)>b,
+\]
+and
+\[
+C_{\mathrm{rel}}(x\mid q(x))>r(b)\Longrightarrow C_\mathcal X(x)>b.
+\]
+\end{theorem}
+
+\begin{proof}
+Apply extraction to a description of \(x\) of cost at most \(b\). If \(C_\mathcal X(x)\leq b\), then the extracted base and relative descriptions have costs at most \(a(b)\) and \(r(b)\). The displayed implications are contrapositives.
+\end{proof}
+
+\begin{corollary}[Coarse base-fibre decomposition]
+If both assembly and extraction are controlled in an overhead class \(\mathcal H\), then \(C_\mathcal X(x)\) is equivalent, up to \(\mathcal H\)-distortion, to the joint data of \(C_\mathcal Y(q(x))\) and \(C_{\mathrm{rel}}(x\mid q(x))\).
+\end{corollary}
+
+\section{Verification Transfer}
+
+Proof data often move along reductions. The direction matters.
+
+\begin{definition}[Verification pullback]
+Let \(F:\mathcal X\to\mathcal Y\). A verification pullback from a target property \(P_\mathcal Y\) to a source property \(P_\mathcal X\) is a procedure
+\[
+\pi_\mathcal Y\mapsto \pi_\mathcal X
+\]
+such that
+\[
+R_\mathcal Y(F(x),\pi_\mathcal Y)
+\Longrightarrow
+R_\mathcal X(x,\pi_\mathcal X)
+\]
+and
+\[
+\lambda_\mathcal X(\pi_\mathcal X)
+\leq
+h(\lambda_\mathcal Y(\pi_\mathcal Y)).
+\]
+\end{definition}
+
+\begin{definition}[Verification pushforward]
+A verification pushforward is a procedure
+\[
+\pi_\mathcal X\mapsto \pi_\mathcal Y
+\]
+such that
+\[
+R_\mathcal X(x,\pi_\mathcal X)
+\Longrightarrow
+R_\mathcal Y(F(x),\pi_\mathcal Y)
+\]
+and
+\[
+\lambda_\mathcal Y(\pi_\mathcal Y)
+\leq
+p(\lambda_\mathcal X(\pi_\mathcal X)).
+\]
+\end{definition}
+
+\begin{theorem}[Upper transfer for verification cost]
+If a verification pullback exists with overhead \(h\), then
+\[
+v_{P_\mathcal X}(x)
+\leq
+h(v_{P_\mathcal Y}(F(x))).
+\]
+\end{theorem}
+
+\begin{proof}
+Pull back target verification data for \(F(x)\) and use the overhead bound. Taking the infimum over target data gives the inequality.
+\end{proof}
+
+\begin{theorem}[Lower transfer for verification cost]
+If a verification pushforward exists with overhead \(p\), then
+\[
+v_{P_\mathcal Y}(F(x))
+\leq
+p(v_{P_\mathcal X}(x)).
+\]
+Hence
+\[
+v_{P_\mathcal Y}(F(x))>p(s)
+\Longrightarrow
+v_{P_\mathcal X}(x)>s.
+\]
+\end{theorem}
+
+\begin{proof}
+Push forward source verification data and take infima. The lower-bound statement is the contrapositive.
+\end{proof}
+
+\section{Transfer Packages}
+
+\begin{definition}[Transfer package]
+Let \(\mathfrak P_\mathcal X\) and \(\mathfrak P_\mathcal Y\) be presentation contexts. A transfer package
+\[
+\mathfrak T:\mathfrak P_\mathcal X\to\mathfrak P_\mathcal Y
+\]
+consists of some or all of the following compatible data:
+\begin{enumerate}[label=(\roman*)]
+\item an object map \(F:\mathcal X\to\mathcal Y\);
+\item a description compiler \(\widehat F:\mathcal D_\mathcal X\to\mathcal D_\mathcal Y\);
+\item a presentation overhead \(f_{\mathrm{pres}}\);
+\item an observable pullback \(F^\ast:\Omega_\mathcal Y\to\Omega_\mathcal X\);
+\item an observable overhead \(f_{\mathrm{obs}}\);
+\item operation-compatibility data;
+\item verification-transfer data;
+\item fibre-control data;
+\item optional measure-distortion data.
+\end{enumerate}
+The package is rich exactly on the layers for which these data are supplied.
+\end{definition}
+
+\begin{definition}[Overhead vector]
+The overhead vector of a transfer package is
+\[
+\mathbf f_\mathfrak T
+=
+(f_{\mathrm{pres}},f_{\mathrm{obs}},f_{\mathrm{op}},f_{\mathrm{ver}},f_{\mathrm{fib}},f_{\mathrm{meas}}),
+\]
+with components interpreted only when the corresponding layer is present.
+\end{definition}
+
+\begin{theorem}[Composition of transfer packages]
+If
+\[
+\mathfrak T:\mathfrak P_\mathcal X\to\mathfrak P_\mathcal Y
+\]
+and
+\[
+\mathfrak S:\mathfrak P_\mathcal Y\to\mathfrak P_\mathcal Z
+\]
+are transfer packages, then their composition
+\[
+\mathfrak S\circ\mathfrak T:\mathfrak P_\mathcal X\to\mathfrak P_\mathcal Z
+\]
+is a transfer package on every layer controlled by both. The overheads compose componentwise.
+\end{theorem}
+
+\begin{proof}
+The object maps and description compilers compose by the distortion theorem. Observable pullbacks compose contravariantly:
+\[
+(F^\ast\circ G^\ast)(\theta)
+=
+F^\ast(\theta\circ G)
+=
+\theta\circ G\circ F.
+\]
+Operation compatibility is obtained by pasting the operation diagrams. Verification-transfer maps compose in their declared directions. Fibre and measure controls compose by applying the corresponding bounds successively.
+\end{proof}
+
+\section{Budgeted Theorem Logic}
+
+To say that a transfer package transports a theorem, one must specify which statements are allowed.
+
+\begin{definition}[Budgeted fragment]
+The budgeted fragment associated to a presentation context is generated by atoms of the following forms:
+\[
+x\in\mathcal X^{\leq b},
+\qquad
+\omega(x)\in S,
+\qquad
+\omega(x)=\omega(x'),
+\]
+\[
+R(x,\pi),
+\qquad
+\lambda(\pi)\leq p,
+\qquad
+x=t(x_1,\ldots,x_n),
+\qquad
+x\equiv x',
+\]
+using Boolean operations and bounded quantifiers such as
+\[
+\forall x\in\mathcal X^{\leq b},
+\qquad
+\exists x\in\mathcal X^{\leq b},
+\qquad
+\forall \omega\in\Omega^{\leq r},
+\qquad
+\exists \pi:\lambda(\pi)\leq p.
+\]
+\end{definition}
+
+\begin{definition}[Interpretable formula]
+A formula in the budgeted fragment of \(\mathfrak P_\mathcal Y\) is interpretable by a transfer package
+\[
+\mathfrak T:\mathfrak P_\mathcal X\to\mathfrak P_\mathcal Y
+\]
+if every atom and bounded quantifier appearing in the formula is supported by the corresponding layer of \(\mathfrak T\).
+\end{definition}
+
+For example, formulas involving bounded objects require presentation overhead; formulas involving observables require observable pullback; formulas involving verification data require verification transfer; target existential quantifiers require a controlled lifting or section; classification statements require reflection or fibre data.
+
+\begin{theorem}[Controlled transfer metatheorem]
+Let
+\[
+\mathfrak T:\mathfrak P_\mathcal X\to\mathfrak P_\mathcal Y
+\]
+be a transfer package. Every universal theorem in the interpretable budgeted fragment of \(\mathfrak P_\mathcal Y\) pulls back to a theorem in \(\mathfrak P_\mathcal X\), with resource bounds transformed by the overhead vector of \(\mathfrak T\).
+
+In particular, if
+\[
+\forall y\in\mathcal Y^{\leq c}\quad \Phi_\mathcal Y(y)
+\]
+holds in the target and \(f_{\mathrm{pres}}(b)\leq c\), then
+\[
+\forall x\in\mathcal X^{\leq b}\quad \Phi_\mathcal Y(F(x))
+\]
+holds in the source. If additionally
+\[
+\Phi_\mathcal Y(F(x))\Longrightarrow \Phi_\mathcal X(x)
+\]
+is part of the transfer data, then
+\[
+\forall x\in\mathcal X^{\leq b}\quad \Phi_\mathcal X(x).
+\]
+\end{theorem}
+
+\begin{proof}
+The proof is by induction on formulas. For the atom \(y\in\mathcal Y^{\leq c}\), bounded-part transfer gives
+\[
+x\in\mathcal X^{\leq b},\quad f_{\mathrm{pres}}(b)\leq c
+\Longrightarrow
+F(x)\in\mathcal Y^{\leq c}.
+\]
+For observable atoms, replace a target observable \(\eta\) by the pulled-back observable \(\eta\circ F\), with cost controlled by \(f_{\mathrm{obs}}\). For verification atoms, use the supplied verification pullback or pushforward, depending on the direction required by the statement. For operation atoms, use operation compatibility and term transfer. Equality or equivalence atoms transfer only when the package supplies the necessary reflection or fibre-control data.
+
+Boolean connectives are immediate. Bounded universal quantifiers pull back because bounded source objects map into bounded target objects. Bounded existential quantifiers pull back only when the package includes controlled lifting data; this is precisely why interpretability is part of the hypothesis. The displayed universal statement is the special case with one bounded universal quantifier.
+\end{proof}
+
+\begin{remark}[No free transport]
+The metatheorem does not say that every statement transfers. Existential target statements do not pull back without sections. Classifications do not transfer through lossy maps without fibre control. Verification-cost statements do not transfer without verification maps. Observable lower bounds do not transfer without observable compatibility.
+\end{remark}
+
+\section{Fragmented Positive Budgets}
+
+Many non-computability results in presentation theory have the same formal shape. A positive property is semidecidable by searching through bounded fragments. Each bounded fragment is decidable, but the optimal bound needed on positive inputs is not computably controlled.
+
+\begin{definition}[Fragmented positive predicate]
+Let \(P\subseteq\Sigma^\ast\) be a semidecidable predicate. A decidable fragmentation of \(P\) is an increasing family
+\[
+P_{\leq0}\subseteq P_{\leq1}\subseteq P_{\leq2}\subseteq\cdots
+\]
+such that
+\[
+P=\bigcup_{r\in\mathbb N}P_{\leq r}
+\]
+and membership in \(P_{\leq r}\) is decidable uniformly in \(r\).
+
+For \(x\in P\), define the positive width
+\[
+w_P(x)=\min\{r:x\in P_{\leq r}\}.
+\]
+The associated profile is
+\[
+W_P(n)=
+\max\{w_P(x):x\in P,\ |x|\leq n\},
+\]
+with \(W_P(n)=0\) if the maximum is taken over the empty set.
+\end{definition}
+
+\begin{theorem}[Positive-fragment equivalence]
+For every decidably fragmented positive predicate,
+\[
+W_P\equiv_T P.
+\]
+In particular, if \(P\) is undecidable, then \(W_P\) has no computable majorant.
+\end{theorem}
+
+\begin{proof}
+Assume first that an oracle for \(W_P\) is available. On input \(x\), compute
+\[
+N=W_P(|x|).
+\]
+Because \(P_{\leq N}\) is decidable, check whether
+\[
+x\in P_{\leq N}.
+\]
+If yes, then \(x\in P\). If no, then \(x\notin P\): indeed, if \(x\in P\), then by definition of \(W_P(|x|)\) every positive input of length at most \(|x|\), including \(x\), lies in \(P_{\leq W_P(|x|)}\). Hence \(P\leq_T W_P\).
+
+Conversely, assume an oracle for \(P\). To compute \(W_P(n)\), enumerate the finite set of words \(x\in\Sigma^\ast\) with \(|x|\leq n\). Use the oracle to retain exactly those lying in \(P\). For each retained word, search over \(r=0,1,2,\ldots\) until the decidable test for \(P_{\leq r}\) accepts. This search terminates because the word lies in \(P\). Taking the maximum of the resulting finite list gives \(W_P(n)\). Thus \(W_P\leq_T P\).
+
+If a computable function \(g\) satisfied \(W_P(n)\leq g(n)\) for all \(n\), the first reduction would decide \(P\) by replacing \(W_P(|x|)\) with \(g(|x|)\). Therefore an undecidable \(P\) admits no computable majorant for \(W_P\).
+\end{proof}
+
+\begin{remark}
+Finite-quotient search, bounded proof search, bounded normal-form search, and bounded move search are all instances of this template when the positive instances are exhausted by decidable bounded fragments.
+\end{remark}
+
+\section{Immediate Budget Explosions}
+
+The preceding theorem is deliberately abstract. Its strength is that many classical undecidability theorems already come with decidable bounded fragments. The following examples record the quantitative profiles that are obtained without additional domain-specific work.
+
+\begin{theorem}[No computable finite-model budget]
+Fix a finite relational signature containing at least one binary relation symbol. There is no computable function
+\[
+f:\mathbb N\to\mathbb N
+\]
+such that every first-order sentence \(\varphi\) over this signature with a finite model has a finite model of cardinality at most
+\[
+f(|\varphi|).
+\]
+\end{theorem}
+
+\begin{proof}
+For \(r\in\mathbb N\), let \(P_{\leq r}\) be the set of first-order sentences over the fixed signature having a model of size at most \(r\). This set is decidable: there are only finitely many structures of size at most \(r\) over the fixed finite signature, and satisfaction of a first-order sentence in a finite structure is decidable.
+
+The union of the \(P_{\leq r}\) is the finite satisfiability problem for the signature. If a computable \(f\) bounded the size of the least finite model in terms of \(|\varphi|\), then finite satisfiability would be decidable by checking all finite structures of size at most \(f(|\varphi|)\). This contradicts Trakhtenbrot's theorem, which gives undecidability of finite satisfiability already for such signatures.
+\end{proof}
+
+\begin{definition}[Finite-model profile]
+Let
+\[
+m(\varphi)=\min\{|M|:M\models\varphi,\ M\text{ finite}\}
+\]
+when \(\varphi\) has a finite model, and define
+\[
+M_{\mathrm{fin}}(n)=
+\max\{m(\varphi):|\varphi|\leq n,\ \varphi\text{ has a finite model}\}.
+\]
+\end{definition}
+
+\begin{corollary}
+The profile \(M_{\mathrm{fin}}\) has the same Turing degree as finite satisfiability over the fixed signature. In particular, \(M_{\mathrm{fin}}\) is not computably majorized.
+\end{corollary}
+
+\begin{proof}
+This is the positive-fragment equivalence applied to the decidable fragments \(P_{\leq r}\) above.
+\end{proof}
+
+\begin{theorem}[No computable Diophantine solution-height budget]
+Fix an effective encoding of integer polynomials in finitely many variables. There is no computable function
+\[
+f:\mathbb N\to\mathbb N
+\]
+such that every polynomial equation
+\[
+F(x_1,\ldots,x_m)=0,\qquad F\in\mathbb Z[x_1,\ldots,x_m],
+\]
+with an integer solution has an integer solution \(a\in\mathbb Z^m\) satisfying
+\[
+\max_i |a_i|\leq f(|F|).
+\]
+\end{theorem}
+
+\begin{proof}
+For \(r\in\mathbb N\), let \(D_{\leq r}\) be the set of encoded integer polynomials \(F\) for which there exists \(a\in\mathbb Z^m\) with
+\[
+F(a)=0
+\qquad\text{and}\qquad
+\max_i|a_i|\leq r.
+\]
+The set \(D_{\leq r}\) is decidable by finite search. The union of these fragments is the solvability problem for Diophantine equations over \(\mathbb Z\), which is undecidable by the Davis--Putnam--Robinson--Matiyasevich theorem.
+
+If a computable \(f\) as in the statement existed, Diophantine solvability over \(\mathbb Z\) would be decidable by checking all integer tuples with \(\max_i|a_i|\leq f(|F|)\). This contradiction proves the result.
+\end{proof}
+
+\begin{definition}[Diophantine height profile]
+For solvable \(F\), set
+\[
+h_{\mathbb Z}(F)=
+\min\{\max_i|a_i|:a\in\mathbb Z^m,\ F(a)=0\},
+\]
+and define
+\[
+H_{\mathbb Z}(n)=
+\max\{h_{\mathbb Z}(F):|F|\leq n,\ F=0\text{ is solvable over }\mathbb Z\}.
+\]
+\end{definition}
+
+\begin{corollary}
+The profile \(H_{\mathbb Z}\) has the same Turing degree as Diophantine solvability over \(\mathbb Z\). In particular, \(H_{\mathbb Z}\) is not computably majorized.
+\end{corollary}
+
+\begin{proof}
+Apply the positive-fragment equivalence to the fragments \(D_{\leq r}\).
+\end{proof}
+
+\begin{theorem}[Proof-length explosion]
+Let \(T\) be a recursively axiomatized formal theory whose theorem set
+\[
+\operatorname{Thm}(T)
+\]
+is undecidable. Fix an effective proof system for \(T\). For a theorem \(\varphi\), let
+\[
+\ell_T(\varphi)=
+\min\{|\pi|:\pi\text{ is a formal proof of }\varphi\text{ in }T\}.
+\]
+There is no computable function
+\[
+f:\mathbb N\to\mathbb N
+\]
+such that
+\[
+\ell_T(\varphi)\leq f(|\varphi|)
+\]
+for every theorem \(\varphi\) of \(T\).
+\end{theorem}
+
+\begin{proof}
+For \(r\in\mathbb N\), let \(T_{\leq r}\) be the set of formulas having a \(T\)-proof of length at most \(r\). This set is decidable by enumerating all strings of length at most \(r\) and checking which of them are valid formal proofs.
+
+If a computable function \(f\) bounded \(\ell_T(\varphi)\) in terms of \(|\varphi|\), then theoremhood in \(T\) would be decidable: on input \(\varphi\), enumerate all \(T\)-proofs of length at most \(f(|\varphi|)\) and check whether one proves \(\varphi\). This contradicts the assumed undecidability of \(\operatorname{Thm}(T)\).
+\end{proof}
+
+\begin{definition}[Proof-length profile]
+Define
+\[
+L_T(n)=
+\max\{\ell_T(\varphi):|\varphi|\leq n,\ \varphi\in\operatorname{Thm}(T)\}.
+\]
+\end{definition}
+
+\begin{corollary}
+The profile \(L_T\) has the same Turing degree as \(\operatorname{Thm}(T)\). In particular, if theoremhood in \(T\) is undecidable, then \(L_T\) is not computably majorized.
+\end{corollary}
+
+\begin{proof}
+This is the positive-fragment equivalence for the decidable fragments \(T_{\leq r}\).
+\end{proof}
+
+\begin{theorem}[No computable mortality-word bound]
+Fix an effectively presented class of finite matrix families over a computable field for which the matrix mortality problem is undecidable. There is no computable function
+\[
+f:\mathbb N\to\mathbb N
+\]
+such that every mortal family
+\[
+\mathcal A=\{A_1,\ldots,A_m\}
+\]
+in the class has a zero product
+\[
+A_{i_1}\cdots A_{i_\ell}=0
+\]
+with
+\[
+\ell\leq f(|\mathcal A|).
+\]
+\end{theorem}
+
+\begin{proof}
+For \(r\in\mathbb N\), let \(M_{\leq r}\) be the set of matrix families admitting a zero product of length at most \(r\). This set is decidable by enumerating all words of length at most \(r\) in the generators and multiplying the corresponding matrices.
+
+If a computable \(f\) as in the statement existed, then mortality would be decidable: on input \(\mathcal A\), enumerate all products of length at most \(f(|\mathcal A|)\), and check whether any of them is zero. The assumed bound makes the negative answer correct. This contradicts undecidability of mortality in the chosen class.
+\end{proof}
+
+\begin{theorem}[No computable nilpotency-time bound]
+In any effective class of cellular automata for which nilpotency is undecidable, there is no computable function
+\[
+f:\mathbb N\to\mathbb N
+\]
+such that every nilpotent cellular automaton \(A\) in the class becomes uniformly nilpotent by time
+\[
+f(|A|).
+\]
+\end{theorem}
+
+\begin{proof}
+For fixed \(A\) and \(T\), the assertion that \(A^T\) maps every configuration to the nilpotent uniform configuration is decidable: the value of a cell after \(T\) steps depends only on a finite window determined by \(T\) and the radius of the local rule, so one checks finitely many patterns.
+
+If a computable bound \(f\) existed, nilpotency would be decidable by computing \(T=f(|A|)\) and checking whether \(A^T\) is already uniformly nilpotent. This contradicts undecidability of nilpotency in the chosen class; for instance, Kari's theorem gives such undecidability for one-dimensional cellular automata.
+\end{proof}
+
+\begin{theorem}[No computable first-ambiguity bound]
+There is no computable function
+\[
+f:\mathbb N\to\mathbb N
+\]
+such that every ambiguous context-free grammar \(G\) has a terminal word \(w\) with two distinct parse trees and
+\[
+|w|\leq f(|G|).
+\]
+\end{theorem}
+
+\begin{proof}
+For fixed \(G\) and \(N\), it is decidable whether \(G\) has an ambiguous word of length at most \(N\): enumerate all terminal words of length at most \(N\), and for each word use a finite parsing procedure to decide whether it has at least two parse trees.
+
+If a computable bound \(f\) existed, ambiguity of context-free grammars would be decidable by checking all terminal words of length at most \(f(|G|)\). This contradicts the classical undecidability of the ambiguity problem for context-free grammars.
+\end{proof}
+
+\begin{theorem}[No computable null-area bound]
+There is a finite group presentation \(P\) for which no computable function
+\[
+f:\mathbb N\to\mathbb N
+\]
+has the following property: every word \(w\) of length at most \(n\) representing the identity in \(G_P\) admits a van Kampen diagram of area at most
+\[
+f(n).
+\]
+\end{theorem}
+
+\begin{proof}
+Choose a finitely presented group with undecidable word problem. If a computable function \(f\) as in the statement existed for some finite presentation \(P\) of this group, then the word problem would be decidable. Given a word \(w\) of length \(n\), enumerate all van Kampen diagrams over \(P\) of area at most \(f(n)\), and check whether any has boundary label \(w\). If one is found, then \(w=1\) in \(G_P\). If none is found, the assumed bound implies \(w\neq1\).
+
+This contradicts the choice of \(G_P\). Equivalently, the Dehn function of such a presentation is not computably majorized.
+\end{proof}
+
+\section{Finite-Window Obstruction Radius}
+
+The positive-fragment theorem bounds the first successful search in positive instances. A dual pattern occurs when global existence is equivalent to consistency on all finite windows, and failures are detected by a finite obstruction.
+
+\begin{definition}[Effective finite-window system]
+An effective finite-window system consists of instances \(e\), a global existence predicate \(P(e)\), and decidable predicates
+\[
+L_N(e),\qquad N\in\mathbb N,
+\]
+such that
+\[
+P(e)\quad\Longleftrightarrow\quad \forall N\ L_N(e).
+\]
+For a negative instance, define its obstruction radius by
+\[
+r(e)=\min\{N:L_N(e)\text{ fails}\}.
+\]
+\end{definition}
+
+\begin{theorem}[No computable obstruction radius]
+Suppose \(P\) is undecidable in an effective finite-window system. Then there is no computable function
+\[
+f:\mathbb N\to\mathbb N
+\]
+such that every negative instance \(e\) satisfies
+\[
+r(e)\leq f(|e|).
+\]
+\end{theorem}
+
+\begin{proof}
+Assume such an \(f\) exists. Given \(e\), compute \(N=f(|e|)\) and decide the finite list of predicates
+\[
+L_0(e),L_1(e),\ldots,L_N(e).
+\]
+If one fails, then \(P(e)\) is false. If none fails, then \(P(e)\) is true: otherwise \(e\) would be a negative instance with obstruction radius at most \(N\), contradicting the search. This decides \(P\), contrary to the hypothesis.
+\end{proof}
+
+\begin{theorem}[No computable finite-window bound for Wang tilings]
+There is no computable function
+\[
+f:\mathbb N\to\mathbb N
+\]
+such that every finite Wang tileset \(T\) which does not tile the plane already fails to tile some square
+\[
+[1,N]^2
+\]
+with
+\[
+N\leq f(|T|).
+\]
+\end{theorem}
+
+\begin{proof}
+For a tileset \(T\), let \(L_N(T)\) be the decidable statement that the square \([1,N]^2\) admits a locally valid \(T\)-tiling. By compactness, \(T\) tiles the plane if and only if \(L_N(T)\) holds for every \(N\). Thus the obstruction radius theorem applies to the global predicate ``\(T\) tiles the plane''. Since the domino problem is undecidable by Berger's theorem, no computable bound on the first failing square can exist.
+\end{proof}
+
+\section{Convergence Modulus Obstructions}
+
+Some access systems approximate a limiting quantity by finite budgets. If a threshold problem for the limit is undecidable, then the convergence to the limit cannot have a computable modulus.
+
+\begin{theorem}[No computable convergence modulus from undecidable thresholds]
+Let \(a_e\in\mathbb R\) be a family of real quantities with computable approximants
+\[
+a_{e,N},\qquad N\in\mathbb N,
+\]
+such that
+\[
+a_e=\lim_{N\to\infty}a_{e,N}.
+\]
+Assume there are rationals
+\[
+\alpha<\beta
+\]
+for which the promise problem
+\[
+a_e\leq\alpha
+\qquad\text{or}\qquad
+a_e\geq\beta
+\]
+is undecidable. Then there is no computable function
+\[
+M(e,\varepsilon)
+\]
+such that
+\[
+|a_e-a_{e,N}|\leq\varepsilon
+\]
+for every \(N\geq M(e,\varepsilon)\).
+\end{theorem}
+
+\begin{proof}
+Suppose such an \(M\) exists. Choose a rational
+\[
+0<\varepsilon<\frac{\beta-\alpha}{3}.
+\]
+Given \(e\), compute
+\[
+N=M(e,\varepsilon).
+\]
+Compute \(a_{e,N}\) to error less than \(\varepsilon\). If the computed approximation is above \((\alpha+\beta)/2\), answer \(a_e\geq\beta\); if it is below \((\alpha+\beta)/2\), answer \(a_e\leq\alpha\). The two promised cases are separated by more than \(2\varepsilon\), so the answer is correct. This decides the promised threshold problem, contradiction.
+\end{proof}
+
+\begin{theorem}[No computable finite-dimensional strategy budget]
+For the families of finite nonlocal games arising from the \( \mathrm{MIP}^{\ast}=\mathrm{RE}\) undecidability theorem, there is no computable function
+\[
+D(G,\varepsilon)
+\]
+such that strategies of local Hilbert-space dimension at most \(D(G,\varepsilon)\) approximate the entangled value \(\omega_q(G)\) to within \(\varepsilon\) for every game \(G\) in the family.
+\end{theorem}
+
+\begin{proof}
+Let
+\[
+\omega_{\leq d}(G)
+\]
+denote the supremal winning probability over strategies of local dimension at most \(d\). For fixed \(d\), this is a finite-dimensional semialgebraic optimization problem and is effectively approximable. Moreover
+\[
+\omega_q(G)=\sup_d\omega_{\leq d}(G).
+\]
+
+If a computable dimension budget \(D(G,\varepsilon)\) existed, then \(\omega_q(G)\) would be computably approximable to arbitrary prescribed precision: compute \(d=D(G,\varepsilon)\) and approximate the finite-dimensional value \(\omega_{\leq d}(G)\). In particular, every constant-gap promise problem
+\[
+\omega_q(G)\leq\alpha
+\qquad\text{or}\qquad
+\omega_q(G)\geq\beta
+\]
+would be decidable. This contradicts the undecidability consequence of \( \mathrm{MIP}^{\ast}=\mathrm{RE}\), which gives finite nonlocal games with undecidable constant-gap entangled-value thresholds.
+\end{proof}
+
+\section{Move-Fibre Recognition}
+
+The preceding theorem concerns positive search. A second recurring situation concerns a single fibre of a realization map. If the fibre is connected by elementary moves, the height needed to navigate back to a base point is exactly as hard as recognizing membership in that fibre.
+
+\begin{definition}[Computable move presentation]
+A computable move presentation consists of:
+\begin{enumerate}[label=(\roman*)]
+\item a decidable class of descriptions \(\mathcal D\subseteq\Sigma^\ast\);
+\item a realization map \(\rho:\mathcal D\to\mathcal X\);
+\item a computable cost \(\kappa:\mathcal D\to\mathbb N\), with finitely many descriptions of cost at most \(N\), effectively enumerable for each \(N\);
+\item a symmetric computable elementary move relation \(d\leftrightarrow d'\) preserving realization;
+\item connected fibres: if \(\rho(d)=\rho(e)\), then \(d\) and \(e\) are joined by a finite move path.
+\end{enumerate}
+\end{definition}
+
+Fix an object \(x_\ast\in\mathcal X\) and a base description \(d_\ast\in\rho^{-1}(x_\ast)\). Write
+\[
+\Rec_{x_\ast}=\{d\in\mathcal D:\rho(d)=x_\ast\}.
+\]
+
+\begin{definition}[Bridge height]
+For \(d\in\Rec_{x_\ast}\), define
+\[
+h(d,d_\ast)=
+\min_{\gamma:d\leadsto d_\ast}\ \max_{e\in\gamma}\kappa(e),
+\]
+where \(\gamma\) ranges over finite move paths from \(d\) to \(d_\ast\). The bridge profile of the fibre is
+\[
+B_{x_\ast}(n)=
+\max\Bigl(\{\kappa(d_\ast)\}\cup
+\{h(d,d_\ast):d\in\Rec_{x_\ast},\ \kappa(d)\leq n\}\Bigr).
+\]
+\end{definition}
+
+\begin{theorem}[Move-fibre recognition equivalence]
+For every computable move presentation as above,
+\[
+B_{x_\ast}\equiv_T \Rec_{x_\ast}.
+\]
+If \(\Rec_{x_\ast}\) is undecidable, then \(B_{x_\ast}\) has no computable majorant.
+\end{theorem}
+
+\begin{proof}
+First assume oracle access to \(B_{x_\ast}\). Given \(d\in\mathcal D\), set
+\[
+N=\max\{B_{x_\ast}(\kappa(d)),\kappa(d)\}.
+\]
+Enumerate the finite move graph consisting of descriptions reachable from \(d\) by paths whose vertices all have cost at most \(N\). If \(d_\ast\) appears in this finite graph, then \(d\in\Rec_{x_\ast}\), because moves preserve realization.
+
+If \(d\in\Rec_{x_\ast}\), then the definition of \(B_{x_\ast}\) gives a path from \(d\) to \(d_\ast\) of height at most \(N\), so the search finds \(d_\ast\). If the search does not find \(d_\ast\), then \(d\notin\Rec_{x_\ast}\). Hence \(\Rec_{x_\ast}\leq_T B_{x_\ast}\).
+
+Conversely, assume oracle access to \(\Rec_{x_\ast}\). To compute \(B_{x_\ast}(n)\), enumerate all descriptions \(d\) with \(\kappa(d)\leq n\), and use the oracle to keep exactly those in \(\Rec_{x_\ast}\). For each retained \(d\), search over height bounds \(H=0,1,2,\ldots\), enumerating the finite move graph of paths from \(d\) that stay within cost \(H\), until \(d_\ast\) is reached. Connectedness of the fibre guarantees termination. The first successful \(H\) is \(h(d,d_\ast)\). Taking the maximum over the finite retained list gives \(B_{x_\ast}(n)\). Thus \(B_{x_\ast}\leq_T\Rec_{x_\ast}\).
+
+If \(B_{x_\ast}\) had a computable majorant, the first reduction would decide \(\Rec_{x_\ast}\) by searching below that computable bound. Therefore undecidable recognition implies no computable majorant.
+\end{proof}
+
+\section{Murphy Transfer}
+
+The algebraic counterpart of non-recursive budget transfer is universality transfer. A rank-profile compiler moves singularities from incidence geometry into fibres of an observable.
+
+\begin{definition}[Rank-profile compiler]
+Let \(\Omega:\mathcal X\to A\) be an observable on an algebraic moduli problem \(\mathcal X\). A rank-profile compiler into \((\mathcal X,\Omega)\) assigns to each labelled subspace arrangement
+\[
+\mathbf L=(L_1,\ldots,L_m)\subset V
+\]
+an object
+\[
+\mathcal C(\mathbf L)\in\mathcal X
+\]
+so that the following conditions hold.
+
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{Rank-profile condition.} The value \(\Omega(\mathcal C(\mathbf L))\) depends only on the labelled rank function
+\[
+r_{\mathbf L}(S)=\dim\sum_{i\in S}L_i.
+\]
+\item \textbf{Fibre faithfulness.} On each locally closed stratum with fixed labelled rank function, \(\mathcal C\) preserves the local moduli of arrangements up to simultaneous linear change of coordinates and smooth factors.
+\item \textbf{Algebraicity.} The assignment \(\mathbf L\mapsto\mathcal C(\mathbf L)\) is algebraic on the relevant arrangement charts.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Murphy transfer for rank profiles]
+Suppose \((\mathcal X,\Omega)\) admits a rank-profile compiler. Then every finite-type singularity appearing in a labelled subspace-arrangement realization space appears, up to stable equivalence, in a fibre of \(\Omega\). In particular, by Mnëv--Sturmfels universality in the scheme-theoretic form of Lee--Vakil, every finite-type singularity over \(\mathbb Z\) appears, up to stable equivalence, in a fibre of \(\Omega\).
+\end{theorem}
+
+\begin{proof}
+Fix a labelled rank function \(r\). By the rank-profile condition, all compiled objects \(\mathcal C(\mathbf L)\) with
+\[
+r_{\mathbf L}=r
+\]
+lie in a single fibre of \(\Omega\). The algebraicity condition identifies the compiled family as an algebraic family inside that fibre. The fibre-faithfulness condition says that, locally on the fixed-rank arrangement stratum, this family has the same singularity type as the arrangement realization space, up to the smooth factors coming from coordinate choices and presentation parameters.
+
+Thus every singularity appearing in a fixed-rank labelled arrangement realization space appears stably in an \(\Omega\)-fibre. The Mnëv--Sturmfels--Lee--Vakil universality theorem supplies labelled incidence, matroid, or subspace-arrangement realization spaces with arbitrary finite-type singularities over \(\mathbb Z\). Applying the compiler gives the asserted fibres.
+\end{proof}
+
+\section{Wild-Fibre Transfer}
+
+Murphy transfer concerns local algebraic singularities inside fibres. A complementary phenomenon concerns classification complexity inside a single fibre. The benchmark used here is simultaneous similarity of pairs of matrices:
+\[
+(A,B)\sim(A',B')
+\]
+if there exists an invertible matrix \(P\) such that
+\[
+A'=PAP^{-1},
+\qquad
+B'=PBP^{-1}.
+\]
+
+\begin{definition}[Matrix-pair subproblem in fixed fibres]
+Let \(\Omega:\mathcal X\to A\) be an observable. A matrix-pair subproblem in fixed fibres consists of maps
+\[
+\mathcal C_n:\mathcal U_n\to\mathcal X,
+\qquad
+\mathcal U_n\subseteq M_n(k)^2,
+\]
+and values \(\omega_n\in A\), for infinitely many \(n\), such that
+\[
+\Omega(\mathcal C_n(A,B))=\omega_n
+\]
+for all \((A,B)\in\mathcal U_n\), and
+\[
+\mathcal C_n(A,B)\cong \mathcal C_n(A',B')
+\quad\Longleftrightarrow\quad
+(A,B)\sim(A',B')
+\]
+within the chosen matrix-pair class.
+
+If all \(\omega_n\) are equal to a single value \(\omega_0\), the subproblem lies inside one fibre.
+\end{definition}
+
+\begin{theorem}[Wild-fibre transfer]
+If fixed fibres of an observable contain a matrix-pair subproblem whose source class contains simultaneous similarity of arbitrary matrix pairs by a fully faithful representation embedding, then classification within those fixed fibres is wild. If all \(\omega_n\) are equal, the same conclusion holds inside one fibre.
+\end{theorem}
+
+\begin{proof}
+For each \(n\), the map \(\mathcal C_n\) sends all source objects to the fixed fibre \(\Omega^{-1}(\omega_n)\). The displayed equivalence says that isomorphism inside that fibre, restricted to this image, is exactly simultaneous similarity of the source pairs. Therefore any classification of objects in these fibres would, by restriction to the image of the \(\mathcal C_n\), classify the source matrix-pair problem. If the source contains arbitrary simultaneous similarity by a fully faithful representation embedding, then the corresponding fixed fibres contain a standard wild classification problem. When all \(\omega_n\) coincide, this subproblem lies inside the single fibre \(\Omega^{-1}(\omega_0)\).
+\end{proof}
+
+\section{Budgeted Morita Equivalence}
+
+Transfer packages can also express when two presentation contexts are quantitatively the same theory.
+
+\begin{definition}[Budgeted Morita equivalence]
+Let \(\mathcal H\) be an overhead class. Two presentation contexts \(\mathfrak P\) and \(\mathfrak Q\) are \(\mathcal H\)-Morita equivalent if there are transfer packages
+\[
+\mathfrak P\longrightarrow\mathfrak Q,
+\qquad
+\mathfrak Q\longrightarrow\mathfrak P,
+\]
+with all overheads in \(\mathcal H\), such that the two composites are equivalent to the identity packages on objects, bounded parts, observables, operations, verification relations, and fibre navigation profiles, again with overheads in \(\mathcal H\).
+\end{definition}
+
+\begin{proposition}[Invariance under budgeted Morita equivalence]
+If \(\mathfrak P\) and \(\mathfrak Q\) are \(\mathcal H\)-Morita equivalent, then every theorem in the interpretable budgeted fragment of one context transfers to the other with \(\mathcal H\)-distortion. In particular, presentation complexity, observable distinguishing costs, verification profiles, bridge profiles, and bounded obstruction profiles agree up to \(\mathcal H\)-equivalence whenever they are expressible in that fragment.
+\end{proposition}
+
+\begin{proof}
+Apply the controlled transfer metatheorem to the package \(\mathfrak P\to\mathfrak Q\) and then to the package \(\mathfrak Q\to\mathfrak P\). The comparison data for the composites identify the transported statements with the original ones, while the closure of \(\mathcal H\) under composition keeps the resulting overheads inside \(\mathcal H\). The listed profiles are defined by bounded existential or universal statements over the layers explicitly preserved by the equivalence, so their upper and lower bounds transport in both directions.
+\end{proof}
+
+\section{Transfer Graphs}
+
+\begin{definition}[Transfer graph]
+A transfer graph is a directed graph whose vertices are presentation contexts and whose arrows are transfer packages. Each arrow is labelled by its overhead vector.
+\end{definition}
+
+\begin{definition}[Transport along a path]
+A path
+\[
+\mathfrak P_0\to\mathfrak P_1\to\cdots\to\mathfrak P_n
+\]
+induces a composite transfer package
+\[
+\mathfrak P_0\to\mathfrak P_n.
+\]
+Its overhead vector is obtained by componentwise composition of the overheads along the path.
+\end{definition}
+
+The resulting transport distance is generally not a metric. It is directed, multiresource, and takes values in functions or upper sets of functions.
+
+Common hubs in transfer graphs include representation schemes, matrix-pair classification, finite-window constraint systems, computable limiting processes, nonlocal games, cellular automata, formal grammars, matrix semigroups, chain complexes, tensor networks, tropicalizations, finite-test profiles, proof systems, automata, syntactic monoids, differential modules, and Galois representations.
+
+\section{Application I: Rank-Invariant Fibres}
+
+We first apply the transfer viewpoint to multiparameter persistence. The point is not that the rank invariant is incomplete; that is well known. The point is that its fibres can contain arbitrary algebraic singularity types.
+
+Let \(k\) be an algebraically closed field and let
+\[
+R=k[t_1,\ldots,t_m]
+\]
+with its standard \(\mathbb N^m\)-grading. A finitely presented \(\mathbb N^m\)-graded \(R\)-module is an \(m\)-parameter persistence module.
+
+For such a module \(M\), the rank invariant is
+\[
+\rho_M(a,b)=\rank(M_a\to M_b),
+\qquad a\leq b.
+\]
+
+\subsection{The Incidence Compiler}
+
+Let \(V\) be a finite-dimensional \(k\)-vector space and let
+\[
+\mathbf L=(L_1,\ldots,L_m)
+\]
+be a labelled tuple of subspaces \(L_i\subseteq V\). Define
+\[
+P(\mathbf L)
+=
+(R\otimes_k V)\Big/\sum_{i=1}^m t_iR\otimes_k L_i.
+\]
+This module is generated in degree \(0\), with relations \(t_i\ell=0\) for \(\ell\in L_i\).
+
+\begin{lemma}[Graded pieces]
+For \(a=(a_1,\ldots,a_m)\in\mathbb N^m\), set
+\[
+S(a)=\{i:a_i\geq1\}.
+\]
+Then
+\[
+P(\mathbf L)_a
+\simeq
+V\Big/\sum_{i\in S(a)}L_i.
+\]
+If \(a\leq b\), the structure map
+\[
+P(\mathbf L)_a\to P(\mathbf L)_b
+\]
+is the natural quotient map
+\[
+V\Big/\sum_{i\in S(a)}L_i
+\longrightarrow
+V\Big/\sum_{i\in S(b)}L_i.
+\]
+\end{lemma}
+
+\begin{proof}
+The degree-\(a\) component of \(R\otimes_k V\) is a copy of \(V\), generated by \(t^a\otimes V\). The submodule \(t_iR\otimes L_i\) contributes to degree \(a\) exactly when \(a_i\ge1\), and in that degree it contributes the subspace \(L_i\subseteq V\). Hence the degree-\(a\) quotient is
+\[
+V/\sum_{i:a_i\ge1}L_i.
+\]
+Multiplication by \(t^{b-a}\) carries the degree-\(a\) copy of \(V\) to the degree-\(b\) copy of \(V\), and the relation subspace can only increase from \(\sum_{i\in S(a)}L_i\) to \(\sum_{i\in S(b)}L_i\). Therefore the induced map is the displayed quotient map.
+\end{proof}
+
+\begin{lemma}[Rank invariant as a subspace-rank function]
+For \(a\leq b\),
+\[
+\rho_{P(\mathbf L)}(a,b)
+=
+\dim V-\dim\left(\sum_{i\in S(b)}L_i\right).
+\]
+Thus the rank invariant of \(P(\mathbf L)\) depends only on the labelled rank function
+\[
+r_\mathbf L(S)=\dim\sum_{i\in S}L_i.
+\]
+\end{lemma}
+
+\begin{proof}
+By the preceding lemma, \(P(\mathbf L)_a\to P(\mathbf L)_b\) is the quotient map
+\[
+V/\sum_{i\in S(a)}L_i
+\longrightarrow
+V/\sum_{i\in S(b)}L_i.
+\]
+This map is surjective. Its rank is therefore the dimension of its codomain:
+\[
+\dim V-\dim\sum_{i\in S(b)}L_i.
+\]
+\end{proof}
+
+\begin{lemma}[Recovery of the labelled arrangement]
+Let \(\mathbf L=(L_1,\ldots,L_m)\subset V\) and \(\mathbf L'=(L'_1,\ldots,L'_m)\subset V'\). Then
+\[
+P(\mathbf L)\cong P(\mathbf L')
+\]
+as \(\mathbb N^m\)-graded \(R\)-modules if and only if there is a linear isomorphism
+\[
+T:V\to V'
+\]
+such that
+\[
+T(L_i)=L'_i
+\]
+for every \(i\).
+\end{lemma}
+
+\begin{proof}
+A graded \(R\)-module homomorphism
+\[
+\Phi:P(\mathbf L)\to P(\mathbf L')
+\]
+is determined by its degree-zero part \(T:V\to V'\), because \(P(\mathbf L)\) is generated in degree \(0\). In \(P(\mathbf L)\), the subspace \(L_i\subset V=P(\mathbf L)_0\) is exactly
+\[
+\ker\bigl(P(\mathbf L)_0\xrightarrow{t_i}P(\mathbf L)_{e_i}\bigr),
+\]
+since this map is \(V\to V/L_i\).
+
+Because \(\Phi\) commutes with multiplication by \(t_i\), the map \(T\) sends this kernel into the corresponding kernel \(L'_i\). Thus
+\[
+T(L_i)\subseteq L'_i.
+\]
+If \(\Phi\) is an isomorphism, applying the same argument to \(\Phi^{-1}\) gives equality.
+
+Conversely, if \(T:V\to V'\) is an isomorphism satisfying \(T(L_i)=L'_i\) for all \(i\), then
+\[
+\operatorname{id}_R\otimes T:R\otimes V\to R\otimes V'
+\]
+sends \(t_iR\otimes L_i\) onto \(t_iR\otimes L'_i\). It therefore descends to an isomorphism
+\[
+P(\mathbf L)\cong P(\mathbf L').
+\]
+\end{proof}
+
+\begin{theorem}[Universality inside rank-invariant fibres]
+In the standard scheme-theoretic presentation of finite multigraded \(R\)-modules of the form above, rank-invariant fibres contain locally closed strata stably equivalent to realization spaces of labelled subspace arrangements. Consequently, by Mnëv--Sturmfels universality in scheme-theoretic form, every finite-type singularity over \(\mathbb Z\) occurs, up to stable equivalence, in a rank-invariant fibre of finitely presented multiparameter persistence modules.
+\end{theorem}
+
+\begin{proof}
+The construction \(\mathbf L\mapsto P(\mathbf L)\) is algebraic in the Pluecker coordinates of the labelled subspaces. The preceding lemmas show two facts.
+
+First, the rank invariant of \(P(\mathbf L)\) is determined by the rank function
+\[
+S\mapsto \dim\sum_{i\in S}L_i.
+\]
+Therefore all labelled arrangements with the same rank function map into a single rank-invariant fibre.
+
+Second, within the image of this construction, the graded module \(P(\mathbf L)\) remembers the labelled arrangement up to simultaneous linear change of coordinates. Thus the corresponding locally closed piece of the rank-invariant fibre has the same local moduli, up to the usual stable factors coming from choices of coordinates and presentation format, as the realization space of the arrangement.
+
+Scheme-theoretic Mnëv--Sturmfels universality says that realization spaces of finite incidence or matroid-type configurations realize every finite-type singularity over \(\mathbb Z\), up to stable equivalence. Such incidence configurations can be encoded as labelled subspace arrangements: for example, points and lines in \(\mathbb P^2\) become one- and two-dimensional subspaces of \(k^3\), and incidence is the rank condition
+\[
+p\subseteq \ell
+\quad\Longleftrightarrow\quad
+\dim(p+\ell)=2.
+\]
+Non-incidence is the complementary locally open rank condition. Hence the relevant realization spaces appear among fixed-rank-function subspace-arrangement strata. Applying the compiler \(\mathbf L\mapsto P(\mathbf L)\) places these strata inside rank-invariant fibres.
+\end{proof}
+
+\begin{corollary}
+Rank-invariant fibres in multiparameter persistence can be reducible, non-normal, non-reduced, and singular in arbitrary finite-type ways.
+\end{corollary}
+
+\begin{theorem}[Restricted real rank-profile realizability]
+Over \(\mathbb R\), the following restricted realizability problem is \(\exists\mathbb R\)-complete: given integers \(d,m\) and a function
+\[
+r:2^{\{1,\ldots,m\}}\to\mathbb N,
+\]
+decide whether there are subspaces
+\[
+L_1,\ldots,L_m\subseteq\mathbb R^d
+\]
+such that
+\[
+\dim\sum_{i\in S}L_i=r(S)
+\]
+for every \(S\subseteq\{1,\ldots,m\}\). Consequently, the rank-invariant realizability problem for persistence modules in the image of the compiler \(\mathbf L\mapsto P(\mathbf L)\) is \(\exists\mathbb R\)-complete.
+\end{theorem}
+
+\begin{proof}
+Membership in \(\exists\mathbb R\) follows by choosing matrix coordinates for the subspaces \(L_i\). The condition
+\[
+\dim\sum_{i\in S}L_i\leq r(S)
+\]
+is expressed by vanishing of all \((r(S)+1)\)-minors of the concatenated matrix for the \(L_i\) with \(i\in S\). The condition
+\[
+\dim\sum_{i\in S}L_i\geq r(S)
+\]
+is expressed by the non-vanishing of at least one \(r(S)\)-minor, equivalently by a finite disjunction of polynomial inequalities. Since existential first-order formulas over the reals allow finite Boolean combinations of polynomial equalities and inequalities, this gives an \(\exists\mathbb R\) description.
+
+Hardness follows from real representability of rank-three matroids. A rank-three matroid on labelled elements can be encoded by one-dimensional subspaces
+\[
+L_i\subseteq\mathbb R^3,
+\]
+with the matroid rank of \(S\) equal to
+\[
+\dim\sum_{i\in S}L_i.
+\]
+Mnëv universality, in particular its standard complexity-theoretic consequence for real matroid realizability, gives \(\exists\mathbb R\)-hardness. The final statement follows from the lemma identifying the rank invariant of \(P(\mathbf L)\) with the labelled rank function of \(\mathbf L\).
+\end{proof}
+
+\begin{theorem}[Boolean-lattice restriction-rank fibres]
+Let \(B_m\) be the Boolean lattice of subsets of \(\{1,\ldots,m\}\). For a labelled subspace arrangement
+\[
+\mathbf L=(L_1,\ldots,L_m)\subset V,
+\]
+define a functor
+\[
+F_{\mathbf L}:B_m\to\mathrm{Vect}_k
+\]
+by
+\[
+F_{\mathbf L}(S)=V\Big/\sum_{i\in S}L_i,
+\]
+with the natural quotient map \(F_{\mathbf L}(S)\to F_{\mathbf L}(T)\) for \(S\subseteq T\). The restriction-rank profile
+\[
+\rho_{\mathbf L}(S,T)=
+\rank\bigl(F_{\mathbf L}(S)\to F_{\mathbf L}(T)\bigr)
+\]
+has fibres containing, up to stable equivalence, every finite-type singularity over \(\mathbb Z\).
+\end{theorem}
+
+\begin{proof}
+For \(S\subseteq T\), the map
+\[
+F_{\mathbf L}(S)\to F_{\mathbf L}(T)
+\]
+is surjective. Hence
+\[
+\rho_{\mathbf L}(S,T)
+=
+\dim F_{\mathbf L}(T)
+=
+\dim V-\dim\sum_{i\in T}L_i.
+\]
+Thus the full restriction-rank profile depends only on the labelled rank function
+\[
+T\mapsto\dim\sum_{i\in T}L_i.
+\]
+
+Conversely, the functor \(F_{\mathbf L}\) remembers the labelled arrangement up to simultaneous linear change of coordinates, because
+\[
+F_{\mathbf L}(\varnothing)=V
+\]
+and
+\[
+L_i=
+\ker\bigl(F_{\mathbf L}(\varnothing)\to F_{\mathbf L}(\{i\})\bigr).
+\]
+Therefore the map \(\mathbf L\mapsto F_{\mathbf L}\) is a rank-profile compiler in the sense of the Murphy transfer theorem. Applying that theorem gives the asserted singularity types inside fibres of the restriction-rank profile.
+\end{proof}
+
+\begin{theorem}[Fixed rank-profile fibres contain matrix-pair classification]
+Let \(k\) be an algebraically closed field. For each \(n\), there is a restriction-rank profile on the Boolean lattice \(B_5\) whose fibre contains the simultaneous-similarity classification of an open matrix-pair class in \(M_n(k)^2\). As \(n\) varies, these fixed-profile fibres contain a fully faithful copy of the classification of arbitrary pairs of matrices up to simultaneous similarity.
+\end{theorem}
+
+\begin{proof}
+Let \(U=k^n\) and \(W=U\oplus U\). For a pair \((A,B)\in M_n(k)^2\), define five labelled \(n\)-dimensional subspaces of \(W\):
+\[
+E=U\oplus0,
+\qquad
+F=0\oplus U,
+\qquad
+D=\{(x,x):x\in U\},
+\]
+\[
+G_A=\{(x,Ax):x\in U\},
+\qquad
+G_B=\{(x,Bx):x\in U\}.
+\]
+Assume
+\[
+A,\ B,\ A-I,\ B-I,\ A-B
+\]
+are invertible. Then any two distinct subspaces in the list span \(W\). Therefore the labelled rank function of this five-subspace arrangement is independent of \((A,B)\):
+\[
+\dim\sum_{i\in S}L_i=
+\begin{cases}
+0,&S=\varnothing,\\
+n,&|S|=1,\\
+2n,&|S|\geq2.
+\end{cases}
+\]
+Applying the Boolean-lattice construction to this arrangement gives functors
+\[
+F_{A,B}:B_5\to\mathrm{Vect}_k
+\]
+all lying in one restriction-rank fibre for the fixed value above.
+
+It remains to identify isomorphism in this fibre on the constructed subfamily. The functor remembers the labelled arrangement because each labelled subspace is recovered as
+\[
+L_i=\ker\bigl(F_{A,B}(\varnothing)\to F_{A,B}(\{i\})\bigr).
+\]
+Thus an isomorphism \(F_{A,B}\cong F_{A',B'}\) is the same as a linear isomorphism \(T:W\to W\) preserving the five labelled subspaces. Preservation of \(E\) and \(F\) gives
+\[
+T=
+\begin{pmatrix}
+P&0\\
+0&Q
+\end{pmatrix}.
+\]
+Preservation of \(D\) forces \(Q=P\). Preservation of \(G_A\) and \(G_B\) is then exactly
+\[
+A'=PAP^{-1},
+\qquad
+B'=PBP^{-1}.
+\]
+The converse is immediate from the block-diagonal map \(\operatorname{diag}(P,P)\). Hence the fixed rank-profile fibre contains simultaneous similarity of the indicated open matrix-pair class.
+
+The open conditions do not remove the usual matrix-pair classification problem. Given an arbitrary pair \((X,Y)\in M_n(k)^2\), choose scalars \(\lambda_i,\mu_i\in k\setminus\{0,1\}\) with the \(\lambda_i\) distinct and \(\lambda_i\neq\mu_i\). Define, on \(U^{\oplus5}\),
+\[
+A_0=\operatorname{diag}(\lambda_1I,\ldots,\lambda_5I)
+\]
+and
+\[
+B_{X,Y}=
+\begin{pmatrix}
+\mu_1I&I&X&Y&0\\
+0&\mu_2I&I&0&0\\
+0&0&\mu_3I&I&0\\
+0&0&0&\mu_4I&I\\
+0&0&0&0&\mu_5I
+\end{pmatrix}.
+\]
+The pair \((A_0,B_{X,Y})\) satisfies the invertibility conditions above. If
+\[
+(A_0,B_{X,Y})\sim(A_0,B_{X',Y'}),
+\]
+then the conjugating matrix must be block diagonal because the \(\lambda_i\) are distinct. The identity blocks in \(B_{X,Y}\) force all diagonal blocks to be equal, and the \((1,3)\)- and \((1,4)\)-blocks then give
+\[
+X'=PXP^{-1},
+\qquad
+Y'=PYP^{-1}.
+\]
+Conversely, any simultaneous similarity between \((X,Y)\) and \((X',Y')\) gives a simultaneous similarity between the stabilized pairs. Thus arbitrary matrix-pair similarity embeds fully faithfully into the open class used above.
+\end{proof}
+
+\begin{corollary}[Fixed rank-invariant fibres in five-parameter persistence]
+For each \(n\), there is a rank invariant \(\rho_n\) of finitely presented \(5\)-parameter persistence modules such that the fibre
+\[
+\{M:\rho_M=\rho_n\}
+\]
+contains the simultaneous-similarity classification of an open class of pairs in \(M_n(k)^2\). As \(n\) varies, these fixed-rank-invariant fibres contain the usual matrix-pair classification problem.
+\end{corollary}
+
+\begin{proof}
+Use the same five subspaces
+\[
+(E,F,D,G_A,G_B)\subset W=U\oplus U
+\]
+as in the preceding theorem, and form the \(5\)-parameter module
+\[
+M_{A,B}
+=
+(k[t_1,\ldots,t_5]\otimes_k W)
+\Big/
+\sum_{i=1}^5 t_i k[t_1,\ldots,t_5]\otimes_k L_i.
+\]
+The graded-piece lemma gives
+\[
+(M_{A,B})_a\simeq
+W\Big/\sum_{i\in S(a)}L_i,
+\qquad
+S(a)=\{i:a_i\geq1\}.
+\]
+Therefore the rank invariant is determined by
+\[
+S\mapsto\dim\sum_{i\in S}L_i.
+\]
+Under the open conditions
+\[
+A,\ B,\ A-I,\ B-I,\ A-B
+\]
+invertible, this rank function is the fixed function
+\[
+\dim\sum_{i\in S}L_i=
+\begin{cases}
+0,&S=\varnothing,\\
+n,&|S|=1,\\
+2n,&|S|\geq2.
+\end{cases}
+\]
+Hence all \(M_{A,B}\) lie in one rank-invariant fibre.
+
+The recovery lemma for \(P(\mathbf L)\) says that an isomorphism
+\[
+M_{A,B}\cong M_{A',B'}
+\]
+is exactly a simultaneous linear isomorphism of the five labelled subspaces. The proof of the preceding theorem identifies this condition with
+\[
+A'=PAP^{-1},
+\qquad
+B'=PBP^{-1}.
+\]
+The same stabilization argument embeds arbitrary matrix-pair similarity into the open class.
+\end{proof}
+
+\begin{proposition}[Finite-poset presentation equivalence]
+For every finite poset \(P\), the following presentation contexts are polynomially equivalent:
+\[
+\text{functors }P\to\mathrm{Vect}_k,
+\]
+\[
+\text{representations of the Hasse quiver of }P\text{ with commutativity relations},
+\]
+\[
+\text{finite modules over the incidence algebra }kP,
+\]
+and sheaves or cosheaves on the Alexandrov space associated to \(P\), with the corresponding choice of covariance. Under these translations, dimension vectors, ranks of structure maps, morphisms, endomorphism algebras, and decomposability are preserved with polynomial overhead in the size of \(P\) and the chosen linear data.
+\end{proposition}
+
+\begin{proof}
+A functor \(P\to\mathrm{Vect}_k\) assigns a vector space to each \(p\in P\) and a linear map to each relation \(p\leq q\), compatible with composition. The Hasse quiver records only cover relations. Imposing commutativity along all comparable paths reconstructs exactly the functorial data.
+
+The incidence algebra \(kP\) has idempotents \(e_p\) and basis elements \(e_{pq}\) for \(p\leq q\). A finite \(kP\)-module decomposes into components \(e_pM\), and the elements \(e_{pq}\) give compatible maps \(e_pM\to e_qM\). This is again the same data as a functor \(P\to\mathrm{Vect}_k\).
+
+For the Alexandrov topology associated to \(P\), sheaves and cosheaves encode the same finite diagram, with variance determined by the convention for specialization order. All conversions are explicit and use only finitely many linear maps indexed by \(P\), so their presentation overhead is polynomial.
+\end{proof}
+
+\begin{corollary}[Rank-derived invariants inherit fixed-fibre complexity]
+Let \(I\) be any invariant on one of the finite-poset, sheaf, quiver, or multiparameter-persistence contexts above that factors through the relevant rank profile:
+\[
+I(M)=\Phi(\rho_M).
+\]
+Then some fibre of \(I\) contains, up to stable equivalence, every finite-type singularity over \(\mathbb Z\). Moreover, for each \(n\), some fibre of \(I\) contains the simultaneous-similarity classification of pairs of \(n\times n\) matrices. Thus rank-derived invariants do not remove the fixed-profile matrix-pair subproblems exhibited above.
+\end{corollary}
+
+\begin{proof}
+By the Boolean-lattice theorem, for every finite-type singularity there is a rank-profile fibre containing that singularity stably. If \(I=\Phi\circ\rho\), then every rank-profile fibre is contained in a fibre of \(I\). Therefore the same singularity occurs in an \(I\)-fibre.
+
+For the matrix-pair statement, use either construction above. The objects constructed there have a fixed rank profile \(\rho_n\), hence a fixed value
+\[
+\Phi(\rho_n)
+\]
+of \(I\). Their isomorphism problem is simultaneous similarity of \(n\times n\) matrix pairs.
+\end{proof}
+
+\section{Application II: Finite-Quotient Observable Budgets}
+
+Finite quotients form a natural observable system for finitely presented groups.
+
+Let \(P=\langle S\mid R\rangle\) be a finite presentation, and let \(G_P\) be the group it presents. Let \(|P|\) denote a fixed total presentation length.
+
+For every finite group \(Q\), define the observable
+\[
+\omega_Q(G)=\Hom(G,Q),
+\]
+with observable cost
+\[
+\chi(\omega_Q)=|Q|.
+\]
+
+\begin{definition}[First nontrivial finite quotient]
+Define
+\[
+q(P)=
+\min\{|Q|:Q\text{ finite and there exists }G_P\to Q
+\text{ with nontrivial image}\}.
+\]
+If no such \(Q\) exists, set \(q(P)=\infty\).
+\end{definition}
+
+\begin{theorem}[No computable finite-quotient observable budget]
+There is no computable function
+\[
+f:\mathbb N\to\mathbb N
+\]
+such that, for every finite presentation \(P\),
+\[
+q(P)<\infty\Longrightarrow q(P)\leq f(|P|).
+\]
+\end{theorem}
+
+\begin{proof}
+Assume such an \(f\) exists. Given a finite presentation \(P\), compute
+\[
+N=f(|P|).
+\]
+There are finitely many multiplication tables of groups of order at most \(N\), and they can be enumerated. For each such finite group \(Q\), enumerate all maps from the finite generating set \(S\) of \(P\) to \(Q\). Each map determines a homomorphism from the free group on \(S\). Check whether every relator in \(R\) maps to the identity of \(Q\). If so, the map descends to a homomorphism
+\[
+G_P\to Q.
+\]
+Then check whether its image is nontrivial.
+
+If such a homomorphism is found, \(G_P\) has a nontrivial finite quotient. If no such homomorphism is found for any \(Q\) of order at most \(N\), the assumed bound implies that no nontrivial finite quotient exists. Thus \(f\) would decide whether the profinite completion of \(G_P\) is nontrivial.
+
+This contradicts the undecidability theorem of Bridson and Wilton for triviality of profinite completions of finitely presented groups. Therefore no computable \(f\) exists.
+\end{proof}
+
+\begin{corollary}[Invisibility below every computable finite budget]
+For every computable function \(f\), there exists a finite presentation \(P\) such that \(G_P\) has a nontrivial finite quotient, but every homomorphism
+\[
+G_P\to Q
+\]
+is trivial for every finite group \(Q\) with
+\[
+|Q|\leq f(|P|).
+\]
+\end{corollary}
+
+\begin{proof}
+If the statement failed for some computable \(f\), then \(f\) would bound \(q(P)\) for every \(P\) with \(q(P)<\infty\), contradicting the theorem.
+\end{proof}
+
+\begin{definition}[Finite-quotient profile]
+Define
+\[
+W(n)=
+\max\{q(P):|P|\leq n,\ q(P)<\infty\}.
+\]
+\end{definition}
+
+\begin{proposition}[Turing degree of the finite-quotient profile]
+The function \(W\) has the same Turing degree as the decision problem
+\[
+A=\{P:G_P\text{ has a nontrivial finite quotient}\}.
+\]
+\end{proposition}
+
+\begin{proof}
+Given oracle access to \(W\), decide \(A\) as follows. On input \(P\), compute
+\[
+N=W(|P|).
+\]
+Enumerate finite groups \(Q\) of order at most \(N\), and enumerate homomorphisms \(G_P\to Q\). If a nontrivial image is found, answer yes; otherwise answer no. By definition of \(W\), this is correct. Hence \(A\leq_T W\).
+
+Conversely, given oracle access to \(A\), compute \(W(n)\) by enumerating all finite presentations \(P\) with \(|P|\leq n\). There are finitely many. Use the oracle to select those in \(A\). For each selected \(P\), enumerate finite groups and homomorphisms until the least nontrivial finite quotient is found. This search terminates for every selected \(P\). Take the maximum of the resulting finite list. Hence \(W\leq_T A\).
+\end{proof}
+
+\begin{corollary}[No computable finite-linear observable budget]
+There is no computable function
+\[
+d:\mathbb N\to\mathbb N
+\]
+such that, for every finite presentation \(P\), if \(G_P\) has a nontrivial finite quotient, then there exists a nontrivial homomorphism
+\[
+G_P\to \operatorname{GL}_{d'}(\mathbb F_2)
+\]
+for some \(d'\leq d(|P|)\).
+\end{corollary}
+
+\begin{proof}
+If such a computable function existed, then one could decide whether \(G_P\) has a nontrivial finite quotient as follows. Compute \(d(|P|)\). For each
+\[
+1\leq d'\leq d(|P|),
+\]
+the finite group \(\operatorname{GL}_{d'}(\mathbb F_2)\) is explicitly enumerable. Enumerate all maps from the generators of \(P\) to this group, check the relators, and test whether the resulting image is nontrivial. If a nontrivial image is found, answer yes; otherwise answer no. The assumed bound makes the negative answer correct.
+
+This contradicts Bridson--Wilton undecidability. Conversely, every nontrivial finite quotient \(Q\) has a faithful left-regular permutation representation, hence a faithful linear representation
+\[
+Q\hookrightarrow \operatorname{GL}_{|Q|}(\mathbb F_2).
+\]
+Thus finite-linear observables over \(\mathbb F_2\) detect exactly the same positive property, but they do not admit a computable completeness budget.
+\end{proof}
+
+\section{Application III: Pachner Fibre Barriers}
+
+The third application concerns the geometry of a single fibre of a triangulation presentation.
+
+Let \(\mathcal D\) be the class of finite triangulations of closed PL \(4\)-manifolds. The realization map is
+\[
+\rho(T)=|T|_{\mathrm{PL}},
+\]
+and the cost is
+\[
+\kappa(T)=\#\{\text{\(4\)-simplices of }T\}.
+\]
+For a fixed closed PL \(4\)-manifold \(M\), the fibre
+\[
+\mathcal F(M)=\rho^{-1}(M)
+\]
+is the set of all triangulations of \(M\). Pachner moves connect this fibre.
+
+\begin{definition}[Pachner height]
+Fix a triangulation \(T_\ast\in\mathcal F(M)\). For \(T\in\mathcal F(M)\), define
+\[
+h_P(T,T_\ast)
+=
+\min_{\gamma:T\leadsto T_\ast}
+\max_{S\in\gamma}|S|,
+\]
+where \(\gamma\) ranges over Pachner paths from \(T\) to \(T_\ast\), and \(|S|\) denotes the number of \(4\)-simplices of \(S\).
+\end{definition}
+
+\begin{theorem}[Non-recursive Pachner bridge height]
+There exists a closed PL \(4\)-manifold \(M\) and a triangulation \(T_\ast\) of \(M\) such that no computable function
+\[
+f:\mathbb N\to\mathbb N
+\]
+satisfies
+\[
+h_P(T,T_\ast)\leq f(|T|)
+\]
+for every triangulation \(T\) of \(M\).
+\end{theorem}
+
+\begin{proof}
+Choose a closed PL \(4\)-manifold \(M\) that is not algorithmically recognizable: there is no algorithm deciding, for an arbitrary triangulated closed PL \(4\)-manifold \(X\), whether \(X\cong_{\mathrm{PL}}M\). Such manifolds exist by Markov-type unrecognizability results in dimension \(4\).
+
+Fix a triangulation \(T_\ast\) of \(M\). Suppose, toward contradiction, that a computable function \(f\) bounds \(h_P(T,T_\ast)\) for every triangulation \(T\) of \(M\).
+
+We construct an algorithm recognizing \(M\). Given a triangulated closed PL \(4\)-manifold \(X\), compute
+\[
+N=f(|X|).
+\]
+Enumerate all triangulations reachable from \(X\) by Pachner moves while never exceeding \(N\) top-dimensional simplices. This search is finite, because there are only finitely many combinatorial triangulations with at most \(N\) top-dimensional simplices.
+
+If \(T_\ast\) appears in this finite search, answer yes. If not, answer no. If \(X\cong_{\mathrm{PL}}M\), Pachner's theorem gives a Pachner path from \(X\) to \(T_\ast\). The assumed height bound gives such a path staying below \(N\), so the search finds it. If \(X\not\cong_{\mathrm{PL}}M\), no Pachner path reaches \(T_\ast\), because Pachner moves preserve PL homeomorphism type.
+
+This algorithm recognizes \(M\), contradiction.
+\end{proof}
+
+\begin{corollary}[Non-recursive Pachner distance]
+For the same \(M\) and \(T_\ast\), there is no computable function \(g\) such that
+\[
+d_P(T,T_\ast)\leq g(|T|)
+\]
+for every triangulation \(T\) of \(M\).
+\end{corollary}
+
+\begin{proof}
+If such a \(g\) existed, one could recognize \(M\) by enumerating all Pachner paths of length at most \(g(|X|)\) from the input triangulation \(X\), checking whether one reaches \(T_\ast\). This would contradict unrecognizability of \(M\).
+\end{proof}
+
+\begin{definition}[Bridge profile]
+Define
+\[
+B_M(n)
+=
+\max\Bigl(\{|T_\ast|\}\cup
+\{h_P(T,T_\ast):T\cong_{\mathrm{PL}}M,\ |T|\leq n\}\Bigr).
+\]
+\end{definition}
+
+\begin{proposition}[Turing degree of the bridge profile]
+The function \(B_M\) has the same Turing degree as the recognition problem for \(M\).
+\end{proposition}
+
+\begin{proof}
+Given an oracle for \(B_M\), decide whether an input triangulation \(X\) is PL homeomorphic to \(M\) as follows. Compute
+\[
+N=B_M(|X|).
+\]
+Enumerate all triangulations reachable from \(X\) by Pachner moves while staying below height \(N\). If \(T_\ast\) appears, answer yes; otherwise answer no. If \(X\cong_{\mathrm{PL}}M\), the definition of \(B_M\) ensures that such a bounded-height path exists. If not, no path exists at all. Thus recognition of \(M\) is Turing reducible to \(B_M\).
+
+Conversely, assume access to an oracle recognizing \(M\). To compute \(B_M(n)\), enumerate all triangulations with at most \(n\) top-dimensional simplices. Use the oracle to select those PL homeomorphic to \(M\). For each selected triangulation \(T\), search over height bounds \(H\), increasing \(H\) one by one, and perform the finite Pachner search below height \(H\) until \(T_\ast\) is reached. Pachner's theorem guarantees termination. This computes \(h_P(T,T_\ast)\) for each selected \(T\). Taking the maximum gives \(B_M(n)\).
+\end{proof}
+
+\section{Application IV: Tietze Fibre Barriers}
+
+The group-theoretic analogue of the Pachner application uses the fibre of finite presentations of the trivial group.
+
+Fix a standard decidable Tietze graph on finite group presentations, generated by elementary Nielsen--Tietze moves and generator introduction/removal moves. The moves preserve the presented group, and Tietze's theorem says that two finite presentations of isomorphic groups lie in the same connected component. Let \(|P|\) denote total presentation length.
+
+Let
+\[
+P_\ast=\langle a\mid a\rangle
+\]
+be a base presentation of the trivial group.
+
+\begin{definition}[Tietze height]
+For a finite presentation \(P\) of the trivial group, define
+\[
+h_T(P,P_\ast)=
+\min_{\gamma:P\leadsto P_\ast}\ \max_{E\in\gamma}|E|,
+\]
+where \(\gamma\) ranges over Tietze paths from \(P\) to \(P_\ast\).
+\end{definition}
+
+\begin{theorem}[Non-recursive Tietze height for the trivial group]
+There is no computable function
+\[
+f:\mathbb N\to\mathbb N
+\]
+such that
+\[
+h_T(P,P_\ast)\leq f(|P|)
+\]
+for every finite presentation \(P\) of the trivial group.
+\end{theorem}
+
+\begin{proof}
+Suppose such a computable \(f\) existed. Given an arbitrary finite presentation \(P\), compute
+\[
+N=f(|P|).
+\]
+Enumerate the finite subgraph of the Tietze graph consisting of presentations of length at most \(N\) reachable from \(P\) through paths staying within that length bound. This is a finite effective search because there are only finitely many presentations of length at most \(N\), and the chosen elementary move relation is decidable.
+
+If \(P_\ast\) appears, then \(P\) presents the trivial group, since Tietze moves preserve the presented group. If \(P\) presents the trivial group, Tietze's theorem gives a path from \(P\) to \(P_\ast\), and the assumed bound gives such a path staying within length \(N\). Thus the finite search finds \(P_\ast\).
+
+This would decide whether an arbitrary finite presentation presents the trivial group, contradicting the Adian--Rabin undecidability theorem. Therefore no computable \(f\) exists.
+\end{proof}
+
+\begin{definition}[Tietze bridge profile]
+Define
+\[
+B_1(n)=
+\max\Bigl(\{|P_\ast|\}\cup
+\{h_T(P,P_\ast):G_P\cong 1,\ |P|\leq n\}\Bigr).
+\]
+\end{definition}
+
+\begin{proposition}[Turing degree of the Tietze bridge profile]
+The function \(B_1\) has the same Turing degree as the triviality problem for finitely presented groups.
+\end{proposition}
+
+\begin{proof}
+This is the move-fibre recognition theorem applied to finite group presentations, the realization map \(P\mapsto G_P\), the standard Tietze graph, and the fibre over the trivial group. The hypotheses are satisfied: bounded presentations are finite and effectively enumerable, the move relation is decidable by construction, and Tietze's theorem gives connectedness of each isomorphism fibre.
+\end{proof}
+
+\section{What Transfer Adds}
+
+The examples above share the same pattern. A theorem from one mathematical world is transported into the language of presentation access:
+\[
+\begin{array}{ccl}
+\text{Trakhtenbrot undecidability} &\rightsquigarrow&
+\text{non-computable finite-model budgets},\\[2mm]
+\text{Hilbert's tenth problem} &\rightsquigarrow&
+\text{non-computable integer-solution heights},\\[2mm]
+\text{undecidable theoremhood} &\rightsquigarrow&
+\text{non-computable proof-length profiles},\\[2mm]
+\text{undecidable word problem} &\rightsquigarrow&
+\text{non-computable Dehn area profiles},\\[2mm]
+\text{cellular-automaton nilpotency} &\rightsquigarrow&
+\text{non-computable stabilization time},\\[2mm]
+\text{CFG ambiguity undecidability} &\rightsquigarrow&
+\text{non-computable first ambiguity length},\\[2mm]
+\text{matrix mortality undecidability} &\rightsquigarrow&
+\text{non-computable zero-word length},\\[2mm]
+\text{domino undecidability} &\rightsquigarrow&
+\text{non-computable finite-window obstruction radius},\\[2mm]
+\mathrm{MIP}^{\ast}=\mathrm{RE} &\rightsquigarrow&
+\text{non-computable finite-dimensional strategy budgets},\\[2mm]
+\text{rank-profile universality} &\rightsquigarrow&
+\text{Murphy fibres of observables},\\[2mm]
+\text{matrix-pair similarity} &\rightsquigarrow&
+\text{wild fixed rank-profile fibres},\\[2mm]
+\text{matroid realizability} &\rightsquigarrow&
+\exists\mathbb R\text{-complete rank-profile realization},\\[2mm]
+\text{fragmented positive search} &\rightsquigarrow&
+\text{non-computable observable budgets},\\[2mm]
+\text{move-fibre recognition} &\rightsquigarrow&
+\text{non-recursive navigation in one fibre},\\[2mm]
+\text{Adian--Rabin triviality} &\rightsquigarrow&
+\text{non-recursive Tietze height}.
+\end{array}
+\]
+The transported statements expose the resource layer that is implicit in the original theorems.
+
+This suggests a practical rule: applications should search not only for invariants, but for transfer packages. Productive hubs include incidence and matroid realization spaces, matrix-pair classification, finite-window compactness systems, computable limiting processes, nonlocal games, cellular automata, formal grammars, representation schemes, finite-poset sheaves, quiver representations with relations, matrix semigroups, Macaulay complexes, differential Galois representations, tensor networks, automata, syntactic monoids, and tropicalizations.
+
+\section{Further Directions}
+
+\subsection{Transfer Atlas}
+
+The strongest current hubs are incidence-rank universality, matrix-pair classification, fragmented decidability, finite-window compactness, and computable limiting processes. Several further hubs appear promising but require additional domain-specific input before they should be stated as theorems. Representation schemes of finitely presented groups and \(3\)-manifold groups can import deformation-theoretic singularities into topological or group-theoretic presentation contexts. Algebraic proof systems may admit lower-bound transfer through initial ideals, tropical degenerations, or Macaulay presentations. Differential modules and Picard--Fuchs equations suggest a separate theory of scalar-compression costs for periods and parametrized integrals. Finite-volume spectral data in many-body Hamiltonian systems appears to fit the finite-window or convergence-modulus template once the effective model and promise structure are fixed carefully.
+
+In each case, the useful question is not only whether a construction exists, but which access layer it controls: object descriptions, bounded observables, verification data, or fibre navigation.
+
+\subsection{Quantitative Yoneda Problems}
+
+Finite-test profiles such as
+\[
+T\mapsto \Hom(X,T)
+\qquad\text{or}\qquad
+T\mapsto \Hom(T,X)
+\]
+give budgeted analogues of Yoneda-type reconstruction. The central questions are:
+\begin{enumerate}[label=(\roman*)]
+\item how much observable budget is needed to reconstruct \(X\)?
+\item how large are fibres of bounded finite-test profiles?
+\item when is the completeness modulus computable?
+\item when is it polynomial, exponential, or non-recursive?
+\end{enumerate}
+
+\subsection{Algebraic Verification Transfer}
+
+In proof theory, algebraic geometry, and symbolic computation, transfer packages often include maps on verification data. Potential examples include Nullstellensatz identities, Macaulay degree bounds, toric verification data, Groebner degenerations, and positivity proofs.
+
+\section{Conclusion}
+
+Presentation Theory begins with descriptions, realization maps, costs, observables, and fibres. This sequel develops the transfer calculus. A map between mathematical worlds becomes powerful when it controls access: descriptions, observable budgets, operations, verification data, and fibre geometry.
+
+The controlled transfer metatheorem turns this into a reusable mechanism. Every theorem written in an interpretable budgeted fragment transfers with the corresponding overheads. Fragmented positive predicates convert undecidability into non-computable resource profiles. Finite-window systems convert undecidable global existence into non-computable obstruction radii. Computable limiting systems convert undecidable threshold problems into failures of computable convergence moduli. Move-connected fibres convert recognition problems into bridge-height profiles. Rank-profile compilers convert incidence universality into Murphy-type fibres of observables. Wild-fibre compilers convert matrix-pair classification into fixed-fibre classification lower bounds.
+
+The applications show that these mechanisms convert universality and undecidability phenomena into quantitative statements about mathematical access: singular observable fibres, wild fixed-profile fibres, \(\exists\mathbb R\)-complete realization problems, non-computable finite-model and Diophantine search profiles, proof-length and Dehn-area explosion, non-computable time and ambiguity profiles, non-computable finite-window and convergence-modulus bounds, non-computable observable budgets, and non-recursive navigation heights inside single fibres.
+
+\[
+\boxed{
+\text{The geometry of access is itself a source of theorems.}
+}
+\]
+
+\begin{thebibliography}{99}
+
+\bibitem{Adian}
+S. I. Adian.
+\newblock The unsolvability of certain algorithmic problems in group theory.
+\newblock \emph{Trudy Moskov. Mat. Obshch.} 6 (1957), 231--298.
+
+\bibitem{BelitskiiSergeichuk}
+G. R. Belitskii and V. V. Sergeichuk.
+\newblock Complexity of matrix problems.
+\newblock \emph{Linear Algebra and its Applications} 361 (2003), 203--222.
+
+\bibitem{Berger}
+R. Berger.
+\newblock The undecidability of the domino problem.
+\newblock \emph{Memoirs of the American Mathematical Society} 66 (1966).
+
+\bibitem{BridsonWilton}
+M. R. Bridson and H. Wilton.
+\newblock The triviality problem for profinite completions.
+\newblock \emph{Inventiones Mathematicae} 202 (2015), 839--874.
+
+\bibitem{BridsonWordProblem}
+M. R. Bridson.
+\newblock The geometry of the word problem.
+\newblock In \emph{Invitations to Geometry and Topology}, Oxford Graduate Texts in Mathematics 7, Oxford University Press, 2002, 29--91.
+
+\bibitem{CassaigneHalavaHarjuNicolas}
+J. Cassaigne, V. Halava, T. Harju, and F. Nicolas.
+\newblock Tighter undecidability bounds for matrix mortality, zero-in-the-corner problems, and more.
+\newblock arXiv:1404.0644.
+
+\bibitem{DavisPutnamRobinson}
+M. Davis, H. Putnam, and J. Robinson.
+\newblock The decision problem for exponential Diophantine equations.
+\newblock \emph{Annals of Mathematics} 74 (1961), 425--436.
+
+\bibitem{HopcroftUllman}
+J. E. Hopcroft and J. D. Ullman.
+\newblock \emph{Introduction to Automata Theory, Languages, and Computation}.
+\newblock Addison--Wesley, 1979.
+
+\bibitem{JiNatarajanVidickWrightYuen}
+Z. Ji, A. Natarajan, T. Vidick, J. Wright, and H. Yuen.
+\newblock \( \mathrm{MIP}^{\ast}=\mathrm{RE}\).
+\newblock arXiv:2001.04383.
+
+\bibitem{KariNilpotency}
+J. Kari.
+\newblock The nilpotency problem of one-dimensional cellular automata.
+\newblock \emph{SIAM Journal on Computing} 21 (1992), 571--586.
+
+\bibitem{LeeVakil}
+S. H. Lee and R. Vakil.
+\newblock Mnëv--Sturmfels universality for schemes.
+\newblock In \emph{A Celebration of Algebraic Geometry}, Clay Mathematics Proceedings 18, 2013.
+
+\bibitem{Markov}
+A. A. Markov.
+\newblock The insolubility of the problem of homeomorphy.
+\newblock In \emph{Proceedings of the International Congress of Mathematicians}, 1958.
+
+\bibitem{Matiyasevich}
+Yu. V. Matiyasevich.
+\newblock Enumerable sets are Diophantine.
+\newblock \emph{Soviet Mathematics Doklady} 11 (1970), 354--358.
+
+\bibitem{Mnev}
+N. E. Mnëv.
+\newblock The universality theorems on the classification problem of configuration varieties and convex polytopes varieties.
+\newblock In \emph{Topology and Geometry--Rohlin Seminar}, Lecture Notes in Mathematics 1346, Springer, 1988, 527--543.
+
+\bibitem{Pachner}
+U. Pachner.
+\newblock P.L. homeomorphic manifolds are equivalent by elementary shellings.
+\newblock \emph{European Journal of Combinatorics} 12 (1991), 129--145.
+
+\bibitem{Rabin}
+M. O. Rabin.
+\newblock Recursive unsolvability of group theoretic problems.
+\newblock \emph{Annals of Mathematics} 67 (1958), 172--194.
+
+\bibitem{Tietze}
+H. Tietze.
+\newblock Ueber die topologischen Invarianten mehrdimensionaler Mannigfaltigkeiten.
+\newblock \emph{Monatshefte fuer Mathematik und Physik} 19 (1908), 1--118.
+
+\bibitem{Trakhtenbrot}
+B. A. Trakhtenbrot.
+\newblock The impossibility of an algorithm for the decision problem on finite classes.
+\newblock \emph{AMS Translations, Series 2} 23 (1963), 1--5.
+
+\bibitem{Vakil}
+R. Vakil.
+\newblock Murphy's Law in algebraic geometry: badly-behaved deformation spaces.
+\newblock \emph{Inventiones Mathematicae} 164 (2006), 569--590.
+
+\end{thebibliography}
+
+\end{document}
