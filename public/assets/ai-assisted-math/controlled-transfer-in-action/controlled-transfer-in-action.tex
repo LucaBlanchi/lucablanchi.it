@@ -1,0 +1,592 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.05in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\DeclareMathOperator{\CT}{CT}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\trdeg}{trdeg}
+\DeclareMathOperator{\Spec}{Spec}
+
+\title{Controlled Transfer in Action: Selected Examples}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This addendum collects selected examples in which a theorem from one mathematical domain is transported into a distant target theory, where it becomes a natural statement about the target's own objects, observables, and budgets. The aim is not to build an encyclopedia of analogies. The aim is to show that controlled transfer can be used as proof technology: a source theorem, together with a precise dictionary of objects and observables, yields a target theorem that would be difficult to see from the target presentation alone.
+
+The strongest examples are highlighted first. Pila--Wilkie counting gives a criterion for algebraic laws from excess low-denominator observations in tame scientific data. Denef--Igusa rationality gives finite-memory laws for Hensel lifting trees and divisibility profiles. Christol's theorem turns lattice-walk return counts modulo a prime into finite automata. Vinogradov mean-value estimates control collisions among central fingerprints of Young diagrams. Further examples include algebraic query selectivity, Frobenius modular codes, Hurwitz factorization polynomiality, rational trigonometric resonances, rational pattern copies on tame curves, mutation-invariant lattice-walk periods, algebraic clocks for matrix powers, and a bounded-label well-quasi-order template for arborescent links.
+
+A final note distinguishes theorem-producing transfers from conjectural pullbacks. Pullbacks of open conjectures are useful only when the source formulation belongs to a theory with independent structure and tools; otherwise they are diagnostic changes of language rather than evidence.
+\end{abstract}
+
+\section{Status of the Addendum}
+
+This addendum should be read as a companion to the transfer calculus and to the atlas of transfer packages. It is not a fourth foundational layer. It is a gallery of selected results and result-templates showing how the calculus is meant to operate.
+
+Each example has the same format:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item a source theorem or proof engine;
+\item a target context;
+\item a transfer dictionary;
+\item a target statement;
+\item a short proof idea or caveat.
+\end{enumerate}
+
+The examples are ordered by a mix of relevance, surprise, elegance, and reliability. Highlighted examples are those that best show the value of controlled transfer as proof technology.
+
+\section{Highlight: Algebraic Law from Quantized Excess}
+
+\textbf{Source theorem.}
+Pila--Wilkie rational point counting in o-minimal structures.
+
+\textbf{Target context.}
+Symbolic regression, telemetry law discovery, and scientific model discovery from quantized data.
+
+\textbf{Transfer dictionary.}
+\[
+\begin{array}{c|c}
+\text{o-minimal geometry} & \text{law discovery from data}\\ \hline
+\text{definable set} & \text{model class or behaviour set}\\
+\text{rational point of height }\leq H & \text{finite-precision rational record}\\
+\text{transcendental part} & \text{tame non-algebraic behaviour}\\
+\text{positive-dimensional semialgebraic part} & \text{hidden algebraic law}\\
+O(H^\varepsilon) & \text{subpolynomial accidental-excess bound}
+\end{array}
+\]
+
+\begin{theorem}[Quantized excess forces algebraic structure]
+Let \(X\subseteq[0,1]^n\) be definable in a fixed o-minimal expansion of the real field. Suppose that, for some \(\delta>0\), the number of rational points of height at most \(H\) in \(X\) is at least \(H^\delta\) for arbitrarily large \(H\). Then the algebraic part of \(X\) contains a positive-dimensional semialgebraic subset.
+\end{theorem}
+
+\begin{proof}
+By the Pila--Wilkie theorem, for every \(\varepsilon>0\), the rational points of height at most \(H\) on the transcendental part of \(X\) are \(O_{X,\varepsilon}(H^\varepsilon)\). Choose \(0<\varepsilon<\delta\). The assumed \(H^\delta\)-growth cannot be supported on the transcendental part for arbitrarily large \(H\). Hence the algebraic part must contain positive-dimensional semialgebraic structure.
+\end{proof}
+
+\textbf{Target reading.}
+In a bounded tame model class, too many exact low-denominator observations force a positive-dimensional algebraic explanation.
+
+\[
+\boxed{
+\text{many simple exact observations}
+\quad\Longrightarrow\quad
+\text{hidden algebraic law}
+}
+\]
+
+\begin{remark}
+The theorem is not an interpolation statement. A polynomial can always be made to pass through finitely many points. The content is that, under tameness, an excess of low-complexity exact records cannot be accidental unless a positive-dimensional algebraic explanation is present.
+\end{remark}
+
+\section{Highlight: Rational Profiles of Hensel Trees}
+
+\textbf{Source theorem.}
+Denef--Igusa rationality and \(p\)-adic cell decomposition.
+
+\textbf{Target context.}
+Solution trees for polynomial congruences modulo powers of a prime.
+
+Fix polynomials
+\[
+F_1,\ldots,F_r\in\mathbb Z[x_1,\ldots,x_n]
+\]
+and a prime \(p\). Let
+\[
+S_k=\{a\bmod p^k:F_i(a)\equiv0\pmod {p^k}\text{ for all }i\}.
+\]
+The sets \(S_k\) form a rooted lifting tree. A node at level \(k\) may die, survive, or branch when lifted to level \(k+1\).
+
+\begin{theorem}[Hensel profile rationality, schematic form]
+For any fixed \(p\)-adic definable local property \(P\) of a node in the lifting tree, let \(a_k(P)\) be the number of nodes at level \(k\) satisfying \(P\). Under the usual Denef rationality hypotheses for the corresponding definable family, the generating series
+\[
+\sum_{k\geq0}a_k(P)T^k
+\]
+is rational.
+\end{theorem}
+
+\begin{proof}
+The property \(P\), such as being non-liftable, having exactly \(c\) lifts, surviving \(j\) more levels, or realizing a prescribed valuation pattern, is expressible by a first-order \(p\)-adic condition on residue classes modulo \(p^k\). Denef's rationality theorem for \(p\)-adic definable counting series then gives rationality of the corresponding generating function.
+\end{proof}
+
+\textbf{Target reading.}
+Even singular Hensel trees have finite-memory statistics. The number of dead nodes, nodes with a fixed branching number, or nodes with a prescribed survival profile cannot vary chaotically with \(k\); it is governed by a rational generating function.
+
+\[
+\boxed{
+\text{singular modular lifting}
+\quad\Longrightarrow\quad
+\text{rational survival and branching profiles}
+}
+\]
+
+\begin{remark}
+This example is a family of transfers, not many unrelated examples. The single source engine is \(p\)-adic definability plus rationality of counting series; the target observables are different finite views of the same lifting tree.
+\end{remark}
+
+\section{Highlight: Finite Automata for Lattice-Walk Returns}
+
+\textbf{Source theorem.}
+Diagonals of rational functions over finite fields are algebraic; by Christol's theorem, algebraic power series over \(\mathbb F_p(t)\) have \(p\)-automatic coefficient sequences.
+
+\textbf{Target context.}
+Closed walks on lattices, observed modulo a prime.
+
+Let \(S\subset\mathbb Z^d\) be a finite step set and let
+\[
+P_S(x)=\sum_{v\in S}x^v
+\]
+be the corresponding Laurent polynomial. Let
+\[
+a_n=\#\{\text{walks of length }n\text{ with steps in }S\text{ returning to }0\}.
+\]
+Then
+\[
+a_n=\CT(P_S(x)^n),
+\]
+where \(\CT\) denotes constant term.
+
+\begin{theorem}[Automatic return counts modulo \(p\)]
+For every finite step set \(S\) and every prime \(p\), the sequence
+\[
+(a_n\bmod p)_{n\geq0}
+\]
+is \(p\)-automatic. Equivalently, it is produced by a finite automaton reading the base-\(p\) digits of \(n\).
+\end{theorem}
+
+\begin{proof}
+The generating function
+\[
+A(t)=\sum_{n\geq0}a_nt^n
+\]
+is the constant term, equivalently a diagonal after clearing Laurent monomials, of the rational function
+\[
+\frac{1}{1-tP_S(x)}.
+\]
+Modulo \(p\), such diagonals are algebraic over \(\mathbb F_p(t)\). Christol's theorem then implies that the coefficient sequence is \(p\)-automatic.
+\end{proof}
+
+\textbf{Target reading.}
+Closed walks on a lattice may look combinatorially complicated, but modulo a prime their return-count sequence is recorded by a finite machine hidden in the base-\(p\) expansion of the time variable.
+
+\[
+\boxed{
+\text{lattice returns mod }p
+\quad\Longrightarrow\quad
+\text{finite automaton}
+}
+\]
+
+\section{Highlight: Central Fingerprints of Young Diagrams}
+
+\textbf{Source theorem.}
+Vinogradov mean-value estimates, in particular the Bourgain--Demeter--Guth decoupling theorem and its arithmetic consequences.
+
+\textbf{Target context.}
+Representations of symmetric groups, Young diagrams, central characters, and Jucys--Murphy observables.
+
+For a Young diagram \(\lambda\) with at most \(s\) rows, set
+\[
+x_i(\lambda)=\lambda_i+s-i.
+\]
+Low-degree central observables are controlled by power sums
+\[
+p_j(\lambda)=\sum_{i=1}^s x_i(\lambda)^j.
+\]
+Collisions of low central fingerprints are therefore solutions of the Vinogradov system
+\[
+x_1^j+\cdots+x_s^j
+=
+y_1^j+\cdots+y_s^j,
+\qquad
+1\leq j\leq k.
+\]
+
+\begin{theorem}[Central-fingerprint collision bound]
+Let \(E_{s,k}(N)\) be the number of pairs of Young diagrams \((\lambda,\mu)\) with at most \(s\) rows, first row at most \(N\), and equal shifted moments
+\[
+p_j(\lambda)=p_j(\mu),
+\qquad 1\leq j\leq k.
+\]
+Then
+\[
+E_{s,k}(N)
+\ll_{s,k,\varepsilon}
+N^\varepsilon
+\left(
+N^s+N^{2s-\frac{k(k+1)}2}
+\right).
+\]
+\end{theorem}
+
+\begin{proof}
+The map \(\lambda\mapsto (x_1(\lambda),\ldots,x_s(\lambda))\) embeds the diagrams into strictly ordered integer \(s\)-tuples in a box of size \(O(N)\). Equality of the first \(k\) shifted moments gives a subsystem of the Vinogradov equations. The stated bound follows by applying the Vinogradov mean-value estimate and then restricting to the subset coming from diagrams.
+\end{proof}
+
+\textbf{Target reading.}
+Few low central eigenvalues can already distinguish most bounded-height diagrams on average. The proof imports decoupling estimates into the spectroscopy of \(\mathbb C[S_n]\).
+
+\section{Finite Menus for Algebraic Query Selectivity}
+
+\textbf{Source theorem.}
+Lang--Weil estimates, Frobenius, and monodromy of algebraic families over finite fields.
+
+\textbf{Target context.}
+Parameterized algebraic database queries over \(\mathbb F_q\), observed through answer cardinality.
+
+A query \(Q_t\) defined by polynomial equations, inequations, and algebraic conditions can be represented by a family
+\[
+X_Q\to T.
+\]
+The answer size is the point count
+\[
+|Q_t(\mathbb F_q)|=|X_{Q,t}(\mathbb F_q)|.
+\]
+
+\begin{theorem}[Finite selectivity menu, schematic form]
+After stratifying the parameter space and removing lower-dimensional exceptional loci, there is a finite monodromy datum such that the leading asymptotic behaviour of
+\[
+|Q_t(\mathbb F_q)|
+\]
+is determined by a Frobenius class in a finite group. In particular, a fixed algebraic query family has only finitely many leading selectivity modes.
+\end{theorem}
+
+\begin{proof}
+On a suitable stratum, the top-dimensional geometric components of the fibres form a finite monodromy set. Frobenius permutes these components. Lang--Weil gives the leading \(q^d\)-term from the components fixed by Frobenius, with an error of size \(O(q^{d-1/2})\) under the standard smoothness and bounded-complexity hypotheses.
+\end{proof}
+
+\textbf{Target reading.}
+An algebraic query optimizer sees selectivity and parameters; the proof sees components, Frobenius, and monodromy. The transfer says that the parameter does not choose arbitrary asymptotic behaviour. It chooses from a finite geometric menu.
+
+\section{Frobenius Modular Codes}
+
+\textbf{Source theorem.}
+Chebotarev density, monodromy of Galois representations, and Sato--Tate equidistribution.
+
+\textbf{Target context.}
+Elementary modular data attached to primes: factorization patterns, root counts, point counts, and Frobenius intervals.
+
+To a prime \(p\) one may attach a finite word recording, for example:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item the factorization types of fixed polynomials modulo \(p\);
+\item the number of roots of those polynomials modulo \(p\);
+\item the value of \(\#E(\mathbb F_p)\) for fixed elliptic curves;
+\item the interval containing a normalized Frobenius trace.
+\end{enumerate}
+
+\begin{theorem}[Frobenius-code frequencies, schematic form]
+For a fixed finite list of algebraic data satisfying the usual independence and monodromy hypotheses, the frequencies of the corresponding modular codes exist and are given by the product or pushforward of the relevant Chebotarev and Sato--Tate measures.
+\end{theorem}
+
+\begin{proof}
+Each finite factorization or root-count condition is a class condition on Frobenius in a finite Galois group. Each normalized elliptic trace condition is governed by the corresponding Sato--Tate measure, with independence governed by the product monodromy group. Pushing these measures forward to the finite code alphabet gives the limiting frequencies.
+\end{proof}
+
+\textbf{Target reading.}
+Words written by primes are not arbitrary. Many finite modular patterns are images of Frobenius in hidden symmetry groups.
+
+\section{Hurwitz Polynomiality for Permutation Factorizations}
+
+\textbf{Source theorem.}
+The ELSV formula relating single Hurwitz numbers to intersection theory on moduli spaces of curves.
+
+\textbf{Target context.}
+Finite permutations, cycle types, and transitive factorizations into transpositions.
+
+Let \(\sigma\in S_N\) have cycle type
+\[
+\mu=(\mu_1,\ldots,\mu_\ell).
+\]
+Transitive factorizations of \(\sigma^{-1}\) into transpositions are counted by single Hurwitz numbers.
+
+\begin{theorem}[Normalized factorization polynomiality]
+For fixed genus \(g\), after the standard normalization
+\[
+\widetilde T_g(\mu)
+=
+\frac{T_g(\mu)}
+{r!\prod_i\frac{\mu_i^{\mu_i}}{\mu_i!}},
+\]
+the function
+\[
+\widetilde T_g(\mu_1,\ldots,\mu_\ell)
+\]
+is a symmetric polynomial in the parts \(\mu_i\), of degree at most
+\[
+3g-3+\ell.
+\]
+\end{theorem}
+
+\begin{proof}
+The ELSV formula expresses the normalized Hurwitz number as an integral over \(\overline{\mathcal M}_{g,\ell}\) involving tautological classes. Expanding the denominator in the \(\psi\)-classes gives a polynomial whose degree is bounded by the dimension \(3g-3+\ell\) of the moduli space.
+\end{proof}
+
+\textbf{Target reading.}
+A count of transposition factorizations in symmetric groups becomes polynomial after the correct normalization. The reason is not visible in the multiplication table of \(S_N\); it is transported from the geometry of moduli spaces.
+
+\section{Rational Resonance Families}
+
+\textbf{Source theorem.}
+The toric Manin--Mumford theorem, often in the form of Laurent's theorem on torsion points in algebraic tori.
+
+\textbf{Target context.}
+Trigonometric equations in rational phases.
+
+Consider a finite system
+\[
+P_j(\cos 2\pi x_1,\sin 2\pi x_1,\ldots,\cos 2\pi x_n,\sin 2\pi x_n)=0
+\]
+with rational coefficients, where \(x_i\in\mathbb Q/\mathbb Z\).
+
+\begin{theorem}[Rational trigonometric resonances]
+The rational phase solutions are contained in a finite union of rational linear families
+\[
+a_1x_1+\cdots+a_nx_n=c\pmod 1,
+\]
+together with finitely many isolated rational resonances.
+\end{theorem}
+
+\begin{proof}
+Set \(z_i=e^{2\pi i x_i}\). Rational phases are torsion points of the algebraic torus \((\mathbb C^\times)^n\). The trigonometric equations become algebraic equations in the variables \(z_i,z_i^{-1}\). By Laurent's theorem, the torsion points of a subvariety of a torus lie in a finite union of torsion cosets. Translating torsion cosets back to phases gives rational linear families modulo \(1\).
+\end{proof}
+
+\textbf{Target reading.}
+Many exact rational-angle solutions are not arbitrary. They are organized by linear resonance laws.
+
+\section{Rational Pattern Copies on Tame Curves}
+
+\textbf{Source theorem.}
+Pila--Wilkie rational point counting applied to definable parameter spaces.
+
+\textbf{Target context.}
+Elementary plane geometry: rationally scaled copies of finite patterns on tame curves.
+
+Let
+\[
+P=\{p_1,\ldots,p_m\}\subset\mathbb Q^2
+\]
+be a finite pattern and let \(C\subset[0,1]^2\) be a tame curve. A rational copy of \(P\) on \(C\) is a transformation
+\[
+p\mapsto a+\lambda p,
+\qquad
+a\in\mathbb Q^2,\quad \lambda\in\mathbb Q,
+\]
+such that all points \(a+\lambda p_i\) lie on \(C\).
+
+\begin{theorem}[Pattern-copy dichotomy]
+Let \(X_{C,P}\) be the definable parameter set of pairs \((a,\lambda)\) producing copies of \(P\) on \(C\). Then either \(X_{C,P}\) contains a positive-dimensional semialgebraic component, or for every \(\varepsilon>0\) the number of rational copies of height at most \(T\) is
+\[
+O_{C,P,\varepsilon}(T^\varepsilon).
+\]
+\end{theorem}
+
+\begin{proof}
+The rational copies are exactly the rational points of bounded height in the definable set \(X_{C,P}\). Pila--Wilkie gives the subpolynomial bound outside the algebraic part. If the bound fails, the algebraic part must be positive-dimensional.
+\end{proof}
+
+\textbf{Target reading.}
+A tame curve cannot imitate a rational grid too often unless a family of copies moves along it for an algebraic reason.
+
+\section{Mutation-Invariant Lattice-Walk Periods}
+
+\textbf{Source theorem.}
+Mutation invariance of Laurent polynomial periods in mirror symmetry for Fano-type Laurent polynomials.
+
+\textbf{Target context.}
+Enumeration of lattice walks by return counts.
+
+For a weighted step set \(S\subset\mathbb Z^d\), define
+\[
+P_S(x)=\sum_{v\in S}w_vx^v
+\]
+and
+\[
+a_n(S)=\CT(P_S(x)^n).
+\]
+
+\begin{theorem}[Return-count isospectrality under mutation]
+If two Laurent polynomials \(P_S\) and \(P_{S'}\) are related by a period-preserving mutation, then
+\[
+a_n(S)=a_n(S')
+\qquad
+\text{for every }n\geq0.
+\]
+\end{theorem}
+
+\begin{proof}
+The sequence \(a_n(S)\) is the coefficient sequence of the classical period
+\[
+\pi_{P_S}(t)=\sum_{n\geq0}\CT(P_S^n)t^n.
+\]
+By the source theorem, mutation preserves this period. Equality of the periods gives equality of all return counts.
+\end{proof}
+
+\begin{remark}
+This is included as a clean transfer example rather than as a new theorem of mirror symmetry. The target language is elementary enumeration; the proof engine is period preservation.
+\end{remark}
+
+\section{Algebraic Clocks for Matrix Powers}
+
+\textbf{Source theorem.}
+Skolem--Mahler--Lech for zero sets of linear recurrence sequences over characteristic zero.
+
+\textbf{Target context.}
+Elementary linear algebra: algebraic events along the orbit \(A^n\).
+
+\begin{theorem}[Linear-observable clocks]
+Let \(A\) be a matrix over a field of characteristic zero and let \(\ell\) be a linear functional on matrices. Then the set
+\[
+\{n\geq0:\ell(A^n)=0\}
+\]
+is a finite union of arithmetic progressions, up to a finite exceptional set.
+\end{theorem}
+
+\begin{proof}
+The sequence \(u_n=\ell(A^n)\) is a linear recurrence sequence. Skolem--Mahler--Lech says that the zero set of such a sequence in characteristic zero is a finite union of arithmetic progressions and a finite set.
+\end{proof}
+
+\textbf{Target reading.}
+Linear events along powers of a matrix have an eventual clock. They cannot occur at an arbitrary set of times.
+
+\section{Bounded-Label Arborescent Links and Finite Smoothing Obstructions}
+
+\textbf{Source theorem.}
+Kruskal's tree theorem and labelled well-quasi-orders.
+
+\textbf{Target context.}
+Arborescent links represented by weighted Conway trees, under smoothing and deletion of subtangles.
+
+\begin{theorem}[Bounded-label smoothing WQO, template]
+Fix a finite alphabet of allowed tangle labels. The class of arborescent links whose Conway trees use only this alphabet is well-quasi-ordered by the relation generated by labelled tree embedding, smoothing of subtangles, and the corresponding natural simplifications. Consequently, any smoothing-closed subclass in this bounded-label presentation is determined by finitely many minimal forbidden labelled trees.
+\end{theorem}
+
+\begin{proof}
+With a finite label alphabet, labelled trees are well-quasi-ordered by Kruskal's theorem. The chosen smoothing relation is transported through the presentation by Conway trees as labelled tree embedding plus local simplification. Downward-closed classes in a well-quasi-order have finitely many minimal excluded elements.
+\end{proof}
+
+\begin{remark}
+The bounded-label hypothesis is essential for this template. Without a well-quasi-ordered label set, the statement can fail by an infinite antichain of labels. This example is included because it illustrates a useful transfer pattern, not because arbitrary arborescent links are being claimed to satisfy the bounded-label conclusion.
+\end{remark}
+
+\section{A Note on Conjectural Pullbacks}
+
+The examples above are theorem-producing transfers or carefully bounded templates. There is another use of transfer: pulling an open conjecture back to a source theory where the hidden structure may be easier to see. This is useful, but it has a different status.
+
+A conjectural pullback is valuable when the source statement belongs naturally to a theory with independent tools. For example, an entropy pullback of a set-system conjecture may be useful if it exposes a genuine information inequality; an additive-combinatorial pullback of a prime pattern conjecture may be useful if it exposes a pseudorandomness norm with existing technology.
+
+It is much less valuable when the source statement merely repackages the original difficulty. In that case the transfer is diagnostic: it tells us what kind of obstruction is needed, but it does not provide one.
+
+Thus this addendum does not include a large catalogue of conjectural pullbacks. The lesson is simply:
+\[
+\begin{gathered}
+\text{a good transfer moves the problem to a source theory}\\
+\text{where the proof engine has its own independent force.}
+\end{gathered}
+\]
+
+\section{Conclusion}
+
+The examples in this addendum share a common form:
+\[
+\boxed{
+\text{source theorem}
+\quad\Longrightarrow\quad
+\text{controlled dictionary}
+\quad\Longrightarrow\quad
+\text{target theorem}.
+}
+\]
+The target theorem should be stated in the native language of the target theory: data, queries, congruence trees, lattice walks, modular codes, permutations, trigonometric resonances, or finite combinatorial presentations. The source theorem should remain visible as proof technology, not as decorative analogy.
+
+This is the operational value of controlled transfer. It studies not only what a theorem says, but which presentation makes the theorem accessible, portable, and reusable.
+
+\begin{thebibliography}{99}
+
+\bibitem{pt2}
+L. Blanchi,
+\emph{Presentation Theory II: Controlled Transfer, Observable Budgets, and the Geometry of Fibres},
+AI-assisted math note, 2026.
+
+\bibitem{atlas}
+L. Blanchi,
+\emph{Atlas of Controlled Transfer Packages},
+AI-assisted math note, 2026.
+
+\bibitem{pila-wilkie}
+J. Pila and A. J. Wilkie,
+\emph{The rational points of a definable set},
+Duke Mathematical Journal 133 (2006), 591--616.
+
+\bibitem{denef}
+J. Denef,
+\emph{The rationality of the Poincare series associated to the \(p\)-adic points on a variety},
+Inventiones Mathematicae 77 (1984), 1--23.
+
+\bibitem{christol}
+G. Christol,
+\emph{Ensembles presque periodiques \(k\)-reconnaissables},
+Theoretical Computer Science 9 (1979), 141--145.
+
+\bibitem{furstenberg}
+H. Furstenberg,
+\emph{Algebraic functions over finite fields},
+Journal of Algebra 7 (1967), 271--277.
+
+\bibitem{bdg}
+J. Bourgain, C. Demeter, and L. Guth,
+\emph{Proof of the main conjecture in Vinogradov's mean value theorem for degrees higher than three},
+Annals of Mathematics 184 (2016), 633--682.
+
+\bibitem{lang-weil}
+S. Lang and A. Weil,
+\emph{Number of points of varieties in finite fields},
+American Journal of Mathematics 76 (1954), 819--827.
+
+\bibitem{serre-chebotarev}
+J.-P. Serre,
+\emph{Lectures on \(N_X(p)\)},
+CRC Press, 2012.
+
+\bibitem{elsv}
+T. Ekedahl, S. Lando, M. Shapiro, and A. Vainshtein,
+\emph{Hurwitz numbers and intersections on moduli spaces of curves},
+Inventiones Mathematicae 146 (2001), 297--327.
+
+\bibitem{laurent}
+M. Laurent,
+\emph{Equations diophantiennes exponentielles},
+Inventiones Mathematicae 78 (1984), 299--327.
+
+\bibitem{mutation}
+M. Akhtar, T. Coates, S. Galkin, and A. M. Kasprzyk,
+\emph{Minkowski polynomials and mutations},
+SIGMA 8 (2012), 094.
+
+\bibitem{sml}
+J.-P. Bell, S. N. Burris, and K. A. Yeats,
+\emph{The Skolem--Mahler--Lech theorem and related questions},
+in \emph{The Bulletin of Symbolic Logic} 16 (2010), 1--22.
+
+\bibitem{kruskal}
+J. B. Kruskal,
+\emph{Well-quasi-ordering, the tree theorem, and Vazsonyi's conjecture},
+Transactions of the American Mathematical Society 95 (1960), 210--225.
+
+\end{thebibliography}
+
+\end{document}
