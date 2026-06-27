@@ -1,0 +1,689 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.05in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\title{Predictive Fibres and Critical Oseen Transfer for the Three-Dimensional Navier-Stokes Equations}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note formulates a conditional presentation-theoretic regularity program for the three-dimensional incompressible Navier-Stokes equations. The basic object is a local predictive presentation: incoming and lateral data determine a class of admissible strong predictors, while the compatible suitable weak states form an invisible fibre. A bad singularity is represented by a persistent failure of causal prediction across parabolic scales.
+
+The main result is deliberately conditional. We prove several structural ingredients and isolate the remaining analytic inputs as explicit modules. The proved components are a local critical Oseen transfer estimate in the Serrin range, an abstract minimax-centre lemma, a Hilbertian innovation-packing lemma, the two-mode null classification for the Leray-projected bilinear symbol, and exact reductions for Beltrami and two-and-a-half-dimensional branches. The modules left open are the critical differentiability of the local predictor map, a global residual representation across scales, null-graph rigidity for localized wave packets, carrier localization with pressure tails, and a quantitative predictive epsilon-regularity closure.
+
+Under these modules, a bad predictive chain cannot persist: either normal innovation occurs often enough to be square-summable by Hilbert packing, or the fibre enters a rigid branch, or high-frequency escape recenters or produces a registered defect. Thus the paper should be read as a precise conditional reduction of the regularity problem, not as an unconditional proof of Navier-Stokes regularity.
+\end{abstract}
+
+\section{Purpose and Status}
+
+The incompressible Navier-Stokes equations in three space dimensions are
+\[
+\partial_t u-\Delta u+(u\cdot\nabla)u+\nabla p=0,
+\qquad
+\nabla\cdot u=0.
+\]
+The global regularity problem remains open. Classical local theory studies suitable weak solutions through scale-invariant quantities, pressure decompositions, local energy inequalities, and epsilon-regularity criteria.
+
+This note proposes a complementary organization. Around a putative singular point, one asks whether the core of a parabolic cylinder is causally predictable from incoming and lateral information by a strong local model. The states compatible with the same incoming observables form a fibre. A singular chain is then interpreted as a sequence of scales at which no bounded predictor captures all states in the fibre.
+
+The presentation-theoretic language is useful only if it produces analytic statements. For that reason the paper separates three levels:
+\begin{enumerate}[label=(\roman*)]
+\item statements proved here;
+\item conditional propositions proved from explicitly stated analytic modules;
+\item modules still requiring independent PDE proofs.
+\end{enumerate}
+No unconditional regularity theorem is claimed.
+
+\section{Local Setting}
+
+\subsection{Parabolic scaling}
+
+For \(z_0=(x_0,t_0)\), write
+\[
+Q_R(z_0)=B_R(x_0)\times(t_0-R^2,t_0).
+\]
+The Navier-Stokes scaling is
+\[
+u^{(R)}(x,t)=R u(x_0+Rx,t_0+R^2t),
+\qquad
+p^{(R)}(x,t)=R^2p(x_0+Rx,t_0+R^2t).
+\]
+A quantity is critical if its normalized value is stable under this scaling.
+
+\subsection{Suitable weak solutions}
+
+A pair \((u,p)\) is a suitable weak solution on \(Q\) if
+\[
+u\in L^\infty_tL^2_x(Q)\cap L^2_t\dot H^1_x(Q),
+\qquad
+p\in L^{3/2}_{t,x}(Q),
+\]
+the equations hold distributionally, and the local energy inequality holds. For every nonnegative \(\phi\in C_c^\infty(Q)\),
+\[
+\begin{aligned}
+&\int |u(x,t)|^2\phi(x,t)\,dx
++2\int_{-\infty}^t\int |\nabla u|^2\phi\,dx\,ds\\
+&\le
+\int_{-\infty}^t\int
+|u|^2(\partial_s\phi+\Delta\phi)
++(|u|^2+2p)u\cdot\nabla\phi\,dx\,ds.
+\end{aligned}
+\]
+
+\subsection{Pressure cleaning}
+
+Let \(B\subset\mathbb R^3\) be a smooth ball. For \(1<s<\infty\), the local Helmholtz projection \(\mathbb P_B\) is
+\[
+\mathbb P_B f=f-\nabla \pi_B,
+\]
+where \(\pi_B\) solves the Neumann problem
+\[
+\Delta \pi_B=\nabla\cdot f,
+\qquad
+\partial_n\pi_B=f\cdot n,
+\]
+with zero average normalization. Standard elliptic estimates give
+\[
+\|\mathbb P_B f\|_{L^s(B)}+\|\nabla\pi_B\|_{L^s(B)}
+\le C_{s,B}\|f\|_{L^s(B)}.
+\]
+
+For a local argument, the pressure is decomposed schematically as
+\[
+p=p_{\mathrm{loc}}+p_{\mathrm{harm}}+p_{\mathrm{tail}}.
+\]
+The local part is absorbed by \(\mathbb P_B\). The harmonic and nonlocal pieces are not ignored: their contribution is registered by a nonnegative quantity
+\[
+\operatorname{PressTail}(Q_R,Q_r).
+\]
+In each estimate below, this term means precisely the residual pressure contribution not controlled by the local projection.
+
+\section{Predictive Presentations}
+
+\subsection{Incoming data}
+
+Fix \(0<\theta<1\) and \(0<\lambda<1\), with \(\theta^2<\lambda\). For \(Q_R(z_0)\), define the incoming region
+\[
+\mathcal I^-(Q_R)
+=
+B_R(x_0)\times(t_0-R^2,t_0-\lambda R^2)
+\cup
+(B_R(x_0)\setminus B_{\theta R}(x_0))\times(t_0-R^2,t_0).
+\]
+It contains a past slab and a lateral collar, but excludes the final core.
+
+\subsection{Predictors and fibres}
+
+A causal strong predictor on \(Q_R\) is a strong solution \(g\) constructed from data measurable on \(\mathcal I^-(Q_R)\), after the chosen pressure-cleaning procedure. The critical predictor budget is
+\[
+\|g\|_{L^q_tL^p_x(Q_R)}\le L,
+\qquad
+\frac2q+\frac3p=1,
+\qquad
+p>3.
+\]
+Additional budget components may record pressure-tail size, observable cost, localization cost, and conditioning of the finite observational Gramian.
+
+Let \(\mathcal O\) be a finite family of incoming observables. The invisible fibre associated with \((u,p)\) is the class
+\[
+\mathsf S^-_{L,\mathcal O}(Q_R)
+\]
+of suitable weak states \((v,q)\) in \(Q_R\) with budget at most \(L\) and the same incoming observations as \((u,p)\):
+\[
+\mathcal O(v,q)=\mathcal O(u,p).
+\]
+Let \(\mathsf P^-_{L,\mathcal O}(Q_R)\) denote the corresponding class of causal strong predictors.
+
+\begin{definition}[Local predictive defect]
+Let \(d_{Q_R}\) be a pressure-cleaned distance on the core \(Q_{\theta R}\). The minimax predictive defect is
+\[
+\mathfrak D_{L,\mathcal O}(Q_R)
+=
+\inf_{g\in \mathsf P^-_{L,\mathcal O}(Q_R)}
+\sup_{(v,q)\in \mathsf S^-_{L,\mathcal O}(Q_R)}
+d_{Q_R}((v,q),g).
+\]
+When the infimum is taken in the closed convex hull of the predictor class, the distance from the relaxed centre to realizable predictors is recorded as a realization defect \(\mathfrak V(Q_R)\).
+\end{definition}
+
+A bad predictive chain at \(z_0\) is a nested sequence \(Q_{R_k}(z_0)\), \(R_k\downarrow0\), for which \(\mathfrak D_{L,\mathcal O_k}(Q_{R_k})\) stays bounded below by a fixed positive number.
+
+\section{Critical Local Oseen Transfer}
+
+The following estimate is the most classical analytic ingredient of the program. It is included because it is the mechanism that transports a perturbation around a Serrin-critical strong predictor from one scale to a smaller core.
+
+\begin{lemma}[Critical local Oseen transfer]
+Let \(Q_r\Subset Q_R\). Let \(g\) be divergence-free and
+\[
+g\in L^q_tL^p_x(Q_R),
+\qquad
+\frac2q+\frac3p=1,
+\qquad
+p>3.
+\]
+Let \(r\) be divergence-free and pressure-cleaned, satisfying
+\[
+\partial_t r-\Delta r
++(g\cdot\nabla)r
++(r\cdot\nabla)g
++\nabla q
+=F
+\]
+in \(Q_R\), distributionally. Choose \(\zeta\in C_c^\infty(Q_R)\) with \(\zeta=1\) on \(Q_r\). Assume that the nonlocal pressure contribution is bounded by \(\operatorname{PressTail}_{R,r}\), and define the incoming-collar cost by
+\[
+\begin{aligned}
+\operatorname{Coll}_{\zeta,g}(r)^2
+=&
+\sup_{\mathrm{initial\ slab}}\int |r|^2\zeta^2\,dx\\
+&+
+\int_{Q_R}|r|^2
+\left(
+|\partial_t\zeta|+|\Delta\zeta|+|\nabla\zeta|^2
+\right)\,dx\,dt\\
+&+
+\int_{Q_R}|g|\,|r|^2|\nabla\zeta|\,dx\,dt.
+\end{aligned}
+\]
+Then
+\[
+\|r\|_{L^\infty_tL^2_x(Q_r)}
++\|\nabla r\|_{L^2_{t,x}(Q_r)}
++\|r\|_{L^{10/3}_{t,x}(Q_r)}
+\]
+\[
+\le
+C
+\left(
+\operatorname{Coll}_{\zeta,g}(r)
++\|F\|_{L^2_tH^{-1}_x(Q_R)}
++\operatorname{PressTail}_{R,r}
+\right),
+\]
+where \(C\) depends on \(Q_r\Subset Q_R\), on \(p\), and on \(\|g\|_{L^q_tL^p_x(Q_R)}\).
+\end{lemma}
+
+\begin{proof}
+Test the equation against \(r\zeta^2\). The local pressure projection removes the local pressure contribution; the remaining pressure term is bounded by the definition of \(\operatorname{PressTail}_{R,r}\). We obtain
+\[
+\frac12\frac{d}{dt}\int |r|^2\zeta^2
++\int |\nabla r|^2\zeta^2
+\le
+I_{\mathrm{cut}}+I_g+I_F+I_{\mathrm{press}}.
+\]
+The cutoff term is bounded by the collar part of \(\operatorname{Coll}_{\zeta,g}(r)^2\). The forcing term is estimated by duality:
+\[
+|\langle F,r\zeta^2\rangle|
+\le
+\|F\|_{H^{-1}}\|r\zeta^2\|_{H^1}
+\le
+\frac14\|\zeta\nabla r\|_2^2
++C\|F\|_{H^{-1}}^2
++C\|r\nabla\zeta\|_2^2.
+\]
+Since \(\nabla\cdot g=0\),
+\[
+\int (g\cdot\nabla r)\cdot r\zeta^2
+=
+-\frac12\int |r|^2g\cdot\nabla(\zeta^2),
+\]
+which is included in the collar cost.
+
+It remains to estimate the stretching term. Using \(\nabla\cdot r=0\),
+\[
+\int r_i(\partial_i g_j)r_j\zeta^2
+=
+-\int g_jr_i(\partial_i r_j)\zeta^2
+-\int g_jr_ir_j\partial_i(\zeta^2).
+\]
+The second term is again a collar term. For the first,
+\[
+\left|
+\int g_jr_i(\partial_i r_j)\zeta^2
+\right|
+\le
+\|g\|_{L^p}
+\|r\zeta\|_{L^{2p/(p-2)}}
+\|\zeta\nabla r\|_{L^2}.
+\]
+By Gagliardo-Nirenberg,
+\[
+\|r\zeta\|_{L^{2p/(p-2)}}
+\le
+C
+\|r\zeta\|_{L^2}^{1-3/p}
+\|\nabla(r\zeta)\|_{L^2}^{3/p}.
+\]
+Writing
+\[
+E(t)=\int |r|^2\zeta^2,
+\qquad
+D(t)=\int |\nabla r|^2\zeta^2,
+\]
+and absorbing the cutoff contribution into the collar cost, Young's inequality gives
+\[
+|I_g^{\mathrm{int}}|
+\le
+\frac14D(t)+C\|g(t)\|_{L^p}^{q}E(t),
+\qquad
+q=\frac{2p}{p-3}.
+\]
+The exponent is exactly the Serrin exponent because \(2/q+3/p=1\).
+
+Thus
+\[
+\frac{d}{dt}E(t)+\frac12D(t)
+\le
+C\|g(t)\|_{L^p}^{q}E(t)+B(t),
+\]
+where \(B(t)\) contains only forcing, pressure-tail, and collar terms. Since \(\|g(t)\|_{L^p}^{q}\in L^1_t\), Gronwall yields
+\[
+\sup_tE(t)+\int D(t)\,dt
+\le
+C
+\left(
+\operatorname{Coll}_{\zeta,g}(r)^2
++\|F\|_{L^2_tH^{-1}_x(Q_R)}^2
++\operatorname{PressTail}_{R,r}^2
+\right).
+\]
+Finally,
+\[
+\|r\|_{L^{10/3}(Q_r)}
+\lesssim
+\|r\|_{L^\infty_tL^2_x(Q_r)}^{2/5}
+\|\nabla r\|_{L^2(Q_r)}^{3/5}.
+\]
+This proves the claim.
+\end{proof}
+
+\section{Minimax Centres}
+
+The minimax construction used by the predictive framework is a Hilbert-space statement. The PDE content lies in verifying that the chosen predictor classes satisfy the hypotheses.
+
+\begin{lemma}[Relaxed minimax centres]
+Let \(\mathcal H\) be a Hilbert space. Let \(P\subset\mathcal H\) be nonempty, bounded, closed, and convex, and let \(S\subset\mathcal H\) be bounded. Define
+\[
+R(g)=\sup_{v\in S}\|v-g\|_{\mathcal H},
+\qquad
+g\in P.
+\]
+Then \(R\) attains its minimum on \(P\).
+\end{lemma}
+
+\begin{proof}
+The map \(g\mapsto\|v-g\|_{\mathcal H}\) is convex and weakly lower semicontinuous for each \(v\). Hence \(R\), as a supremum of weakly lower semicontinuous functions, is weakly lower semicontinuous. Since Hilbert spaces are reflexive, a bounded closed convex subset is weakly compact. Therefore \(R\) attains its minimum on \(P\).
+\end{proof}
+
+\begin{remark}
+In the Navier-Stokes application, \(P\) is the weakly closed convex hull of admissible strong predictors at a fixed finite observation budget. The gap between a relaxed minimax centre and an actual strong predictor is exactly the realization defect \(\mathfrak V\). This defect must be paid for in the scale-transfer inequality.
+\end{remark}
+
+\section{Innovation Packing}
+
+\subsection{Abstract packing}
+
+Let \(\mathfrak H\) be a Hilbert space of normalized adjoint observables. Suppose that a sequence of normal defects \(\mathcal N_k\in\mathfrak H^*\) has normalized innovative witnesses \(e_k\in\mathfrak H\). The filtration condition is
+\[
+e_k\perp \mathcal P_{k-1},
+\qquad
+\mathcal P_k=\overline{\mathcal P_{k-1}+\operatorname{span}\{e_k\}},
+\]
+so \((e_k)\) is orthonormal on innovative scales.
+
+\begin{lemma}[Hilbertian innovation packing]
+Assume that there exist \(\mathcal R\in\mathfrak H^*\), errors \(\rho_k\), and \(c>0\) such that
+\[
+\langle \mathcal N_k,e_k\rangle
+=
+\langle \mathcal R,e_k\rangle+\rho_k,
+\qquad
+\sum_k|\rho_k|^2<\infty,
+\]
+and
+\[
+|\langle \mathcal N_k,e_k\rangle|\ge c\|\mathcal N_k\|_{\mathfrak H^*}.
+\]
+Then
+\[
+\sum_k\|\mathcal N_k\|_{\mathfrak H^*}^2
+\le
+C_c\left(\|\mathcal R\|_{\mathfrak H^*}^2+\sum_k|\rho_k|^2\right).
+\]
+\end{lemma}
+
+\begin{proof}
+By Bessel's inequality,
+\[
+\sum_k|\langle\mathcal R,e_k\rangle|^2
+\le
+\|\mathcal R\|_{\mathfrak H^*}^2.
+\]
+Using the coefficient representation,
+\[
+\sum_k|\langle\mathcal N_k,e_k\rangle|^2
+\le
+2\sum_k|\langle\mathcal R,e_k\rangle|^2
++2\sum_k|\rho_k|^2.
+\]
+The witness lower bound then gives the stated estimate.
+\end{proof}
+
+\subsection{PDE meaning}
+
+The lemma is abstractly complete. Its PDE use requires a strong representation theorem: all normalized defects from all scales must be transported into one Hilbert space with square-summable connection, cutoff, gauge, and pressure errors. This is not a formal consequence of the local energy inequality. It is one of the main remaining modules.
+
+\section{The Bilinear Symbol and Null Fibres}
+
+The next lemma is a finite-dimensional calculation for the Leray-projected quadratic symbol. It explains why large invisible fibres with very small quadratic leakage should be close to special geometric branches, but by itself it treats only pure modes.
+
+\begin{lemma}[Two-mode null classification]
+Let
+\[
+u=a e^{i\xi\cdot x},
+\qquad
+v=b e^{i\eta\cdot x},
+\]
+with
+\[
+a\cdot\xi=0,
+\qquad
+b\cdot\eta=0.
+\]
+Set \(k=\xi+\eta\), \(k\ne0\), and consider the symmetrized projected symbol
+\[
+\mathfrak b((\xi,a),(\eta,b))
+=
+\mathbb P_k\left[(a\cdot\eta)b+(b\cdot\xi)a\right].
+\]
+Write
+\[
+a=\alpha k+A,
+\qquad
+b=\beta k+B,
+\qquad
+A\perp k,
+\qquad
+B\perp k.
+\]
+Then \(\mathfrak b=0\) if and only if
+\[
+\alpha B+\beta A=0.
+\]
+The nonzero solutions fall into the following branches:
+\begin{enumerate}[label=(\roman*)]
+\item the shear-null branch \(\alpha=\beta=0\);
+\item the balanced equal-radius branch \(\alpha\beta\ne0\), which forces \(|\xi|=|\eta|\).
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Since \(a\cdot\xi=0\) and \(b\cdot\eta=0\),
+\[
+a\cdot\eta=a\cdot(\xi+\eta)=a\cdot k,
+\qquad
+b\cdot\xi=b\cdot(\xi+\eta)=b\cdot k.
+\]
+Therefore
+\[
+(a\cdot\eta)b+(b\cdot\xi)a
+=
+(a\cdot k)b+(b\cdot k)a
+=
+|k|^2(\alpha b+\beta a).
+\]
+Substituting the decompositions gives
+\[
+\alpha b+\beta a
+=
+2\alpha\beta k+\alpha B+\beta A.
+\]
+The projection \(\mathbb P_k\) kills the component parallel to \(k\), so the projected symbol vanishes exactly when \(\alpha B+\beta A=0\).
+
+If \(\alpha=\beta=0\), both polarizations are perpendicular to \(k\), giving the shear-null branch. If exactly one of \(\alpha,\beta\) is zero, then the relation forces one polarization to vanish, so there is no nonzero two-mode interaction. If \(\alpha\beta\ne0\), then \(B=-(\beta/\alpha)A\). The incompressibility condition for \(a\) gives
+\[
+A\cdot\xi=-\alpha k\cdot\xi.
+\]
+Since \(A\perp k\), we have \(A\cdot\eta=-A\cdot\xi=\alpha k\cdot\xi\). The incompressibility condition for \(b\) gives
+\[
+0=b\cdot\eta=\beta k\cdot\eta+B\cdot\eta
+=
+\beta k\cdot\eta-\frac{\beta}{\alpha}A\cdot\eta
+=
+\beta(k\cdot\eta-k\cdot\xi).
+\]
+Thus \(k\cdot\eta=k\cdot\xi\), which is
+\[
+|\eta|^2+\xi\cdot\eta=|\xi|^2+\xi\cdot\eta.
+\]
+Hence \(|\xi|=|\eta|\).
+\end{proof}
+
+\begin{remark}
+The passage from this exact two-mode statement to localized parabolic wave packets is not automatic. A quantitative packet-level null-graph rigidity theorem is needed before one may conclude that a large fibre with small leakage is close to a Beltrami, shear, or carrier-escape branch.
+\end{remark}
+
+\section{Rigid Branches}
+
+\begin{proposition}[Beltrami absorption]
+Suppose \(U\) is divergence-free and
+\[
+\nabla\times U=\lambda U.
+\]
+Then
+\[
+(U\cdot\nabla)U
+=
+\nabla\left(\frac{|U|^2}{2}\right).
+\]
+Thus the quadratic term is pure pressure and is eliminated by Leray projection or by local pressure-cleaning.
+\end{proposition}
+
+\begin{proof}
+Use the identity
+\[
+(U\cdot\nabla)U
+=
+\nabla\left(\frac{|U|^2}{2}\right)
+-U\times(\nabla\times U).
+\]
+If \(\nabla\times U=\lambda U\), then \(U\times(\lambda U)=0\).
+\end{proof}
+
+\begin{proposition}[Two-and-a-half-dimensional reduction]
+Let
+\[
+U(x,t)=V(y,t)+W(y,t)n,
+\]
+where \(y\) belongs to a fixed plane \(\Pi\), \(V(y,t)\in\Pi\), \(n\perp\Pi\), and \(\nabla_\Pi\cdot V=0\). Then the three-dimensional Navier-Stokes system reduces to
+\[
+\partial_t V+V\cdot\nabla_\Pi V-\Delta_\Pi V+\nabla_\Pi P=0,
+\]
+\[
+\partial_t W+V\cdot\nabla_\Pi W-\Delta_\Pi W=0.
+\]
+Thus the planar part is a two-dimensional Navier-Stokes solution and the transverse component is a passive transported-diffused scalar.
+\end{proposition}
+
+\begin{proof}
+All fields are constant in the \(n\)-direction. The in-plane component of the equation is exactly the two-dimensional incompressible Navier-Stokes equation for \(V\). The \(n\)-component contains no pressure gradient and gives the passive scalar equation for \(W\).
+\end{proof}
+
+\section{The Conditional Modules}
+
+We now state the analytic modules needed to turn the previous ingredients into a closed regularity argument. They are not proved here.
+
+\begin{assumption}[Predictive epsilon regularity]
+For every \(L\) and every admissible pressure-cleaning scheme, there exist \(\varepsilon(L)>0\) and \(0<\theta<1\) such that the following holds. If \((u,p)\) is suitable in \(Q_1\), and if there is a strong predictor \(g\) with
+\[
+\|g\|_{L^q_tL^p_x(Q_1)}\le L,
+\qquad
+\frac2q+\frac3p=1,
+\qquad
+p>3,
+\]
+such that
+\[
+\|u-g\|_{X(Q_\theta)}
++\operatorname{PressTail}(Q_1,Q_\theta)
+\le\varepsilon(L),
+\]
+then \(u\) is regular in a smaller cylinder \(Q_{\theta/2}\). Here \(X\) is the pressure-cleaned local energy-critical control norm used in the predictive distance.
+\end{assumption}
+
+\begin{assumption}[Critical predictor-map differentiability]
+The causal strong solution map \(\Phi\), from incoming data to core predictors, is twice differentiable in the selected critical topology on each bounded predictor class. Quantitatively, for incoming data \(a\) and perturbations \(h\),
+\[
+\|\Phi(a+h)-\Phi(a)-D\Phi(a)h\|_X
+\le
+C_L\|h\|_{\mathcal A}^2,
+\]
+with constants stable under parabolic rescaling and compatible with pressure-cleaning.
+\end{assumption}
+
+\begin{assumption}[Global residual representation]
+Along every bad predictive chain, there is a normalized Hilbert space \(\mathfrak H\), quasi-isometric identifications of the scale-dependent witness spaces with \(\mathfrak H\), a single residual \(\mathcal R\in\mathfrak H^*\), and square-summable errors \(\rho_k\) such that
+\[
+\langle\mathcal N_k,e_k\rangle
+=
+\langle\mathcal R,e_k\rangle+\rho_k
+\]
+for every innovative normal witness \(e_k\). The errors include pressure tails, cutoffs, holonomy, gauge changes, and finite-window transport errors.
+\end{assumption}
+
+\begin{assumption}[Null-graph rigidity for packets]
+If a localized parabolic wave-packet family has quadratically small normal leakage on a quantitatively connected interaction graph, then, after removing pressure and gauge directions, it is close in the critical norm to one of the classified branches: Beltrami, two-and-a-half-dimensional shear, or carrier escape. If it is not close to such a branch, it produces a registered normal defect.
+\end{assumption}
+
+\begin{assumption}[Carrier localization and collapse]
+High-frequency escape either admits a carrier recentering that returns the dominant frequency to order one, or is locally subcritical in every carrier cell, or regenerates critical mass through a registered normal, holonomy, pressure-tail, or localization defect.
+\end{assumption}
+
+\begin{assumption}[Quantitative closure alternative]
+For every \(L\) and \(\delta>0\), there are \(m=m(L,\delta)\) and \(c=c(L,\delta)>0\) such that the following holds along any \(m\)-step controlled block of a predictive chain. If \(\mathfrak D_k\ge\delta\) throughout the block and all registered normal, holonomy, pressure, carrier, and realization defects in the block are at most \(c\), then either the defect decreases below \(\delta/2\) at the next controlled scale, or the chain enters a rigid branch or a carrier branch covered by the previous assumptions.
+\end{assumption}
+
+\section{Conditional Newton Transfer}
+
+Under the differentiability module, the formal Newton bridge becomes a precise conditional proposition.
+
+\begin{proposition}[Conditional saddle Newton bridge]
+Assume critical predictor-map differentiability and the local Oseen transfer estimate. Let \(g_k\) be a relaxed minimax predictor at scale \(k\), and write \(u=g_k+w_k\). Then, after passing to the next core scale,
+\[
+\mathfrak D_{k+1}
+\le
+C_L\mathfrak D_k^2
++C_L
+\left(
+\mathfrak K_k^\perp
++\mathfrak H_k^\perp
++\mathfrak F_k^\perp
++\mathfrak V_k
+\right)
++\eta_k.
+\]
+Here \(\mathfrak K_k^\perp\) is the non-absorbed normal quadratic defect, \(\mathfrak H_k^\perp\) the holonomy or gauge defect, \(\mathfrak F_k^\perp\) the pressure/localization defect, \(\mathfrak V_k\) the realization defect of the relaxed centre, and \(\eta_k\) the chosen minimization error.
+\end{proposition}
+
+\begin{proof}
+The predictable linear part of \(w_k\) is absorbed by the first variation \(D\Phi(a)h\). The tangential quadratic part is absorbed by the second-order correction supplied by the differentiability module. The non-absorbed quadratic part is exactly \(\mathfrak K_k^\perp\); pressure, cutoff, and connection errors give \(\mathfrak F_k^\perp\) and \(\mathfrak H_k^\perp\); and non-realisability of the relaxed centre gives \(\mathfrak V_k\). Comparing the suitable weak solution with the updated strong predictor, the local Oseen estimate bounds the remainder on the smaller core. Since the updated predictor is an admissible competitor for the minimax problem at the next scale, the displayed inequality follows.
+\end{proof}
+
+\section{Modular Regularity Theorem}
+
+\begin{theorem}[Conditional predictive regularity]
+Let \((u,p)\) be a suitable weak solution near \(z_0\). Suppose that the predictive presentation system at \(z_0\) satisfies the six modules of Section 9, and that the scale errors \(\eta_k\) are summable. Then there is no bad predictive chain at \(z_0\). Consequently, if the predictive defect is the only obstruction to the predictive epsilon-regularity hypothesis, then \(u\) is regular at \(z_0\).
+\end{theorem}
+
+\begin{proof}
+Assume that a bad predictive chain exists. Then for some \(\delta_0>0\),
+\[
+\mathfrak D_k\ge\delta_0
+\]
+on all sufficiently small scales.
+
+By the global residual representation and the Hilbertian packing lemma, the innovative normal defects are square-summable. Hence blocks of arbitrarily small scales have very small average registered normal defect. The quantitative closure alternative prevents a persistent defect \(\mathfrak D_k\ge\delta_0\) on such blocks unless the chain enters a rigid branch or a carrier branch.
+
+If the chain enters a Beltrami branch, the quadratic term is pressure-cleaned and the Newton transfer gives decay of the predictive defect. If it enters a two-and-a-half-dimensional branch, the reduced two-dimensional system and passive scalar equation provide the strong predictor and again force decay, up to a registered anisotropic defect. If the chain enters carrier escape, the carrier localization module either recenters the scale, makes the contribution locally subcritical, or produces one of the registered defects already controlled by packing.
+
+Thus every alternative contradicts the persistence of \(\mathfrak D_k\ge\delta_0\). Therefore no bad predictive chain exists. The final implication is exactly predictive epsilon regularity.
+\end{proof}
+
+\section{What Is Verified and What Remains}
+
+The verified pieces are:
+\begin{enumerate}[label=(\roman*)]
+\item the Serrin-critical Oseen transfer estimate, with collar and pressure-tail terms explicitly paid for;
+\item the Hilbert-space existence of relaxed minimax centres;
+\item the abstract Bessel packing mechanism for innovative normal witnesses;
+\item the exact two-mode null classification of the projected bilinear symbol;
+\item exact absorption of Beltrami fields and exact reduction of two-and-a-half-dimensional fields.
+\end{enumerate}
+
+The remaining work is not cosmetic. The program becomes an unconditional regularity proof only if the following PDE modules are proved in scale-invariant form:
+\begin{enumerate}[label=(\roman*)]
+\item critical differentiability and stability of the causal predictor map;
+\item construction of a global residual functional across a bad chain;
+\item packet-level null-graph rigidity;
+\item carrier localization with pressure-tail control;
+\item predictive epsilon regularity and the quantitative closure alternative.
+\end{enumerate}
+
+The useful conclusion of the note is therefore a dependency graph. Presentation theory supplies the language of predictors, observables, fibres, costs, and transfer; Oseen estimates supply the perturbative transport; Hilbert packing supplies a square-summability mechanism for genuinely new normal defects; and null geometry isolates the branches where the quadratic term can be invisible. The unsolved problem is to prove that these formal branches exhaust all localized PDE behaviour at critical scale.
+
+\begin{thebibliography}{99}
+
+\bibitem[ABP]{ABP}
+D. Albritton, T. Barker, and C. Prange,
+\emph{Epsilon regularity for the Navier-Stokes equations via weak-strong uniqueness},
+arXiv:2211.16188.
+
+\bibitem[CKN]{CKN}
+L. Caffarelli, R. Kohn, and L. Nirenberg,
+\emph{Partial regularity of suitable weak solutions of the Navier-Stokes equations},
+Communications on Pure and Applied Mathematics 35 (1982), 771-831.
+
+\bibitem[ESS]{ESS}
+L. Escauriaza, G. Seregin, and V. Sverak,
+\emph{\(L_{3,\infty}\)-solutions of Navier-Stokes equations and backward uniqueness},
+Russian Mathematical Surveys 58 (2003), 211-250.
+
+\bibitem[Leray]{Leray}
+J. Leray,
+\emph{Sur le mouvement d'un liquide visqueux emplissant l'espace},
+Acta Mathematica 63 (1934), 193-248.
+
+\bibitem[Serrin]{Serrin}
+J. Serrin,
+\emph{On the interior regularity of weak solutions of the Navier-Stokes equations},
+Archive for Rational Mechanics and Analysis 9 (1962), 187-195.
+
+\bibitem[Tao]{Tao}
+T. Tao,
+\emph{Quantitative bounds for critically bounded solutions to the Navier-Stokes equations},
+preprint, 2019.
+
+\bibitem[Wolf]{Wolf}
+J. Wolf,
+\emph{On the local pressure of the Navier-Stokes equations and related systems},
+Advances in Differential Equations 17 (2012), 305-338.
+
+\end{thebibliography}
+
+\end{document}
