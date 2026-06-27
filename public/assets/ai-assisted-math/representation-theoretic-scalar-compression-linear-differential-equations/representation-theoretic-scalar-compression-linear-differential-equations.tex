@@ -1,0 +1,891 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.05in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Lie}{Lie}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\Spec}{Spec}
+
+\title{Representation-Theoretic Scalar Compression for Linear Differential Equations}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study the minimum order of a scalar linear ordinary differential equation representing a finite family of functions in a Picard--Vessiot extension. Let \(K\) be an ordinary differential field of characteristic zero with algebraically closed field of constants \(C\), let \(E/K\) be a Picard--Vessiot extension with differential Galois group \(G\), and let
+\[
+Y=(y_1,\ldots,y_q)\in E^q.
+\]
+The minimum order of a single homogeneous scalar operator over \(K\) annihilating all \(y_i\) is exactly
+\[
+\dim_C\Span_C\{\sigma(y_i):\sigma\in G,\ 1\le i\le q\},
+\]
+provided this orbit span is finite-dimensional. The corresponding inhomogeneous minimum order is
+\[
+\dim_C\Span_C\{\sigma(y_i)-y_i:\sigma\in G,\ 1\le i\le q\}.
+\]
+
+The useful refinement is representation-theoretic. If an observable is realized by a \(G\)-equivariant map
+\[
+\mu:R\to E
+\]
+from a finite-dimensional \(G\)-module, then the minimum scalar order of
+\[
+\mu(r_1),\ldots,\mu(r_q)
+\]
+is
+\[
+\dim_C\mu\bigl(\langle G r_1,\ldots,G r_q\rangle\bigr).
+\]
+Thus the order is governed by the realized cyclic representation, after quotienting by the kernel of the observable. For reductive \(G\), this number is computed by an isotypic rank formula. If
+\[
+R\simeq\bigoplus_\lambda S_\lambda\otimes M_\lambda
+\]
+and \(\mu\) induces multiplicity maps \(T_\lambda:M_\lambda\to N_\lambda\), then
+\[
+C_{\mathrm{hom},K}\bigl(\mu(r_1),\ldots,\mu(r_q)\bigr)
+=
+\sum_\lambda
+\dim S_\lambda\,
+\rank(T_\lambda\circ\Phi_{\lambda,r}),
+\]
+where
+\[
+\Phi_{\lambda,r}:S_\lambda^\vee\otimes C^q\to M_\lambda
+\]
+is the contraction map determined by the \(\lambda\)-isotypic components of the tuple.
+
+We apply the formulas to algebraic functions, logarithms, powers and products of solutions, Picard--Fuchs equations, periods, Lefschetz pencils with full symplectic monodromy, normal functions, exterior-power observables, and restrictions of \(A\)-hypergeometric systems. For the Legendre family of elliptic curves, the \(d\)-th power of a nonzero period has minimum scalar order \(d+1\). More generally, under the hypothesis that the relevant monodromy closure is the full \(\operatorname{Sp}_{2g}\) on a \(2g\)-dimensional primitive period space, the \(d\)-th power of a nonzero primitive period has minimum scalar order
+\[
+\binom{2g+d-1}{d}.
+\]
+\end{abstract}
+
+\section{The Question}
+
+Geometric and algebraic constructions often produce linear differential systems before they produce scalar differential equations. Periods of algebraic families satisfy the Gauss--Manin connection; after eliminating variables, one obtains scalar Picard--Fuchs equations. Products, powers, minors, and relative periods then satisfy further scalar equations obtained from tensor constructions.
+
+The question here is:
+\[
+\text{how small can the scalar equation be?}
+\]
+For a period branch
+\[
+I(t)=\int_{\gamma_t}\omega_t,
+\]
+the Gauss--Manin system gives an equation of order at most the rank of the relevant local system. But a scalar branch might lie in a proper subrepresentation, or a tensor observable might have quotient relations. The correct invariant is not the ambient rank by itself. It is the dimension of the orbit span actually realized by the scalar function.
+
+The guiding formula is
+\[
+\boxed{
+\text{minimum scalar order}
+=
+\dim_C\text{(realized orbit span)}.
+}
+\]
+For regular singular equations over a complex curve, this orbit span may be computed from the Zariski closure of monodromy. In the general Picard--Vessiot setting, it is computed from the differential Galois group.
+
+\section{Differential-Algebraic Setup}
+
+Let \((K,\partial)\) be an ordinary differential field of characteristic zero. Its constant field is
+\[
+C=K^\partial.
+\]
+Throughout, \(C\) is assumed algebraically closed. Let
+\[
+K\langle\partial\rangle
+\]
+be the Ore ring of linear differential operators over \(K\), with multiplication determined by
+\[
+\partial a=a\partial+\partial(a).
+\]
+For
+\[
+0\ne L=a_m\partial^m+\cdots+a_0
+\]
+with \(a_m\ne0\), define \(\ord L=m\).
+
+Let \(E/K\) be a Picard--Vessiot extension with differential Galois group
+\[
+G=\operatorname{Aut}^\partial(E/K).
+\]
+We use the fixed-field theorem
+\[
+E^G=K.
+\]
+
+\begin{definition}[Homogeneous and affine scalar order]
+For \(Y=(y_1,\ldots,y_q)\in E^q\), define
+\[
+C_{\mathrm{hom},K}(Y)
+=
+\min\{\ord L:0\ne L\in K\langle\partial\rangle,\ Ly_i=0\ \text{for all }i\}.
+\]
+If no such operator exists, set \(C_{\mathrm{hom},K}(Y)=\infty\). If all \(y_i=0\), set \(C_{\mathrm{hom},K}(Y)=0\).
+
+Define the affine, or inhomogeneous, scalar order by
+\[
+C_{\mathrm{aff},K}(Y)
+=
+\min\{\ord A:0\ne A\in K\langle\partial\rangle,\ Ay_i\in K\ \text{for all }i\}.
+\]
+Order \(0\) is allowed, so \(C_{\mathrm{aff},K}(Y)=0\) precisely when all \(y_i\in K\).
+\end{definition}
+
+Define the linear orbit span
+\[
+V_Y=
+\Span_C\{\sigma(y_i):\sigma\in G,\ 1\le i\le q\}\subset E
+\]
+and the affine orbit-difference span
+\[
+A_Y=
+\Span_C\{\sigma(y_i)-y_i:\sigma\in G,\ 1\le i\le q\}\subset E.
+\]
+The main formulas below apply when these spaces are finite-dimensional. This is automatic when the \(y_i\) lie in a common finite-dimensional differential module trivialized by \(E\).
+
+\section{Wronskian Descent}
+
+\begin{lemma}[Wronskian independence]
+Let \(F\) be an ordinary differential field of characteristic zero with constant field \(C_F\). If \(f_1,\ldots,f_n\in F\) are linearly independent over \(C_F\), then
+\[
+\det(\partial^{i-1}f_j)_{1\le i,j\le n}\ne0.
+\]
+\end{lemma}
+
+\begin{proof}
+This is the standard Wronskian criterion over a differential field of characteristic zero. One proves it by induction on \(n\), using
+\[
+W(f_1,\ldots,f_n)
+=
+f_n^n\,
+W\left(
+\partial(f_1/f_n),\ldots,\partial(f_{n-1}/f_n)
+\right).
+\]
+If the Wronskian vanished, the induction hypothesis would give a constant linear relation among the derivatives \(\partial(f_i/f_n)\), and after integration a constant linear relation among \(f_1,\ldots,f_n\), contradiction.
+\end{proof}
+
+\begin{lemma}[Wronskian operator and descent]
+Let \(W\subset E\) be a finite-dimensional \(C\)-vector subspace of dimension \(r\). There is a unique monic operator
+\[
+L_W\in E\langle\partial\rangle
+\]
+of order \(r\) annihilating every element of \(W\). If \(W\) is \(G\)-stable, then
+\[
+L_W\in K\langle\partial\rangle.
+\]
+\end{lemma}
+
+\begin{proof}
+For \(r=0\), take \(L_W=1\). For \(r>0\), choose a \(C\)-basis \(w_1,\ldots,w_r\) of \(W\). The Wronskian is nonzero, and the normalized determinant
+\[
+L_W(f)=
+\frac{
+\det
+\begin{pmatrix}
+w_1 & \cdots & w_r & f\\
+\partial w_1 & \cdots & \partial w_r & \partial f\\
+\vdots & & \vdots & \vdots\\
+\partial^r w_1 & \cdots & \partial^r w_r & \partial^r f
+\end{pmatrix}
+}{
+\det(\partial^{i-1}w_j)_{1\le i,j\le r}
+}
+\]
+is monic of order \(r\) and annihilates \(W\). Uniqueness follows because the difference of two monic order-\(r\) operators would have order \(<r\) and annihilate \(r\) constant-linearly independent elements.
+
+If \(W\) is \(G\)-stable, then for every \(\sigma\in G\), the operator \(\sigma(L_W)\) is again monic of order \(r\) and annihilates \(W\). By uniqueness \(\sigma(L_W)=L_W\). Its coefficients are fixed by \(G\), hence lie in \(K\).
+\end{proof}
+
+\section{Exact Scalar Order}
+
+\begin{theorem}[Homogeneous orbit formula]
+Let \(Y=(y_1,\ldots,y_q)\in E^q\), and assume \(V_Y\) is finite-dimensional. Then
+\[
+C_{\mathrm{hom},K}(Y)=\dim_C V_Y.
+\]
+\end{theorem}
+
+\begin{proof}
+Let \(r=\dim_C V_Y\). If \(0\ne L\in K\langle\partial\rangle\) has order \(m\) and annihilates all \(y_i\), then \(L\) annihilates every \(\sigma(y_i)\), since its coefficients lie in \(K\). Hence \(V_Y\) lies in the solution space of \(L\), whose \(C\)-dimension is at most \(m\). Thus \(r\le m\).
+
+Conversely, \(V_Y\) is \(G\)-stable by construction. The Wronskian descent lemma gives an operator \(L_{V_Y}\in K\langle\partial\rangle\) of order \(r\) annihilating \(V_Y\), and hence all \(y_i\).
+\end{proof}
+
+\begin{theorem}[Affine orbit formula]
+Let \(Y=(y_1,\ldots,y_q)\in E^q\), and assume \(A_Y\) is finite-dimensional. Then
+\[
+C_{\mathrm{aff},K}(Y)=\dim_C A_Y.
+\]
+\end{theorem}
+
+\begin{proof}
+Let \(d=\dim_C A_Y\). If \(0\ne A\in K\langle\partial\rangle\) has order \(m\) and \(Ay_i\in K\) for all \(i\), then
+\[
+A(\sigma(y_i)-y_i)=\sigma(Ay_i)-Ay_i=0.
+\]
+Thus \(A_Y\) lies in the solution space of \(A\), so \(d\le m\).
+
+Conversely, if \(d=0\), all \(y_i\) are fixed by \(G\) and hence lie in \(K\), so the affine order is \(0\). If \(d>0\), the Wronskian descent lemma gives \(B\in K\langle\partial\rangle\) of order \(d\) annihilating \(A_Y\). Then
+\[
+\sigma(By_i)-By_i=B(\sigma(y_i)-y_i)=0,
+\]
+so \(By_i\in E^G=K\). Hence the affine order is at most \(d\).
+\end{proof}
+
+\section{Realized Observables}
+
+Let \(R\) be a finite-dimensional rational \(G\)-module and let
+\[
+\mu:R\to E
+\]
+be a \(C\)-linear \(G\)-equivariant map. We call \(\mu\) a scalar realized observable. For \(r=(r_1,\ldots,r_q)\in R^q\), write
+\[
+\langle G r\rangle=
+\Span_C\{g r_i:g\in G,\ 1\le i\le q\}\subset R.
+\]
+
+\begin{theorem}[Realized orbit formula]
+With the notation above,
+\[
+C_{\mathrm{hom},K}\bigl(\mu(r_1),\ldots,\mu(r_q)\bigr)
+=
+\dim_C\mu(\langle G r\rangle).
+\]
+Similarly,
+\[
+C_{\mathrm{aff},K}\bigl(\mu(r_1),\ldots,\mu(r_q)\bigr)
+=
+\dim_C\mu\left(
+\Span_C\{g r_i-r_i:g\in G,\ 1\le i\le q\}
+\right).
+\]
+\end{theorem}
+
+\begin{proof}
+Equivariance gives
+\[
+\sigma(\mu(r_i))=\mu(\sigma r_i).
+\]
+Thus the orbit span of the realized tuple is exactly \(\mu(\langle G r\rangle)\). The homogeneous formula follows from the homogeneous orbit formula. The affine formula follows in the same way from
+\[
+\sigma(\mu(r_i))-\mu(r_i)=\mu(\sigma r_i-r_i).
+\]
+\end{proof}
+
+This is the quotient-corrected form of scalar compression. Products, powers, determinants, and other tensorial functions are governed by the cyclic representation after applying the realization map, not by the abstract tensor representation before quotienting.
+
+\section{The Isotypic Rank Formula}
+
+Assume \(G\) is linearly reductive. Let
+\[
+R\simeq\bigoplus_{\lambda\in\Lambda}S_\lambda\otimes M_\lambda
+\]
+be the isotypic decomposition, where \(S_\lambda\) are irreducible \(G\)-modules and \(M_\lambda\) are multiplicity spaces. Let \(\mathcal O=\mu(R)\). Since \(G\) is reductive, \(\mathcal O\) is semisimple, and its \(\lambda\)-isotypic component has the form
+\[
+S_\lambda\otimes N_\lambda
+\]
+with \(N_\lambda\) a quotient of \(M_\lambda\). On the \(\lambda\)-isotypic component,
+\[
+\mu_\lambda=\operatorname{id}_{S_\lambda}\otimes T_\lambda,
+\qquad
+T_\lambda:M_\lambda\to N_\lambda.
+\]
+
+For \(r=(r_1,\ldots,r_q)\), write \(r_{i,\lambda}\in S_\lambda\otimes M_\lambda\) for the \(\lambda\)-isotypic component of \(r_i\). Define
+\[
+\Phi_{\lambda,r}:S_\lambda^\vee\otimes C^q\to M_\lambda
+\]
+by
+\[
+\Phi_{\lambda,r}(\ell\otimes e_i)
+=
+(\ell\otimes\operatorname{id}_{M_\lambda})(r_{i,\lambda}).
+\]
+
+\begin{theorem}[Isotypic rank formula]
+For reductive \(G\),
+\[
+C_{\mathrm{hom},K}\bigl(\mu(r_1),\ldots,\mu(r_q)\bigr)
+=
+\sum_{\lambda\in\Lambda}
+\dim S_\lambda\,
+\rank(T_\lambda\circ\Phi_{\lambda,r}).
+\]
+\end{theorem}
+
+\begin{proof}
+By the realized orbit formula, it suffices to compute \(\dim\mu(\langle G r\rangle)\). The direct-sum decomposition reduces this to one isotypic component \(S\otimes M\), with realization \(\operatorname{id}_S\otimes T\).
+
+Let
+\[
+N_r=\operatorname{im}(T\circ\Phi_r)\subseteq N.
+\]
+The realized \(G\)-submodule generated by the tuple is \(S\otimes N_r\). One inclusion is immediate from the definition of \(N_r\). For the other, the associative algebra generated by the image of \(G\) on the irreducible module \(S\) is \(\operatorname{End}(S)\) by Burnside's theorem, so linear combinations of \(G\)-translates produce every vector in \(S\) in each multiplicity direction appearing in \(N_r\). Therefore the contribution of this isotypic component has dimension
+\[
+\dim S\cdot \dim N_r
+=
+\dim S\cdot \rank(T\circ\Phi_r).
+\]
+Summing over \(\lambda\) gives the formula.
+\end{proof}
+
+\begin{corollary}[Generic tuple profile]
+For a Zariski-generic tuple \(r=(r_1,\ldots,r_q)\in R^q\),
+\[
+C_{\mathrm{hom},K}\bigl(\mu(r_1),\ldots,\mu(r_q)\bigr)
+=
+\sum_\lambda
+\dim S_\lambda\,
+\min\{\rank T_\lambda,\ q\dim S_\lambda\}.
+\]
+In particular, a generic \(q\)-tuple realizes all of \(\mu(R)\) if and only if
+\[
+q\dim S_\lambda\ge \rank T_\lambda
+\]
+for every \(\lambda\).
+\end{corollary}
+
+\begin{corollary}[Irreducible case]
+If \(R\) is irreducible and \(\mu:R\to E\) is nonzero, then for every \(r\in R\) with \(\mu(r)\ne0\),
+\[
+C_{\mathrm{hom},K}(\mu(r))=\dim R.
+\]
+\end{corollary}
+
+\begin{proof}
+The kernel of \(\mu\) is a \(G\)-submodule. Since \(R\) is irreducible and \(\mu\ne0\), the map is injective. Every nonzero vector generates all of \(R\).
+\end{proof}
+
+\section{Lie Saturation}
+
+Reductive decompositions are not always the right language. Logarithmic periods, degenerations, normal functions, and irregular equations often involve non-reductive groups.
+
+Let \(G\) be a linear algebraic group over \(C\), acting rationally on a finite-dimensional vector space \(V\). Let \(G^\circ\) be its identity component and let
+\[
+\mathfrak g=\Lie(G).
+\]
+
+\begin{theorem}[Lie-saturation formula]
+If \(G\) is connected, then for \(v_1,\ldots,v_q\in V\),
+\[
+\langle Gv_1,\ldots,Gv_q\rangle
+=
+U(\mathfrak g)\cdot\Span_C\{v_1,\ldots,v_q\}.
+\]
+If \(G\) is not connected and \(h_1,\ldots,h_s\) are representatives for \(G/G^\circ\), then
+\[
+\langle Gv_1,\ldots,Gv_q\rangle
+=
+U(\mathfrak g)\cdot
+\Span_C\{h_a v_i:1\le a\le s,\ 1\le i\le q\}.
+\]
+\end{theorem}
+
+\begin{proof}
+For connected \(G\), the \(G\)-span is stable under \(\mathfrak g\), hence contains the right-hand side. Conversely, the right-hand side is finite-dimensional, \(\mathfrak g\)-stable, and contains the \(v_i\). For rational representations of connected algebraic groups in characteristic zero, \(\mathfrak g\)-stable subspaces are \(G\)-stable. The non-connected statement follows by first generating under representatives of the component group and then applying the connected case.
+\end{proof}
+
+For a connected unipotent group with nilpotent Lie generators \(N_1,\ldots,N_s\), the orbit span is
+\[
+\Span_C\{N_{i_1}\cdots N_{i_m}v_j:m\ge0,\ 1\le j\le q\}.
+\]
+Thus scalar order in unipotent situations is computed by nilpotent saturation.
+
+\section{Changing the Base Field}
+
+Let \(H\subseteq G\) be a Zariski-closed subgroup and put
+\[
+F=E^H.
+\]
+Then \(E/F\) is a Picard--Vessiot extension with Galois group \(H\).
+
+\begin{theorem}[Relative orbit formula]
+If \(Y=(y_1,\ldots,y_q)\in E^q\) has finite-dimensional \(H\)-orbit span, then
+\[
+C_{\mathrm{hom},F}(Y)
+=
+\dim_C\Span_C\{h(y_i):h\in H,\ 1\le i\le q\}.
+\]
+Similarly,
+\[
+C_{\mathrm{aff},F}(Y)
+=
+\dim_C\Span_C\{h(y_i)-y_i:h\in H,\ 1\le i\le q\}.
+\]
+\end{theorem}
+
+Allowing more coefficients compresses precisely by restricting the Galois representation from \(G\) to \(H\). If a \(G\)-irreducible module decomposes after restriction to \(H\), the scalar order over \(F\) is computed by the corresponding \(H\)-isotypic rank formula.
+
+\section{Products, Powers, and Minors}
+
+Let \(V\subset E\) be a finite-dimensional \(G\)-stable solution space. Multiplication gives \(G\)-equivariant maps
+\[
+\mu_d:\Sym^d V\to E,\qquad
+v_1\odot\cdots\odot v_d\mapsto v_1\cdots v_d.
+\]
+
+\begin{theorem}[Powers]
+For every \(v\in V\),
+\[
+C_{\mathrm{hom},K}(v^d)
+=
+\dim_C
+\mu_d\bigl(\langle G\cdot v^{\odot d}\rangle\bigr).
+\]
+If \(\Sym^d V\) is irreducible as a \(G\)-module and \(v^d\ne0\), then
+\[
+C_{\mathrm{hom},K}(v^d)=\dim_C\Sym^d V.
+\]
+\end{theorem}
+
+\begin{proof}
+The first statement is the realized orbit formula for \(\mu_d\). If \(\Sym^d V\) is irreducible and \(v^{\odot d}\ne0\), the generated submodule is all of \(\Sym^d V\). The kernel of \(\mu_d\) is a \(G\)-submodule, and it is not all of \(\Sym^d V\) because \(v^d\ne0\); irreducibility makes the kernel zero.
+\end{proof}
+
+For a product \(v_1\cdots v_d\), the same formula is
+\[
+C_{\mathrm{hom},K}(v_1\cdots v_d)
+=
+\dim_C
+\mu_d\bigl(\langle G\cdot(v_1\odot\cdots\odot v_d)\rangle\bigr).
+\]
+
+Exterior and determinant-type observables are analogous. If
+\[
+\nu_k:\bigwedge^k V\to E
+\]
+is a \(G\)-equivariant realization, then
+\[
+C_{\mathrm{hom},K}\bigl(\nu_k(v_1\wedge\cdots\wedge v_k)\bigr)
+=
+\dim_C
+\nu_k\bigl(\langle G\cdot(v_1\wedge\cdots\wedge v_k)\rangle\bigr).
+\]
+For reductive \(G\), the exact value is given by the isotypic rank formula.
+
+\section{Orbit Hilbert Functions}
+
+Let \(0\ne v\in V\), and let
+\[
+X_v=\overline{G\cdot[v]}\subset \mathbb P(V)
+\]
+be the projective orbit closure. The affine span of the Veronese orbit
+\[
+\{(gv)^{\odot d}:g\in G\}\subset \Sym^d V
+\]
+is dual to the degree-\(d\) coordinate space of \(X_v\). Its dimension is the Hilbert function
+\[
+h_{X_v}(d)=\dim_C H^0(X_v,\mathcal O_{X_v}(d)).
+\]
+Therefore, when the multiplication realization is injective on the relevant orbit module,
+\[
+C_{\mathrm{hom},K}(v^d)=h_{X_v}(d).
+\]
+In general,
+\[
+C_{\mathrm{hom},K}(v^d)
+=
+\dim_C\mu_d(\langle Gv^{\odot d}\rangle),
+\]
+a quotient of this Hilbert-function space.
+
+\section{Regular and Irregular Analytic Meaning}
+
+Let \(K=\mathbb C(t)\), or more generally the function field of a smooth complex curve with a chosen nonzero derivation. For regular singular systems, Schlesinger density identifies the differential Galois group with the Zariski closure of analytic monodromy. The formula becomes
+\[
+C_{\mathrm{hom},K}(Y)
+=
+\dim_\mathbb C
+\Span_\mathbb C\{\gamma(y_i):\gamma\in\pi_1(U),\ 1\le i\le q\}.
+\]
+
+For irregular equations, ordinary topological monodromy is not enough. One must use the differential Galois group, equivalently the Zariski closure of the analytic data including formal monodromy, exponential tori, and Stokes operators. With this replacement, the same formulas apply.
+
+The elementary function \(y=\sin t\) illustrates the distinction. Its topological monodromy on \(\mathbb C\) is trivial, but over \(K=\mathbb C(t)\) its minimal homogeneous scalar equation is
+\[
+y''+y=0
+\]
+of order \(2\). The differential Galois orbit spans
+\[
+\Span_\mathbb C\{e^{it},e^{-it}\},
+\]
+which has dimension \(2\).
+
+\section{Elementary Examples}
+
+\begin{example}[Rational functions]
+If \(0\ne y\in K\), then \(G\cdot y=\{y\}\). Hence
+\[
+C_{\mathrm{hom},K}(y)=1,
+\]
+as witnessed by
+\[
+\left(\partial-\frac{\partial y}{y}\right)y=0.
+\]
+On the other hand \(C_{\mathrm{aff},K}(y)=0\).
+\end{example}
+
+\begin{example}[Logarithms]
+Let \(K=\mathbb C(t)\) and \(\ell=\log t\). The Picard--Vessiot field \(K(\ell)\) has additive Galois action
+\[
+\ell\mapsto \ell+c.
+\]
+For \(n\ge0\), the orbit of \(\ell^n\) spans
+\[
+\Span_\mathbb C\{1,\ell,\ldots,\ell^n\}.
+\]
+Thus
+\[
+C_{\mathrm{hom},K}(\ell^n)=n+1.
+\]
+For \(n\ge1\), the affine difference span is
+\[
+\Span_\mathbb C\{1,\ell,\ldots,\ell^{n-1}\},
+\]
+so
+\[
+C_{\mathrm{aff},K}(\ell^n)=n.
+\]
+\end{example}
+
+\begin{example}[Algebraic functions]
+Let \(y\) be algebraic over \(K=\mathbb C(t)\), and let \(y_1,\ldots,y_m\) be its distinct conjugates in a finite differential Galois closure. Then
+\[
+C_{\mathrm{hom},K}(y)
+=
+\dim_\mathbb C\Span_\mathbb C\{y_1,\ldots,y_m\}.
+\]
+This can be smaller than the algebraic degree. For example, \(\sqrt t\) has homogeneous scalar order \(1\), and
+\[
+\sqrt t+\sqrt{t-1}
+\]
+has homogeneous scalar order \(2\) although it has algebraic degree \(4\).
+\end{example}
+
+\section{Picard--Fuchs Equations and Periods}
+
+Let
+\[
+f:X\to U
+\]
+be a smooth proper algebraic morphism over a smooth complex algebraic curve, and let \(V\) be a fiber of a homology or cohomology local system arising from the Gauss--Manin connection. Let \(G\subseteq\operatorname{GL}(V)\) be the Zariski closure of monodromy.
+
+A period branch
+\[
+I(t)=\int_{\gamma_t}\omega_t
+\]
+is a scalar solution of the Gauss--Manin connection and therefore satisfies a scalar Picard--Fuchs equation over the function field of \(U\). If \(I_1,\ldots,I_q\) correspond to vectors \(v_1,\ldots,v_q\in V\), then
+\[
+C_{\mathrm{hom}}(I_1,\ldots,I_q)
+=
+\dim_\mathbb C\langle Gv_1,\ldots,Gv_q\rangle.
+\]
+For tensorial period observables realized by \(\mu:R\to E\),
+\[
+C_{\mathrm{hom}}\bigl(\mu(r_1),\ldots,\mu(r_q)\bigr)
+=
+\dim_\mathbb C\mu(\langle G r_1,\ldots,G r_q\rangle).
+\]
+
+\begin{corollary}[Irreducible monodromy]
+If the relevant monodromy representation \(V\) is irreducible under \(G\), then every nonzero period branch in \(V\) has minimum homogeneous scalar order
+\[
+\dim V.
+\]
+\end{corollary}
+
+\section{The Legendre Family}
+
+Consider the Legendre family
+\[
+E_\lambda:\quad y^2=x(x-1)(x-\lambda),
+\qquad
+\lambda\in\mathbb P^1\setminus\{0,1,\infty\}.
+\]
+A period
+\[
+I(\lambda)=\int_{\gamma_\lambda}\frac{dx}{y}
+\]
+satisfies the hypergeometric Picard--Fuchs equation
+\[
+\lambda(1-\lambda)I''
++(1-2\lambda)I'
+-\frac14 I=0.
+\]
+The monodromy is a finite-index subgroup of \(\operatorname{SL}_2(\mathbb Z)\), hence its Zariski closure is \(\operatorname{SL}_2(\mathbb C)\). The solution space \(V\) is the standard two-dimensional representation. Therefore every nonzero period branch has
+\[
+C_{\mathrm{hom}}(I)=2.
+\]
+
+For powers, the multiplication observable is
+\[
+\mu_d:\Sym^d V\to E.
+\]
+The representation \(\Sym^d V\) is irreducible for \(\operatorname{SL}_2\), and \(I^d\ne0\). Hence
+\[
+C_{\mathrm{hom}}(I^d)=\dim\Sym^d V=d+1.
+\]
+Thus the square and cube of a nonzero Legendre period have minimum scalar orders \(3\) and \(4\), respectively, over \(\mathbb C(\lambda)\).
+
+\section{Lefschetz Pencils with Full Symplectic Monodromy}
+
+Let \(f:X\to B\) be a Lefschetz pencil, and let \(V\) be the primitive vanishing cohomology or homology of a smooth fiber. Suppose explicitly that the Zariski closure of the vanishing monodromy on \(V\) is the full symplectic group
+\[
+G=\operatorname{Sp}(V),\qquad \dim V=2g.
+\]
+
+\begin{theorem}[Primitive periods]
+Under this hypothesis, every nonzero primitive period branch with nonzero component in \(V\) has
+\[
+C_{\mathrm{hom}}(I)=2g.
+\]
+Moreover, for every \(d\ge1\),
+\[
+C_{\mathrm{hom}}(I^d)
+=
+\dim\Sym^d V
+=
+\binom{2g+d-1}{d}.
+\]
+\end{theorem}
+
+\begin{proof}
+The standard representation of \(\operatorname{Sp}_{2g}\) is irreducible. In characteristic zero, \(\Sym^d V\) is the irreducible representation of highest weight \(d\omega_1\). Since \(I^d\ne0\), the power formula applies.
+\end{proof}
+
+For example,
+\[
+C_{\mathrm{hom}}(I^2)=g(2g+1),
+\qquad
+C_{\mathrm{hom}}(I^3)=\binom{2g+2}{3}.
+\]
+
+The full-monodromy hypothesis can sometimes be checked from Picard--Lefschetz transformations. If the graph of vanishing cycles, with edges defined by nonzero intersection pairing, is connected, then the monodromy orbit of any vanishing cycle spans the vanishing space. Additional geometric input is needed to identify the Zariski closure as the full symplectic group.
+
+\section{Normal Functions and Inhomogeneous Picard--Fuchs Equations}
+
+The affine formula applies naturally to normal functions and relative periods. Suppose there is an extension of local systems or differential modules
+\[
+0\to V\to W\to C\to0.
+\]
+A normal function or relative period branch may be represented by a lift \(w\in W\) of \(1\in C\). Its monodromy differences \(gw-w\) lie in \(V\).
+
+For the corresponding scalar function \(\nu\),
+\[
+C_{\mathrm{aff}}(\nu)
+=
+\dim_C\Span_C\{g\nu-\nu:g\in G\}
+=
+\dim_C\Span_C\{gw-w:g\in G\}.
+\]
+Thus the minimum order of an inhomogeneous Picard--Fuchs equation is the dimension of the submodule generated by the extension differences.
+
+If \(V\) is irreducible and at least one monodromy difference is nonzero, then
+\[
+C_{\mathrm{aff}}(\nu)=\dim V.
+\]
+
+\section{Exterior Period Observables}
+
+Let \(V\) be a period representation and suppose a scalar observable is realized by
+\[
+\nu_k:\bigwedge^k V\to E.
+\]
+For vectors \(v_1,\ldots,v_k\in V\),
+\[
+C_{\mathrm{hom}}\bigl(\nu_k(v_1\wedge\cdots\wedge v_k)\bigr)
+=
+\dim
+\nu_k\bigl(\langle G\cdot(v_1\wedge\cdots\wedge v_k)\rangle\bigr).
+\]
+If \(G=\operatorname{SL}_N\) on the standard representation and the realized exterior observable is nonzero, then
+\[
+C_{\mathrm{hom}}=\binom Nk.
+\]
+For \(G=\operatorname{Sp}_{2g}\), exterior powers decompose into primitive components. The primitive \(k\)-th exterior component has dimension
+\[
+\binom{2g}{k}-\binom{2g}{k-2}.
+\]
+If the realized observable has nonzero projection to this primitive component, the exact order is computed by the isotypic rank formula; it equals this dimension when that is the only realized component.
+
+\section{\texorpdfstring{\(A\)}{A}-Hypergeometric Restrictions}
+
+Let \(H_A(\beta)\) be an \(A\)-hypergeometric system. Under standard nonresonance hypotheses, its holonomic rank is the normalized volume \(\operatorname{Vol}(A)\), and irreducibility is controlled by the usual resonance conditions.
+
+A scalar ordinary differential consequence requires a choice of a curve in the parameter space. Let
+\[
+C_0\hookrightarrow X
+\]
+be a noncharacteristic algebraic curve for the system, and suppose the restricted ordinary differential system has solution space \(V\) of dimension \(\operatorname{Vol}(A)\). If the Zariski closure of the restricted monodromy or differential Galois group acts irreducibly on \(V\), then every nonzero branch \(F\) of a restricted \(A\)-hypergeometric solution has
+\[
+C_{\mathrm{hom}}(F)=\operatorname{Vol}(A).
+\]
+For powers,
+\[
+C_{\mathrm{hom}}(F^d)
+=
+\dim
+\mu_d\bigl(\langle G\cdot F^{\odot d}\rangle\bigr),
+\]
+with \(\mu_d:\Sym^d V\to E\) the multiplication realization. If \(\Sym^d V\) is irreducible for the relevant group and \(F^d\ne0\), this becomes
+\[
+C_{\mathrm{hom}}(F^d)=\binom{\operatorname{Vol}(A)+d-1}{d}.
+\]
+
+The hypotheses on the curve are part of the statement. Irreducibility of the original \(D\)-module does not automatically imply irreducibility of every ordinary differential restriction.
+
+\section{Summary}
+
+For scalar linear differential presentations over \(K\), the exact cost measured by order is:
+\[
+C_{\mathrm{hom},K}(Y)=\dim\Span(G\cdot Y),
+\qquad
+C_{\mathrm{aff},K}(Y)=\dim\Span(G\cdot Y-Y).
+\]
+For realized observables,
+\[
+C_{\mathrm{hom},K}(\mu(r_1),\ldots,\mu(r_q))
+=
+\dim\mu(\langle G r_1,\ldots,G r_q\rangle).
+\]
+When \(G\) is reductive, this dimension is
+\[
+\sum_\lambda
+\dim S_\lambda\,
+\rank(T_\lambda\circ\Phi_{\lambda,r}).
+\]
+When \(G\) is connected and non-reductive, the orbit span is computed by \(U(\mathfrak g)\)-saturation. Under base-field enlargement \(F=E^H\), the same formula holds with \(G\) replaced by \(H\).
+
+The contribution of the framework is the systematic realized-orbit formulation. It identifies exactly where scalar compression can occur: reducible representation structure, multiplicity-rank deficiency, kernels of realization maps, non-reductive nilpotent saturation, or restriction of the Galois group after enlarging the coefficient field.
+
+\begin{thebibliography}{99}
+
+\bibitem{Adolphson}
+A. Adolphson.
+\newblock Hypergeometric functions and rings generated by monomials.
+\newblock \emph{Duke Mathematical Journal} 73 (1994), 269--290.
+
+\bibitem{Beukers}
+F. Beukers.
+\newblock Irreducibility of \(A\)-hypergeometric systems.
+\newblock \emph{Indagationes Mathematicae} 21 (2011), 30--39.
+
+\bibitem{Deligne}
+P. Deligne.
+\newblock \emph{Equations differentielles a points singuliers reguliers}.
+\newblock Lecture Notes in Mathematics 163, Springer, 1970.
+
+\bibitem{SGA7}
+P. Deligne and N. Katz.
+\newblock \emph{Groupes de monodromie en geometrie algebrique, SGA 7 II}.
+\newblock Lecture Notes in Mathematics 340, Springer, 1973.
+
+\bibitem{FultonHarris}
+W. Fulton and J. Harris.
+\newblock \emph{Representation Theory: A First Course}.
+\newblock Springer, 1991.
+
+\bibitem{GKZ}
+I. M. Gel'fand, M. M. Kapranov, and A. V. Zelevinsky.
+\newblock \emph{Discriminants, Resultants, and Multidimensional Determinants}.
+\newblock Birkhauser, 1994.
+
+\bibitem{Griffiths}
+P. Griffiths.
+\newblock On the periods of certain rational integrals.
+\newblock \emph{Annals of Mathematics} 90 (1969), 460--541.
+
+\bibitem{Humphreys}
+J. E. Humphreys.
+\newblock \emph{Introduction to Lie Algebras and Representation Theory}.
+\newblock Springer, 1972.
+
+\bibitem{KatzRegularity}
+N. M. Katz.
+\newblock The regularity theorem in algebraic geometry.
+\newblock In \emph{Proceedings of the International Congress of Mathematicians}, Nice, 1970.
+
+\bibitem{KatzExponential}
+N. M. Katz.
+\newblock \emph{Exponential Sums and Differential Equations}.
+\newblock Princeton University Press, 1990.
+
+\bibitem{KatzLarsen}
+N. M. Katz.
+\newblock Larsen's alternative, moments, and the monodromy of Lefschetz pencils.
+\newblock In \emph{Contributions to Automorphic Forms, Geometry, and Number Theory}, Johns Hopkins University Press, 2004.
+
+\bibitem{Kolchin}
+E. R. Kolchin.
+\newblock \emph{Differential Algebra and Algebraic Groups}.
+\newblock Academic Press, 1973.
+
+\bibitem{Lairez}
+P. Lairez.
+\newblock Computing periods of rational integrals.
+\newblock \emph{Mathematics of Computation} 85 (2016), 1719--1752.
+
+\bibitem{Malgrange}
+B. Malgrange.
+\newblock \emph{Equations differentielles a coefficients polynomiaux}.
+\newblock Birkhauser, 1991.
+
+\bibitem{Magid}
+A. R. Magid.
+\newblock \emph{Lectures on Differential Galois Theory}.
+\newblock American Mathematical Society, 1994.
+
+\bibitem{Ramis}
+J.-P. Ramis.
+\newblock Phenomene de Stokes et filtration Gevrey sur le groupe de Picard--Vessiot.
+\newblock \emph{Comptes Rendus de l'Academie des Sciences de Paris} 301 (1985), 165--167.
+
+\bibitem{Sabbah}
+C. Sabbah.
+\newblock \emph{Introduction to Stokes Structures}.
+\newblock Springer, 2012.
+
+\bibitem{SchulzeWalther}
+M. Schulze and U. Walther.
+\newblock Resonance equals reducibility for \(A\)-hypergeometric systems.
+\newblock \emph{Algebra \& Number Theory} 6 (2012), 527--537.
+
+\bibitem{SingerIntro}
+M. F. Singer.
+\newblock Introduction to the Galois theory of linear differential equations.
+\newblock London Mathematical Society Lecture Note Series 357, Cambridge University Press, 2009.
+
+\bibitem{vdPSinger}
+M. van der Put and M. F. Singer.
+\newblock \emph{Galois Theory of Linear Differential Equations}.
+\newblock Springer, 2003.
+
+\bibitem{Voisin}
+C. Voisin.
+\newblock \emph{Hodge Theory and Complex Algebraic Geometry}, Vols. I--II.
+\newblock Cambridge University Press, 2002--2003.
+
+\end{thebibliography}
+
+\end{document}

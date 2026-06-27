@@ -1,0 +1,731 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.05in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\title{Fragmented Presentation Systems and Resource-Bound Degrees}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Many mathematical existence and equivalence problems are naturally presented as unbounded searches through uniformly decidable bounded fragments: bounded witness length, bounded normalizing path length, bounded model cardinality, bounded finite quotient size, bounded permutation degree, bounded representation dimension, bounded nilpotency time, or bounded product length. We isolate a general computability-theoretic principle for such systems. Let \(P\subseteq X\) be a predicate on an admissibly encoded class, and suppose
+\[
+P=\bigcup_{r\ge 0}P_{\le r}
+\]
+where the bounded predicates \(P_{\le r}\) are increasing and uniformly decidable. For a positive instance \(x\in P\), let
+\[
+w_P(x)=\min\{r:x\in P_{\le r}\},
+\]
+and define the positive-instance width profile
+\[
+W_P(n)=\max\{w_P(x):x\in P,\ |x|\le n\}.
+\]
+We prove
+\[
+W_P\equiv_T P.
+\]
+Thus undecidability does not merely rule out computable resource bounds; it identifies the exact Turing degree of the optimal resource profile. We also prove the majorant-cone theorem: the Turing degrees of total majorants of \(W_P\) are exactly the upper cone above \(\deg_T(P)\). Cost-bounded reductions transfer exact degree for image profiles and lower-degree hardness for full target profiles. The framework applies uniformly to finite representation profiles, finite quotient profiles, normalizing distances, matrix mortality lengths, multilinear matroid orders, finite probabilistic countermodels, finite-dimensional perfect strategies, cellular-automaton nilpotency times, and network-code alphabet sizes.
+\end{abstract}
+
+\section{Guiding Principle}
+
+Many undecidable problems have a one-sided finite-fragment structure. For every fixed resource bound \(r\), the bounded problem is decidable, but the question whether some finite bound exists is undecidable.
+
+Typical fragments ask whether:
+\[
+\text{there is a witness of length at most }r,
+\]
+\[
+\text{there is a finite model of cardinality at most }r,
+\]
+\[
+\text{there is a nontrivial finite quotient of size at most }r,
+\]
+\[
+\text{there is a representation of dimension or order at most }r,
+\]
+or
+\[
+\text{there is a normalizing path of length at most }r.
+\]
+
+The elementary conclusion is familiar: if the least required resource on positive instances were bounded by a computable function of the input size, then the unbounded problem would be decidable.
+
+The sharper conclusion is degree-theoretic. The optimal positive-instance resource profile has exactly the same Turing degree as the underlying predicate:
+\[
+W_P\equiv_T P.
+\]
+Moreover, every total function that bounds this resource profile computes \(P\). Conversely, every Turing degree above \(\deg_T(P)\) contains some total majorant of the profile.
+
+Thus the correct calibrated statement is:
+\[
+\begin{gathered}
+\text{a uniform resource bound is not just noncomputable;}\\
+\text{as an oracle, it has exactly the strength needed to decide the problem.}
+\end{gathered}
+\]
+
+\section{Admissible Encodings}
+
+Fix a finite alphabet \(\Sigma\).
+
+\begin{definition}[Admissible encoded class]
+An admissible encoded class is a triple
+\[
+(X,|\cdot|,\mathcal B)
+\]
+where:
+\begin{enumerate}[label=(\roman*)]
+\item \(X\subseteq\Sigma^\ast\) is a decidable set of codes;
+\item \(|\cdot|:X\to\mathbb N\) is a computable size function;
+\item for every \(n\), the ball
+\[
+B_X(n)=\{x\in X:|x|\le n\}
+\]
+is finite;
+\item there is an algorithm which, given \(n\), enumerates exactly \(B_X(n)\).
+\end{enumerate}
+\end{definition}
+
+The finite-ball enumeration hypothesis is the formal ingredient needed to compute width profiles from an oracle for the underlying predicate. It is satisfied by the usual encodings of finite presentations, finite automata, finite matrices, finite graphs, finite algebraic data, and finite logical instances.
+
+Finite products of admissible encoded classes are again admissible, for example with product size
+\[
+|(x_1,\ldots,x_k)|=|x_1|+\cdots+|x_k|+k.
+\]
+Thus equivalence relations and multi-input predicates fit the same framework.
+
+\section{Fragmented Predicates}
+
+\begin{definition}[Fragmented predicate]
+Let \(X\) be an admissible encoded class. A fragmented predicate on \(X\) is a predicate
+\[
+P\subseteq X
+\]
+together with predicates
+\[
+P_{\le r}\subseteq X
+\qquad
+(r\in\mathbb N)
+\]
+such that:
+\begin{enumerate}[label=(\roman*)]
+\item \(P_{\le r}\subseteq P\) for every \(r\);
+\item \(P_{\le r}\subseteq P_{\le s}\) whenever \(r\le s\);
+\item \(P=\bigcup_{r\ge0}P_{\le r}\);
+\item the relation
+\[
+(x,r)\longmapsto [x\in P_{\le r}]
+\]
+is decidable.
+\end{enumerate}
+\end{definition}
+
+The parameter \(r\) is the fragment parameter or resource bound. Every fragmented predicate is recursively enumerable, because
+\[
+x\in P
+\quad\Longleftrightarrow\quad
+\exists r\ (x\in P_{\le r})
+\]
+and bounded-fragment membership is uniformly decidable.
+
+\begin{definition}[Width and width profile]
+For \(x\in P\), define the width of \(x\) by
+\[
+w_P(x)=\min\{r:x\in P_{\le r}\}.
+\]
+Define the positive-instance width profile by
+\[
+W_P(n)=
+\max_{\substack{x\in P\\ |x|\le n}}
+w_P(x),
+\]
+with the convention that the maximum over an empty set is \(0\).
+\end{definition}
+
+A total function \(G:\mathbb N\to\mathbb N\) is a \textbf{majorant} of \(W_P\) if
+\[
+W_P(n)\le G(n)
+\qquad
+\text{for every }n.
+\]
+Equivalently,
+\[
+x\in P
+\quad\Longrightarrow\quad
+w_P(x)\le G(|x|).
+\]
+
+\section{Exact Degree of Width Profiles}
+
+\begin{theorem}[Profile-degree theorem]
+Let \(P\) be a fragmented predicate on an admissible encoded class. Then
+\[
+W_P\equiv_T P.
+\]
+\end{theorem}
+
+\begin{proof}
+First show \(W_P\le_T P\). Given \(n\), enumerate the finite ball
+\[
+B_X(n)=\{x\in X:|x|\le n\}.
+\]
+Using oracle access to \(P\), determine which elements of \(B_X(n)\) are positive. For each positive \(x\), compute \(w_P(x)\) by searching for the least \(r\) such that \(x\in P_{\le r}\). This search terminates because \(x\in P\), and each bounded-fragment test is decidable. Taking the maximum over the finite set of positive instances in \(B_X(n)\) gives \(W_P(n)\).
+
+Conversely show \(P\le_T W_P\). Given \(x\in X\), query \(W_P(|x|)\). Decide whether
+\[
+x\in P_{\le W_P(|x|)}.
+\]
+If \(x\in P\), then \(w_P(x)\le W_P(|x|)\), so monotonicity gives \(x\in P_{\le W_P(|x|)}\). Conversely, if \(x\in P_{\le W_P(|x|)}\), then soundness gives \(x\in P\). Thus the test decides \(P\).
+\end{proof}
+
+\begin{corollary}[No computable majorant]
+If \(P\) is undecidable, then \(W_P\) is not dominated by any total computable function.
+\end{corollary}
+
+\begin{proof}
+If \(G\) were a computable majorant of \(W_P\), then one could decide \(P\) by testing
+\[
+x\in P_{\le G(|x|)}.
+\]
+\end{proof}
+
+\section{The Majorant Cone}
+
+The profile-degree theorem identifies the degree of the optimal profile. The next result identifies the degrees of all possible total upper bounds.
+
+\begin{definition}[Majorant degrees]
+Let
+\[
+\operatorname{MajDeg}(W_P)
+\]
+be the set of Turing degrees of total functions \(G:\mathbb N\to\mathbb N\) such that
+\[
+W_P(n)\le G(n)
+\qquad
+\text{for every }n.
+\]
+\end{definition}
+
+\begin{theorem}[Majorant-cone theorem]
+Let \(P\) be a fragmented predicate. Then
+\[
+\operatorname{MajDeg}(W_P)
+=
+\{\mathbf a:\deg_T(P)\le \mathbf a\}.
+\]
+\end{theorem}
+
+\begin{proof}
+Let \(G\) be a total majorant of \(W_P\). Given oracle access to \(G\), decide \(P\) as follows. On input \(x\), compute \(G(|x|)\) and test whether
+\[
+x\in P_{\le G(|x|)}.
+\]
+If \(x\in P\), then \(w_P(x)\le W_P(|x|)\le G(|x|)\), so the test accepts. If the test accepts, soundness gives \(x\in P\). Therefore \(P\le_T G\). Every majorant degree lies in the upper cone above \(\deg_T(P)\).
+
+Conversely, let \(\mathbf a\ge \deg_T(P)\), and choose a total function \(g:\mathbb N\to\mathbb N\) of degree \(\mathbf a\). Since \(W_P\equiv_T P\), we have \(W_P\le_T g\). Define
+\[
+G(n)=2^{W_P(n)}(2g(n)+1).
+\]
+Then \(G\) is a total majorant of \(W_P\) and \(G\le_T g\). Conversely, from \(G(n)\) one recovers \(W_P(n)\) as the \(2\)-adic valuation of \(G(n)\), and then recovers
+\[
+g(n)=\frac{G(n)/2^{W_P(n)}-1}{2}.
+\]
+Thus \(g\le_T G\), hence \(G\equiv_T g\). Every degree above \(\deg_T(P)\) is therefore realized by a majorant.
+\end{proof}
+
+\begin{corollary}
+If \(0'\le_T P\), then every total majorant of \(W_P\) computes \(0'\). More generally, if \(B\le_T P\), then every total majorant of \(W_P\) computes \(B\).
+\end{corollary}
+
+\section{Cost-Bounded Reductions}
+
+\begin{definition}[Cost-bounded reduction]
+Let \(P\subseteq X\) and \(Q\subseteq Y\) be fragmented predicates on admissible encoded classes. A cost-bounded reduction from \(P\) to \(Q\) is a computable map
+\[
+\Phi:X\to Y
+\]
+and a computable nondecreasing overhead function
+\[
+\alpha:\mathbb N\to\mathbb N
+\]
+such that
+\[
+x\in P
+\quad\Longleftrightarrow\quad
+\Phi(x)\in Q
+\]
+and
+\[
+|\Phi(x)|\le \alpha(|x|)
+\]
+for every \(x\in X\).
+\end{definition}
+
+\begin{definition}[Image width profile]
+For a cost-bounded reduction \(\Phi:P\to Q\), define
+\[
+W_Q^\Phi(n)
+=
+\max_{\substack{x\in P\\ |x|\le n}}
+w_Q(\Phi(x)),
+\]
+again with value \(0\) if there are no positive inputs of size at most \(n\).
+\end{definition}
+
+\begin{theorem}[Exact degree of image profiles]
+Let \(\Phi:P\to Q\) be a cost-bounded reduction between fragmented predicates. Then
+\[
+W_Q^\Phi\equiv_T P.
+\]
+Consequently,
+\[
+\operatorname{MajDeg}(W_Q^\Phi)
+=
+\{\mathbf a:\deg_T(P)\le \mathbf a\}.
+\]
+\end{theorem}
+
+\begin{proof}
+View \(P\) with the pulled-back fragmentation
+\[
+P_{\le r}^{\Phi}=\{x:\Phi(x)\in Q_{\le r}\}.
+\]
+This is a fragmented predicate on \(X\), and its width profile is exactly \(W_Q^\Phi\). The profile-degree and majorant-cone theorems apply.
+\end{proof}
+
+\begin{corollary}[Full target profiles carry lower-degree hardness]
+Let \(W_Q\) be the full width profile of \(Q\). If \(P\) cost-bounded reduces to \(Q\), then every total majorant of \(W_Q\) computes \(P\).
+\end{corollary}
+
+\begin{proof}
+If \(H\) majorizes \(W_Q\), then
+\[
+G(n)=H(\alpha(n))
+\]
+majorizes \(W_Q^\Phi(n)\), because \(|\Phi(x)|\le \alpha(|x|)\). Hence \(G\) computes \(P\). Since \(G\le_T H\), the function \(H\) computes \(P\).
+\end{proof}
+
+\begin{definition}[Fragment distortion]
+A cost-bounded reduction \(\Phi:P\to Q\) is filtered with distortion \(\beta\) if
+\[
+x\in P_{\le r}
+\quad\Longrightarrow\quad
+\Phi(x)\in Q_{\le \beta(r)}
+\]
+for all \(x,r\). It is fragment-reflecting with distortion \(\gamma\) if
+\[
+\Phi(x)\in Q_{\le r}
+\quad\Longrightarrow\quad
+x\in P_{\le \gamma(r)}
+\]
+for all \(x,r\).
+\end{definition}
+
+\begin{proposition}[Width comparison under distorted reductions]
+If \(\Phi\) is filtered with nondecreasing distortion \(\beta\), then
+\[
+w_Q(\Phi(x))\le \beta(w_P(x))
+\]
+for all \(x\in P\), and therefore
+\[
+W_Q^\Phi(n)\le \beta(W_P(n)).
+\]
+If \(\Phi\) is fragment-reflecting with nondecreasing distortion \(\gamma\), then
+\[
+w_P(x)\le \gamma(w_Q(\Phi(x)))
+\]
+for all \(x\in P\), and therefore
+\[
+W_P(n)\le \gamma(W_Q^\Phi(n)).
+\]
+\end{proposition}
+
+\begin{proof}
+If \(x\in P\), then \(x\in P_{\le w_P(x)}\). Filteredness gives
+\[
+\Phi(x)\in Q_{\le \beta(w_P(x))},
+\]
+so \(w_Q(\Phi(x))\le \beta(w_P(x))\). Taking maxima gives the profile inequality. The reflecting case is identical, using
+\[
+\Phi(x)\in Q_{\le w_Q(\Phi(x))}.
+\]
+\end{proof}
+
+\section{Fragmented Presentation Systems}
+
+\begin{definition}[Presentation system]
+A presentation system is a triple
+\[
+\Gamma=(\mathcal D,\rho,\kappa),
+\]
+where \(\mathcal D\) is an admissible encoded class of descriptions, \(\rho:\mathcal D\to\mathcal X\) is a realization map, and \(\kappa:\mathcal D\to\mathbb N\) is a computable cost function.
+\end{definition}
+
+\begin{definition}[Fragmented presentation system]
+A fragmented presentation system is a tuple
+\[
+\mathfrak P=(\mathcal D,\rho,\kappa,R,(R_{\le r})_{r\ge0}),
+\]
+where \((\mathcal D,\rho,\kappa)\) is a presentation system, \(R\) is a predicate or relation on finite tuples of descriptions, and \((R_{\le r})_{r\ge0}\) is a fragmentation of \(R\).
+\end{definition}
+
+The fragment parameter may measure witness length, normalizing path length, model cardinality, alphabet size, finite quotient size, permutation degree, representation dimension, Hilbert-space dimension, nilpotency time, or product length.
+
+\section{Representation Profiles}
+
+The most useful special case is finite representability.
+
+\begin{definition}[Representation problem]
+A representation problem consists of an admissible encoded class \(X\) and, for every \(x\in X\), a family of finite representation sets
+\[
+\operatorname{Rep}_{\le r}(x)
+\qquad
+(r\in\mathbb N)
+\]
+such that the predicate
+\[
+(x,r)\longmapsto
+[\operatorname{Rep}_{\le r}(x)\ne\varnothing]
+\]
+is decidable and monotone in \(r\).
+
+The associated existence predicate is
+\[
+P_{\operatorname{Rep}}(x)
+\quad\Longleftrightarrow\quad
+\exists r\ \operatorname{Rep}_{\le r}(x)\ne\varnothing.
+\]
+For positive instances define
+\[
+\rho_{\min}(x)=
+\min\{r:\operatorname{Rep}_{\le r}(x)\ne\varnothing\}
+\]
+and
+\[
+W_{\operatorname{Rep}}(n)
+=
+\max_{\substack{x\in P_{\operatorname{Rep}}\\ |x|\le n}}
+\rho_{\min}(x).
+\]
+\end{definition}
+
+\begin{theorem}[Representation-profile theorem]
+For every representation problem,
+\[
+W_{\operatorname{Rep}}\equiv_T P_{\operatorname{Rep}}.
+\]
+Moreover,
+\[
+\operatorname{MajDeg}(W_{\operatorname{Rep}})
+=
+\{\mathbf a:\deg_T(P_{\operatorname{Rep}})\le \mathbf a\}.
+\]
+\end{theorem}
+
+\begin{proof}
+The predicates
+\[
+P_{\le r}(x)
+\quad\Longleftrightarrow\quad
+\operatorname{Rep}_{\le r}(x)\ne\varnothing
+\]
+form a fragmented predicate. Apply the profile-degree and majorant-cone theorems.
+\end{proof}
+
+Examples include finite permutation representations of finitely presented groups, nontrivial finite quotients, finite developments of partial permutation systems, subspace-arrangement representations of matroids, finite-dimensional operator representations for nonlocal games, finite-alphabet network codes, and finite probabilistic countermodels for conditional-independence implications.
+
+\section{Normal Forms and Move Systems}
+
+Let \(\mathcal M\) be an effective finite-branching move system on descriptions \(\mathcal D\). Suppose \(\mathcal M\) preserves a realization map \(\rho\), and let
+\[
+\mathcal N\subseteq\mathcal D
+\]
+be a decidable class of normal forms.
+
+Define
+\[
+P_{\mathcal M,\mathcal N}(d)
+\quad\Longleftrightarrow\quad
+\text{\(d\) reaches some element of \(\mathcal N\) by an \(\mathcal M\)-path}.
+\]
+The bounded fragments are
+\[
+P_{\mathcal M,\mathcal N,\le r}(d)
+\quad\Longleftrightarrow\quad
+\text{there is such a path of length at most \(r\)}.
+\]
+Since \(\mathcal M\) is effective and finite-branching, these fragments are uniformly decidable.
+
+Let
+\[
+\tau(d)=\min\{r:d\text{ reaches }\mathcal N\text{ in at most }r\text{ moves}\}
+\]
+on positive instances, and let
+\[
+W_{\mathcal M,\mathcal N}(n)
+=
+\max_{\substack{|d|\le n\\ P_{\mathcal M,\mathcal N}(d)}}
+\tau(d).
+\]
+
+\begin{corollary}[Exact degree of normalizing distance]
+\[
+W_{\mathcal M,\mathcal N}\equiv_T P_{\mathcal M,\mathcal N}.
+\]
+Thus every total bound on normalizing distance computes the recognition problem for reachability to the normal-form class.
+\end{corollary}
+
+\section{Applications}
+
+The following applications are quantitative corollaries of known undecidability theorems. In each case, the substantive undecidability result comes from the cited source; the present framework extracts the exact Turing degree of the associated resource profile.
+
+\subsection{Semifree Noncommutative DGAs}
+
+Let \(k\) be a nontrivial unital computable commutative ring. Manolescu and Rozenblyum prove that stable tame isomorphism, quasi-isomorphism, and derived Morita equivalence are undecidable for finite semifree noncommutative differential graded algebras over \(k\).
+
+Stable tame isomorphism has finite witnesses: finitely many stabilizations, a finite sequence of elementary automorphisms, finite noncommutative polynomials describing the images of generators, and a final comparison of differentials. Verification is finite and decidable over \(k\).
+
+Let \(E_{\mathrm{st}}\) be the stable tame isomorphism problem and define
+\[
+W_{\mathrm{st}}(n)
+=
+\max_{\substack{|A|+|B|\le n\\ A\sim_{\mathrm{st}} B}}
+\min\{|\Pi|:\Pi\text{ is a stable-tame witness from }A\text{ to }B\}.
+\]
+
+\begin{theorem}[Stable-tame witness length]
+\[
+W_{\mathrm{st}}\equiv_T E_{\mathrm{st}}.
+\]
+The degrees of total majorants of \(W_{\mathrm{st}}\) are exactly the upper cone above \(\deg_T(E_{\mathrm{st}})\).
+\end{theorem}
+
+\subsection{Finite Quotients of Finitely Presented Groups}
+
+Let
+\[
+G=\langle S\mid R\rangle
+\]
+be a finitely presented group. Bridson and Wilton prove that there is no algorithm deciding whether \(G\) has a nontrivial finite quotient.
+
+For \(N\in\mathbb N\), the fragment
+\[
+P_{\mathrm{fq},\le N}(G)
+\]
+asks whether \(G\) has a nontrivial quotient of cardinality at most \(N\). This is decidable by finite search through group tables and maps from \(S\).
+
+Let
+\[
+q_{\min}(G)=
+\min\{|Q|:Q\text{ is a nontrivial finite quotient of }G\}
+\]
+on positive instances, and define
+\[
+W_{\mathrm{fq}}(n)
+=
+\max_{\substack{|G|\le n\\G\text{ has a nontrivial finite quotient}}}
+q_{\min}(G).
+\]
+
+\begin{theorem}[Least finite quotient size]
+\[
+W_{\mathrm{fq}}\equiv_T P_{\mathrm{fq}},
+\]
+where \(P_{\mathrm{fq}}\) is the finite-quotient-existence problem.
+\end{theorem}
+
+Equivalently, if
+\[
+\pi_{\min}(G)=
+\min\{m:\exists \varphi:G\to S_m\text{ nontrivial}\},
+\]
+then the corresponding least-permutation-degree profile is Turing-equivalent to \(P_{\mathrm{fq}}\). A finite quotient gives a finite permutation representation by the regular action, and a nontrivial permutation representation has nontrivial finite image.
+
+\subsection{Finite Developments of Permutoids}
+
+Bridson and Wilton prove that developability of finite permutoids is undecidable. A finite development is a finite permutation realization of a partial permutation system.
+
+For a finite permutoid \((\Pi;X)\), let \(d_{\min}(\Pi;X)\) be the least cardinality of a finite development, when one exists. For fixed \(N\), existence of a development on a set of size at most \(N\) is decidable by finite enumeration.
+
+\begin{theorem}[Finite-development size]
+The width profile
+\[
+W_{\mathrm{dev}}(n)
+=
+\max_{\substack{|(\Pi;X)|\le n\\(\Pi;X)\text{ developable}}}
+d_{\min}(\Pi;X)
+\]
+has the exact Turing degree of the developability problem.
+\end{theorem}
+
+\subsection{Matrix Mortality}
+
+Let \(M(k,d\times d)\) be the fixed-parameter mortality problem for at most \(k\) integer \(d\times d\) matrices. Cassaigne, Halava, Harju, and Nicolas prove undecidability for several fixed settings, including
+\[
+M(6,3\times3),\quad
+M(4,5\times5),\quad
+M(3,9\times9),\quad
+M(2,15\times15).
+\]
+
+For a mortal instance \(\mathcal M\), let
+\[
+\ell_{\min}(\mathcal M)
+=
+\min\{\ell:M_{i_1}\cdots M_{i_\ell}=0\}.
+\]
+For fixed \(\ell\), bounded mortality is decidable by enumerating products of length at most \(\ell\).
+
+\begin{theorem}[Shortest zero-product length]
+For every fixed undecidable mortality setting \(M(k,d\times d)\), the shortest zero-product profile
+\[
+W_{\mathrm{mort}}^{k,d}(n)
+=
+\max_{\substack{|\mathcal M|\le n\\\mathcal M\text{ mortal}}}
+\ell_{\min}(\mathcal M)
+\]
+has the exact Turing degree of \(M(k,d\times d)\).
+\end{theorem}
+
+\subsection{Multilinear Matroid Representability}
+
+Fix a finite field \(\mathbb F_q\). A \(c\)-arrangement representation of a matroid \(M\) assigns to each element \(e\) a \(c\)-dimensional subspace \(V_e\) such that
+\[
+\dim\left(\sum_{e\in S}V_e\right)=c\,r_M(S)
+\]
+for every subset \(S\) of the ground set. K\"uhne and Yashfe prove that deciding whether a matroid admits such a representation for some \(c\) is undecidable.
+
+For fixed \(c\), representability over the finite field \(\mathbb F_q\) is decidable by finite search. Hence, if \(c_{\min}(M)\) is the least multilinear order, the profile
+\[
+W_{\mathrm{ml},q}(n)
+=
+\max_{\substack{|M|\le n\\M\text{ multilinear over }\mathbb F_q}}
+c_{\min}(M)
+\]
+has the exact Turing degree of multilinear representability over \(\mathbb F_q\).
+
+\subsection{Finite Probabilistic Countermodels}
+
+Li proves undecidability results for conditional independence implication and for implications jointly enforced by two Bayesian network structures. For fixed alphabet bound \(q\), a finite discrete countermodel can be searched by a first-order formula over the real closed field of real numbers: the atomic probabilities are real variables, conditional independence is polynomial, and violation is a polynomial inequation.
+
+Thus the least finite cardinality bound needed for a counterexample, whenever a counterexample exists, has the exact Turing degree of the corresponding non-implication predicate. This gives exact resource-degree profiles for conditional independence non-implication and for the two-DAG non-implication problem.
+
+\subsection{Finite-Dimensional Perfect Strategies}
+
+Slofstra proves that it is undecidable whether a linear-system nonlocal game admits a perfect finite-dimensional quantum strategy. For fixed local Hilbert-space dimension \(D\), existence of a perfect strategy is expressible by polynomial equations and inequalities in matrix entries, hence decidable over real closed fields.
+
+Therefore the minimum local dimension profile for perfect finite-dimensional strategies has the exact Turing degree of the finite-dimensional perfect-strategy problem.
+
+\subsection{Cellular-Automaton Nilpotency}
+
+Kari proves that nilpotency of one-dimensional cellular automata is undecidable. For a fixed time \(t\), nilpotency by time \(t\) is decidable: if the automaton has radius \(r\), then \(F^t\) has radius at most \(rt\), and one checks finitely many blocks.
+
+Thus the nilpotency-time profile
+\[
+W_{\mathrm{nil}}(n)
+=
+\max_{\substack{|F|\le n\\F\text{ nilpotent}}}
+\min\{t:F^t\text{ is constant on all configurations}\}
+\]
+has the exact Turing degree of the nilpotency problem.
+
+\subsection{Finite-Alphabet Network Coding}
+
+Li proves undecidability of finite-alphabet network coding solvability. For fixed alphabet size \(q\), solvability is decidable by finite enumeration of local encoding and decoding functions.
+
+Consequently, the least alphabet-size profile for solvable network coding instances has the exact Turing degree of network coding solvability.
+
+\section{Boundary Cases}
+
+The hypotheses of the theorem are intentionally explicit. To apply the theorem one needs:
+\begin{enumerate}[label=(\roman*)]
+\item an admissible encoding with effective finite-ball enumeration;
+\item a genuine one-sided exhaustion by bounded fragments;
+\item uniform decidability of the bounded fragments;
+\item a chosen resource parameter.
+\end{enumerate}
+
+If both \(P\) and its complement are given as unions of uniformly decidable bounded fragments, then \(P\) is decidable by dovetailing the two searches. Therefore genuinely undecidable total predicates cannot have complete decidable bounded fragments on both sides. The natural use of the present framework is one-sided: finite witnesses, finite representations, finite countermodels, normalizing paths, or finite-time convergence.
+
+The theory gives exact Turing-degree statements, not canonical numerical growth rates. If one replaces \(P_{\le r}\) by a computably rescaled cofinal family, the numerical values of \(w_P(x)\) and \(W_P(n)\) may change. The Turing degree is robust under such reindexings, but sharper numerical lower bounds require domain-specific structure: explicit reductions, distortion functions, natural fragment scales, and comparison with classical complexity or growth profiles.
+
+\section{Conclusion}
+
+A mathematical problem presented as an unbounded search through decidable bounded fragments carries a natural positive-instance resource profile: the least fragment needed to recognize positive instances. This profile has exactly the Turing degree of the original predicate. Consequently, any total function bounding the necessary resource is an oracle for the problem itself.
+
+Representation profiles provide a broad class of examples. If finite representations exist in some unbounded dimension, cardinality, order, or alphabet, and bounded representability is decidable, then the minimum representation-resource profile is Turing-equivalent to the existence problem. This turns undecidable finite representability into exact statements about the oracle strength of all possible bounds.
+
+\section*{References}
+
+\begin{thebibliography}{99}
+
+\bibitem{Blanchi26}
+L. Blanchi,
+\emph{Presentation Theory},
+preliminary note, 2026.
+
+\bibitem{BW15}
+M. R. Bridson and H. Wilton,
+\emph{The triviality problem for profinite completions},
+Inventiones Mathematicae 202 (2015), 839--874.
+
+\bibitem{BW17}
+M. R. Bridson and H. Wilton,
+\emph{Undecidability and the developability of permutoids and rigid pseudogroups},
+Forum of Mathematics, Sigma 5 (2017), e10.
+
+\bibitem{CHHN14}
+J. Cassaigne, V. Halava, T. Harju, and F. Nicolas,
+\emph{Tighter undecidability bounds for matrix mortality, zero-in-the-corner problems, and more},
+arXiv:1404.0644, 2014.
+
+\bibitem{Kari92}
+J. Kari,
+\emph{The nilpotency problem of one-dimensional cellular automata},
+SIAM Journal on Computing 21 (1992), 571--586.
+
+\bibitem{KY22}
+L. K\"uhne and G. Yashfe,
+\emph{Representability of matroids by \(c\)-arrangements is undecidable},
+Israel Journal of Mathematics 247 (2022), 107--134.
+
+\bibitem{Li23}
+C. T. Li,
+\emph{Undecidability of network coding, conditional information inequalities, and conditional independence implication},
+IEEE Transactions on Information Theory 69 (2023), 3493--3510.
+
+\bibitem{Li24}
+C. T. Li,
+\emph{A pair of Bayesian network structures has undecidable conditional independencies},
+arXiv:2405.07107, 2024.
+
+\bibitem{MR26}
+C. Manolescu and N. Rozenblyum,
+\emph{Undecidability problems for semifree DG algebras},
+arXiv:2605.08122, 2026.
+
+\bibitem{Slofstra17}
+W. Slofstra,
+\emph{The set of quantum correlations is not closed},
+arXiv:1703.08618, 2017.
+
+\end{thebibliography}
+
+\end{document}
