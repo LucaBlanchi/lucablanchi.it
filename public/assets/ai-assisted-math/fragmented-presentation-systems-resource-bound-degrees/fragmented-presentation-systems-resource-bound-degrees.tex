@@ -254,6 +254,34 @@ Thus \(g\le_T G\), hence \(G\equiv_T g\). Every degree above \(\deg_T(P)\) is th
 If \(0'\le_T P\), then every total majorant of \(W_P\) computes \(0'\). More generally, if \(B\le_T P\), then every total majorant of \(W_P\) computes \(B\).
 \end{corollary}
 
+\section{Effective Atlases for Access Tasks}
+
+The majorant-cone theorem can be read as a no-atlas principle. Here an atlas is not a topological cover, but a computable system of coordinates, normal forms, or local procedures that solves an access task with uniform overhead.
+
+\begin{definition}[Effective access atlas]
+Let \(P=\bigcup_rP_{\le r}\) be a fragmented predicate. An effective access atlas for \(P\) consists of computable local procedures, together with a computable total overhead function
+\[
+G:\mathbb N\to\mathbb N,
+\]
+such that every positive input \(x\in P\) satisfies
+\[
+x\in P_{\le G(|x|)}.
+\]
+Equivalently, the atlas supplies a computable total majorant for the width profile \(W_P\).
+\end{definition}
+
+\begin{theorem}[No effective atlas criterion]
+If \(P\) is undecidable, then \(P\) admits no effective access atlas. More generally, any oracle that computes an access atlas with total overhead function \(G\) computes \(P\).
+\end{theorem}
+
+\begin{proof}
+The overhead \(G\) is a total majorant of \(W_P\). By the majorant-cone theorem, every total majorant of \(W_P\) computes \(P\). If \(G\) were computable and \(P\) undecidable, this would be impossible.
+\end{proof}
+
+\begin{remark}
+The statement is stronger than nonexistence of a computable classifier. It rules out any computable coordinate system that solves the declared access task with computable overhead: bounded observer refinement, bounded normal-form search, bounded fibre navigation, bounded proof degree, or bounded obstruction radius.
+\end{remark}
+
 \section{Cost-Bounded Reductions}
 
 \begin{definition}[Cost-bounded reduction]

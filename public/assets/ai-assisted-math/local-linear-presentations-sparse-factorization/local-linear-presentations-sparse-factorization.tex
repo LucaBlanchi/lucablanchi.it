@@ -461,6 +461,8 @@ A=RM,
 \]
 where row sparsity of $R$ is query locality and column sparsity of $M$ is update locality. This framework gives exact characterizations of static and dynamic linear representations, finite-field generic lower bounds, coding-theoretic connections, a sparse-factorization formulation of dynamic prefix sums, a materialized-view interpretation, workload-biased prefix presentations via optimal alphabetic trees, and concrete open problems in algebraic lower bounds.
 
+In access-theoretic terms, a workload matrix is a finite linear observer system. Compressing that observer, or repairing a hidden fibre by adding local linear probes, is exactly the problem of factoring the corresponding workload through a small family of stored atoms. Thus sparse factorization is the linear algebraic mechanism behind local observer compression; it is not a metaphor for compression but the precise presentation model for exact linear access.
+
 The main thesis is:
 \[
 \text{exact linear representation complexity is local generation and sparse factorization.}

@@ -482,6 +482,72 @@ Over \(\mathbb R\), the skeletal rank-fibre nonemptiness problem in the coordina
 If the common dimension \(c=\dim L_i\) is allowed to vary, the coordinate skeletal inverse rank-fibre problem contains the undecidable problem of matroid representability by \(c\)-arrangements. Thus no general decision procedure exists in that level of generality.
 \end{corollary}
 
+\section{Finite Rank Windows}
+
+The preceding results concern complete rank data inside a fixed skeleton. A finite observer is weaker: it queries only finitely many maps
+\[
+M_u\longrightarrow M_v.
+\]
+The antichain construction makes it possible to place relation data outside such a window.
+
+\begin{definition}[Finite rank window]
+A finite rank window is a finite set
+\[
+\Omega=\{(u_\alpha,v_\alpha):u_\alpha\le v_\alpha\}_{\alpha\in A}
+\]
+of rank queries. Its value on \(M\) is the finite tuple
+\[
+\Omega(M)=\big(\rho_M(u_\alpha,v_\alpha)\big)_{\alpha\in A}.
+\]
+\end{definition}
+
+\begin{definition}[Invisible antichain]
+An antichain \(a_1,\ldots,a_m\in\mathbb N^d\) is invisible to \(\Omega\) if
+\[
+a_i\not\le v_\alpha
+\]
+for every \(i\) and every query target \(v_\alpha\). Equivalently, no relation block is active at any target degree appearing in \(\Omega\).
+\end{definition}
+
+\begin{lemma}[Invisible antichains]
+Assume \(d\ge2\). For every finite rank window \(\Omega\) and every \(m\), there exists an invisible antichain \(a_1,\ldots,a_m\in\mathbb N^d\).
+\end{lemma}
+
+\begin{proof}
+Choose \(N\) larger than every coordinate appearing in every \(v_\alpha\). Set
+\[
+a_i=(N+i,N+m-i,0,\ldots,0),
+\qquad i=1,\ldots,m.
+\]
+These points form an antichain. Since the first two coordinates of each \(a_i\) are larger than the corresponding coordinates of every \(v_\alpha\), no \(a_i\) is bounded above by any \(v_\alpha\).
+\end{proof}
+
+\begin{theorem}[Finite-window silent embeddings]
+Let \(d\ge2\), let \(\Omega\) be a finite rank window, and let \(\mathcal C\) be a moduli problem admitting a fully faithful embedding into labelled subspace arrangements
+\[
+c\longmapsto (V;L_1(c),\ldots,L_m(c))
+\]
+with fixed ambient dimension \(\dim V\). Then there is a fully faithful embedding
+\[
+\mathcal C\hookrightarrow \mathbb N^d\text{-graded persistence modules}
+\]
+whose image has constant \(\Omega\)-profile.
+\end{theorem}
+
+\begin{proof}
+Choose an antichain invisible to \(\Omega\), and send \(c\) to the antichain presentation module \(M_{\mathbf L(c)}\). Full faithfulness follows from the fully faithful antichain embedding theorem. For every query \((u_\alpha,v_\alpha)\in\Omega\), invisibility gives \(I_A(v_\alpha)=\varnothing\). Hence the rank formula gives
+\[
+\rho_{M_{\mathbf L(c)}}(u_\alpha,v_\alpha)
+=
+\dim V
+\]
+for every \(c\). Thus \(\Omega\) is constant on the embedded family.
+\end{proof}
+
+\begin{corollary}[Universal finite-window blindness]
+Every finite rank-query observer in at least two parameters has fibres containing any moduli problem that embeds into labelled subspace arrangements. In particular, finite rank windows can be made blind to matroid realization spaces, quiver representation varieties, and matrix-pair similarity problems.
+\end{corollary}
+
 \section{Presentation Incidence}
 
 The rank invariant forgets incidence data. The antichain presentation itself recovers it.
