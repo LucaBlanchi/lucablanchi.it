@@ -15,6 +15,6 @@ const { draft } = Astro.props;
   <div class="draft-copy">
     <time datetime={draft.dateTime}>{formatDraftDate(draft.dateTime, "en")}</time>
     <h2>{draft.title.en}</h2>
-    <p>{draft.summary.en}</p>
+    <p>{draft.description.en}</p>
   </div>
 </a>

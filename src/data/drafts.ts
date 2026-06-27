@@ -20,7 +20,6 @@ export interface Draft {
   href: string;
   title: LocalizedText;
   description: LocalizedText;
-  summary: LocalizedText;
   dateTime: string;
   visual: DraftVisual;
 }
@@ -63,10 +62,6 @@ export const drafts = [
       en: "A defective one-bit storage cell loses a continuous amount of useful information as read noise increases; Shannon entropy pinpoints the flip probability that leaves half a bit.",
       it: "Una cella di memoria difettosa perde una quantità continua di informazione utile al crescere del rumore di lettura; l'entropia di Shannon individua la probabilità di flip che lascia mezzo bit."
     },
-    summary: {
-      en: "A short note on defective one-bit storage, probabilistic bit flips, and Shannon entropy.",
-      it: "Una bozza su una cella di memoria difettosa, bit flip probabilistici ed entropia di Shannon."
-    },
     dateTime: "2026-06-14",
     visual: {
       kind: "concept",
@@ -84,10 +79,6 @@ export const drafts = [
     description: {
       en: "A draft about short descriptions, enormous numbers, and Ackermann-style recursion.",
       it: "Una bozza su un gioco di descrizioni corte, numeri enormi e ricorsioni alla Ackermann."
-    },
-    summary: {
-      en: "A bilingual draft about short descriptions, enormous numbers, and Ackermann-style recursion.",
-      it: "Una bozza bilingue su un gioco di descrizioni corte, numeri enormi e ricorsioni alla Ackermann."
     },
     dateTime: "2026-06-13",
     visual: {
@@ -107,10 +98,6 @@ export const drafts = [
       en: "A draft about populations of strategies, game graphs, simplex dynamics, and categorical operations.",
       it: "Una bozza su popolazioni di strategie, grafi di gioco, dinamiche nel simplesso e operazioni categoriali."
     },
-    summary: {
-      en: "A bilingual draft about strategy populations, game graphs, simplex dynamics, and categorical operations.",
-      it: "Una bozza bilingue su popolazioni di strategie, grafi di gioco, dinamiche nel simplesso e operazioni categoriali."
-    },
     dateTime: "2021-12-01",
     visual: {
       kind: "concept",
@@ -129,10 +116,6 @@ export const drafts = [
       en: "An informal heuristic about primes, written as a nested formula and compressed into an infinite product.",
       it: "Un'euristica informale sui numeri primi, scritta come formula annidata e poi compressa in una produttoria."
     },
-    summary: {
-      en: "A bilingual draft about a prime-number heuristic, sieving, and an infinite product that collapses to zero.",
-      it: "Una bozza bilingue su un'euristica con i primi, il crivello e il prodotto infinito che collassa a zero."
-    },
     dateTime: "2026-06-12",
     visual: {
       kind: "concept",
@@ -150,10 +133,6 @@ export const drafts = [
     description: {
       en: "Encoding chess moves, positions, games, and game graphs using as few bits as reasonably possible while keeping positions readable and reconstructible.",
       it: "Codificare mosse, posizioni, partite e grafi di partite di scacchi con il minor numero di bit ragionevole, senza perdere leggibilità e ricostruibilità."
-    },
-    summary: {
-      en: "A draft about encoding chess moves, positions, games, and game graphs with storage efficiency as the first priority.",
-      it: "Una bozza su come codificare mosse, posizioni, partite e grafi di partite di scacchi privilegiando l'efficienza di storage."
     },
     dateTime: "2026-06-10",
     visual: {
