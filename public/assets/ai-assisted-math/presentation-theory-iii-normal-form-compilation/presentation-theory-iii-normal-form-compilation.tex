@@ -1,0 +1,868 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.05in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\CheckNF}{Check}
+\DeclareMathOperator{\Comp}{Comp}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\Gr}{Gr}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\NF}{NF}
+\DeclareMathOperator{\Obs}{Obs}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\St}{St}
+\DeclareMathOperator{\Sym}{Sym}
+
+\title{Presentation Theory III: Normal-Form Compilation, Residual Fibres, and Stable Canonical Access}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note develops a normal-form layer for Presentation Theory. A normal form is treated not as a privileged representative in isolation, but as a costed access transformation: it converts raw descriptions into more rigid data while controlling overhead, verification data, residual fibres, and the observables that survive the transformation. This point of view gives a calculus of normal-form packages, their composition, observable quotients, residual decompositions, and lower bounds from separation of budgeted normal images.
+
+The formal results are deliberately elementary but reusable. Bounded compilation sends bounded raw objects into bounded normal images. Separators of those images give lower bounds. Observable families and residual equivalence relations form a Galois connection. Residual complexity splits the cost of reconstructing an object into normal data and fibre data. Fragmented towers may be complete only in a non-effective sense, and their optimal truncation functions have the same Turing degree as the underlying positive predicate. Rewriting systems supply normal forms when termination, local confluence, and cost growth are controlled.
+
+The main concrete application is a fixed-gap instability theorem for spectral canonicalization. On the orbit of real symmetric matrices with fixed simple spectrum and uniformly positive eigengap, no global eigenbasis canonicalizer can be continuous. In fact any deterministic sign choice has jumps of size approaching \(2\). The stable replacement is the projector-valued, or stacky, spectral normal form. This explains, in normal-form language, why sign- and basis-invariant spectral graph methods are structurally natural: continuous basis-invariant spectral encodings factor through the relevant projector data.
+\end{abstract}
+
+\section{Purpose}
+
+The first note on Presentation Theory introduced presentation systems, realization fibres, observables, verification costs, and basic bounded-image principles. The second note developed controlled transfer packages: maps that transport access to objects rather than just objects themselves. This note isolates a third recurring mechanism: normal-form compilation.
+
+Classical normal forms include row echelon form, Smith normal form, reduced words, reduced Grobner bases, Jordan form, Chomsky normal form, and canonical graph labels. These examples suggest a common operation:
+\[
+\text{raw description}\longmapsto \text{rigid datum}.
+\]
+For Presentation Theory this is not enough. A useful normal form should also say what it costs, what it verifies, which observables it preserves, what information remains in the residual fibre, and which lower bounds become visible after normalization.
+
+The guiding principle is:
+\[
+\boxed{
+\text{a normal form is controlled rigidification of access.}
+}
+\]
+
+This note keeps the framework intentionally modest. It does not claim that every mathematical classification problem has a natural normal form, nor that a universal obstruction method exists. It gives a language for tracking what a normal-form method actually controls.
+
+\section{Presentation Contexts and Resource Scales}
+
+\begin{definition}[Resource scale]
+A resource scale is a preordered commutative monoid
+\[
+(B,\leq,+,0).
+\]
+Its elements are budgets. Typical examples are
+\[
+\mathbb N,\qquad \mathbb N^r,\qquad \mathbb R_{\geq0},\qquad
+\mathbb N\times\mathbb R_{\geq0}.
+\]
+Maps between resource scales are assumed monotone unless stated otherwise.
+\end{definition}
+
+\begin{definition}[Presentation system]
+A presentation system is a triple
+\[
+\Gamma=(\mathcal D,\rho,\kappa),
+\]
+where \(\mathcal D\) is a class of descriptions,
+\[
+\rho:\mathcal D\to \mathcal X
+\]
+is a realization map into an object class \(\mathcal X\), and
+\[
+\kappa:\mathcal D\to B
+\]
+is a cost function.
+\end{definition}
+
+For \(b\in B\), define
+\[
+\mathcal D^{\leq b}=\{d\in\mathcal D:\kappa(d)\leq b\}
+\]
+and
+\[
+\mathcal X_\Gamma^{\leq b}=\rho(\mathcal D^{\leq b}).
+\]
+When the infimum is meaningful, the presentation complexity of \(x\in\mathcal X\) is
+\[
+C_\Gamma(x)=\inf\{\kappa(d):\rho(d)=x\}.
+\]
+The realization fibre of \(x\) is
+\[
+\mathfrak F_\rho(x)=\rho^{-1}(x).
+\]
+
+\begin{definition}[Presentation context]
+A presentation context is a tuple
+\[
+\mathfrak P=(\Gamma,\Omega,\mathcal L),
+\]
+where \(\Gamma\) is a presentation system, \(\Omega\) is a chosen family of observables on the realized object class, and \(\mathcal L\) is a language of properties, tests, or predicates interpreted through the presentation.
+\end{definition}
+
+Observables may also be costed. We write \(\Omega^{\leq r}\) for observables of budget at most \(r\). Their common fibres record the information invisible at that observational budget.
+
+\section{Normal-Form Packages}
+
+\begin{definition}[Normal-form package]
+Let
+\[
+\Gamma_0=(\mathcal D_0,\rho_0,\kappa_0),
+\qquad
+\Gamma_1=(\mathcal D_1,\rho_1,\kappa_1)
+\]
+be presentation systems. A normal-form package
+\[
+\mathcal N:\Gamma_0\rightsquigarrow\Gamma_1
+\]
+consists of:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item a compilation relation
+\[
+\Comp_{\mathcal N}(d,n,\nu),
+\]
+where \(d\in\mathcal D_0\), \(n\in\mathcal D_1\), and \(\nu\) is verification data;
+\item a verification procedure
+\[
+\CheckNF_{\mathcal N}(d,n,\nu)\in\{0,1\};
+\]
+\item comparison maps
+\[
+\Phi_{\mathcal N}:\mathcal X_0\to\mathcal Y,
+\qquad
+\Theta_{\mathcal N}:\mathcal X_1\to\mathcal Y;
+\]
+\item monotone overhead functions controlling normal size and verification cost;
+\item optionally, residual extraction and assembly data.
+\end{enumerate}
+\end{definition}
+
+The package is sound if
+\[
+\Comp_{\mathcal N}(d,n,\nu)
+\quad\Longrightarrow\quad
+\Theta_{\mathcal N}(\rho_1(n))=\Phi_{\mathcal N}(\rho_0(d)).
+\]
+It is verifiably sound if
+\[
+\CheckNF_{\mathcal N}(d,n,\nu)=1
+\quad\Longrightarrow\quad
+\Theta_{\mathcal N}(\rho_1(n))=\Phi_{\mathcal N}(\rho_0(d)).
+\]
+
+\begin{definition}[Completeness up to overhead]
+A normal-form package is complete up to overhead \(f_{\mathcal N}\) if, for every \(d\in\mathcal D_0\) with \(\kappa_0(d)\leq b\), there exist \(n\) and \(\nu\) such that
+\[
+\Comp_{\mathcal N}(d,n,\nu),
+\qquad
+\kappa_1(n)\leq f_{\mathcal N}(b),
+\]
+with verification data and verification time bounded by the declared overhead functions.
+\end{definition}
+
+\begin{definition}[Profiles]
+The normal-size profile is
+\[
+F_{\mathcal N}(b)
+=
+\sup_{\kappa_0(d)\leq b}
+\inf\{\kappa_1(n):\exists \nu,\ \Comp_{\mathcal N}(d,n,\nu)\}.
+\]
+The verification-data profile is
+\[
+V_{\mathcal N}(b)
+=
+\sup_{\kappa_0(d)\leq b}
+\inf\{|\nu|:\exists n,\ \Comp_{\mathcal N}(d,n,\nu)\}.
+\]
+The verification-time profile is defined similarly. If residual data are present, one also records a residual profile
+\[
+R_{\mathcal N}(b)=
+\sup_{\kappa_0(d)\leq b} C_{\rm rel}(d\mid n),
+\]
+where \(n\) ranges over normal data for \(d\).
+\end{definition}
+
+\section{Modes of Normality}
+
+Different normal forms preserve different parts of an object.
+
+\begin{definition}[Representative normal form]
+A representative normal form preserves the object itself:
+\[
+\rho_1(n)=\rho_0(d).
+\]
+\end{definition}
+
+\begin{definition}[Observable normal form]
+An observable normal form preserves a declared family of observables. For each \(\omega\in\Omega\), there is an induced observable \(a_\omega\) on normal data such that
+\[
+\omega(\rho_0(d))=a_\omega(n)
+\]
+on compiled pairs.
+\end{definition}
+
+\begin{definition}[Relative normal form]
+Given a map \(q:\mathcal X\to\mathcal Y\), a relative normal form records a base datum \(q(x)\) and leaves the remaining information in the fibre over \(q(x)\).
+\end{definition}
+
+\begin{definition}[Stratified and stacky normal forms]
+A stratified normal form first assigns a stratum and then normalizes within that stratum. A stacky normal form records a datum only up to a groupoid of choices. In practice this means that a stable normal form may be a quotient datum together with a residual torsor or gauge group, rather than a single global representative.
+\end{definition}
+
+\begin{definition}[Fragmented normal form]
+A fragmented normal form is a tower
+\[
+\mathcal N_0,\mathcal N_1,\mathcal N_2,\ldots
+\]
+whose union is complete, while the required truncation level may be hard or impossible to bound effectively.
+\end{definition}
+
+\section{Basic Calculus}
+
+\begin{theorem}[Bounded normal image]
+Let
+\[
+\mathcal N:\Gamma_0\rightsquigarrow\Gamma_1
+\]
+be a representative normal-form package with overhead \(f\). Then
+\[
+\mathcal X_{\Gamma_0}^{\leq b}
+\subseteq
+\mathcal X_{\Gamma_1}^{\leq f(b)}.
+\]
+More generally, if \(\mathcal N\) is observable and \(\omega\circ\rho_0=a_\omega\circ\rho_1\) on compiled data, then
+\[
+\omega(\mathcal X_{\Gamma_0}^{\leq b})
+\subseteq
+a_\omega(\mathcal X_{\Gamma_1}^{\leq f(b)}).
+\]
+\end{theorem}
+
+\begin{proof}
+If \(x\in\mathcal X_{\Gamma_0}^{\leq b}\), then \(x=\rho_0(d)\) for some \(d\) with \(\kappa_0(d)\leq b\). By completeness, \(d\) compiles to \(n\) with \(\kappa_1(n)\leq f(b)\). In the representative case, \(\rho_1(n)=x\), so \(x\in\mathcal X_{\Gamma_1}^{\leq f(b)}\). The observable statement follows by applying the factorization identity.
+\end{proof}
+
+\begin{corollary}[Normal-image obstruction]
+Let \(\theta:\mathcal X_1\to Z\) be an invariant or observable on the normal side. Define
+\[
+S_{\mathcal N,\theta}(b)=\theta(\mathcal X_{\Gamma_1}^{\leq f(b)}).
+\]
+If
+\[
+\theta(x)\notin S_{\mathcal N,\theta}(b),
+\]
+then \(x\notin\mathcal X_{\Gamma_0}^{\leq b}\). Equivalently, \(C_{\Gamma_0}(x)>b\).
+\end{corollary}
+
+\begin{proof}
+This is the contrapositive of the bounded normal-image theorem.
+\end{proof}
+
+\begin{theorem}[Composition]
+Suppose
+\[
+\Gamma_0
+\overset{\mathcal N_{01}}{\rightsquigarrow}
+\Gamma_1
+\overset{\mathcal N_{12}}{\rightsquigarrow}
+\Gamma_2
+\]
+are normal-form packages with overheads \(f_{01}\) and \(f_{12}\). Their composite has overhead
+\[
+f_{02}=f_{12}\circ f_{01}.
+\]
+Verification-data and verification-time profiles compose by concatenating the corresponding verification data and adding the compatibility cost.
+\end{theorem}
+
+\begin{proof}
+For \(\kappa_0(d)\leq b\), choose a compiled normal datum \(n_1\) with \(\kappa_1(n_1)\leq f_{01}(b)\). Apply the second package to \(n_1\), obtaining \(n_2\) with
+\[
+\kappa_2(n_2)\leq f_{12}(f_{01}(b)).
+\]
+The verification data consist of the two verification records together with the data checking that the output of the first compilation is an admissible input for the second.
+\end{proof}
+
+\begin{remark}[Products, restrictions, and quotients]
+Product normal forms combine several normal data. Restriction to a subclass may improve overhead. Quotient normal forms intentionally discard information, lowering cost at the price of enlarging residual fibres. These operations are often more useful than a search for a single complete representative.
+\end{remark}
+
+\section{Observable Quotients and Residual Fibres}
+
+Let \(\Omega\) be a family of observables on \(\mathcal X\). Define
+\[
+x\sim_\Omega y
+\quad\Longleftrightarrow\quad
+\omega(x)=\omega(y)\ \text{ for every }\ \omega\in\Omega.
+\]
+The quotient
+\[
+Q_\Omega=\mathcal X/{\sim_\Omega}
+\]
+is the universal normal datum preserving all observables in \(\Omega\).
+
+\begin{definition}[Residual relation]
+For a family \(\Omega\), define
+\[
+\Res(\Omega)=
+\{(x,y):\omega(x)=\omega(y)\ \text{ for all }\ \omega\in\Omega\}.
+\]
+For a relation \(R\subseteq\mathcal X\times\mathcal X\), define
+\[
+\Obs(R)=
+\{\omega:\omega(x)=\omega(y)\ \text{ whenever }\ xRy\}.
+\]
+\end{definition}
+
+\begin{proposition}[Observable-residual Galois connection]
+For every observable family \(\Omega\) and relation \(R\),
+\[
+\Omega\subseteq \Obs(R)
+\quad\Longleftrightarrow\quad
+R\subseteq \Res(\Omega).
+\]
+\end{proposition}
+
+\begin{proof}
+The left-hand side says that every observable in \(\Omega\) is constant on every \(R\)-pair. This is exactly the statement that every \(R\)-pair lies in the residual relation induced by \(\Omega\).
+\end{proof}
+
+\begin{definition}[Residual fibre]
+Let \(N:\mathcal X\to\mathcal Y\) be a normal datum map. The residual fibre over \(y\in\mathcal Y\) is
+\[
+\Res_N(y)=N^{-1}(y).
+\]
+For \(x\in\mathcal X\), write
+\[
+\Res_N(x)=\Res_N(N(x)).
+\]
+\end{definition}
+
+\begin{theorem}[Residual decomposition]
+Assume that a normal form has controlled extraction
+\[
+x\mapsto (N(x),r_x)
+\]
+and controlled assembly
+\[
+\operatorname{Asm}(N(x),r_x)=x,
+\]
+with assembly cost bounded by
+\[
+\kappa_X(x)\leq A(\kappa_N(N(x)),\kappa_{\rm rel}(r_x)).
+\]
+Then
+\[
+C_X(x)\leq A(C_N(N(x)),C_{\rm rel}(x\mid N(x))).
+\]
+Conversely, if extraction from any raw description of \(x\) produces descriptions of \(N(x)\) and \(r_x\) with costs bounded by \(e_1\) and \(e_2\), then
+\[
+C_N(N(x))\leq e_1(C_X(x)),
+\qquad
+C_{\rm rel}(x\mid N(x))\leq e_2(C_X(x)).
+\]
+\end{theorem}
+
+\begin{proof}
+The upper bound follows by assembling near-optimal descriptions of the normal datum and the residual datum. The two reverse inequalities follow by applying the extraction procedure to a near-optimal raw description of \(x\).
+\end{proof}
+
+\begin{proposition}[Residual entropy]
+Let \(\mathcal S\subseteq\mathcal X\) be finite. For any normal map \(N:\mathcal S\to N(\mathcal S)\),
+\[
+\log|\mathcal S|
+\leq
+\log|N(\mathcal S)|
++
+\max_{y\in N(\mathcal S)}
+\log|\Res_N(y)\cap\mathcal S|.
+\]
+\end{proposition}
+
+\begin{proof}
+The fibres of \(N\) partition \(\mathcal S\), hence
+\[
+|\mathcal S|
+\leq
+|N(\mathcal S)|\cdot
+\max_y|\Res_N(y)\cap\mathcal S|.
+\]
+Taking logarithms gives the claim.
+\end{proof}
+
+\section{Separators and Lower Bounds}
+
+Normal forms are useful for lower bounds when their bounded images can be separated.
+
+Let \(\mathcal N:\Gamma_0\rightsquigarrow\Gamma_1\) be a normal-form package. Define the budgeted normal image
+\[
+S_{\mathcal N,b}
+=
+\{n\in\mathcal D_1:
+\exists d,\nu,\ \kappa_0(d)\leq b,\ \Comp_{\mathcal N}(d,n,\nu)\}.
+\]
+
+\begin{definition}[Separator]
+A separator for \(S_{\mathcal N,b}\) is a function
+\[
+s:\mathcal D_1\to P
+\]
+into a pointed preordered set \((P,0)\) such that
+\[
+s(n)=0
+\qquad
+\text{for every } n\in S_{\mathcal N,b}.
+\]
+\end{definition}
+
+\begin{theorem}[Separator lower bound]
+Let \(s\) be a separator for \(S_{\mathcal N,b}\). If an object \(x\) has normal datum \(n_x\) and
+\[
+s(n_x)>0,
+\]
+then
+\[
+C_{\Gamma_0}(x)>b.
+\]
+\end{theorem}
+
+\begin{proof}
+If \(C_{\Gamma_0}(x)\leq b\), then some bounded raw description of \(x\) compiles to an element of \(S_{\mathcal N,b}\) representing the same normal datum as \(n_x\). Since \(s\) vanishes on the budgeted image, this contradicts \(s(n_x)>0\).
+\end{proof}
+
+\begin{definition}[Separation cost]
+The separation cost of proving the lower bound for \(x\) at budget \(b\) through \(\mathcal N\) is
+\[
+C_{\rm sep}^{\mathcal N}(x,b)
+=
+\inf\{\kappa(s)+|\eta|:
+s(n_x)>0,\ \eta\ \text{verifies } s|_{S_{\mathcal N,b}}=0\}.
+\]
+\end{definition}
+
+Thus a normal form may be conceptually perfect and still methodologically weak if the relevant bounded normal image is hard to separate. This is a genuine boundary of the method: algebraic non-membership, convex separation, integer programming, rigidity, and proof complexity reappear as domain-specific separation problems.
+
+\section{Fragmented and Effective Normal Forms}
+
+Many normal forms are complete only as an increasing tower. The following elementary theorem records the effective obstruction.
+
+Let \(P\subseteq\Sigma^\ast\) be a predicate with decidable fragments
+\[
+P_{\leq0}\subseteq P_{\leq1}\subseteq P_{\leq2}\subseteq\cdots
+\]
+such that
+\[
+P=\bigcup_{r\geq0}P_{\leq r}.
+\]
+For \(x\in P\), set
+\[
+w_P(x)=\min\{r:x\in P_{\leq r}\}.
+\]
+For finite balls, define
+\[
+W_P(n)=\max\{w_P(x):x\in P,\ |x|\leq n\}.
+\]
+
+\begin{theorem}[Fragmented degree theorem]
+Assume finite alphabets, decidable fragments \(P_{\leq r}\), and finite balls \(\{|x|\leq n\}\). Then
+\[
+W_P\equiv_T P.
+\]
+Consequently, if \(P\) is undecidable, then \(W_P\) has no computable total majorant.
+\end{theorem}
+
+\begin{proof}
+First, \(P\leq_T W_P\). Given \(x\) with \(|x|=n\), compute \(W_P(n)\) using the oracle, then decide whether
+\[
+x\in P_{\leq W_P(n)}.
+\]
+This works because \(W_P(n)\) dominates the minimal fragment level of every positive instance of length at most \(n\).
+
+Conversely, \(W_P\leq_T P\). Given \(n\), enumerate all words of length at most \(n\). Use the oracle for \(P\) to identify the positive instances. For each positive instance \(x\), search over \(r=0,1,2,\ldots\) until \(x\in P_{\leq r}\). This terminates by assumption. Taking the maximum gives \(W_P(n)\).
+
+If \(W_P\) had a computable total majorant \(g\), then membership in \(P\) would be decidable by testing \(x\in P_{\leq g(|x|)}\), contradicting undecidability.
+\end{proof}
+
+This theorem applies to fragmented normal-form towers, bounded proof search, bounded saturation, bounded finite quotient search, and bounded observable towers. Its content is not that the tower is useless, but that completeness may require a non-computable truncation function.
+
+\section{Rewriting and Saturation}
+
+Rewriting systems are a standard source of normal forms. The presentation-theoretic point is to keep the cost growth visible.
+
+\begin{definition}[Costed rewriting system]
+A costed abstract rewriting system consists of data
+\[
+(\mathcal D,\to,\rho,\kappa,h,\sigma)
+\]
+such that
+\[
+d\to e\quad\Longrightarrow\quad \rho(d)=\rho(e),
+\]
+\[
+h(e)<h(d),
+\]
+and
+\[
+\kappa(e)\leq \sigma(\kappa(d)).
+\]
+Here \(h\) is a termination height and \(\sigma\) controls cost growth.
+\end{definition}
+
+\begin{theorem}[Budgeted Newman principle]
+Suppose the rewrite system is terminating by \(h\), locally confluent, and \(h(d)\leq H(\kappa(d))\). Then each \(d\) has a unique normal form in its rewrite component. If \(\kappa(d)\leq b\), the normal form has cost at most
+\[
+\sigma^{H(b)}(b).
+\]
+If each rewrite step has verification data of cost at most \(c(b)\), the full verification data have cost at most
+\[
+H(b)\cdot c(\sigma^{H(b)}(b)).
+\]
+\end{theorem}
+
+\begin{proof}
+Termination and local confluence imply confluence by Newman's lemma, so each rewrite component has a unique normal form. Any reduction path has length at most \(H(b)\). Iterating the one-step cost bound gives \(\sigma^{H(b)}(b)\). Concatenating the stepwise verification data gives the displayed verification bound.
+\end{proof}
+
+\section{The Normal-Form Landscape}
+
+It is useful to organize normal-form packages for a fixed presentation system without pretending that this organization is automatically a rigid geometric object.
+
+\begin{definition}[Normal-form landscape]
+For a presentation system \(\Gamma\), the normal-form landscape
+\[
+\operatorname{NFLand}(\Gamma)
+\]
+is the collection of normal-form packages out of \(\Gamma\), considered up to mutual simulation with declared overhead.
+\end{definition}
+
+There is a natural domination relation:
+\[
+\mathcal M\succeq \mathcal N
+\]
+if the normal data of \(\mathcal N\) can be computed from the normal data of \(\mathcal M\) with controlled overhead. In this case \(\mathcal M\) is at least as informative as \(\mathcal N\).
+
+The landscape contains overlapping regions:
+\[
+\text{representative},\quad
+\text{observable},\quad
+\text{relative},\quad
+\text{stratified},\quad
+\text{stacky},\quad
+\text{approximate},\quad
+\text{fragmented}.
+\]
+One may also study Pareto-optimal normal forms with respect to informativeness, cost, verification, residual size, and separation cost.
+
+\begin{remark}
+The purpose of the landscape language is bookkeeping. It is a way to compare normalizers, not a claim that every presentation system comes with a canonical spectrum. In examples with additional topology, category theory, or sheaf structure, one can enrich this bookkeeping into a more geometric object.
+\end{remark}
+
+\section{Local Normal Forms and Descent Obstructions}
+
+Many normal forms exist only locally. Eigenvector choices, gauge choices, coordinate gauges, local trivializations, and normal forms by strata all have this flavour.
+
+Assume a space or groupoid of objects \(\mathcal X\) is covered by regions
+\[
+\mathcal X=\bigcup_i U_i
+\]
+and that on each \(U_i\) there is a local normal-form package
+\[
+\mathcal N_i:U_i\rightsquigarrow T_i.
+\]
+On overlaps \(U_{ij}=U_i\cap U_j\), transition data compare \(T_i\) and \(T_j\). On triple overlaps, the failure of the transitions to compose strictly lies in an automorphism sheaf or groupoid of local normal data.
+
+\begin{proposition}[Descent obstruction, schematic form]
+In a setting where the local normal data form a sheaf or stack with transition data \(g_{ij}\), a strict global normal form compatible with the local ones exists only if the corresponding descent obstruction vanishes. In the abelian sheaf case this obstruction is represented by a Cech cocycle; in the nonabelian case it is represented by a gerbe-type class.
+\end{proposition}
+
+\begin{proof}
+This is the standard descent criterion for gluing local objects with transition functions. If the cocycle is a coboundary, local gauge corrections make the transitions compatible and the local data glue. If it is not a coboundary, no strict global object with those transition data exists.
+\end{proof}
+
+This section is included to locate normal forms with unavoidable choices. The spectral application below is the simplest case: local eigenvector choices exist, but global continuous sign choices do not.
+
+\section{Spectral Canonicalization}
+
+We now give a concrete application. It concerns spectral graph methods, eigenvector positional encodings, and the instability of global eigenbasis choices.
+
+Let
+\[
+\Sym_N
+\]
+be the space of real symmetric \(N\times N\) matrices. Fix real numbers
+\[
+\lambda_1<\lambda_2<\cdots<\lambda_N
+\]
+with
+\[
+\lambda_{i+1}-\lambda_i\geq\delta>0.
+\]
+Define the fixed-spectrum orbit
+\[
+\mathcal O_\lambda
+=
+\{Q\operatorname{diag}(\lambda_1,\ldots,\lambda_N)Q^T:Q\in O(N)\}.
+\]
+Every matrix in \(\mathcal O_\lambda\) has simple spectrum and eigengap at least \(\delta\).
+
+\begin{definition}[Eigenbasis canonicalizer]
+An eigenbasis canonicalizer is a map
+\[
+C:\mathcal O_\lambda\to O(N)
+\]
+such that
+\[
+A\,C(A)=C(A)\operatorname{diag}(\lambda_1,\ldots,\lambda_N).
+\]
+The columns of \(C(A)\) are ordered unit eigenvectors. Since every eigenspace is a line, such a map is precisely a global sign choice for the ordered eigenline decomposition.
+\end{definition}
+
+\begin{theorem}[Fixed-gap spectral canonicalization instability]
+For \(N\geq2\), no eigenbasis canonicalizer
+\[
+C:\mathcal O_\lambda\to O(N)
+\]
+can be continuous.
+
+More strongly, for any deterministic eigenbasis canonicalizer \(C\), even if discontinuous, there exist matrices
+\[
+A_m\to A
+\]
+inside \(\mathcal O_\lambda\), all with eigengap at least \(\delta\), such that for some eigenvector index \(i\),
+\[
+\|u_i(A_m)-u_i(A)\|\to 2,
+\]
+where \(u_i(A)\) is the \(i\)-th column of \(C(A)\). Consequently no global eigenbasis canonicalizer can be uniformly continuous, Holder continuous, or Lipschitz on the fixed-gap simple-spectrum orbit.
+\end{theorem}
+
+\begin{proof}
+It is enough to restrict to a two-dimensional rotation. Let
+\[
+R_\theta=
+\begin{pmatrix}
+\cos\theta&-\sin\theta\\
+\sin\theta&\cos\theta
+\end{pmatrix}.
+\]
+For \(\theta\in[0,\pi]\), define
+\[
+A_\theta
+=
+R_\theta
+\begin{pmatrix}
+\lambda_1&0\\
+0&\lambda_2
+\end{pmatrix}
+R_\theta^T
+\oplus
+\operatorname{diag}(\lambda_3,\ldots,\lambda_N).
+\]
+Then \(A_0=A_\pi\), because \(R_\pi=-I_2\). All matrices \(A_\theta\) lie in \(\mathcal O_\lambda\), and all have the same eigengap.
+
+The first eigenline of \(A_\theta\) is \([R_\theta e_1]\). As \(\theta\) runs from \(0\) to \(\pi\), this line gives the standard nontrivial loop in \(\mathbb RP^1\). A continuous choice of unit eigenvector would lift this loop through the antipodal covering
+\[
+S^1\to\mathbb RP^1.
+\]
+Starting at \(e_1\), the lifted path ends at \(-e_1\), not at \(e_1\). But \(A_0=A_\pi\), so a single-valued continuous canonicalizer would require the endpoint to equal the starting value. This contradiction proves non-existence of a continuous \(C\).
+
+For the stronger statement, restrict any deterministic canonicalizer to the first eigenline along the same projective loop. It gives a section of the double cover \(S^1\to\mathbb RP^1\). Since no continuous section exists, the section is discontinuous somewhere. At a discontinuity, choose a convergent sequence of eigenlines \(\ell_m\to\ell\). Passing to a subsequence, the chosen unit vectors converge to the opposite sign of the chosen vector over \(\ell\). Hence the norm difference tends to \(2\). Realizing these eigenlines by matrices in \(\mathcal O_\lambda\) gives the required sequence.
+\end{proof}
+
+\subsection{Stable replacement}
+
+The complete eigenbasis datum
+\[
+A\longmapsto (\lambda_i,u_i)_i
+\]
+is a set-theoretic normal form on the simple-spectrum orbit, but it is not stable. The stable normal form is instead
+\[
+A\longmapsto (\lambda_i,P_i)_i,
+\qquad
+P_i=u_i u_i^T.
+\]
+The residual fibre is the sign torsor \(\{\pm1\}^N\). If eigenvalues have multiplicities \(m_\lambda\), the stable datum is
+\[
+A\longmapsto \{(\lambda,P_\lambda)\}_\lambda,
+\]
+and the residual gauge group is
+\[
+\prod_\lambda O(m_\lambda).
+\]
+This is a stacky normal form.
+
+\begin{theorem}[Universal projector factorization]
+Let \(\St(m,N)\) be the Stiefel manifold and \(\Gr(m,N)\) the Grassmannian. Let
+\[
+\pi:\St(m,N)\to\Gr(m,N),
+\qquad
+U\mapsto UU^T
+\]
+be the quotient map. If \(Y\) is a topological space and
+\[
+F:\St(m,N)\to Y
+\]
+is continuous and right \(O(m)\)-invariant, then there is a unique continuous map
+\[
+\widetilde F:\Gr(m,N)\to Y
+\]
+such that
+\[
+F=\widetilde F\circ\pi.
+\]
+\end{theorem}
+
+\begin{proof}
+The map \(\pi\) is the quotient map for the free right action of \(O(m)\) on \(\St(m,N)\). Since \(F\) is constant on \(O(m)\)-orbits, it factors uniquely through the quotient. Continuity of the induced map follows from the universal property of quotient maps.
+\end{proof}
+
+Thus projector-valued spectral normal forms are not just a convenient workaround. They are universal among continuous basis-invariant encodings. In graph-learning language, sign- and basis-invariant spectral methods align with the stable normal form, while complete eigenbasis canonicalization crosses a topological obstruction to global stability.
+
+\section{Further Templates}
+
+This section records several patterns already used elsewhere in this collection. They are not presented as new applications here; their role is to show how the normal-form language organizes existing arguments.
+
+\subsection{Sparse factorization}
+
+A local linear data structure for a workload matrix \(A\in\mathbb F^{m\times n}\), with storage \(s\), query locality \(q\), and update locality \(u\), can be normalized to a factorization
+\[
+A=RM,
+\]
+where \(R\in\mathbb F^{m\times s}\), \(M\in\mathbb F^{s\times n}\), each row of \(R\) has support at most \(q\), and each column of \(M\) has support at most \(u\). The budgeted normal image is the set of such sparse factorizations. Any separator proving that \(A\) is outside that image gives a lower bound for the original data-structure presentation.
+
+\subsection{Boolean lifts}
+
+For a Boolean function \(f:\{0,1\}^n\to\{-1,1\}\), a polynomial lift model may impose a coefficient alphabet, a degree bound, height bounds, sparsity bounds, or homogeneity. The finite-difference or Mobius coefficient vector is a normal datum. The lift model imposes lattice and capacity constraints on this datum. Lower bounds become lattice-capacity separation problems.
+
+\subsection{Algebraic proof degree}
+
+A static algebraic proof identity
+\[
+h=\sum_i g_i f_i
+\]
+with degree bound \(\deg(g_i f_i)\leq D\) can be normalized to homogeneous membership
+\[
+x_0^{D-\deg h}h^h\in J.
+\]
+The obstruction is torsion in
+\[
+(J:x_0^\infty)/J.
+\]
+Thus proof-degree lower bounds become separation problems in a filtered homogeneous module.
+
+\subsection{Class-two \(p\)-groups}
+
+For special class-two exponent-\(p\) groups, the commutator is an alternating bimap
+\[
+\beta:\Lambda^2 V\to W.
+\]
+Words admit a linear-quadratic normal datum, and ordinary word-measure observables factor through rank-profile data such as
+\[
+\lambda\mapsto \rank(\lambda\circ\beta).
+\]
+Large residual fibres of this observable quotient produce non-isomorphic groups indistinguishable by the chosen observables.
+
+\section{Endpoint}
+
+The framework reaches a real boundary: a normal-form package can expose a budgeted image, and it can identify the normal datum whose membership must be tested, but it cannot automatically produce the optimal separator in every domain. The hard mathematics reappears in the separation problem.
+
+The practical value is therefore diagnostic. A normal-form analysis tells us:
+\[
+\begin{gathered}
+\text{what was rigidified,}\\
+\text{what remains in the residual fibre,}\\
+\text{what the verification data control,}\\
+\text{which observables are preserved,}\\
+\text{and what must be separated to prove a lower bound.}
+\end{gathered}
+\]
+
+\section{Conclusion}
+
+This note replaces the question
+\[
+\text{``what is the normal form?''}
+\]
+with the more structured question
+\[
+\begin{gathered}
+\text{``what normal forms exist, what do they preserve, what do they lose,}\\
+\text{what do they cost, and what can they separate?''}
+\end{gathered}
+\]
+
+The answer is a normal-form calculus:
+\[
+\boxed{
+\text{normal datum}
++
+\text{verification data}
++
+\text{residual fibre}
++
+\text{separator}
++
+\text{descent obstruction}.
+}
+\]
+
+The spectral application shows the calculus at work. Complete eigenbasis data exist set-theoretically on the simple-spectrum locus, but no global stable eigenbasis canonicalizer exists even under a fixed eigengap. The stable normal form is projector-valued and stacky. Normalization does not remove complexity; it redistributes it among rigid data, residual fibres, choices, verification data, and separation cost.
+
+\begin{thebibliography}{99}
+
+\bibitem{pt1}
+L. Blanchi,
+\emph{Presentation Theory},
+AI-assisted math note, 2026.
+
+\bibitem{pt2}
+L. Blanchi,
+\emph{Presentation Theory II: Controlled Transfer, Observable Budgets, and the Geometry of Fibres},
+AI-assisted math note, 2026.
+
+\bibitem{atlas}
+L. Blanchi,
+\emph{Atlas of Controlled Transfer Packages},
+AI-assisted math note, 2026.
+
+\bibitem{newman}
+M. H. A. Newman,
+\emph{On theories with a combinatorial definition of equivalence},
+Annals of Mathematics 43 (1942), 223--243.
+
+\bibitem{signnet}
+D. Lim, J. Robinson, L. Zhao, T. Smidt, S. Sra, H. Maron, and S. Jegelka,
+\emph{Sign and Basis Invariant Networks for Spectral Graph Representation Learning},
+arXiv:2202.13013, 2022.
+
+\bibitem{prism}
+S. Hordan, N. Dym, and T. Seppelt,
+\emph{Weisfeiler-Leman Is Incomplete on Simple Spectrum Graphs, so Canonicalize Them},
+arXiv:2605.23446, 2026.
+
+\bibitem{lapcanon}
+J. Ma, Y. Wang, and Y. Wang,
+\emph{Laplacian Canonization: A Minimalist Approach to Sign and Basis Invariant Spectral Embedding},
+arXiv:2310.18716, 2023.
+
+\end{thebibliography}
+
+\end{document}
