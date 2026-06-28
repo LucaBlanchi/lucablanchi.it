@@ -44,6 +44,16 @@ tail production, pressure shrink/margins, and S8/Oseen owner imports are separat
 so that no estimate can borrow from S1, S7, the Oseen production theorem, or the
 final global cost statement.
 
+The present version incorporates the latest pressure-channel audit. The
+pressure-envelope magnitude block GP1 is closed as a dyadic record dichotomy:
+after finitely many paid updates the pressure chart is bounded, while infinitely
+many strict records give a non-summable registered pressure escape. The same
+record mechanism closes the \(M_p\) coordinate of pressure representative variation
+and the pressure-envelope-determined shrink coordinate \((M_p,\varepsilon_p,
+\theta_P,s_P)\). A separate finite-state argument closes invisible drift of the
+pressure-force pair convention and owner labels. These are formal source closures,
+not pressure-tail production estimates.
+
 Under the remaining source modules, a bad predictive chain cannot persist:
 either normal innovation is square-summable by Hilbert packing, the fibre enters a
 regular rigid branch, or a carrier/chart/envelope/margin escape is registered.
@@ -878,7 +888,8 @@ The predictable linear part of \(w_k\) is absorbed by the first variation \(D\Ph
 Let \((u,p)\) be a suitable weak solution near \(z_0\). Suppose that the predictive
 presentation system at \(z_0\) satisfies the source contracts of the repaired ledger,
 the analytic modules stated above, the S1 quotient packet row source, the S7
-pressure/gauge source blocks GP1--GP5, and the exact floor/finite-atlas closure.
+pressure/gauge source blocks GP1--GP5 with the closed GP1 record and GP2/GP4
+coordinate subowners inserted, and the exact floor/finite-atlas closure.
 Suppose also that the minimization errors \(\eta_k\) are summable and that no source
 channel is left in the explicitly open PDE category.
 Then there is no bad predictive chain at \(z_0\). Consequently, if the predictive
@@ -898,11 +909,13 @@ innovative normal defects are square-summable. The repaired source ledger and th
 S1/S4 firewalls ensure that the surrounding packet, representation, escape,
 transport, pressure, cutoff, carrier, margin, and floor errors are either summable
 on the no-gate tail, finitely updated before the next epoch, or have already forced
-a named escape or gate. The GP1--GP5 source blocks ensure, in particular, that
-pressure-envelope changes, pressure representative drift, pressure-tail production,
-pressure shrink/margins, and S8/Oseen pressure imports have single owners and
-pre-E12 ledgers before \(243\) and \(265\) are invoked. Thus on a genuine no-gate
-no-escape tail, blocks of
+a named escape or gate. The inserted GP1 record theorem and GP2/GP4 coordinate
+closures ensure that pressure-envelope growth, \(M_p\)-representative drift,
+discrete pair/owner switching, and pressure-envelope shrink degeneration cannot
+move invisibly. The remaining GP2--GP5 source blocks must then ensure that residual
+representative drift, pressure-tail production, residual shrink/margins, and
+S8/Oseen pressure imports have single owners and pre-E12 ledgers before \(243\) and
+\(265\) are invoked. Thus on a genuine no-gate no-escape tail, blocks of
 arbitrarily small scales have very small average registered defect.
 
 The quantitative closure alternative prevents a persistent defect
@@ -945,6 +958,17 @@ that they consume.
 zero-cost, nonconstant harmonic pressure transfers are pressure-force pair
 morphisms, and the \(\operatorname{GaugePress}\) channel is conditionally assembled
 from five named source blocks GP1--GP5.
+\item the GP1 pressure-envelope magnitude block by dyadic record exhaustion:
+eventual bounded pressure chart after finitely many updates, non-summable
+\(\operatorname{PressEnvRecEsc}\), or gate/impossible setup;
+\item the \(M_p\) coordinate of GP2 pressure representative variation, whose drift
+is exactly the GP1 record/update/escape mechanism;
+\item the discrete GP2 pair-convention and owner-label coordinates, whose finite
+pre-E12 state either stabilizes, pays a non-summable switching ledger, or exits by
+fixed-chart illegality;
+\item the GP4 pressure-envelope shrink coordinate
+\((M_p,\varepsilon_p,\theta_P,s_P)\), so that the route
+\(M_p\to\infty\), \(\theta_P\to0\) cannot occur invisibly.
 \end{enumerate}
 
 The remaining analytic work is concentrated in the following PDE source theorems:
@@ -963,11 +987,12 @@ recurrent ledgers, without using S1;
 \item prove finite-atlas and finite-variation closure through the \(\mathrm{VarEff}\) route;
 \item prove the exact E12 floor and its compatibility with packet envelopes, margins,
 updates, and block selection;
-\item prove the pressure/gauge source blocks GP1--GP5: pressure-envelope source
-closure, pressure representative variation, pressure-tail block production,
-pressure shrink/margin source closure, and S8/Oseen/S6/S11 owner-split import;
-\item prove the shared \(\operatorname{PressureForcePair}\) source theorem and the S8
-pressure/collar and explicit Oseen-error source outcomes needed by S7;
+\item insert the closed GP1 record theorem and the closed GP2/GP4 coordinate
+subowners into S7, then prove residual GP2 pressure representative variation, GP3
+pressure-tail block production, the remaining GP4 shrink/margin/floor theorem, and
+GP5 owner-split import for S8, Oseen, S6, and S11;
+\item prove the shared pressure-force-pair source theorem and the S8 pressure/collar
+and explicit Oseen-error source outcomes needed by S7;
 \item prove critical predictor-map differentiability, global residual
 representation, packet-level null-graph rigidity, carrier localization, and the
 quantitative closure alternative in the concrete Navier-Stokes topology.
@@ -1525,10 +1550,12 @@ The pressure-tail/envelope/oscillation subchannel \(\operatorname{GaugePress}\) 
 conditionally assembled from five blocks:
 \begin{description}[leftmargin=3.2cm,style=nextline]
 \item[GP1.]
-Pressure-envelope source closure. The harmonic envelope \(PEnv\) must enter an
-eventual bounded pressure chart, have a produced envelope ledger, be finitely
-updated, enter finite variation/Cauchy/finite atlas, pay non-summable
-\(\operatorname{PressEsc}\), open a gate, or be impossible.
+Pressure-envelope source closure. The harmonic envelope magnitude is now closed by
+the dyadic record theorem below. It enters an eventual bounded pressure chart after
+finitely many record updates, pays the non-summable pressure-envelope record
+escape, opens a gate, or is impossible because the pressure representative was not
+legal before block selection. This does not produce the pressure-tail observable in
+GP3.
 \item[GP2.]
 Pressure representative variation. The canonical representative is fixed only inside
 a fixed physical chart. Across chart changes, pressure representatives must have a
@@ -1572,8 +1599,228 @@ legal outcomes:
 \item impossibility by fixed-chart/source legality.
 \end{enumerate}
 Thus \(\operatorname{GaugePress}\) is conditionally ready for S7 and \(265\), but it
-is not yet a nonconditional source theorem. The only unconditional piece is
-\(c(t)\).
+is not yet a nonconditional source theorem. The only zero-cost gauge identity is
+\(c(t)\); the closures below are source alternatives, not free gauge identities.
+
+\subsection{Closed GP1 pressure-envelope record theorem}
+
+The pressure-envelope part of GP1 is no longer merely a named source obligation. It
+has a complete finite-state proof. For every legal scale \(k\), let
+\[
+P_k=\operatorname{EnvPress}_{R_k}(h_k)<\infty
+\]
+be the harmonic pressure envelope of the fixed pressure representative. Define the
+dyadic level
+\[
+\nu_k=\min\{n\in\mathbb N:P_k\le 2^n\},
+\]
+with \(\nu_k=0\) when \(P_k\le1\). The pressure chart stores a record level
+\(N_k\), hence a threshold \(M_p(k)=2^{N_k}\), before block selection. A strict
+record event is
+\[
+\nu_k>N_{k-1}.
+\]
+At such a scale the old chart has failed and the ledger records
+\[
+\operatorname{PressEnvRecEsc}_k=1.
+\]
+Only after that boundary is paid may future scales use the updated record
+\(N_k=\nu_k\). The record-breaking scale is not retroactively inside the old
+bounded pressure chart.
+
+\begin{proposition}[GP1 pressure-envelope source closure]
+On every no-gate candidate tail with legal pressure representatives, exactly one of
+the following alternatives holds.
+\begin{enumerate}[label=(\roman*)]
+\item There are finitely many strict dyadic pressure records. Then there exist
+\(K_*\) and \(M_p=2^{N_*}<\infty\) such that, for all \(k\ge K_*\),
+\[
+P_k\le M_p,
+\]
+and every later finite legal block \(B\) satisfies
+\[
+\operatorname{PEnv}(B):=\sup_{j\in B}P_j\le M_p.
+\]
+The last record enlargement is a finite update, after which all dependent pressure
+shrink, margin, block-length, and floor data must be recomputed before the next
+block is judged.
+\item There are infinitely many strict dyadic pressure records. Then
+\[
+\sum_k\operatorname{PressEnvRecEsc}_k=\infty.
+\]
+The branch exits by a named non-summable pressure-envelope escape. This is not a
+small pressure error and not a pressure-tail production theorem.
+\item At some scale the pressure representative, harmonic tail, spatial-average
+normalization, or envelope threshold is not legal before block selection. Then the
+branch exits by pressure-chart failure, pressure gate, CKN gate, or impossibility.
+\end{enumerate}
+No fourth GP1 envelope-magnitude outcome is legal.
+\end{proposition}
+
+\begin{proof}
+The sequence \((\nu_k)\) takes values in the nonnegative integers. If the set of
+strict record times is infinite, then the record rule assigns one unit of
+\(\operatorname{PressEnvRecEsc}\) at every such time, so its total sum is infinite.
+If the set of strict record times is finite, the running maximum stabilizes at a
+finite integer \(N_*\). Hence \(\nu_k\le N_*\) on the tail, so \(P_k\le2^{N_*}\) for
+every late scale. Taking a supremum over a finite legal block gives the block
+envelope bound. If the pressure data are not fixed before the block is known, the
+record sequence is not a legal chart coordinate, and the transition router has only
+escape, gate, or impossibility outcomes. These cases exhaust the possibilities for
+an integer record sequence.
+\end{proof}
+
+This theorem replaces the weaker excess observable
+\([\,\operatorname{PEnv}(B)/M_p-1\,]_+\), which could in principle be positive on
+infinitely many blocks but summable. Strict dyadic records cannot drift upward
+invisibly: finite records give a fixed chart, and infinite records give
+non-summable escape. The theorem uses no final \(\mathrm{GQ1}\), no pressure-tail
+smallness, and no after-the-fact threshold choice.
+
+\subsection{Closed GP2 envelope-coordinate owner}
+
+The pressure representative state contains, among other coordinates,
+\[
+\operatorname{PressRepState}_k
+=(\mathrm{geom},\mathrm{cutoff},p_{\mathrm{loc}},h^0,M_p,\Theta_P,
+\mathrm{PairConv},\mathrm{Owner}_P).
+\]
+After GP1, the \(M_p\) coordinate is no longer an open representative-variation
+problem. Split
+\[
+\Delta\operatorname{PressRep}_k
+=\Delta\operatorname{EnvRec}_k+\Delta\operatorname{PressRepRes}_k,
+\]
+where \(\Delta\operatorname{EnvRec}_k=0\) inside the stored record chart and
+\[
+\Delta\operatorname{EnvRec}_k=\operatorname{PressEnvRecEsc}_k
+\]
+at a strict record boundary.
+
+\begin{proposition}[GP2 envelope-coordinate closure]
+The \(M_p\) coordinate of \(\operatorname{PressRepState}\) has exactly one legal
+source outcome: eventual stabilization after finitely many pressure record updates,
+non-summable \(\operatorname{PressEnvRecEsc}\), or pressure-chart gate/impossibility.
+In the stable case, the \(M_p\) coordinate contributes no further pressure
+representative variation.
+\end{proposition}
+
+\begin{proof}
+This is the GP1 record dichotomy applied to the threshold coordinate. If records are
+finite, \(M_p=2^{N_*}\) is eventually fixed. If records are infinite, every
+threshold change is the already registered non-summable pressure-envelope escape.
+If the coordinate is chosen after seeing the block, the fixed-chart rules are
+violated and the transition is not an accepted representative comparison.
+\end{proof}
+
+The residual GP2 theorem is therefore reduced to
+\[
+\begin{aligned}
+\Delta\operatorname{PressRepRes}
+={}&\Delta\mathrm{Geom}+\Delta\mathrm{Cutoff}
++\Delta\mathrm{HarmonicNonconstant}\\
+&+\Delta\mathrm{ShrinkMargin}
++\Delta\mathrm{PairConvention}+\Delta\mathrm{Owner}
++\Delta\mathrm{OseenS8}.
+\end{aligned}
+\]
+The envelope-threshold drift is not allowed to reappear inside this residual.
+
+\subsection{Closed GP2 pair-convention and owner-label owner}
+
+The pair convention and owner template are finite pre-E12 presentation data. An
+accepted discrete pressure-force owner template is a finite object
+\[
+\begin{aligned}
+D_k=(&\mathrm{PairMode},\mathrm{SquareMode},\mathrm{Owner}_{\nabla},
+\mathrm{Owner}_{\mathrm{press}},\mathrm{Owner}_{\mathrm{cut}},\\
+&\mathrm{Owner}_{\mathrm{shrink}},\mathrm{Owner}_{\mathrm{rem}},
+\mathrm{WeightTemplate},\mathrm{ToleranceTemplate}).
+\end{aligned}
+\]
+Define the switch ledger
+\[
+\operatorname{PairOwnerSwitch}_k=\mathbf 1_{D_k\ne D_{k-1}}.
+\]
+
+\begin{proposition}[GP2 discrete pair/owner stabilization]
+For a finite registered pair/owner alphabet, exactly one of the following holds.
+\begin{enumerate}[label=(\roman*)]
+\item \(D_k\) changes finitely many times and is eventually fixed. Then the discrete
+pair convention and owner-label coordinates contribute no further GP2 variation.
+\item \(D_k\) changes infinitely many times and
+\[
+\sum_k\operatorname{PairOwnerSwitch}_k=\infty.
+\]
+The branch exits by a non-summable owner-update ledger, chart escape, or gate.
+\item \(D_k\) is selected after the pressure transfer or after the bad block is
+known. This violates fixed presentation legality and is impossible, except as an
+escape or gate.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+After the budget alphabet is fixed, \(D_k\) takes values in a finite set. A sequence
+in a finite set either changes finitely many times or infinitely many times. Finite
+changes give an eventual constant state. Infinite changes make the indicator
+\(\operatorname{PairOwnerSwitch}_k\) equal to one on infinitely many indices, so the
+switch ledger is non-summable. An after-the-fact owner choice is not a sequence of
+stored chart states and is rejected by the transition router.
+\end{proof}
+
+This closes only the discrete drift. Once the template has stabilized, the analytic
+pressure-force pair mass still has to be proved by the selected owner: S7, S6, S8,
+S10/Oseen, S11, explicit repaired error, escape, or gate.
+
+\subsection{Closed GP4 pressure-envelope shrink coordinate}
+
+Fix the pressure allowance \(\varepsilon_p>0\) before block selection and before
+E12. For a bounded pressure chart \(M_p\), the harmonic pressure shrink coordinate is
+\[
+\theta_P(M_p)=\min\left\{\frac14,
+\left(\frac{\varepsilon_p}{C_PM_p}\right)^{2/5}\right\},
+\qquad
+s_P=\left\lceil\log_2\frac1{\theta_P}\right\rceil.
+\]
+The pressure-envelope shrink state is
+\[
+\Theta_P^{\mathrm{env}}=(M_p,\varepsilon_p,\theta_P,s_P).
+\]
+
+\begin{proposition}[GP4 pressure-envelope shrink-coordinate closure]
+For every no-gate tail with legal pressure representatives and fixed
+\(\varepsilon_p\), the coordinate \(\Theta_P^{\mathrm{env}}\) has exactly one legal
+outcome.
+\begin{enumerate}[label=(\roman*)]
+\item If GP1 has finitely many pressure records, then \(M_p<\infty\) is eventually
+fixed, \(\theta_P>0\), \(s_P<\infty\), and this pressure-envelope shrink coordinate
+contributes no further \(\operatorname{GaugeShrink}\) transition cost.
+\item If GP1 has infinitely many pressure records, then the recomputation indicator
+for \(\Theta_P^{\mathrm{env}}\) is non-summable on the same subsequence as
+\(\operatorname{PressEnvRecEsc}\).
+\item If \(M_p\), \(\varepsilon_p\), or the pressure representative is not fixed
+before block selection, the branch exits by chart escape, pressure gate, CKN gate,
+or impossibility.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The only variable in the displayed formula for \(\theta_P\) is \(M_p\), since
+\(\varepsilon_p\) and \(C_P\) are fixed theorem data. Finite GP1 records make
+\(M_p\) eventually finite and fixed, hence the formula gives a fixed positive
+\(\theta_P\) and finite \(s_P\). Infinite GP1 records force infinitely many
+pressure-envelope shrink recomputations and therefore the same non-summable record
+escape. If the data are not fixed before selection, the shrink is an after-the-fact
+choice and is illegal.
+\end{proof}
+
+Consequently the degeneration
+\[
+M_p\to\infty,\qquad \theta_P\to0,\qquad s_P\to\infty
+\]
+cannot occur at invisible cost. What remains open in GP4 is the rest of the shrink
+stack, margin positivity, block containment, E12 floor compatibility, and source
+closure for S11/S12 owners.
 
 \subsection{S7/S8/Oseen owner firewall}
 
@@ -1620,8 +1867,11 @@ defects;
 \(\mathrm{VarEff}\);
 \item prove E12 exact floor positivity and compatibility with envelopes, margins,
 updates, and block selection;
-\item prove GP1--GP5 and then insert the closed \(\operatorname{GaugePress}\)
-theorem into full S7;
+\item insert the now-closed GP1 pressure-envelope record theorem and the closed
+GP2/GP4 coordinates into S7, then prove the residual GP2 representative variation,
+GP3 pressure-tail block production, the remaining GP4 shrink/margin/floor source
+theorem, and GP5 owner import for S8, Oseen, S6, and S11 before closing
+\(\operatorname{GaugePress}\);
 \item prove the remaining S7 source subchannels: gauge-gradient, gauge-cutoff,
 gauge-shrink, and gauge-pair, including the shared pressure-force-pair source
 theorem;
