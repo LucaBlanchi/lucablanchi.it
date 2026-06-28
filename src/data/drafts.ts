@@ -52,6 +52,24 @@ const chessStartBoard = [
 
 export const drafts = [
   {
+    slug: "morra-cinese-con-svantaggio",
+    href: "/drafts/morra-cinese-con-svantaggio.html",
+    title: {
+      en: "Rock-paper-scissors with a disadvantage",
+      it: "Morra cinese con svantaggio"
+    },
+    description: {
+      en: "A game-theoretic note on a rock-paper-scissors variant where one player cannot play scissors, reducing the game to guessing a positive integer.",
+      it: "Una nota di teoria dei giochi su una variante della morra cinese in cui un giocatore non può giocare forbici, ridotta al problema di indovinare un intero positivo."
+    },
+    dateTime: "2026-06-28",
+    visual: {
+      kind: "concept",
+      items: ["paper ties", "scissors turn", "guess N", "1/N"],
+      bits: ["A", "B", "p > 0"]
+    }
+  },
+  {
     slug: "half-bit-storage",
     href: "/drafts/half-bit-storage.html",
     title: {

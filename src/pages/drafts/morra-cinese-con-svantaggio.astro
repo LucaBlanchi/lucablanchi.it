@@ -1,0 +1,184 @@
+---
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import { getArticleVisual, getDraft } from "../../data/drafts";
+
+const draft = getDraft("morra-cinese-con-svantaggio");
+const visual = getArticleVisual("morra-cinese-con-svantaggio");
+---
+
+<ArticleLayout draft={draft} visual={visual}>
+  <Fragment slot="it">
+
+              <p>
+                Consideriamo il gioco della morra cinese, dove in caso di pareggio
+                la partita prosegue con nuovi lanci finché non viene decretato un
+                vincitore. Introduciamo una variante: uno dei due giocatori
+                (“giocatore B”) non può tirare forbici. La domanda è: quanto è
+                svantaggiato?
+              </p>
+
+              <p>Notiamo che:</p>
+              <ul>
+                <li>se A gioca carta, B pareggia con carta e perde con sasso</li>
+                <li>
+                  se A gioca forbici, B perde con carta e vince con sasso (la
+                  partita finisce sicuramente)
+                </li>
+              </ul>
+
+              <p>
+                Se A giocasse sasso, B vincerebbe con carta e pareggerebbe con
+                sasso, una situazione strettamente sconveniente per A rispetto il
+                giocare carta.
+              </p>
+
+              <p>
+                Quello che segue, è che ogni partita razionale si svolge così: una
+                successione di pareggi carta carta (potenzialmente vuota) seguita
+                da uno dei seguenti due casi:
+              </p>
+              <ul>
+                <li>A gioca carta e B gioca sasso, A vince</li>
+                <li>A gioca forbici e B gioca carta, A vince</li>
+                <li>A gioca forbici e B gioca sasso, B vince</li>
+              </ul>
+
+              <p>
+                Si può sostanzialmente pensare alla partita come a una successione
+                di turni carta-carta, che sarà interrotta a un certo punto da uno
+                dei due giocatori. Se e solo se entrambi interrompono nello stesso
+                momento, vince B, altrimenti vince A.
+              </p>
+
+              <p>
+                In maniera equivalente, possiamo dire che A decide un turno in cui
+                giocare forbici. Se B indovina questo turno giocando sasso, vince.
+                Altrimenti, se gioca sasso troppo presto o gioca carta al turno in
+                cui A cambia simbolo, perde.
+              </p>
+
+              <p>
+                Il problema si rivela quindi equivalente a “A sceglie un intero
+                positivo, B vince se e solo se lo indovina”. La domanda rimane:
+                quanto è svantaggiato B?
+              </p>
+
+              <p>
+                A ha strategie arbitrariamente buone: scegliendo un intero N
+                idealmente grande, se sceglie il suo numero (che corrisponde nel
+                problema iniziale al turno in cui giocare forbici) casualmente con
+                distribuzione uniforme tra 1 e N, la probabilità di vittoria di B
+                sarà al più 1/N. Infatti non importa quale strategia B adotti, se
+                sceglie un numero &lt;= N avrà probabilità 1/N di vincere, e con
+                numeri &gt; N perderà sicuramente.
+              </p>
+
+              <p>
+                D’altro canto, A non può avere probabilità pari a 1 di vittoria con
+                alcuna strategia. Infatti B può scegliere il suo numero secondo una
+                distribuzione geometrica (ad esempio), che associa a ciascun intero
+                positivo una probabilità positiva di essere scelto. Non importa
+                quale numero scelga A e come: la probabilità che venga indovinato
+                da B non sarà mai 0.
+              </p>
+
+              <p>
+                Questo dovrebbe seguire dal fatto che gli interi positivi, essendo
+                numerabili, non ammettono una distribuzione di probabilità uniforme,
+                quindi “A non può scegliere a caso”.
+              </p>
+
+              <p>
+                Quindi, quanto è svantaggiato B? Molto. A ha una torre infinita di
+                strategie arbitrariamente buone. Però non c’è una strategia
+                migliore di tutte le altre, dunque B avrò sempre una chance di
+                vittoria.
+              </p>
+  </Fragment>
+
+  <Fragment slot="en">
+
+              <p>
+                Consider the game of rock-paper-scissors, where in case of a tie
+                the game continues with new throws until a winner is declared. We
+                introduce a variant: one of the two players (“player B”) cannot
+                throw scissors. The question is: how disadvantaged is B?
+              </p>
+
+              <p>Notice that:</p>
+              <ul>
+                <li>if A plays paper, B ties with paper and loses with rock</li>
+                <li>
+                  if A plays scissors, B loses with paper and wins with rock (the
+                  game certainly ends)
+                </li>
+              </ul>
+
+              <p>
+                If A played rock, B would win with paper and tie with rock, a
+                strictly inconvenient situation for A compared to playing paper.
+              </p>
+
+              <p>
+                What follows is that every rational game unfolds like this: a
+                succession of paper-paper ties (possibly empty) followed by one of
+                the following cases:
+              </p>
+              <ul>
+                <li>A plays paper and B plays rock, A wins</li>
+                <li>A plays scissors and B plays paper, A wins</li>
+                <li>A plays scissors and B plays rock, B wins</li>
+              </ul>
+
+              <p>
+                One can essentially think of the game as a succession of
+                paper-paper turns, interrupted at some point by one of the two
+                players. If and only if both interrupt at the same moment, B wins;
+                otherwise A wins.
+              </p>
+
+              <p>
+                Equivalently, we can say that A chooses a turn on which to play
+                scissors. If B guesses this turn by playing rock, B wins. Otherwise,
+                if B plays rock too early or plays paper on the turn when A changes
+                symbol, B loses.
+              </p>
+
+              <p>
+                The problem therefore turns out to be equivalent to “A chooses a
+                positive integer, B wins if and only if B guesses it”. The question
+                remains: how disadvantaged is B?
+              </p>
+
+              <p>
+                A has arbitrarily good strategies: by choosing an ideally large
+                integer N, if A chooses their number (which in the initial problem
+                corresponds to the turn on which to play scissors) randomly with
+                uniform distribution between 1 and N, B’s probability of winning
+                will be at most 1/N. Indeed, it does not matter which strategy B
+                adopts: if B chooses a number &lt;= N, B will have probability 1/N
+                of winning, and with numbers &gt; N B will certainly lose.
+              </p>
+
+              <p>
+                On the other hand, A cannot have probability exactly 1 of winning
+                with any strategy. Indeed B can choose their number according to a
+                geometric distribution (for example), which assigns each positive
+                integer a positive probability of being chosen. It does not matter
+                which number A chooses and how: the probability that B guesses it
+                will never be 0.
+              </p>
+
+              <p>
+                This should follow from the fact that the positive integers, being
+                countable, do not admit a uniform probability distribution, so “A
+                cannot choose at random”.
+              </p>
+
+              <p>
+                So how disadvantaged is B? Very. A has an infinite tower of
+                arbitrarily good strategies. But there is no strategy better than
+                all the others, so B will always have a chance of victory.
+              </p>
+  </Fragment>
+</ArticleLayout>
