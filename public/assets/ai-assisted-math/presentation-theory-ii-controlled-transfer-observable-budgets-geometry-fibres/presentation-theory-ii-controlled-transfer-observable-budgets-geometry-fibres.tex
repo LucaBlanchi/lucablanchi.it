@@ -1542,6 +1542,14 @@ The resulting transport distance is generally not a metric. It is directed, mult
 
 Common hubs in transfer graphs include representation schemes, matrix-pair classification, finite-window constraint systems, computable limiting processes, nonlocal games, cellular automata, formal grammars, matrix semigroups, chain complexes, tensor networks, tropicalizations, finite-test profiles, proof systems, automata, syntactic monoids, differential modules, and Galois representations.
 
+\begin{remark}[Transfer classes and moduli]
+Most arguments in this note use a single transfer package at a time. In some problems, however, the useful object is the class of all packages between two contexts with a prescribed overhead profile. One may write informally
+\[
+\operatorname{Trans}_{\leq\chi}(\mathfrak P,\mathfrak Q)
+\]
+for transfer packages from \(\mathfrak P\) to \(\mathfrak Q\) whose cost overhead, observable loss, verification overhead, and fibre distortion are bounded by a character \(\chi\). This notation is only a bookkeeping device here, not a new layer of foundations. It becomes useful when local transfer packages must be compared or glued, when one wants to optimize over several possible proof strategies, or when a capacity argument rules out every package in a proposed class. In that sense, a transfer package proves a transported theorem, while a transfer class records a family of possible proof strategies.
+\end{remark}
+
 \section{Application I: Rank-Invariant Fibres}
 
 We first apply the transfer viewpoint to multiparameter persistence. The point is not that the rank invariant is incomplete; that is well known. The point is that its fibres can contain arbitrary algebraic singularity types.

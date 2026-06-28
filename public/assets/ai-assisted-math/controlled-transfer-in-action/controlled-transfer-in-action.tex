@@ -124,8 +124,73 @@ is rational.
 The property \(P\), such as being non-liftable, having exactly \(c\) lifts, surviving \(j\) more levels, or realizing a prescribed valuation pattern, is expressible by a first-order \(p\)-adic condition on residue classes modulo \(p^k\). Denef's rationality theorem for \(p\)-adic definable counting series then gives rationality of the corresponding generating function.
 \end{proof}
 
+\begin{theorem}[Rational survival barcode]
+For \(k\geq1\) and \(r\geq0\), let \(L_{k,r}\) be the number of classes \(a\in S_k\) that survive for at least \(r\) further levels, meaning that there exists \(\widetilde a\in S_{k+r}\) with
+\[
+\widetilde a\equiv a\pmod {p^k}.
+\]
+Then the bivariate survival series
+\[
+\mathcal L_F(U,V)=\sum_{k\geq1}\sum_{r\geq0}L_{k,r}U^kV^r
+\]
+is rational in the standard \(p\)-adic definable counting setting.
+\end{theorem}
+
+\begin{proof}
+The condition that \(a\bmod p^k\) survive to level \(k+r\) is
+\[
+\exists y\in\mathbb Z_p^n:
+\quad
+y\equiv a\pmod {p^k},
+\qquad
+F_i(y)\equiv0\pmod {p^{k+r}}
+\quad\text{for all }i.
+\]
+This is a \(p\)-adically definable condition with value-group parameters \(k\) and \(r\). Rationality of definable \(p\)-adic counting series with such Presburger parameters gives the rationality of \(\mathcal L_F(U,V)\).
+\end{proof}
+
+\begin{corollary}[Rational death profile]
+Let \(D_k\) be the number of nodes \(a\in S_k\) with no lift to \(S_{k+1}\). Then
+\[
+D_F(T)=\sum_{k\geq1}D_kT^k
+\]
+is rational.
+\end{corollary}
+
+\begin{proof}
+Death at level \(k\) is the definable condition that \(a\in S_k\) and that no \(y\equiv a\pmod {p^k}\) satisfies \(F_i(y)\equiv0\pmod {p^{k+1}}\) for all \(i\). This is a special case of the preceding definable lifting statistics.
+\end{proof}
+
+\begin{theorem}[No finite-jet recovery of Hensel death profiles]
+Fix \(r\geq1\). No procedure whose input depends only on the coefficient jet \(F\bmod p^r\) can recover the full death profile
+\[
+D_\bullet(F)=(D_1(F),D_2(F),\ldots)
+\]
+for all one-variable polynomials \(F\in\mathbb Z_p[x]\).
+\end{theorem}
+
+\begin{proof}
+Let \(F_0(x)=0\). Then \(S_k(F_0)=\mathbb Z/p^k\mathbb Z\) for every \(k\), and every node lifts forever, so \(D_k(F_0)=0\) for all \(k\).
+
+Choose \(N>r\) and set \(F_N(x)=p^Nx\). Then
+\[
+F_N\equiv F_0\pmod {p^r}.
+\]
+For \(k\leq N\), every residue class modulo \(p^k\) solves \(F_N(x)\equiv0\pmod {p^k}\), so \(S_k(F_N)=\mathbb Z/p^k\mathbb Z\). At level \(N+1\), a lift \(y\equiv a\pmod {p^N}\) must satisfy
+\[
+p^Ny\equiv0\pmod {p^{N+1}},
+\]
+which is equivalent to \(y\equiv0\pmod p\). Hence a class \(a\bmod p^N\) lifts if and only if \(a\equiv0\pmod p\). Therefore
+\[
+D_N(F_N)=p^N-p^{N-1},
+\qquad
+D_N(F_0)=0.
+\]
+The two polynomials have the same \(r\)-jet but different death profiles. Thus no finite-\(r\)-jet procedure can recover \(D_\bullet(F)\) uniformly.
+\end{proof}
+
 \textbf{Target reading.}
-Even singular Hensel trees have finite-memory statistics. The number of dead nodes, nodes with a fixed branching number, or nodes with a prescribed survival profile cannot vary chaotically with \(k\); it is governed by a rational generating function.
+Even singular Hensel trees have finite-memory statistics when viewed through \(p\)-adic definability. The same example also separates transfer strengths: \(p\)-adic definability recovers rational survival profiles, while finite coefficient jets cannot recover the full death profile.
 
 \[
 \boxed{
@@ -136,7 +201,7 @@ Even singular Hensel trees have finite-memory statistics. The number of dead nod
 \]
 
 \begin{remark}
-This example is a family of transfers, not many unrelated examples. The single source engine is \(p\)-adic definability plus rationality of counting series; the target observables are different finite views of the same lifting tree.
+This example is a family of transfers, not many unrelated examples. The single source engine is \(p\)-adic definability plus rationality of counting series; the target observables are different finite views of the same lifting tree. The finite-jet theorem is the complementary no-go statement: it rules out a tempting but too weak class of transfer packages.
 \end{remark}
 
 \section{Highlight: Finite Automata for Lattice-Walk Returns}
