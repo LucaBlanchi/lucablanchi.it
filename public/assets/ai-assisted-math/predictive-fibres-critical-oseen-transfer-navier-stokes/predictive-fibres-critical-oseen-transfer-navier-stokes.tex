@@ -18,17 +18,37 @@
 
 \title{Predictive Fibres and Critical Oseen Transfer for the Three-Dimensional Navier-Stokes Equations}
 \author{Luca Blanchi}
-\date{June 2026}
+\date{June 28, 2026}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-This note develops a modular presentation-theoretic regularity program for the three-dimensional incompressible Navier-Stokes equations. The basic object is a local predictive presentation: incoming and lateral data determine a class of admissible strong predictors, while the compatible suitable weak states form an invisible fibre. A bad singularity is represented by a persistent failure of causal prediction across parabolic scales.
+This note develops an audited presentation-theoretic regularity program for the
+three-dimensional incompressible Navier-Stokes equations. The basic object is a
+local predictive presentation: incoming and lateral data determine admissible
+predictors, while the compatible suitable weak states form an invisible fibre. A
+putative singularity is represented by a persistent failure of causal prediction
+across parabolic scales.
 
-The main result is a modular regularity theorem. We prove several structural ingredients and state the analytic inputs required for a closed scale iteration as explicit modules. The proved components are a local critical Oseen transfer estimate in the Serrin range, an abstract minimax-centre lemma, a Hilbertian innovation-packing lemma, the two-mode null classification for the Leray-projected bilinear symbol, and exact reductions for Beltrami and two-and-a-half-dimensional branches. The modular inputs are the critical differentiability of the local predictor map, a global residual representation across scales, null-graph rigidity for localized wave packets, carrier localization with pressure tails, and a quantitative predictive epsilon-regularity closure.
+The current result is a precise conditional reduction, not yet a non-conditional
+regularity theorem. The paper proves several structural ingredients and isolates
+the remaining analytic burdens as named source theorems. The proved components
+include a local critical Oseen transfer estimate in the Serrin range, relaxed
+minimax centres, Hilbertian innovation packing, the two-mode null calculation for
+the Leray-projected bilinear symbol, exact Beltrami absorption, and exact
+two-and-a-half-dimensional reduction. The recent audit adds a detailed
+source-contract layer for the quotient packet route: certified-new packet rows,
+representation errors, packet escapes, packet compatibility, and all S4 owner
+channels are separated so that no estimate can borrow from the S1 row theorem or
+from the final global cost statement.
 
-Under these modules, a bad predictive chain cannot persist: either normal innovation occurs often enough to be square-summable by Hilbert packing, or the fibre enters a rigid branch, or high-frequency escape recenters or produces a registered defect. The result gives a precise conditional reduction of local regularity to the listed scale-invariant analytic statements.
+Under the remaining source modules, a bad predictive chain cannot persist:
+either normal innovation is square-summable by Hilbert packing, the fibre enters a
+regular rigid branch, or a carrier/chart/envelope/margin escape is registered.
+The article therefore gives a professional dependency graph for a possible proof:
+it records what is already formal or analytic, what still requires Navier-Stokes
+PDE estimates, and where circular uses of the desired conclusion are forbidden.
 \end{abstract}
 
 \section{Purpose}
@@ -49,7 +69,7 @@ The presentation-theoretic language is used through analytic statements. The pap
 \item conditional propositions proved from explicitly stated analytic modules;
 \item analytic modules used as hypotheses in the modular theorem.
 \end{enumerate}
-The level of each statement is marked explicitly by its environment: lemma, proposition, theorem, or assumption.
+The level of each statement is marked explicitly by its environment: lemma, proposition, theorem, or assumption. The current manuscript is written as an audited reduction. It is meant to preserve the useful structure of the argument while making clear which statements are proved, which are formal bookkeeping closures, and which remain genuine Navier-Stokes source theorems.
 
 \section{Local Setting}
 
@@ -389,6 +409,222 @@ The witness lower bound then gives the stated estimate.
 
 The lemma is abstractly complete. Its PDE use is the global residual representation module: all normalized defects from all scales must be transported into one Hilbert space with square-summable connection, cutoff, gauge, and pressure errors.
 
+\section{Repaired Cost and Quotient Packet Source Contracts}
+
+The audit of the proof is most stringent at the point where Hilbert innovation is
+converted into packet estimates. Hilbert orthogonality of the innovation witnesses
+does not by itself give a Navier-Stokes packet row estimate. The row family must be
+realized in a fixed or finitely merged packet atlas, and every error surrounding the
+row estimate must have an owner independent of the row estimate itself.
+
+\subsection{Finite repaired source ledger}
+
+The repaired cost is organized as a finite weighted source expansion
+\[
+Q_k^{\mathrm{rep}}
+=\operatorname{Innov}_k
++\sum_{s\in S_{\mathrm{err}}}w_s\,\operatorname{Err}_{s,k}
++\sum_{x\in S_{\mathrm{esc}}}w_x\,\operatorname{Esc}_{x,k}
++\sum_{u\in S_{\mathrm{upd}}}w_u\,\operatorname{Upd}_{u,k}.
+\]
+For each source channel exactly one of the following outcomes is legal:
+\begin{enumerate}[label=(\roman*)]
+\item a summable source theorem;
+\item a finite update or finite-atlas merge with registered boundary cost;
+\item a named non-summable escape;
+\item a gate, meaning entry into a regularity or predictive closure alternative;
+\item an explicitly open PDE theorem.
+\end{enumerate}
+Only the first two outcomes contribute finite error terms on a no-gate tail. A
+named non-summable escape exits the no-escape theorem; it is not a finite error in
+disguise. An explicitly open PDE theorem records an honest remaining analytic
+burden and cannot be used as a closed input to the final proof.
+
+\subsection{The S1 quotient packet row}
+
+For an innovative scale, let
+\[
+e_k=\frac{d_k-P_{V_{k-1}}d_k}{\|d_k-P_{V_{k-1}}d_k\|},
+\qquad
+m_k=A_k^*e_k.
+\]
+In a fixed packet frame write
+\[
+m_k=\operatorname{Syn}_E(a_k)+\tau_k,
+\qquad
+a_k=a_k^{\mathrm{old}}+a_k^{\mathrm{cert}}+a_k^{\mathrm{new}}
+     +a_k^{\mathrm{tail}}+a_k^{\mathrm{esc}}.
+\]
+The S1 row theorem is reserved for the certified-new part \(a_k^{\mathrm{new}}\).
+Old, certified, recurrent, tail, and escape components are routed to their own
+owners before S1 is invoked.
+
+\begin{assumption}[S1 quotient packet row source]
+On a fixed or finitely merged packet tail, the certified-new rows satisfy one of the
+standard fixed-atlas row criteria: finite overlap, Schur/Gram summability, a
+Carleson packet estimate, or a direct row-operator bound. Equivalently, the operator
+\[
+T_{\mathrm{new}}c=(\langle c,a_k^{\mathrm{new}}\rangle)_k
+\]
+is bounded on the fixed packet coefficient space. The allowed conclusion is
+\[
+\sum_k\|a_k^{\mathrm{new}}\|_{\ell^2}^2
+\le
+C_{\mathrm{S1}}
++C_{\mathrm{S1}}\sum_k\operatorname{ErrPktCompat}_k^{\mathrm{ind}}
++C_{\mathrm{S1}}\sum_k\operatorname{EscPkt}_k,
+\]
+where the two right-hand side channels have source outcomes independent of this
+row theorem.
+\end{assumption}
+
+\begin{remark}
+This assumption is still one of the central Navier-Stokes PDE tasks. It may not be
+inferred from Hilbert Gram-Schmidt orthogonality of the \(e_k\)'s, because the rows
+\(a_k^{\mathrm{new}}\) live in scale-dependent packet coordinates with pressure,
+cutoff, carrier, gauge, and chart transport errors.
+\end{remark}
+
+\subsection{Representation inequality}
+
+Let \(b_k=\operatorname{An}_E(d_k)\) be the fixed-frame coefficient vector of the
+registered defect. The packet pairing contract requires
+\[
+\begin{aligned}
+\langle d_k,e_k\rangle_{H_{\mathrm{def}}}
+&=\langle b_k,a_k\rangle_{\ell^2}
++\rho_{\mathrm{frame},k}
++\rho_{\mathrm{reg},k}
++\rho_{\mathrm{native},k}.
+\end{aligned}
+\]
+All discrepancies are owned by the repaired ledger. If
+\[
+\|b_k\|_{\ell^2}\le M_{\mathrm{pkt}},
+\]
+then Cauchy-Schwarz and Young give
+\[
+\operatorname{Innov}_k
+\le
+C_{\mathrm{repr}}\|a_k^{\mathrm{new}}\|_{\ell^2}^2
++C_{\mathrm{repr}}\operatorname{ErrS1repr}_k^{\mathrm{ind}}.
+\]
+The independent representation error is decomposed as
+\[
+\begin{aligned}
+\operatorname{ErrS1repr}_k^{\mathrm{ind}}
+=&\operatorname{ErrPairFrame}_k+\operatorname{ErrPairReg}_k
+  +\operatorname{ErrPairNative}_k\\
+&+\operatorname{ErrOldPair}_k+\operatorname{ErrCertPair}_k
+  +\operatorname{ErrTailPair}_k+\operatorname{ErrPairEnv}_k .
+\end{aligned}
+\]
+The seven owners are, respectively, the packet-frame owner, the registration owner,
+the native component owners, the memory/span-gap owner, the certified physical
+subtraction owner, the tail owner, and the packet-envelope owner.
+
+\begin{proposition}[S1 representation and escape source contract]
+The representation inequality is a closed input to S1 only after every component of
+\(\operatorname{ErrS1repr}^{\mathrm{ind}}\) has a legal source outcome independent
+of S1. Packet escape is legal on the S1 right-hand side only in the registered
+summable case. More precisely,
+\[
+\begin{aligned}
+\operatorname{EscPkt}_k
+=&\operatorname{EscFrame}_k+\operatorname{EscCarrier}_k+\operatorname{EscDict}_k
+  +\operatorname{EscEnvelope}_k\\
+&+\operatorname{EscOwnerSplit}_k+\operatorname{EscRecurrent}_k
+  +\operatorname{EscMarginFloor}_k+\operatorname{EscAtlasVar}_k .
+\end{aligned}
+\]
+Each packet escape component must be registered summable, finitely updated or
+merged, a named non-summable exit, a gate, or an explicitly open PDE theorem. A
+large value of \(\|a_k^{\mathrm{new}}\|_{\ell^2}^2\) alone is not a packet escape.
+\end{proposition}
+
+\begin{proof}
+This is a bookkeeping theorem in the finite repaired ledger. The representation
+terms are precisely the discrepancies between the Hilbert pairing and the fixed
+packet pairing, plus old/certified/tail/envelope pairings. By construction none of
+these terms contains the certified-new row norm, and each has a primary owner in
+S2-S12, S4, S5, the packet-envelope ledger, finite variation, or a named escape.
+The escape list records failures of packet data, not large row mass. Therefore the
+row estimate and the representation inequality can use these terms without proving
+their own right-hand sides.
+\end{proof}
+
+\subsection{S4 packet compatibility owner matrix}
+
+The packet compatibility error that may appear beside S1 is the independent part
+with the certified-new row mass removed:
+\[
+\operatorname{ErrPktCompat}_k=\operatorname{ErrPktCompat}_k^{\mathrm{ind}}.
+\]
+It is decomposed as
+\[
+\begin{aligned}
+\operatorname{ErrPktCompat}_k^{\mathrm{ind}}
+=&\operatorname{FrameCompat}_k+\operatorname{RowTailCompat}_k
+  +\operatorname{SectorCompat}_k+\operatorname{DictCompat}_k\\
+&+\operatorname{OwnerSplitCompat}_k+\operatorname{CertOldCompat}_k\\
+&+\operatorname{EnvCompat}_k+\operatorname{MarginPktCompat}_k .
+\end{aligned}
+\]
+The eight primary owner ledgers are:
+\[
+R_{\mathrm{frame}},\quad R_{\mathrm{tail}},\quad R_{\mathrm{sector}},
+\quad R_{\mathrm{dict}},\quad R_{\mathrm{owner}},\quad R_{\mathrm{cert}},
+\quad R_{\mathrm{env}},\quad R_{\mathrm{margin}}.
+\]
+The local S4 estimate on finite legal blocks is
+\[
+\begin{aligned}
+\sum_{k\in B}\operatorname{ErrPktCompat}_k^{\mathrm{ind}}
+&\le
+C_{\mathrm{S4}}\sum_{k\in B}\bigl(
+R_{\mathrm{frame},k}+R_{\mathrm{tail},k}
+ +R_{\mathrm{sector},k}+R_{\mathrm{dict},k}\\
+&\qquad
+ +R_{\mathrm{owner},k}+R_{\mathrm{cert},k}
+ +R_{\mathrm{env},k}+R_{\mathrm{margin},k}
+\bigr).
+\end{aligned}
+\]
+
+\begin{proposition}[S4 owner aggregation firewall]
+The aggregate symbol \(R_{\mathrm{S4}}\) is only shorthand for the eight owner
+ledgers above. It is not an independent source theorem. On an infinite no-gate
+no-escape tail, S4 summability follows only if all eight owner families have
+summable source outcomes after finitely many certified updates or merges. If one
+owner exits by named escape or gate, the S4 summability route exits; if one owner is
+only an open PDE theorem, S4 remains conditional.
+\end{proposition}
+
+\begin{proof}
+The finite-block estimate is the finite sum of the eight local owner estimates.
+Passing to an infinite tail is justified only by monotone convergence after each
+owner tail has a finite source theorem and all update boundary costs are registered.
+There is no ninth analytic estimate hidden in the notation \(R_{\mathrm{S4}}\).
+\end{proof}
+
+\subsection{Current packet-accounting status}
+
+The packet-accounting layer is therefore formally closed in the following sense:
+\begin{enumerate}[label=(\roman*)]
+\item the certified-new row is the only object counted by S1;
+\item the representation error has seven independent owners;
+\item packet escape has eight named components and cannot be large new-row mass;
+\item packet compatibility has eight S4 owners;
+\item S4 aggregation is a finite owner sum, not a separate source theorem;
+\item no S1 surrounding source may use S1 row Bessel, final \(\mathrm{GQ1}\), or a threshold
+chosen after the row is known.
+\end{enumerate}
+The analytic burden that remains is correspondingly sharp: prove the actual source
+outcomes for the representation owners, packet escapes, and eight S4 owner
+families; prove the true S1 row Bessel/Carleson theorem for Navier-Stokes packet
+rows; and stabilize the packet atlas through the finite-variation and finite-atlas
+theorems.
+
 \section{The Bilinear Symbol and Null Fibres}
 
 The next lemma is a finite-dimensional calculation for the Leray-projected quadratic symbol. It explains why large invisible fibres with very small quadratic leakage should be close to special geometric branches, but by itself it treats only pure modes.
@@ -525,9 +761,11 @@ Thus the planar part is a two-dimensional Navier-Stokes solution and the transve
 All fields are constant in the \(n\)-direction. The in-plane component of the equation is exactly the two-dimensional incompressible Navier-Stokes equation for \(V\). The \(n\)-component contains no pressure gradient and gives the passive scalar equation for \(W\).
 \end{proof}
 
-\section{The Conditional Modules}
+\section{The Remaining Analytic Modules}
 
-We now state the analytic modules used by the closed regularity argument.
+We now state the analytic modules still needed by the closed regularity argument.
+The previous section fixed the source-contract bookkeeping. The assumptions below
+are the remaining scale-invariant PDE assertions.
 
 \begin{assumption}[Predictive epsilon regularity]
 For every \(L\) and every admissible pressure-cleaning scheme, there exist \(\varepsilon(L)>0\) and \(0<\theta<1\) such that the following holds. If \((u,p)\) is suitable in \(Q_1\), and if there is a strong predictor \(g\) with
@@ -579,6 +817,33 @@ High-frequency escape either admits a carrier recentering that returns the domin
 For every \(L\) and \(\delta>0\), there are \(m=m(L,\delta)\) and \(c=c(L,\delta)>0\) such that the following holds along any \(m\)-step controlled block of a predictive chain. If \(\mathfrak D_k\ge\delta\) throughout the block and all registered normal, holonomy, pressure, carrier, and realization defects in the block are at most \(c\), then either the defect decreases below \(\delta/2\) at the next controlled scale, or the chain enters a rigid branch or a carrier branch covered by the previous assumptions.
 \end{assumption}
 
+\begin{assumption}[Completion of the repaired source ledger]
+Every source channel in the repaired ledger has one of the legal outcomes listed in
+the finite source expansion:
+\begin{enumerate}[label=(\roman*)]
+\item a summable source theorem;
+\item a finite update or finite-atlas merge with registered boundary cost;
+\item a named non-summable escape;
+\item a regularity gate;
+\item an explicitly open PDE theorem.
+\end{enumerate}
+For the final non-conditional theorem, the fifth alternative must be eliminated.
+In particular, the following families require actual Navier-Stokes source
+theorems: the eight S4 owner families, the seven \(\operatorname{ErrS1repr}\)
+owners, the eight \(\operatorname{EscPkt}\) components, the recurrent/Hilbert-old
+alternatives, the S2-S12 transport and component ledgers, the finite-variation
+route \(\mathrm{VarEff}\), and the exact E12 floor.
+\end{assumption}
+
+\begin{assumption}[Exact floor and finite-atlas closure]
+The E12 floor used in the block selection is chosen after all relevant weights,
+packet envelopes, margin states, and update costs are fixed. On every no-gate
+no-escape tail, either the finite-atlas and finite-variation states stabilize after
+finitely many registered updates, or the branch exits by a named chart, packet,
+carrier, margin, floor, or component escape. The floor is never recomputed for an
+already selected block without paying an explicit transport or update cost.
+\end{assumption}
+
 \section{Conditional Newton Transfer}
 
 Under the differentiability module, the Newton bridge becomes a precise conditional proposition.
@@ -607,8 +872,15 @@ The predictable linear part of \(w_k\) is absorbed by the first variation \(D\Ph
 
 \section{Modular Regularity Theorem}
 
-\begin{theorem}[Conditional predictive regularity]
-Let \((u,p)\) be a suitable weak solution near \(z_0\). Suppose that the predictive presentation system at \(z_0\) satisfies the six modules of Section 9, and that the scale errors \(\eta_k\) are summable. Then there is no bad predictive chain at \(z_0\). Consequently, if the predictive defect is the only obstruction to the predictive epsilon-regularity hypothesis, then \(u\) is regular at \(z_0\).
+\begin{theorem}[Audited conditional predictive regularity]
+Let \((u,p)\) be a suitable weak solution near \(z_0\). Suppose that the predictive
+presentation system at \(z_0\) satisfies the source contracts of the repaired ledger,
+the analytic modules stated above, the S1 quotient packet row source, and the exact
+floor/finite-atlas closure. Suppose also that the minimization errors \(\eta_k\) are
+summable and that no source channel is left in the explicitly open PDE category.
+Then there is no bad predictive chain at \(z_0\). Consequently, if the predictive
+defect is the only obstruction to predictive epsilon regularity, then \(u\) is
+regular at \(z_0\).
 \end{theorem}
 
 \begin{proof}
@@ -618,14 +890,26 @@ Assume that a bad predictive chain exists. Then for some \(\delta_0>0\),
 \]
 on all sufficiently small scales.
 
-By the global residual representation and the Hilbertian packing lemma, the innovative normal defects are square-summable. Hence blocks of arbitrarily small scales have very small average registered normal defect. The quantitative closure alternative prevents a persistent defect \(\mathfrak D_k\ge\delta_0\) on such blocks unless the chain enters a rigid branch or a carrier branch.
+By the global residual representation and the Hilbertian packing lemma, the
+innovative normal defects are square-summable. The repaired source ledger and the
+S1/S4 firewalls ensure that the surrounding packet, representation, escape,
+transport, pressure, cutoff, carrier, margin, and floor errors are either summable
+on the no-gate tail, finitely updated before the next epoch, or have already forced
+a named escape or gate. Thus on a genuine no-gate no-escape tail, blocks of
+arbitrarily small scales have very small average registered defect.
+
+The quantitative closure alternative prevents a persistent defect
+\(\mathfrak D_k\ge\delta_0\) on such blocks unless the chain enters a rigid branch
+or a carrier branch.
 
 If the chain enters a Beltrami branch, the quadratic term is pressure-cleaned and the Newton transfer gives decay of the predictive defect. If it enters a two-and-a-half-dimensional branch, the reduced two-dimensional system and passive scalar equation provide the strong predictor and again force decay, up to a registered anisotropic defect. If the chain enters carrier escape, the carrier localization module either recenters the scale, makes the contribution locally subcritical, or produces one of the registered defects already controlled by packing.
 
-Thus every alternative contradicts the persistence of \(\mathfrak D_k\ge\delta_0\). Therefore no bad predictive chain exists. The final implication is exactly predictive epsilon regularity.
+Thus every legal alternative contradicts the persistence of
+\(\mathfrak D_k\ge\delta_0\). Therefore no bad predictive chain exists. The final
+implication is exactly predictive epsilon regularity.
 \end{proof}
 
-\section{Verified Components and Analytic Modules}
+\section{Verified Components and Remaining Work}
 
 The verified pieces are:
 \begin{enumerate}[label=(\roman*)]
@@ -636,16 +920,584 @@ The verified pieces are:
 \item exact absorption of Beltrami fields and exact reduction of two-and-a-half-dimensional fields.
 \end{enumerate}
 
-The modular theorem depends on the following scale-invariant PDE modules:
+The formal source-contract layer now additionally closes:
 \begin{enumerate}[label=(\roman*)]
-\item critical differentiability and stability of the causal predictor map;
-\item construction of a global residual functional across a bad chain;
-\item packet-level null-graph rigidity;
-\item carrier localization with pressure-tail control;
-\item predictive epsilon regularity and the quantitative closure alternative.
+\item the quotient packet split into old, certified, new, tail, and escape rows;
+\item the representation inequality
+\(\operatorname{Innov}_k\le C\|a_k^{\mathrm{new}}\|_{\ell^2}^2
++C\operatorname{ErrS1repr}_k^{\mathrm{ind}}\);
+\item the seven-owner decomposition of \(\operatorname{ErrS1repr}\);
+\item the eight-component decomposition of \(\operatorname{EscPkt}\), with summable
+escape separated from non-summable branch exit;
+\item the eight-owner S4 packet-compatibility matrix;
+\item the S4 aggregation firewall, which prevents \(R_{\mathrm{S4}}\) from being
+used as an independent source theorem;
+\item the rule that S1, S4, E12, and final \(\mathrm{GQ1}\) cannot prove the source estimates
+that they consume.
 \end{enumerate}
 
-The useful conclusion of the note is therefore a dependency graph. Presentation theory supplies the language of predictors, observables, fibres, costs, and transfer; Oseen estimates supply the perturbative transport; Hilbert packing supplies a square-summability mechanism for genuinely new normal defects; and null geometry isolates the branches where the quadratic term can be invisible. The next analytic task is to prove that these formal branches exhaust the localized PDE behaviour at critical scale.
+The remaining analytic work is concentrated in the following PDE source theorems:
+\begin{enumerate}[label=(\roman*)]
+\item prove a true S1 row Bessel/Carleson theorem for the certified-new
+Navier-Stokes packet rows;
+\item prove the packet pairing identity and packet-envelope outcomes for actual
+registered Navier-Stokes defects;
+\item prove source outcomes for the seven representation-error owners;
+\item prove source outcomes or legal exits for the eight packet-escape components;
+\item prove source outcomes for all eight S4 owner families: frame, row-tail and
+native, carrier-sector, dictionary and component, owner-split, certified-old,
+packet-envelope, and margin/floor;
+\item prove recurrent and Hilbert-old alternatives through the certified and
+recurrent ledgers, without using S1;
+\item prove finite-atlas and finite-variation closure through the \(\mathrm{VarEff}\) route;
+\item prove the exact E12 floor and its compatibility with packet envelopes, margins,
+updates, and block selection;
+\item prove critical predictor-map differentiability, global residual
+representation, packet-level null-graph rigidity, carrier localization, and the
+quantitative closure alternative in the concrete Navier-Stokes topology.
+\end{enumerate}
+
+The useful conclusion of the note is therefore a dependency graph with firewalls.
+Presentation theory supplies the language of predictors, observables, fibres, costs,
+owners, and transfer; Oseen estimates supply the perturbative transport; Hilbert
+packing supplies a square-summability mechanism for genuinely new normal defects;
+and null geometry isolates the branches where the quadratic term can be invisible.
+The next analytic task is to prove that these formal branches exhaust the localized
+PDE behaviour at critical scale, with all packet and component source channels
+closed before the final global cost statement is invoked.
+
+\appendix
+
+\section{Detailed Audit Ledger: Current Source Contracts}
+
+This appendix records the current fine-grained proof audit. The entries are not a
+separate proof of the missing Navier-Stokes PDE source estimates. They are the
+source contracts, owner decompositions, and anti-circularity firewalls that the final
+proof must respect. The purpose is to keep the article synchronized with the present
+state of the proof architecture.
+
+\subsection{L153. S1 quotient packet source contract}
+
+S1 is fixed to the quotient/certified packet route. For every innovative scale,
+\[
+e_k=\frac{d_k-P_{V_{k-1}}d_k}{\|d_k-P_{V_{k-1}}d_k\|},
+\qquad
+m_k=A_k^*e_k,
+\]
+and in the fixed packet frame
+\[
+m_k=\sum_{\lambda}a_{k,\lambda}\psi_\lambda+\tau_k.
+\]
+The row is split as
+\[
+a_k=a_k^{\mathrm{old}}+a_k^{\mathrm{cert}}+a_k^{\mathrm{new}}
+     +a_k^{\mathrm{tail}}+a_k^{\mathrm{esc}}.
+\]
+Only \(a_k^{\mathrm{new}}\) belongs to S1. The S1 source theorem must prove
+\[
+\sum_k\|a_k^{\mathrm{new}}\|_{\ell^2}^2
+\le
+C_{\mathrm{S1}}(\mathrm{Envelope},\mathrm{Atlas},\mathrm{Frame})
++C_{\mathrm{S1}}\sum_k\operatorname{ErrPktCompat}_k
++C_{\mathrm{S1}}\sum_k\operatorname{EscPkt}_k,
+\]
+equivalently boundedness of
+\[
+T_{\mathrm{new}}c=(\langle c,a_k^{\mathrm{new}}\rangle)_k.
+\]
+It must also compose with the quotient representation inequality for
+\(\operatorname{Innov}_k\). Certified-old, Hilbert-old-uncertified, recurrent, tail,
+and escape packet pieces are not counted by S1; they are routed to S4, S5, S6,
+S11, S12, \(\mathrm{VarEff}\), escape, or gate.
+
+Remaining burden: prove the actual quotient packet Bessel/Carleson or direct row
+operator bound; prove the representation inequality for actual Navier-Stokes
+defects; prove packet-frame stability under pressure, Leray, cutoff, gauge, carrier,
+force, and chart transitions; prove recurrent physical-lift/certification
+alternatives without using S1; prove finite-atlas and finite-variation entry; and
+integrate with S4, E12, and final \(\mathrm{GQ1}\).
+
+\subsection{L154. S1 quotient representation inequality}
+
+For a legal S1 scale,
+\[
+\operatorname{Innov}_k=|\langle d_k,e_k\rangle_{H_{\mathrm{def}}}|^2.
+\]
+The packet pairing identity must give
+\[
+\langle d_k,e_k\rangle_{H_{\mathrm{def}}}
+=\langle b_k,a_k\rangle_{\ell^2}
++\rho_{\mathrm{frame},k}
++\rho_{\mathrm{reg},k}
++\rho_{\mathrm{native},k},
+\]
+where \(b_k\) is the registered defect coefficient vector and \(a_k\) is the fixed
+packet row of \(A_k^*e_k\). With the owner split of \(a_k\), all old, certified,
+tail, and escape pairings are zero in the fixed owner state or charged to owned
+repaired errors and escapes. If
+\[
+\|b_k\|_{\ell^2}\le M_{\mathrm{pkt}},
+\]
+then Cauchy-Schwarz and Young give
+\[
+\operatorname{Innov}_k
+\le
+C_{\mathrm{S1,repr}}\|a_k^{\mathrm{new}}\|_{\ell^2}^2
++C_{\mathrm{S1,repr}}\operatorname{ErrS1repr}_k.
+\]
+This closes the formal algebra behind the representation inequality, but not the
+PDE facts that make the pairing identity and envelope true.
+
+Remaining burden: prove the packet pairing identity for actual registered
+Navier-Stokes defects; prove the packet envelope or legal escape/update/gate; prove
+the S1 row Bessel/Carleson theorem; prove all representation errors independently
+of S1 and final \(\mathrm{GQ1}\).
+
+\subsection{L155. S1 packet pairing and envelope contract}
+
+Inside a fixed packet epoch, the packet analysis map is
+\[
+\operatorname{An}_E:H_{\mathrm{def}}\to\ell^2(\mathrm{Frame}_E),
+\qquad
+b_k=\operatorname{An}_E(d_k),
+\]
+and the synthesis map satisfies
+\[
+m_k=A_k^*e_k=\operatorname{Syn}_E(a_k)+\tau_k.
+\]
+The pairing identity is legal only through the fixed analysis/synthesis maps,
+canonical registration, and owned frame/native errors:
+\[
+\langle d_k,e_k\rangle_{H_{\mathrm{def}}}
+=\langle \operatorname{An}_E(d_k),a_k\rangle_{\ell^2}
++\rho_{\mathrm{frame},k}
++\rho_{\mathrm{reg},k}
++\rho_{\mathrm{native},k}.
+\]
+The coefficient envelope is the explicit observable
+\[
+\operatorname{PktEnv}_k
+=\|\operatorname{An}_E(d_k)\|_{\ell^2(\mathrm{Frame}_E)}^2.
+\]
+S1 may use the representation inequality only when
+\(\operatorname{PktEnv}_k\le M_{\mathrm{pkt}}^2\), or when envelope failure is
+charged as explicit repaired envelope error, finite update, named packet/native/
+carrier escape, chart escape, or gate.
+
+Forbidden moves: choosing \(b_k\) after the fact; deriving the envelope from finite
+energy at critical normalization; changing registration, frame, dual frame, or
+observation map after \(e_k\); hiding pressure, force, cutoff, carrier, localization,
+memory, gauge, or normal-defect mismatch in a packet Bessel term.
+
+Remaining burden: construct actual Navier-Stokes packet charts supplying
+\(\operatorname{An}_E\), \(\operatorname{Syn}_E\), and canonical registration; prove
+envelope outcomes; prove frame residual and native mismatch source outcomes; prove
+finite-atlas stabilization and S1 row Bessel/Carleson.
+
+\subsection{L156. S1 row Bessel source criterion}
+
+On a fixed or merged S1 tail atlas, the certified-new row family
+\[
+\mathcal A_{\mathrm{new}}=\{a_k^{\mathrm{new}}:\operatorname{Innov}_k>0\}
+\]
+must satisfy at least one genuine row source criterion:
+\begin{enumerate}[label=(\roman*)]
+\item finite-overlap source;
+\item Schur or Gram source;
+\item Carleson packet source;
+\item direct row-operator source.
+\end{enumerate}
+Equivalently, \(T_{\mathrm{new}}\) is bounded on the fixed packet coefficient space.
+The proof may not infer this from Hilbert Gram-Schmidt orthogonality of \(e_k\) in
+\(H_{\mathrm{def}}\). If no allowed row source criterion holds, the legal outcomes
+are packet/frame/carrier escape, finite-atlas or finite-variation failure, certified
+update or recurrent lift, packet-envelope escape/update, gate, or an explicitly open
+S1 PDE theorem.
+
+Remaining burden: prove one allowed criterion for actual Navier-Stokes
+certified-new rows; prove fixed packet frame, carrier sector, dictionary, and
+envelope stabilization; remove recurrent/Hilbert-old rows through S5/S12 without
+using S1; prove independent source outcomes for surrounding errors.
+
+\subsection{L157. S1 surrounding-error independence firewall}
+
+An error term near the S1 row theorem is admissible only if it has a primary owner in
+S2-S12, \(\mathrm{VarEff}\), GQ3, or a named escape; its definition excludes
+\(\|a_k^{\mathrm{new}}\|^2\), the unknown \(T_{\mathrm{new}}\) norm, and final
+\(\mathrm{GQ1}\); and its source theorem does not use the S1 row estimate.
+
+\(\operatorname{ErrPktCompat}_k\) is legal only as packet compatibility with
+\(\operatorname{NewRowSize}_k=\|a_k^{\mathrm{new}}\|^2\) removed. It may contain
+frame, row-tail, sector, dictionary, owner-split, certified-old, envelope, and
+margin errors owned by non-S1 channels. It may not contain certified-new row mass,
+recurrent packet mass before the recurrent alternatives are assigned, or a packet
+chart change chosen after \(e_k\).
+
+\(\operatorname{ErrS1repr}_k\) is split into frame pairing, registration pairing,
+native pairing, old-pair, certified-pair, and tail-pair owners. \(\operatorname{EscPkt}_k\)
+is legal only for named packet-chart failures: unavailable frame, carrier-window
+exit, dictionary transport failure, envelope exit, owner-split failure, recurrent
+state failure, margin/floor degeneration, or finite-atlas/variation failure.
+
+Consequently the S1 row theorem plus the representation inequality is non-circular
+only after these surrounding terms have source outcomes independent of S1.
+
+\subsection{L158. S4 packet compatibility source contract}
+
+S4 is the source channel for the S1-independent packet compatibility error
+\[
+\operatorname{ErrPktCompat}_k^{\mathrm{ind}}.
+\]
+On a fixed or merged packet epoch,
+\[
+\begin{aligned}
+\operatorname{ErrPktCompat}_k^{\mathrm{ind}}
+=&\operatorname{FrameCompat}_k+\operatorname{RowTailCompat}_k
+  +\operatorname{SectorCompat}_k+\operatorname{DictCompat}_k\\
+&+\operatorname{OwnerSplitCompat}_k+\operatorname{CertOldCompat}_k\\
+&+\operatorname{EnvCompat}_k+\operatorname{MarginPktCompat}_k.
+\end{aligned}
+\]
+The owner matrix routes frame and row-tail to S4/S2/S3, sector to S9/carrier,
+dictionary to S6-S9/S3/S2, owner split and certified-old to S5/S11/S12, envelope to
+the packet-envelope owner, and margin/floor to S11/E10-E12/S12. The source target is
+\[
+\sum_{k\in B}\operatorname{ErrPktCompat}_k^{\mathrm{ind}}
+\le C_{\mathrm{S4}}R_{\mathrm{S4}}(B),
+\]
+with all repaired-cost weights fixed before E12.
+
+Excluded from S4: \(\operatorname{NewRowSize}\), the unknown \(T_{\mathrm{new}}\)
+norm, recurrent-new mass before the recurrent alternatives, post-innovation chart
+choices, S1 row Bessel, final \(\mathrm{GQ1}\), and final absence of bad blocks.
+
+\subsection{L159. S4 frame compatibility owner}
+
+In a fixed packet chart with frame \(\mathrm{Frame}_E\), maps
+\(\operatorname{An}_E,\operatorname{Syn}_E\), dual frame, and bounds \(A_E,B_E\),
+standard frame stability gives
+\[
+\operatorname{FrameCompat}_k^{\mathrm{fix}}
+\le C_{\mathrm{fr}}(\operatorname{FrameErr}_k+\operatorname{RowTail}_k).
+\]
+For accepted frame transitions, `BuildTrans=OK' and router S2/S4 must first route
+packet-frame and registration pieces, giving
+\[
+\operatorname{FrameCompat}_k^{\mathrm{trans}}
+\le C_{\mathrm{fr}}^{\mathrm{trans}}
+(\operatorname{PktFrameTrans}_k+\operatorname{RegFrameTrans}_k+\operatorname{RowTail}_k).
+\]
+Any term proportional to \(\delta_k\|a_k^{\mathrm{new}}\|^2\), or depending on
+\(T_{\mathrm{new}}\), is not an S4 frame error. It must be absorbed by a fixed or
+merged frame before S1, handled by finite variation or finite update, routed to
+escape/gate, or left open.
+
+The block target is
+\[
+\sum_{k\in B}\operatorname{FrameCompat}_k
+\le C_{\mathrm{S4,frame}}R_{\mathrm{frame}}(B).
+\]
+
+\subsection{L160. S4 row-tail/native owner}
+
+In
+\[
+m_k=A_k^*e_k=\operatorname{Syn}_E(a_k)+\tau_k,
+\]
+the residual \(\tau_k\) has exactly four legal outcomes: exact zero, predeclared
+coefficient tail, registered native/transport tail, or escape/gate. If a discarded
+component is admissible in the fixed packet chart and is not old, certified, tail,
+or escape by the owner map, it belongs to \(a_k^{\mathrm{new}}\), not to \(\tau_k\).
+
+The owner size is
+\[
+\operatorname{RowTailOwner}_k
+=\operatorname{RowTailCoeff}_k+\operatorname{RowTailNative}_k
++\operatorname{RowTailTransport}_k+\operatorname{RowTailReg}_k.
+\]
+The source targets are
+\[
+\sum_{k\in B}\operatorname{RowTailCompat}_k
+\le C_{\mathrm{S4,tail}}\sum_{k\in B}\operatorname{RowTailOwner}_k,
+\]
+and, when the packet envelope is legal,
+\[
+\sum_{k\in B}\operatorname{RowTailPair}_k
+\le C_{\mathrm{pair,tail}}\sum_{k\in B}\operatorname{RowTailOwner}_k.
+\]
+Native pressure, force, cutoff/localization, carrier, chart, normal, memory, and
+certificate tails retain their native owners.
+
+\subsection{L161. S4 sector/carrier owner}
+
+Carrier depth, enlargement width, threshold, recentering list, and sector labels are
+chart data fixed before \(e_k\). Sector mismatch has exactly one legal outcome:
+inside fixed sector, predeclared carrier tail, accepted carrier transport, or
+carrier/packet/chart escape or gate. In-sector certified-new mass cannot be hidden
+in sector compatibility.
+
+The sector owner is
+\[
+\operatorname{SectorOwner}_k
+=\operatorname{CarPkt}_k+\operatorname{CarTail}_k+\operatorname{CarTrans}_k
++\operatorname{CarPress}_k+\operatorname{CarLoc}_k+\operatorname{CarTheta}_k,
+\]
+and
+\[
+\sum_{k\in B}\operatorname{SectorCompat}_k
+\le C_{\mathrm{S4,sector}}\sum_{k\in B}\operatorname{SectorOwner}_k.
+\]
+This is an S9/carrier theorem, not a proof of S1 row Bessel or carrier summability.
+
+\subsection{L162. S4 dictionary/component owner}
+
+Packet dictionary labels are not free coordinates. They are a finite product of
+component charts owned by S2, S3, S6, S7, S8, S9, S11, and S12. The dictionary owner
+is
+\[
+\begin{aligned}
+\operatorname{DictOwner}_k
+=&\operatorname{ForceDict}_k+\operatorname{GaugeDict}_k
+  +\operatorname{CutLocDict}_k+\operatorname{CarrierDict}_k\\
+&+\operatorname{RegNativeDict}_k+\operatorname{MarginDict}_k.
+\end{aligned}
+\]
+Fixed dictionaries have zero dictionary loss. Accepted component-owned mismatch
+satisfies
+\[
+\sum_{k\in B}\operatorname{DictCompat}_k
+\le C_{\mathrm{S4,dict}}\sum_{k\in B}\operatorname{DictOwner}_k.
+\]
+Certified-new in-dictionary mass remains \(a_k^{\mathrm{new}}\). Nonconstant
+pressure/gauge transfers, cutoff changes, carrier changes, and registration/native
+changes keep their primary component owners. Dictionary drift cannot replace the
+finite-atlas/variation route.
+
+\subsection{L163. S4 owner-split state theorem}
+
+The split
+\[
+a_k=a_k^{\mathrm{old}}+a_k^{\mathrm{cert}}+a_k^{\mathrm{new}}
+     +a_k^{\mathrm{tail}}+a_k^{\mathrm{esc}}
+\]
+is a deterministic verdict of the fixed E6-E12 effective state, packet state,
+recurrent alternatives, and S1 firewall. Every coefficient has exactly one verdict.
+In a fixed owner state, \(\operatorname{OwnerSplitCompat}_k^{\mathrm{fix}}=0\).
+For accepted owner perturbations,
+\[
+\sum_{k\in B}\operatorname{OwnerSplitCompat}_k
+\le C_{\mathrm{S4,owner}}\sum_{k\in B}\operatorname{OwnerSplitLedger}_k,
+\]
+where
+\[
+\begin{aligned}
+\operatorname{OwnerSplitLedger}_k
+=&\operatorname{MemOwner}_k+\operatorname{AtomIdOwner}_k
+  +\operatorname{RankCoeffOwner}_k+\operatorname{ForceOwner}_k\\
+&+\operatorname{MarginOwner}_k+\operatorname{FloorOwner}_k
+  +\operatorname{RecurrentOwner}_k+\operatorname{TailOwner}_k.
+\end{aligned}
+\]
+Certified-new mass remains in \(a_k^{\mathrm{new}}\). Hilbert-old but uncertified
+components go to S5, S12, update, escape, or gate. Recurrent components must pass
+through the recurrent alternatives before S1.
+
+\subsection{L164. S4 certified-old physical subtraction}
+
+A certified-old verdict is not physical subtraction. To remove a component from S1,
+the proof must exhibit a certified predictor
+\[
+G_A(c_k)=G_{\mathrm{base}}+\sum_i c_{k,i}G_i
+\]
+with identity-preserving atom match, canonical coefficients, rank and margin control,
+component conventions for force, gauge, cutoff, carrier, and native norms, and
+nonlinear defect recomputation
+\[
+\begin{aligned}
+\operatorname{Def}_{NS}(G_A(c_k))
+=&\partial_tg_A-\Delta g_A\\
+&+\operatorname{div}(g_A\otimes g_A)+\nabla\pi_A.
+\end{aligned}
+\]
+The certified-old ledger is
+\[
+\begin{aligned}
+\operatorname{CertOldLedger}_k
+=&\operatorname{CertAtomId}_k+\operatorname{CertCoeffRank}_k
+  +\operatorname{CertDefUse}_k+\operatorname{CertForceUse}_k\\
+&+\operatorname{CertGaugePair}_k+\operatorname{CertCutLoc}_k
+  +\operatorname{CertCarrier}_k\\
+&+\operatorname{CertNativeTail}_k+\operatorname{CertMarginFloor}_k.
+\end{aligned}
+\]
+Legal certified-old epochs satisfy
+\[
+\sum_{k\in B}\operatorname{CertOldCompat}_k
+\le C_{\mathrm{S4,cert}}\sum_{k\in B}\operatorname{CertOldLedger}_k.
+\]
+Hilbert-old is not certified-old subtraction; forced-use cost is paid per use; and
+nonconstant pressure/gauge transfers use their registered pressure-force owner.
+
+\subsection{L165. S4 packet-envelope owner}
+
+The packet coefficient envelope
+\[
+\operatorname{PktEnv}_k
+=\|\operatorname{An}_E(d_k)\|_{\ell^2(\mathrm{Frame}_E)}^2
+\]
+has exactly four legal outcomes:
+\begin{enumerate}[label=(\roman*)]
+\item bounded chart \(\operatorname{PktEnv}_k\le M_{\mathrm{pkt}}^2\);
+\item explicit repaired error \(\operatorname{ErrPktEnv}_k=\operatorname{PktEnv}_k\)
+with pre-E12 weight;
+\item finite envelope update;
+\item envelope escape or gate.
+\end{enumerate}
+The envelope owner is
+\[
+\operatorname{EnvOwner}_k
+=\operatorname{EnvFrame}_k+\operatorname{EnvNative}_k+\operatorname{EnvCarrier}_k
++\operatorname{EnvMargin}_k+\operatorname{EnvUpdate}_k,
+\]
+and legal envelope excess satisfies
+\[
+\sum_{k\in B}\operatorname{EnvCompat}_k
+\le C_{\mathrm{S4,env}}\sum_{k\in B}\operatorname{EnvOwner}_k.
+\]
+\(M_{\mathrm{pkt}}\) is chart data fixed before \(e_k\), S1, and E12. Envelope
+failure cannot hide certified-new row mass, and \(\operatorname{ErrS1repr}\) may
+use the envelope only after this owner theorem supplies a legal outcome.
+
+\subsection{L166. S4 margin and floor owner}
+
+The margin owner is
+\[
+\begin{aligned}
+\operatorname{MarginOwner}_k
+={}&\operatorname{ShrinkOwner}_k+\operatorname{GraphMarginOwner}_k\\
+&+\operatorname{CertMarginOwner}_k+\operatorname{PacketEnvMarginOwner}_k\\
+&+\operatorname{FloorOwner}_k+\operatorname{BoundaryOwner}_k.
+\end{aligned}
+\]
+\(\operatorname{MarginPktCompat}\) has exactly four legal outcomes: fixed positive
+margin, registered margin comparison, finite update/floor recompute, or escape/gate.
+In a fixed positive chart, \(\operatorname{MarginPktCompat}_k^{\mathrm{fix}}=0\).
+For accepted margin comparisons,
+\[
+\sum_{k\in B}\operatorname{MarginPktCompat}_k
+\le C_{\mathrm{S4,margin}}\sum_{k\in B}\operatorname{MarginOwner}_k.
+\]
+Shrink stacks, graph/certificate thresholds, packet-envelope thresholds, floor
+sources, block lengths, and boundary data are fixed before S1/S4 use. If any change,
+the old epoch ends unless an explicit transport theorem preserves it with registered
+loss.
+
+\subsection{L167. S4 owner aggregation firewall}
+
+The aggregate
+\[
+R_{\mathrm{S4}}(B)=\sum_{k\in B}
+(R_{\mathrm{frame},k}+R_{\mathrm{tail},k}+R_{\mathrm{sector},k}
++R_{\mathrm{dict},k}+R_{\mathrm{owner},k}+R_{\mathrm{cert},k}
++R_{\mathrm{env},k}+R_{\mathrm{margin},k})
+\]
+is only shorthand for eight owner ledgers. It is not an independent source theorem.
+On finite legal blocks, the eight local inequalities add to
+\[
+\sum_{k\in B}\operatorname{ErrPktCompat}_k^{\mathrm{ind}}
+\le C_{\mathrm{S4}}R_{\mathrm{S4}}(B).
+\]
+On an infinite no-gate no-escape tail, S4 summability follows only if all eight owner
+families have summable source outcomes after finitely many certified updates/merges.
+If any owner exits by escape or gate, the route exits. If any owner remains an open
+PDE theorem, S4 remains conditional and cannot be used as a closed input to S1 or
+E12.
+
+\subsection{L168. S1 representation and packet escape source contract}
+
+The independent representation error is
+\[
+\begin{aligned}
+\operatorname{ErrS1repr}_k^{\mathrm{ind}}
+=&\operatorname{ErrPairFrame}_k+\operatorname{ErrPairReg}_k
+  +\operatorname{ErrPairNative}_k\\
+&+\operatorname{ErrOldPair}_k+\operatorname{ErrCertPair}_k
+  +\operatorname{ErrTailPair}_k+\operatorname{ErrPairEnv}_k.
+\end{aligned}
+\]
+The packet escape split is
+\[
+\begin{aligned}
+\operatorname{EscPkt}_k
+=&\operatorname{EscFrame}_k+\operatorname{EscCarrier}_k+\operatorname{EscDict}_k
+  +\operatorname{EscEnvelope}_k\\
+&+\operatorname{EscOwnerSplit}_k+\operatorname{EscRecurrent}_k
+  +\operatorname{EscMarginFloor}_k+\operatorname{EscAtlasVar}_k.
+\end{aligned}
+\]
+Representation owners must be supplied independently of S1 by S2-S12, S4, S5, and
+packet-envelope owners. Packet escape is legal on the S1 right-hand side only when it
+is registered as a summable repaired escape with pre-E12 weight. A non-summable
+named escape exits the no-escape branch; it is not a finite S1 error.
+
+The combined S1 surrounding source is
+\[
+R_{\mathrm{sur}}=R_{\mathrm{S4}}+R_{\mathrm{repr}}+R_{\mathrm{esc}},
+\]
+where \(R_{\mathrm{S4}}\) is legal only through L167, \(R_{\mathrm{repr}}\) through
+this contract, and \(R_{\mathrm{esc}}\) only for registered summable packet escapes.
+
+\subsection{L169. S1 \(\operatorname{ErrPairFrame}\) owner}
+
+The first representation-error owner is
+\[
+\operatorname{ErrPairFrame}_k=|\rho_{\mathrm{frame},k}|^2.
+\]
+It is the fixed-frame pairing discrepancy after registration and native
+discrepancies have been removed. It is generated only by fixed analysis/synthesis
+duality defects, dual-frame comparison, row residual \(\tau_k\), accepted
+packet-frame transport, or accepted registration/frame pullback comparison.
+
+On a bounded-envelope frame epoch,
+\[
+\sum_{k\in B}\operatorname{ErrPairFrame}_k
+\le C_{\mathrm{S1,pair,frame}}R_{\mathrm{pair,frame}}(B),
+\]
+Here \(R_{\mathrm{pair,frame}}\) is the \(M_{\mathrm{pkt}}^2\)-weighted sum of the
+frame-error, row-tail, packet-frame transport, registration-frame transport, and
+finite frame-update costs. The estimate is legal only after the packet-envelope
+owner has supplied bounded chart, repaired envelope, finite update, escape, gate, or
+open-PDE outcome.
+
+This owner forbids proving frame pairing by S1 row Bessel, final \(\mathrm{GQ1}\),
+the unknown \(T_{\mathrm{new}}\) norm, or by selecting the frame after \(e_k\) is
+known. Missing envelope or moving frame exits through update, envelope owner, frame
+escape, gate, or open theorem.
+
+\subsection{Current unresolved proof obligations}
+
+The detailed ledger above leaves the following genuinely analytic tasks:
+\begin{enumerate}[label=(\roman*)]
+\item prove source outcomes for the frame, tail, transport, carrier, dictionary,
+owner-split, certified-old, envelope, margin, and floor ledgers appearing in S4;
+\item prove the six remaining \(\operatorname{ErrS1repr}\) owners:
+registration, native, old-pair, certified-pair, tail-pair, and envelope-pair;
+\item prove all eight \(\operatorname{EscPkt}\) components have registered summable,
+finite-update, named-exit, gate, or eliminated open-PDE outcomes;
+\item prove actual packet pairing identity and envelope outcomes for Navier-Stokes
+defects;
+\item prove true S1 row Bessel/Carleson or direct row-operator boundedness;
+\item prove recurrent and Hilbert-old alternatives without using S1;
+\item prove finite-atlas and finite-variation closure through S12/GQ3/
+\(\mathrm{VarEff}\);
+\item prove E12 exact floor positivity and compatibility with envelopes, margins,
+updates, and block selection;
+\item close predictor differentiability, global residual representation,
+packet-level null-graph rigidity, carrier localization, and the quantitative closure
+alternative in the concrete Navier-Stokes topology;
+\item assemble final \(\mathrm{GQ1}\) without using any source theorem after it has
+already been consumed.
+\end{enumerate}
 
 \begin{thebibliography}{99}
 
