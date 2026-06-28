@@ -1,0 +1,853 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.06in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\DeclareMathOperator{\DNF}{DNF}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\NF}{NF}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\Rat}{Rat}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\adj}{adj}
+
+\title{No Free Degenerations: Presentation Cost, Heights, and the Arithmetic Price of Normal Forms}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note develops a height-theoretic accounting principle for algebraic normal forms. A normal form becomes an explanation only after one specifies the gauge transformation, or the degenerating gauge path, that connects it to the object being explained. For a bihomogeneous normal-form map \(a:G\times N\dashrightarrow X\), represented in projective coordinates with bidegree \((\delta_G,\delta_N)\), the standard functoriality of heights gives
+\[
+h_X(a(g,n))\leq \delta_G h_G(g)+\delta_N h_N(n)+O(1).
+\]
+Thus a high-height object cannot be obtained from both a low-height normal form and a low-height gauge.
+
+The main result is the corresponding orbit-closure estimate. If
+\[
+x=\lim_{t\to0}a(\gamma(t),n)
+\]
+for a homogeneous algebraic path \(\gamma:\mathbb P^1\to \overline G\) of degree \(D\) and coefficient height \(h(\gamma)\), then
+\[
+h_X(x)\leq \delta_G h(\gamma)+\delta_N h_N(n)+C\log(D+2)+C.
+\]
+The logarithmic degree term records the coefficient growth created by substituting the path into the fixed coordinate forms. Consequently, border or orbit-closure normal forms carry arithmetic cost through the degenerating family.
+
+The same estimates give a representative-moduli gap theorem: when a moduli class has a height-controlled representative, the excess height of a concrete representative over the moduli height is paid by the gauge or by the degeneration. Examples include diagonalization, projective normal forms, binary forms, rational maps on \(\mathbb P^1\), and tensor degenerations.
+\end{abstract}
+
+\section{Introduction}
+
+Normal forms are among the basic tools of mathematical classification. A matrix is diagonalized, a form is simplified by a projective change of variables, a rational map is conjugated to a preferred representative, a tensor is compared with a low-rank model, and an orbit-closure problem replaces equality by degeneration.
+
+In each case there are three pieces of data:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item the object \(x\) being explained;
+\item the normal form \(n\);
+\item the gauge \(g\), or degenerating gauge path \(\gamma\), that connects \(n\) to \(x\).
+\end{enumerate}
+
+The arithmetic size of \(x\) cannot be read from \(n\) alone. It also depends on the coordinate change or limiting family used to obtain \(x\). This note makes that accounting precise with Weil heights.
+
+The orbit-level estimate is a direct consequence of the standard height inequality for multihomogeneous maps. If
+\[
+x=a(g,n)
+\]
+and the coordinate expression for \(a\) has bidegree \((\delta_G,\delta_N)\), then
+\[
+h_X(x)\leq \delta_G h_G(g)+\delta_N h_N(n)+O(1).
+\]
+The contrapositive is the useful reading: if \(x\) has large height and \(n\) has small height, the gauge must have large height.
+
+The orbit-closure version is the main object of the note. Suppose that \(x\) is reached as a limit
+\[
+x=\lim_{t\to0}a(\gamma(t),n),
+\]
+where \(\gamma:\mathbb P^1\to \overline G\) is a homogeneous algebraic path into a projective compactification of the gauge space. Substituting \(\gamma\) into the fixed coordinate forms of \(a\) gives a polynomial path in \(X\). The limit is obtained from the first nonzero coefficient vector after removing the common vanishing order. This coefficient vector has height controlled by the coefficient height and degree of \(\gamma\). The resulting estimate is
+\[
+h_X(x)\leq
+\delta_G h(\gamma)+\delta_N h_N(n)+C\log(\deg\gamma+2)+C.
+\]
+
+Thus degenerations are part of the presentation. In border rank, geometric invariant theory, arithmetic dynamics, and normal-form compilation, an orbit-closure explanation should account for the normal form and for the limiting path.
+
+\section{Height Preliminaries}
+
+We work over \(\overline{\mathbb Q}\). All heights are absolute logarithmic Weil heights induced by fixed projective embeddings. If
+\[
+P=[x_0:\cdots:x_N]\in\mathbb P^N(K),
+\]
+where \(K\) is a number field containing the coordinates of \(P\), then
+\[
+h(P)=
+\frac{1}{[K:\mathbb Q]}
+\sum_{v\in M_K}[K_v:\mathbb Q_v]\log\max_i|x_i|_v.
+\]
+This is independent of the chosen field \(K\) and of homogeneous coordinates.
+
+\begin{lemma}[Height under homogeneous maps]
+Let \(F=(F_0,\ldots,F_M)\) be a tuple of homogeneous forms of degree \(d\) in projective variables on \(\mathbb P^N\). Suppose that the forms do not vanish simultaneously at \(P\). Then
+\[
+h([F_0(P):\cdots:F_M(P)])
+\leq d\,h(P)+h(F)+C,
+\]
+where \(h(F)\) is the height of the coefficient vector and \(C\) depends only on the number of variables, the number of forms, and \(d\).
+\end{lemma}
+
+\begin{proof}
+This is the standard functorial height estimate for morphisms given by homogeneous forms. It follows by applying the product formula and bounding each local maximum of the evaluated forms by the coefficient maximum times a fixed combinatorial factor.
+\end{proof}
+
+\begin{lemma}[Height under multihomogeneous maps]
+Let \(F=(F_0,\ldots,F_M)\) be a tuple of multihomogeneous forms of multidegree \((d_1,\ldots,d_r)\) in \(r\) blocks of projective variables. Whenever the tuple is defined at \((P_1,\ldots,P_r)\),
+\[
+h(F(P_1,\ldots,P_r))
+\leq
+\sum_{i=1}^r d_i h(P_i)+h(F)+C.
+\]
+For a fixed multihomogeneous map, this becomes
+\[
+h(F(P_1,\ldots,P_r))
+\leq
+\sum_{i=1}^r d_i h(P_i)+O(1).
+\]
+\end{lemma}
+
+\begin{proof}
+Apply the preceding estimate to the Segre embedding of the product. The multidegree records the degree in each block, and the coefficient height of the fixed map is absorbed into the constant.
+\end{proof}
+
+\begin{definition}[Height of a path]
+Let
+\[
+\gamma:\mathbb P^1\to\mathbb P^r
+\]
+be represented by homogeneous forms
+\[
+\gamma=[\Gamma_0(S,T):\cdots:\Gamma_r(S,T)]
+\]
+of common degree \(D\), with no common factor. The coefficient height \(h(\gamma)\) is the height of the projective vector of all coefficients of all \(\Gamma_i\), and \(\deg\gamma=D\).
+\end{definition}
+
+The definition is presentation-relative. A different parametrization of the same image curve may have different height and degree. The estimates below charge the path as it is presented.
+
+\section{Heighted Normal-Form Presentations}
+
+\begin{definition}[Heighted normal-form presentation]
+A heighted normal-form presentation is a tuple
+\[
+\mathcal P=(G,N,X,a,h_G,h_N,h_X),
+\]
+where \(G,N,X\) are projective varieties over \(\overline{\mathbb Q}\), \(a:G\times N\dashrightarrow X\) is a rational map, and \(h_G,h_N,h_X\) are heights induced by fixed projective embeddings.
+\end{definition}
+
+The variety \(G\) is the gauge space, \(N\) is the normal-form space, and \(X\) is the object space. A representation of \(x\in X\) is a pair \((g,n)\) such that
+\[
+x=a(g,n).
+\]
+
+The rational map is always understood on a declared domain of definition. If the map is resolved or restricted to affine charts, those choices are part of the presentation.
+
+\begin{definition}[Normal-form cost]
+Assume that on the relevant domain the map \(a\) is represented by bihomogeneous coordinate forms of bidegree
+\[
+(\delta_G,\delta_N).
+\]
+For a representation \(x=a(g,n)\), define
+\[
+\NF_{\mathcal P}(x;g,n)
+=
+\delta_G h_G(g)+\delta_N h_N(n).
+\]
+The minimal normal-form cost is
+\[
+\NF_{\mathcal P}^{\ast}(x)
+=
+\inf_{a(g,n)=x}
+\left(\delta_G h_G(g)+\delta_N h_N(n)\right),
+\]
+with value \(+\infty\) if no such representation exists.
+\end{definition}
+
+\begin{definition}[Degenerating normal-form cost]
+Fix a projective compactification \(\overline G\) of \(G\). A degenerating representation of \(x\in X\) is a pair \((\gamma,n)\), where
+\[
+\gamma:\mathbb P^1\to\overline G
+\]
+is a homogeneous algebraic path and
+\[
+x=\lim_{t\to0}a(\gamma(t),n)
+\]
+exists in \(X\). For a constant \(\lambda\) determined by the presentation, set
+\[
+\DNF_{\mathcal P}(x;\gamma,n)
+=
+\delta_G h(\gamma)+\delta_N h_N(n)
++\lambda\log(\deg\gamma+2).
+\]
+\end{definition}
+
+\section{No Free Normal Forms}
+
+\begin{theorem}[No Free Normal Forms]
+Let
+\[
+a:G\times N\dashrightarrow X
+\]
+be represented on its domain of definition by bihomogeneous coordinate forms of bidegree \((\delta_G,\delta_N)\). Then there is a constant \(C_a\), depending only on the chosen presentation, such that for all \((g,n)\) in the domain,
+\[
+h_X(a(g,n))
+\leq
+\delta_G h_G(g)+\delta_N h_N(n)+C_a.
+\]
+Consequently, if \(x=a(g,n)\), then
+\[
+\delta_G h_G(g)
+\geq
+h_X(x)-\delta_N h_N(n)-C_a.
+\]
+\end{theorem}
+
+\begin{proof}
+Choose projective coordinates for \(G,N,X\). On the declared domain, write
+\[
+a(g,n)=[F_0(g,n):\cdots:F_M(g,n)],
+\]
+where the \(F_i\) are bihomogeneous of bidegree \((\delta_G,\delta_N)\) and do not vanish simultaneously. The multihomogeneous height estimate gives
+\[
+h_X(a(g,n))
+\leq
+\delta_G h_G(g)+\delta_N h_N(n)+h(F)+C.
+\]
+The map \(a\) is fixed, so \(h(F)+C\) is absorbed into \(C_a\). The second inequality follows by rearranging.
+\end{proof}
+
+\begin{corollary}[Low normal form forces high gauge]
+Assume \(x=a(g,n)\) and \(h_N(n)\leq B_N\). Then
+\[
+h_G(g)
+\geq
+\frac{h_X(x)-\delta_N B_N-C_a}{\delta_G}.
+\]
+In particular, a sequence \(x_i\) with \(h_X(x_i)\to\infty\) cannot be represented using both bounded-height normal forms and bounded-height gauges.
+\end{corollary}
+
+\begin{proof}
+Substitute the bound \(h_N(n)\leq B_N\) into the lower bound of Theorem 4.1.
+\end{proof}
+
+\begin{corollary}[Bounded gauges and bounded normal forms]
+If
+\[
+h_G(g)\leq B_G,
+\qquad
+h_N(n)\leq B_N,
+\]
+then
+\[
+h_X(a(g,n))
+\leq
+\delta_G B_G+\delta_N B_N+C_a.
+\]
+Over a fixed number field, and with degree bounded when working over \(\overline{\mathbb Q}\), Northcott's theorem gives finiteness of the produced objects.
+\end{corollary}
+
+\begin{proof}
+The height bound is Theorem 4.1. The finiteness statement is Northcott's theorem in its standard bounded-height and bounded-degree form.
+\end{proof}
+
+\section{No Free Degenerating Normal Forms}
+
+The orbit-closure version charges the path that produces the limit.
+
+\begin{lemma}[Coefficient height after path substitution]
+Let \(F(U,V)\) be a fixed bihomogeneous form of bidegree \((\delta_U,\delta_V)\), where \(U=(U_0,\ldots,U_r)\) and \(V=(V_0,\ldots,V_s)\). Let
+\[
+\Gamma_i(S,T)
+\]
+be homogeneous forms of common degree \(D\), and let \(v\in\mathbb P^s(\overline{\mathbb Q})\). Set
+\[
+Y(S,T)=F(\Gamma(S,T),v).
+\]
+Then \(Y\) is homogeneous of degree \(\delta_U D\) in \(S,T\), and
+\[
+h(Y)
+\leq
+\delta_U h(\Gamma)+\delta_V h(v)+C\log(D+2)+C,
+\]
+where \(C\) depends only on \(F,r,s,\delta_U,\delta_V\).
+\end{lemma}
+
+\begin{proof}
+Expand \(F\) as a finite sum of monomials. After substitution, each coefficient of \(Y\) is a sum of products involving \(\delta_U\) coefficients from the forms \(\Gamma_i\), \(\delta_V\) coordinates from \(v\), and one fixed coefficient of \(F\). For fixed \(F\), the number of summands contributing to any coefficient is bounded by a polynomial in \(D\). Taking logarithms contributes \(O(\log(D+2))\). The remaining terms give the stated height contribution.
+\end{proof}
+
+\begin{theorem}[No Free Degenerating Normal Forms]
+Let
+\[
+a:G\times N\dashrightarrow X
+\]
+be represented on its domain by bihomogeneous coordinate forms of bidegree \((\delta_G,\delta_N)\). Let
+\[
+\gamma:\mathbb P^1\to\overline G
+\]
+be a homogeneous algebraic path of degree \(D\) and coefficient height \(h(\gamma)\). Suppose \(n\in N(\overline{\mathbb Q})\) and the limit
+\[
+x=\lim_{t\to0}a(\gamma(t),n)
+\]
+exists in \(X\). Then there is a constant \(C_a\), depending only on the chosen presentation, such that
+\[
+h_X(x)
+\leq
+\delta_G h(\gamma)+\delta_N h_N(n)
++C_a\log(D+2)+C_a.
+\]
+Consequently,
+\[
+\delta_G h(\gamma)+C_a\log(D+2)
+\geq
+h_X(x)-\delta_N h_N(n)-C_a.
+\]
+\end{theorem}
+
+\begin{proof}
+Write
+\[
+\gamma=[\Gamma_0(S,T):\cdots:\Gamma_r(S,T)]
+\]
+with each \(\Gamma_i\) homogeneous of degree \(D\). Let
+\[
+a(g,n)=[F_0(g,n):\cdots:F_M(g,n)]
+\]
+on the relevant domain, where the \(F_j\) are bihomogeneous of bidegree \((\delta_G,\delta_N)\).
+
+For fixed \(n\), define
+\[
+Y_j(S,T)=F_j(\gamma(S,T),n).
+\]
+By Lemma 5.1, the coefficient vector of the tuple
+\[
+Y=(Y_0,\ldots,Y_M)
+\]
+satisfies
+\[
+h(Y)
+\leq
+\delta_G h(\gamma)+\delta_N h_N(n)+C\log(D+2)+C.
+\]
+
+Use an affine coordinate \(t\) near \(0\in\mathbb P^1\). Let \(r\) be the minimal order of vanishing at \(t=0\) among the nonzero functions \(Y_j(t)\). After factoring \(t^r\), write
+\[
+Y_j(t)=t^r Z_j(t).
+\]
+The limiting point is
+\[
+x=[Z_0(0):\cdots:Z_M(0)].
+\]
+The coordinates \(Z_j(0)\) are coefficients of the polynomials \(Y_j\), so the height of this coefficient subvector is bounded by \(h(Y)+O(1)\). Combining this with the preceding coefficient estimate gives
+\[
+h_X(x)
+\leq
+\delta_G h(\gamma)+\delta_N h_N(n)+C_a\log(D+2)+C_a.
+\]
+Rearranging gives the lower bound.
+\end{proof}
+
+\begin{corollary}[Low normal form forces high degeneration]
+Suppose
+\[
+x=\lim_{t\to0}a(\gamma(t),n),
+\qquad
+h_N(n)\leq B_N,
+\qquad
+\deg\gamma\leq D.
+\]
+Then
+\[
+h(\gamma)
+\geq
+\frac{h_X(x)-\delta_N B_N-C_a\log(D+2)-C_a}{\delta_G}.
+\]
+\end{corollary}
+
+\begin{proof}
+Apply Theorem 5.2 and substitute the bounds on \(h_N(n)\) and \(\deg\gamma\).
+\end{proof}
+
+\begin{remark}[Rational paths and indeterminacy]
+The clean statement uses homogeneous polynomial paths into a projective compactification. If a degeneration is given by rational functions, one first chooses homogeneous numerator-denominator data and charges that presentation. If the normal-form map has indeterminacy along the path, one either restricts to a domain where the composition is defined or resolves the map and includes the chosen resolution in the presentation. These choices affect only the constants and the declared path data.
+\end{remark}
+
+\section{Representative-Moduli Gap}
+
+Let
+\[
+q:X^{ss}\to\mathcal M
+\]
+be a quotient, moduli, or orbit-class map. A moduli point can have small height while a particular representative has large height. A height-controlled normal-form section makes this difference measurable.
+
+\begin{definition}[Height-controlled section]
+Let \(U\subseteq\mathcal M\) be a locus and let
+\[
+s:U\dashrightarrow X^{ss}
+\]
+be a rational section of \(q\). It is height-controlled if there are constants \(A_s,B_s\) such that
+\[
+h_X(s(m))\leq A_s h_{\mathcal M}(m)+B_s
+\]
+for all \(m\) in the declared domain.
+\end{definition}
+
+\begin{theorem}[Representative-Moduli Gap]
+Let \(a:G\times X\dashrightarrow X\) be the gauge action, represented on the relevant domain by bihomogeneous forms of bidegree \((\delta_G,\delta_X)\). Suppose \(x\in X^{ss}\), \(q(x)\in U\), and
+\[
+x=a(g,s(q(x))).
+\]
+Then
+\[
+h_X(x)
+\leq
+\delta_G h_G(g)
++\delta_X A_s h_{\mathcal M}(q(x))
++O(1).
+\]
+Consequently,
+\[
+h_G(g)
+\geq
+\frac{
+h_X(x)-\delta_X A_s h_{\mathcal M}(q(x))-O(1)
+}{\delta_G}.
+\]
+\end{theorem}
+
+\begin{proof}
+Apply Theorem 4.1 to
+\[
+x=a(g,s(q(x))).
+\]
+This gives
+\[
+h_X(x)
+\leq
+\delta_G h_G(g)+\delta_X h_X(s(q(x)))+O(1).
+\]
+The height-control hypothesis for \(s\) gives
+\[
+h_X(s(q(x)))\leq A_s h_{\mathcal M}(q(x))+B_s.
+\]
+Substitution and rearrangement prove the theorem.
+\end{proof}
+
+\begin{theorem}[Degenerating Representative-Moduli Gap]
+Under the same hypotheses, suppose
+\[
+x=\lim_{t\to0}a(\gamma(t),s(q(x))),
+\]
+where \(\gamma:\mathbb P^1\to\overline G\) is a homogeneous algebraic path of degree \(D\). Then
+\[
+h_X(x)
+\leq
+\delta_G h(\gamma)+C\log(D+2)
++C' h_{\mathcal M}(q(x))+C'.
+\]
+Equivalently,
+\[
+\delta_G h(\gamma)+C\log(D+2)
+\geq
+h_X(x)-C' h_{\mathcal M}(q(x))-C'.
+\]
+\end{theorem}
+
+\begin{proof}
+Apply Theorem 5.2 with normal form \(n=s(q(x))\), then use the height-control of \(s\).
+\end{proof}
+
+\begin{remark}
+The existence of a height-controlled section is a genuine hypothesis. In moduli problems it may hold only on a chart, on a stable locus, after choosing an atlas, or away from special strata. The theorem is local in exactly that sense.
+\end{remark}
+
+\section{Controlled Transfer of Heighted Presentations}
+
+Heighted presentations can be compared by maps that preserve normal-form structure and control heights.
+
+\begin{definition}[Controlled transfer]
+Let
+\[
+\mathcal P=(G_P,N_P,X_P,a_P,h_{G_P},h_{N_P},h_{X_P})
+\]
+and
+\[
+\mathcal Q=(G_Q,N_Q,X_Q,a_Q,h_{G_Q},h_{N_Q},h_{X_Q})
+\]
+be heighted normal-form presentations. A controlled transfer \(T:\mathcal P\to\mathcal Q\) consists of rational maps
+\[
+T_G:G_P\dashrightarrow G_Q,
+\qquad
+T_N:N_P\dashrightarrow N_Q,
+\qquad
+T_X:X_P\dashrightarrow X_Q,
+\]
+such that
+\[
+T_X(a_P(g,n))=a_Q(T_G(g),T_N(n))
+\]
+on the relevant domain, and such that
+\[
+h_{G_Q}(T_G(g))\leq A_G h_{G_P}(g)+B,
+\]
+\[
+h_{N_Q}(T_N(n))\leq A_N h_{N_P}(n)+B
+\]
+for constants \(A_G,A_N,B\).
+\end{definition}
+
+\begin{theorem}[Transfer of normal-form cost]
+Assume \(T:\mathcal P\to\mathcal Q\) is a controlled transfer and that the gauge and normal-form weights in both presentations are positive. Then there are constants \(A,B'\) such that
+\[
+\NF_{\mathcal Q}^{\ast}(T_X(x))
+\leq
+A\,\NF_{\mathcal P}^{\ast}(x)+B'
+\]
+for all \(x\) in the domain of the transfer.
+\end{theorem}
+
+\begin{proof}
+Choose a representation \(x=a_P(g,n)\). Then
+\[
+T_X(x)=a_Q(T_G(g),T_N(n)).
+\]
+Therefore
+\[
+\NF_{\mathcal Q}^{\ast}(T_X(x))
+\leq
+\delta_{G_Q}h_{G_Q}(T_G(g))
++\delta_{N_Q}h_{N_Q}(T_N(n)).
+\]
+Using height control,
+\[
+\NF_{\mathcal Q}^{\ast}(T_X(x))
+\leq
+\delta_{G_Q}A_Gh_{G_P}(g)
++\delta_{N_Q}A_Nh_{N_P}(n)
++(\delta_{G_Q}+\delta_{N_Q})B.
+\]
+Choose
+\[
+A=
+\max\left\{
+\frac{\delta_{G_Q}A_G}{\delta_{G_P}},
+\frac{\delta_{N_Q}A_N}{\delta_{N_P}}
+\right\}.
+\]
+Then
+\[
+\NF_{\mathcal Q}^{\ast}(T_X(x))
+\leq
+A\left(\delta_{G_P}h_{G_P}(g)+\delta_{N_P}h_{N_P}(n)\right)+B'.
+\]
+Taking the infimum over all representations of \(x\) gives the claim.
+\end{proof}
+
+\begin{corollary}[Pullback of lower bounds]
+If
+\[
+\NF_{\mathcal Q}^{\ast}(T_X(x))>L,
+\]
+then
+\[
+\NF_{\mathcal P}^{\ast}(x)>\frac{L-B'}{A}.
+\]
+\end{corollary}
+
+\begin{proof}
+This is the contrapositive of Theorem 7.2.
+\end{proof}
+
+\begin{remark}[Degenerating transfer]
+The same argument applies to \(\DNF^\ast\) when the transfer sends paths to paths and satisfies estimates of the form
+\[
+h(T_G\circ\gamma)
+\leq
+A_\gamma h(\gamma)+B_\gamma\log(\deg\gamma+2)+B,
+\]
+\[
+\deg(T_G\circ\gamma)\leq C_\gamma\deg\gamma.
+\]
+The constants compose by affine distortion.
+\end{remark}
+
+\section{Examples}
+
+\subsection{Diagonalization}
+
+Let
+\[
+A\in\Mat_n(\overline{\mathbb Q})
+\]
+be diagonalizable, and write
+\[
+A=PDP^{-1}
+\]
+with \(D\) diagonal. Use projective height on the vector of matrix entries.
+
+\begin{lemma}[Matrix multiplication and inversion]
+There is a constant \(C_n\) such that
+\[
+h(AB)\leq h(A)+h(B)+C_n
+\]
+whenever \(AB\neq 0\), and
+\[
+h(P^{-1})\leq (n-1)h(P)+C_n
+\]
+for all invertible \(P\).
+\end{lemma}
+
+\begin{proof}
+The entries of \(AB\) are bihomogeneous forms of bidegree \((1,1)\) in the entries of \(A\) and \(B\). This gives the first estimate. Projectively, \(P^{-1}\) is represented by \(\adj(P)\). Each entry of \(\adj(P)\) is a homogeneous form of degree \(n-1\) in the entries of \(P\), which gives the second estimate.
+\end{proof}
+
+\begin{proposition}[No free diagonalization]
+If \(A=PDP^{-1}\), then
+\[
+h(A)\leq n\,h(P)+h(D)+C_n.
+\]
+Consequently,
+\[
+h(P)\geq \frac{h(A)-h(D)-C_n}{n}.
+\]
+\end{proposition}
+
+\begin{proof}
+By the multiplication estimate,
+\[
+h(PDP^{-1})
+\leq h(P)+h(D)+h(P^{-1})+C_n.
+\]
+Using \(h(P^{-1})\leq(n-1)h(P)+C_n\) gives the result.
+\end{proof}
+
+The diagonal matrix is the normal form and the eigenbasis is the gauge. A low-height spectrum does not by itself imply a low-height matrix model.
+
+\subsection{Projective normal forms and binary forms}
+
+Let \(V\) be an \(m\)-dimensional vector space and set
+\[
+X=\mathbb P(\Sym^d V^\vee).
+\]
+The group \(\PGL(V)\) acts by change of variables. If
+\[
+F=g\cdot N,
+\]
+then the coefficients of \(F\) are polynomial expressions of degree \(d\) in the entries of \(g\) and degree \(1\) in the coefficients of \(N\). Hence
+\[
+h(F)\leq d\,h(g)+h(N)+O_{m,d}(1).
+\]
+In particular,
+\[
+h(g)\geq \frac{h(F)-h(N)-O_{m,d}(1)}{d}.
+\]
+
+For binary forms
+\[
+F(X,Y)=\sum_{i=0}^d a_iX^{d-i}Y^i,
+\]
+this says that a high-height form cannot be transformed into a low-height normal form by a low-height projective coordinate change. If
+\[
+F=\lim_{t\to0}\gamma(t)\cdot N,
+\]
+then Theorem 5.2 gives
+\[
+h(F)\leq d\,h(\gamma)+h(N)+C_d\log(\deg\gamma+2)+C_d.
+\]
+
+\subsection{Rational maps on \(\mathbb P^1\)}
+
+Let \(\Rat_d\) be the parameter space of degree-\(d\) rational maps
+\[
+\phi:\mathbb P^1\to\mathbb P^1,
+\]
+represented by pairs of homogeneous binary forms
+\[
+\phi=[F:G]
+\]
+with no common root. The group \(\PGL_2\) acts by conjugation:
+\[
+\phi^M=M^{-1}\circ\phi\circ M.
+\]
+For fixed \(d\), the coordinate expression for conjugation is polynomial in the entries of \(M\), the adjugate of \(M\), and the coefficients of \(\phi\). Hence there are constants \(C_d,c_d>0\) such that
+\[
+h_{\Rat_d}(M^{-1}\circ\psi\circ M)
+\leq
+C_d h_{\PGL_2}(M)+h_{\Rat_d}(\psi)+C_d.
+\]
+Thus
+\[
+h_{\PGL_2}(M)
+\geq
+c_d h_{\Rat_d}(\phi)
+-c_d h_{\Rat_d}(\psi)
+-C_d
+\]
+whenever \(\phi=M^{-1}\circ\psi\circ M\).
+
+Now let
+\[
+\mathcal M_d=\Rat_d /\!/\PGL_2
+\]
+be the moduli space. On a locus with a height-controlled section
+\[
+s:\mathcal M_d\dashrightarrow\Rat_d,
+\]
+the representative-moduli gap gives
+\[
+h_{\PGL_2}(M)
+\geq
+c_d h_{\Rat_d}(\phi)
+-C_d h_{\mathcal M_d}([\phi])
+-C_d
+\]
+when
+\[
+\phi=M^{-1}\circ s([\phi])\circ M.
+\]
+The difference between a concrete model and its moduli point is paid by the conjugating coordinate change.
+
+\subsection{Tensor degenerations}
+
+Let
+\[
+T\in A\otimes B\otimes C
+\]
+be a tensor over \(\overline{\mathbb Q}\), and let
+\[
+G=\GL(A)\times\GL(B)\times\GL(C)
+\]
+act by change of bases. For a fixed tensor format,
+\[
+h(g\cdot N)\leq C h(g)+h(N)+O(1).
+\]
+If
+\[
+T=\lim_{t\to0}g(t)\cdot N
+\]
+and \(g(t)=\gamma(t)\) has degree \(D\), Theorem 5.2 gives
+\[
+h(T)\leq C h(\gamma)+h(N)+C'\log(D+2)+C'.
+\]
+Thus a high-height tensor can have a low-height border normal form only when the degenerating family carries the corresponding arithmetic cost.
+
+\section{Presentation-Theoretic Reading}
+
+The paper can be summarized as a heighted normal-form module for presentation theory. A normal-form explanation of \(x\) has the components
+\[
+(n,g)
+\qquad\text{or}\qquad
+(n,\gamma),
+\]
+together with the declared coordinate systems and height functions. The cost is not assigned to \(n\) alone. It is distributed among:
+\[
+\begin{gathered}
+\text{normal form height},\qquad
+\text{gauge height},\\
+\text{degeneration height and degree},\qquad
+\text{residual choices}.
+\end{gathered}
+\]
+
+The orbit estimate and the orbit-closure estimate are conservation laws for this distribution. They also interact naturally with controlled transfer: if two presentation systems are connected by height-controlled maps, their normal-form costs are comparable up to affine distortion.
+
+This is the arithmetic analogue of a coding principle. In a finite setting, if an object \(x\) is specified by a presentation \(P\), a law \(d\), an observable \(o\), and an index inside a residual fibre \(R\), then
+\[
+K(x\mid t)
+\leq
+K(P)+|d|_P+|o|_P+\lceil\log |R|\rceil+O(\log L),
+\]
+where \(t=o(x)\). The heighted theory replaces description length by arithmetic height and replaces residual indexing by the cost of gauges and degenerating paths.
+
+\section{Hypotheses and Refinements}
+
+The estimates depend on the chosen projective embeddings. This is part of the presentation: a height is a cost function attached to coordinates. Changing coordinates or embeddings requires a controlled transfer theorem.
+
+For rational maps, the formulas hold on declared domains of definition. Near indeterminacy loci, one may resolve the rational map, work chartwise, or add local correction terms. The resulting presentation includes the chosen resolution and its height constants.
+
+For degenerations, homogeneous polynomial paths into a compactification give the cleanest statement. Rational-function paths should be homogenized and charged by numerator-denominator data. Cancellations are handled by taking the first nonzero coefficient vector after the common vanishing order has been removed.
+
+The inequalities are upper bounds that yield lower bounds by contraposition. Their constants are not optimized here. In special settings, sharper local heights, canonical heights, invariant heights, or stability-theoretic numerical functions may produce stronger estimates.
+
+\begin{thebibliography}{99}
+
+\bibitem{BombieriGubler}
+E. Bombieri and W. Gubler,
+\emph{Heights in Diophantine Geometry},
+Cambridge University Press, 2006.
+
+\bibitem{Burgisser}
+P. Bürgisser,
+\emph{Completeness and Reduction in Algebraic Complexity Theory},
+Springer, 2000.
+
+\bibitem{Grunwald}
+P. D. Grünwald,
+\emph{The Minimum Description Length Principle},
+MIT Press, 2007.
+
+\bibitem{Harris}
+J. Harris,
+\emph{Algebraic Geometry: A First Course},
+Springer, 1992.
+
+\bibitem{Kempf}
+G. Kempf,
+\emph{Instability in invariant theory},
+Annals of Mathematics 108 (1978), 299--316.
+
+\bibitem{LiVitanyi}
+M. Li and P. Vitányi,
+\emph{An Introduction to Kolmogorov Complexity and Its Applications},
+Springer.
+
+\bibitem{MumfordFogartyKirwan}
+D. Mumford, J. Fogarty, and F. Kirwan,
+\emph{Geometric Invariant Theory},
+Springer, 1994.
+
+\bibitem{MulmuleySohoni}
+K. Mulmuley and M. Sohoni,
+\emph{Geometric Complexity Theory I: An approach to the P vs NP and related problems},
+SIAM Journal on Computing 31 (2001), 496--526.
+
+\bibitem{SilvermanDynamics}
+J. H. Silverman,
+\emph{The Arithmetic of Dynamical Systems},
+Springer, 2007.
+
+\bibitem{SilvermanElliptic}
+J. H. Silverman,
+\emph{The Arithmetic of Elliptic Curves},
+Springer, 2009.
+
+\bibitem{VereshchaginVitanyi}
+N. Vereshchagin and P. Vitányi,
+\emph{Kolmogorov's structure functions and model selection},
+IEEE Transactions on Information Theory 50 (2004), 3265--3290.
+
+\end{thebibliography}
+
+\end{document}
