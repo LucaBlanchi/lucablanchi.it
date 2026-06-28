@@ -1,0 +1,411 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.06in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\DeclareMathOperator{\Bad}{Bad}
+\DeclareMathOperator{\modclass}{mod}
+
+\title{Statement Presentations and a Semilinear Greedy 3-Sumfree Sequence}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We prove a parametric formula for the greedy 3-sumfree sequence beginning with \(1,g,g+d\), where \(d\geq 2\) and \(g\geq d+1\). If \(M=5g+2d\), then the sequence consists exactly of the two initial exceptional elements \(1,g\), the first interval \([g+d,2g+d]\), and then the periodic interval pattern with residues \(g+d-2,\ldots,2g+d-2\) modulo \(M\). The proof is elementary and finite: a semilinear candidate is shown to be 3-sumfree by a residue exclusion, and every integer omitted after the initial seed is shown to be blocked by one of four interval-sum templates.
+
+The proof has a presentation-theoretic reading. The greedy recursion is represented by a semilinear witness language together with finite verification data for the fixed-point condition. The result illustrates how a mathematical statement can be handled through a structured presentation of the witnesses that decide it.
+\end{abstract}
+
+\section{Introduction}
+
+Greedy sequences are often easy to define and difficult to recognize. Their membership rule is recursive: whether a later integer is admitted depends on all earlier admitted integers. A closed formula, when it exists, replaces this history-dependent object by a more rigid presentation.
+
+This note proves such a formula for a family of greedy 3-sumfree sequences. Fix integers
+\[
+d\geq 2,\qquad g\geq d+1.
+\]
+Let \(S_{g,d}\) be the increasing sequence that starts with
+\[
+1,\qquad g,\qquad g+d
+\]
+and then admits each integer \(n>g+d\) precisely when \(n\) is not a sum of three distinct earlier admitted terms.
+
+The theorem says that \(S_{g,d}\) is eventually periodic, with an explicit period and one interval of residues per period. The proof has two finite parts. First, the proposed set contains no element that is a sum of three distinct elements of itself. Second, every omitted integer after \(g+d\) is such a sum of three smaller proposed elements. These two facts force the greedy recursion to produce exactly the proposed set.
+
+This is the presentation-theoretic step: the infinite greedy process is presented by a semilinear witness language and a finite family of interval-sum verifications.
+
+\section{Statement presentations}
+
+A \emph{statement presentation} records a mathematical assertion through the witness object that controls its truth. It consists of three pieces:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item a universe \(U\) of possible witnesses;
+\item a witness object \(W\subseteq U\), or a structured object built from such witnesses;
+\item a statement type imposed on \(W\), such as emptiness, non-emptiness, infinitude, equality with another witness object, eventual periodicity, or boundedness.
+\end{enumerate}
+
+For example, a universal statement \(\forall u\,P(u)\) can be presented by the bad set
+\[
+\Bad(P)=\{u:\neg P(u)\}
+\]
+with statement type ``empty''. An existence statement \(\exists u\,P(u)\) can be presented by the solution set \(\{u:P(u)\}\) with statement type ``nonempty''. An eventual statement can be presented by the finite set of exceptions.
+
+In this note the witness object is a subset of \(\mathbb N\), namely the greedy sequence \(S_{g,d}\). The statement type is equality:
+\[
+S_{g,d}=T_{g,d},
+\]
+where \(T_{g,d}\) is an explicit semilinear set. The verification data are finite interval-sum templates proving the two inclusions required by the greedy fixed-point rule.
+
+\section{The greedy sequence and the formula}
+
+For a set \(A\subseteq\mathbb N\), write
+\[
+3_{\neq}A=\{a+b+c:a,b,c\in A,\ a<b<c\}.
+\]
+The greedy 3-sumfree sequence with initial terms \(1,g,g+d\) is the set \(S_{g,d}\subseteq\mathbb N\) defined as follows. The elements \(1,g,g+d\) are included initially. For each \(n>g+d\), in increasing order, one includes \(n\) if and only if
+\[
+n\notin 3_{\neq}(S_{g,d}\cap\{1,\ldots,n-1\}).
+\]
+
+Set
+\[
+M=5g+2d,
+\qquad
+R=[g+d-2,\,2g+d-2]\cap\mathbb Z.
+\]
+
+\begin{theorem}[Semilinear formula]
+Let \(d\geq 2\) and \(g\geq d+1\). Then
+\[
+n\in S_{g,d}
+\]
+if and only if either
+\[
+n\in \{1,g,2g+d-1,2g+d\},
+\]
+or
+\[
+n\geq g+d
+\quad\text{and}\quad
+n\bmod M\in R.
+\]
+\end{theorem}
+
+Equivalently, \(S_{g,d}\) is the set
+\[
+\{1,g\}\cup [g+d,2g+d]\cup
+\bigcup_{q\geq 1}
+[qM+g+d-2,\ qM+2g+d-2].
+\]
+
+\section{The semilinear candidate}
+
+Define
+\[
+I_0=[g+d,2g+d]\cap\mathbb Z
+\]
+and, for \(q\geq 1\),
+\[
+I_q=[qM+g+d-2,\ qM+2g+d-2]\cap\mathbb Z.
+\]
+Let
+\[
+T=T_{g,d}:=\{1,g\}\cup I_0\cup\bigcup_{q\geq 1}I_q.
+\]
+This is the set described in the theorem. Indeed, for \(q\geq 1\), the block \(I_q\) consists exactly of the integers congruent to a residue in \(R\) modulo \(M\). In the initial period, the condition \(n\geq g+d\) keeps the interval \([g+d,2g+d-2]\), and the two remaining points \(2g+d-1,2g+d\) are the exceptional endpoint terms.
+
+We prove that the greedy sequence is \(T\). The proof uses only elementary interval arithmetic.
+
+\section{Interval-sum facts}
+
+\begin{lemma}[Sums of intervals]
+Let \(J=[A,B]\cap\mathbb Z\), with \(A\leq B\). Then:
+\[
+\{x+y:x,y\in J,\ x<y\}=[2A+1,\,2B-1]\cap\mathbb Z
+\]
+provided \(|J|\geq 2\), and
+\[
+\{x+y+z:x,y,z\in J,\ x<y<z\}=[3A+3,\,3B-3]\cap\mathbb Z
+\]
+provided \(|J|\geq 3\). If \(J=[A,B]\cap\mathbb Z\) and \(K=[C,D]\cap\mathbb Z\), then
+\[
+J+K=[A+C,B+D]\cap\mathbb Z.
+\]
+\end{lemma}
+
+\begin{proof}
+For two distinct elements of \(J\), the smallest sum is \(A+(A+1)\) and the largest is \((B-1)+B\). Every intermediate value is reached by increasing one summand at a time, keeping the two summands distinct. The proof for three distinct elements is identical, starting from \(A+(A+1)+(A+2)\) and ending at \((B-2)+(B-1)+B\). The formula for the sum of two intervals is immediate.
+\end{proof}
+
+\section{The candidate is 3-sumfree}
+
+We first prove that \(T\) contains no sum of three distinct elements of \(T\).
+
+\begin{proposition}
+The set \(T_{g,d}\) is 3-sumfree:
+\[
+T\cap 3_{\neq}T=\varnothing.
+\]
+\end{proposition}
+
+\begin{proof}
+The smallest possible sum of three distinct elements of \(T\) is
+\[
+1+g+(g+d)=2g+d+1.
+\]
+Hence no element of \(\{1,g\}\cup I_0\) can be such a sum, since
+\[
+\max I_0=2g+d.
+\]
+It remains to exclude sums that land in a later block \(I_q\), \(q\geq 1\). Such an element has residue in
+\[
+R=[a,b],
+\qquad
+a=g+d-2,\quad b=2g+d-2,
+\]
+modulo \(M=5g+2d\).
+
+The residues of elements of \(T\) lie in
+\[
+R\cup E,
+\qquad
+E=\{1,g,2g+d-1,2g+d\}.
+\]
+The four residues in \(E\) occur only at the four exceptional elements, so if more than one exceptional residue is used, those exceptional elements must be distinct.
+
+We check that no sum of three admissible residues lies in \(R\) modulo \(M\).
+
+First consider three residues from \(R\). Their ordinary sum lies in
+\[
+3R=[3g+3d-6,\ 6g+3d-6].
+\]
+Modulo \(M\), this is contained in
+\[
+[3g+3d-6,M-1]\cup [0,g+d-6],
+\]
+with empty intervals omitted. The first part is above \(b=2g+d-2\), and the second part is below \(a=g+d-2\). Thus it is disjoint from \(R\).
+
+Next take two residues from \(R\) and one exceptional residue. We have:
+\[
+\begin{array}{c|c}
+\text{exceptional residue} & \text{possible residues of the sum modulo }M\\ \hline
+1 & [2g+2d-3,\ 4g+2d-3]\\
+g & [3g+2d-4,\ M-4]\\
+2g+d-1 & [4g+3d-5,\ M-1]\cup[0,g+d-5]\\
+2g+d & [4g+3d-4,\ M-1]\cup[0,g+d-4].
+\end{array}
+\]
+Each displayed set is disjoint from \(R\). In the first two rows it lies strictly above \(b\). In the last two rows the high part lies above \(b\), while the low part lies below \(a\).
+
+Now take two exceptional residues and one residue from \(R\). The possible intervals are:
+\[
+\begin{array}{c|c}
+\text{exceptional pair} & \text{possible residues of the sum modulo }M\\ \hline
+\{1,g\} & [2g+d-1,\ 3g+d-1]\\
+\{1,2g+d-1\} & [3g+2d-2,\ 4g+2d-2]\\
+\{1,2g+d\} & [3g+2d-1,\ 4g+2d-1]\\
+\{g,2g+d-1\} & [4g+2d-3,\ M-3]\\
+\{g,2g+d\} & [4g+2d-2,\ M-2]\\
+\{2g+d-1,2g+d\} & [0,g+d-3]\cup\{M-1\}.
+\end{array}
+\]
+Again each set is disjoint from \(R\). The first five lie strictly above \(b\), and the last lies below \(a\), apart from the residue \(M-1\).
+
+Finally, the sums of three distinct exceptional residues are
+\[
+3g+d,\quad 3g+d+1,\quad 4g+2d,\quad M-1.
+\]
+None belongs to \(R\) modulo \(M\).
+
+Therefore no sum of three distinct elements of \(T\) can land in a later block. Since it also cannot land in \(\{1,g\}\cup I_0\), the set \(T\) is 3-sumfree.
+\end{proof}
+
+\section{Every omitted integer is blocked}
+
+We now prove the converse fixed-point condition: after the initial seed, every integer omitted by \(T\) is a sum of three smaller elements of \(T\).
+
+\begin{proposition}
+Let \(n>g+d\). If \(n\notin T\), then
+\[
+n\in 3_{\neq}(T\cap\{1,\ldots,n-1\}).
+\]
+\end{proposition}
+
+\begin{proof}
+The complement of \(T\) after \(g+d\) is the union of the gaps between consecutive blocks.
+
+First consider the gap after \(I_0\). Since
+\[
+I_0=[g+d,2g+d]
+\]
+and the next block begins at
+\[
+M+g+d-2=6g+3d-2,
+\]
+the first gap is
+\[
+G_0=[2g+d+1,\ 6g+3d-3].
+\]
+It is covered by the following four interval-sum templates:
+\[
+\begin{array}{rcl}
+1+g+I_0 &=& [2g+d+1,\ 3g+d+1],\\
+1+I_0+I_0 &=& [2g+2d+2,\ 4g+2d],\\
+g+I_0+I_0 &=& [3g+2d+1,\ 5g+2d-1],\\
+I_0+I_0+I_0 &=& [3g+3d+3,\ 6g+3d-3],
+\end{array}
+\]
+where the repeated occurrences of \(I_0\) mean that distinct elements are chosen. These formulas follow from the interval-sum lemma.
+
+The four intervals overlap or touch. Indeed,
+\[
+3g+d+2\geq 2g+2d+2
+\]
+because \(g\geq d\);
+\[
+4g+2d+1\geq 3g+2d+1;
+\]
+and
+\[
+5g+2d\geq 3g+3d+3
+\]
+because \(2g-d\geq 3\), which follows from \(g\geq d+1\) and \(d\geq 2\). Hence the four templates cover all of \(G_0\). Every summand used belongs to \(\{1,g\}\cup I_0\), and is smaller than the corresponding \(n\in G_0\).
+
+Now consider a later gap. For \(q\geq 1\),
+\[
+I_q=[qM+g+d-2,\ qM+2g+d-2],
+\]
+so the gap following \(I_q\) is
+\[
+G_q=[qM+2g+d-1,\ (q+1)M+g+d-3].
+\]
+Since \(M=5g+2d\), this is
+\[
+G_q=[qM+2g+d-1,\ qM+6g+3d-3].
+\]
+The gap \(G_q\) is covered by:
+\[
+\begin{array}{rcl}
+1+g+I_q &=& [qM+2g+d-1,\ qM+3g+d-1],\\
+1+I_0+I_q &=& [qM+2g+2d-1,\ qM+4g+2d-1],\\
+g+I_0+I_q &=& [qM+3g+2d-2,\ qM+5g+2d-2],\\
+I_0+I_0+I_q &=& [qM+3g+3d-1,\ qM+6g+3d-3],
+\end{array}
+\]
+again with distinct choices when \(I_0\) appears twice.
+
+These intervals also overlap or touch:
+\[
+qM+3g+d\geq qM+2g+2d-1
+\]
+because \(g\geq d-1\);
+\[
+qM+4g+2d\geq qM+3g+2d-2;
+\]
+and
+\[
+qM+5g+2d-1\geq qM+3g+3d-1
+\]
+because \(2g\geq d\). Thus they cover \(G_q\). All summands are smaller than the integer \(n\) being represented: the elements of \(I_q\) lie before the gap, and \(1,g,I_0\) are earlier still.
+
+Therefore every omitted integer \(n>g+d\) is blocked by three distinct smaller elements of \(T\).
+\end{proof}
+
+\section{Proof of the formula}
+
+\begin{proof}[Proof of the theorem]
+We prove by induction on \(n\) that the greedy construction agrees with \(T\).
+
+The initial elements \(1,g,g+d\) belong to \(T\) and are included by definition of the greedy sequence. Now suppose the two sets agree below \(n\), where \(n>g+d\).
+
+If \(n\in T\), then Proposition 6.1 shows that \(n\) is not a sum of three distinct elements of \(T\). In particular, using the induction hypothesis below \(n\), it is not a sum of three distinct earlier greedy terms. Hence the greedy rule includes \(n\).
+
+If \(n\notin T\), then Proposition 7.1 expresses \(n\) as a sum of three distinct smaller elements of \(T\). By the induction hypothesis these are earlier greedy terms. Hence the greedy rule excludes \(n\).
+
+Thus the greedy sequence and \(T\) agree at \(n\). Induction proves \(S_{g,d}=T\), which is exactly the claimed semilinear formula.
+\end{proof}
+
+\section{Presentation-theoretic reading}
+
+The proof can be read as a compact example of statement presentation.
+
+The original witness object is the recursively defined set
+\[
+S_{g,d}\subseteq\mathbb N.
+\]
+The proposed presentation replaces it by the semilinear language
+\[
+T_{g,d}
+=\{1,g\}\cup I_0\cup\bigcup_{q\geq1}I_q.
+\]
+The statement type is equality of witness languages:
+\[
+S_{g,d}=T_{g,d}.
+\]
+The fixed-point condition for the greedy rule has two observable parts:
+\[
+T_{g,d}\cap 3_{\neq}T_{g,d}=\varnothing
+\]
+and
+\[
+\mathbb N_{>g+d}\setminus T_{g,d}
+\subseteq
+3_{\neq}T_{g,d},
+\]
+with the second inclusion understood using smaller summands.
+
+Both parts are verified by finite data:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item a finite residue exclusion modulo \(M\);
+\item four interval-sum templates for the first gap;
+\item four periodic interval-sum templates for all later gaps.
+\end{enumerate}
+
+The proof compiles the recursively defined statement into a semilinear normal form and verifies the normal form by finite arithmetic. This is the reusable pattern: when a recursively defined witness language admits a low-cost semilinear presentation, the global statement may reduce to finitely many local templates.
+
+\section{Further directions}
+
+The same method suggests a search pattern for other greedy additive sequences. One proposes an eventually semilinear set \(T\), then checks:
+\[
+T\cap k_{\neq}T=\varnothing
+\]
+and
+\[
+\mathbb N_{\geq N}\setminus T\subseteq k_{\neq}T
+\]
+by finite residue and interval-sum templates. When the candidate is automatic rather than semilinear, the analogous verification can often be delegated to finite automata. In both cases the mathematical content includes the final periodic formula and the controlled replacement of a recursive witness object by a finite presentation.
+
+\begin{thebibliography}{9}
+
+\bibitem{BBFGRT25}
+W. Bosma, R. Bruin, R. Fokkink, J. Grube, A. Reuijl, and T. Tromp,
+\emph{Using Walnut to Solve Problems from the OEIS},
+Journal of Integer Sequences 28 (2025), Article 25.3.8.
+
+\bibitem{Shallit22}
+J. Shallit,
+\emph{The Logical Approach to Automatic Sequences: Exploring Combinatorics on Words with Walnut},
+London Mathematical Society Lecture Note Series 482, Cambridge University Press, 2022.
+
+\bibitem{Mousavi16}
+H. Mousavi,
+\emph{Automatic theorem proving in Walnut},
+arXiv:1603.06017.
+
+\end{thebibliography}
+
+\end{document}
