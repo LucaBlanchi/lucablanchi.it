@@ -6,6 +6,7 @@
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
 \usepackage{microtype}
+\setlength{\emergencystretch}{3em}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
@@ -44,15 +45,24 @@ tail production, pressure shrink/margins, and S8/Oseen owner imports are separat
 so that no estimate can borrow from S1, S7, the Oseen production theorem, or the
 final global cost statement.
 
-The present version incorporates the latest pressure-channel audit. The
-pressure-envelope magnitude block GP1 is closed as a dyadic record dichotomy:
-after finitely many paid updates the pressure chart is bounded, while infinitely
-many strict records give a non-summable registered pressure escape. The same
-record mechanism closes the \(M_p\) coordinate of pressure representative variation
-and the pressure-envelope-determined shrink coordinate \((M_p,\varepsilon_p,
-\theta_P,s_P)\). A separate finite-state argument closes invisible drift of the
-pressure-force pair convention and owner labels. These are formal source closures,
-not pressure-tail production estimates.
+The present version incorporates the latest pressure, force-native,
+cutoff-localization, and Oseen owner audit. The pressure-envelope magnitude block
+GP1 is closed as a dyadic record dichotomy: after finitely many paid updates the
+pressure chart is bounded, while infinitely many strict records give a
+non-summable registered pressure escape. The same record mechanism closes the
+\(M_p\) coordinate of pressure representative variation and the
+pressure-envelope-determined shrink coordinate
+\((M_p,\varepsilon_p,\theta_P,s_P)\). A separate finite-state argument closes
+invisible drift of the pressure-force pair convention and owner labels. These are
+formal source closures, not pressure-tail production estimates.
+
+The Oseen cutoff audit is also sharpened. For a fixed centered dyadic cutoff
+family, the complete integrated derivative-weighted cutoff collar is source-closed
+by a Hardy domination lemma. In a fixed drift epoch, the dyadic drift-gradient
+collar is source-closed by the Serrin exponent, Hardy, and Sobolev interpolation.
+These results close real subchannels of the Oseen/S8 interface. They do not close
+the full S8 localization theorem, the moving-predictor drift channel, the shared
+pressure-force pair, or the native force and carrier source theorems.
 
 Under the remaining source modules, a bad predictive chain cannot persist:
 either normal innovation is square-summable by Hilbert packing, the fibre enters a
@@ -344,6 +354,184 @@ Finally,
 \]
 This proves the claim.
 \end{proof}
+
+\subsection{Dyadic cutoff collars}
+
+The local Oseen lemma is a one-cylinder estimate. Its global use along a candidate
+bad chain requires a source theorem for the cutoff collars. This subsection records
+the part that is now closed.
+
+Fix an anchored target \(z_*=(x_*,t_*)\), a radius \(R\), and dyadic radii
+\[
+r_k=2^{-k}R.
+\]
+Choose once and for all smooth profiles \(\phi\in C_c^\infty(B_b(0))\) and
+\(\psi\in C^\infty(\mathbb R)\), with \(0<a<b<1\), such that
+\(\phi=1\) on \(B_a(0)\), and \(\psi\) is supported in a fixed past time interval
+and equals one on a smaller past time interval. Define
+\[
+\zeta_k(x,t)=
+\phi\!\left(\frac{x-x_*}{r_k}\right)
+\psi\!\left(\frac{t_*-t}{r_k^2}\right).
+\]
+The profile, center, ratios, and time-floor constants are part of the presentation
+state. They are not selected after the bad block is observed.
+
+\begin{proposition}[Fixed dyadic cutoff-collar source]
+Let
+\[
+W_k=|\partial_t\zeta_k|+|\Delta\zeta_k|+|\nabla\zeta_k|^2 .
+\]
+Then, on the fixed outer cylinder,
+\[
+\sum_{k\ge K} W_k(x,t)
+\le
+C_W\bigl(|x-x_*|^{-2}+R^{-2}\bigr)
+\]
+almost everywhere. Consequently, for every residual \(w\) with local energy and
+dissipation on the outer cylinder,
+\[
+\sum_{k\ge K}\int |w|^2 W_k
+\le
+C
+\left(
+\int |\nabla w|^2+R^{-2}\int |w|^2
+\right).
+\]
+Thus the integrated derivative-weighted Oseen cutoff collar is a summable source
+for this fixed centered dyadic cutoff family.
+\end{proposition}
+
+\begin{proof}
+The derivative bounds of the fixed profiles give
+\[
+W_k\le C r_k^{-2}
+\bigl(\mathbf 1_{A_k^{\mathrm{lat}}}
+      +\mathbf 1_{A_k^{\mathrm{time}}}\bigr),
+\]
+where the lateral support satisfies
+\[
+A_k^{\mathrm{lat}}\subset
+\{a r_k\le |x-x_*|\le b r_k,\ 0\le t_*-t\le c r_k^2\},
+\]
+and the time-floor support satisfies
+\[
+A_k^{\mathrm{time}}\subset
+\{|x-x_*|\le b r_k,\ c_0r_k^2\le t_*-t\le c_1r_k^2\}.
+\]
+For the lateral part, \(r_k\) is comparable to \(|x-x_*|\), and a fixed spatial
+point lies in only finitely many dyadic annuli. Hence
+\[
+\sum_k r_k^{-2}\mathbf 1_{A_k^{\mathrm{lat}}}
+\le C |x-x_*|^{-2}.
+\]
+For the time-floor part, the time condition allows only finitely many dyadic
+indices for each fixed \(t<t_*\). On the support, \(|x-x_*|\le br_k\), so
+\[
+r_k^{-2}\le C |x-x_*|^{-2}
+\]
+for \(x\ne x_*\). The point \(x=x_*\) is negligible for the pointwise estimate and
+is handled by Hardy's inequality in the integrated estimate. A fixed outer cutoff
+contributes only a finite \(R^{-2}\) term. This proves the displayed weight
+domination.
+
+Let \(\eta_R\) be a fixed spatial cutoff equal to one on the outer ball and
+supported in a slightly larger ball. Hardy's inequality applied to \(\eta_R w\)
+gives, for a.e. time,
+\[
+\int |w|^2|x-x_*|^{-2}
+\le
+C\int |\nabla w|^2 + C R^{-2}\int |w|^2 .
+\]
+Integrating in time and using the weight domination proves the source estimate.
+\end{proof}
+
+\begin{remark}
+This proposition closes only the integrated cutoff term
+\(\int |w|^2W_k\). It does not close pointwise-in-time collar energy, a
+\(\sup_t\) collar ledger, critical annular \(L^3\) localization mass, moving
+centers, block-selected cutoff profiles, or the pressure, carrier, force, and
+state-motion companions of S8.
+\end{remark}
+
+\begin{proposition}[Fixed-drift dyadic drift-collar source]
+Assume in addition that, on a fixed merged Oseen epoch, the drift \(g\) and residual
+\(w\) are fixed on the outer cylinder and
+\[
+g\in L^q_tL^p_x,\qquad p>3,\qquad \frac2q+\frac3p=1.
+\]
+Then
+\[
+\sum_{k\ge K}\int |g|\,|w|^2|\nabla\zeta_k|<\infty .
+\]
+More precisely, for every \(\varepsilon>0\),
+\[
+\sum_{k\ge K}\int |g|\,|w|^2|\nabla\zeta_k|
+\le
+\varepsilon\int |\nabla w|^2
++C_\varepsilon(1+R^{-2})
+\|w\|_{L^\infty_tL^2_x}^2
+\|g\|_{L^q_tL^p_x}^{q}.
+\]
+\end{proposition}
+
+\begin{proof}
+The fixed dyadic gradient weights satisfy
+\[
+\sum_k|\nabla\zeta_k(x,t)|\le C|x-x_*|^{-1}.
+\]
+Therefore it is enough to control
+\[
+\int |g|\,|w|^2|x-x_*|^{-1}.
+\]
+For each time choose \(s\) by
+\[
+\frac1p+\frac1s+\frac12=1,
+\qquad s=\frac{2p}{p-2}.
+\]
+Hölder's inequality gives
+\[
+\int |g|\,|w|^2|x-x_*|^{-1}
+\le
+\|g\|_p\|w\|_s\|w/|x-x_*|\|_2 .
+\]
+Since \(2<s<6\), Sobolev interpolation gives
+\[
+\|w\|_s
+\le C\|w\|_2^{1-3/p}\|\nabla w\|_2^{3/p}.
+\]
+The localized Hardy inequality gives
+\[
+\|w/|x-x_*|\|_2
+\le C\|\nabla w\|_2+C R^{-1}\|w\|_2.
+\]
+Combining these estimates,
+\[
+\int |g|\,|w|^2|x-x_*|^{-1}
+\le
+C\|g\|_p\|w\|_2^{1-3/p}
+\left(
+\|\nabla w\|_2^{1+3/p}
++R^{-1}\|w\|_2\|\nabla w\|_2^{3/p}
+\right).
+\]
+Young's inequality, with \(q=2p/(p-3)\), yields
+\[
+\int |g|\,|w|^2|x-x_*|^{-1}
+\le
+\varepsilon\|\nabla w\|_2^2
++C_\varepsilon(1+R^{-2})\|g\|_p^q\|w\|_2^2 .
+\]
+Integrating in time proves the stated summability.
+\end{proof}
+
+\begin{remark}
+The fixed-drift hypothesis is essential. If the predictor \(g_k\) and residual
+\(w_k=u-g_k\) change at every scale, this proposition cannot be applied until the
+drift transitions have been source-closed, finitely merged, or routed to escape or
+gate. The general moving-drift collar remains part of the S6/S8/S10/S12 owner
+problem.
+\end{remark}
 
 \section{Minimax Centres}
 
@@ -889,9 +1077,15 @@ Let \((u,p)\) be a suitable weak solution near \(z_0\). Suppose that the predict
 presentation system at \(z_0\) satisfies the source contracts of the repaired ledger,
 the analytic modules stated above, the S1 quotient packet row source, the S7
 pressure/gauge source blocks GP1--GP5 with the closed GP1 record and GP2/GP4
-coordinate subowners inserted, and the exact floor/finite-atlas closure.
-Suppose also that the minimization errors \(\eta_k\) are summable and that no source
-channel is left in the explicitly open PDE category.
+coordinate subowners inserted, the post-firewall S6 native-force source contract,
+the post-firewall S8 cutoff/localization source contract, and the exact
+floor/finite-atlas closure. Assume that the Oseen cutoff collars are taken from the
+fixed dyadic family above, so their integrated cutoff part is already source-closed;
+assume also that every moving Oseen drift epoch is either finitely merged into a
+fixed-drift epoch covered by the fixed-drift collar proposition or has a separate
+source-closed transition ledger.
+Suppose finally that the minimization errors \(\eta_k\) are summable and that no
+source channel needed by the proof is left in the explicitly open PDE category.
 Then there is no bad predictive chain at \(z_0\). Consequently, if the predictive
 defect is the only obstruction to predictive epsilon regularity, then \(u\) is
 regular at \(z_0\).
@@ -913,9 +1107,13 @@ a named escape or gate. The inserted GP1 record theorem and GP2/GP4 coordinate
 closures ensure that pressure-envelope growth, \(M_p\)-representative drift,
 discrete pair/owner switching, and pressure-envelope shrink degeneration cannot
 move invisibly. The remaining GP2--GP5 source blocks must then ensure that residual
-representative drift, pressure-tail production, residual shrink/margins, and
-S8/Oseen pressure imports have single owners and pre-E12 ledgers before \(243\) and
-\(265\) are invoked. Thus on a genuine no-gate no-escape tail, blocks of
+representative drift, pressure-tail production, residual shrink/margins,
+pressure-force pair mass, native force-use motion, critical localization mass,
+carrier tails, moving-drift errors, floor motion, and state variation have single
+owners and pre-E12 ledgers before \(243\) and \(265\) are invoked. The fixed dyadic
+cutoff lemma removes the integrated Oseen cutoff collar from the hard S8 burden,
+and the fixed-drift collar lemma removes the drift-gradient collar on any genuinely
+fixed or merged Oseen epoch. Thus on a genuine no-gate no-escape tail, blocks of
 arbitrarily small scales have very small average registered defect.
 
 The quantitative closure alternative prevents a persistent defect
@@ -934,6 +1132,10 @@ implication is exactly predictive epsilon regularity.
 The verified pieces are:
 \begin{enumerate}[label=(\roman*)]
 \item the Serrin-critical Oseen transfer estimate, with collar and pressure-tail terms explicitly paid for;
+\item the fixed centered dyadic cutoff-collar source theorem for the integrated
+Oseen cutoff weight;
+\item the fixed-drift dyadic drift-gradient collar source theorem on fixed or
+finitely merged Oseen epochs;
 \item the Hilbert-space existence of relaxed minimax centres;
 \item the abstract Bessel packing mechanism for innovative normal witnesses;
 \item the exact two-mode null classification of the projected bilinear symbol;
@@ -969,6 +1171,16 @@ fixed-chart illegality;
 \item the GP4 pressure-envelope shrink coordinate
 \((M_p,\varepsilon_p,\theta_P,s_P)\), so that the route
 \(M_p\to\infty\), \(\theta_P\to0\) cannot occur invisibly.
+\item the post-firewall S6 native-force source contract, which separates Hilbert
+fixed-chart force tails from native force use, native transition, pressure-force
+pair, native force-tail, and owner-transition burdens;
+\item the post-firewall S8 cutoff/localization normal form, which rejects
+\(\operatorname{EscS8}=\operatorname{S8Loc}\) as a source theorem and replaces it
+by fixed owner splits, explicit residuals, genuine localization/cutoff escapes,
+gates, or impossibility;
+\item the Oseen/S8 subsource split for \(\mathrm{Cut}_O\) and fixed-drift
+\(\mathrm{DriftCollar}_O\), with all moving-center, moving-drift, pressure,
+carrier, and force companions left in their named owners.
 \end{enumerate}
 
 The remaining analytic work is concentrated in the following PDE source theorems:
@@ -993,6 +1205,18 @@ pressure-tail block production, the remaining GP4 shrink/margin/floor theorem, a
 GP5 owner-split import for S8, Oseen, S6, and S11;
 \item prove the shared pressure-force-pair source theorem and the S8 pressure/collar
 and explicit Oseen-error source outcomes needed by S7;
+\item prove the native S6 source theorem: forced-use or zero-certified-use
+exhaustion, native \(Y_{\mathrm{force}}\) transition, native force-tail source,
+force-owner transition, and the shared pressure-force pair route;
+\item prove the full S8 source theorem beyond the integrated cutoff subsource:
+critical annular velocity mass, pressure/gauge localization, cutoff normal defect,
+carrier imports, predictor tails, recentering transport, containment, and
+cutoff/localization state motion;
+\item prove S9 carrier source closure and the S10/Oseen moving-owner source theorem,
+including pressure pair, force/gauge pair, localization-carrier-cutoff
+compatibility, and moving-drift residuals not covered by fixed epochs;
+\item prove the S11--E10--E11--E12 shrink-margin-floor source closure and S12/GQ3
+finite-state or finite-variation stabilization for all moving owner states;
 \item prove critical predictor-map differentiability, global residual
 representation, packet-level null-graph rigidity, carrier localization, and the
 quantitative closure alternative in the concrete Navier-Stokes topology.
@@ -1822,6 +2046,174 @@ cannot occur at invisible cost. What remains open in GP4 is the rest of the shri
 stack, margin positivity, block containment, E12 floor compatibility, and source
 closure for S11/S12 owners.
 
+\subsection{Registered-escape firewall}
+
+The repaired ledger uses named escape streams, but an escape stream is not allowed
+to be merely a channel renamed as its own failure. For a nonnegative channel
+\(Z_k\), the dichotomy
+\[
+\sum_k Z_k<\infty
+\qquad\hbox{or}\qquad
+\sum_k Z_k=\infty
+\]
+does not by itself prove a source theorem. Otherwise every source channel would
+close tautologically by setting \(\operatorname{EscZ}_k=Z_k\).
+
+A registered escape used in the final proof must satisfy the following firewall.
+\begin{enumerate}[label=(\roman*)]
+\item It has independent failure meaning: chart, owner, construction,
+containment, realization, floor, packet, pressure/gauge, force, localization,
+carrier, Oseen, or gate data fail.
+\item The label, observable, threshold, owner, and repaired weight are fixed before
+E12 and before block selection.
+\item The escape route is disjoint from the summable-error route.
+\item The proof supplies a positive lower bound, monotone/Carleson/packing
+contradiction, actual divergence from the failure mechanism, gate, or impossibility
+theorem.
+\item The proof does not use final \(\mathrm{GQ1}\), future \(243\) block
+smallness, or the consumer theorem.
+\item If the failure cannot be made into genuine escape, it is recorded as an
+impossible branch rather than as a source theorem.
+\end{enumerate}
+
+This firewall is now applied to S6, S8, S10/Oseen, S7, S9, S11, S12, and explicit
+residual routes. In particular, \(\operatorname{EscS8}=\operatorname{S8Loc}\),
+\(\operatorname{ForceUseEsc}=\operatorname{ForceUse}\), and
+\(\operatorname{ErrO}=\operatorname{Obs}_O\) are not source theorems without an
+independent failure mechanism.
+
+\subsection{S6 native-force source contract}
+
+The force channel is split into a Hilbert fixed-chart part and a native force part:
+\[
+\mathrm{S6}
+=\mathrm{S6}_{\mathrm{HilbFixed}}+\mathrm{S6}_{\mathrm{Native}},
+\]
+where
+\[
+\mathrm{S6}_{\mathrm{HilbFixed}}
+=\mathrm{Innov}_{\mathrm{force,new}}
+ +\mathrm{ForceHilbErr}
+ +\mathrm{ForceTail}_H,
+\]
+and
+\[
+\mathrm{S6}_{\mathrm{Native}}
+=\mathrm{ForceUse}
+ +\mathrm{ForceYTrans}
+ +\mathrm{ForcePressPair}
+ +\mathrm{ForceTail}_{\mathrm{native}}
+ +\mathrm{ForceOwner}_{\mathrm{native}}.
+\]
+
+The Hilbert fixed-chart part may use the Bessel/innovation machinery only inside
+the fixed Hilbert chart. It does not control native \(Y_{\mathrm{force}}\) motion.
+The native part is controlled only by the following source alternatives:
+\begin{enumerate}[label=(\roman*)]
+\item fixed or merged Hilbert epochs plus summable native force cost;
+\item a force-use source theorem or a zero-certified-use exhaustion theorem;
+\item finite update or finite atlas merge;
+\item mergeable finite-variation, Cauchy, monotone, or finite-atlas drift;
+\item named non-summable escape satisfying the registered-escape firewall;
+\item gate;
+\item impossible branch.
+\end{enumerate}
+
+The zero-certified-use route has a narrow meaning. If the selected exact/no-force
+branch uses no nonzero certified forced atom, then forced-use mass is moved out of
+\(\mathrm{ForceUse}\). The burden then shifts to exact atom identity, span-gap,
+packet-tail, C1, native-tail, owner-transition, and escape/gate ledgers. It does
+not eliminate S7/S8/S10/Oseen/S11 pressure-force or cutoff burdens.
+
+The current native subowners are:
+\begin{enumerate}[label=(\roman*)]
+\item \(\mathrm{ForceUse}\): either original forced-use source closure or
+zero-certified-use exhaustion;
+\item \(\mathrm{ForceYTrans}\): native \(Y_{\mathrm{force}}\) comparison and
+variation, not merely Hilbert \(H_{\mathrm{force}}\) comparison;
+\item \(\mathrm{ForcePressPair}\): the shared pressure-force pair theorem with
+pressure, force, gauge, cutoff, shrink, S8, Oseen, S11, and S12 pieces assigned
+once;
+\item \(\mathrm{ForceTail}_{\mathrm{native}}\): native finite-window, certificate,
+localization, carrier, old-force, chart-tail, and owner-state tail routes;
+\item \(\mathrm{ForceOwner}_{\mathrm{native}}\): owner-label, atom-identity,
+coefficient-rank, native-use-state, pair-state, force-tail-state, and owner-boundary
+routes.
+\end{enumerate}
+
+Thus S6 is formally organized but not yet a nonconditional source theorem. It can be
+used in the modular theorem only after the selected native alternatives are proved
+or routed to finite update, genuine escape, gate, or impossibility.
+
+\subsection{S8 cutoff/localization post-firewall normal form}
+
+After the S8 primary owners assigned elsewhere are removed, the active localization
+channel is
+\[
+\begin{aligned}
+\mathrm{S8Loc}_{\mathrm{active},k}
+=&\mathrm{LocVel}_{\mathrm{active},k}
+ +\mathrm{LocPress}_{\mathrm{active},k}
+ +\mathrm{LocGauge}_{\mathrm{active},k}
+ +\mathrm{LocNorm}_{\mathrm{active},k}\\
+&+\mathrm{LocCar}_{\mathrm{active},k}
+ +\mathrm{LocPred}_{\mathrm{active},k}
+ +\mathrm{LocCtr}_{\mathrm{active},k}
+ +\mathrm{LocContain}_{\mathrm{active},k}\\
+&+\mathrm{CutLocState}_{\mathrm{active},k}
+ +\mathrm{ErrS8Residual}_k .
+\end{aligned}
+\]
+The term \(\mathrm{CutLocState}_{\mathrm{active}}\) records cutoff profile,
+localization profile, annulus, center, transport, theta, and floor state motion not
+already zero in the fixed anchored chart or owned by S11/S12. The residual term is
+zero only when every local piece has a named owner; otherwise it is an explicit
+pre-E12 repaired-cost stream.
+
+On a fixed anchored chart, the local localization modulus is closed:
+\[
+\mathrm{Target}_{\mathrm{loc}}(B)
+\le
+C_{\mathrm{loc}}\mathrm{Obs}_{\mathrm{loc}}(B).
+\]
+This local estimate is not source summability of \(\mathrm{Obs}_{\mathrm{loc}}\).
+The completed S8 theorem must prove exactly one of:
+\begin{enumerate}[label=(\roman*)]
+\item direct summability of \(\mathrm{S8Loc}_{\mathrm{active}}\);
+\item import from already source-closed owners through a fixed disjoint split;
+\item finite update, finite merge, or finite state motion;
+\item mergeable finite-variation, Cauchy, monotone, or finite-atlas localization
+drift;
+\item genuine non-summable \(\mathrm{LocEsc}\) or \(\mathrm{CutEsc}\) satisfying
+the registered-escape firewall;
+\item gate;
+\item impossible branch.
+\end{enumerate}
+No eighth outcome is legal.
+
+The integrated derivative-weighted part of \(\mathrm{LocVel}\) associated with
+Oseen \(\mathrm{Cut}_O\) is now closed for the fixed dyadic cutoff family. The
+remaining \(\mathrm{LocVel}\) burden includes critical annular velocity/CKN mass,
+pointwise-in-time collar ledgers, \(\sup_t\) ledgers, moving centers, and
+commutators measured in stronger native norms. The other S8 subowners remain as
+follows:
+\begin{enumerate}[label=(\roman*)]
+\item \(\mathrm{LocPress}\) and \(\mathrm{LocGauge}\) require S7 or shared
+pressure-force pair source closure with no double counting;
+\item \(\mathrm{LocNorm}\) requires normal-defect/cutoff-commutator source closure
+or an explicit residual theorem;
+\item \(\mathrm{LocCar}\) requires S9 carrier source closure and a fixed S8/S9
+priority split;
+\item \(\mathrm{LocPred}\) requires S3/native predictor-tail routing or explicit
+localization residual closure;
+\item \(\mathrm{LocCtr}\) is zero only in the anchored chart, otherwise it needs a
+transport-back theorem or exits by update, escape, chart escape, or gate;
+\item \(\mathrm{LocContain}\) is zero only under fixed positive containment,
+shrink, and cylinder-nesting data, otherwise it routes to S11/S12, escape, or gate;
+\item \(\mathrm{CutLocState}\) requires S12/GQ3 finite-state or finite-variation
+closure, or a genuine cutoff/localization escape.
+\end{enumerate}
+
 \subsection{S7/S8/Oseen owner firewall}
 
 Oseen production is now registered on legal blocks:
@@ -1842,47 +2234,80 @@ This production theorem is not source summability of the Oseen owners. The press
 pieces inside \(R_O\) may be imported only after the receiving S7, S8, S6, S11, or
 explicit Oseen-error source theorem is closed.
 
-Likewise, S8 cutoff/localization readiness is not S8 source closure. The pressure
-and collar pieces used by \(\operatorname{GaugePress}\), \(\operatorname{PressPair}_O\),
+Two Oseen subchannels now have genuine source routes under stated hypotheses. First,
+if \(\mathrm{Cut}_O\) uses the fixed centered dyadic family above, its integrated
+derivative-weighted cutoff part is source-closed by Hardy and local
+energy/dissipation. Second, if the Oseen drift and residual are fixed on a merged
+epoch, the drift-gradient collar is source-closed by the fixed-drift Serrin-Hardy
+estimate. These closures are narrow: they do not apply to moving centers,
+block-selected cutoff profiles, pointwise collar energies, critical annular CKN
+mass, or moving predictor drifts.
+
+The remaining Oseen pieces are still owner obligations. \(\mathrm{PressPair}_O\)
+requires both pressure/gauge and collar/localization owners unless it is paid as an
+explicit Oseen pressure-pair error. \(\mathrm{Force}_O\) requires native
+\(L^2_tH^{-1}_x\) force ownership; the cutoff companion created by testing against
+\(w\zeta^2\) is not force. \(\mathrm{GaugeForceCmp}_O\) requires a stored
+pressure-force pair defect with pressure, force, gauge, cutoff, and shrink pieces
+assigned once. \(\mathrm{LocCarCut}_O\) must be split into localization, carrier,
+pressure/gauge, force, packet, recentering, containment, cutoff, and explicit-error
+pieces before block selection.
+
+Likewise, S8 cutoff/localization readiness is not S8 source closure. The pressure,
+gauge, collar, carrier, recentering, containment, and state pieces used by
+\(\operatorname{GaugePress}\), \(\operatorname{PressPair}_O\),
 \(\operatorname{GaugeForceCmp}_O\), and \(\operatorname{LocCarCut}_O\) must be
-summable, finitely updated, non-summably escaped, gated, or impossible in their own
-owners. No pressure tail, cutoff pressure loss, shrink/margin loss, or
+summable, imported from source-closed owners, finitely updated, genuinely escaped,
+gated, or impossible in their own owners. No pressure tail, cutoff pressure loss,
+shrink/margin loss, force-use mass, carrier tail, localization cost, or
 pressure-force pair mass may be counted twice.
 
 \subsection{Current unresolved proof obligations}
 
 The detailed ledger above leaves the following genuinely analytic tasks:
 \begin{enumerate}[label=(\roman*)]
-\item prove source outcomes for the frame, tail, transport, carrier, dictionary,
-owner-split, certified-old, envelope, margin, and floor ledgers appearing in S4;
-\item prove the six remaining \(\operatorname{ErrS1repr}\) owners:
-registration, native, old-pair, certified-pair, tail-pair, and envelope-pair;
+\item prove source outcomes for the frame, row-tail/native, transport, carrier,
+dictionary, owner-split, certified-old, packet-envelope, margin, and floor ledgers
+appearing in S4;
+\item prove the remaining \(\operatorname{ErrS1repr}\) owners: registration, native,
+old-pair, certified-pair, tail-pair, and envelope-pair;
 \item prove all eight \(\operatorname{EscPkt}\) components have registered summable,
 finite-update, named-exit, gate, or eliminated open-PDE outcomes;
-\item prove actual packet pairing identity and envelope outcomes for Navier-Stokes
-defects;
-\item prove true S1 row Bessel/Carleson or direct row-operator boundedness;
+\item prove actual packet pairing identity, packet-envelope outcomes, and a true S1
+row Bessel/Carleson or direct row-operator bound for Navier-Stokes rows;
 \item prove recurrent and Hilbert-old alternatives without using S1;
-\item prove finite-atlas and finite-variation closure through S12/GQ3/
-\(\mathrm{VarEff}\);
-\item prove E12 exact floor positivity and compatibility with envelopes, margins,
-updates, and block selection;
-\item insert the now-closed GP1 pressure-envelope record theorem and the closed
-GP2/GP4 coordinates into S7, then prove the residual GP2 representative variation,
-GP3 pressure-tail block production, the remaining GP4 shrink/margin/floor source
-theorem, and GP5 owner import for S8, Oseen, S6, and S11 before closing
-\(\operatorname{GaugePress}\);
-\item prove the remaining S7 source subchannels: gauge-gradient, gauge-cutoff,
-gauge-shrink, and gauge-pair, including the shared pressure-force-pair source
-theorem;
-\item prove S8 pressure/collar source closure, S10/Oseen owner source closure, the
-S11--E10--E11--E12 shrink-margin-floor source closure, and S12/GQ3 owner
-stabilization;
+\item prove the native S6 theorem: force-use or zero-certified-use exhaustion,
+native \(Y_{\mathrm{force}}\) transition, native force-tail source closure,
+force-owner transition, Hilbert fixed-chart globalization, and the shared
+pressure-force pair route;
+\item prove residual S7 pressure/gauge source closure: GP2 representative variation
+beyond the closed envelope coordinate, GP3 pressure-tail production, the remaining
+GP4 shrink/margin/floor theorem, gauge-gradient, gauge-cutoff, gauge-shrink, and
+gauge-pair;
+\item prove the shared pressure-force-pair source theorem, including gradient
+representative movement, pressure tail, gauge representative loss, gauge shrink
+margin loss, cutoff pressure loss, fixed owner split, and genuine non-tautological
+escape semantics;
+\item prove the full S8 theorem beyond the fixed dyadic cutoff collar: critical
+annular \(\mathrm{LocVel}\), \(\mathrm{LocPress}\), \(\mathrm{LocGauge}\),
+\(\mathrm{LocNorm}\), \(\mathrm{LocCar}\), \(\mathrm{LocPred}\),
+\(\mathrm{LocCtr}\), \(\mathrm{LocContain}\), \(\mathrm{CutLocState}\), and
+\(\mathrm{ErrS8Residual}\);
+\item prove S9 carrier source closure and all S8/S9 annular-carrier priority splits;
+\item prove S10/Oseen source closure beyond the closed fixed subchannels:
+moving-drift epochs, pressure pair, force/pair, localization-carrier-cutoff
+compatibility, explicit Oseen errors, and no double counting with S6/S7/S8/S9/S11;
+\item prove S11--E10--E11--E12 shrink-margin-floor source closure, exact floor
+positivity, and compatibility with envelopes, margins, updates, and block
+selection;
+\item prove S12/GQ3 finite-atlas, finite-variation, Cauchy, monotone,
+state-update, escape, or gate alternatives for all moving owner states;
 \item close predictor differentiability, global residual representation,
 packet-level null-graph rigidity, carrier localization, and the quantitative closure
 alternative in the concrete Navier-Stokes topology;
-\item assemble final \(\mathrm{GQ1}\) without using any source theorem after it has
-already been consumed.
+\item assemble final \(\mathrm{GQ1}\) only after all consumed source theorems have
+already been proved or legally routed to gate, escape, finite update, or
+impossibility.
 \end{enumerate}
 
 \begin{thebibliography}{99}

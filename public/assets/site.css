@@ -854,6 +854,24 @@ h2 {
   margin-left: 1rem;
 }
 
+.paper-description-list {
+  margin: 0 0 18px;
+}
+
+.paper-description-list dt {
+  color: var(--ink);
+  font-weight: 730;
+  margin-top: 14px;
+}
+
+.paper-description-list dd {
+  margin: 4px 0 0 0;
+}
+
+.paper-description-list dd p {
+  margin-bottom: 10px;
+}
+
 .math-display {
   max-width: 100%;
   overflow-x: auto;

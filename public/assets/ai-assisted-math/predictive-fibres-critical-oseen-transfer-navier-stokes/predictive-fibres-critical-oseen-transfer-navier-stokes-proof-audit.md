@@ -8,33 +8,64 @@ Temporary detailed working files live in:
 
 `/private/tmp/ns-presentation-audit`
 
-## Latest Snapshot: S4 Packet Compatibility Owner Matrix
+## Latest Snapshot: Conditional Article Synchronized To L267
 
-The temporary audit has now decomposed the S4 packet-compatibility source contract
-into named owner subchannels. The newest local block is
-`293-s4-margin-floor-owner-theorem.md`, registered as L166 in
-`02-closed-lemmas.md`.
+The public TeX/PDF article has now been synchronized with the temporary audit through
+L267 in `/private/tmp/ns-presentation-audit/02-closed-lemmas.md`.
 
-Closed locally/formally: the S4 compatibility ledger now has owners for packet
-environment frames, native norms, carrier sectors, dictionary components, owner
-splits, certified-old physical subtraction, packet envelopes, and margin/floor
-compatibility. The final margin/floor subchannel has exactly four legal outcomes:
-fixed positive margin, registered margin comparison, finite update or floor
-recompute, and named escape/gate.
+The current article is deliberately conditional. It proves the closed submodules in
+detail, records the finite ledger identities that have become formal source
+closures, and names the remaining PDE source theorems without using them as proved
+inputs.
 
-The recorded local estimate is:
+Closed in the current TeX/PDF:
 
-`sum_{k in B} MarginPktCompat_k <= C_S4,margin sum_{k in B} MarginOwner_k`,
+1. The local Serrin-critical Oseen transfer estimate, with pressure tail and collar
+   terms explicitly paid.
+2. The fixed centered dyadic cutoff-family domination:
+   `sum_k W_k <= C(|x-x_*|^{-2}+R^{-2})`, where
+   `W_k=|partial_t zeta_k|+|Delta zeta_k|+|grad zeta_k|^2`.
+3. The integrated Oseen cutoff collar:
+   `sum_k int |w|^2 W_k < infinity`, by local energy, dissipation, and Hardy.
+4. The fixed-drift dyadic drift-gradient collar:
+   `sum_k int |g| |w|^2 |grad zeta_k| < infinity`, on a fixed or finitely merged
+   Serrin-drift epoch.
+5. The registered-escape firewall: `EscS8=S8Loc`, `ForceUseEsc=ForceUse`, and
+   analogous self-renamings are not source theorems unless tied to independent
+   failure, lower-bound/packing, gate, or impossibility mechanisms.
+6. The post-firewall S6 native-force source contract:
+   `S6 = S6_HilbFixed + S6Native`, with `ForceUse`, `ForceYTrans`,
+   `ForcePressPair`, `ForceTail_native`, and `ForceOwner_native` separated.
+7. The post-firewall S8 active channel:
+   `S8Loc_active = LocVel + LocPress + LocGauge + LocNorm + LocCar + LocPred +
+   LocCtr + LocContain + CutLocState + ErrS8Residual`.
 
-where
+Still open in the current conditional theorem:
 
-`MarginOwner_k = ShrinkOwner_k + GraphMarginOwner_k + CertMarginOwner_k + PacketEnvMarginOwner_k + FloorOwner_k + BoundaryOwner_k`.
+1. Full S6 native source closure: forced-use or zero-certified-use exhaustion,
+   native `Y_force` transitions, native force tails, owner transitions, and the
+   shared pressure-force pair.
+2. Full S8 source closure beyond the integrated cutoff subsource: critical annular
+   `LocVel`, pressure/gauge localization, normal/cutoff commutators, carrier imports,
+   predictor tails, recentering, containment, and cutoff/localization state motion.
+3. Full S7 residual closure: pressure representative variation beyond the closed
+   envelope coordinate, pressure-tail production, shrink/margin/floor closure,
+   gauge-gradient, gauge-cutoff, gauge-shrink, and gauge-pair.
+4. The shared pressure-force-pair theorem, including gradient movement, pressure
+   tail, gauge representative loss, shrink-margin loss, cutoff pressure loss, fixed
+   owner split, and non-tautological escape semantics.
+5. S9 carrier source closure, S10/Oseen moving-owner source closure, S11/E10/E11/E12
+   shrink-margin-floor positivity, and S12/GQ3 finite-state or finite-variation
+   stabilization.
+6. The concrete Navier-Stokes topology blocks: predictor differentiability, global
+   residual representation, packet-level null-graph rigidity, carrier localization,
+   and the quantitative closure alternative.
 
-This closes only the formal S4 bookkeeping layer. It does not yet prove that
-genuine Navier-Stokes packet epochs have the required fixed positive margins, nor
-that the six margin owners are globally summable. Those are still PDE/source
-theorems to be proved through E10/E11/E12, S11/S12, finite-variation control, and
-the final global cost assembly.
+The current PDF should therefore be read as a professional conditional proof
+architecture with several genuinely closed sublemmas, not as a claimed
+nonconditional Clay-style solution.
+
+## Previous Snapshot: S4 Packet Compatibility Owner Matrix
 
 ## Previous Snapshot: Force/Pressure/Gauge Closure Layer
 
@@ -148,28 +179,39 @@ This avoids hiding strong 3D well-posedness inside the definition of "predictor"
 
 ## Current Main Open Blocks
 
-After the master reduction, the remaining proof burden is concentrated in two PDE statements:
+After the latest synchronization, the remaining proof burden is no longer just a
+coarse "global cost" placeholder. The open blocks are the source theorems that must
+turn the conditional article into a nonconditional proof:
 
-1. Global cost finiteness: the total registered cost along every controlled predictive chain is finite.
-2. Bad-block defect theorem: every persistently bad block either opens the relative CKN gate or pays a positive registered cost.
-
-These two statements expand into the following concrete tasks:
-
-1. Instantiate the formal global Hilbert representation as a Navier-Stokes PDE/frame theorem: construct a scale-critical `K`, `R`, `A_k`, and prove the Bessel finite-overlap bound for transported innovation witnesses without losing bad-block detection.
-2. Prove square-summability of pressure, cutoff, gauge, holonomy, and localization transport errors, or charge non-summable parts as positive escape.
-3. Prove envelope boundedness for controlled singular chains, or define and charge envelope escape.
-4. Construct concrete carrier parameter space and admissible recentering calculus.
-5. Prove pressure/defect transport estimates under recentering.
-6. Prove compactness of envelope-bounded block classes modulo recentering.
-7. Prove stability of predictive defect/no-gate conditions in the compact topology.
-8. Re-run no-circularity audit for every proposed PDE closure.
-9. Prove actual source outcomes for the S4 owner subchannels isolated in `277`,
-   `279`, `281`, `283`, `285`, `287`, `289`, `291`, and `293`.
-10. Prove the independent `ErrS1repr`/`EscPkt` source theorem and the true S1 row
-    Bessel/Carleson theorem for actual Navier-Stokes rows.
-11. Close E12's exact floor theorem and the S2-S12/VarEff finite-variation layer.
-12. Assemble the final non-conditional theorem without borrowing any margin from
-    S1, final GQ1, or after-the-fact threshold choices.
+1. S1/S4 packet rows: prove the true Navier-Stokes row Bessel/Carleson theorem,
+   actual packet pairing identity, packet-envelope outcomes, all S4 owner-family
+   source outcomes, and the remaining `ErrS1repr`/`EscPkt` owner outcomes.
+2. S6 native force: prove forced-use or zero-certified-use exhaustion, native
+   `Y_force` transition, native force-tail source closure, force-owner transition,
+   and Hilbert fixed-chart globalization.
+3. S7 pressure/gauge: prove residual GP2 variation, GP3 pressure-tail production,
+   remaining GP4 shrink/margin/floor source closure, gauge-gradient, gauge-cutoff,
+   gauge-shrink, and gauge-pair.
+4. Shared pressure-force pair: prove source closure for gradient representative
+   movement, pressure tail, gauge representative loss, gauge shrink-margin loss,
+   cutoff pressure loss, owner split, and genuine escape/gate semantics.
+5. S8 cutoff/localization: close all active subowners not covered by the dyadic
+   cutoff Hardy subsource, especially critical annular velocity mass, pressure/gauge
+   localization, normal/cutoff commutator, carrier imports, predictor tails,
+   recentering, containment, and state motion.
+6. S9/S10/Oseen: close carrier source theorems and Oseen moving-owner production
+   beyond the fixed cutoff and fixed-drift subchannels: pressure pair, force/gauge
+   pair, localization-carrier-cutoff compatibility, explicit Oseen errors, and
+   moving-drift residuals.
+7. S11/S12/E12: prove shrink-margin-floor positivity, exact floor compatibility,
+   finite-atlas/finite-variation/Cauchy/monotone state stabilization, or genuine
+   escape/gate alternatives.
+8. Concrete Navier-Stokes topology: instantiate the global Hilbert residual
+   representation, predictor differentiability, packet-level null-graph rigidity,
+   carrier localization, compactness modulo recentering, and quantitative closure
+   alternative.
+9. Final assembly: build `GQ1` only after every consumed source theorem has been
+   proved or legally routed to finite update, genuine escape, gate, or impossibility.
 
 ## Key Warning
 

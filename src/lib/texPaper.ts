@@ -214,6 +214,11 @@ function renderFragment(source: string, state: RenderState): string {
         continue;
       }
 
+      if (environment === "description") {
+        html.push(renderDescriptionList(inner, state));
+        continue;
+      }
+
       const labels: Record<string, string> = {
         theorem: "Theorem",
         proposition: "Proposition",
@@ -266,6 +271,24 @@ function renderList(source: string, state: RenderState, tag: "ol" | "ul", classN
   const classAttribute = className ? ` class="${className}"` : "";
 
   return `<${tag}${classAttribute}>${items.map((item) => `<li>${renderFragment(item, state)}</li>`).join("")}</${tag}>`;
+}
+
+function renderDescriptionList(source: string, state: RenderState) {
+  const regex = /\\item(?:\[([^\]]+)\])?\s*/g;
+  const starts = [...source.matchAll(regex)];
+  const items: string[] = [];
+
+  starts.forEach((match, index) => {
+    const contentStart = (match.index ?? 0) + match[0].length;
+    const contentEnd = starts[index + 1]?.index ?? source.length;
+    const label = match[1]?.trim() ?? "";
+    const content = source.slice(contentStart, contentEnd).trim();
+    items.push(
+      `<dt>${label ? formatInline(label, state) : ""}</dt><dd>${renderFragment(content, state)}</dd>`
+    );
+  });
+
+  return `<dl class="paper-description-list">${items.join("")}</dl>`;
 }
 
 function renderBibliography(source: string, citeLabels: Map<string, string>, idPrefix: string) {
