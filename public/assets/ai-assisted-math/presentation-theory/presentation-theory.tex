@@ -24,7 +24,7 @@
 \maketitle
 
 \begin{abstract}
-This note develops a formal language for studying mathematical objects through chosen systems of description. A presentation system consists of descriptions, a realization map, and resource bounds; it induces bounded parts, presentation complexity, and realization fibres. The theory also treats observables and costed observables, whose fibres measure indistinguishability and whose bounded profiles give lower-bound criteria. Cost-controlled maps and normal-form compilers provide transfer principles between presentation systems. The final section collects reusable abstract theorems, including bounded-image obstructions, observable factorization, normal-form transfer, verification-length barriers, and no-resolution results.
+This note develops a formal language for studying mathematical objects through chosen systems of description. A presentation system consists of descriptions, a realization map, and resource bounds; it induces bounded parts, presentation complexity, and realization fibres. The theory also treats observables and costed observables, whose fibres measure indistinguishability and whose bounded profiles give lower-bound criteria. Cost-controlled maps and normal-form compilers provide transfer principles between presentation systems. A central section collects reusable abstract theorems, including bounded-image obstructions, observable factorization, normal-form transfer, verification-length barriers, and no-resolution results, before the final examples specialize the language to heights, Kolmogorov complexity, circuits, group presentations, and algebraic complexity.
 \end{abstract}
 
 \section{Guiding idea}
@@ -1610,130 +1610,6 @@ If such an algorithm existed, it would decide the halting problem. Given a Turin
 Thus bounded-counterexample principles require separate mathematical input. They are powerful when available, but they cannot be generated uniformly from decidability alone.
 
 
-\section{Basic examples}
-
-
-\subsection{Heights}
-
-For rational points in projective space,
-
-\[
-\mathcal X=\mathbb P^n(\mathbb Q),
-\]
-
-one may take descriptions to be primitive integer coordinate vectors
-
-\[
-(a_0,\dots,a_n)\in \mathbb Z^{n+1}_{\mathrm{prim}}\setminus\{0\},
-\]
-
-with realization
-
-\[
-\rho(a_0,\dots,a_n)=[a_0:\dots:a_n]
-\]
-
-and cost
-
-\[
-\kappa(a_0,\dots,a_n)=\log\max_i|a_i|.
-\]
-
-The resulting presentation complexity is the logarithmic height.
-
-Thus height theory is an arithmetic instance of presentation complexity.
-
-Height balls are bounded parts. Height inequalities under morphisms are cost-controlled maps. Counting points of bounded height is volume theory for bounded parts.
-
-
-\subsection{Kolmogorov complexity}
-
-For finite binary strings,
-
-\[
-\mathcal X=\{0,1\}^*,
-\]
-
-take descriptions to be programs for a universal machine \(U\):
-
-\[
-\mathcal D=\{0,1\}^*,
-\]
-
-with realization
-
-\[
-\rho(p)=U(p)
-\]
-
-and cost
-
-\[
-\kappa(p)=|p|.
-\]
-
-Then
-
-\[
-K_U(x)=\min\{|p|:U(p)=x\}
-\]
-
-is Kolmogorov complexity relative to \(U\).
-
-
-\subsection{Circuit complexity}
-
-For Boolean functions,
-
-\[
-\mathcal X=\{f:\{0,1\}^n\to\{0,1\}\},
-\]
-
-descriptions may be Boolean circuits, realization is the computed function, and cost is circuit size or depth.
-
-The presentation complexity is minimum circuit size or depth.
-
-
-\subsection{Group presentations}
-
-For finite groups, one possible presentation system uses finite presentations
-
-\[
-\langle S\mid R\rangle,
-\]
-
-with realization
-
-\[
-\rho(S,R)=F(S)/\langle\!\langle R\rangle\!\rangle
-\]
-
-and cost such as
-
-\[
-\kappa(S,R)=\bigl(|S|,|R|,\sum_{r\in R}|r|\bigr).
-\]
-
-Another presentation system may use multiplication tables, word circuits, semidirect-product data, module data, commutator tensors, finite local models, or permutation-cover data.
-
-Different presentation systems measure different mathematical resources.
-
-Words may play two distinct roles. As relators, words are part of descriptions and contribute to presentation cost. As word maps or word equations, words define observables and contribute to observation cost.
-
-
-\subsection{Algebraic and straight-line complexity}
-
-For polynomials or algebraic expressions, descriptions may be arithmetic circuits or straight-line programs.
-
-The realization map sends a circuit to the polynomial or function it computes.
-
-The cost may be the number of operations, depth, degree of allowed gates, or circuit size.
-
-Observables may include degree, rank of partial derivative spaces, support, evaluation data, or factorization patterns.
-
-This gives a presentation-theoretic view of algebraic complexity.
-
-
 \section{Reusable General Theorems}
 
 The formalism gives stable proof patterns. The following theorems are abstract templates for height balls, coefficient boxes, word observables, hom-count tests, rank probes, normal forms, proof languages, and bounded counterexample searches.
@@ -2062,6 +1938,131 @@ If \(B_P\) were nonempty, the first hypothesis would produce an element of \(B_P
 \end{proof}
 
 This theorem captures finite-reduction arguments: counterexamples must be cheap, but cheap counterexamples are excluded.
+
+
+\section{Basic examples}
+
+
+\subsection{Heights}
+
+For rational points in projective space,
+
+\[
+\mathcal X=\mathbb P^n(\mathbb Q),
+\]
+
+one may take descriptions to be primitive integer coordinate vectors
+
+\[
+(a_0,\dots,a_n)\in \mathbb Z^{n+1}_{\mathrm{prim}}\setminus\{0\},
+\]
+
+with realization
+
+\[
+\rho(a_0,\dots,a_n)=[a_0:\dots:a_n]
+\]
+
+and cost
+
+\[
+\kappa(a_0,\dots,a_n)=\log\max_i|a_i|.
+\]
+
+The resulting presentation complexity is the logarithmic height.
+
+Thus height theory is an arithmetic instance of presentation complexity.
+
+Height balls are bounded parts. Height inequalities under morphisms are cost-controlled maps. Counting points of bounded height is volume theory for bounded parts.
+
+
+\subsection{Kolmogorov complexity}
+
+For finite binary strings,
+
+\[
+\mathcal X=\{0,1\}^*,
+\]
+
+take descriptions to be programs for a universal machine \(U\):
+
+\[
+\mathcal D=\{0,1\}^*,
+\]
+
+with realization
+
+\[
+\rho(p)=U(p)
+\]
+
+and cost
+
+\[
+\kappa(p)=|p|.
+\]
+
+Then
+
+\[
+K_U(x)=\min\{|p|:U(p)=x\}
+\]
+
+is Kolmogorov complexity relative to \(U\).
+
+
+\subsection{Circuit complexity}
+
+For Boolean functions,
+
+\[
+\mathcal X=\{f:\{0,1\}^n\to\{0,1\}\},
+\]
+
+descriptions may be Boolean circuits, realization is the computed function, and cost is circuit size or depth.
+
+The presentation complexity is minimum circuit size or depth.
+
+
+\subsection{Group presentations}
+
+For finite groups, one possible presentation system uses finite presentations
+
+\[
+\langle S\mid R\rangle,
+\]
+
+with realization
+
+\[
+\rho(S,R)=F(S)/\langle\!\langle R\rangle\!\rangle
+\]
+
+and cost such as
+
+\[
+\kappa(S,R)=\bigl(|S|,|R|,\sum_{r\in R}|r|\bigr).
+\]
+
+Another presentation system may use multiplication tables, word circuits, semidirect-product data, module data, commutator tensors, finite local models, or permutation-cover data.
+
+Different presentation systems measure different mathematical resources.
+
+Words may play two distinct roles. As relators, words are part of descriptions and contribute to presentation cost. As word maps or word equations, words define observables and contribute to observation cost.
+
+
+\subsection{Algebraic and straight-line complexity}
+
+For polynomials or algebraic expressions, descriptions may be arithmetic circuits or straight-line programs.
+
+The realization map sends a circuit to the polynomial or function it computes.
+
+The cost may be the number of operations, depth, degree of allowed gates, or circuit size.
+
+Observables may include degree, rank of partial derivative spaces, support, evaluation data, or factorization patterns.
+
+This gives a presentation-theoretic view of algebraic complexity.
+
 
 
 \section*{Declaration of generative AI and AI-assisted technologies in the writing process}

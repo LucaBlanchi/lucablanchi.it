@@ -36,7 +36,7 @@ The first note on Presentation Theory introduced presentation systems, bounded p
 
 The formal part proves reusable transfer principles. A presentation morphism sends bounded source objects to bounded target objects with controlled overhead. Its optimal distortion profile composes along paths. Observable-compatible morphisms pull back bounded observable images and distinguishing-cost lower bounds. Operation-compatible morphisms transport term constructions. Base-fibre decompositions split complexity into a base cost and a relative fibre cost when assembly and extraction are controlled. Verification relations transfer proof data in the directions supplied by the package. These ingredients assemble into a controlled transfer schema for universal statements in a budgeted fragment.
 
-The sequel then isolates several engines that recur across applications. Fragmented positive predicates have optimal resource profiles of the same Turing degree as the underlying decision problem. Finite-window systems turn undecidable global existence into non-computable obstruction radii. Undecidable threshold problems for computable limiting quantities forbid computable convergence moduli. Move-connected presentation fibres have bridge-height profiles of the same Turing degree as recognition of the fibre. Rank-profile compilers transfer Murphy-type universality into fibres of observables. Wild-fibre compilers place matrix-pair classification problems inside fixed observable fibres. A budgeted Morita principle records when two presentation contexts have the same quantitative theory up to a chosen overhead class.
+The sequel then isolates several engines that recur across applications. Fragmented positive predicates have optimal resource profiles of the same Turing degree as the underlying decision problem; their total majorants form exactly the upper Turing cone above that problem, giving a no-effective-atlas principle for access tasks with undecidable positive part. Finite-window systems turn undecidable global existence into non-computable obstruction radii. Undecidable threshold problems for computable limiting quantities forbid computable convergence moduli. Move-connected presentation fibres have bridge-height profiles of the same Turing degree as recognition of the fibre. Rank-profile compilers transfer Murphy-type universality into fibres of observables. Wild-fibre compilers place matrix-pair classification problems inside fixed observable fibres. A budgeted Morita principle records when two presentation contexts have the same quantitative theory up to a chosen overhead class.
 
 The applications cover finite models, Diophantine equations, proof length, Dehn area, cellular automata, grammar ambiguity, matrix mortality, Wang tilings, nonlocal games, multiparameter persistence, rank-derived invariants, finite poset sheaves, quiver representations, finite group quotients, finite linear representations, Pachner moves, and Tietze moves. The common point is that transfer turns qualitative universality and undecidability results into quantitative statements about observable budgets and fibre geometry.
 \end{abstract}
@@ -868,6 +868,29 @@ F^\ast(\theta\circ G)
 Operation compatibility is obtained by pasting the operation diagrams. Verification-transfer maps compose in their declared directions. Fibre and measure controls compose by applying the corresponding bounds successively.
 \end{proof}
 
+\begin{remark}[Operational sheet for a transfer package]
+For applications it is useful to record a transfer package in a fixed order:
+\[
+\text{source context},\quad
+\text{target context},\quad
+\text{compiler},
+\]
+\[
+\text{target observables},\quad
+\text{observable pullback},\quad
+\text{verification data},
+\]
+\[
+\text{fibre map},\quad
+\text{moves in fibres},\quad
+\text{overhead vector},
+\]
+\[
+\text{statement to be transported}.
+\]
+The atlas of transfer packages is an expanded catalogue of such sheets. The theorem above explains why sheets can be composed; the controlled transfer schema below explains which logical statements are preserved by a completed sheet.
+\end{remark}
+
 \section{Budgeted Theorem Logic}
 
 To say that a transfer package transports a theorem, one must specify which statements are allowed.
@@ -1009,6 +1032,148 @@ If a computable function \(g\) satisfied \(W_P(n)\leq g(n)\) for all \(n\), the 
 \begin{remark}
 Finite-quotient search, bounded proof search, bounded normal-form search, and bounded move search are all instances of this template when the positive instances are exhausted by decidable bounded fragments.
 \end{remark}
+
+\section{Fragmented Width Profiles and Effective Atlases}
+
+The previous theorem identifies the exact degree of the optimal positive width profile. Two refinements are often more useful in applications. First, any total upper bound for the width profile already computes the underlying positive predicate. Second, this gives a precise obstruction to effective atlases for access tasks.
+
+\begin{definition}[Majorant degrees]
+For a fragmented positive predicate \(P=\bigcup_r P_{\le r}\), let
+\[
+\operatorname{MajDeg}(W_P)
+\]
+be the set of Turing degrees of total functions
+\[
+G:\mathbb N\to\mathbb N
+\]
+such that
+\[
+W_P(n)\le G(n)
+\qquad
+\text{for every }n.
+\]
+\end{definition}
+
+\begin{theorem}[Majorant-cone theorem]
+For every decidably fragmented positive predicate \(P\),
+\[
+\operatorname{MajDeg}(W_P)
+=
+\{\mathbf a:\deg_T(P)\le \mathbf a\}.
+\]
+\end{theorem}
+
+\begin{proof}
+Let \(G\) be a total majorant of \(W_P\). Given oracle access to \(G\), decide \(P\) on input \(x\) by testing the decidable condition
+\[
+x\in P_{\le G(|x|)}.
+\]
+If \(x\in P\), then \(w_P(x)\le W_P(|x|)\le G(|x|)\), so the test accepts. If the test accepts, soundness of the fragments gives \(x\in P\). Hence every majorant computes \(P\).
+
+Conversely, if a degree \(\mathbf a\) computes \(P\), then it computes \(W_P\) by the positive-fragment equivalence. This gives at least one majorant,
+\[
+G(n)=W_P(n)
+\]
+of degree at most \(\mathbf a\). To realize exactly \(\mathbf a\), choose a total function \(g\) of degree \(\mathbf a\). Since \(W_P\le_T g\), define
+\[
+H(n)=2^{W_P(n)}(2g(n)+1).
+\]
+Then \(H\) is a total majorant of \(W_P\) and \(H\le_T g\). Conversely \(W_P(n)\) is the \(2\)-adic valuation of \(H(n)\), and then
+\[
+g(n)=\frac{H(n)/2^{W_P(n)}-1}{2}.
+\]
+Thus \(g\le_T H\), so \(H\) has degree \(\mathbf a\). The majorant degrees are precisely the upper cone above \(\deg_T(P)\).
+\end{proof}
+
+\begin{definition}[Effective access atlas]
+Let \(P=\bigcup_rP_{\le r}\) be a fragmented positive predicate. An effective access atlas for \(P\) is a computable system of local procedures, normal forms, coordinates, or search charts together with a computable total overhead function
+\[
+G:\mathbb N\to\mathbb N
+\]
+such that every positive input \(x\in P\) satisfies
+\[
+x\in P_{\le G(|x|)}.
+\]
+Equivalently, the atlas supplies a computable total majorant for \(W_P\).
+\end{definition}
+
+\begin{theorem}[No effective atlas criterion]
+If \(P\) is undecidable, then \(P\) admits no effective access atlas. More generally, any oracle that computes the total overhead of such an atlas computes \(P\).
+\end{theorem}
+
+\begin{proof}
+The overhead function of an effective access atlas is a total majorant of \(W_P\). By the majorant-cone theorem, every such majorant computes \(P\). Therefore a computable atlas overhead would decide \(P\), contradicting undecidability.
+\end{proof}
+
+\begin{remark}
+This is stronger than the absence of a computable classifier. It rules out any computable coordinate system that solves the declared access task with computable overhead: bounded observer refinement, bounded normal-form search, bounded fibre navigation, bounded proof degree, bounded finite quotient search, bounded model search, or bounded obstruction radius.
+\end{remark}
+
+\begin{definition}[Cost-bounded reduction of fragmented predicates]
+Let \(P\subseteq X\) and \(Q\subseteq Y\) be fragmented positive predicates on effectively encoded classes. A cost-bounded reduction from \(P\) to \(Q\) is a computable map
+\[
+\Phi:X\to Y
+\]
+and a computable nondecreasing overhead
+\[
+\alpha:\mathbb N\to\mathbb N
+\]
+such that
+\[
+x\in P
+\quad\Longleftrightarrow\quad
+\Phi(x)\in Q
+\]
+and
+\[
+|\Phi(x)|\le \alpha(|x|)
+\]
+for all \(x\in X\).
+\end{definition}
+
+\begin{definition}[Image width profile]
+For a cost-bounded reduction \(\Phi:P\to Q\), define
+\[
+W_Q^\Phi(n)
+=
+\max_{\substack{x\in P\\ |x|\le n}}
+w_Q(\Phi(x)),
+\]
+with value \(0\) if there are no positive inputs of size at most \(n\).
+\end{definition}
+
+\begin{theorem}[Exact degree of image profiles]
+Let \(\Phi:P\to Q\) be a cost-bounded reduction between fragmented positive predicates. Then
+\[
+W_Q^\Phi\equiv_T P.
+\]
+Consequently,
+\[
+\operatorname{MajDeg}(W_Q^\Phi)
+=
+\{\mathbf a:\deg_T(P)\le \mathbf a\}.
+\]
+\end{theorem}
+
+\begin{proof}
+Pull the fragmentation of \(Q\) back along \(\Phi\):
+\[
+P_{\le r}^{\Phi}=\{x:\Phi(x)\in Q_{\le r}\}.
+\]
+This is a decidable fragmentation of \(P\), and its width profile is exactly \(W_Q^\Phi\). Apply the positive-fragment equivalence and the majorant-cone theorem.
+\end{proof}
+
+\begin{corollary}[Target profile inherits source hardness]
+Let \(W_Q\) be the full width profile of \(Q\). If \(P\) cost-bounded reduces to \(Q\), then every total majorant of \(W_Q\) computes \(P\).
+\end{corollary}
+
+\begin{proof}
+If \(H\) majorizes \(W_Q\), then
+\[
+G(n)=H(\alpha(n))
+\]
+majorizes \(W_Q^\Phi(n)\), because \(|\Phi(x)|\le\alpha(|x|)\). The preceding theorem gives \(P\le_T G\le_T H\).
+\end{proof}
 
 \section{Immediate Budget Explosions}
 

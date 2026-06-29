@@ -20,6 +20,7 @@
 \DeclareMathOperator{\CheckNF}{Check}
 \DeclareMathOperator{\Comp}{Comp}
 \DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\DNF}{DNF}
 \DeclareMathOperator{\Gr}{Gr}
 \DeclareMathOperator{\im}{im}
 \DeclareMathOperator{\NF}{NF}
@@ -39,7 +40,7 @@
 \begin{abstract}
 This note develops a normal-form layer for Presentation Theory. A normal form is treated not as a privileged representative in isolation, but as a costed access transformation: it converts raw descriptions into more rigid data while controlling overhead, verification data, residual fibres, and the observables that survive the transformation. This point of view gives a calculus of normal-form packages, their composition, observable quotients, residual decompositions, and lower bounds from separation of budgeted normal images.
 
-The formal results are deliberately elementary but reusable. Bounded compilation sends bounded raw objects into bounded normal images. Separators of those images give lower bounds. Observable families and residual equivalence relations form a Galois connection. Residual complexity splits the cost of reconstructing an object into normal data and fibre data. Fragmented towers may be complete only in a non-effective sense, and their optimal truncation functions have the same Turing degree as the underlying positive predicate. Rewriting systems supply normal forms when termination, local confluence, and cost growth are controlled.
+The formal results are deliberately elementary but reusable. Bounded compilation sends bounded raw objects into bounded normal images. Separators of those images give lower bounds. Observable families and residual equivalence relations form a Galois connection. Residual complexity splits the cost of reconstructing an object into normal data and fibre data. Fragmented towers may be complete only in a non-effective sense, and their optimal truncation functions have the same Turing degree as the underlying positive predicate. Heighted normal forms satisfy no-free-normal-form inequalities: bounded normal data and bounded gauges cannot produce objects of unbounded height, and degenerating normal forms must pay for the path producing the limit. Rewriting systems supply normal forms when termination, local confluence, and cost growth are controlled.
 
 The main concrete application is a fixed-gap instability theorem for spectral canonicalization. On the orbit of real symmetric matrices with fixed simple spectrum and uniformly positive eigengap, no global eigenbasis canonicalizer can be continuous. In fact any deterministic sign choice has jumps of size approaching \(2\). The stable replacement is the projector-valued, or stacky, spectral normal form. This explains, in normal-form language, why sign- and basis-invariant spectral graph methods are structurally natural: continuous basis-invariant spectral encodings factor through the relevant projector data.
 \end{abstract}
@@ -503,6 +504,187 @@ If \(W_P\) had a computable total majorant \(g\), then membership in \(P\) would
 \end{proof}
 
 This theorem applies to fragmented normal-form towers, bounded proof search, bounded saturation, bounded finite quotient search, and bounded observable towers. Its content is not that the tower is useless, but that completeness may require a non-computable truncation function.
+
+\section{Heighted and Degenerating Normal Forms}
+
+Normal-form compilation often interacts with arithmetic height. A normal form may be formally available, yet any representative realizing it may require large gauge data, large coefficients, or a high-complexity degeneration path. The following abstract package isolates the reusable mechanism.
+
+\begin{definition}[Heighted normal-form package]
+A heighted normal-form package consists of projective varieties
+\[
+G,\qquad N,\qquad X
+\]
+over \(\overline{\mathbb Q}\), height functions
+\[
+h_G,\qquad h_N,\qquad h_X
+\]
+coming from fixed projective embeddings, and a rational action or realization map
+\[
+a:G\times N\dashrightarrow X.
+\]
+The space \(G\) is the gauge space, \(N\) is the normal-data space, and \(X\) is the object space. On each declared chart of the domain of \(a\), the coordinate functions of \(a\) are represented by bihomogeneous forms of bidegree
+\[
+(\delta_G,\delta_N).
+\]
+\end{definition}
+
+A representation of \(x\in X\) is a pair \((g,n)\) in the declared domain with
+\[
+x=a(g,n).
+\]
+Its normal-form cost is
+\[
+\NF_{\mathcal H}(x;g,n)
+=
+\delta_G h_G(g)+\delta_N h_N(n),
+\]
+and the minimal cost is the infimum over all such representations.
+
+\begin{theorem}[No free heighted normal forms]
+For every heighted normal-form package \(\mathcal H\), there is a constant \(C_{\mathcal H}\), depending only on the chosen charts and coordinate forms, such that
+\[
+h_X(a(g,n))
+\le
+\delta_G h_G(g)+\delta_N h_N(n)+C_{\mathcal H}
+\]
+for every declared representation \((g,n)\). Consequently,
+\[
+\delta_G h_G(g)
+\ge
+h_X(x)-\delta_N h_N(n)-C_{\mathcal H}
+\]
+whenever \(x=a(g,n)\).
+\end{theorem}
+
+\begin{proof}
+Choose projective coordinates on \(G,N,X\). On a declared chart write
+\[
+a(g,n)=[F_0(g,n):\cdots:F_M(g,n)],
+\]
+where the \(F_i\) are bihomogeneous of bidegree \((\delta_G,\delta_N)\) and do not vanish simultaneously on the domain. The standard multihomogeneous height estimate gives
+\[
+h_X(a(g,n))
+\le
+\delta_G h_G(g)+\delta_N h_N(n)+h(F)+C,
+\]
+where \(F\) denotes the fixed tuple of coordinate forms. Absorb the fixed terms into \(C_{\mathcal H}\), and rearrange.
+\end{proof}
+
+\begin{corollary}[Bounded normal data force high gauge]
+If \(x=a(g,n)\) and \(h_N(n)\le B_N\), then
+\[
+h_G(g)
+\ge
+\frac{h_X(x)-\delta_N B_N-C_{\mathcal H}}{\delta_G}.
+\]
+Thus objects of unbounded height cannot be produced using both bounded-height normal data and bounded-height gauges.
+\end{corollary}
+
+\begin{definition}[Degenerating normal-form representation]
+Fix a projective compactification \(\overline G\). A degenerating normal-form representation of \(x\in X\) is a pair \((\gamma,n)\), where
+\[
+\gamma:\mathbb P^1\to\overline G
+\]
+is a homogeneous algebraic path of degree \(D\) and
+\[
+x=\lim_{t\to0}a(\gamma(t),n)
+\]
+exists in \(X\). Its degenerating cost has the form
+\[
+\DNF_{\mathcal H}(x;\gamma,n)
+=
+\delta_G h(\gamma)+\delta_N h_N(n)+C\log(D+2),
+\]
+with \(C\) depending only on the package.
+\end{definition}
+
+\begin{theorem}[No free degenerating normal forms]
+For every heighted normal-form package there is a constant \(C_{\mathcal H}\) such that every degenerating representation \((\gamma,n)\) of \(x\) satisfies
+\[
+h_X(x)
+\le
+\delta_G h(\gamma)+\delta_N h_N(n)+C_{\mathcal H}\log(D+2)+C_{\mathcal H}.
+\]
+Equivalently,
+\[
+\delta_G h(\gamma)+C_{\mathcal H}\log(D+2)
+\ge
+h_X(x)-\delta_N h_N(n)-C_{\mathcal H}.
+\]
+\end{theorem}
+
+\begin{proof}
+Write the path as
+\[
+\gamma=[\Gamma_0(S,T):\cdots:\Gamma_r(S,T)]
+\]
+with homogeneous coordinate forms of common degree \(D\). Substitute these forms into the bihomogeneous coordinate tuple defining \(a\). The coefficients of the resulting homogeneous forms are sums of products involving \(\delta_G\) coefficients from \(\gamma\), \(\delta_N\) coordinates from \(n\), and fixed coefficients of the map \(a\). The number of summands is polynomial in \(D\), so the logarithmic height of the substituted tuple is bounded by
+\[
+\delta_G h(\gamma)+\delta_N h_N(n)+O(\log(D+2))+O(1).
+\]
+Passing to the limit at \(t=0\) amounts to taking the first nonzero coefficient vector after removing a common vanishing order. This operation does not increase the height beyond the coefficient-height bound up to a fixed additive constant. The displayed estimate follows.
+\end{proof}
+
+\begin{definition}[Height-controlled section]
+Let
+\[
+q:X^{ss}\to\mathcal M
+\]
+be a quotient, moduli, or orbit-class map. A rational section
+\[
+s:U\dashrightarrow X^{ss}
+\]
+over \(U\subseteq\mathcal M\) is height-controlled if there are constants \(A_s,B_s\) such that
+\[
+h_X(s(m))\le A_s h_{\mathcal M}(m)+B_s
+\]
+for all \(m\) in the declared domain.
+\end{definition}
+
+\begin{theorem}[Representative-moduli gap]
+Let \(a:G\times X\dashrightarrow X\) be a heighted gauge action of bidegree \((\delta_G,\delta_X)\), and let \(s\) be a height-controlled section of \(q:X^{ss}\to\mathcal M\). If
+\[
+x=a(g,s(q(x))),
+\]
+then
+\[
+h_X(x)
+\le
+\delta_G h_G(g)+\delta_X A_s h_{\mathcal M}(q(x))+O(1).
+\]
+Consequently,
+\[
+h_G(g)
+\ge
+\frac{h_X(x)-\delta_X A_s h_{\mathcal M}(q(x))-O(1)}{\delta_G}.
+\]
+\end{theorem}
+
+\begin{proof}
+Apply the no-free heighted normal-form inequality to
+\[
+x=a(g,s(q(x))).
+\]
+The height-controlled section bounds \(h_X(s(q(x)))\) by \(A_s h_{\mathcal M}(q(x))+B_s\). Substitute and rearrange.
+\end{proof}
+
+\begin{proposition}[Controlled transfer of heighted normal forms]
+Let \(\mathcal H_P\) and \(\mathcal H_Q\) be heighted normal-form packages. Suppose rational maps
+\[
+T_G:G_P\dashrightarrow G_Q,\qquad
+T_N:N_P\dashrightarrow N_Q,\qquad
+T_X:X_P\dashrightarrow X_Q
+\]
+intertwine the realization maps:
+\[
+T_X(a_P(g,n))=a_Q(T_G(g),T_N(n)),
+\]
+and suppose \(T_G,T_N\) control heights linearly up to additive constants. Then the minimal heighted normal-form cost in \(\mathcal H_Q\) is bounded above by an affine function of the minimal heighted normal-form cost in \(\mathcal H_P\).
+\end{proposition}
+
+\begin{proof}
+Choose a representation \(x=a_P(g,n)\). The intertwining identity gives a representation of \(T_X(x)\) in \(\mathcal H_Q\). The height bounds for \(T_G\) and \(T_N\) control its \(Q\)-cost by an affine function of the \(P\)-cost of \((g,n)\). Taking the infimum over all \(P\)-representations of \(x\) gives the claim.
+\end{proof}
 
 \section{Rewriting and Saturation}
 
