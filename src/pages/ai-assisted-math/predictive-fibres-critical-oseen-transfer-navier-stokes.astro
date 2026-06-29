@@ -3,27 +3,22 @@ import { readFileSync } from "node:fs";
 import AiAssistedMathNotice from "../../components/AiAssistedMathNotice.astro";
 import PreliminaryStatusNotice from "../../components/PreliminaryStatusNotice.astro";
 import SectionBackLink from "../../components/SectionBackLink.astro";
-import { renderMarkdownPaper } from "../../lib/markdownPaper";
+import { renderTexPaper } from "../../lib/texPaper";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const assetBase = "/assets/ai-assisted-math/predictive-fibres-critical-oseen-transfer-navier-stokes";
 const stem = "predictive-fibres-critical-oseen-transfer-navier-stokes";
-const auditStem = `${stem}-proof-audit`;
-const paper = renderMarkdownPaper(
-  readFileSync(`public${assetBase}/${auditStem}.md`, "utf8"),
-  {
-    idPrefix: "predictive-fibres-critical-oseen-transfer-navier-stokes",
-  },
-);
+const paper = renderTexPaper(readFileSync(`public${assetBase}/${stem}.tex`, "utf8"), {
+  idPrefix: "predictive-fibres-critical-oseen-transfer-navier-stokes",
+});
 
 const pdfHref = `${assetBase}/${stem}.pdf`;
 const texHref = `${assetBase}/${stem}.tex`;
-const mdHref = `${assetBase}/${auditStem}.md`;
 ---
 
 <BaseLayout
-  title={paper.title}
-  description="A current audited proof strategy for three-dimensional Navier-Stokes: an original presentation-theoretic conditional reduction, its closed modules, and the exact remaining blocks needed for a nonconditional proof."
+  title="Predictive Fibres and Critical Oseen Transfer for the Three-Dimensional Navier-Stokes Equations"
+  description="A conditional presentation-theoretic reduction for three-dimensional Navier-Stokes regularity, with detailed proved components and explicit remaining analytic source theorems."
   currentPath="/ai-assisted-math/predictive-fibres-critical-oseen-transfer-navier-stokes.html"
   bodyClass="paper-surface"
 >
@@ -48,11 +43,10 @@ const mdHref = `${assetBase}/${auditStem}.md`;
           <time datetime="2026-06">June 2026</time>
         </div>
         <h1>{paper.title}</h1>
-        <p class="paper-author">Luca Blanchi</p>
+        <p class="paper-author">{paper.author}</p>
         <div class="paper-actions" aria-label="Downloads">
-          <a href={mdHref} download>Download current audit</a>
-          <a href={pdfHref} download>Download PDF snapshot</a>
-          <a href={texHref} download>Download TeX snapshot</a>
+          <a href={pdfHref} download>Download PDF</a>
+          <a href={texHref} download>Download TeX source</a>
         </div>
       </header>
 
@@ -78,6 +72,11 @@ const mdHref = `${assetBase}/${auditStem}.md`;
       </nav>
 
       <div class="paper-body" set:html={paper.bodyHtml} />
+
+      <section class="paper-references" aria-label={`${paper.title} references`}>
+        <h2>References</h2>
+        <div set:html={paper.bibliographyHtml} />
+      </section>
     </article>
   </main>
 </BaseLayout>

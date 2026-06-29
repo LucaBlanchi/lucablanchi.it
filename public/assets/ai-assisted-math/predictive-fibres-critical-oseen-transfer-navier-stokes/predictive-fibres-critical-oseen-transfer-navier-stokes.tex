@@ -1,6 +1,7 @@
 \documentclass[11pt]{article}
 \usepackage[a4paper,margin=1.05in]{geometry}
 \usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{enumitem}
@@ -18,59 +19,42 @@
 
 \title{Predictive Fibres and Critical Oseen Transfer for the Three-Dimensional Navier-Stokes Equations}
 \author{Luca Blanchi}
-\date{June 28, 2026}
+\date{June 2026}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-This note develops an audited presentation-theoretic regularity program for the
-three-dimensional incompressible Navier-Stokes equations. The basic object is a
-local predictive presentation: incoming and lateral data determine admissible
-predictors, while the compatible suitable weak states form an invisible fibre. A
-putative singularity is represented by a persistent failure of causal prediction
-across parabolic scales.
+This article gives a conditional proof strategy for local regularity of the
+three-dimensional incompressible Navier-Stokes equations.  The strategy is
+presentation-theoretic.  Around a putative singular point, one fixes the
+incoming and lateral information visible before the final core of a parabolic
+cylinder.  Strong solutions generated from this information are the
+predictors.  Suitable weak solutions compatible with the same observations form
+the fibre.  A persistent singularity is then represented as a persistent
+failure of all admissible predictors to control the fibre across a nested
+sequence of critical cylinders.
 
-The current result is a precise conditional reduction, not yet a non-conditional
-regularity theorem. The paper proves several structural ingredients and isolates
-the remaining analytic burdens as named source theorems. The proved components
-include a local critical Oseen transfer estimate in the Serrin range, relaxed
-minimax centres, Hilbertian innovation packing, the two-mode null calculation for
-the Leray-projected bilinear symbol, exact Beltrami absorption, and exact
-two-and-a-half-dimensional reduction. The audit now also gives a detailed
-source-contract layer for the quotient packet route and for the pressure/gauge
-channel. Certified-new packet rows, representation errors, packet escapes, packet
-compatibility, S4 owners, pressure envelopes, pressure representatives, pressure
-tail production, pressure shrink/margins, and S8/Oseen owner imports are separated
-so that no estimate can borrow from S1, S7, the Oseen production theorem, or the
-final global cost statement.
+The main theorem is a conditional reduction.  Given a finite list of
+scale-invariant source theorems, it proves that no bad predictive chain can
+persist.  The source theorems are stated explicitly in the body of the paper:
+they concern the production of the local predictor, the global representation of
+residual innovations in one Hilbert space, the packet-level rigidity of nearly
+invisible quadratic interactions, the localization of carrier escape, the
+synchronization of pressure gauges, and the final predictive
+Caffarelli-Kohn-Nirenberg gate.
 
-The present version incorporates the latest pressure, force-native,
-cutoff-localization, and Oseen owner audit. The pressure-envelope magnitude block
-GP1 is closed as a dyadic record dichotomy: after finitely many paid updates the
-pressure chart is bounded, while infinitely many strict records give a
-non-summable registered pressure escape. The same record mechanism closes the
-\(M_p\) coordinate of pressure representative variation and the
-pressure-envelope-determined shrink coordinate
-\((M_p,\varepsilon_p,\theta_P,s_P)\). A separate finite-state argument closes
-invisible drift of the pressure-force pair convention and owner labels. These are
-formal source closures, not pressure-tail production estimates.
-
-The Oseen cutoff audit is also sharpened. For a fixed centered dyadic cutoff
-family, the complete integrated derivative-weighted cutoff collar is source-closed
-by a Hardy domination lemma. In a fixed drift epoch, the dyadic drift-gradient
-collar is source-closed by the Serrin exponent, Hardy, and Sobolev interpolation.
-These results close real subchannels of the Oseen/S8 interface. They do not close
-the full S8 localization theorem, the moving-predictor drift channel, the shared
-pressure-force pair, or the native force and carrier source theorems.
-
-Under the remaining source modules, a bad predictive chain cannot persist:
-either normal innovation is square-summable by Hilbert packing, the fibre enters a
-regular rigid branch, or a carrier/chart/envelope/margin escape is registered.
-The article therefore gives a professional conditional proof architecture: all
-closed components are proved in detail or reduced to finite ledger identities, while
-the remaining blocks are explicitly named, source-scoped, and forbidden from using
-the desired conclusion.
+Several parts of the reduction are proved here in full detail.  These include
+the Serrin-critical local Oseen transfer estimate with cutoff and pressure-tail
+terms, the relaxed minimax-centre construction, the Hilbertian packing estimate
+for genuinely new normal innovations, the two-mode null classification of the
+Leray-projected quadratic symbol, the exact pressure absorption of Beltrami
+fields, the exact two-and-a-half-dimensional reduction, the relative
+Caffarelli-Kohn-Nirenberg gate once predictor smallness is available, the
+compactness of the final gate-excess defect, and the fixed-profile cutoff and
+fixed-drift subchannels of the Oseen accounting.  The source theorem interface
+then records the exact analytic inputs still needed to turn the conditional
+reduction into a nonconditional local regularity theorem.
 \end{abstract}
 
 \section{Purpose}
@@ -83,15 +67,78 @@ The incompressible Navier-Stokes equations in three space dimensions are
 \]
 The global regularity problem remains open. Classical local theory studies suitable weak solutions through scale-invariant quantities, pressure decompositions, local energy inequalities, and epsilon-regularity criteria.
 
-This note proposes a complementary organization. Around a putative singular point, one asks whether the core of a parabolic cylinder is causally predictable from incoming and lateral information by a strong local model. The states compatible with the same incoming observables form a fibre. A singular chain is then interpreted as a sequence of scales at which no bounded predictor captures all states in the fibre.
+This paper proposes a complementary organization. Around a putative singular
+point, one asks whether the core of a parabolic cylinder is causally predictable
+from incoming and lateral information by a strong local model. The states
+compatible with the same incoming observables form a fibre. A singular chain is
+then interpreted as a sequence of scales at which no bounded predictor captures
+all states in the fibre.
 
 The presentation-theoretic language is used through analytic statements. The paper separates three levels:
 \begin{enumerate}[label=(\roman*)]
 \item statements proved here;
-\item conditional propositions proved from explicitly stated analytic modules;
-\item analytic modules used as hypotheses in the modular theorem.
+\item conditional propositions proved from explicitly stated analytic source theorems;
+\item analytic source theorems used as hypotheses in the conditional theorem.
 \end{enumerate}
-The level of each statement is marked explicitly by its environment: lemma, proposition, theorem, or assumption. The current manuscript is written as an audited reduction. It is meant to preserve the useful structure of the argument while making clear which statements are proved, which are formal bookkeeping closures, and which remain genuine Navier-Stokes source theorems.
+The level of each statement is marked explicitly by its environment: lemma, proposition, theorem, or assumption.
+
+The presentation layer fixes what is visible at a scale, what is invisible
+inside the fibre, what it means to update a predictor, and which errors are
+allowed to be counted at the next scale.  Standard local regularity estimates
+enter as analytic engines inside that organization.  The strategy turns
+persistent unpredictability into a finite alternative: either the fibre produces
+orthogonal innovations, which are square-summable; or it collapses onto a rigid
+branch; or it exits the current presentation through a registered critical
+defect.  The conditional theorem below is this alternative written as a scale
+iteration.
+
+\section{Main Conditional Statement}
+
+The following theorem is the final form of the reduction proved in this paper.
+The detailed definitions are given in the subsequent sections, and the proof is
+repeated at the end after all ingredients have been stated.
+
+\begin{theorem}[Conditional predictive reduction]
+Let \((u,p)\) be a suitable weak solution in a neighbourhood of \(z_0\).  Assume
+ that the local predictive presentations centered at \(z_0\) satisfy the source
+theorems stated below: predictor production and differentiability,
+global residual representation, packet rigidity, carrier localization, pressure
+and gauge synchronization, and final predictive epsilon regularity.  Assume also
+that the explicit scale-selection errors are summable.  Then there is no
+infinite nested sequence of cylinders at \(z_0\) on which the predictive defect
+stays bounded below.  Consequently, if failure of the predictive gate is the only
+remaining obstruction to the Caffarelli-Kohn-Nirenberg epsilon condition, then
+\(u\) is regular at \(z_0\).
+\end{theorem}
+
+The theorem is conditional exactly in the sense expressed by its hypotheses.  All
+use of an unproved analytic input occurs through one of those source theorems.
+The intervening logic--Oseen transfer, minimax selection, Hilbert packing,
+symbolic null classification, rigid branch reduction, compactness of the gate,
+and the final contradiction--is proved inside the paper.
+
+\subsection*{Reading guide and dependency map}
+
+The proof has four layers.
+\begin{enumerate}[label=(\roman*)]
+\item The local analytic layer proves the perturbative estimates used inside one
+scale block: the Oseen transfer lemma, fixed-profile cutoff domination,
+fixed-drift stability, pressure-tail accounting, relative
+Caffarelli-Kohn-Nirenberg gating, and compactness of suitable fibres.
+\item The Hilbert layer turns genuinely new linear normal defects into a
+square-summable sequence, provided all scale-dependent defects admit a global
+residual representation with a Bessel bound.
+\item The geometric layer identifies two exact null mechanisms for the projected
+quadratic symbol--Beltrami and two-and-a-half-dimensional branches--and records
+the general coherent-branch alternative needed beyond pure modes.
+\item The source-theorem layer is the conditional interface.  It specifies the
+PDE inputs that must be proved to construct predictors, synchronize pressures,
+transport defects, handle moving localization, produce branch predictors, and
+close the final bad-chain alternative.
+\end{enumerate}
+
+Only the fourth layer is assumed.  The first three layers are proved as
+standalone statements and then consumed by the modular regularity theorem.
 
 \section{Local Setting}
 
@@ -151,11 +198,20 @@ For a local argument, the pressure is decomposed schematically as
 \[
 p=p_{\mathrm{loc}}+p_{\mathrm{harm}}+p_{\mathrm{tail}}.
 \]
-The local part is absorbed by \(\mathbb P_B\). The harmonic and nonlocal pieces are not ignored: their contribution is registered by a nonnegative quantity
+The local part is absorbed by \(\mathbb P_B\). The harmonic and nonlocal pieces contribute a pressure-tail functional
 \[
 \operatorname{PressTail}(Q_R,Q_r).
 \]
-In each estimate below, this term means precisely the residual pressure contribution not controlled by the local projection.
+In an Oseen estimate with residual \(w\), pressure representative \(\pi\), and
+cutoff \(\zeta\), this notation means a bound for the remaining pressure pairing
+\[
+\left|
+\int_{Q_R}\pi_{\mathrm{tail}}\,w\cdot\nabla(\zeta^2)\,dx\,dt
+\right|,
+\]
+or for the corresponding supremum over the admissible energy tests in the same
+pressure gauge.  Thus the local projection removes only the local gradient part;
+the nonlocal pressure contribution is paid explicitly.
 
 \section{Predictive Presentations}
 
@@ -209,10 +265,13 @@ A bad predictive chain at \(z_0\) is a nested sequence \(Q_{R_k}(z_0)\), \(R_k\d
 
 \section{Critical Local Oseen Transfer}
 
-The following estimate is the most classical analytic ingredient of the program. It is included because it is the mechanism that transports a perturbation around a Serrin-critical strong predictor from one scale to a smaller core.
+The following estimate is the local perturbative engine.  It transports a
+residual around a Serrin-critical strong predictor from a cylinder to a smaller
+core, while recording the cutoff, drift, forcing, and pressure-tail costs that
+must be paid by the source theorem interface.
 
 \begin{lemma}[Critical local Oseen transfer]
-Let \(Q_r\Subset Q_R\). Let \(g\) be divergence-free and
+Let \(Q_\rho\Subset Q_R\). Let \(g\) be divergence-free and
 \[
 g\in L^q_tL^p_x(Q_R),
 \qquad
@@ -220,103 +279,111 @@ g\in L^q_tL^p_x(Q_R),
 \qquad
 p>3.
 \]
-Let \(r\) be divergence-free and pressure-cleaned, satisfying
+Let \(w\) be divergence-free and pressure-cleaned, satisfying
 \[
-\partial_t r-\Delta r
-+(g\cdot\nabla)r
-+(r\cdot\nabla)g
-+\nabla q
+\partial_t w-\Delta w
++(g\cdot\nabla)w
++(w\cdot\nabla)g
++\nabla \pi
 =F
 \]
-in \(Q_R\), distributionally. Choose \(\zeta\in C_c^\infty(Q_R)\) with \(\zeta=1\) on \(Q_r\). Assume that the nonlocal pressure contribution is bounded by \(\operatorname{PressTail}_{R,r}\), and define the incoming-collar cost by
+in \(Q_R\), distributionally. Choose \(\zeta\in C_c^\infty(Q_R)\) with
+\(\zeta=1\) on \(Q_\rho\). Assume that the nonlocal pressure contribution is
+bounded by \(\operatorname{PressTail}_{\zeta}\), in the sense of the pressure
+tail pairing defined above, and define
 \[
 \begin{aligned}
-\operatorname{Coll}_{\zeta,g}(r)^2
+\operatorname{Coll}_{\zeta,g}(w)^2
 =&
-\sup_{\mathrm{initial\ slab}}\int |r|^2\zeta^2\,dx\\
+\sup_{\mathrm{initial\ slab}}\int |w|^2\zeta^2\,dx\\
 &+
-\int_{Q_R}|r|^2
+\int_{Q_R}|w|^2
 \left(
 |\partial_t\zeta|+|\Delta\zeta|+|\nabla\zeta|^2
 \right)\,dx\,dt\\
 &+
-\int_{Q_R}|g|\,|r|^2|\nabla\zeta|\,dx\,dt.
+\int_{Q_R}|g|\,|w|^2|\nabla\zeta|\,dx\,dt.
 \end{aligned}
 \]
 Then
 \[
-\|r\|_{L^\infty_tL^2_x(Q_r)}
-+\|\nabla r\|_{L^2_{t,x}(Q_r)}
-+\|r\|_{L^{10/3}_{t,x}(Q_r)}
+\|w\|_{L^\infty_tL^2_x(Q_\rho)}
++\|\nabla w\|_{L^2_{t,x}(Q_\rho)}
++\|w\|_{L^{10/3}_{t,x}(Q_\rho)}
 \]
 \[
 \le
 C
 \left(
-\operatorname{Coll}_{\zeta,g}(r)
+\operatorname{Coll}_{\zeta,g}(w)
 +\|F\|_{L^2_tH^{-1}_x(Q_R)}
-+\operatorname{PressTail}_{R,r}
++\operatorname{PressTail}_{\zeta}
 \right),
 \]
-where \(C\) depends on \(Q_r\Subset Q_R\), on \(p\), and on \(\|g\|_{L^q_tL^p_x(Q_R)}\).
+where \(C\) depends on \(Q_\rho\Subset Q_R\), on \(p\), and on
+\(\|g\|_{L^q_tL^p_x(Q_R)}\).
 \end{lemma}
 
 \begin{proof}
-Test the equation against \(r\zeta^2\). The local pressure projection removes the local pressure contribution; the remaining pressure term is bounded by the definition of \(\operatorname{PressTail}_{R,r}\). We obtain
+Test the equation against \(w\zeta^2\).  The local pressure projection removes
+the local pressure gradient.  The remaining pressure pairing is bounded by
+\(\operatorname{PressTail}_{\zeta}\).  We obtain
 \[
-\frac12\frac{d}{dt}\int |r|^2\zeta^2
-+\int |\nabla r|^2\zeta^2
+\frac12\frac{d}{dt}\int |w|^2\zeta^2
++\int |\nabla w|^2\zeta^2
 \le
 I_{\mathrm{cut}}+I_g+I_F+I_{\mathrm{press}}.
 \]
-The cutoff term is bounded by the collar part of \(\operatorname{Coll}_{\zeta,g}(r)^2\). The forcing term is estimated by duality:
+The cutoff term is bounded by the collar part of
+\(\operatorname{Coll}_{\zeta,g}(w)^2\).  The forcing term is estimated by
+duality:
 \[
-|\langle F,r\zeta^2\rangle|
+|\langle F,w\zeta^2\rangle|
 \le
-\|F\|_{H^{-1}}\|r\zeta^2\|_{H^1}
+\|F\|_{H^{-1}}\|w\zeta^2\|_{H^1}
 \le
-\frac14\|\zeta\nabla r\|_2^2
+\frac14\|\zeta\nabla w\|_2^2
 +C\|F\|_{H^{-1}}^2
-+C\|r\nabla\zeta\|_2^2.
++C\|w\nabla\zeta\|_2^2.
 \]
 Since \(\nabla\cdot g=0\),
 \[
-\int (g\cdot\nabla r)\cdot r\zeta^2
+\int (g\cdot\nabla w)\cdot w\zeta^2
 =
--\frac12\int |r|^2g\cdot\nabla(\zeta^2),
+-\frac12\int |w|^2g\cdot\nabla(\zeta^2),
 \]
 which is included in the collar cost.
 
-It remains to estimate the stretching term. Using \(\nabla\cdot r=0\),
+It remains to estimate the stretching term. Using \(\nabla\cdot w=0\),
 \[
-\int r_i(\partial_i g_j)r_j\zeta^2
+\int w_i(\partial_i g_j)w_j\zeta^2
 =
--\int g_jr_i(\partial_i r_j)\zeta^2
--\int g_jr_ir_j\partial_i(\zeta^2).
+-\int g_jw_i(\partial_i w_j)\zeta^2
+-\int g_jw_iw_j\partial_i(\zeta^2).
 \]
 The second term is again a collar term. For the first,
 \[
 \left|
-\int g_jr_i(\partial_i r_j)\zeta^2
+\int g_jw_i(\partial_i w_j)\zeta^2
 \right|
 \le
 \|g\|_{L^p}
-\|r\zeta\|_{L^{2p/(p-2)}}
-\|\zeta\nabla r\|_{L^2}.
+\|w\zeta\|_{L^{2p/(p-2)}}
+\|\zeta\nabla w\|_{L^2}.
 \]
 By Gagliardo-Nirenberg,
 \[
-\|r\zeta\|_{L^{2p/(p-2)}}
+\|w\zeta\|_{L^{2p/(p-2)}}
 \le
 C
-\|r\zeta\|_{L^2}^{1-3/p}
-\|\nabla(r\zeta)\|_{L^2}^{3/p}.
+\|w\zeta\|_{L^2}^{1-3/p}
+\|\nabla(w\zeta)\|_{L^2}^{3/p}.
 \]
 Writing
 \[
-E(t)=\int |r|^2\zeta^2,
+E(t)=\int |w|^2\zeta^2,
 \qquad
-D(t)=\int |\nabla r|^2\zeta^2,
+D(t)=\int |\nabla w|^2\zeta^2,
 \]
 and absorbing the cutoff contribution into the collar cost, Young's inequality gives
 \[
@@ -340,198 +407,174 @@ where \(B(t)\) contains only forcing, pressure-tail, and collar terms. Since \(\
 \le
 C
 \left(
-\operatorname{Coll}_{\zeta,g}(r)^2
+\operatorname{Coll}_{\zeta,g}(w)^2
 +\|F\|_{L^2_tH^{-1}_x(Q_R)}^2
-+\operatorname{PressTail}_{R,r}^2
++\operatorname{PressTail}_{\zeta}^2
 \right).
 \]
 Finally,
 \[
-\|r\|_{L^{10/3}(Q_r)}
+\|w\|_{L^{10/3}(Q_\rho)}
 \lesssim
-\|r\|_{L^\infty_tL^2_x(Q_r)}^{2/5}
-\|\nabla r\|_{L^2(Q_r)}^{3/5}.
+\|w\|_{L^\infty_tL^2_x(Q_\rho)}^{2/5}
+\|\nabla w\|_{L^2(Q_\rho)}^{3/5}.
 \]
 This proves the claim.
 \end{proof}
 
-\subsection{Dyadic cutoff collars}
+\subsection{Fixed-profile collars and the pressure interface}
 
-The local Oseen lemma is a one-cylinder estimate. Its global use along a candidate
-bad chain requires a source theorem for the cutoff collars. This subsection records
-the part that is now closed.
+The Oseen estimate becomes a scale iteration only after the cutoff family has
+been fixed.  The useful closed subchannel is the integrated derivative-weighted
+cutoff collar for a single anchored dyadic family.
 
-Fix an anchored target \(z_*=(x_*,t_*)\), a radius \(R\), and dyadic radii
+\begin{proposition}[Fixed-profile dyadic cutoff domination]
+Fix \(0<a<b<1\), \(0<\lambda<1\), a centre \(z_*=(x_*,t_*)\), and
+\(r_k=2^{-k}R\).  Let
 \[
-r_k=2^{-k}R.
-\]
-Choose once and for all smooth profiles \(\phi\in C_c^\infty(B_b(0))\) and
-\(\psi\in C^\infty(\mathbb R)\), with \(0<a<b<1\), such that
-\(\phi=1\) on \(B_a(0)\), and \(\psi\) is supported in a fixed past time interval
-and equals one on a smaller past time interval. Define
-\[
-\zeta_k(x,t)=
+\zeta_k(x,t)
+=
 \phi\!\left(\frac{x-x_*}{r_k}\right)
-\psi\!\left(\frac{t_*-t}{r_k^2}\right).
+\psi\!\left(\frac{t_*-t}{r_k^2}\right),
 \]
-The profile, center, ratios, and time-floor constants are part of the presentation
-state. They are not selected after the bad block is observed.
-
-\begin{proposition}[Fixed dyadic cutoff-collar source]
-Let
+where \(\phi\in C_c^\infty(B_b(0))\), \(\phi=1\) on \(B_a(0)\), and \(\psi\)
+is a fixed smooth past-time cutoff.  Put
 \[
-W_k=|\partial_t\zeta_k|+|\Delta\zeta_k|+|\nabla\zeta_k|^2 .
+W_k
+=
+|\partial_t\zeta_k|+|\Delta\zeta_k|+|\nabla\zeta_k|^2 .
 \]
-Then, on the fixed outer cylinder,
+Then, inside the fixed outer cylinder,
 \[
 \sum_{k\ge K} W_k(x,t)
 \le
-C_W\bigl(|x-x_*|^{-2}+R^{-2}\bigr)
+C\left(|x-x_*|^{-2}+R^{-2}\right)
 \]
-almost everywhere. Consequently, for every residual \(w\) with local energy and
-dissipation on the outer cylinder,
+for a constant depending only on the profiles and on \(a,b,\lambda\).  Hence, for
+every local energy field \(w\),
 \[
 \sum_{k\ge K}\int |w|^2 W_k
 \le
 C
 \left(
-\int |\nabla w|^2+R^{-2}\int |w|^2
-\right).
+\int |\nabla w|^2
++R^{-2}\int |w|^2
+\right)
 \]
-Thus the integrated derivative-weighted Oseen cutoff collar is a summable source
-for this fixed centered dyadic cutoff family.
+on the outer cylinder, after the standard local Hardy inequality.
 \end{proposition}
 
 \begin{proof}
-The derivative bounds of the fixed profiles give
+The derivative bounds give
 \[
-W_k\le C r_k^{-2}
-\bigl(\mathbf 1_{A_k^{\mathrm{lat}}}
-      +\mathbf 1_{A_k^{\mathrm{time}}}\bigr),
-\]
-where the lateral support satisfies
-\[
-A_k^{\mathrm{lat}}\subset
-\{a r_k\le |x-x_*|\le b r_k,\ 0\le t_*-t\le c r_k^2\},
-\]
-and the time-floor support satisfies
-\[
-A_k^{\mathrm{time}}\subset
-\{|x-x_*|\le b r_k,\ c_0r_k^2\le t_*-t\le c_1r_k^2\}.
-\]
-For the lateral part, \(r_k\) is comparable to \(|x-x_*|\), and a fixed spatial
-point lies in only finitely many dyadic annuli. Hence
-\[
-\sum_k r_k^{-2}\mathbf 1_{A_k^{\mathrm{lat}}}
-\le C |x-x_*|^{-2}.
-\]
-For the time-floor part, the time condition allows only finitely many dyadic
-indices for each fixed \(t<t_*\). On the support, \(|x-x_*|\le br_k\), so
-\[
-r_k^{-2}\le C |x-x_*|^{-2}
-\]
-for \(x\ne x_*\). The point \(x=x_*\) is negligible for the pointwise estimate and
-is handled by Hardy's inequality in the integrated estimate. A fixed outer cutoff
-contributes only a finite \(R^{-2}\) term. This proves the displayed weight
-domination.
-
-Let \(\eta_R\) be a fixed spatial cutoff equal to one on the outer ball and
-supported in a slightly larger ball. Hardy's inequality applied to \(\eta_R w\)
-gives, for a.e. time,
-\[
-\int |w|^2|x-x_*|^{-2}
-\le
-C\int |\nabla w|^2 + C R^{-2}\int |w|^2 .
-\]
-Integrating in time and using the weight domination proves the source estimate.
-\end{proof}
-
-\begin{remark}
-This proposition closes only the integrated cutoff term
-\(\int |w|^2W_k\). It does not close pointwise-in-time collar energy, a
-\(\sup_t\) collar ledger, critical annular \(L^3\) localization mass, moving
-centers, block-selected cutoff profiles, or the pressure, carrier, force, and
-state-motion companions of S8.
-\end{remark}
-
-\begin{proposition}[Fixed-drift dyadic drift-collar source]
-Assume in addition that, on a fixed merged Oseen epoch, the drift \(g\) and residual
-\(w\) are fixed on the outer cylinder and
-\[
-g\in L^q_tL^p_x,\qquad p>3,\qquad \frac2q+\frac3p=1.
-\]
-Then
-\[
-\sum_{k\ge K}\int |g|\,|w|^2|\nabla\zeta_k|<\infty .
-\]
-More precisely, for every \(\varepsilon>0\),
-\[
-\sum_{k\ge K}\int |g|\,|w|^2|\nabla\zeta_k|
-\le
-\varepsilon\int |\nabla w|^2
-+C_\varepsilon(1+R^{-2})
-\|w\|_{L^\infty_tL^2_x}^2
-\|g\|_{L^q_tL^p_x}^{q}.
-\]
-\end{proposition}
-
-\begin{proof}
-The fixed dyadic gradient weights satisfy
-\[
-\sum_k|\nabla\zeta_k(x,t)|\le C|x-x_*|^{-1}.
-\]
-Therefore it is enough to control
-\[
-\int |g|\,|w|^2|x-x_*|^{-1}.
-\]
-For each time choose \(s\) by
-\[
-\frac1p+\frac1s+\frac12=1,
-\qquad s=\frac{2p}{p-2}.
-\]
-Hölder's inequality gives
-\[
-\int |g|\,|w|^2|x-x_*|^{-1}
-\le
-\|g\|_p\|w\|_s\|w/|x-x_*|\|_2 .
-\]
-Since \(2<s<6\), Sobolev interpolation gives
-\[
-\|w\|_s
-\le C\|w\|_2^{1-3/p}\|\nabla w\|_2^{3/p}.
-\]
-The localized Hardy inequality gives
-\[
-\|w/|x-x_*|\|_2
-\le C\|\nabla w\|_2+C R^{-1}\|w\|_2.
-\]
-Combining these estimates,
-\[
-\int |g|\,|w|^2|x-x_*|^{-1}
-\le
-C\|g\|_p\|w\|_2^{1-3/p}
+W_k\le
+C r_k^{-2}
 \left(
-\|\nabla w\|_2^{1+3/p}
-+R^{-1}\|w\|_2\|\nabla w\|_2^{3/p}
-\right).
+{\bf 1}_{A_k^{\mathrm{lat}}}
++{\bf 1}_{A_k^{\mathrm{time}}}
+\right),
 \]
-Young's inequality, with \(q=2p/(p-3)\), yields
-\[
-\int |g|\,|w|^2|x-x_*|^{-1}
-\le
-\varepsilon\|\nabla w\|_2^2
-+C_\varepsilon(1+R^{-2})\|g\|_p^q\|w\|_2^2 .
-\]
-Integrating in time proves the stated summability.
+where \(A_k^{\mathrm{lat}}\) is the spatial annulus
+\(a r_k\le |x-x_*|\le b r_k\) during the active time interval, and
+\(A_k^{\mathrm{time}}\) is the past time floor on which the time cutoff varies.
+On \(A_k^{\mathrm{lat}}\), \(r_k\) is comparable to \(|x-x_*|\), and a fixed point
+belongs to only boundedly many dyadic annuli.  Thus the sum of the lateral
+weights is bounded by \(C|x-x_*|^{-2}\).
+
+On \(A_k^{\mathrm{time}}\), the condition
+\(t_*-t\simeq r_k^2\) allows only boundedly many dyadic indices for each fixed
+time.  For those indices, the spatial support lies in \(|x-x_*|\le b r_k\);
+the same dyadic comparison gives the pointwise bound away from \(x=x_*\), which
+is sufficient for the integrated estimate.  A possible outer cutoff contributes
+only \(C R^{-2}\).  Integrating against \(|w|^2\) and applying the local Hardy
+inequality gives the displayed bound.
 \end{proof}
 
-\begin{remark}
-The fixed-drift hypothesis is essential. If the predictor \(g_k\) and residual
-\(w_k=u-g_k\) change at every scale, this proposition cannot be applied until the
-drift transitions have been source-closed, finitely merged, or routed to escape or
-gate. The general moving-drift collar remains part of the S6/S8/S10/S12 owner
-problem.
-\end{remark}
+\begin{proposition}[Fixed-drift collar stability]
+Let \(g\) be fixed on a block of nested cylinders and suppose
+\[
+\|g\|_{L^q_tL^p_x(Q_R)}\le L,
+\qquad
+\frac2q+\frac3p=1,
+\qquad
+p>3.
+\]
+For every perturbation \(w\) satisfying the local Oseen equation on the block,
+the drift-dependent part of the collar is controlled by the same annular
+perturbation norm used in the Oseen transfer:
+\[
+\int_{Q_R}|g|\,|w|^2|\nabla\zeta_R|
+\le
+C(L,\theta,p)
+\|w\|_{L^\infty_tL^2_x(Q_R\setminus Q_{\theta R})}^{2(1-3/p)}
+\|\nabla w\|_{L^2(Q_R\setminus Q_{\theta R})}^{6/p}.
+\]
+Thus a fixed drift does not introduce a new scale owner: it is absorbed by the
+same annular energy and dissipation already paid in the Oseen estimate.
+\end{proposition}
+
+\begin{proof}
+Use Hölder exactly as in the preceding proposition and interpolate
+\[
+\|w\|_{L^{2p/(p-2)}_x}
+\le
+C
+\|w\|_{L^2_x}^{1-3/p}
+\|\nabla w\|_{L^2_x}^{3/p}
+\]
+on each time slice.  Integrating in time with the Serrin conjugate exponent gives
+the claimed bound.  Since \(g\) and the cutoff profile are fixed before the block
+is selected, the term is a predetermined Oseen collar contribution.
+\end{proof}
+
+\begin{proposition}[Pressure-pair source interface]
+For a fixed dyadic Oseen chart, the pressure pairing
+\[
+\operatorname{PressPair}_k
+=
+\left|\int \pi_k^0\,w_k\cdot\nabla(\zeta_k^2)\right|
+\]
+reduces, after parabolic normalization and Young's inequality, to critical
+pressure and velocity collar densities:
+\[
+\operatorname{PressPair}_k
+\le
+\varepsilon V_k+C_\varepsilon P_k,
+\]
+where
+\[
+V_k=r_k^{-2}\int_{A_k}|w_k|^3,
+\qquad
+P_k=r_k^{-2}\int_{A_k}|\pi_k^0|^{3/2}.
+\]
+The fixed-profile Hardy estimate above does not by itself imply summability of
+\(\sum_k P_k\) or \(\sum_k V_k\).  Those two normalized collar sums are part of
+the pressure/localization source theorem interface.
+\end{proposition}
+
+\begin{proof}
+The first displayed inequality is the usual local pressure estimate on the
+normalized chart, written back in scale-invariant variables.  It separates the
+pressure pairing into a velocity collar and a pressure collar.
+
+The obstruction is purely scaling.  Let \(A_k\) be disjoint dyadic annuli and
+choose a nonnegative density \(m\) with
+\[
+\int_{A_k}m=r_k^2/k.
+\]
+Then \(\sum_k\int_{A_k}m<\infty\), while
+\[
+\sum_k r_k^{-2}\int_{A_k}m
+=
+\sum_k\frac1k
+=\infty .
+\]
+Taking \(m=|\pi|^{3/2}\), or \(m=|w|^3\), shows that finite local critical
+integrability does not produce normalized dyadic collar summability.  Therefore
+the pressure-pair term cannot be closed by the fixed cutoff Hardy argument
+alone; it needs an independent pressure/localization theorem, a gate, or a
+registered source alternative.
+\end{proof}
 
 \section{Minimax Centres}
 
@@ -605,225 +648,58 @@ Using the coefficient representation,
 The witness lower bound then gives the stated estimate.
 \end{proof}
 
+\begin{proposition}[Bessel representation with moving charts]
+Let \(H_{\mathrm{def}}\) be a Hilbert space of registered defect vectors.  For
+each scale \(k\), let \(d_k\in H_{\mathrm{def}}\), let
+\[
+i_k=d_k-P_{\overline{\operatorname{span}\{d_j:j<k\}}}d_k,
+\]
+and, when \(i_k\ne0\), set \(e_k=i_k/\|i_k\|\).  Suppose that there are a Hilbert
+space \(\mathcal K\), a residual vector \(\mathcal R\in\mathcal K\), bounded
+operators \(A_k:\mathcal K\to H_{\mathrm{def}}\), and errors \(\rho_k\) such that
+\[
+d_k=A_k\mathcal R+\rho_k,
+\qquad
+\sum_k\|\rho_k\|_{H_{\mathrm{def}}}^2<\infty,
+\]
+and such that the pulled-back innovation tests satisfy the Bessel bound
+\[
+\sum_k|\langle f,A_k^*e_k\rangle_{\mathcal K}|^2
+\le
+B\|f\|_{\mathcal K}^2
+\qquad
+\text{for every } f\in\mathcal K .
+\]
+Then
+\[
+\sum_k\|i_k\|_{H_{\mathrm{def}}}^2
+\le
+2B\|\mathcal R\|_{\mathcal K}^2
++2\sum_k\|\rho_k\|_{H_{\mathrm{def}}}^2 .
+\]
+\end{proposition}
+
+\begin{proof}
+For nonzero \(i_k\), the vector \(e_k\) is orthogonal to all previous \(d_j\), so
+\[
+\|i_k\|
+=
+\langle d_k,e_k\rangle
+=
+\langle\mathcal R,A_k^*e_k\rangle+\langle\rho_k,e_k\rangle .
+\]
+After squaring, summing, and using \(\|e_k\|=1\), the Bessel bound gives the
+displayed estimate.  Zero-innovation indices contribute nothing.
+\end{proof}
+
 \subsection{PDE meaning}
 
-The lemma is abstractly complete. Its PDE use is the global residual representation module: all normalized defects from all scales must be transported into one Hilbert space with square-summable connection, cutoff, gauge, and pressure errors.
-
-\section{Repaired Cost and Quotient Packet Source Contracts}
-
-The audit of the proof is most stringent at the point where Hilbert innovation is
-converted into packet estimates. Hilbert orthogonality of the innovation witnesses
-does not by itself give a Navier-Stokes packet row estimate. The row family must be
-realized in a fixed or finitely merged packet atlas, and every error surrounding the
-row estimate must have an owner independent of the row estimate itself.
-
-\subsection{Finite repaired source ledger}
-
-The repaired cost is organized as a finite weighted source expansion
-\[
-Q_k^{\mathrm{rep}}
-=\operatorname{Innov}_k
-+\sum_{s\in S_{\mathrm{err}}}w_s\,\operatorname{Err}_{s,k}
-+\sum_{x\in S_{\mathrm{esc}}}w_x\,\operatorname{Esc}_{x,k}
-+\sum_{u\in S_{\mathrm{upd}}}w_u\,\operatorname{Upd}_{u,k}.
-\]
-For each source channel exactly one of the following outcomes is legal:
-\begin{enumerate}[label=(\roman*)]
-\item a summable source theorem;
-\item a finite update or finite-atlas merge with registered boundary cost;
-\item a named non-summable escape;
-\item a gate, meaning entry into a regularity or predictive closure alternative;
-\item an explicitly open PDE theorem.
-\end{enumerate}
-Only the first two outcomes contribute finite error terms on a no-gate tail. A
-named non-summable escape exits the no-escape theorem; it is not a finite error in
-disguise. An explicitly open PDE theorem records an honest remaining analytic
-burden and cannot be used as a closed input to the final proof.
-
-\subsection{The S1 quotient packet row}
-
-For an innovative scale, let
-\[
-e_k=\frac{d_k-P_{V_{k-1}}d_k}{\|d_k-P_{V_{k-1}}d_k\|},
-\qquad
-m_k=A_k^*e_k.
-\]
-In a fixed packet frame write
-\[
-m_k=\operatorname{Syn}_E(a_k)+\tau_k,
-\qquad
-a_k=a_k^{\mathrm{old}}+a_k^{\mathrm{cert}}+a_k^{\mathrm{new}}
-     +a_k^{\mathrm{tail}}+a_k^{\mathrm{esc}}.
-\]
-The S1 row theorem is reserved for the certified-new part \(a_k^{\mathrm{new}}\).
-Old, certified, recurrent, tail, and escape components are routed to their own
-owners before S1 is invoked.
-
-\begin{assumption}[S1 quotient packet row source]
-On a fixed or finitely merged packet tail, the certified-new rows satisfy one of the
-standard fixed-atlas row criteria: finite overlap, Schur/Gram summability, a
-Carleson packet estimate, or a direct row-operator bound. Equivalently, the operator
-\[
-T_{\mathrm{new}}c=(\langle c,a_k^{\mathrm{new}}\rangle)_k
-\]
-is bounded on the fixed packet coefficient space. The allowed conclusion is
-\[
-\sum_k\|a_k^{\mathrm{new}}\|_{\ell^2}^2
-\le
-C_{\mathrm{S1}}
-+C_{\mathrm{S1}}\sum_k\operatorname{ErrPktCompat}_k^{\mathrm{ind}}
-+C_{\mathrm{S1}}\sum_k\operatorname{EscPkt}_k,
-\]
-where the two right-hand side channels have source outcomes independent of this
-row theorem.
-\end{assumption}
-
-\begin{remark}
-This assumption is still one of the central Navier-Stokes PDE tasks. It may not be
-inferred from Hilbert Gram-Schmidt orthogonality of the \(e_k\)'s, because the rows
-\(a_k^{\mathrm{new}}\) live in scale-dependent packet coordinates with pressure,
-cutoff, carrier, gauge, and chart transport errors.
-\end{remark}
-
-\subsection{Representation inequality}
-
-Let \(b_k=\operatorname{An}_E(d_k)\) be the fixed-frame coefficient vector of the
-registered defect. The packet pairing contract requires
-\[
-\begin{aligned}
-\langle d_k,e_k\rangle_{H_{\mathrm{def}}}
-&=\langle b_k,a_k\rangle_{\ell^2}
-+\rho_{\mathrm{frame},k}
-+\rho_{\mathrm{reg},k}
-+\rho_{\mathrm{native},k}.
-\end{aligned}
-\]
-All discrepancies are owned by the repaired ledger. If
-\[
-\|b_k\|_{\ell^2}\le M_{\mathrm{pkt}},
-\]
-then Cauchy-Schwarz and Young give
-\[
-\operatorname{Innov}_k
-\le
-C_{\mathrm{repr}}\|a_k^{\mathrm{new}}\|_{\ell^2}^2
-+C_{\mathrm{repr}}\operatorname{ErrS1repr}_k^{\mathrm{ind}}.
-\]
-The independent representation error is decomposed as
-\[
-\begin{aligned}
-\operatorname{ErrS1repr}_k^{\mathrm{ind}}
-=&\operatorname{ErrPairFrame}_k+\operatorname{ErrPairReg}_k
-  +\operatorname{ErrPairNative}_k\\
-&+\operatorname{ErrOldPair}_k+\operatorname{ErrCertPair}_k
-  +\operatorname{ErrTailPair}_k+\operatorname{ErrPairEnv}_k .
-\end{aligned}
-\]
-The seven owners are, respectively, the packet-frame owner, the registration owner,
-the native component owners, the memory/span-gap owner, the certified physical
-subtraction owner, the tail owner, and the packet-envelope owner.
-
-\begin{proposition}[S1 representation and escape source contract]
-The representation inequality is a closed input to S1 only after every component of
-\(\operatorname{ErrS1repr}^{\mathrm{ind}}\) has a legal source outcome independent
-of S1. Packet escape is legal on the S1 right-hand side only in the registered
-summable case. More precisely,
-\[
-\begin{aligned}
-\operatorname{EscPkt}_k
-=&\operatorname{EscFrame}_k+\operatorname{EscCarrier}_k+\operatorname{EscDict}_k
-  +\operatorname{EscEnvelope}_k\\
-&+\operatorname{EscOwnerSplit}_k+\operatorname{EscRecurrent}_k
-  +\operatorname{EscMarginFloor}_k+\operatorname{EscAtlasVar}_k .
-\end{aligned}
-\]
-Each packet escape component must be registered summable, finitely updated or
-merged, a named non-summable exit, a gate, or an explicitly open PDE theorem. A
-large value of \(\|a_k^{\mathrm{new}}\|_{\ell^2}^2\) alone is not a packet escape.
-\end{proposition}
-
-\begin{proof}
-This is a bookkeeping theorem in the finite repaired ledger. The representation
-terms are precisely the discrepancies between the Hilbert pairing and the fixed
-packet pairing, plus old/certified/tail/envelope pairings. By construction none of
-these terms contains the certified-new row norm, and each has a primary owner in
-S2-S12, S4, S5, the packet-envelope ledger, finite variation, or a named escape.
-The escape list records failures of packet data, not large row mass. Therefore the
-row estimate and the representation inequality can use these terms without proving
-their own right-hand sides.
-\end{proof}
-
-\subsection{S4 packet compatibility owner matrix}
-
-The packet compatibility error that may appear beside S1 is the independent part
-with the certified-new row mass removed:
-\[
-\operatorname{ErrPktCompat}_k=\operatorname{ErrPktCompat}_k^{\mathrm{ind}}.
-\]
-It is decomposed as
-\[
-\begin{aligned}
-\operatorname{ErrPktCompat}_k^{\mathrm{ind}}
-=&\operatorname{FrameCompat}_k+\operatorname{RowTailCompat}_k
-  +\operatorname{SectorCompat}_k+\operatorname{DictCompat}_k\\
-&+\operatorname{OwnerSplitCompat}_k+\operatorname{CertOldCompat}_k\\
-&+\operatorname{EnvCompat}_k+\operatorname{MarginPktCompat}_k .
-\end{aligned}
-\]
-The eight primary owner ledgers are:
-\[
-R_{\mathrm{frame}},\quad R_{\mathrm{tail}},\quad R_{\mathrm{sector}},
-\quad R_{\mathrm{dict}},\quad R_{\mathrm{owner}},\quad R_{\mathrm{cert}},
-\quad R_{\mathrm{env}},\quad R_{\mathrm{margin}}.
-\]
-The local S4 estimate on finite legal blocks is
-\[
-\begin{aligned}
-\sum_{k\in B}\operatorname{ErrPktCompat}_k^{\mathrm{ind}}
-&\le
-C_{\mathrm{S4}}\sum_{k\in B}\bigl(
-R_{\mathrm{frame},k}+R_{\mathrm{tail},k}
- +R_{\mathrm{sector},k}+R_{\mathrm{dict},k}\\
-&\qquad
- +R_{\mathrm{owner},k}+R_{\mathrm{cert},k}
- +R_{\mathrm{env},k}+R_{\mathrm{margin},k}
-\bigr).
-\end{aligned}
-\]
-
-\begin{proposition}[S4 owner aggregation firewall]
-The aggregate symbol \(R_{\mathrm{S4}}\) is only shorthand for the eight owner
-ledgers above. It is not an independent source theorem. On an infinite no-gate
-no-escape tail, S4 summability follows only if all eight owner families have
-summable source outcomes after finitely many certified updates or merges. If one
-owner exits by named escape or gate, the S4 summability route exits; if one owner is
-only an open PDE theorem, S4 remains conditional.
-\end{proposition}
-
-\begin{proof}
-The finite-block estimate is the finite sum of the eight local owner estimates.
-Passing to an infinite tail is justified only by monotone convergence after each
-owner tail has a finite source theorem and all update boundary costs are registered.
-There is no ninth analytic estimate hidden in the notation \(R_{\mathrm{S4}}\).
-\end{proof}
-
-\subsection{Current packet-accounting status}
-
-The packet-accounting layer is therefore formally closed in the following sense:
-\begin{enumerate}[label=(\roman*)]
-\item the certified-new row is the only object counted by S1;
-\item the representation error has seven independent owners;
-\item packet escape has eight named components and cannot be large new-row mass;
-\item packet compatibility has eight S4 owners;
-\item S4 aggregation is a finite owner sum, not a separate source theorem;
-\item no S1 surrounding source may use S1 row Bessel, final \(\mathrm{GQ1}\), or a threshold
-chosen after the row is known.
-\end{enumerate}
-The analytic burden that remains is correspondingly sharp: prove the actual source
-outcomes for the representation owners, packet escapes, and eight S4 owner
-families; prove the true S1 row Bessel/Carleson theorem for Navier-Stokes packet
-rows; and stabilize the packet atlas through the finite-variation and finite-atlas
-theorems.
+The abstract packing lemma applies when the transported defect vectors already
+live in one fixed Hilbert space.  The moving-chart proposition is the form needed
+for Navier-Stokes: scale changes, pressure gauges, carrier frames, and cutoffs
+may vary with \(k\), and the maps \(A_k\) must satisfy a genuine Bessel or
+finite-overlap estimate.  The PDE source theorem supplies exactly this
+representation and the square-summability of the error vectors \(\rho_k\).
 
 \section{The Bilinear Symbol and Null Fibres}
 
@@ -961,14 +837,339 @@ Thus the planar part is a two-dimensional Navier-Stokes solution and the transve
 All fields are constant in the \(n\)-direction. The in-plane component of the equation is exactly the two-dimensional incompressible Navier-Stokes equation for \(V\). The \(n\)-component contains no pressure gradient and gives the passive scalar equation for \(W\).
 \end{proof}
 
-\section{The Remaining Analytic Modules}
+\section{Relative Caffarelli-Kohn-Nirenberg Gates}
 
-We now state the analytic modules still needed by the closed regularity argument.
-The previous section fixed the source-contract bookkeeping. The assumptions below
-are the remaining scale-invariant PDE assertions.
+The Caffarelli-Kohn-Nirenberg criterion is used here in a relative form.  The
+predictor is allowed to carry the large, but controlled, Serrin component; the
+unknown part is the perturbation around that predictor.
 
-\begin{assumption}[Predictive epsilon regularity]
-For every \(L\) and every admissible pressure-cleaning scheme, there exist \(\varepsilon(L)>0\) and \(0<\theta<1\) such that the following holds. If \((u,p)\) is suitable in \(Q_1\), and if there is a strong predictor \(g\) with
+For a cylinder \(Q_R(z_0)\), write
+\[
+C_R(u,p;z_0)
+=
+R^{-2}\int_{Q_R(z_0)}|u|^3\,dx\,dt
++
+R^{-2}\int_{Q_R(z_0)}
+|p-(p)_{B_R}(t)|^{3/2}\,dx\,dt.
+\]
+
+\begin{proposition}[Relative Caffarelli-Kohn-Nirenberg criterion]
+Let \(g\) be a strong divergence-free solution on \(Q_1\) with pressure \(\pi_g\),
+and suppose
+\[
+\|g\|_{L^q_tL^p_x(Q_1)}\le L,
+\qquad
+\frac2q+\frac3p=1,
+\qquad
+p>3.
+\]
+Let \((u,p)\) be suitable on \(Q_1\), set \(w=u-g\), and write
+\[
+p-\pi_g=\pi_w+\pi_{\mathrm{tail}}
+\]
+with the local pressure part normalized by zero spatial mean on balls.  For every
+\(\varepsilon_{\mathrm{CKN}}>0\) there exist
+\(\theta=\theta(L,p,\varepsilon_{\mathrm{CKN}})\in(0,1)\) and
+\(\delta=\delta(L,p,\varepsilon_{\mathrm{CKN}})>0\) such that, if
+\[
+\|w\|_{L^{10/3}(Q_1)}
++
+\|\pi_w\|_{L^{3/2}(Q_1)}
++
+\|\pi_{\mathrm{tail}}\|_{L^{3/2}(Q_1)}
+\le \delta,
+\]
+then
+\[
+C_\theta(u,p;0)\le \varepsilon_{\mathrm{CKN}}.
+\]
+In particular, choosing \(\varepsilon_{\mathrm{CKN}}\) below the classical
+Caffarelli-Kohn-Nirenberg threshold gives regularity in a smaller cylinder.
+\end{proposition}
+
+\begin{proof}
+By Hölder and the Serrin bound, \(g\in L^3(Q_\theta)\) with
+\[
+\theta^{-2}\int_{Q_\theta}|g|^3
+\le
+C(L,p)\theta^\alpha
+\]
+for some \(\alpha>0\), because \(p>3\) gives subcritical local integrability on
+shrinking cylinders after the Serrin normalization.  The associated pressure
+\(\pi_g\) obeys the same shrinking estimate after subtracting its spatial mean,
+by local Calderon-Zygmund estimates and the harmonic-pressure decomposition.
+Choose \(\theta\) so these two predictor contributions are at most
+\(\varepsilon_{\mathrm{CKN}}/4\).
+
+For the perturbation, interpolation gives
+\[
+\theta^{-2}\int_{Q_\theta}|w|^3
+\le
+C\|w\|_{L^{10/3}(Q_1)}^3\theta^{\beta-2}
+\]
+with a fixed positive exponent \(\beta\) after the parabolic volume factor is
+accounted for.  The pressure perturbation contributes
+\[
+\theta^{-2}\int_{Q_\theta}|\pi_w|^{3/2}
+\le
+\theta^{-2}\|\pi_w\|_{L^{3/2}(Q_1)}^{3/2},
+\]
+and the same estimate applies to \(\pi_{\mathrm{tail}}\).  With \(\theta\) fixed,
+choose \(\delta\) so the three perturbative contributions are together at most
+\(\varepsilon_{\mathrm{CKN}}/2\).  Summing predictor and perturbation pieces gives
+the displayed bound for \(C_\theta(u,p;0)\).
+\end{proof}
+
+\subsection{Final gate-excess defect}
+
+The presentation uses a final gate to decide whether a scale is already within
+the relative Caffarelli-Kohn-Nirenberg regime.  The following compactness fact is
+the precise topological statement needed in the iteration.
+
+\begin{definition}[Gate-excess defect]
+Fix a bounded presentation chart, a predictor class \(P\), a suitable weak fibre
+\(S\), a core cylinder \(Q_\theta\), and a gate threshold
+\(\varepsilon_{\mathrm{gate}}>0\).  For \(g\in P\) and \((v,q)\in S\), define
+\[
+\Gamma((v,q),g)
+=
+\left[
+C_\theta(v,q\mid g)-\varepsilon_{\mathrm{gate}}
+\right]_+,
+\]
+where \(C_\theta(v,q\mid g)\) denotes the relative Caffarelli-Kohn-Nirenberg
+quantity of \(v-g\) with the corresponding pressure difference and pressure-tail
+allowance.  The gate-excess defect of the chart is
+\[
+\mathfrak G
+=
+\inf_{g\in P}\sup_{(v,q)\in S}\Gamma((v,q),g).
+\]
+\end{definition}
+
+\begin{proposition}[Gate-excess dichotomy]
+Assume \(P\) is compact in the strong topology used for predictors, \(S\) is
+compact in the suitable-weak topology, and the relative Caffarelli-Kohn-Nirenberg
+functional is lower semicontinuous on \(S\times P\).  Then:
+\begin{enumerate}[label=(\roman*)]
+\item \(\mathfrak G=0\) if and only if every state in the fibre is captured by
+some predictor at the final gate;
+\item if the final gate is closed and no predictor captures the whole fibre, then
+\(\mathfrak G>0\);
+\item for each \(\delta>0\), the condition \(\mathfrak G\ge\delta\) is stable
+under compact convergence of charts.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The map
+\[
+g\mapsto \sup_{(v,q)\in S}\Gamma((v,q),g)
+\]
+is lower semicontinuous as a supremum of lower semicontinuous functions.  Since
+\(P\) is compact, the infimum is attained.  If the attained value is zero, the
+chosen predictor has zero gate excess against every fibre state, which is exactly
+capture by the final gate.  Conversely, a capturing predictor gives zero excess.
+If no such predictor exists, the attained value cannot be zero; hence it is
+strictly positive.  Finally, lower semicontinuity under compact convergence gives
+closedness of the superlevel sets \(\{\mathfrak G\ge\delta\}\).
+\end{proof}
+
+\section{Compactness and Zero-Cost Branches}
+
+The conditional proof repeatedly passes to limits of bounded scale-normalized
+objects.  The following propositions isolate what is used and what is not.
+
+\begin{proposition}[Suitable limit passage]
+Let \((u_n,p_n)\) be suitable weak solutions on \(Q_1\) with uniform bounds
+\[
+\sup_n
+\left(
+\|u_n\|_{L^\infty_tL^2_x(Q_1)}
++\|\nabla u_n\|_{L^2(Q_1)}
++\|p_n\|_{L^{3/2}(Q_1)}
+\right)<\infty.
+\]
+Then a subsequence converges to a suitable weak solution \((u,p)\) on compact
+subcylinders of \(Q_1\), with strong convergence of \(u_n\) in \(L^2_{\mathrm{loc}}\)
+and lower semicontinuity of the local energy inequality.
+\end{proposition}
+
+\begin{proof}
+The equation gives a uniform bound for \(\partial_tu_n\) in a negative Sobolev
+space on compact subcylinders.  Aubin-Lions compactness gives strong
+\(L^2_{\mathrm{loc}}\) convergence of \(u_n\), while the pressure bound gives weak
+\(L^{3/2}_{\mathrm{loc}}\) convergence of \(p_n\).  The nonlinear term passes to
+the limit because \(u_n\to u\) strongly in \(L^2_{\mathrm{loc}}\) and
+\(\nabla u_n\rightharpoonup \nabla u\) weakly in \(L^2_{\mathrm{loc}}\).  The
+local energy inequality passes by weak lower semicontinuity of the dissipation
+and strong convergence of the lower-order terms.
+\end{proof}
+
+\begin{proposition}[Normal-defect limit passage]
+Suppose a sequence of normalized presentations has uniformly bounded predictors,
+uniformly bounded suitable fibres, convergent pressure gauges, and normal defect
+functionals \(\mathcal N_n\) converging weakly to \(\mathcal N\) in a common dual
+space.  If the corresponding witness spaces converge by compact embeddings and
+the witness lower bounds are uniform, then every nonzero limiting normal defect
+is detected by a limiting witness.  In particular, a vanishing witness pairing
+for all limiting witnesses forces \(\mathcal N=0\).
+\end{proposition}
+
+\begin{proof}
+Let \(e\) be a unit witness for the limit space.  By the compact convergence of
+witness spaces, choose witnesses \(e_n\) in the \(n\)-th space with \(e_n\to e\)
+strongly.  Weak convergence of \(\mathcal N_n\) and strong convergence of
+witnesses give
+\[
+\langle \mathcal N_n,e_n\rangle\to \langle \mathcal N,e\rangle.
+\]
+If every limiting pairing is zero, then \(\mathcal N\) annihilates the closure of
+the witness span.  The uniform witness lower bound says this span is norming for
+normal defects, hence \(\mathcal N=0\).
+\end{proof}
+
+\begin{proposition}[Euler-coherent pressure branch]
+Let \(U\) be a smooth divergence-free field on a cylinder and assume its
+quadratic nonlinearity is a pure pressure gradient:
+\[
+\mathbb P\bigl((U\cdot\nabla)U\bigr)=0.
+\]
+Then the field \(U\) is invisible to the Leray-projected quadratic normal defect.
+Consequently, a zero-cost branch in the predictive presentation must include not
+only Beltrami and two-and-a-half-dimensional examples, but every coherent branch
+for which the projected quadratic term vanishes after the selected pressure
+gauge.
+\end{proposition}
+
+\begin{proof}
+The Leray projection annihilates gradients.  If
+\((U\cdot\nabla)U=\nabla P_U\) in the chosen local gauge, then the projected
+quadratic contribution is zero.  Therefore no normal witness built only from the
+projected quadratic leakage can distinguish such a branch.  This proves the
+claim and explains why the branch alternative in the conditional theorem is
+formulated as a general coherent zero-cost branch rather than only the two
+explicit model branches proved above.
+\end{proof}
+
+\section{Branch Gates and Nonlinear Witnesses}
+
+The branch alternative becomes useful only when it feeds the final gate rather
+than merely explaining a loss of quadratic leakage.  The next statement records
+the exact implication needed from a branch construction.
+
+\begin{proposition}[Branch gate criterion]
+Let a coherent branch predictor \(G\) be produced on a cylinder \(Q_R\), with
+branch pressure \(P_G\), and suppose:
+\begin{enumerate}[label=(\roman*)]
+\item the predictor has a Serrin bound
+\(\|G\|_{L^q_tL^p_x(Q_R)}\le L\), \(2/q+3/p=1\), \(p>3\);
+\item the relative perturbation obeys
+\[
+\|u-G\|_{L^{10/3}(Q_R)}
++
+\|p-P_G\|_{L^{3/2}(Q_R)}
++
+\operatorname{PressTail}(Q_R,Q_{\theta R})
+\le\delta;
+\]
+\item all pressure gauges used to define \(P_G\) and \(p\) are synchronized on
+the smaller cylinder.
+\end{enumerate}
+Then, for \(\delta\) small depending only on \(L,p,\theta\), the final relative
+Caffarelli-Kohn-Nirenberg gate opens on \(Q_{\theta R}\).
+\end{proposition}
+
+\begin{proof}
+After parabolic normalization, this is exactly the relative
+Caffarelli-Kohn-Nirenberg criterion.  The pressure synchronization hypothesis is
+needed only to ensure that the pressure difference entering the relative
+quantity is the same pressure difference controlled in the branch construction.
+With the gauges aligned, the smallness assumption gives the perturbative
+quantity required by the criterion.
+\end{proof}
+
+\begin{proposition}[Nonlinear Caffarelli-Kohn-Nirenberg witnesses are not
+Hilbert innovations]
+The raw Caffarelli-Kohn-Nirenberg quantity
+\[
+C_R(u,p;z_0)
+=R^{-2}\int_{Q_R}|u|^3
++R^{-2}\int_{Q_R}|p-(p)_{B_R}(t)|^{3/2}
+\]
+cannot, by itself, be inserted as a linear Hilbert innovation in the Bessel
+packing argument.  Any use of this quantity in the predictive proof must be
+routed through one of the following mathematical alternatives: a relative gate,
+a linearized source functional with a norming witness, a compactness-rigidity
+branch, or a separate monotone/Carleson estimate.
+\end{proposition}
+
+\begin{proof}
+The Hilbert packing lemma applies to linear functionals paired with orthonormal
+witnesses.  The map \(u\mapsto\int |u|^3\) is nonlinear and has a large kernel
+under linearization at \(u=0\); the pressure part is also nonlinear through the
+quadratic pressure relation.  Therefore raw Caffarelli-Kohn-Nirenberg mass is not
+a Hilbert coefficient.  To use it in a square-summability argument one must first
+produce a genuine linear defect functional, or else use the quantity as a gate
+whose success exits the iteration.  The listed alternatives are exactly those
+two possibilities and their compactness variants.
+\end{proof}
+
+\begin{proposition}[Gated witnesses exit the source count]
+If a Caffarelli-Kohn-Nirenberg witness opens the final relative gate at a scale,
+then that scale is terminal for the bad-chain argument and its witness mass is
+not counted in the Hilbert source budget.  If the gate does not open, the witness
+may be used only after it has been converted into a source functional, a rigidity
+alternative, or an escape alternative.
+\end{proposition}
+
+\begin{proof}
+Opening the final gate gives regularity in a smaller cylinder by the relative
+criterion and the classical epsilon theorem.  A bad chain cannot continue through
+that cylinder, so the scale is no longer part of the infinite source count.  If
+the gate remains closed, no regularity conclusion has been obtained; counting the
+raw nonlinear witness as a Hilbert coefficient would be exactly the invalid step
+excluded by the preceding proposition.  Thus the two cases are disjoint.
+\end{proof}
+
+\section{Source Theorem Interface}
+
+We now state the analytic inputs consumed by the reduction.  Each source theorem
+has a specific output: an object, a summability statement, a branch, a gate, or a
+registered defect.  The modular proof never uses an unnamed analytic input.
+
+\begin{proposition}[Finite presentation normal form]
+Assume that along a tail of a predictive chain the presentation alphabet is
+fixed, the admissible transition rule between consecutive scale states is total,
+and every accepted positive component is assigned to exactly one source ledger.
+Then every transition on that tail has one of the following statuses:
+\begin{enumerate}[label=(\roman*)]
+\item accepted source term;
+\item finite update;
+\item relative gate;
+\item registered defect;
+\item coherent branch;
+\item carrier recentering;
+\item impossible branch.
+\end{enumerate}
+Consequently, on a no-gate, no-defect tail with only finitely many updates, the
+modular proof may consume only the named source ledgers and the branch or carrier
+alternatives stated below.
+\end{proposition}
+
+\begin{proof}
+This is a finite normal-form argument.  The fixed alphabet prevents new source
+names or new gauges from appearing after the tail has been selected.  Totality of
+the transition rule classifies each adjacent scale transition.  The owner map
+assigns every accepted positive component to one source ledger, so no accepted
+cost can be used twice or disappear.  After finitely many finite updates are
+discarded, the listed statuses exhaust all transitions on the tail.
+\end{proof}
+
+\begin{assumption}[Predictive epsilon regularity source theorem]
+For every \(L\) and every admissible pressure-cleaning scheme, there exist
+\(\varepsilon(L)>0\) and \(0<\theta<1\) such that the following holds.  If
+\((u,p)\) is suitable in \(Q_1\), and if there is a strong predictor \(g\) with
 \[
 \|g\|_{L^q_tL^p_x(Q_1)}\le L,
 \qquad
@@ -982,71 +1183,231 @@ such that
 +\operatorname{PressTail}(Q_1,Q_\theta)
 \le\varepsilon(L),
 \]
-then \(u\) is regular in a smaller cylinder \(Q_{\theta/2}\). Here \(X\) is the pressure-cleaned local energy-critical control norm used in the predictive distance.
+then \(u\) is regular in a smaller cylinder \(Q_{\theta/2}\).  Here \(X\) is the
+pressure-cleaned local energy-critical control norm used in the predictive
+distance, and the pressure-tail term is measured in the same gauge used for the
+relative Caffarelli-Kohn-Nirenberg gate.
 \end{assumption}
 
-\begin{assumption}[Critical predictor-map differentiability]
-The causal strong solution map \(\Phi\), from incoming data to core predictors, is twice differentiable in the selected critical topology on each bounded predictor class. Quantitatively, for incoming data \(a\) and perturbations \(h\),
+\begin{assumption}[Predictor production and differentiability source theorem]
+For every bounded incoming presentation there is a nonempty class of admissible
+strong predictors.  The causal strong solution map \(\Phi\), from incoming data
+to core predictors, is twice differentiable in the selected critical topology on
+each bounded predictor class.  Quantitatively, for incoming data \(a\) and
+perturbations \(h\),
 \[
 \|\Phi(a+h)-\Phi(a)-D\Phi(a)h\|_X
 \le
 C_L\|h\|_{\mathcal A}^2,
 \]
-with constants stable under parabolic rescaling and compatible with pressure-cleaning.
+with constants stable under parabolic rescaling and compatible with the selected
+pressure-cleaning procedure.  The theorem also supplies realizable predictors
+within the stated realization error of the relaxed minimax centre.
 \end{assumption}
 
-\begin{assumption}[Global residual representation]
-Along every bad predictive chain, there is a normalized Hilbert space \(\mathfrak H\), quasi-isometric identifications of the scale-dependent witness spaces with \(\mathfrak H\), a single residual \(\mathcal R\in\mathfrak H^*\), and square-summable errors \(\rho_k\) such that
+\begin{assumption}[Global residual representation source theorem]
+Along every bad predictive chain, the registered local defects determine vectors
+\(d_k\) in a fixed Hilbert defect space \(H_{\mathrm{def}}\).  There exist a
+Hilbert space \(\mathcal K\), a residual vector \(\mathcal R\in\mathcal K\),
+bounded maps \(A_k:\mathcal K\to H_{\mathrm{def}}\), and square-summable errors
+\(\rho_k\) such that
 \[
-\langle\mathcal N_k,e_k\rangle
-=
-\langle\mathcal R,e_k\rangle+\rho_k
+d_k=A_k\mathcal R+\rho_k.
 \]
-for every innovative normal witness \(e_k\). The errors include pressure tails, cutoffs, holonomy, gauge changes, and finite-window transport errors.
+Moreover, the pulled-back innovation tests satisfy the Bessel bound required in
+the moving-chart packing proposition.  The errors include, with no double
+counting, pressure tails, cutoff losses, gauge changes, finite-window transport
+errors, carrier recentering errors, and predictor-realization errors.
 \end{assumption}
 
-\begin{assumption}[Null-graph rigidity for packets]
-If a localized parabolic wave-packet family has quadratically small normal leakage on a quantitatively connected interaction graph, then, after removing pressure and gauge directions, it is close in the critical norm to one of the classified branches: Beltrami, two-and-a-half-dimensional shear, or carrier escape. If it is not close to such a branch, it produces a registered normal defect.
+\begin{assumption}[Packet rigidity source theorem]
+If a localized parabolic wave-packet family has quadratically small normal
+leakage on a quantitatively connected interaction graph, then, after removing
+pressure and gauge directions, it is close in the critical norm to a coherent
+zero-cost branch.  The branch class contains the explicit Beltrami and
+two-and-a-half-dimensional branches and every smooth Euler-coherent branch whose
+projected quadratic nonlinearity is pure pressure in the selected gauge.  If the
+packet family is not close to such a branch, the theorem produces a registered
+normal defect detected by the Hilbert witness system.
 \end{assumption}
 
-\begin{assumption}[Carrier localization and collapse]
-High-frequency escape either admits a carrier recentering that returns the dominant frequency to order one, or is locally subcritical in every carrier cell, or regenerates critical mass through a registered normal, holonomy, pressure-tail, or localization defect.
+\begin{assumption}[Carrier localization source theorem]
+High-frequency carrier escape has one of three outcomes.  Either the carrier can
+be recentered so that the dominant frequency returns to order one in a new
+admissible presentation; or the escaped component is locally subcritical in every
+carrier cell and therefore cannot maintain the bad-chain defect; or the escape
+produces a registered normal, pressure, gauge, localization, or transport defect
+which enters the global residual representation with square-summable error.
 \end{assumption}
 
-\begin{assumption}[Quantitative closure alternative]
-For every \(L\) and \(\delta>0\), there are \(m=m(L,\delta)\) and \(c=c(L,\delta)>0\) such that the following holds along any \(m\)-step controlled block of a predictive chain. If \(\mathfrak D_k\ge\delta\) throughout the block and all registered normal, holonomy, pressure, carrier, and realization defects in the block are at most \(c\), then either the defect decreases below \(\delta/2\) at the next controlled scale, or the chain enters a rigid branch or a carrier branch covered by the previous assumptions.
+\begin{assumption}[Pressure and gauge synchronization source theorem]
+For every scale block used in the iteration, pressure representatives, harmonic
+tails, gauge normalizations, and mean-zero conventions can be chosen before the
+block is evaluated.  Under those fixed choices, all pressure-force pairs used by
+the Oseen estimate, the branch gate, and the relative
+Caffarelli-Kohn-Nirenberg functional refer to the same pressure difference on
+the core cylinder.  Any failure of synchronization is recorded as a pressure or
+gauge defect in the global residual representation.
 \end{assumption}
 
-\begin{assumption}[Completion of the repaired source ledger]
-Every source channel in the repaired ledger has one of the legal outcomes listed in
-the finite source expansion:
+\begin{assumption}[Localization and critical collar source theorem]
+For every controlled Oseen block, the fixed-profile derivative collars are
+handled by the dyadic Hardy estimate proved above.  All remaining localization
+terms--moving cutoffs, carrier collars, pressure tails created by localization,
+and the critical collar sums
+\[
+\sum_k r_k^{-2}\int_{A_k}|w_k|^3,
+\qquad
+\sum_k r_k^{-2}\int_{A_k}|\pi_k^0|^{3/2}
+\]
+--either have a scale-invariant source bound, open a relative gate, produce a
+registered pressure/localization/carrier defect, or enter a coherent branch
+covered by the branch source theorem.
+\end{assumption}
+
+\begin{assumption}[Branch production and size source theorem]
+Whenever the packet rigidity theorem selects a coherent zero-cost branch, the
+presentation produces a strong branch predictor on a smaller cylinder together
+with its synchronized pressure.  The predictor has a Serrin bound, its pressure
+tail is controlled in the selected gauge, and its size data imply the relative
+Caffarelli-Kohn-Nirenberg smallness needed by the branch gate, unless a
+registered branch defect, pressure defect, force defect, or carrier escape is
+produced.
+\end{assumption}
+
+\begin{assumption}[Finite presentation and update source theorem]
+The iteration uses a finite presentation alphabet at each bounded complexity
+level.  Predictor charts, pressure gauges, finite observational Gramians, branch
+states, and carrier charts either stabilize along a tail of the bad chain, are
+updated only finitely many times inside a fixed complexity level, or produce a
+registered update/escape defect.  Thus an infinite bad chain cannot hide an
+unpaid cost in infinitely many silent changes of presentation.
+\end{assumption}
+
+\begin{assumption}[Quantitative closure alternative source theorem]
+For every \(L\) and \(\delta>0\), there are \(m=m(L,\delta)\) and
+\(c=c(L,\delta)>0\) such that the following holds along any \(m\)-step controlled
+block of a predictive chain.  If \(\mathfrak D_k\ge\delta\) throughout the block
+and all registered normal, holonomy, pressure, carrier, update, and realization
+defects in the block are at most \(c\), then either the defect decreases below
+\(\delta/2\) at the next controlled scale, or the chain enters a coherent branch
+or a carrier branch covered by the previous source theorems.
+\end{assumption}
+
+\subsection{Analytic work packages}
+
+The source theorems above are the complete conditional interface used by the
+proof.  Expanded into concrete analytic obligations, they require the following
+statements.
+
 \begin{enumerate}[label=(\roman*)]
-\item a summable source theorem;
-\item a finite update or finite-atlas merge with registered boundary cost;
-\item a named non-summable escape;
-\item a regularity gate;
-\item an explicitly open PDE theorem.
-\end{enumerate}
-For the final non-conditional theorem, the fifth alternative must be eliminated.
-In particular, the following families require actual Navier-Stokes source
-theorems: the eight S4 owner families, the seven \(\operatorname{ErrS1repr}\)
-owners, the eight \(\operatorname{EscPkt}\) components, the recurrent/Hilbert-old
-alternatives, the S2-S12 transport and component ledgers, the finite-variation
-route \(\mathrm{VarEff}\), and the exact E12 floor.
-\end{assumption}
+\item \emph{Critical predictor construction.}  The incoming and lateral
+observations must generate a nonempty family of strong predictors with Serrin
+control, stable local pressure gauges, and quantitative dependence on the
+incoming data.  The differentiability estimate must be proved in the same
+critical topology used by the predictive defect, not in a stronger topology that
+loses scale invariance.
 
-\begin{assumption}[Exact floor and finite-atlas closure]
-The E12 floor used in the block selection is chosen after all relevant weights,
-packet envelopes, margin states, and update costs are fixed. On every no-gate
-no-escape tail, either the finite-atlas and finite-variation states stabilize after
-finitely many registered updates, or the branch exits by a named chart, packet,
-carrier, margin, floor, or component escape. The floor is never recomputed for an
-already selected block without paying an explicit transport or update cost.
-\end{assumption}
+\item \emph{Realization of minimax centres.}  The relaxed minimax centre exists
+by Hilbert compactness, but the PDE iteration needs a realizable strong predictor
+near that relaxed centre.  The realization theorem must either produce such a
+predictor with the stated error or register the error as a summable realization
+defect.
+
+\item \emph{Global residual representation.}  Normal defects produced at
+different scales must be represented as vectors \(d_k\) in a fixed defect
+Hilbert space and must satisfy \(d_k=A_k\mathcal R+\rho_k\), with a Bessel bound
+for the pulled-back innovation tests \(A_k^*e_k\).  The error vectors \(\rho_k\)
+must control connection changes, cutoff changes, pressure gauges, carrier
+recentering, finite-window truncation, and chart changes.  This is the statement
+that makes the moving-chart packing proposition applicable to Navier-Stokes.
+
+\item \emph{Packet pairing and row summability.}  The localized wave-packet
+decomposition must supply actual pairings between physical residuals and
+adjoint witnesses.  Repeated packet rows must obey either a Bessel/Carleson bound
+or a direct operator bound in the critical topology.  A row that cannot be made
+summable must exit by a gate, a coherent branch, carrier escape, or a registered
+defect.
+
+\item \emph{Packet rigidity.}  Small projected quadratic leakage must force the
+localized packet family toward a coherent zero-cost branch after pressure and
+gauge directions are removed.  If this rigidity conclusion fails, the failure
+must produce a normal defect detected by the witness system.  The theorem must
+cover localized packets, not only exact Fourier modes.
+
+\item \emph{Pressure and gauge source closure.}  Pressure representatives,
+harmonic tails, mean-zero conventions, gradient gauges, and pressure-force pairs
+must be chosen in a block-independent way.  Variations of representatives,
+pressure tails, gauge shrink losses, cutoff pressure losses, and pressure-force
+couplings must be assigned once and only once to source terms, gates, or escape
+alternatives.
+
+\item \emph{Native force and old-data closure.}  Forcing terms created by
+predictor updates, old visible data, finite-memory truncations, and transport of
+past information must either be absorbed by the predictor construction or
+registered as force defects with a summable source bound.  The proof cannot use
+the same force contribution simultaneously as a predictor input and as a
+separate residual source.
+
+\item \emph{Cutoff and localization closure.}  The fixed-profile cutoff and
+fixed-drift subchannels are proved above.  The remaining localization theorem
+must handle moving cutoffs, annular critical mass, carrier collars, pressure
+tails created by localization, and compatibility between localization cells and
+the Oseen transfer.  Any failure must be routed to a localization defect,
+carrier escape, pressure defect, or gate.
+
+\item \emph{Oseen source closure beyond fixed subchannels.}  The local Oseen
+energy transfer is proved, and fixed cutoff/drift costs are controlled.  What
+remains is the source theorem for moving drifts, pressure-force pairs, native
+forcing, localization-carrier-cutoff compatibility, and explicit Oseen error
+terms.  These contributions must be separated from the packet, pressure, force,
+and carrier source counts so that no cost is counted twice.
+
+\item \emph{Carrier source closure.}  A high-frequency carrier must either be
+recentred into a new admissible chart, become locally subcritical in each carrier
+cell, or produce a summable registered defect.  The theorem must also control
+carrier tails, containment of carrier cells in the physical cylinder, and
+compatibility with the pressure gauge used by the final gate.
+
+\item \emph{Coherent branch production.}  Once packet rigidity selects a
+zero-cost branch, the proof needs an actual branch predictor with synchronized
+pressure.  The branch theorem must produce outer branch data, interior size
+data, derivative data when needed, pressure synchronization, and a route from
+branch size to relative Caffarelli-Kohn-Nirenberg smallness.  If any of these
+data fail, the failure must become a registered branch, pressure, force, or
+carrier defect.
+
+\item \emph{Branch radius and margin compatibility.}  The final gate is opened
+on a smaller cylinder, so the branch radius, analytic radius, cutoff radius,
+pressure tail allowance, and gate margin must be synchronized.  The theorem must
+show that downstream consumption of these margins leaves a positive final gate
+allowance, or else identifies a definite registered defect.
+
+\item \emph{Nonlinear Caffarelli-Kohn-Nirenberg witnesses.}  Raw
+Caffarelli-Kohn-Nirenberg mass is not a Hilbert coefficient.  Every use of such
+mass must therefore be routed through the relative gate, converted to a genuine
+linear source functional, controlled by an independent monotone/Carleson
+estimate, or absorbed by compactness-rigidity.  Gated rows exit the iteration and
+are not counted as source terms.
+
+\item \emph{Finite presentation and update closure.}  The finite observational
+atlas, predictor charts, pressure gauges, memory windows, coefficient ranks,
+branch states, and carrier states must stabilize on controlled tails or pay a
+finite update/escape cost.  This prevents an infinite bad chain from changing
+presentations indefinitely without producing a summable source term or an exit.
+
+\item \emph{Final floor and compactness closure.}  The no-gate condition, the
+positive gate-excess defect, the compactness of bounded charts, and the
+lower-semicontinuity of the final floor must be compatible with scale iteration.
+This is the compactness statement that lets a persistent bad block survive in a
+limit only if it retains a positive defect, and it is the point where the
+quantitative closure alternative is consumed.
+\end{enumerate}
 
 \section{Conditional Newton Transfer}
 
-Under the differentiability module, the Newton bridge becomes a precise conditional proposition.
+Under the predictor production and differentiability source theorem, the Newton
+bridge becomes a precise conditional proposition.
 
 \begin{proposition}[Conditional saddle Newton bridge]
 Assume critical predictor-map differentiability and the local Oseen transfer estimate. Let \(g_k\) be a relaxed minimax predictor at scale \(k\), and write \(u=g_k+w_k\). Then, after passing to the next core scale,
@@ -1067,28 +1428,27 @@ Here \(\mathfrak K_k^\perp\) is the non-absorbed normal quadratic defect, \(\mat
 \end{proposition}
 
 \begin{proof}
-The predictable linear part of \(w_k\) is absorbed by the first variation \(D\Phi(a)h\). The tangential quadratic part is absorbed by the second-order correction supplied by the differentiability module. The non-absorbed quadratic part is exactly \(\mathfrak K_k^\perp\); pressure, cutoff, and connection errors give \(\mathfrak F_k^\perp\) and \(\mathfrak H_k^\perp\); and non-realisability of the relaxed centre gives \(\mathfrak V_k\). Comparing the suitable weak solution with the updated strong predictor, the local Oseen estimate bounds the remainder on the smaller core. Since the updated predictor is an admissible competitor for the minimax problem at the next scale, the displayed inequality follows.
+The predictable linear part of \(w_k\) is absorbed by the first variation
+\(D\Phi(a)h\). The tangential quadratic part is absorbed by the second-order
+correction supplied by the differentiability source theorem. The non-absorbed
+quadratic part is exactly \(\mathfrak K_k^\perp\); pressure, cutoff, and
+connection errors give \(\mathfrak F_k^\perp\) and \(\mathfrak H_k^\perp\); and
+non-realisability of the relaxed centre gives \(\mathfrak V_k\). Comparing the
+suitable weak solution with the updated strong predictor, the local Oseen
+estimate bounds the remainder on the smaller core. Since the updated predictor
+is an admissible competitor for the minimax problem at the next scale, the
+displayed inequality follows.
 \end{proof}
 
 \section{Modular Regularity Theorem}
 
-\begin{theorem}[Audited conditional predictive regularity]
-Let \((u,p)\) be a suitable weak solution near \(z_0\). Suppose that the predictive
-presentation system at \(z_0\) satisfies the source contracts of the repaired ledger,
-the analytic modules stated above, the S1 quotient packet row source, the S7
-pressure/gauge source blocks GP1--GP5 with the closed GP1 record and GP2/GP4
-coordinate subowners inserted, the post-firewall S6 native-force source contract,
-the post-firewall S8 cutoff/localization source contract, and the exact
-floor/finite-atlas closure. Assume that the Oseen cutoff collars are taken from the
-fixed dyadic family above, so their integrated cutoff part is already source-closed;
-assume also that every moving Oseen drift epoch is either finitely merged into a
-fixed-drift epoch covered by the fixed-drift collar proposition or has a separate
-source-closed transition ledger.
-Suppose finally that the minimization errors \(\eta_k\) are summable and that no
-source channel needed by the proof is left in the explicitly open PDE category.
-Then there is no bad predictive chain at \(z_0\). Consequently, if the predictive
-defect is the only obstruction to predictive epsilon regularity, then \(u\) is
-regular at \(z_0\).
+\begin{theorem}[Conditional predictive regularity]
+Let \((u,p)\) be a suitable weak solution near \(z_0\). Suppose that the
+predictive presentation system at \(z_0\) satisfies the analytic source theorems
+stated above, and that the explicit scale-selection errors \(\eta_k\) are
+summable. Then there is no bad predictive chain at \(z_0\). Consequently, if the
+predictive defect is the only obstruction to the predictive epsilon-regularity
+hypothesis, then \(u\) is regular at \(z_0\).
 \end{theorem}
 
 \begin{proof}
@@ -1098,1217 +1458,94 @@ Assume that a bad predictive chain exists. Then for some \(\delta_0>0\),
 \]
 on all sufficiently small scales.
 
-By the global residual representation and the Hilbertian packing lemma, the
-innovative normal defects are square-summable. The repaired source ledger and the
-S1/S4 firewalls ensure that the surrounding packet, representation, escape,
-transport, pressure, cutoff, carrier, margin, and floor errors are either summable
-on the no-gate tail, finitely updated before the next epoch, or have already forced
-a named escape or gate. The inserted GP1 record theorem and GP2/GP4 coordinate
-closures ensure that pressure-envelope growth, \(M_p\)-representative drift,
-discrete pair/owner switching, and pressure-envelope shrink degeneration cannot
-move invisibly. The remaining GP2--GP5 source blocks must then ensure that residual
-representative drift, pressure-tail production, residual shrink/margins,
-pressure-force pair mass, native force-use motion, critical localization mass,
-carrier tails, moving-drift errors, floor motion, and state variation have single
-owners and pre-E12 ledgers before \(243\) and \(265\) are invoked. The fixed dyadic
-cutoff lemma removes the integrated Oseen cutoff collar from the hard S8 burden,
-and the fixed-drift collar lemma removes the drift-gradient collar on any genuinely
-fixed or merged Oseen epoch. Thus on a genuine no-gate no-escape tail, blocks of
-arbitrarily small scales have very small average registered defect.
+By the global residual representation source theorem and the Hilbertian packing
+lemma, the innovative normal defects are square-summable. Hence, after discarding
+finitely many initial scales, one can find arbitrarily long controlled blocks on
+which the average registered normal defect is as small as required.  The pressure
+and gauge synchronization theorem ensures that the pressure quantities appearing
+in those blocks are the same quantities used by the Oseen estimate and by the
+relative Caffarelli-Kohn-Nirenberg gate.
 
-The quantitative closure alternative prevents a persistent defect
-\(\mathfrak D_k\ge\delta_0\) on such blocks unless the chain enters a rigid branch
-or a carrier branch.
+Apply the quantitative closure alternative on such a block. Since
+\(\mathfrak D_k\ge\delta_0\) throughout the bad chain, the first outcome--defect
+decay below \(\delta_0/2\)--is impossible on sufficiently late blocks. Therefore
+the chain must enter either a coherent branch or a carrier branch, unless a
+registered defect has been produced. A registered defect is also impossible
+infinitely often with fixed positive size, because the global residual
+representation and the packing lemma make the registered innovative cost
+square-summable.
 
-If the chain enters a Beltrami branch, the quadratic term is pressure-cleaned and the Newton transfer gives decay of the predictive defect. If it enters a two-and-a-half-dimensional branch, the reduced two-dimensional system and passive scalar equation provide the strong predictor and again force decay, up to a registered anisotropic defect. If the chain enters carrier escape, the carrier localization module either recenters the scale, makes the contribution locally subcritical, or produces one of the registered defects already controlled by packing.
+If the chain enters a Beltrami branch, the quadratic term is pressure-cleaned and
+the Newton transfer gives decay of the predictive defect. If it enters a
+two-and-a-half-dimensional branch, the reduced two-dimensional system and passive
+scalar equation provide the strong predictor and again force decay, up to a
+registered anisotropic defect. If it enters a more general Euler-coherent
+zero-cost branch, the branch production and size source theorem supplies the
+branch predictor and pressure data needed for the branch gate, unless a
+registered branch, force, pressure, or carrier defect is produced. In the gate
+case, the relative Caffarelli-Kohn-Nirenberg criterion opens the final gate and
+the bad chain terminates. In the defect case, the defect has already been shown
+to be square-summable and therefore cannot maintain the fixed lower bound
+\(\delta_0\) indefinitely.
 
-Thus every legal alternative contradicts the persistence of
-\(\mathfrak D_k\ge\delta_0\). Therefore no bad predictive chain exists. The final
-implication is exactly predictive epsilon regularity.
+If the chain enters carrier escape, the carrier localization source theorem
+either recenters the scale, makes the escaped contribution locally subcritical,
+or produces one of the registered defects already controlled by packing.
+Recentering gives a new admissible presentation and returns to the same
+alternative; subcriticality contradicts persistence of the defect; and a
+registered defect is square-summable. Every possible outcome contradicts the
+existence of a bad chain with \(\mathfrak D_k\ge\delta_0\) on all sufficiently
+small scales.
+
+Therefore no bad predictive chain exists. The final implication is exactly the
+predictive epsilon regularity source theorem.
 \end{proof}
 
-\section{Verified Components and Remaining Work}
+\section{Verified Components and Source Inputs}
 
 The verified pieces are:
 \begin{enumerate}[label=(\roman*)]
 \item the Serrin-critical Oseen transfer estimate, with collar and pressure-tail terms explicitly paid for;
-\item the fixed centered dyadic cutoff-collar source theorem for the integrated
-Oseen cutoff weight;
-\item the fixed-drift dyadic drift-gradient collar source theorem on fixed or
-finitely merged Oseen epochs;
+\item fixed-profile dyadic cutoff-collar control, fixed-drift collar stability,
+and the pressure-pair source interface;
 \item the Hilbert-space existence of relaxed minimax centres;
 \item the abstract Bessel packing mechanism for innovative normal witnesses;
 \item the exact two-mode null classification of the projected bilinear symbol;
-\item exact absorption of Beltrami fields and exact reduction of two-and-a-half-dimensional fields.
+\item exact absorption of Beltrami fields and exact reduction of two-and-a-half-dimensional fields;
+\item the relative Caffarelli-Kohn-Nirenberg gate, conditional only on the stated predictor and pressure smallness;
+\item compactness of the gate-excess defect under the selected chart topology;
+\item suitable limit passage and normal-defect limit passage under the stated compactness hypotheses;
+\item the separation between nonlinear Caffarelli-Kohn-Nirenberg witnesses and Hilbert innovations.
 \end{enumerate}
 
-The formal source-contract layer now additionally closes:
+The conditional theorem depends on the following scale-invariant PDE source
+theorems:
 \begin{enumerate}[label=(\roman*)]
-\item the quotient packet split into old, certified, new, tail, and escape rows;
-\item the representation inequality
-\(\operatorname{Innov}_k\le C\|a_k^{\mathrm{new}}\|_{\ell^2}^2
-+C\operatorname{ErrS1repr}_k^{\mathrm{ind}}\);
-\item the seven-owner decomposition of \(\operatorname{ErrS1repr}\);
-\item the eight-component decomposition of \(\operatorname{EscPkt}\), with summable
-escape separated from non-summable branch exit;
-\item the eight-owner S4 packet-compatibility matrix;
-\item the S4 aggregation firewall, which prevents \(R_{\mathrm{S4}}\) from being
-used as an independent source theorem;
-\item the rule that S1, S4, E12, and final \(\mathrm{GQ1}\) cannot prove the source estimates
-that they consume.
-\item the S7 pressure/gauge source architecture: only spatial constants are
-zero-cost, nonconstant harmonic pressure transfers are pressure-force pair
-morphisms, and the \(\operatorname{GaugePress}\) channel is conditionally assembled
-from five named source blocks GP1--GP5.
-\item the GP1 pressure-envelope magnitude block by dyadic record exhaustion:
-eventual bounded pressure chart after finitely many updates, non-summable
-\(\operatorname{PressEnvRecEsc}\), or gate/impossible setup;
-\item the \(M_p\) coordinate of GP2 pressure representative variation, whose drift
-is exactly the GP1 record/update/escape mechanism;
-\item the discrete GP2 pair-convention and owner-label coordinates, whose finite
-pre-E12 state either stabilizes, pays a non-summable switching ledger, or exits by
-fixed-chart illegality;
-\item the GP4 pressure-envelope shrink coordinate
-\((M_p,\varepsilon_p,\theta_P,s_P)\), so that the route
-\(M_p\to\infty\), \(\theta_P\to0\) cannot occur invisibly.
-\item the post-firewall S6 native-force source contract, which separates Hilbert
-fixed-chart force tails from native force use, native transition, pressure-force
-pair, native force-tail, and owner-transition burdens;
-\item the post-firewall S8 cutoff/localization normal form, which rejects
-\(\operatorname{EscS8}=\operatorname{S8Loc}\) as a source theorem and replaces it
-by fixed owner splits, explicit residuals, genuine localization/cutoff escapes,
-gates, or impossibility;
-\item the Oseen/S8 subsource split for \(\mathrm{Cut}_O\) and fixed-drift
-\(\mathrm{DriftCollar}_O\), with all moving-center, moving-drift, pressure,
-carrier, and force companions left in their named owners.
+\item production, differentiability, and realization of causal strong predictors;
+\item construction of a global residual representation across a bad chain, with
+a Bessel bound and square-summable pressure, cutoff, gauge, carrier, and
+transport errors;
+\item packet-level rigidity for localized nearly invisible quadratic
+interactions;
+\item carrier localization and recentering with pressure-tail control;
+\item localization and critical velocity/pressure collar source bounds beyond
+the fixed-profile Hardy subchannel;
+\item pressure and gauge synchronization across Oseen, branch, and final-gate
+quantities;
+\item production of branch predictors, branch pressure data, and branch size
+smallness;
+\item finite presentation/update stabilization;
+\item predictive epsilon regularity and the quantitative closure alternative.
 \end{enumerate}
 
-The remaining analytic work is concentrated in the following PDE source theorems:
-\begin{enumerate}[label=(\roman*)]
-\item prove a true S1 row Bessel/Carleson theorem for the certified-new
-Navier-Stokes packet rows;
-\item prove the packet pairing identity and packet-envelope outcomes for actual
-registered Navier-Stokes defects;
-\item prove source outcomes for the seven representation-error owners;
-\item prove source outcomes or legal exits for the eight packet-escape components;
-\item prove source outcomes for all eight S4 owner families: frame, row-tail and
-native, carrier-sector, dictionary and component, owner-split, certified-old,
-packet-envelope, and margin/floor;
-\item prove recurrent and Hilbert-old alternatives through the certified and
-recurrent ledgers, without using S1;
-\item prove finite-atlas and finite-variation closure through the \(\mathrm{VarEff}\) route;
-\item prove the exact E12 floor and its compatibility with packet envelopes, margins,
-updates, and block selection;
-\item insert the closed GP1 record theorem and the closed GP2/GP4 coordinate
-subowners into S7, then prove residual GP2 pressure representative variation, GP3
-pressure-tail block production, the remaining GP4 shrink/margin/floor theorem, and
-GP5 owner-split import for S8, Oseen, S6, and S11;
-\item prove the shared pressure-force-pair source theorem and the S8 pressure/collar
-and explicit Oseen-error source outcomes needed by S7;
-\item prove the native S6 source theorem: forced-use or zero-certified-use
-exhaustion, native \(Y_{\mathrm{force}}\) transition, native force-tail source,
-force-owner transition, and the shared pressure-force pair route;
-\item prove the full S8 source theorem beyond the integrated cutoff subsource:
-critical annular velocity mass, pressure/gauge localization, cutoff normal defect,
-carrier imports, predictor tails, recentering transport, containment, and
-cutoff/localization state motion;
-\item prove S9 carrier source closure and the S10/Oseen moving-owner source theorem,
-including pressure pair, force/gauge pair, localization-carrier-cutoff
-compatibility, and moving-drift residuals not covered by fixed epochs;
-\item prove the S11--E10--E11--E12 shrink-margin-floor source closure and S12/GQ3
-finite-state or finite-variation stabilization for all moving owner states;
-\item prove critical predictor-map differentiability, global residual
-representation, packet-level null-graph rigidity, carrier localization, and the
-quantitative closure alternative in the concrete Navier-Stokes topology.
-\end{enumerate}
-
-The useful conclusion of the note is therefore a dependency graph with firewalls.
-Presentation theory supplies the language of predictors, observables, fibres, costs,
-owners, and transfer; Oseen estimates supply the perturbative transport; Hilbert
-packing supplies a square-summability mechanism for genuinely new normal defects;
-and null geometry isolates the branches where the quadratic term can be invisible.
-The next analytic task is to prove that these formal branches exhaust the localized
-PDE behaviour at critical scale, with all packet and component source channels
-closed before the final global cost statement is invoked.
-
-\appendix
-
-\section{Detailed Audit Ledger: Current Source Contracts}
-
-This appendix records the current fine-grained proof audit. The entries are not a
-separate proof of the missing Navier-Stokes PDE source estimates. They are the
-source contracts, owner decompositions, and anti-circularity firewalls that the final
-proof must respect. The purpose is to keep the article synchronized with the present
-state of the proof architecture.
-
-\subsection{L153. S1 quotient packet source contract}
-
-S1 is fixed to the quotient/certified packet route. For every innovative scale,
-\[
-e_k=\frac{d_k-P_{V_{k-1}}d_k}{\|d_k-P_{V_{k-1}}d_k\|},
-\qquad
-m_k=A_k^*e_k,
-\]
-and in the fixed packet frame
-\[
-m_k=\sum_{\lambda}a_{k,\lambda}\psi_\lambda+\tau_k.
-\]
-The row is split as
-\[
-a_k=a_k^{\mathrm{old}}+a_k^{\mathrm{cert}}+a_k^{\mathrm{new}}
-     +a_k^{\mathrm{tail}}+a_k^{\mathrm{esc}}.
-\]
-Only \(a_k^{\mathrm{new}}\) belongs to S1. The S1 source theorem must prove
-\[
-\sum_k\|a_k^{\mathrm{new}}\|_{\ell^2}^2
-\le
-C_{\mathrm{S1}}(\mathrm{Envelope},\mathrm{Atlas},\mathrm{Frame})
-+C_{\mathrm{S1}}\sum_k\operatorname{ErrPktCompat}_k
-+C_{\mathrm{S1}}\sum_k\operatorname{EscPkt}_k,
-\]
-equivalently boundedness of
-\[
-T_{\mathrm{new}}c=(\langle c,a_k^{\mathrm{new}}\rangle)_k.
-\]
-It must also compose with the quotient representation inequality for
-\(\operatorname{Innov}_k\). Certified-old, Hilbert-old-uncertified, recurrent, tail,
-and escape packet pieces are not counted by S1; they are routed to S4, S5, S6,
-S11, S12, \(\mathrm{VarEff}\), escape, or gate.
-
-Remaining burden: prove the actual quotient packet Bessel/Carleson or direct row
-operator bound; prove the representation inequality for actual Navier-Stokes
-defects; prove packet-frame stability under pressure, Leray, cutoff, gauge, carrier,
-force, and chart transitions; prove recurrent physical-lift/certification
-alternatives without using S1; prove finite-atlas and finite-variation entry; and
-integrate with S4, E12, and final \(\mathrm{GQ1}\).
-
-\subsection{L154. S1 quotient representation inequality}
-
-For a legal S1 scale,
-\[
-\operatorname{Innov}_k=|\langle d_k,e_k\rangle_{H_{\mathrm{def}}}|^2.
-\]
-The packet pairing identity must give
-\[
-\langle d_k,e_k\rangle_{H_{\mathrm{def}}}
-=\langle b_k,a_k\rangle_{\ell^2}
-+\rho_{\mathrm{frame},k}
-+\rho_{\mathrm{reg},k}
-+\rho_{\mathrm{native},k},
-\]
-where \(b_k\) is the registered defect coefficient vector and \(a_k\) is the fixed
-packet row of \(A_k^*e_k\). With the owner split of \(a_k\), all old, certified,
-tail, and escape pairings are zero in the fixed owner state or charged to owned
-repaired errors and escapes. If
-\[
-\|b_k\|_{\ell^2}\le M_{\mathrm{pkt}},
-\]
-then Cauchy-Schwarz and Young give
-\[
-\operatorname{Innov}_k
-\le
-C_{\mathrm{S1,repr}}\|a_k^{\mathrm{new}}\|_{\ell^2}^2
-+C_{\mathrm{S1,repr}}\operatorname{ErrS1repr}_k.
-\]
-This closes the formal algebra behind the representation inequality, but not the
-PDE facts that make the pairing identity and envelope true.
-
-Remaining burden: prove the packet pairing identity for actual registered
-Navier-Stokes defects; prove the packet envelope or legal escape/update/gate; prove
-the S1 row Bessel/Carleson theorem; prove all representation errors independently
-of S1 and final \(\mathrm{GQ1}\).
-
-\subsection{L155. S1 packet pairing and envelope contract}
-
-Inside a fixed packet epoch, the packet analysis map is
-\[
-\operatorname{An}_E:H_{\mathrm{def}}\to\ell^2(\mathrm{Frame}_E),
-\qquad
-b_k=\operatorname{An}_E(d_k),
-\]
-and the synthesis map satisfies
-\[
-m_k=A_k^*e_k=\operatorname{Syn}_E(a_k)+\tau_k.
-\]
-The pairing identity is legal only through the fixed analysis/synthesis maps,
-canonical registration, and owned frame/native errors:
-\[
-\langle d_k,e_k\rangle_{H_{\mathrm{def}}}
-=\langle \operatorname{An}_E(d_k),a_k\rangle_{\ell^2}
-+\rho_{\mathrm{frame},k}
-+\rho_{\mathrm{reg},k}
-+\rho_{\mathrm{native},k}.
-\]
-The coefficient envelope is the explicit observable
-\[
-\operatorname{PktEnv}_k
-=\|\operatorname{An}_E(d_k)\|_{\ell^2(\mathrm{Frame}_E)}^2.
-\]
-S1 may use the representation inequality only when
-\(\operatorname{PktEnv}_k\le M_{\mathrm{pkt}}^2\), or when envelope failure is
-charged as explicit repaired envelope error, finite update, named packet/native/
-carrier escape, chart escape, or gate.
-
-Forbidden moves: choosing \(b_k\) after the fact; deriving the envelope from finite
-energy at critical normalization; changing registration, frame, dual frame, or
-observation map after \(e_k\); hiding pressure, force, cutoff, carrier, localization,
-memory, gauge, or normal-defect mismatch in a packet Bessel term.
-
-Remaining burden: construct actual Navier-Stokes packet charts supplying
-\(\operatorname{An}_E\), \(\operatorname{Syn}_E\), and canonical registration; prove
-envelope outcomes; prove frame residual and native mismatch source outcomes; prove
-finite-atlas stabilization and S1 row Bessel/Carleson.
-
-\subsection{L156. S1 row Bessel source criterion}
-
-On a fixed or merged S1 tail atlas, the certified-new row family
-\[
-\mathcal A_{\mathrm{new}}=\{a_k^{\mathrm{new}}:\operatorname{Innov}_k>0\}
-\]
-must satisfy at least one genuine row source criterion:
-\begin{enumerate}[label=(\roman*)]
-\item finite-overlap source;
-\item Schur or Gram source;
-\item Carleson packet source;
-\item direct row-operator source.
-\end{enumerate}
-Equivalently, \(T_{\mathrm{new}}\) is bounded on the fixed packet coefficient space.
-The proof may not infer this from Hilbert Gram-Schmidt orthogonality of \(e_k\) in
-\(H_{\mathrm{def}}\). If no allowed row source criterion holds, the legal outcomes
-are packet/frame/carrier escape, finite-atlas or finite-variation failure, certified
-update or recurrent lift, packet-envelope escape/update, gate, or an explicitly open
-S1 PDE theorem.
-
-Remaining burden: prove one allowed criterion for actual Navier-Stokes
-certified-new rows; prove fixed packet frame, carrier sector, dictionary, and
-envelope stabilization; remove recurrent/Hilbert-old rows through S5/S12 without
-using S1; prove independent source outcomes for surrounding errors.
-
-\subsection{L157. S1 surrounding-error independence firewall}
-
-An error term near the S1 row theorem is admissible only if it has a primary owner in
-S2-S12, \(\mathrm{VarEff}\), GQ3, or a named escape; its definition excludes
-\(\|a_k^{\mathrm{new}}\|^2\), the unknown \(T_{\mathrm{new}}\) norm, and final
-\(\mathrm{GQ1}\); and its source theorem does not use the S1 row estimate.
-
-\(\operatorname{ErrPktCompat}_k\) is legal only as packet compatibility with
-\(\operatorname{NewRowSize}_k=\|a_k^{\mathrm{new}}\|^2\) removed. It may contain
-frame, row-tail, sector, dictionary, owner-split, certified-old, envelope, and
-margin errors owned by non-S1 channels. It may not contain certified-new row mass,
-recurrent packet mass before the recurrent alternatives are assigned, or a packet
-chart change chosen after \(e_k\).
-
-\(\operatorname{ErrS1repr}_k\) is split into frame pairing, registration pairing,
-native pairing, old-pair, certified-pair, and tail-pair owners. \(\operatorname{EscPkt}_k\)
-is legal only for named packet-chart failures: unavailable frame, carrier-window
-exit, dictionary transport failure, envelope exit, owner-split failure, recurrent
-state failure, margin/floor degeneration, or finite-atlas/variation failure.
-
-Consequently the S1 row theorem plus the representation inequality is non-circular
-only after these surrounding terms have source outcomes independent of S1.
-
-\subsection{L158. S4 packet compatibility source contract}
-
-S4 is the source channel for the S1-independent packet compatibility error
-\[
-\operatorname{ErrPktCompat}_k^{\mathrm{ind}}.
-\]
-On a fixed or merged packet epoch,
-\[
-\begin{aligned}
-\operatorname{ErrPktCompat}_k^{\mathrm{ind}}
-=&\operatorname{FrameCompat}_k+\operatorname{RowTailCompat}_k
-  +\operatorname{SectorCompat}_k+\operatorname{DictCompat}_k\\
-&+\operatorname{OwnerSplitCompat}_k+\operatorname{CertOldCompat}_k\\
-&+\operatorname{EnvCompat}_k+\operatorname{MarginPktCompat}_k.
-\end{aligned}
-\]
-The owner matrix routes frame and row-tail to S4/S2/S3, sector to S9/carrier,
-dictionary to S6-S9/S3/S2, owner split and certified-old to S5/S11/S12, envelope to
-the packet-envelope owner, and margin/floor to S11/E10-E12/S12. The source target is
-\[
-\sum_{k\in B}\operatorname{ErrPktCompat}_k^{\mathrm{ind}}
-\le C_{\mathrm{S4}}R_{\mathrm{S4}}(B),
-\]
-with all repaired-cost weights fixed before E12.
-
-Excluded from S4: \(\operatorname{NewRowSize}\), the unknown \(T_{\mathrm{new}}\)
-norm, recurrent-new mass before the recurrent alternatives, post-innovation chart
-choices, S1 row Bessel, final \(\mathrm{GQ1}\), and final absence of bad blocks.
-
-\subsection{L159. S4 frame compatibility owner}
-
-In a fixed packet chart with frame \(\mathrm{Frame}_E\), maps
-\(\operatorname{An}_E,\operatorname{Syn}_E\), dual frame, and bounds \(A_E,B_E\),
-standard frame stability gives
-\[
-\operatorname{FrameCompat}_k^{\mathrm{fix}}
-\le C_{\mathrm{fr}}(\operatorname{FrameErr}_k+\operatorname{RowTail}_k).
-\]
-For accepted frame transitions, `BuildTrans=OK' and router S2/S4 must first route
-packet-frame and registration pieces, giving
-\[
-\operatorname{FrameCompat}_k^{\mathrm{trans}}
-\le C_{\mathrm{fr}}^{\mathrm{trans}}
-(\operatorname{PktFrameTrans}_k+\operatorname{RegFrameTrans}_k+\operatorname{RowTail}_k).
-\]
-Any term proportional to \(\delta_k\|a_k^{\mathrm{new}}\|^2\), or depending on
-\(T_{\mathrm{new}}\), is not an S4 frame error. It must be absorbed by a fixed or
-merged frame before S1, handled by finite variation or finite update, routed to
-escape/gate, or left open.
-
-The block target is
-\[
-\sum_{k\in B}\operatorname{FrameCompat}_k
-\le C_{\mathrm{S4,frame}}R_{\mathrm{frame}}(B).
-\]
-
-\subsection{L160. S4 row-tail/native owner}
-
-In
-\[
-m_k=A_k^*e_k=\operatorname{Syn}_E(a_k)+\tau_k,
-\]
-the residual \(\tau_k\) has exactly four legal outcomes: exact zero, predeclared
-coefficient tail, registered native/transport tail, or escape/gate. If a discarded
-component is admissible in the fixed packet chart and is not old, certified, tail,
-or escape by the owner map, it belongs to \(a_k^{\mathrm{new}}\), not to \(\tau_k\).
-
-The owner size is
-\[
-\operatorname{RowTailOwner}_k
-=\operatorname{RowTailCoeff}_k+\operatorname{RowTailNative}_k
-+\operatorname{RowTailTransport}_k+\operatorname{RowTailReg}_k.
-\]
-The source targets are
-\[
-\sum_{k\in B}\operatorname{RowTailCompat}_k
-\le C_{\mathrm{S4,tail}}\sum_{k\in B}\operatorname{RowTailOwner}_k,
-\]
-and, when the packet envelope is legal,
-\[
-\sum_{k\in B}\operatorname{RowTailPair}_k
-\le C_{\mathrm{pair,tail}}\sum_{k\in B}\operatorname{RowTailOwner}_k.
-\]
-Native pressure, force, cutoff/localization, carrier, chart, normal, memory, and
-certificate tails retain their native owners.
-
-\subsection{L161. S4 sector/carrier owner}
-
-Carrier depth, enlargement width, threshold, recentering list, and sector labels are
-chart data fixed before \(e_k\). Sector mismatch has exactly one legal outcome:
-inside fixed sector, predeclared carrier tail, accepted carrier transport, or
-carrier/packet/chart escape or gate. In-sector certified-new mass cannot be hidden
-in sector compatibility.
-
-The sector owner is
-\[
-\operatorname{SectorOwner}_k
-=\operatorname{CarPkt}_k+\operatorname{CarTail}_k+\operatorname{CarTrans}_k
-+\operatorname{CarPress}_k+\operatorname{CarLoc}_k+\operatorname{CarTheta}_k,
-\]
-and
-\[
-\sum_{k\in B}\operatorname{SectorCompat}_k
-\le C_{\mathrm{S4,sector}}\sum_{k\in B}\operatorname{SectorOwner}_k.
-\]
-This is an S9/carrier theorem, not a proof of S1 row Bessel or carrier summability.
-
-\subsection{L162. S4 dictionary/component owner}
-
-Packet dictionary labels are not free coordinates. They are a finite product of
-component charts owned by S2, S3, S6, S7, S8, S9, S11, and S12. The dictionary owner
-is
-\[
-\begin{aligned}
-\operatorname{DictOwner}_k
-=&\operatorname{ForceDict}_k+\operatorname{GaugeDict}_k
-  +\operatorname{CutLocDict}_k+\operatorname{CarrierDict}_k\\
-&+\operatorname{RegNativeDict}_k+\operatorname{MarginDict}_k.
-\end{aligned}
-\]
-Fixed dictionaries have zero dictionary loss. Accepted component-owned mismatch
-satisfies
-\[
-\sum_{k\in B}\operatorname{DictCompat}_k
-\le C_{\mathrm{S4,dict}}\sum_{k\in B}\operatorname{DictOwner}_k.
-\]
-Certified-new in-dictionary mass remains \(a_k^{\mathrm{new}}\). Nonconstant
-pressure/gauge transfers, cutoff changes, carrier changes, and registration/native
-changes keep their primary component owners. Dictionary drift cannot replace the
-finite-atlas/variation route.
-
-\subsection{L163. S4 owner-split state theorem}
-
-The split
-\[
-a_k=a_k^{\mathrm{old}}+a_k^{\mathrm{cert}}+a_k^{\mathrm{new}}
-     +a_k^{\mathrm{tail}}+a_k^{\mathrm{esc}}
-\]
-is a deterministic verdict of the fixed E6-E12 effective state, packet state,
-recurrent alternatives, and S1 firewall. Every coefficient has exactly one verdict.
-In a fixed owner state, \(\operatorname{OwnerSplitCompat}_k^{\mathrm{fix}}=0\).
-For accepted owner perturbations,
-\[
-\sum_{k\in B}\operatorname{OwnerSplitCompat}_k
-\le C_{\mathrm{S4,owner}}\sum_{k\in B}\operatorname{OwnerSplitLedger}_k,
-\]
-where
-\[
-\begin{aligned}
-\operatorname{OwnerSplitLedger}_k
-=&\operatorname{MemOwner}_k+\operatorname{AtomIdOwner}_k
-  +\operatorname{RankCoeffOwner}_k+\operatorname{ForceOwner}_k\\
-&+\operatorname{MarginOwner}_k+\operatorname{FloorOwner}_k
-  +\operatorname{RecurrentOwner}_k+\operatorname{TailOwner}_k.
-\end{aligned}
-\]
-Certified-new mass remains in \(a_k^{\mathrm{new}}\). Hilbert-old but uncertified
-components go to S5, S12, update, escape, or gate. Recurrent components must pass
-through the recurrent alternatives before S1.
-
-\subsection{L164. S4 certified-old physical subtraction}
-
-A certified-old verdict is not physical subtraction. To remove a component from S1,
-the proof must exhibit a certified predictor
-\[
-G_A(c_k)=G_{\mathrm{base}}+\sum_i c_{k,i}G_i
-\]
-with identity-preserving atom match, canonical coefficients, rank and margin control,
-component conventions for force, gauge, cutoff, carrier, and native norms, and
-nonlinear defect recomputation
-\[
-\begin{aligned}
-\operatorname{Def}_{NS}(G_A(c_k))
-=&\partial_tg_A-\Delta g_A\\
-&+\operatorname{div}(g_A\otimes g_A)+\nabla\pi_A.
-\end{aligned}
-\]
-The certified-old ledger is
-\[
-\begin{aligned}
-\operatorname{CertOldLedger}_k
-=&\operatorname{CertAtomId}_k+\operatorname{CertCoeffRank}_k
-  +\operatorname{CertDefUse}_k+\operatorname{CertForceUse}_k\\
-&+\operatorname{CertGaugePair}_k+\operatorname{CertCutLoc}_k
-  +\operatorname{CertCarrier}_k\\
-&+\operatorname{CertNativeTail}_k+\operatorname{CertMarginFloor}_k.
-\end{aligned}
-\]
-Legal certified-old epochs satisfy
-\[
-\sum_{k\in B}\operatorname{CertOldCompat}_k
-\le C_{\mathrm{S4,cert}}\sum_{k\in B}\operatorname{CertOldLedger}_k.
-\]
-Hilbert-old is not certified-old subtraction; forced-use cost is paid per use; and
-nonconstant pressure/gauge transfers use their registered pressure-force owner.
-
-\subsection{L165. S4 packet-envelope owner}
-
-The packet coefficient envelope
-\[
-\operatorname{PktEnv}_k
-=\|\operatorname{An}_E(d_k)\|_{\ell^2(\mathrm{Frame}_E)}^2
-\]
-has exactly four legal outcomes:
-\begin{enumerate}[label=(\roman*)]
-\item bounded chart \(\operatorname{PktEnv}_k\le M_{\mathrm{pkt}}^2\);
-\item explicit repaired error \(\operatorname{ErrPktEnv}_k=\operatorname{PktEnv}_k\)
-with pre-E12 weight;
-\item finite envelope update;
-\item envelope escape or gate.
-\end{enumerate}
-The envelope owner is
-\[
-\operatorname{EnvOwner}_k
-=\operatorname{EnvFrame}_k+\operatorname{EnvNative}_k+\operatorname{EnvCarrier}_k
-+\operatorname{EnvMargin}_k+\operatorname{EnvUpdate}_k,
-\]
-and legal envelope excess satisfies
-\[
-\sum_{k\in B}\operatorname{EnvCompat}_k
-\le C_{\mathrm{S4,env}}\sum_{k\in B}\operatorname{EnvOwner}_k.
-\]
-\(M_{\mathrm{pkt}}\) is chart data fixed before \(e_k\), S1, and E12. Envelope
-failure cannot hide certified-new row mass, and \(\operatorname{ErrS1repr}\) may
-use the envelope only after this owner theorem supplies a legal outcome.
-
-\subsection{L166. S4 margin and floor owner}
-
-The margin owner is
-\[
-\begin{aligned}
-\operatorname{MarginOwner}_k
-={}&\operatorname{ShrinkOwner}_k+\operatorname{GraphMarginOwner}_k\\
-&+\operatorname{CertMarginOwner}_k+\operatorname{PacketEnvMarginOwner}_k\\
-&+\operatorname{FloorOwner}_k+\operatorname{BoundaryOwner}_k.
-\end{aligned}
-\]
-\(\operatorname{MarginPktCompat}\) has exactly four legal outcomes: fixed positive
-margin, registered margin comparison, finite update/floor recompute, or escape/gate.
-In a fixed positive chart, \(\operatorname{MarginPktCompat}_k^{\mathrm{fix}}=0\).
-For accepted margin comparisons,
-\[
-\sum_{k\in B}\operatorname{MarginPktCompat}_k
-\le C_{\mathrm{S4,margin}}\sum_{k\in B}\operatorname{MarginOwner}_k.
-\]
-Shrink stacks, graph/certificate thresholds, packet-envelope thresholds, floor
-sources, block lengths, and boundary data are fixed before S1/S4 use. If any change,
-the old epoch ends unless an explicit transport theorem preserves it with registered
-loss.
-
-\subsection{L167. S4 owner aggregation firewall}
-
-The aggregate
-\[
-R_{\mathrm{S4}}(B)=\sum_{k\in B}
-(R_{\mathrm{frame},k}+R_{\mathrm{tail},k}+R_{\mathrm{sector},k}
-+R_{\mathrm{dict},k}+R_{\mathrm{owner},k}+R_{\mathrm{cert},k}
-+R_{\mathrm{env},k}+R_{\mathrm{margin},k})
-\]
-is only shorthand for eight owner ledgers. It is not an independent source theorem.
-On finite legal blocks, the eight local inequalities add to
-\[
-\sum_{k\in B}\operatorname{ErrPktCompat}_k^{\mathrm{ind}}
-\le C_{\mathrm{S4}}R_{\mathrm{S4}}(B).
-\]
-On an infinite no-gate no-escape tail, S4 summability follows only if all eight owner
-families have summable source outcomes after finitely many certified updates/merges.
-If any owner exits by escape or gate, the route exits. If any owner remains an open
-PDE theorem, S4 remains conditional and cannot be used as a closed input to S1 or
-E12.
-
-\subsection{L168. S1 representation and packet escape source contract}
-
-The independent representation error is
-\[
-\begin{aligned}
-\operatorname{ErrS1repr}_k^{\mathrm{ind}}
-=&\operatorname{ErrPairFrame}_k+\operatorname{ErrPairReg}_k
-  +\operatorname{ErrPairNative}_k\\
-&+\operatorname{ErrOldPair}_k+\operatorname{ErrCertPair}_k
-  +\operatorname{ErrTailPair}_k+\operatorname{ErrPairEnv}_k.
-\end{aligned}
-\]
-The packet escape split is
-\[
-\begin{aligned}
-\operatorname{EscPkt}_k
-=&\operatorname{EscFrame}_k+\operatorname{EscCarrier}_k+\operatorname{EscDict}_k
-  +\operatorname{EscEnvelope}_k\\
-&+\operatorname{EscOwnerSplit}_k+\operatorname{EscRecurrent}_k
-  +\operatorname{EscMarginFloor}_k+\operatorname{EscAtlasVar}_k.
-\end{aligned}
-\]
-Representation owners must be supplied independently of S1 by S2-S12, S4, S5, and
-packet-envelope owners. Packet escape is legal on the S1 right-hand side only when it
-is registered as a summable repaired escape with pre-E12 weight. A non-summable
-named escape exits the no-escape branch; it is not a finite S1 error.
-
-The combined S1 surrounding source is
-\[
-R_{\mathrm{sur}}=R_{\mathrm{S4}}+R_{\mathrm{repr}}+R_{\mathrm{esc}},
-\]
-where \(R_{\mathrm{S4}}\) is legal only through L167, \(R_{\mathrm{repr}}\) through
-this contract, and \(R_{\mathrm{esc}}\) only for registered summable packet escapes.
-
-\subsection{L169. S1 \texorpdfstring{\(\operatorname{ErrPairFrame}\)}{ErrPairFrame} owner}
-
-The first representation-error owner is
-\[
-\operatorname{ErrPairFrame}_k=|\rho_{\mathrm{frame},k}|^2.
-\]
-It is the fixed-frame pairing discrepancy after registration and native
-discrepancies have been removed. It is generated only by fixed analysis/synthesis
-duality defects, dual-frame comparison, row residual \(\tau_k\), accepted
-packet-frame transport, or accepted registration/frame pullback comparison.
-
-On a bounded-envelope frame epoch,
-\[
-\sum_{k\in B}\operatorname{ErrPairFrame}_k
-\le C_{\mathrm{S1,pair,frame}}R_{\mathrm{pair,frame}}(B),
-\]
-Here \(R_{\mathrm{pair,frame}}\) is the \(M_{\mathrm{pkt}}^2\)-weighted sum of the
-frame-error, row-tail, packet-frame transport, registration-frame transport, and
-finite frame-update costs. The estimate is legal only after the packet-envelope
-owner has supplied bounded chart, repaired envelope, finite update, escape, gate, or
-open-PDE outcome.
-
-This owner forbids proving frame pairing by S1 row Bessel, final \(\mathrm{GQ1}\),
-the unknown \(T_{\mathrm{new}}\) norm, or by selecting the frame after \(e_k\) is
-known. Missing envelope or moving frame exits through update, envelope owner, frame
-escape, gate, or open theorem.
-
-\subsection{S7 pressure/gauge source architecture}
-
-The S7 pressure/gauge channel is now decomposed into five subowners:
-\[
-\operatorname{GaugeObs}_k
-=\operatorname{GaugeGrad}_k+\operatorname{GaugePress}_k
- +\operatorname{GaugeCut}_k+\operatorname{GaugeShrink}_k
- +\operatorname{GaugePair}_k .
-\]
-The exact zero-cost fibre is
-\[
-\operatorname{Gauge}_0=\{c(t)\}.
-\]
-Every nonconstant harmonic pressure transfer is a pressure-force pair morphism, not
-a gauge identity. In the notation of the audit, the pair defect is
-\[
-\rho_k^{\mathrm{press-force}}
-=\|\nabla\psi_k\|_{Y_{\mathrm{force}}}
- +\operatorname{PressTailSize}(\psi_k)
- +\operatorname{GaugeLoss}_k+\operatorname{CutoffPressureLoss}_k.
-\]
-The local modulus is closed only in the direction
-\[
-\operatorname{Target}_{\mathrm{gauge}}(B)
-\le C_{\mathrm{gauge}}\operatorname{Obs}_{\mathrm{gauge}}(B).
-\]
-This is not a source theorem. The opposite direction needed for block selection is
-provided only by component ledgers satisfying the \(243\) production hypothesis.
-
-\subsection{GaugePress conditional source assembly}
-
-The pressure-tail/envelope/oscillation subchannel \(\operatorname{GaugePress}\) is
-conditionally assembled from five blocks:
-\begin{description}[leftmargin=3.2cm,style=nextline]
-\item[GP1.]
-Pressure-envelope source closure. The harmonic envelope magnitude is now closed by
-the dyadic record theorem below. It enters an eventual bounded pressure chart after
-finitely many record updates, pays the non-summable pressure-envelope record
-escape, opens a gate, or is impossible because the pressure representative was not
-legal before block selection. This does not produce the pressure-tail observable in
-GP3.
-\item[GP2.]
-Pressure representative variation. The canonical representative is fixed only inside
-a fixed physical chart. Across chart changes, pressure representatives must have a
-source ledger, a source-closed owner split, finite update, finite variation/Cauchy/
-finite atlas, non-summable escape, gate, or impossibility.
-\item[GP3.]
-Pressure-tail block production. On every legal pressure block,
-\[
-\operatorname{Obs}_{\mathrm{GaugePress}}(B)
-\le \Phi_{\mathrm{press}}(R_{\mathrm{press}}(B)),
-\qquad
-Q_B^{\mathrm{rep}}\ge w_{\mathrm{press}}R_{\mathrm{press}}(B),
-\]
-or the pressure tail is assigned by a stored finite split to source-closed owners.
-If a block supremum is used, GP3 includes the required sup-to-ledger estimate.
-\item[GP4.]
-Pressure shrink and margin import. Bounded harmonic envelope may be used through
-inner shrink only after \(\theta_P\), \(s_P\), \(\mu_P\), \(\mu_{\mathrm{gauge}}\),
-the E10 shrink stack, the E11 margin state, the block length, and the E12 floor data
-are fixed, source-controlled, finitely updated, escaped, gated, or impossible.
-\item[GP5.]
-Cross-channel owner import. Any pressure piece crossing S7, S8, the Oseen channel,
-S6, or S11 must have a stored disjoint owner split. In particular, the
-\(\mathrm{PressPair}_O\) term needs both pressure/gauge and collar/localization
-owners unless it is paid as an explicit Oseen error. The
-\(\mathrm{GaugeForceCmp}_O\) term may use a short force/gauge route only after
-pressure and cutoff subpieces are assigned.
-\end{description}
-
-These five hypotheses imply the following conditional source theorem. If GP1--GP5
-hold with weights, tolerances, shrink data, square/unsquare conventions, and owner
-splits fixed before E12, then \(\operatorname{GaugePress}\) has exactly one of seven
-legal outcomes:
-\begin{enumerate}[label=(\roman*)]
-\item zero spatial-gauge pressure;
-\item a summable primary \(\operatorname{GaugePress}\) ledger;
-\item a stored split to source-closed owners;
-\item finite update or finite-atlas merge;
-\item named non-summable escape;
-\item gate;
-\item impossibility by fixed-chart/source legality.
-\end{enumerate}
-Thus \(\operatorname{GaugePress}\) is conditionally ready for S7 and \(265\), but it
-is not yet a nonconditional source theorem. The only zero-cost gauge identity is
-\(c(t)\); the closures below are source alternatives, not free gauge identities.
-
-\subsection{Closed GP1 pressure-envelope record theorem}
-
-The pressure-envelope part of GP1 is no longer merely a named source obligation. It
-has a complete finite-state proof. For every legal scale \(k\), let
-\[
-P_k=\operatorname{EnvPress}_{R_k}(h_k)<\infty
-\]
-be the harmonic pressure envelope of the fixed pressure representative. Define the
-dyadic level
-\[
-\nu_k=\min\{n\in\mathbb N:P_k\le 2^n\},
-\]
-with \(\nu_k=0\) when \(P_k\le1\). The pressure chart stores a record level
-\(N_k\), hence a threshold \(M_p(k)=2^{N_k}\), before block selection. A strict
-record event is
-\[
-\nu_k>N_{k-1}.
-\]
-At such a scale the old chart has failed and the ledger records
-\[
-\operatorname{PressEnvRecEsc}_k=1.
-\]
-Only after that boundary is paid may future scales use the updated record
-\(N_k=\nu_k\). The record-breaking scale is not retroactively inside the old
-bounded pressure chart.
-
-\begin{proposition}[GP1 pressure-envelope source closure]
-On every no-gate candidate tail with legal pressure representatives, exactly one of
-the following alternatives holds.
-\begin{enumerate}[label=(\roman*)]
-\item There are finitely many strict dyadic pressure records. Then there exist
-\(K_*\) and \(M_p=2^{N_*}<\infty\) such that, for all \(k\ge K_*\),
-\[
-P_k\le M_p,
-\]
-and every later finite legal block \(B\) satisfies
-\[
-\operatorname{PEnv}(B):=\sup_{j\in B}P_j\le M_p.
-\]
-The last record enlargement is a finite update, after which all dependent pressure
-shrink, margin, block-length, and floor data must be recomputed before the next
-block is judged.
-\item There are infinitely many strict dyadic pressure records. Then
-\[
-\sum_k\operatorname{PressEnvRecEsc}_k=\infty.
-\]
-The branch exits by a named non-summable pressure-envelope escape. This is not a
-small pressure error and not a pressure-tail production theorem.
-\item At some scale the pressure representative, harmonic tail, spatial-average
-normalization, or envelope threshold is not legal before block selection. Then the
-branch exits by pressure-chart failure, pressure gate, CKN gate, or impossibility.
-\end{enumerate}
-No fourth GP1 envelope-magnitude outcome is legal.
-\end{proposition}
-
-\begin{proof}
-The sequence \((\nu_k)\) takes values in the nonnegative integers. If the set of
-strict record times is infinite, then the record rule assigns one unit of
-\(\operatorname{PressEnvRecEsc}\) at every such time, so its total sum is infinite.
-If the set of strict record times is finite, the running maximum stabilizes at a
-finite integer \(N_*\). Hence \(\nu_k\le N_*\) on the tail, so \(P_k\le2^{N_*}\) for
-every late scale. Taking a supremum over a finite legal block gives the block
-envelope bound. If the pressure data are not fixed before the block is known, the
-record sequence is not a legal chart coordinate, and the transition router has only
-escape, gate, or impossibility outcomes. These cases exhaust the possibilities for
-an integer record sequence.
-\end{proof}
-
-This theorem replaces the weaker excess observable
-\([\,\operatorname{PEnv}(B)/M_p-1\,]_+\), which could in principle be positive on
-infinitely many blocks but summable. Strict dyadic records cannot drift upward
-invisibly: finite records give a fixed chart, and infinite records give
-non-summable escape. The theorem uses no final \(\mathrm{GQ1}\), no pressure-tail
-smallness, and no after-the-fact threshold choice.
-
-\subsection{Closed GP2 envelope-coordinate owner}
-
-The pressure representative state contains, among other coordinates,
-\[
-\operatorname{PressRepState}_k
-=(\mathrm{geom},\mathrm{cutoff},p_{\mathrm{loc}},h^0,M_p,\Theta_P,
-\mathrm{PairConv},\mathrm{Owner}_P).
-\]
-After GP1, the \(M_p\) coordinate is no longer an open representative-variation
-problem. Split
-\[
-\Delta\operatorname{PressRep}_k
-=\Delta\operatorname{EnvRec}_k+\Delta\operatorname{PressRepRes}_k,
-\]
-where \(\Delta\operatorname{EnvRec}_k=0\) inside the stored record chart and
-\[
-\Delta\operatorname{EnvRec}_k=\operatorname{PressEnvRecEsc}_k
-\]
-at a strict record boundary.
-
-\begin{proposition}[GP2 envelope-coordinate closure]
-The \(M_p\) coordinate of \(\operatorname{PressRepState}\) has exactly one legal
-source outcome: eventual stabilization after finitely many pressure record updates,
-non-summable \(\operatorname{PressEnvRecEsc}\), or pressure-chart gate/impossibility.
-In the stable case, the \(M_p\) coordinate contributes no further pressure
-representative variation.
-\end{proposition}
-
-\begin{proof}
-This is the GP1 record dichotomy applied to the threshold coordinate. If records are
-finite, \(M_p=2^{N_*}\) is eventually fixed. If records are infinite, every
-threshold change is the already registered non-summable pressure-envelope escape.
-If the coordinate is chosen after seeing the block, the fixed-chart rules are
-violated and the transition is not an accepted representative comparison.
-\end{proof}
-
-The residual GP2 theorem is therefore reduced to
-\[
-\begin{aligned}
-\Delta\operatorname{PressRepRes}
-={}&\Delta\mathrm{Geom}+\Delta\mathrm{Cutoff}
-+\Delta\mathrm{HarmonicNonconstant}\\
-&+\Delta\mathrm{ShrinkMargin}
-+\Delta\mathrm{PairConvention}+\Delta\mathrm{Owner}
-+\Delta\mathrm{OseenS8}.
-\end{aligned}
-\]
-The envelope-threshold drift is not allowed to reappear inside this residual.
-
-\subsection{Closed GP2 pair-convention and owner-label owner}
-
-The pair convention and owner template are finite pre-E12 presentation data. An
-accepted discrete pressure-force owner template is a finite object
-\[
-\begin{aligned}
-D_k=(&\mathrm{PairMode},\mathrm{SquareMode},\mathrm{Owner}_{\nabla},
-\mathrm{Owner}_{\mathrm{press}},\mathrm{Owner}_{\mathrm{cut}},\\
-&\mathrm{Owner}_{\mathrm{shrink}},\mathrm{Owner}_{\mathrm{rem}},
-\mathrm{WeightTemplate},\mathrm{ToleranceTemplate}).
-\end{aligned}
-\]
-Define the switch ledger
-\[
-\operatorname{PairOwnerSwitch}_k=\mathbf 1_{D_k\ne D_{k-1}}.
-\]
-
-\begin{proposition}[GP2 discrete pair/owner stabilization]
-For a finite registered pair/owner alphabet, exactly one of the following holds.
-\begin{enumerate}[label=(\roman*)]
-\item \(D_k\) changes finitely many times and is eventually fixed. Then the discrete
-pair convention and owner-label coordinates contribute no further GP2 variation.
-\item \(D_k\) changes infinitely many times and
-\[
-\sum_k\operatorname{PairOwnerSwitch}_k=\infty.
-\]
-The branch exits by a non-summable owner-update ledger, chart escape, or gate.
-\item \(D_k\) is selected after the pressure transfer or after the bad block is
-known. This violates fixed presentation legality and is impossible, except as an
-escape or gate.
-\end{enumerate}
-\end{proposition}
-
-\begin{proof}
-After the budget alphabet is fixed, \(D_k\) takes values in a finite set. A sequence
-in a finite set either changes finitely many times or infinitely many times. Finite
-changes give an eventual constant state. Infinite changes make the indicator
-\(\operatorname{PairOwnerSwitch}_k\) equal to one on infinitely many indices, so the
-switch ledger is non-summable. An after-the-fact owner choice is not a sequence of
-stored chart states and is rejected by the transition router.
-\end{proof}
-
-This closes only the discrete drift. Once the template has stabilized, the analytic
-pressure-force pair mass still has to be proved by the selected owner: S7, S6, S8,
-S10/Oseen, S11, explicit repaired error, escape, or gate.
-
-\subsection{Closed GP4 pressure-envelope shrink coordinate}
-
-Fix the pressure allowance \(\varepsilon_p>0\) before block selection and before
-E12. For a bounded pressure chart \(M_p\), the harmonic pressure shrink coordinate is
-\[
-\theta_P(M_p)=\min\left\{\frac14,
-\left(\frac{\varepsilon_p}{C_PM_p}\right)^{2/5}\right\},
-\qquad
-s_P=\left\lceil\log_2\frac1{\theta_P}\right\rceil.
-\]
-The pressure-envelope shrink state is
-\[
-\Theta_P^{\mathrm{env}}=(M_p,\varepsilon_p,\theta_P,s_P).
-\]
-
-\begin{proposition}[GP4 pressure-envelope shrink-coordinate closure]
-For every no-gate tail with legal pressure representatives and fixed
-\(\varepsilon_p\), the coordinate \(\Theta_P^{\mathrm{env}}\) has exactly one legal
-outcome.
-\begin{enumerate}[label=(\roman*)]
-\item If GP1 has finitely many pressure records, then \(M_p<\infty\) is eventually
-fixed, \(\theta_P>0\), \(s_P<\infty\), and this pressure-envelope shrink coordinate
-contributes no further \(\operatorname{GaugeShrink}\) transition cost.
-\item If GP1 has infinitely many pressure records, then the recomputation indicator
-for \(\Theta_P^{\mathrm{env}}\) is non-summable on the same subsequence as
-\(\operatorname{PressEnvRecEsc}\).
-\item If \(M_p\), \(\varepsilon_p\), or the pressure representative is not fixed
-before block selection, the branch exits by chart escape, pressure gate, CKN gate,
-or impossibility.
-\end{enumerate}
-\end{proposition}
-
-\begin{proof}
-The only variable in the displayed formula for \(\theta_P\) is \(M_p\), since
-\(\varepsilon_p\) and \(C_P\) are fixed theorem data. Finite GP1 records make
-\(M_p\) eventually finite and fixed, hence the formula gives a fixed positive
-\(\theta_P\) and finite \(s_P\). Infinite GP1 records force infinitely many
-pressure-envelope shrink recomputations and therefore the same non-summable record
-escape. If the data are not fixed before selection, the shrink is an after-the-fact
-choice and is illegal.
-\end{proof}
-
-Consequently the degeneration
-\[
-M_p\to\infty,\qquad \theta_P\to0,\qquad s_P\to\infty
-\]
-cannot occur at invisible cost. What remains open in GP4 is the rest of the shrink
-stack, margin positivity, block containment, E12 floor compatibility, and source
-closure for S11/S12 owners.
-
-\subsection{Registered-escape firewall}
-
-The repaired ledger uses named escape streams, but an escape stream is not allowed
-to be merely a channel renamed as its own failure. For a nonnegative channel
-\(Z_k\), the dichotomy
-\[
-\sum_k Z_k<\infty
-\qquad\hbox{or}\qquad
-\sum_k Z_k=\infty
-\]
-does not by itself prove a source theorem. Otherwise every source channel would
-close tautologically by setting \(\operatorname{EscZ}_k=Z_k\).
-
-A registered escape used in the final proof must satisfy the following firewall.
-\begin{enumerate}[label=(\roman*)]
-\item It has independent failure meaning: chart, owner, construction,
-containment, realization, floor, packet, pressure/gauge, force, localization,
-carrier, Oseen, or gate data fail.
-\item The label, observable, threshold, owner, and repaired weight are fixed before
-E12 and before block selection.
-\item The escape route is disjoint from the summable-error route.
-\item The proof supplies a positive lower bound, monotone/Carleson/packing
-contradiction, actual divergence from the failure mechanism, gate, or impossibility
-theorem.
-\item The proof does not use final \(\mathrm{GQ1}\), future \(243\) block
-smallness, or the consumer theorem.
-\item If the failure cannot be made into genuine escape, it is recorded as an
-impossible branch rather than as a source theorem.
-\end{enumerate}
-
-This firewall is now applied to S6, S8, S10/Oseen, S7, S9, S11, S12, and explicit
-residual routes. In particular, \(\operatorname{EscS8}=\operatorname{S8Loc}\),
-\(\operatorname{ForceUseEsc}=\operatorname{ForceUse}\), and
-\(\operatorname{ErrO}=\operatorname{Obs}_O\) are not source theorems without an
-independent failure mechanism.
-
-\subsection{S6 native-force source contract}
-
-The force channel is split into a Hilbert fixed-chart part and a native force part:
-\[
-\mathrm{S6}
-=\mathrm{S6}_{\mathrm{HilbFixed}}+\mathrm{S6}_{\mathrm{Native}},
-\]
-where
-\[
-\mathrm{S6}_{\mathrm{HilbFixed}}
-=\mathrm{Innov}_{\mathrm{force,new}}
- +\mathrm{ForceHilbErr}
- +\mathrm{ForceTail}_H,
-\]
-and
-\[
-\mathrm{S6}_{\mathrm{Native}}
-=\mathrm{ForceUse}
- +\mathrm{ForceYTrans}
- +\mathrm{ForcePressPair}
- +\mathrm{ForceTail}_{\mathrm{native}}
- +\mathrm{ForceOwner}_{\mathrm{native}}.
-\]
-
-The Hilbert fixed-chart part may use the Bessel/innovation machinery only inside
-the fixed Hilbert chart. It does not control native \(Y_{\mathrm{force}}\) motion.
-The native part is controlled only by the following source alternatives:
-\begin{enumerate}[label=(\roman*)]
-\item fixed or merged Hilbert epochs plus summable native force cost;
-\item a force-use source theorem or a zero-certified-use exhaustion theorem;
-\item finite update or finite atlas merge;
-\item mergeable finite-variation, Cauchy, monotone, or finite-atlas drift;
-\item named non-summable escape satisfying the registered-escape firewall;
-\item gate;
-\item impossible branch.
-\end{enumerate}
-
-The zero-certified-use route has a narrow meaning. If the selected exact/no-force
-branch uses no nonzero certified forced atom, then forced-use mass is moved out of
-\(\mathrm{ForceUse}\). The burden then shifts to exact atom identity, span-gap,
-packet-tail, C1, native-tail, owner-transition, and escape/gate ledgers. It does
-not eliminate S7/S8/S10/Oseen/S11 pressure-force or cutoff burdens.
-
-The current native subowners are:
-\begin{enumerate}[label=(\roman*)]
-\item \(\mathrm{ForceUse}\): either original forced-use source closure or
-zero-certified-use exhaustion;
-\item \(\mathrm{ForceYTrans}\): native \(Y_{\mathrm{force}}\) comparison and
-variation, not merely Hilbert \(H_{\mathrm{force}}\) comparison;
-\item \(\mathrm{ForcePressPair}\): the shared pressure-force pair theorem with
-pressure, force, gauge, cutoff, shrink, S8, Oseen, S11, and S12 pieces assigned
-once;
-\item \(\mathrm{ForceTail}_{\mathrm{native}}\): native finite-window, certificate,
-localization, carrier, old-force, chart-tail, and owner-state tail routes;
-\item \(\mathrm{ForceOwner}_{\mathrm{native}}\): owner-label, atom-identity,
-coefficient-rank, native-use-state, pair-state, force-tail-state, and owner-boundary
-routes.
-\end{enumerate}
-
-Thus S6 is formally organized but not yet a nonconditional source theorem. It can be
-used in the modular theorem only after the selected native alternatives are proved
-or routed to finite update, genuine escape, gate, or impossibility.
-
-\subsection{S8 cutoff/localization post-firewall normal form}
-
-After the S8 primary owners assigned elsewhere are removed, the active localization
-channel is
-\[
-\begin{aligned}
-\mathrm{S8Loc}_{\mathrm{active},k}
-=&\mathrm{LocVel}_{\mathrm{active},k}
- +\mathrm{LocPress}_{\mathrm{active},k}
- +\mathrm{LocGauge}_{\mathrm{active},k}
- +\mathrm{LocNorm}_{\mathrm{active},k}\\
-&+\mathrm{LocCar}_{\mathrm{active},k}
- +\mathrm{LocPred}_{\mathrm{active},k}
- +\mathrm{LocCtr}_{\mathrm{active},k}
- +\mathrm{LocContain}_{\mathrm{active},k}\\
-&+\mathrm{CutLocState}_{\mathrm{active},k}
- +\mathrm{ErrS8Residual}_k .
-\end{aligned}
-\]
-The term \(\mathrm{CutLocState}_{\mathrm{active}}\) records cutoff profile,
-localization profile, annulus, center, transport, theta, and floor state motion not
-already zero in the fixed anchored chart or owned by S11/S12. The residual term is
-zero only when every local piece has a named owner; otherwise it is an explicit
-pre-E12 repaired-cost stream.
-
-On a fixed anchored chart, the local localization modulus is closed:
-\[
-\mathrm{Target}_{\mathrm{loc}}(B)
-\le
-C_{\mathrm{loc}}\mathrm{Obs}_{\mathrm{loc}}(B).
-\]
-This local estimate is not source summability of \(\mathrm{Obs}_{\mathrm{loc}}\).
-The completed S8 theorem must prove exactly one of:
-\begin{enumerate}[label=(\roman*)]
-\item direct summability of \(\mathrm{S8Loc}_{\mathrm{active}}\);
-\item import from already source-closed owners through a fixed disjoint split;
-\item finite update, finite merge, or finite state motion;
-\item mergeable finite-variation, Cauchy, monotone, or finite-atlas localization
-drift;
-\item genuine non-summable \(\mathrm{LocEsc}\) or \(\mathrm{CutEsc}\) satisfying
-the registered-escape firewall;
-\item gate;
-\item impossible branch.
-\end{enumerate}
-No eighth outcome is legal.
-
-The integrated derivative-weighted part of \(\mathrm{LocVel}\) associated with
-Oseen \(\mathrm{Cut}_O\) is now closed for the fixed dyadic cutoff family. The
-remaining \(\mathrm{LocVel}\) burden includes critical annular velocity/CKN mass,
-pointwise-in-time collar ledgers, \(\sup_t\) ledgers, moving centers, and
-commutators measured in stronger native norms. The other S8 subowners remain as
-follows:
-\begin{enumerate}[label=(\roman*)]
-\item \(\mathrm{LocPress}\) and \(\mathrm{LocGauge}\) require S7 or shared
-pressure-force pair source closure with no double counting;
-\item \(\mathrm{LocNorm}\) requires normal-defect/cutoff-commutator source closure
-or an explicit residual theorem;
-\item \(\mathrm{LocCar}\) requires S9 carrier source closure and a fixed S8/S9
-priority split;
-\item \(\mathrm{LocPred}\) requires S3/native predictor-tail routing or explicit
-localization residual closure;
-\item \(\mathrm{LocCtr}\) is zero only in the anchored chart, otherwise it needs a
-transport-back theorem or exits by update, escape, chart escape, or gate;
-\item \(\mathrm{LocContain}\) is zero only under fixed positive containment,
-shrink, and cylinder-nesting data, otherwise it routes to S11/S12, escape, or gate;
-\item \(\mathrm{CutLocState}\) requires S12/GQ3 finite-state or finite-variation
-closure, or a genuine cutoff/localization escape.
-\end{enumerate}
-
-\subsection{S7/S8/Oseen owner firewall}
-
-Oseen production is now registered on legal blocks:
-\[
-\operatorname{Obs}_O(B)\le\Phi_O(R_O(B)),
-\qquad
-Q_B^{\mathrm{rep}}\ge w_OR_O(B),
-\]
-where
-\[
-\begin{aligned}
-R_O={}&\mathrm{InitO}+\mathrm{Cut}_O+\mathrm{DriftCollar}_O
-       +\mathrm{PressPair}_O\\
-     &+\mathrm{Force}_O+\mathrm{GaugeForceCmp}_O+\mathrm{LocCarCut}_O .
-\end{aligned}
-\]
-This production theorem is not source summability of the Oseen owners. The pressure
-pieces inside \(R_O\) may be imported only after the receiving S7, S8, S6, S11, or
-explicit Oseen-error source theorem is closed.
-
-Two Oseen subchannels now have genuine source routes under stated hypotheses. First,
-if \(\mathrm{Cut}_O\) uses the fixed centered dyadic family above, its integrated
-derivative-weighted cutoff part is source-closed by Hardy and local
-energy/dissipation. Second, if the Oseen drift and residual are fixed on a merged
-epoch, the drift-gradient collar is source-closed by the fixed-drift Serrin-Hardy
-estimate. These closures are narrow: they do not apply to moving centers,
-block-selected cutoff profiles, pointwise collar energies, critical annular CKN
-mass, or moving predictor drifts.
-
-The remaining Oseen pieces are still owner obligations. \(\mathrm{PressPair}_O\)
-requires both pressure/gauge and collar/localization owners unless it is paid as an
-explicit Oseen pressure-pair error. \(\mathrm{Force}_O\) requires native
-\(L^2_tH^{-1}_x\) force ownership; the cutoff companion created by testing against
-\(w\zeta^2\) is not force. \(\mathrm{GaugeForceCmp}_O\) requires a stored
-pressure-force pair defect with pressure, force, gauge, cutoff, and shrink pieces
-assigned once. \(\mathrm{LocCarCut}_O\) must be split into localization, carrier,
-pressure/gauge, force, packet, recentering, containment, cutoff, and explicit-error
-pieces before block selection.
-
-Likewise, S8 cutoff/localization readiness is not S8 source closure. The pressure,
-gauge, collar, carrier, recentering, containment, and state pieces used by
-\(\operatorname{GaugePress}\), \(\operatorname{PressPair}_O\),
-\(\operatorname{GaugeForceCmp}_O\), and \(\operatorname{LocCarCut}_O\) must be
-summable, imported from source-closed owners, finitely updated, genuinely escaped,
-gated, or impossible in their own owners. No pressure tail, cutoff pressure loss,
-shrink/margin loss, force-use mass, carrier tail, localization cost, or
-pressure-force pair mass may be counted twice.
-
-\subsection{Current unresolved proof obligations}
-
-The detailed ledger above leaves the following genuinely analytic tasks:
-\begin{enumerate}[label=(\roman*)]
-\item prove source outcomes for the frame, row-tail/native, transport, carrier,
-dictionary, owner-split, certified-old, packet-envelope, margin, and floor ledgers
-appearing in S4;
-\item prove the remaining \(\operatorname{ErrS1repr}\) owners: registration, native,
-old-pair, certified-pair, tail-pair, and envelope-pair;
-\item prove all eight \(\operatorname{EscPkt}\) components have registered summable,
-finite-update, named-exit, gate, or eliminated open-PDE outcomes;
-\item prove actual packet pairing identity, packet-envelope outcomes, and a true S1
-row Bessel/Carleson or direct row-operator bound for Navier-Stokes rows;
-\item prove recurrent and Hilbert-old alternatives without using S1;
-\item prove the native S6 theorem: force-use or zero-certified-use exhaustion,
-native \(Y_{\mathrm{force}}\) transition, native force-tail source closure,
-force-owner transition, Hilbert fixed-chart globalization, and the shared
-pressure-force pair route;
-\item prove residual S7 pressure/gauge source closure: GP2 representative variation
-beyond the closed envelope coordinate, GP3 pressure-tail production, the remaining
-GP4 shrink/margin/floor theorem, gauge-gradient, gauge-cutoff, gauge-shrink, and
-gauge-pair;
-\item prove the shared pressure-force-pair source theorem, including gradient
-representative movement, pressure tail, gauge representative loss, gauge shrink
-margin loss, cutoff pressure loss, fixed owner split, and genuine non-tautological
-escape semantics;
-\item prove the full S8 theorem beyond the fixed dyadic cutoff collar: critical
-annular \(\mathrm{LocVel}\), \(\mathrm{LocPress}\), \(\mathrm{LocGauge}\),
-\(\mathrm{LocNorm}\), \(\mathrm{LocCar}\), \(\mathrm{LocPred}\),
-\(\mathrm{LocCtr}\), \(\mathrm{LocContain}\), \(\mathrm{CutLocState}\), and
-\(\mathrm{ErrS8Residual}\);
-\item prove S9 carrier source closure and all S8/S9 annular-carrier priority splits;
-\item prove S10/Oseen source closure beyond the closed fixed subchannels:
-moving-drift epochs, pressure pair, force/pair, localization-carrier-cutoff
-compatibility, explicit Oseen errors, and no double counting with S6/S7/S8/S9/S11;
-\item prove S11--E10--E11--E12 shrink-margin-floor source closure, exact floor
-positivity, and compatibility with envelopes, margins, updates, and block
-selection;
-\item prove S12/GQ3 finite-atlas, finite-variation, Cauchy, monotone,
-state-update, escape, or gate alternatives for all moving owner states;
-\item close predictor differentiability, global residual representation,
-packet-level null-graph rigidity, carrier localization, and the quantitative closure
-alternative in the concrete Navier-Stokes topology;
-\item assemble final \(\mathrm{GQ1}\) only after all consumed source theorems have
-already been proved or legally routed to gate, escape, finite update, or
-impossibility.
-\end{enumerate}
+The useful conclusion of the paper is therefore a dependency graph with a proved
+core. Presentation theory supplies the language of predictors, observables,
+fibres, costs, and legal transfer; Oseen estimates supply the perturbative
+transport; Hilbert packing supplies a square-summability mechanism for genuinely
+new normal defects; relative Caffarelli-Kohn-Nirenberg gates convert predictor
+smallness into regularity; and null geometry isolates the branches where the
+quadratic term can be invisible.  The remaining analytic task is to prove the
+listed source theorems in the concrete Navier-Stokes topology.
 
 \begin{thebibliography}{99}
 
