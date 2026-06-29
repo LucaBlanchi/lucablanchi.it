@@ -1,249 +1,580 @@
-# Predictive Fibres / Navier-Stokes Proof Audit
+# Predictive Fibres and Critical Oseen Transfer for Navier-Stokes: Conditional Proof Strategy
 
-Status snapshot: 2026-06-28.
+## Abstract
 
-This is a working proof-audit log for the Navier-Stokes predictive-fibre program. It is intentionally separate from the TeX/PDF paper. The TeX and PDF should not be regenerated from this file.
+This page records the current public form of a proof strategy for the three-dimensional incompressible Navier-Stokes regularity problem. The strategy is intentionally presented as a conditional reduction: it proves and organizes a large finite system of local analytic, compactness, accounting, and gate-opening modules, and it names the remaining source theorems that would make the reduction nonconditional.
 
-Temporary detailed working files live in:
+The original contribution is the presentation-theoretic architecture. A possible singular chain is not treated only as a sequence of cylinders with large critical norm. It is treated as a sequence of finite presentations: incoming observations, admissible predictors, invisible fibres, transported defects, cost ledgers, and legal exits. The proof attempts to show that persistent no-gate badness cannot survive finite repaired cost. Either the fibre is controlled by a predictor and a relative CKN gate opens, or a registered source, escape, update, atom, quotient, or rigidity branch is forced.
 
-`/private/tmp/ns-presentation-audit`
+The current status is substantial but conditional. Many local modules are closed: relative CKN epsilon regularity, final gate-excess semantics, local Oseen transfer under Serrin drift, fixed dyadic cutoff-collar summability, fixed-drift Oseen collar summability, pressure/gauge and force-native firewalls, corrected zero-cost rigidity through Euler-coherent Stokes branches, Navier-Stokes and normal-defect limit passage under strong convergence, Stokes branch size and gate interfaces, and the CKN witness branch-gate routing layer. The remaining blocks are sharply identified: actual rowwise source closure for the force, pressure, packet, carrier, cutoff/localization, E12 floor, and CKN witness channels; the concrete global residual representation needed by repaired GQ1; and the final assembly that consumes only closed source or gate/escape statuses.
 
-## Latest Snapshot: Conditional Article Synchronized To L267
+This is therefore best read as a detailed proof blueprint with many proved subtheorems, not as a completed nonconditional solution. The value of the current form is that the proof no longer hides its difficult points behind broad labels such as "compactness", "Hilbert cost", "regular branch", or "pressure error". Each such label has been expanded into a finite certificate interface with explicit inputs, outputs, firewalls, and remaining mathematical burdens.
 
-The public TeX/PDF article has now been synchronized with the temporary audit through
-L267 in `/private/tmp/ns-presentation-audit/02-closed-lemmas.md`.
+## 1. Current Status
 
-The current article is deliberately conditional. It proves the closed submodules in
-detail, records the finite ledger identities that have become formal source
-closures, and names the remaining PDE source theorems without using them as proved
-inputs.
+The current audit is synchronized with the temporary ledger through L406 in `/private/tmp/ns-presentation-audit/02-closed-lemmas.md`.
 
-Closed in the current TeX/PDF:
+The estimate I currently assign to the program is:
 
-1. The local Serrin-critical Oseen transfer estimate, with pressure tail and collar
-   terms explicitly paid.
-2. The fixed centered dyadic cutoff-family domination:
-   `sum_k W_k <= C(|x-x_*|^{-2}+R^{-2})`, where
-   `W_k=|partial_t zeta_k|+|Delta zeta_k|+|grad zeta_k|^2`.
-3. The integrated Oseen cutoff collar:
-   `sum_k int |w|^2 W_k < infinity`, by local energy, dissipation, and Hardy.
-4. The fixed-drift dyadic drift-gradient collar:
-   `sum_k int |g| |w|^2 |grad zeta_k| < infinity`, on a fixed or finitely merged
-   Serrin-drift epoch.
-5. The registered-escape firewall: `EscS8=S8Loc`, `ForceUseEsc=ForceUse`, and
-   analogous self-renamings are not source theorems unless tied to independent
-   failure, lower-bound/packing, gate, or impossibility mechanisms.
-6. The post-firewall S6 native-force source contract:
-   `S6 = S6_HilbFixed + S6Native`, with `ForceUse`, `ForceYTrans`,
-   `ForcePressPair`, `ForceTail_native`, and `ForceOwner_native` separated.
-7. The post-firewall S8 active channel:
-   `S8Loc_active = LocVel + LocPress + LocGauge + LocNorm + LocCar + LocPred +
-   LocCtr + LocContain + CutLocState + ErrS8Residual`.
+| Layer | Approximate completion | Meaning |
+| --- | --- | --- |
+| Block identification | 80-85 percent | Most necessary proof blocks now have names, input packets, output statuses, row matrices, and no-circularity firewalls. |
+| Formal conditional closure | 60-70 percent | Many implications of the form "closed certificates imply downstream consumption" are now precise and locally proved. |
+| Nonconditional final proof | 35-45 percent | Several hard PDE source theorems, rowwise owner maps, and final GQ1/CKN assembly steps remain open. |
+| Overall project | about 55-60 percent | The proof map is now quite advanced; the remaining work is concentrated in the mathematically hardest source closures. |
 
-Still open in the current conditional theorem:
+The article should be read with one convention: "closed" means closed at the level explicitly stated. A formally closed certificate interface may still have open actual row data. This is a strength of the current version, because it prevents an interface theorem from being mistaken for a PDE theorem.
 
-1. Full S6 native source closure: forced-use or zero-certified-use exhaustion,
-   native `Y_force` transitions, native force tails, owner transitions, and the
-   shared pressure-force pair.
-2. Full S8 source closure beyond the integrated cutoff subsource: critical annular
-   `LocVel`, pressure/gauge localization, normal/cutoff commutators, carrier imports,
-   predictor tails, recentering, containment, and cutoff/localization state motion.
-3. Full S7 residual closure: pressure representative variation beyond the closed
-   envelope coordinate, pressure-tail production, shrink/margin/floor closure,
-   gauge-gradient, gauge-cutoff, gauge-shrink, and gauge-pair.
-4. The shared pressure-force-pair theorem, including gradient movement, pressure
-   tail, gauge representative loss, shrink-margin loss, cutoff pressure loss, fixed
-   owner split, and non-tautological escape semantics.
-5. S9 carrier source closure, S10/Oseen moving-owner source closure, S11/E10/E11/E12
-   shrink-margin-floor positivity, and S12/GQ3 finite-state or finite-variation
-   stabilization.
-6. The concrete Navier-Stokes topology blocks: predictor differentiability, global
-   residual representation, packet-level null-graph rigidity, carrier localization,
-   and the quantitative closure alternative.
+## 2. Original Strategy
 
-The current PDF should therefore be read as a professional conditional proof
-architecture with several genuinely closed sublemmas, not as a claimed
-nonconditional Clay-style solution.
+The proof strategy starts from a presentation-theoretic reading of local regularity.
 
-## Previous Snapshot: S4 Packet Compatibility Owner Matrix
+At a parabolic cylinder \(Q_R(z_0)\), one distinguishes:
 
-## Previous Snapshot: Force/Pressure/Gauge Closure Layer
+1. incoming and lateral observations;
+2. admissible local predictors;
+3. the fibre of suitable weak states compatible with those observations;
+4. a pressure-sensitive relative CKN distance from a state to a predictor;
+5. a repaired cost ledger measuring genuinely new, transported, or source-owned defects;
+6. legal exits: gate, escape, reopen, atom, quotient, certified-old state, nonfinal row.
 
-The current temporary audit has added a force/pressure closure layer on top of the
-C1/GQ1 repair. The key new ledgers are:
+The intended contradiction is not simply "finite energy implies finite critical scale sum", which is false. Critical normalized densities may stay order one along infinitely many nested scales while the underlying measure remains finite. The proof instead tries to count new information: a persistent no-gate row must either open a gate after choosing a valid predictor, or create a registered source cost that is summable by Bessel, packet, Carleson, finite-overlap, monotone, or escape mechanisms.
 
-1. `169-native-yforce-transition-comparison.md`: Hilbert force comparison alone is
-   not enough; force defects used in Oseen/compactness arguments must also be small
-   in the native `Y_force` topology, or pay transition error/escape.
-2. `171-pressure-gauge-yforce-coupling-ledger.md`: only spatially constant pressure
-   gauge changes are free. Nonconstant pressure transfers change `grad pi` and must
-   be paid through native force, pressure/gauge, cutoff/chart error, escape, or gate.
-3. `173-pressure-shrink-margin-compatibility.md`: harmonic pressure decay may use an
-   inner shrink only when `theta_P`, the pressure allowance, block-length slots, and
-   gate/graph margin losses have already been stored in the chart.
-4. `174-turn64-status.md`: latest temporary snapshot for the pressure-shrink audit.
+In this language, a bad block is a presentation state whose compatible fibre still contains a no-gate, CKN-large state. A source theorem is a theorem proving that such a row cannot occur infinitely often for free. It must be paid by a source owner, routed to a gate, or removed by a legitimate exit.
 
-The repaired zero-cost package now requires the block cost to drive to zero not only
-for `Innov`, `RecTail`, certified span gaps, and forced-lift use, but also for native
-`Y_force` transition defects, pressure-force gauge coupling, and pressure-shrink
-margin exhaustion. Otherwise the chain must pay named escape or open the CKN gate.
+## 3. The Conditional Theorem
 
-Closed locally/formally: no free nonconstant pressure-gauge transfer; no free Hilbert
-to native force transition; no after-the-fact harmonic pressure shrink; no silent
-CKN/graph margin overdraft. These are bookkeeping closures, not yet global PDE
-theorems.
+The current conditional theorem can be stated as follows.
 
-Still open globally/PDE: prove actual no-gate finite-cost chains enter bounded
-pressure-envelope charts, prove the total shrink stack does not degenerate, prove all
-pressure/force/cutoff/certificate/transport margin losses remain compatible, and
-prove the final repaired cost is summable along genuine Navier-Stokes chains.
+Assume that every consumed row in the repaired presentation has one of the following final-compatible outcomes:
 
-## Previous Snapshot: C1/GQ1 Repair
+1. a source-closed summable cost channel;
+2. a gate opening on the same reserved inner cylinder used by the final bad-block predicate;
+3. a genuine registered escape;
+4. a finite update paid before the final source sum;
+5. a certified-old, atom, quotient, or recurrent state with well-founded rank;
+6. a nonfinal or reopen status not consumed by the final theorem.
 
-The repaired cost is now tracked as
+Assume also that the global repaired cost satisfies the finite-source contract:
 
-`Q_k^rep = Innov_k + Err_k^rep + Esc_k^rep`,
+$$
+\sum_k Q_k^{rep}<\infty,
+$$
 
-where native zero-cost tails are grouped into `RecTail_k` and must be paid by the
-repaired error/escape ledger. The global cost statement `sum_k Q_k^rep < infinity` is
-now decomposed into ten component theorems: Hilbert innovation, transport/chart
-errors, Hilbert memory tail, normal critical tail, force tail, pressure/gauge tail,
-cutoff/localization tail, carrier/microlocal tail, certificate tolerances, and
-graph/rank/realizer escapes.
+where every term in \(Q_k^{rep}\) has a named owner and no term is inserted late under a changed meaning.
 
-For the Hilbert innovation component C1, the purely formal Bessel lemma is no longer
-the whole story. The exact target is now:
+Then a persistent no-gate bad chain cannot exist. Indeed, by the final gate-excess defect theorem, no-gate gives a positive predictive defect floor on the reserved inner cylinder. By compactness and the repaired source ledger, infinitely many such floors must either produce summable registered cost, open a relative CKN gate, or trigger a legal escape/update. The first option is incompatible with infinitely many persistent positive floors after the block-selection step; the second option contradicts no-gate; the third option removes the row from the final bad tail. Thus the putative singular chain is eliminated.
 
-`d_k = A_k R + rho_k`
+The nonconditional proof is obtained exactly when every source, gate, escape, update, and compatibility block listed below is proved row by row.
 
-inside a critical parabolic square-function source `K_crit`, with finite
-`||R||_Kcrit`, square-summable repaired errors, and a Bessel estimate for the
-pulled-back innovation witnesses `A_k^* e_k`.
+## 4. Closed Core Analytic Blocks
 
-The concrete model for `K_crit` is a critically normalized parabolic molecule frame:
-coefficients are scale-critical, and no weak Sobolev weighting is allowed merely to
-make all distributions finite. The abstract Bessel part is closed by standard
-finite-overlap, Schur-Gram, or Carleson packet criteria for the molecule packet rows.
+### 4.1 Relative CKN gate
 
-What remains open is the Navier-Stokes instantiation: prove that the actual global
-residual has finite `K_crit` norm, prove the full repaired identity including
-pressure/force/cutoff/gauge/carrier components, prove the witnesses are controlled
-molecule packets, prove the packet bounds along actual bad chains, and preserve
-critical witness lower bounds after quotienting old memory and certified atoms.
+The relative CKN module is closed. For a smooth predictor \((g,\pi_g)\) on \(Q_r(z_0)\), define
 
-## Current Strategy
+$$
+RCKN_r(u,p\mid g,\pi_g)
+=r^{-2}\int_{Q_r}|u-g|^3
++r^{-2}\int |(p-\pi_g)-[p-\pi_g]_{B_r}(t)|^{3/2}.
+$$
 
-The original modular theorem is being converted into a non-conditional theorem by replacing each analytic module with a proved lemma, or by isolating the precise theorem that remains to be proved.
+Let \(PCKN_r(g,\pi_g)\) be the usual CKN quantity of the predictor. The triangle inequalities
 
-The most promising route is now `Architecture B`: use smooth forced/Stokes predictors as presentation objects, not necessarily exact Navier-Stokes strong solutions. The equation defect of the predictor is then paid as a registered observable cost.
+$$
+|u|^3\le C(|g|^3+|u-g|^3)
+$$
 
-This avoids hiding strong 3D well-posedness inside the definition of "predictor".
+and
 
-## Closed Or Locally Closed Blocks
+$$
+|p-[p]_{B_r}(t)|^{3/2}
+\le C\left(|\pi_g-[\pi_g]_{B_r}(t)|^{3/2}
++|(p-\pi_g)-[p-\pi_g]_{B_r}(t)|^{3/2}\right)
+$$
 
-1. Oseen energy transfer around a Serrin drift, provided pressure-tail is an explicit budget.
-2. Relative CKN predictive epsilon: small predictor CKN plus small residual CKN implies regularity by classical CKN.
-3. Energy-to-relative-CKN bridge: small residual local energy plus pressure-tail gives small residual CKN on an inner cylinder.
-4. Abstract predictor-map analyticity for Banach fixed-point predictors.
-5. Forced/Stokes predictor nonemptiness for finite-dimensional observation maps.
-6. Realization defect removal: use actual `eta_k`-minimizing predictors instead of relaxed convex centres.
-7. Abstract Hilbertian innovation packing.
-8. Two-mode null classification for pure Fourier modes.
-9. Beltrami absorption.
-10. Exact two-and-a-half-dimensional reduction.
-11. Abstract no-persistent-defect iteration.
-12. Formal Carleson scale-selection lemma, assuming summable scale costs.
-13. Finite-observable blindness obstruction: finite incoming observations do not control relative CKN on an infinite-dimensional residual class.
-14. Architecture B master reduction: global cost finiteness plus a bad-block defect theorem imply no persistent bad chain.
-15. Critical-density obstruction: finite local energy does not imply summability of critical dyadic scale costs.
-16. Innovative-cost accounting: if defects are transported into one Hilbert space, `C_k` is the squared orthogonal innovation and `sum C_k` follows by Bessel.
-17. Bad-block compactness/rigidity template: the bad-block theorem follows from critical compactness, zero-cost rigidity, branch capture, and quantitative stability.
-18. Critical compactness audit: the plausible route is Aubin-Lions strong `L^2_loc` plus uniform `L^{10/3}` to recover strong `L^3_loc`; exact residual time-derivative bounds remain to be proved.
-19. Aubin-Lions residual compactness: energy bounds plus `partial_t w` in `L^{3/2}W^{-1,3/2}` and uniform `L^{10/3}` imply strong `L^3_loc`.
-20. Pressure compactness: strong residual `L^3` convergence gives local pressure `L^{3/2}` convergence by Calderon-Zygmund; pressure tails are explicit costs or harmonic compact terms.
-21. Residual equation bookkeeping: the Architecture B residual equation identifies the exact predictor defect, pressure, and nonlinear terms needed for compactness.
-22. Zero-cost rigidity obstruction: zero Leray-projected nonlinear leakage does not force only Beltrami or 2.5D; general Euler-coherent pure-pressure branches must be allowed.
-23. Euler-coherent branch capture: if a zero-cost limit is Euler-coherent and CKN-controlled, using the limit as an Architecture B predictor opens the relative CKN gate.
-24. Full-state normal defect definition: define normal defect as localized `P div(u tensor u)`, with cutoff/tail errors registered separately; zero normal defect implies Euler-coherence.
-25. Euler-coherent Navier-Stokes regularity: if a zero-cost limit is both Navier-Stokes and Euler-coherent, it solves a linear Stokes system and is smooth.
-26. Corrected zero-cost rigidity: compact NS limit plus vanishing full-state normal defect gives a smooth Stokes branch and opens the relative CKN gate on a smaller cylinder.
-27. Navier-Stokes limit passage: strong `L^3_loc` velocity and strong `L^{3/2}_loc` pressure convergence pass the NS equations to the limit.
-28. Normal-defect limit passage: strong `L^3_loc` convergence passes localized full-state normal defects to the limit.
-29. Vanishing-cost limit package: non-carrier vanishing-cost bad blocks satisfying registered compactness hypotheses cannot remain bad.
-30. Carrier escape dichotomy: carrier escape is noncompactness modulo admissible recentering; vanishing carrier cost returns to the compact package, positive escape is paid as registered cost.
-31. Registered compactness cost: a local profile of envelope bounds and vanishing defects implies the hypotheses of the vanishing-cost package.
-32. Two-level budget schema: envelope boundedness gives compactness; innovative defect summability gives finite bad-block budget.
-33. Quantitative stability from compactness: on compact envelope-bounded block classes, qualitative zero-cost contradiction implies a positive cost floor `c(delta,M,m)`.
-34. Global observable Hilbert architecture: registered defects are transported into a Hilbert-dual observable space `H_def`; global cost finiteness follows from a Bessel-frame representation `d_k = A_k R + rho_k` plus square-summable transport errors.
-35. Critical witness compatibility obstruction: the global residual space must simultaneously give finiteness, Bessel finite-overlap, and scale-critical witnessing of bad blocks; very weak Sobolev choices can make cost finite but too weak to prove regularity.
+show that sufficiently small \(PCKN+RCKN\) implies the classical Caffarelli-Kohn-Nirenberg epsilon criterion. Therefore the relative CKN gate is a genuine local regularity gate, not a new regularity assumption.
 
-## Current Main Open Blocks
+### 4.2 Final gate-excess defect
 
-After the latest synchronization, the remaining proof burden is no longer just a
-coarse "global cost" placeholder. The open blocks are the source theorems that must
-turn the conditional article into a nonconditional proof:
+The final predictive defect is defined by a corrected gate functional
 
-1. S1/S4 packet rows: prove the true Navier-Stokes row Bessel/Carleson theorem,
-   actual packet pairing identity, packet-envelope outcomes, all S4 owner-family
-   source outcomes, and the remaining `ErrS1repr`/`EscPkt` owner outcomes.
-2. S6 native force: prove forced-use or zero-certified-use exhaustion, native
-   `Y_force` transition, native force-tail source closure, force-owner transition,
-   and Hilbert fixed-chart globalization.
-3. S7 pressure/gauge: prove residual GP2 variation, GP3 pressure-tail production,
-   remaining GP4 shrink/margin/floor source closure, gauge-gradient, gauge-cutoff,
-   gauge-shrink, and gauge-pair.
-4. Shared pressure-force pair: prove source closure for gradient representative
-   movement, pressure tail, gauge representative loss, gauge shrink-margin loss,
-   cutoff pressure loss, owner split, and genuine escape/gate semantics.
-5. S8 cutoff/localization: close all active subowners not covered by the dyadic
-   cutoff Hardy subsource, especially critical annular velocity mass, pressure/gauge
-   localization, normal/cutoff commutator, carrier imports, predictor tails,
-   recentering, containment, and state motion.
-6. S9/S10/Oseen: close carrier source theorems and Oseen moving-owner production
-   beyond the fixed cutoff and fixed-drift subchannels: pressure pair, force/gauge
-   pair, localization-carrier-cutoff compatibility, explicit Oseen errors, and
-   moving-drift residuals.
-7. S11/S12/E12: prove shrink-margin-floor positivity, exact floor compatibility,
-   finite-atlas/finite-variation/Cauchy/monotone state stabilization, or genuine
-   escape/gate alternatives.
-8. Concrete Navier-Stokes topology: instantiate the global Hilbert residual
-   representation, predictor differentiability, packet-level null-graph rigidity,
-   carrier localization, compactness modulo recentering, and quantitative closure
-   alternative.
-9. Final assembly: build `GQ1` only after every consumed source theorem has been
-   proved or legally routed to finite update, genuine escape, gate, or impossibility.
+$$
+\Gamma_M(x,G)
+=PCKN(G)+RCKN_{CZ}(x\mid G)+HarmAllow_M+CutGaugeAllow_M+EtaAllow.
+$$
 
-## Key Warning
+The allowances are stored before final row consumption. Define
 
-Finite local energy alone does not imply small normalized critical energy at a candidate singular point. Any proof must produce a genuine summability, Carleson, compactness, or rigidity mechanism. Otherwise the argument simply restates the Navier-Stokes regularity problem.
+$$
+D_M(x)=\max(0,\inf_G \Gamma_M(x,G)-\epsilon_{safe}).
+$$
 
-## Preferred Next Target
+If \(D_M(x)=0\), the relative CKN gate opens. If no relative CKN gate opens, then \(D_M(x)\ge \delta_{gate}>0\). The proof is compactness of the predictor family plus the inequality \(ActualGate\le \Gamma_M\). This closes the semantic link between bad-block no-gate behaviour and a positive defect floor.
 
-The next block to attack is the PDE block alternative in Architecture B:
+### 4.3 Local Oseen transfer
 
-Persistent predictive defect on a fixed-length scale block should imply either:
+The local Oseen transfer theorem is closed in its stated range. If \(w=u-g\) is the residual around a Serrin-class drift \(g\), then the localized energy inequality produces the usual Oseen terms. The drift contribution is controlled by Holder, Sobolev, and the Serrin relation
 
-1. relative CKN smallness on a smaller cylinder;
-2. a registered normal/pressure/carrier/forcing defect bounded below;
-3. entry into a rigid branch already known to be regular.
+$$
+\frac2q+\frac3p=1,\qquad p>3.
+$$
 
-This is the first point where packet rigidity and global residual representation must interact.
+The pressure tail is not discarded. It is a named budget term. The theorem therefore proves a local transfer estimate only after the pressure-tail and collar terms are explicitly paid.
 
-## Current Obstruction
+### 4.4 Fixed dyadic cutoff collar
 
-Finite observation matching is not enough. In presentation-theoretic terms, the incoming observation map has large invisible fibres. Unless the observation family is norming for relative CKN, every CKN-large invisible direction must be shown to produce registered defect cost. This is why the bad-block defect theorem is structurally necessary, not merely a technical embellishment.
+For a fixed centered dyadic cutoff family, the derivative weight
 
-Likewise, global cost finiteness cannot come from raw finite energy alone. Critical normalized densities may remain order one on infinitely many nested scales while the underlying measure is finite. The cost must count genuinely new/orthogonal defects, not the same concentration repeatedly.
+$$
+W_k=|\partial_t\zeta_k|+|\Delta\zeta_k|+|\nabla\zeta_k|^2
+$$
 
-The current definition of the intended registered cost is therefore: transport each scale defect into a common Hilbert-dual observable space and set `C_k` equal to the squared norm of its component orthogonal to the span of previous transported defects. The sharpened formal package is now `d_k = A_k R + rho_k`: a global residual vector `R`, transport maps `A_k`, a Bessel finite-overlap bound for the pulled-back innovation witnesses `A_k^* e_k`, and square-summable errors `rho_k`. Under those hypotheses, Bessel gives `sum C_k < infinity`.
+satisfies the pointwise domination
 
-The current zero-cost branch set has also been enlarged. Beltrami and 2.5D/shear are useful exact sub-branches, but zero projected nonlinearity more generally means the nonlinearity is pure pressure, i.e. an Euler-coherent branch. The proof should use this intrinsic branch set unless a stronger normal defect is added.
+$$
+\sum_k W_k \le C(|x-x_*|^{-2}+R^{-2}).
+$$
 
-With the corrected branch set, zero-cost rigidity is no longer a classification problem into a short geometric list. If the zero-cost limit is Navier-Stokes and its full-state normal defect vanishes, then the nonlinear term is pure pressure and the limit satisfies a linear Stokes system. That branch is smooth and is captured by the relative CKN gate after shrinking the cylinder.
+The integrated collar term
 
-The newest guardrail is that the global residual Hilbert space must not be chosen only
-to make distributions finite. It must be scale-critical enough to witness a persistent
-no-gate bad block with a uniform lower bound, while still giving a Bessel
-finite-overlap estimate after transport. A parabolic molecule/wavelet square-function
-space is the plausible route, but the Navier-Stokes pressure, Leray projection,
-carrier recentering, and nonlinear normal-defect compatibility estimates remain open.
+$$
+\sum_k\int |w|^2 W_k
+$$
+
+is therefore finite by local energy, dissipation, and Hardy. This closes the fixed-cutoff Hardy subsource. It does not close moving cutoffs, moving centers, or the full S8 localization channel.
+
+### 4.5 Fixed-drift Oseen collar
+
+On a fixed or finitely merged Serrin-drift epoch, the dyadic drift-gradient collar
+
+$$
+\sum_k\int |g|\,|w|^2|\nabla\zeta_k|
+$$
+
+is source-closed by Serrin integrability, dyadic Hardy domination, and Sobolev interpolation. The result is a real Oseen/S8 subchannel closure. It is not a closure of the moving-predictor drift channel.
+
+## 5. Closed Compactness and Branch Blocks
+
+### 5.1 Navier-Stokes limit passage
+
+If \(u_n\to U\) strongly in \(L^3_{loc}\) and \(p_n\to P\) strongly in \(L^{3/2}_{loc}\), then
+
+$$
+\partial_t u_n-\Delta u_n+\operatorname{div}(u_n\otimes u_n)+\nabla p_n=0
+$$
+
+passes to
+
+$$
+\partial_t U-\Delta U+\operatorname{div}(U\otimes U)+\nabla P=0
+$$
+
+distributionally. The nonlinear term passes because strong \(L^3\) convergence gives \(u_n\otimes u_n\to U\otimes U\) in \(L^{3/2}_{loc}\).
+
+### 5.2 Normal-defect limit passage
+
+The full-state normal defect is localized before being projected. Under strong \(L^3_{loc}\) convergence, the localized quadratic term converges in \(L^{3/2}_{loc}\). Hence vanishing registered normal defect passes to the limit in the native topology. This is essential: a weak packet proxy is not enough to infer Euler coherence.
+
+### 5.3 Euler-coherent Stokes branch
+
+If the limit is Navier-Stokes and its full-state normal defect vanishes, then
+
+$$
+P_{Leray}\operatorname{div}(U\otimes U)=0.
+$$
+
+Equivalently, there is an Euler pressure \(\Pi_E\) such that
+
+$$
+\operatorname{div}(U\otimes U)+\nabla\Pi_E=0.
+$$
+
+Subtracting this identity from Navier-Stokes gives
+
+$$
+\partial_t U-\Delta U+\nabla(P-\Pi_E)=0,\qquad \nabla\cdot U=0.
+$$
+
+Thus the branch is a homogeneous Stokes branch and is smooth in the interior. The branch can open a relative CKN gate only after the branch predictor, shrink, pressure gauge, relative CKN convergence, and margin allowances are certified.
+
+### 5.4 Corrected zero-cost rigidity
+
+The corrected zero-cost rigidity block says: compact NS limit plus vanishing full-state normal defect gives a smooth Stokes branch. It does not classify the branch into Beltrami or two-and-a-half-dimensional forms. That older classification was too narrow. The right intrinsic class is Euler-coherent pure-pressure nonlinearity. This is one of the main structural repairs in the proof.
+
+## 6. Closed Presentation and Cost Blocks
+
+### 6.1 Hilbert innovation accounting
+
+The formal Hilbert innovation mechanism is closed. If transported defects \(d_k\) admit a global representation
+
+$$
+d_k=A_kR+\rho_k,
+$$
+
+with finite critical source norm for \(R\), Bessel or finite-overlap control of \(A_k^*e_k\), and square-summable errors \(\rho_k\), then the squared orthogonal innovations are summable.
+
+The proof is the standard Hilbert Bessel argument:
+
+$$
+\sum_k |\langle R,A_k^*e_k\rangle|^2 \le C\|R\|^2.
+$$
+
+What remains open is the concrete Navier-Stokes instantiation of \(R\), \(A_k\), the packet witnesses, and the pressure/force/cutoff/gauge/carrier error terms.
+
+### 6.2 Finite-observable blindness
+
+The finite-observable obstruction is closed. A finite incoming observation map cannot control relative CKN on an infinite-dimensional residual fibre unless its kernel is CKN-null modulo registered gates or escapes. This is the conceptual reason the proof needs source theorems. Naming a finite observation family is not enough.
+
+### 6.3 Repaired GQ1 source contract
+
+The repaired global cost has the form
+
+$$
+Q_k^{rep}=Innov_k+Err_k^{rep}+Esc_k^{rep}.
+$$
+
+Each term must have a source status before final GQ1 may consume it. A channel is not allowed to enter the finite source sum merely because it has a name. It must be source-closed, gate-opening, escaping, finite-update, certified-old, atomized, reopened, or nonfinal. This source-contract layer is formally closed as a ledger rule.
+
+### 6.4 Pressure, gauge, and force firewalls
+
+Several important firewalls are now closed.
+
+1. A nonconstant pressure-gauge transfer is not free. Only spatial constants on each time slice are gauge-free in CKN quantities.
+2. Hilbert force control is not automatically native \(Y_{force}\) control. A transition theorem or owner must pay the native topology.
+3. A pressure-force pair cannot be split after the fact without an owner map.
+4. A harmonic pressure shrink cannot be chosen after the row is known to close.
+5. Escape labels such as `ForceUseEsc=ForceUse` or `EscS8=S8Loc` are not source theorems unless tied to genuine escape, lower-bound, gate, or impossibility semantics.
+
+These are not cosmetic. They prevent the final proof from borrowing from its own conclusion.
+
+## 7. Closed K4 / CKN Witness Layer
+
+The latest audit concentrated on the K4 zero-chart and witness chain. This is now much cleaner.
+
+### 7.1 Nonlinear CKN witness obstruction
+
+The raw CKN witness
+
+$$
+RCKNWit_C=RCKN(Q_C';u,p\mid 0,0)
+$$
+
+is nonlinear and positive. It is not a vector in the Hilbert defect space \(H_{def}\). It cannot be made summable by declaring a scalar coordinate \(\sqrt{RCKNWit_C}e_C\), because that simply restates the forbidden raw sum
+
+$$
+\sum_C RCKNWit_C.
+$$
+
+The closed theorem is therefore negative and useful: direct Hilbert insertion of the CKN witness is illegal. A final-compatible witness row needs CW-H1 linear domination, CW-H2 packet decomposition, CW-H3 Carleson/monotone source, CW-H4 rigidity gate, or CW-H5 exit/reopen/nonfinal routing.
+
+### 7.2 Smooth branch gate certificate
+
+Smoothness of a kernel branch does not automatically open the zero-predictor gate. The branch may be nonzero, so its CKN relative to the zero predictor may be large. The proof must switch to the branch predictor, and that switch is a presentation transition.
+
+The certificate `CKNWitBranchGate_C` records:
+
+1. kernel branch;
+2. branch type;
+3. branch predictor;
+4. branch defect status;
+5. branch CKN modulus;
+6. shrink data;
+7. gate margin;
+8. relative CKN convergence;
+9. pressure/gauge compatibility;
+10. cutoff/localization and carrier compatibility;
+11. atom/quotient status;
+12. well-founded rank;
+13. no-zero-predictor shortcut;
+14. no-double-counting;
+15. no-circularity.
+
+This interface is closed. Actual rowwise branch classification remains open.
+
+### 7.3 Stokes gate to witness promotion
+
+The L402 promotion theorem is closed: a closed `StokesBranchGate_C` can promote `CKNWitBranchGate_C` to
+
+`BRANCH-GATE-CLOSED-STOKES`
+
+only if the Stokes gate and witness certificate use the same branch predictor, gate cylinder, pressure mode, allowance split, E12 footprint, branch defect status, and well-founded rank. This blocks the tempting shortcut "smooth branch, therefore witness solved".
+
+### 7.4 Witness branch-gate source router
+
+The L403 router is closed: a closed branch gate routes to
+
+`CKNWIT-GATE`,
+
+not to a summable source status. In particular,
+
+`BRANCH-GATE-CLOSED-STOKES`
+
+does not imply
+
+`CKNWIT-SOURCE-CLOSED-HILBERT-DOMINATED`.
+
+This distinction is crucial. A gate exits the no-gate tail; it does not prove \(\sum WitnessCost_C<\infty\).
+
+### 7.5 Final gated-row consumption
+
+The L404 final-exit theorem is closed: if `SourceStatus_C = CKNWIT-GATE` and the gate opens on the same reserved inner cylinder used by the final bad-block predicate, then
+
+`RowExit_C = EXIT-BY-RELATIVE-CKN-GATE`
+
+and
+
+`QrepInsertion_C = NO-WITNESS-COST-INSERTION`.
+
+Thus repaired GQ1 may not count a gated witness row as a finite source cost. Final CKN consumes it as local regularity/exclusion.
+
+### 7.6 Stokes size and branch outer-data chain
+
+The Stokes branch size chain is now formally closed as an interface.
+
+1. `ZeroCostBranchInput_C` can produce `StokesOuterData_C` if compactness, strong convergence, NS limit passage, normal-defect vanishing, pressure convention, carrier, cutoff/localization, and gauge status are closed.
+2. Closed `StokesOuterData_C` promotes to `StokesBranchSize_C`, producing `UBound_C`, `POscBound_C`, and `M_br_C`.
+3. `StokesBranchSize_C` promotes to `PCKNBound_C` for the branch gate once size-to-CKN, switch-chain, pressure-mode, cylinder nesting, and E10/E11/E12 compatibility are closed.
+
+The current first operative blocker in this chain is actual `ZeroCostBranchInput_C`, not the formal Stokes interior estimate.
+
+## 8. K4 Radius, Margin, and E12 Footprint Chain
+
+The branch-radius and E12 footprint layer has been converted into a finite certificate stack.
+
+The closed interfaces include:
+
+1. branch-radius positivity ownership;
+2. normalized branch-radius coordinates;
+3. analytic radius owner PosOut certificates;
+4. geometric radius owner PosOut certificates;
+5. radius PosOut cover assembly;
+6. K4 margin-slot absorption;
+7. E12 block-length dominance;
+8. radius-margin-footprint assembly;
+9. E12 cost/defect compatibility trichotomy;
+10. footprint-to-branch-radius-stack promotion;
+11. exact downstream consumption by size-to-switch, relative CKN, and Stokes branch gate.
+
+The important achievement is that downstream consumers cannot mutate K4 data. The same promoted branch-radius stack, pressure mode, allowance split, E12 footprint, and floor state must be used by every consumer.
+
+The actual rowwise owners still remain to be proved. In particular, the K4 cost/defect compatibility theorem is currently a trichotomy: hypothesis-only restriction, already-owned cost/defect components, or E12 floor recomputation/transport. The final proof must choose and prove the correct mode row by row.
+
+## 9. Conditional Assembly
+
+Under all closed and assumed source blocks, the final assembly proceeds as follows.
+
+1. A no-gate bad chain gives a positive final gate-excess defect on reserved inner cylinders.
+2. Each positive row must be routed through the finite source alphabet.
+3. Source-closed rows contribute to \(Q_k^{rep}\).
+4. Gate rows exit the no-gate tail and are not inserted into \(Q_k^{rep}\).
+5. Escape rows leave through genuine registered escape semantics.
+6. Finite updates are paid before the final source sum begins.
+7. Certified-old, atom, quotient, recurrent, or captured branches require well-founded rank.
+8. Reopen and nonfinal rows are not consumed by the final theorem.
+9. Once every consumed row is legally routed, repaired GQ1 and block selection rule out persistent positive defect.
+
+This is a clean conditional reduction. It becomes a proof exactly when the remaining list below is closed.
+
+## 10. Remaining Blocks Needed for a Nonconditional Proof
+
+The remaining blocks are not vague. They are the actual theorem targets.
+
+### 10.1 Zero-cost branch input
+
+Prove actual `ZeroCostBranchInput_C` rows:
+
+1. compactness profile;
+2. strong \(L^3_{loc}\) velocity convergence;
+3. strong local pressure convergence or paid pressure tails;
+4. distributional Navier-Stokes limit passage;
+5. vanishing full-state normal defect in the required native topology;
+6. Euler-coherent branch production;
+7. pressure decomposition \(P^{NS}=P^{St}+\Pi_E\);
+8. carrier status;
+9. cutoff/localization status;
+10. gauge status;
+11. no use of final regularity, final GQ1, future gate, or same-row branch capture.
+
+### 10.2 Stokes outer data and size rows
+
+For each accepted branch row:
+
+1. prove packet identity between produced and consumed `StokesOuterData_C`;
+2. prove outer velocity norm and pressure oscillation norm are finite recorded data;
+3. prove branch force/defect is zero or source-closed, or route escape/reopen/nonfinal;
+4. prove pressure convention compatibility between \(P^{NS}\), \(P^{St}\), and \(\Pi_E\);
+5. prove E10 shrink and E11 margin compatibility for the chosen inner cylinder;
+6. promote to `StokesBranchSize_C`;
+7. promote to `PCKNBound_C`;
+8. feed the result into `StokesBranchGateInputAsm_C`.
+
+### 10.3 Relative CKN and pressure synchronization
+
+Close actual rowwise:
+
+1. `ZeroCostRelCKNBound_C`;
+2. harmonic-tail allowance;
+3. branch pressure synchronization;
+4. Euler pressure switch modulus;
+5. pressure-mode compatibility between Stokes pressure and active gate pressure;
+6. gauge compatibility under spatial-average pressure convention;
+7. no double charge of pressure/gauge/force components.
+
+### 10.4 CKN witness rows
+
+For every non-gated witness row, prove one legal route:
+
+1. CW-H1 direct domination by already source-closed linear defect owners, including a kernel-null/coercivity modulus;
+2. CW-H2 packet or quotient packet decomposition with a real row Bessel/Carleson estimate;
+3. CW-H3 direct Carleson or monotone witness source stronger than finite energy;
+4. CW-H4 compactness/rigidity gate for repeated unsourced witness;
+5. CW-H5 escape, reopen, or nonfinal status.
+
+For gated rows, prove actual gate semantics on the same reserved inner cylinder used by the final no-gate predicate.
+
+### 10.5 S1/S4 packet source rows
+
+Close:
+
+1. actual packet pairing identity;
+2. certified-new packet row estimates;
+3. quotient packet representation inequality;
+4. S1 row Bessel/Carleson theorem;
+5. S4 owner-family source outcomes;
+6. representation errors and packet escapes;
+7. no borrowing from final GQ1 or from the source theorem being assembled.
+
+### 10.6 S6 native force
+
+Close:
+
+1. forced-use or zero-certified-use exhaustion;
+2. native \(Y_{force}\) transition;
+3. native force-tail source closure;
+4. force-owner transition;
+5. Hilbert fixed-chart globalization;
+6. pressure-force coupling;
+7. exact owner splits with no relabeling after the final source sum.
+
+### 10.7 S7 pressure/gauge
+
+Close:
+
+1. GP2 residual pressure representative variation;
+2. GP3 pressure-tail production;
+3. GP4 shrink/margin/floor source closure;
+4. gauge-gradient;
+5. gauge-cutoff;
+6. gauge-shrink;
+7. gauge-pair;
+8. nonconstant pressure-gauge transfer ownership.
+
+### 10.8 Shared pressure-force pair
+
+Close source theorems for:
+
+1. gradient representative movement;
+2. pressure tail;
+3. gauge representative loss;
+4. gauge shrink-margin loss;
+5. cutoff pressure loss;
+6. fixed owner split;
+7. genuine escape/gate semantics.
+
+### 10.9 S8 cutoff/localization
+
+Beyond the fixed dyadic cutoff Hardy subsource, close:
+
+1. critical annular velocity mass;
+2. pressure/gauge localization;
+3. normal/cutoff commutators;
+4. carrier imports;
+5. predictor tails;
+6. recentering;
+7. containment;
+8. cutoff/localization state motion;
+9. moving-center and moving-cutoff owner compatibility.
+
+### 10.10 S9/S10/Oseen
+
+Close:
+
+1. carrier source theorems;
+2. Oseen moving-owner production;
+3. pressure pair;
+4. force/gauge pair;
+5. localization-carrier-cutoff compatibility;
+6. explicit Oseen errors;
+7. moving-drift residuals;
+8. all imported Oseen/S8 streams in the fixed parent alphabet before E12.
+
+### 10.11 S11/S12/E12
+
+Close:
+
+1. shrink-margin-floor positivity;
+2. exact E12 floor compatibility;
+3. floor transport and lower semicontinuity;
+4. raw-to-repaired comparison;
+5. finite-atlas stabilization;
+6. finite-variation, Cauchy, or monotone state stabilization;
+7. genuine escape/gate alternatives for failed stabilization;
+8. K4 cost/defect compatibility mode row by row.
+
+### 10.12 Global residual representation and repaired GQ1
+
+Instantiate:
+
+1. the global residual vector \(R\);
+2. transport maps \(A_k\);
+3. packet witnesses \(A_k^*e_k\);
+4. finite critical \(K_{crit}\) norm or an equivalent quotient packet theorem;
+5. square-summable errors \(\rho_k\);
+6. pressure/force/cutoff/gauge/carrier compatibility;
+7. all source outcomes in the finite source contract;
+8. block selection only after final repaired GQ1 is proved.
+
+### 10.13 Final CKN assembly
+
+Finally:
+
+1. consume only source-closed, gated, escaped, finite-update, atom/quotient, certified-old, reopen, or nonfinal statuses;
+2. exclude hidden channels, hidden escapes, unknown residuals, and late alphabet changes;
+3. ensure gated rows are exits, not costs;
+4. ensure reopened and nonfinal rows are not consumed;
+5. derive contradiction to a persistent no-gate bad chain.
+
+## 11. What Is Original Here
+
+The original point is not any single classical estimate. Many local estimates are standard or standard-adjacent: CKN epsilon regularity, Stokes interior regularity, Calderon-Zygmund pressure estimates, Hardy domination, Aubin-Lions compactness, and Bessel finite-overlap arguments.
+
+The original contribution is the way these ingredients are arranged:
+
+1. local regularity is organized as a presentation problem with observables, fibres, predictors, costs, and legal exits;
+2. finite-observation blindness is treated as a structural obstruction, not an inconvenience;
+3. every proof step must carry a source status before final GQ1 may consume it;
+4. zero-cost rigidity is repaired through Euler-coherent Stokes branches rather than a narrow branch classification;
+5. nonlinear CKN witnesses are explicitly prevented from entering Hilbert ledgers by renaming;
+6. branch gates are routed as exits, not as hidden summability theorems;
+7. E12, K4, pressure, force, cutoff, carrier, packet, and witness data are all forced into a finite synchronized presentation.
+
+This is why the strategy is more than a set of renamed standard techniques. The classical estimates remain classical; the new content is the finite proof architecture that decides when those estimates may be composed without circularity.
+
+## 12. Reading Guide
+
+The TeX and PDF downloads are snapshots of an earlier synchronized article. The current HTML/markdown page is the more up-to-date proof-strategy and audit view.
+
+The useful way to read the current work is:
+
+1. the conditional reduction is coherent and increasingly detailed;
+2. many local components are genuinely closed;
+3. the nonconditional theorem is not yet proved;
+4. the remaining blocks are now sharply enough identified that they can be attacked one at a time.
+
+## References
+
+[CKN] L. Caffarelli, R. Kohn, and L. Nirenberg. Partial regularity of suitable weak solutions of the Navier-Stokes equations. Communications on Pure and Applied Mathematics, 1982.
+[Leray] J. Leray. Sur le mouvement d'un liquide visqueux emplissant l'espace. Acta Mathematica, 1934.
+[Serrin] J. Serrin. The initial value problem for the Navier-Stokes equations. Nonlinear Problems, 1963.
+[Lin] F.-H. Lin. A new proof of the Caffarelli-Kohn-Nirenberg theorem. Communications on Pure and Applied Mathematics, 1998.
