@@ -22,6 +22,11 @@
 \newcommand{\Q}{\mathbb Q}
 \newcommand{\Z}{\mathbb Z}
 \newcommand{\R}{\mathbb R}
+\DeclareMathOperator{\Zero}{Zero}
+\DeclareMathOperator{\Hit}{Hit}
+\DeclareMathOperator{\Rad}{rad}
+\DeclareMathOperator{\Sat}{sat}
+\DeclareMathOperator{\rank}{rank}
 
 \title{Toric Certificates for Effective Skolem Tails and Subspace Orbit Reachability}
 \author{Luca Blanchi}
@@ -53,9 +58,11 @@ and
 \]
 The toric rank, the order of the recurrence, the number of dominant roots, and the root multiplicities are unrestricted.
 
-The main theorem is a soundness theorem. If the dominant vector admits a verified toric lower-bound certificate, then all zeros of the branch lie below a computable bound unless the branch is identically zero. The remaining prefix is checked exactly. We give several verifiable certificate formats: joint semialgebraic certificates, Positivstellensatz and sum-of-squares certificates, Bezout--toric certificates, and scalar character-polynomial certificates. We then describe a partial compiler, Factor--Reduce--Certify, which constructs certificates automatically for leading-vector zero-free branches and for quotient-character factors.
+The main theorem is a soundness theorem. If the dominant vector admits a verified toric lower-bound certificate, then all zeros of the branch lie below a computable bound unless the branch is identically zero. The remaining prefix is checked exactly. We give several verifiable certificate formats: joint semialgebraic certificates, Positivstellensatz and sum-of-squares certificates, Bezout--toric certificates, scalar character-polynomial certificates, and binomial-stratified certificates.
 
-The method is sound but incomplete: failure to certify an instance does not imply anything about its zero set. The contribution is not a solution of the general Skolem Problem. It is a checkable and partially automatic mechanism for proving effective Skolem tails in high-rank, high-order families, including vector examples where scalar coordinatewise certification fails.
+The new automatic layer is binomial-stratified. If the dominant zero locus on the compact toric closure is contained in finitely many effective binomial strata, then a semialgebraic Lojasiewicz inequality gives a lower bound by a power of the distance to those strata. Along the actual toric orbit, Baker--Matveev separation turns the binomial distances into polynomial lower bounds away from exact-hit progressions. Exact hits are computable finite unions of arithmetic progressions; on those progressions one restricts the recurrence and either peels a vanished dominant shell or lowers the toric dimension. In the automatic binomial subclass, the strata are extracted from Laurent elimination ideals and binomial decomposition.
+
+The resulting compiler computes exact zero sets for every recurrence admitting a finite binomial-stratified toric certificate tree, and computes the strata itself in the automatic binomial-stratified class. This isolates a checkable and partially automatic mechanism for proving effective Skolem tails in high-rank, high-order families, including vector examples where scalar coordinatewise certification fails. The geometric boundary of the method is explicit: arbitrary non-binomial toric approximation requires additional lower-bound input.
 \end{abstract}
 
 \section*{Declaration of generative AI and AI-assisted technologies in the writing process}
@@ -131,11 +138,13 @@ The contributions are:
 \item Bezout--toric certificates converting scalar lower bounds into vector lower bounds;
 \item a scalar Baker--Matveev lemma for expressions \(F(k,\delta^k)\);
 \item quotient-character reduction, producing scalar atoms automatically from Laurent factors whose exponent supports become one-dimensional modulo the toric relation lattice;
-\item a partial Factor--Reduce--Certify compiler;
+\item binomial-stratified certificates combining semialgebraic Lojasiewicz bounds, Baker separation from exact binomial hits, and recursive restriction;
+\item automatic extraction of binomial strata from dominant elimination ideals in the binomial subclass;
+\item a partial Factor--Reduce--Certify compiler and an automatic binomial-stratified certificate-tree compiler;
 \item applications to Simultaneous Skolem, Subspace Orbit, affine linear-loop reachability, algebraic target hitting, and eventual cone membership.
 \end{enumerate}
 
-The framework is intentionally conservative. It proves effective tails for certified toric dominant shells. It does not decide arbitrary toric shells of rank at least two and does not solve the general Skolem Problem.
+The framework isolates certified toric dominant shells: once a dominant lower-bound mechanism is verified, the zero-free tail and the exact finite prefix become effective. Non-binomial toric approximation remains the boundary where additional Diophantine lower bounds would be needed.
 
 \section{Effective input and certificate model}
 
@@ -146,7 +155,7 @@ An input consists of:
 \item a complex embedding \(\sigma:K\hookrightarrow \C\).
 \end{enumerate}
 
-All computations take place in finite extensions of \(K\). We use standard exact algorithms in number fields: arithmetic, factorization, construction of splitting fields, root-of-unity testing, exact zero testing, comparison of algebraic absolute values under \(\sigma\), and computation of multiplicative relation lattices. These algorithms are not claimed to be efficient in general; they are used as exact symbolic subroutines.
+All computations take place in finite extensions of \(K\). We use standard exact algorithms in number fields: arithmetic, factorization, construction of splitting fields, root-of-unity testing, exact zero testing, comparison of algebraic absolute values under \(\sigma\), and computation of multiplicative relation lattices \cite{Ge}. These algorithms are not claimed to be efficient in general; they are used as exact symbolic subroutines.
 
 A certificate is extended input. The algorithms in this paper are sound: if the certificate verifies, then the output zero set is correct. They are not complete: failure to certify means ``not certified'', not ``no zero'' and not ``undecidable''.
 
@@ -438,6 +447,169 @@ A joint S-certificate implies the hypothesis of the certified-tail theorem with 
 Since \(z(k)\in C\), substituting \(t=k\) and \(x=z(k)\) into the certificate gives the result.
 \end{proof}
 
+\section{Binomial-stratified certificates}
+
+Uniform separation on the whole compact toric coset is a useful certificate, but many natural dominant vectors vanish on structured subtori. The certificate can still be effective when the entire dominant zero locus is forced into finitely many binomial strata.
+
+\begin{definition}[Binomial stratum]
+Let \(C\subseteq\T^\rho\) be an effective compact toric coset. A binomial stratum in \(C\) is a subset
+\[
+H=
+\{x\in C:
+\chi_{a_1}(x)=\zeta_1,\ldots,\chi_{a_\ell}(x)=\zeta_\ell\},
+\]
+where
+\[
+a_j\in\Z^\rho,
+\qquad
+\chi_{a_j}(X)=X^{a_j},
+\]
+and each \(\zeta_j\) is algebraic of complex absolute value \(1\). The stratum is proper if \(H\ne C\).
+\end{definition}
+
+For such a stratum set
+\[
+\Delta_H(x)=
+\sum_{j=1}^{\ell}|\chi_{a_j}(x)-\zeta_j|^2.
+\]
+Then
+\[
+\Delta_H(x)=0
+\quad\Longleftrightarrow\quad
+x\in H.
+\]
+For a finite family
+\[
+\mathcal H=\{H_1,\ldots,H_N\},
+\]
+define
+\[
+\Delta_{\mathcal H}(x)=
+\prod_{\nu=1}^N\Delta_{H_\nu}(x).
+\]
+Thus
+\[
+\Delta_{\mathcal H}(x)=0
+\quad\Longleftrightarrow\quad
+x\in \bigcup_{\nu=1}^N H_\nu.
+\]
+
+\begin{definition}[Binomial stratification certificate]
+Let
+\[
+\mathbf D(T,X)\in L[T][X_1^{\pm1},\ldots,X_\rho^{\pm1}]^m
+\]
+be a dominant vector on \(C\). A binomial stratification certificate consists of
+\[
+B\in\mathbb N
+\]
+and a finite family \(\mathcal H\) of proper effective binomial strata in \(C\) such that
+\[
+\mathbf D(t,x)=0
+\quad\Longrightarrow\quad
+x\in\bigcup_{H\in\mathcal H}H
+\]
+for all real \(t\ge B\) and all \(x\in C\).
+\end{definition}
+
+Once the candidate strata are supplied, the implication is a universal formula over a real closed field after writing the torus and the coset in real coordinates. Hence it is effectively checkable by quantifier elimination.
+
+\begin{lemma}[Effective semialgebraic Lojasiewicz inequality]
+Let \(K_0\) be a compact effective semialgebraic set, and let
+\[
+f,g:K_0\to\R_{\ge0}
+\]
+be effective continuous semialgebraic functions. If
+\[
+Z(f)\subseteq Z(g),
+\]
+then there exist effectively searchable constants
+\[
+N\in\mathbb N,
+\qquad
+c>0,
+\]
+with \(c\) algebraic, such that
+\[
+f(y)\ge c\,g(y)^N
+\]
+for every \(y\in K_0\).
+\end{lemma}
+
+\begin{proof}
+The existence statement is the standard semialgebraic Lojasiewicz inequality on compact semialgebraic sets. For effectivity, fix \(N\). The assertion
+\[
+\exists c>0\ \forall y\in K_0:\ f(y)\ge c\,g(y)^N
+\]
+is a first-order sentence over real closed fields. Quantifier elimination decides whether such a \(c\) exists and, when it does, gives an effective semialgebraic description of the admissible \(c\)'s. Enumerating \(N=0,1,2,\ldots\) therefore finds a valid exponent and a positive algebraic \(c\).
+\end{proof}
+
+\begin{theorem}[Stratified semialgebraic lower bound]
+Assume that \(\mathbf D\) admits a binomial stratification certificate \((B,\mathcal H)\) on \(C\). Put
+\[
+P(t,x)=\sum_{i=1}^m |D_i(t,x)|^2,
+\qquad
+\Delta(x)=\Delta_{\mathcal H}(x).
+\]
+Then there exist effectively computable constants
+\[
+B'\in\mathbb N,
+\qquad
+q>0,
+\qquad
+L_0\in\mathbb N,
+\qquad
+R\in\mathbb N
+\]
+such that
+\[
+P(t,x)\ge q(t+1)^{-L_0}\Delta(x)^R
+\]
+for every \(t\ge B'\) and every \(x\in C\).
+\end{theorem}
+
+\begin{proof}
+After clearing Laurent monomials, \(P\) is represented by an effective real semialgebraic function on \([B,\infty)\times C\). Choose \(d\) at least the degree in \(t\) of the cleared expression and compactify
+\[
+u=\frac1{t+1},
+\qquad
+t=\frac{1-u}{u}.
+\]
+Set
+\[
+Q(u,x)=u^dP\left(\frac{1-u}{u},x\right)
+\]
+on the compact semialgebraic set
+\[
+K_0=\left[0,\frac1{B+1}\right]\times C.
+\]
+For \(u>0\), the certificate gives
+\[
+Q(u,x)=0
+\quad\Longrightarrow\quad
+\Delta(x)=0.
+\]
+At \(u=0\), compactification may create additional zeros. Hence
+\[
+Z(Q)\cap K_0\subseteq Z(u\Delta).
+\]
+Apply the effective semialgebraic Lojasiewicz inequality to
+\[
+f=Q,
+\qquad
+g=u\Delta.
+\]
+There are \(N\) and \(c>0\) such that
+\[
+Q(u,x)\ge c\,u^N\Delta(x)^N.
+\]
+Since \(Q=u^dP\), this gives
+\[
+P(t,x)\ge c\,u^{N-d}\Delta(x)^N.
+\]
+If \(N\ge d\), take \(L_0=N-d\). If \(N<d\), weaken the estimate on \(0<u\le1\) to \(P(t,x)\ge c\Delta(x)^N\). This gives the stated form with effective constants.
+\end{proof}
+
 \section{SOS and Positivstellensatz certificates}
 
 Quantifier elimination proves decidability, but one may also use algebraic certificates that are easier to verify.
@@ -644,6 +816,162 @@ k h(\delta)\le C_1\log(k+2),
 which fails beyond a computable bound.
 \end{proof}
 
+\section{Baker separation from binomial strata}
+
+The preceding scalar lemma controls one-character atoms. Binomial strata reduce to finitely many such one-character conditions along the toric orbit.
+
+\begin{lemma}[One-character separation]
+Let
+\[
+\alpha,\zeta\in\overline{\Q}^{\times},
+\qquad
+|\sigma(\alpha)|=|\sigma(\zeta)|=1.
+\]
+Then the solution set
+\[
+S(\alpha,\zeta)=\{k\ge0:\alpha^k=\zeta\}
+\]
+is effectively computable as a finite union of arithmetic progressions and a finite set. Moreover, there exist effective constants
+\[
+c>0,
+\qquad
+A\in\mathbb N,
+\]
+such that
+\[
+|\sigma(\alpha^k-\zeta)|\ge c(k+1)^{-A}
+\]
+for every \(k\notin S(\alpha,\zeta)\).
+\end{lemma}
+
+\begin{proof}
+If \(\alpha\) is a root of unity, the sequence \(\alpha^k\) is periodic. Thus \(S(\alpha,\zeta)\) is empty or a finite union of residue classes modulo the order of \(\alpha\), and the nonzero distances outside \(S(\alpha,\zeta)\) have a positive periodic minimum.
+
+Assume \(\alpha\) is not a root of unity. Then \(\alpha^k=\zeta\) has at most one solution, since two distinct solutions would make \(\alpha\) torsion. The possible exact solution is decidable by the standard algorithms for multiplicative relations among algebraic numbers. For non-solutions, apply an effective lower bound for linear forms in logarithms to
+\[
+\alpha^k\zeta^{-1}-1.
+\]
+Since \(\alpha\) and \(\zeta\) are fixed, Baker--Wuestholz or Matveev estimates give a lower bound of the form
+\[
+|\sigma(\alpha^k\zeta^{-1}-1)|\ge c_1(k+1)^{-A}.
+\]
+Multiplying by the fixed number \(|\sigma(\zeta)|=1\) gives the stated estimate.
+\end{proof}
+
+\begin{lemma}[Separation from one binomial stratum]
+Let \(z(k)=c\eta^k\in C\), and let
+\[
+H=
+\{x\in C:\chi_{a_1}(x)=\zeta_1,\ldots,\chi_{a_\ell}(x)=\zeta_\ell\}
+\]
+be an effective binomial stratum. Set
+\[
+S_H=\{k\ge0:z(k)\in H\}.
+\]
+Then \(S_H\) is effectively computable as a finite union of arithmetic progressions and a finite set. Moreover, there exist effective constants
+\[
+c_H>0,
+\qquad
+A_H\in\mathbb N,
+\]
+such that
+\[
+\Delta_H(z(k))\ge c_H(k+1)^{-A_H}
+\]
+for every \(k\notin S_H\).
+\end{lemma}
+
+\begin{proof}
+The condition \(z(k)\in H\) is the finite system
+\[
+\chi_{a_j}(\eta)^k
+=
+\zeta_j\,\chi_{a_j}(c)^{-1},
+\qquad
+j=1,\ldots,\ell.
+\]
+Each equation has an effectively computable solution set by the one-character lemma, and finite intersections of finite unions of progressions and finite sets are effectively computable.
+
+If \(k\notin S_H\), then at least one equation fails. For each \(j\), the one-character lemma gives a polynomial lower bound away from the exact solution set of the \(j\)-th equation. Taking the minimum over the finitely many failed possibilities gives
+\[
+\Delta_H(z(k))
+=
+\sum_j|\chi_{a_j}(z(k))-\zeta_j|^2
+\ge c_H(k+1)^{-A_H}.
+\]
+\end{proof}
+
+\begin{lemma}[Separation from a finite family of binomial strata]
+Let \(\mathcal H=\{H_1,\ldots,H_N\}\) be a finite family of effective binomial strata and set
+\[
+S_{\mathcal H}=\bigcup_{\nu=1}^N S_{H_\nu}.
+\]
+Then \(S_{\mathcal H}\) is effectively computable as a finite union of arithmetic progressions and a finite set. Moreover, there exist effective constants
+\[
+c>0,
+\qquad
+A\in\mathbb N,
+\]
+such that
+\[
+\Delta_{\mathcal H}(z(k))\ge c(k+1)^{-A}
+\]
+for every \(k\notin S_{\mathcal H}\).
+\end{lemma}
+
+\begin{proof}
+The exact-hit set is a finite union of effectively computable sets. If \(k\notin S_{\mathcal H}\), then \(z(k)\) lies in none of the strata. Hence every \(\Delta_{H_\nu}(z(k))\) is bounded below by a negative power of \(k+1\). Multiplying the finitely many inequalities gives the stated lower bound for
+\[
+\Delta_{\mathcal H}(z(k))
+=
+\prod_{\nu=1}^N\Delta_{H_\nu}(z(k)).
+\]
+\end{proof}
+
+\begin{theorem}[Stratified zero-free tail outside exact hits]
+Let a saturated branch have normal form
+\[
+\mathbf v_k=\Lambda^k(\mathbf D(k,z(k))+\mathbf E(k)),
+\qquad
+z(k)=c\eta^k,
+\]
+with
+\[
+|\mathbf E(k)|\le C_E(k+1)^s\theta^k,
+\qquad
+0<\theta<1.
+\]
+Assume that \(\mathbf D\) admits a binomial stratification certificate \(\mathcal H\) on \(C\), and let
+\[
+S_{\mathcal H}=\{k\ge0:z(k)\in\bigcup_{H\in\mathcal H}H\}.
+\]
+Then there is an effectively computable \(B\) such that
+\[
+\mathbf v_k\ne0
+\]
+for every \(k\ge B\) with \(k\notin S_{\mathcal H}\).
+\end{theorem}
+
+\begin{proof}
+The stratified semialgebraic lower bound gives
+\[
+\sum_i|D_i(k,z(k))|^2
+\ge
+q(k+1)^{-L_0}\Delta_{\mathcal H}(z(k))^R.
+\]
+For \(k\notin S_{\mathcal H}\), Baker separation from the finite family of strata gives
+\[
+\Delta_{\mathcal H}(z(k))\ge c(k+1)^{-A}.
+\]
+Therefore
+\[
+|\mathbf D(k,z(k))|
+\ge
+c'(k+1)^{-A'}
+\]
+for effective constants \(c'>0\) and \(A'\). The exponentially small error is eventually less than half of this lower bound, and the conclusion follows from the same comparison used in the certified-tail theorem.
+\end{proof}
+
 \section{Torsion scalar atoms}
 
 If \(\delta\) is a root of unity of order \(Q\), pass to subbranches
@@ -807,6 +1135,121 @@ The factor \(\eta^{a_0k}\) is \(\alpha_0^k\) and has modulus \(1\).
 A quotient-affine-rank-one factor is automatically converted into a scalar Baker or torsion atom.
 \end{corollary}
 
+\section{Automatic binomial extraction}
+
+The binomial-stratified theorem is a verifier: it proves a tail once the strata are known. In an important subclass the strata can be extracted from the dominant equations.
+
+\subsection{Dominant elimination ideals}
+
+Let \(C\subseteq\T^\rho\) be the compact toric coset attached to a branch, and let
+\[
+I_C\subseteq L[X_1^{\pm1},\ldots,X_\rho^{\pm1}]
+\]
+be its Laurent ideal, generated by the binomials
+\[
+X^a-c^a,
+\qquad
+a\in\mathcal L_\eta.
+\]
+For
+\[
+\mathbf D(T,X)=(D_1,\ldots,D_m)
+\]
+define
+\[
+I_D=
+I_C+\langle D_1,\ldots,D_m\rangle
+\subseteq
+L[T,X_1^{\pm1},\ldots,X_\rho^{\pm1}]
+\]
+and
+\[
+J_D=
+\Rad\left(I_D\cap L[X_1^{\pm1},\ldots,X_\rho^{\pm1}]\right).
+\]
+The variety \(V(J_D)\cap C\) contains every point \(x\in C\) for which there exists a complex value \(T=t\) with
+\[
+\mathbf D(t,x)=0.
+\]
+It is therefore an algebraic over-approximation of the eventual real projection
+\[
+\{x\in C:\exists t\gg0,\ \mathbf D(t,x)=0\}.
+\]
+The over-approximation is useful: if it is already covered by proper binomial strata, then it gives a valid certificate without guessing the strata.
+
+\begin{definition}[Automatically binomial branch]
+A dominant branch is automatically binomial if the computed set
+\[
+V(J_D)\cap C
+\]
+is effectively verified to be contained in a finite union of proper binomial strata
+\[
+H_1\cup\cdots\cup H_N
+\]
+inside \(C\). In the strict binomial case, these strata are obtained from binomial radical and decomposition algorithms \cite{EisenbudSturmfels}, followed by lattice basis reduction and Smith normal form.
+\end{definition}
+
+\begin{theorem}[Automatic binomial certificate extraction]
+Let a nonzero dominant branch be automatically binomial. Then one can effectively compute a finite family of proper binomial strata
+\[
+\mathcal H=\{H_1,\ldots,H_N\}
+\]
+such that
+\[
+\mathbf D(t,x)=0
+\quad\Longrightarrow\quad
+x\in\bigcup_{\nu=1}^N H_\nu
+\]
+for every \(t\) and every \(x\in C\). Hence the branch admits a binomial stratification certificate with \(B=0\).
+\end{theorem}
+
+\begin{proof}
+Compute \(I_C\), form \(I_D\), eliminate \(T\), and take the radical \(J_D\). By the automatic binomial hypothesis, \(V(J_D)\cap C\) is covered by effectively listed proper binomial strata. If \(\mathbf D(t,x)=0\) for some \(x\in C\), then \((t,x)\in V(I_D)\). Every Laurent polynomial in \(I_D\cap L[X_1^{\pm1},\ldots,X_\rho^{\pm1}]\) therefore vanishes at \(x\), and so \(x\in V(J_D)\cap C\). The verified binomial cover gives the desired implication.
+\end{proof}
+
+\section{Binomial-stratified certificate trees}
+
+Exact hits of binomial strata are not exceptional failures. They are arithmetic progressions on which the recurrence can be restricted and renormalized.
+
+\begin{definition}[Binomial-stratified toric certificate tree]
+A binomial-stratified toric certificate tree for a vector recurrence is a finite rooted tree whose nodes carry restricted branches
+\[
+\mathbf v_k=\mathbf u_{ak+b}
+\]
+with saturated dominant normal forms
+\[
+\mathbf v_k=\Lambda^k(\mathbf D(k,z(k))+\mathbf E(k)).
+\]
+
+A terminal node is one of the following:
+\begin{enumerate}
+\item an identically zero branch;
+\item a branch with a joint S-certificate, an SOS/Positivstellensatz certificate, a Bezout--toric certificate, or scalar atoms proving a dominant lower bound;
+\item a closure-avoiding branch for which the leading-vector or semialgebraic compactness test gives a lower bound.
+\end{enumerate}
+
+A nonterminal node carries a binomial stratification certificate \(\mathcal H\). Its children are the infinite arithmetic progressions contained in
+\[
+S_{\mathcal H}=
+\{k\ge0:z(k)\in\bigcup_{H\in\mathcal H}H\}.
+\]
+On each child, the recurrence is restricted to that progression and the dominant normal form is recomputed. Along every edge, either a dominant spectral shell is peeled or the dimension of the compact toric orbit closure strictly decreases.
+\end{definition}
+
+\begin{definition}[Automatic binomial-stratified tree]
+A binomial-stratified toric certificate tree is automatic if every nonterminal node obtains its binomial stratification certificate from automatic binomial extraction.
+\end{definition}
+
+\begin{theorem}[Exact zero set from a certificate tree]
+If a vector recurrence admits a finite binomial-stratified toric certificate tree, then its zero set is computable exactly as a finite union of arithmetic progressions and a finite set. If the tree is automatic, the binomial strata at all nonterminal nodes are computed from the dominant branch equations.
+\end{theorem}
+
+\begin{proof}
+Proceed by induction on the finite tree. An identically zero terminal node contributes its whole arithmetic progression. Any other terminal node has a verified dominant lower bound, hence a computable zero-free tail by the certified-tail theorem; its finite prefix is checked exactly.
+
+At a nonterminal node, the stratified zero-free tail theorem gives a computable bound beyond which no zeros occur outside \(S_{\mathcal H}\). The finitely many remaining indices outside \(S_{\mathcal H}\), together with the finite exceptional part of \(S_{\mathcal H}\), are checked exactly. The infinite progressions in \(S_{\mathcal H}\) are precisely the children, whose zero sets are computed by induction. Taking the union over all nodes gives the exact zero set.
+\end{proof}
+
 \section{The Factor--Reduce--Certify compiler}
 
 The partial compiler operates branchwise.
@@ -819,7 +1262,10 @@ The partial compiler operates branchwise.
 \item For each irreducible factor, compute its quotient affine rank modulo \(\mathcal L_\eta\).
 \item If the rank is at most one, reduce it to a scalar atom.
 \item Verify remaining S-certificates by quantifier elimination, SOS identities, or Positivstellensatz identities.
-\item If every branch is certified, compute the zero-free tails and exact prefixes.
+\item If the branch is not terminally certified, attempt automatic binomial extraction from \(J_D\).
+\item If binomial extraction succeeds, compute the exact-hit progressions, restrict to the infinite progressions, and recompute the dominant normal form on each child.
+\item Accept the recursive step only when it peels a dominant shell or strictly lowers the toric dimension.
+\item If every terminal branch is certified and every recursive branch belongs to a finite certificate tree, compute the zero-free tails and exact prefixes.
 \item If some branch is not certified, return ``not certified''.
 \end{enumerate}
 
@@ -832,8 +1278,38 @@ exactly as a finite union of arithmetic progressions and a finite set.
 \end{theorem}
 
 \begin{proof}
-Every successful branch satisfies the certified-tail theorem through a joint S-certificate, a Bezout--toric certificate, or scalar atoms combined into a vector certificate. Identically zero branches give progressions. Nonzero certified branches have zero-free tails and exact finite prefix checks.
+Every terminal branch has one of the terminal certificates listed above, so it satisfies the certified-tail theorem. Identically zero branches give progressions. Nonzero terminal branches have zero-free tails and exact finite prefix checks.
+
+Every accepted nonterminal step is justified by a binomial stratification certificate. The stratified zero-free tail theorem removes all sufficiently large indices outside the exact-hit progressions. The children are precisely the restrictions to those infinite progressions. Since a successful run produces a finite certificate tree, the exact zero set is computed by the theorem on certificate trees.
 \end{proof}
+
+\section{Certified and automatic binomial-stratified classes}
+
+\begin{definition}
+A vector recurrence belongs to the certified binomial-stratified toric class if its dominant branch decomposition admits a finite binomial-stratified toric certificate tree.
+
+It belongs to the automatic binomial-stratified toric class if it admits such a tree and every nonterminal stratum is produced by automatic binomial extraction.
+\end{definition}
+
+\begin{corollary}[Certified binomial-stratified Skolem]
+For every algebraic vector recurrence \(\mathbf u\) in the certified binomial-stratified toric class, the set
+\[
+Z(\mathbf u)=\{n\ge0:\mathbf u_n=0\}
+\]
+is computable exactly.
+\end{corollary}
+
+\begin{proof}
+Apply the certificate-tree theorem to every residue branch in the dominant toric normal form and take the finite union of the branch zero sets.
+\end{proof}
+
+\begin{corollary}[Automatic binomial-stratified Skolem]
+For every algebraic vector recurrence \(\mathbf u\) in the automatic binomial-stratified toric class, the zero set \(Z(\mathbf u)\) is computable exactly. In this class the binomial strata required at nonterminal nodes are computed from the dominant elimination ideals.
+\end{corollary}
+
+\begin{remark}
+The restriction is geometric rather than dimensional. There is no a priori bound here on recurrence order, root multiplicity, number of dominant roots, toric rank, vector dimension, ambient matrix dimension, or target dimension. The required structure is that the dominant toric zero loci are either terminally separated from zero or recursively controlled by binomial strata.
+\end{remark}
 
 \section{Applications}
 
@@ -885,6 +1361,28 @@ A^nx_0\in V
 BA^nx_0-b=0.
 \]
 Apply compiler soundness.
+\end{proof}
+
+\begin{corollary}[Binomial-stratified Subspace Orbit]
+With notation as above, suppose
+\[
+\mathbf u_n=BA^nx_0-b
+\]
+belongs to the certified binomial-stratified toric class. Then
+\[
+\Hit(A,x_0,V)=\{n\ge0:A^nx_0\in V\}
+\]
+is computable exactly. If \(\mathbf u_n\) belongs to the automatic binomial-stratified toric class, the required binomial strata are computed from the dominant branch equations.
+\end{corollary}
+
+\begin{proof}
+The sequence \(\mathbf u_n\) is a vector recurrence, and
+\[
+A^nx_0\in V
+\quad\Longleftrightarrow\quad
+\mathbf u_n=0.
+\]
+Apply the certified or automatic binomial-stratified Skolem corollary.
 \end{proof}
 
 This gives a certified reachability theorem for affine linear loops
@@ -1043,25 +1541,25 @@ Bacik and Varonka study Subspace Orbit and Simultaneous Skolem from a dimension-
 
 The vector feature is essential. The family above shows that scalar coordinatewise certification can fail while joint vector certification succeeds.
 
-\section{Limitations}
+\section{Boundary of the certified class}
 
-The framework does not decide arbitrary toric shells.
+The certified class is governed by the available lower-bound mechanisms. Joint semialgebraic certificates handle dominant vectors that avoid zero on the compact toric closure. Binomial-stratified certificates handle dominant zero loci contained in finitely many character strata, because exact character hits are computable and Baker separation gives polynomial distance from the strata away from those hits.
 
 A scalar expression such as
 \[
 X+Y-1
 \]
-on a genuinely rank-two orbit is not automatically handled by the scalar quotient-character method. It can be handled only if it appears in a joint vector system with a joint S-certificate, a Bezout--toric certificate, or some other verified lower-bound mechanism.
+on a genuinely rank-two orbit is different. Its zero locus is not a finite union of binomial strata. Along
+\[
+(X,Y)=(\alpha^n,\beta^n)
+\]
+one would need effective lower bounds for
+\[
+|\alpha^n+\beta^n-1|
+\]
+outside exact zeros. Such non-binomial toric approximation is not supplied by the binomial-stratified layer.
 
-Thus the result is
-\[
-\text{effective tails for certified toric dominant shells,}
-\]
-not
-\[
-\text{decidability for all toric dominant shells.}
-\]
-The compiler is sound but incomplete.
+Thus the compiler is sound and incomplete: success produces a verified exact zero set, while failure means that the available certificate mechanisms did not certify the instance.
 
 \section{Conclusion}
 
@@ -1076,12 +1574,16 @@ The framework includes:
 \item Bezout--toric certificates;
 \item scalar Baker character-polynomial atoms;
 \item quotient-character reduction;
-\item a partial Factor--Reduce--Certify compiler;
+\item binomial-stratified lower bounds;
+\item Baker separation from exact binomial hits;
+\item automatic binomial extraction from dominant elimination ideals;
+\item finite certificate trees;
+\item a partial Factor--Reduce--Certify compiler with a recursive binomial-stratified mode;
 \item applications to Simultaneous Skolem, Subspace Orbit, linear-loop reachability, algebraic target hitting, and ultimate positivity;
 \item a high-rank vector family showing genuine advantage over scalar methods.
 \end{enumerate}
 
-This is not a breakthrough on the general Skolem Problem. It is a rigorous, checkable, and partially automatic framework for proving decidability in high-rank, high-order certified families.
+The resulting framework gives a rigorous, checkable, and partially automatic mechanism for proving effective Skolem tails in high-rank, high-order families. Its strongest automatic layer is the binomial-stratified class: semialgebraic Lojasiewicz inequalities control vanishing near the strata, Baker separation controls the actual toric orbit away from exact hits, and recursive restriction handles the exact-hit progressions.
 
 \begin{thebibliography}{99}
 
@@ -1134,6 +1636,16 @@ In \emph{Proceedings of LICS 2013}.
 J.-H. Evertse, H. P. Schlickewei, and W. M. Schmidt.
 Linear equations in variables which lie in a multiplicative group.
 \emph{Annals of Mathematics} 155 (2002), 807--836.
+
+\bibitem{EisenbudSturmfels}
+D. Eisenbud and B. Sturmfels.
+Binomial ideals.
+\emph{Duke Mathematical Journal} 84 (1996), 1--45.
+
+\bibitem{Ge}
+G. Ge.
+\emph{Algorithms Related to Multiplicative Representations of Algebraic Numbers}.
+PhD thesis, University of California, Berkeley, 1993.
 
 \bibitem{Jeronimo}
 G. Jeronimo, D. Perrucci, and E. Tsigaridas.
