@@ -40,7 +40,7 @@
 \begin{abstract}
 This note develops a normal-form layer for Presentation Theory. A normal form is treated not as a privileged representative in isolation, but as a costed access transformation: it converts raw descriptions into more rigid data while controlling overhead, verification data, residual fibres, and the observables that survive the transformation. This point of view gives a calculus of normal-form packages, their composition, observable quotients, residual decompositions, and lower bounds from separation of budgeted normal images.
 
-The formal results are deliberately elementary but reusable. Bounded compilation sends bounded raw objects into bounded normal images. Separators of those images give lower bounds. Observable families and residual equivalence relations form a Galois connection. Residual complexity splits the cost of reconstructing an object into normal data and fibre data. Fragmented towers may be complete only in a non-effective sense, and their optimal truncation functions have the same Turing degree as the underlying positive predicate. Heighted normal forms satisfy no-free-normal-form inequalities: bounded normal data and bounded gauges cannot produce objects of unbounded height, and degenerating normal forms must pay for the path producing the limit. Rewriting systems supply normal forms when termination, local confluence, and cost growth are controlled.
+The formal results are deliberately elementary but reusable. Bounded compilation sends bounded raw objects into bounded normal images. Separators of those images give lower bounds. Observable families and residual equivalence relations form a Galois connection. Residual complexity splits the cost of reconstructing an object into normal data and fibre data. Fragmented towers may be complete only in a non-effective sense, and their optimal truncation functions have the same Turing degree as the underlying positive predicate. In filtered effective systems, computable minimal selectors exist exactly when bounded presentation is decidable, while computable canonical selectors exist exactly when both bounded presentation and equivalence are decidable. Heighted normal forms satisfy no-free-normal-form inequalities: bounded normal data and bounded gauges cannot produce objects of unbounded height, and degenerating normal forms must pay for the path producing the limit. Rewriting systems supply normal forms when termination, local confluence, and cost growth are controlled.
 
 The main concrete application is a fixed-gap instability theorem for spectral canonicalization. On the orbit of real symmetric matrices with fixed simple spectrum and uniformly positive eigengap, no global eigenbasis canonicalizer can be continuous. In fact any deterministic sign choice has jumps of size approaching \(2\). The stable replacement is the projector-valued, or stacky, spectral normal form. This explains, in normal-form language, why sign- and basis-invariant spectral graph methods are structurally natural: continuous basis-invariant spectral encodings factor through the relevant projector data.
 \end{abstract}
@@ -504,6 +504,70 @@ If \(W_P\) had a computable total majorant \(g\), then membership in \(P\) would
 \end{proof}
 
 This theorem applies to fragmented normal-form towers, bounded proof search, bounded saturation, bounded finite quotient search, and bounded observable towers. Its content is not that the tower is useless, but that completeness may require a non-computable truncation function.
+
+\section{Minimal and Canonical Selectors}
+
+Part I attaches two decision problems to a filtered effective presentation system
+\[
+\Gamma=(D,\kappa,(E_t)).
+\]
+The bounded-presentation problem \(P_\Gamma\) asks whether the \(E\)-class of \(d\) meets the finite cost ball \(D_{\leq b}\).  The equivalence problem \(EQ_\Gamma\) asks whether two descriptions lie in the same \(E\)-class.
+
+\begin{definition}[Minimal selector]
+A minimal selector for \(\Gamma\) is a map
+\[
+N:D\to D
+\]
+such that, for every \(d\in D\),
+\[
+N(d)\,E\,d,
+\qquad
+\kappa(N(d))=C_\Gamma(d).
+\]
+It chooses a cheapest representative of the represented object, but it need not choose the same representative on equivalent inputs.
+\end{definition}
+
+\begin{definition}[Canonical minimal selector]
+A canonical minimal selector is a minimal selector \(N:D\to D\) such that, for all \(d,e\in D\),
+\[
+d\,E\,e
+\quad\Longleftrightarrow\quad
+N(d)=N(e).
+\]
+It is a complete normal form with minimal presentation cost.
+\end{definition}
+
+\begin{theorem}[Selector criterion]
+For a filtered effective presentation system:
+\begin{enumerate}[label=(\roman*)]
+\item a computable minimal selector exists if and only if \(P_\Gamma\) is decidable;
+\item a computable canonical minimal selector exists if and only if \(P_\Gamma\) and \(EQ_\Gamma\) are both decidable.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Assume first that \(P_\Gamma\) is decidable.  By Part I, \(C_\Gamma\) is computable.  Given \(d\), compute \(c=C_\Gamma(d)\), enumerate the finite set \(D_{\leq c}\), and search through stages \(t=0,1,2,\ldots\) until some \(e\in D_{\leq c}\) satisfies \(d\,E_t\,e\).  Such an \(e\) exists by definition of \(c\).  The first such \(e\) gives a computable minimal selector.
+
+Conversely, if a computable minimal selector \(N\) exists, then
+\[
+C_\Gamma(d)=\kappa(N(d))
+\]
+is computable, so \(P_\Gamma\) is decidable.
+
+For the canonical statement, assume \(P_\Gamma\) and \(EQ_\Gamma\) are decidable.  Given \(d\), compute \(c=C_\Gamma(d)\), enumerate \(D_{\leq c}\), and choose the lexicographically least \(e\in D_{\leq c}\) such that \(e\,E\,d\).  This is computable because \(EQ_\Gamma\) is decidable.  Equivalent inputs have the same finite set of cheapest representatives, hence the same chosen representative; non-equivalent inputs cannot choose the same representative.  Thus the selector is canonical.
+
+Conversely, if \(N\) is a computable canonical minimal selector, then \(C_\Gamma(d)=\kappa(N(d))\) is computable, so \(P_\Gamma\) is decidable.  Moreover,
+\[
+d\,E\,e
+\quad\Longleftrightarrow\quad
+N(d)=N(e),
+\]
+and equality of finite strings is decidable.  Hence \(EQ_\Gamma\) is decidable.
+\end{proof}
+
+\begin{remark}[Why this belongs to normal-form theory]
+A cost-controlled compiler can produce useful representatives without resolving the whole equivalence relation.  A minimal selector solves the optimization part of normalization.  A canonical selector solves both optimization and classification.  The theorem says exactly which effective decision problems are hidden in those two forms of normal access.
+\end{remark}
 
 \section{Heighted and Degenerating Normal Forms}
 

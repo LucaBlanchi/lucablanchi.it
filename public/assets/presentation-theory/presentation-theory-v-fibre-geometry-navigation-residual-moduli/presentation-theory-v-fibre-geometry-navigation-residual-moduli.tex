@@ -39,7 +39,7 @@
 \begin{abstract}
 This paper develops a fibre-geometric layer of Presentation Theory.  A presentation system does not only assign to an object the cost of its cheapest description.  It also induces a costed geometry on the kernel pair of the realization map, hence on every fibre of equivalent descriptions.  The basic objects are realization fibres, cost filtrations, vertical move systems, move groupoids, height distances, navigation profiles, vertical atlases, normal-form contractions, residual moduli, entropy profiles, stabilization maps, and higher coherence data.
 
-The formal results identify several reusable mechanisms.  Height navigation is the merge level in the filtered fibre, hence satisfies an ultrametric inequality.  In effective complete move systems, computable control of global fibre navigation is equivalent to computable recognition of the kernel pair.  Consequently, undecidable equivalence rules out computable vertical atlases and computably bounded proof-carrying normal forms.  Entropy and rate-distortion profiles give lower bounds for any finite access mechanism that resolves a fibre at a declared scale.  Base-residual decompositions split navigation into base motion, lifting, and residual correction.  Obstruction and higher-navigation profiles measure the cost of gluing local normal forms and comparing verification paths.  Stabilization may collapse fibre geometry, and vertical quasi-embeddings transfer navigation and entropy lower bounds.
+The formal results identify several reusable mechanisms.  Height navigation is the merge level in the filtered fibre, hence satisfies an ultrametric inequality.  In effective complete move systems, computable control of global fibre navigation is equivalent to computable recognition of the kernel pair; equivalently, the bridge-width profile of the finite-stage move filtration has the same Turing degree as equivalence of descriptions.  Consequently, undecidable equivalence rules out computable vertical atlases and computably bounded proof-carrying normal forms.  Entropy and rate-distortion profiles give lower bounds for any finite access mechanism that resolves a fibre at a declared scale.  Base-residual decompositions split navigation into base motion, lifting, and residual correction.  Obstruction and higher-navigation profiles measure the cost of gluing local normal forms and comparing verification paths.  Stabilization may collapse fibre geometry, and vertical quasi-embeddings transfer navigation and entropy lower bounds.
 
 The applications are included as tests of the formalism.  A quantitative Novikov-Pachner theorem shows that, in dimensions at least five, there is no computable bound on the size of triangulations needed along Pachner paths from arbitrary triangulated spheres to a fixed standard sphere.  A thickenization bottleneck separates stable Andrews-Curtis difficulty into the cost of entering the thickenable sector and the cost of contracting inside it.  A rank-fibre theorem for multiparameter persistence embeds simultaneous similarity of matrix pairs inside one rank-invariant fibre, giving residual entropy at least \(r^2\log_2 q\) over \(\mathbb F_q\), that is, at least r-squared log-base-two q bits over the finite field with q elements.  Further sections formulate CFI residual entropy for Weisfeiler-Leman type observables, coherence gaps in rewriting systems, and Markov-fibre entropy and conductance bottlenecks in algebraic statistics.
 \end{abstract}
@@ -293,6 +293,26 @@ If \(K_\rho\) is undecidable, then \(N_{\rho,M}\) has no computable majorant.
 \begin{proof}
 A computable majorant \(f\) would decide \(K_\rho\) by the first half of the preceding proof, replacing \(N(n)\) by \(f(n)\).
 \end{proof}
+
+\begin{proposition}[Move filtrations and bridge width]
+Assume the move relation \(M\) is decidable and that cost balls \(D^{\leq h}\) are finite and computable.  Define
+\[
+d\,E_h^M\,e
+\]
+to mean that \(d\) and \(e\) are connected in the finite \(M\)-graph induced on \(D^{\leq h}\).  Then \((E_h^M)\) is a decidable increasing filtration of the kernel pair \(K_\rho\).  Its bridge-width profile is Turing-equivalent to \(K_\rho\), and it has a computable majorant if and only if \(K_\rho\) is decidable.
+\end{proposition}
+
+\begin{proof}
+Each \(E_h^M\) is decidable because the induced graph on the finite computable set \(D^{\leq h}\) is finite.  The relations are increasing in \(h\).  Soundness of moves gives \(E_h^M\subseteq K_\rho\), and completeness gives
+\[
+K_\rho=\bigcup_h E_h^M.
+\]
+Therefore this is a filtered effective presentation system for the kernel pair.  Applying the bridge-width theorem of Part I gives the stated Turing equivalence and the computable-majorant criterion.
+\end{proof}
+
+\begin{remark}
+The navigation profile and the bridge-width profile are the same obstruction viewed with two different coordinates.  Navigation emphasizes geometry inside fibres; bridge width emphasizes the finite-stage semidecision procedure for equivalence.
+\end{remark}
 
 \section{Vertical atlases}
 

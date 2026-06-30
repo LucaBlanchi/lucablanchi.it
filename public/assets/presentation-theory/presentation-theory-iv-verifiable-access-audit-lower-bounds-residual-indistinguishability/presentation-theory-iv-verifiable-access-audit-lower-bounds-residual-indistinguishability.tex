@@ -40,7 +40,7 @@
 \begin{abstract}
 This note develops a fourth layer of Presentation Theory. The first part introduced presentation systems, observables, fibres, verification costs, and bounded-image principles. The second part developed controlled transfer packages. The third part treated normal-form compilation. Here the central object is verifiable access: an untrusted producer may output a claim and additional verification data, but a bounded checker can only trust the parts of that data that are tied back to the input through declared access.
 
-The formal results are elementary but reusable. Verification data define accepted regions inside a positive language. Short data give few regions, yielding cover and capacity lower bounds. Transcripts give the operational soundness principle: if a positive input and a negative input have the same transcript with the same verification data, no sound checker can accept the positive input. Residual indistinguishability turns this into a lower-bound method: whenever every low-budget audit leaves a residual fibre containing opposite completions invisible to the allowed observables, every sound audit must pay a corresponding cost. These lower bounds pull back through transfer packages when checkers and transcripts pull back with controlled overhead.
+The formal results are elementary but reusable. Verification data define accepted regions inside a positive language. Short data give few regions, yielding cover and capacity lower bounds. Finite-stage audit systems identify the exact computability content of uniform audit bounds: for a c.e. positive language presented as a union of decidable audit stages, the optimal audit-width profile has the same Turing degree as the language, and a computable majorant is equivalent to decidability. Transcripts give the operational soundness principle: if a positive input and a negative input have the same transcript with the same verification data, no sound checker can accept the positive input. Residual indistinguishability turns this into a lower-bound method: whenever every low-budget audit leaves a residual fibre containing opposite completions invisible to the allowed observables, every sound audit must pay a corresponding cost. These lower bounds pull back through transfer packages when checkers and transcripts pull back with controlled overhead.
 
 The main conditional application is to Lovasz homomorphism separation for Cai--Furer--Immerman graphs. Lovasz guarantees that non-isomorphic finite graphs are separated by some homomorphism count. The audit question asks how much it costs to verify such a separation under bounded access. Assuming the standard residual CFI indistinguishability input with pinned boundary, CFI graphs over bounded-degree bases of linear treewidth have linear audit lower bounds: any auditable Lovasz separator checked using homomorphism counts from test graphs of treewidth at most \(k\), together with controlled local support, guards, and terminal modules, must pay linear total audit cost. Thus low-treewidth homomorphism observables plus sublinear verified local information do not soundly audit CFI non-isomorphism. The same lower bound applies to proof-carrying canonical forms whose checker is Weisfeiler--Leman-local.
 \end{abstract}
@@ -193,6 +193,54 @@ A deterministic checker's output is a function of its transcript. If the transcr
 \begin{corollary}[Unchecked information has no soundness value]
 If a bit of the verification datum never affects a transcript through a check against the input, an observable, a guard, or a charged terminal module, then changing that bit cannot improve soundness.
 \end{corollary}
+
+\section{Finite-Stage Audit Width}
+
+The cover and transcript principles are qualitative unless the finite stages of an audit system are declared.  The effective skeleton is the same one that appears in Part I for filtered presentations.
+
+\begin{definition}[Finite-stage audit system]
+Let \(P\subseteq\Sigma^*\) be a decidable input universe and let \(L\subseteq P\) be a positive language.  A finite-stage audit system for \(L\) is an increasing sequence
+\[
+A_0\subseteq A_1\subseteq A_2\subseteq\cdots\subseteq P
+\]
+of decidable sets such that
+\[
+L=\bigcup_{t\geq0}A_t.
+\]
+The set \(A_t\) consists of inputs accepted by audits of stage at most \(t\), after all datum length, support, observable, guard, and terminal costs have been charged into the stage parameter.
+\end{definition}
+
+For \(p\in L\), define the least audit stage
+\[
+a_L(p)=\min\{t:p\in A_t\}.
+\]
+The finite-window audit-width profile is
+\[
+H_L(n)=\max\{a_L(p):p\in L,\ |p|\leq n\},
+\]
+with value \(0\) if there is no positive input of length at most \(n\).
+
+\begin{theorem}[Audit-width degree theorem]
+For a finite-stage audit system with finite input balls,
+\[
+H_L\equiv_T L.
+\]
+Consequently, \(L\) is decidable if and only if \(H_L\) has a computable majorant.
+\end{theorem}
+
+\begin{proof}
+Given \(H_L\), decide whether \(p\in L\) by setting \(n=|p|\) and testing the decidable predicate \(p\in A_{H_L(n)}\).  If \(p\in L\), then \(a_L(p)\leq H_L(n)\), so the test accepts.  If the test accepts, then \(p\in A_t\) for some \(t\), hence \(p\in L\).
+
+Conversely, given an oracle for \(L\), list all inputs \(p\in P\) with \(|p|\leq n\), keep the positive ones, and for each positive \(p\) search for the least \(t\) with \(p\in A_t\).  The search terminates by completeness of the audit stages.  Taking the maximum computes \(H_L(n)\).
+
+If \(H_L\) has a computable majorant \(g\), the same finite test \(p\in A_{g(|p|)}\) decides \(L\).  If \(L\) is decidable, the preceding computation makes \(H_L\) computable, hence a computable majorant exists.
+\end{proof}
+
+\begin{corollary}[Undecidability forces unbounded audit budgets]
+If \(L\) is c.e. but undecidable in a declared finite-stage audit system, then no computable function uniformly bounds the audit stage required for all positive inputs of length at most \(n\).
+\end{corollary}
+
+This statement does not replace residual indistinguishability lower bounds.  It gives the computability obstruction behind them: whenever a bounded audit family would provide a computable stage bound for a known undecidable positive language, such a family cannot be sound and complete.
 
 \section{A Basic Parity Lower Bound}
 

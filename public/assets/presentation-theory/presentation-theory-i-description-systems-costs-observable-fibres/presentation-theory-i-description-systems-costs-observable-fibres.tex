@@ -24,7 +24,15 @@
 \maketitle
 
 \begin{abstract}
-This note develops a formal language for studying mathematical objects through chosen systems of description. A presentation system consists of descriptions, a realization map, and resource bounds; it induces bounded parts, presentation complexity, and realization fibres. The theory also treats observables and costed observables, whose fibres measure indistinguishability and whose bounded profiles give lower-bound criteria. Cost-controlled maps and normal-form compilers provide transfer principles between presentation systems. A central section collects reusable abstract theorems, including bounded-image obstructions, observable factorization, normal-form transfer, verification-length barriers, and no-resolution results, before the final examples specialize the language to heights, Kolmogorov complexity, circuits, group presentations, and algebraic complexity.
+This note develops a formal language for studying mathematical objects through chosen systems of description. A presentation system consists of descriptions, a realization map, and resource bounds; it induces bounded parts, presentation complexity, and realization fibres. In the effective setting, a filtered presentation system has a decidable description language, effectively finite cost balls, and a filtered semidecision procedure for equivalence of descriptions. For such systems the bounded-presentation problem, the minimal-cost function, and the width profile for finding low-cost representatives have the same Turing degree:
+\[
+P_\Gamma\equiv_T C_\Gamma\equiv_T W_\Gamma.
+\]
+Similarly, equivalence of descriptions has the same Turing degree as the bridge-width profile:
+\[
+EQ_\Gamma\equiv_T B_\Gamma.
+\]
+Thus computable majorants for the relevant width profiles are exactly the effective content needed to decide bounded presentation or equivalence. The theory also treats observables and costed observables, whose fibres measure indistinguishability and whose bounded profiles give lower-bound criteria. Cost-controlled maps and normal-form compilers provide transfer principles between presentation systems. A central section collects reusable abstract theorems, including bounded-image obstructions, observable factorization, normal-form transfer, verification-length barriers, and no-resolution results, before the final examples specialize the language to heights, Kolmogorov complexity, circuits, group presentations, and algebraic complexity.
 \end{abstract}
 
 \section{Guiding idea}
@@ -261,6 +269,161 @@ is decidable.
 
 \begin{proof}
 Enumerate the finite set \(\mathcal D^{\leq b}\) and test whether any enumerated description realizes an object equivalent to \(x\). The search terminates because the bounded description set is finite.
+\end{proof}
+
+
+\section{Filtered effective presentation systems}
+
+The previous notion of effective finitarity says that bounded search is meaningful once a bound is fixed.  A sharper computability model records how equality of represented objects is witnessed by finite stages.
+
+Fix a finite alphabet \(\Sigma\).  A \textbf{filtered effective presentation system} is a triple
+\[
+\Gamma=(D,\kappa,(E_t)_{t\in\mathbb N})
+\]
+such that:
+\begin{enumerate}[label=(\roman*)]
+\item \(D\subseteq\Sigma^*\) is decidable;
+\item \(\kappa:D\to\mathbb N\) is computable and effectively proper, meaning that
+\[
+D_{\leq b}:=\{d\in D:\kappa(d)\leq b\}
+\]
+is finite and computable uniformly in \(b\);
+\item each relation \(E_t\subseteq D\times D\) is decidable uniformly in \(t\);
+\item \(E_t\subseteq E_{t+1}\) for all \(t\);
+\item the union
+\[
+E=\bigcup_{t\in\mathbb N}E_t
+\]
+is an equivalence relation on \(D\).
+\end{enumerate}
+The represented object class is the quotient \(D/E\).  The realization map is the quotient map \(d\mapsto[d]\).
+
+The \textbf{bounded-presentation problem} is
+\[
+P_\Gamma=\{(d,b)\in D\times\mathbb N:\exists e\in D_{\leq b}\text{ with }d\,E\,e\}.
+\]
+The minimal presentation cost of the object represented by \(d\) is
+\[
+C_\Gamma(d)=\min\{\kappa(e):e\,E\,d\}.
+\]
+For a positive instance \((d,b)\in P_\Gamma\), define its presentation width by
+\[
+w_\Gamma(d,b)=\min\{t:\exists e\in D_{\leq b}\text{ with }d\,E_t\,e\}.
+\]
+The global bounded-presentation width profile is
+\[
+W_\Gamma(N)=
+\max\{w_\Gamma(d,b): |d|+b\leq N,\ (d,b)\in P_\Gamma\},
+\]
+with value \(0\) if the set is empty.
+
+Similarly, define the equivalence problem
+\[
+EQ_\Gamma=\{(d,e)\in D\times D:d\,E\,e\}.
+\]
+For \(d\,E\,e\), define
+\[
+\beta_\Gamma(d,e)=\min\{t:d\,E_t\,e\},
+\]
+and define the bridge-width profile
+\[
+B_\Gamma(N)=
+\max\{\beta_\Gamma(d,e): |d|+|e|\leq N,\ d\,E\,e\},
+\]
+again with value \(0\) if the set is empty.
+
+\begin{theorem}[Degree conservation for bounded presentation]
+For every filtered effective presentation system,
+\[
+P_\Gamma\equiv_T C_\Gamma\equiv_T W_\Gamma.
+\]
+\end{theorem}
+
+\begin{proof}
+The equivalence \(P_\Gamma\equiv_T C_\Gamma\) is immediate from the definition.  Given \(C_\Gamma\), decide \((d,b)\in P_\Gamma\) by testing \(C_\Gamma(d)\leq b\).  Given an oracle for \(P_\Gamma\), compute \(C_\Gamma(d)\) by testing \(b=0,1,\ldots,\kappa(d)\) and taking the least \(b\) with \((d,b)\in P_\Gamma\).
+
+Now suppose \(W_\Gamma\) is available.  Given \((d,b)\), set \(N=|d|+b\) and \(M=W_\Gamma(N)\).  Since \(D_{\leq b}\) is finite and computable, one can decide whether
+\[
+\exists e\in D_{\leq b}\quad d\,E_M\,e.
+\]
+If such \(e\) exists, then \((d,b)\in P_\Gamma\).  If no such \(e\) exists and \((d,b)\) were positive, then by definition \(w_\Gamma(d,b)\leq W_\Gamma(N)=M\), contradiction.  Hence \(P_\Gamma\leq_T W_\Gamma\).
+
+Conversely, assume an oracle for \(P_\Gamma\).  To compute \(W_\Gamma(N)\), list the finitely many pairs \((d,b)\) with \(d\in D\) and \(|d|+b\leq N\).  Use the oracle to keep exactly the positive pairs.  For each positive pair, search through \(t=0,1,2,\ldots\) until some \(e\in D_{\leq b}\) satisfies \(d\,E_t\,e\).  This search terminates by positivity.  Taking the maximum of the finitely many widths gives \(W_\Gamma(N)\).  Thus \(W_\Gamma\leq_T P_\Gamma\).
+\end{proof}
+
+\begin{theorem}[Degree conservation for equivalence]
+For every filtered effective presentation system,
+\[
+EQ_\Gamma\equiv_T B_\Gamma.
+\]
+\end{theorem}
+
+\begin{proof}
+Given \(B_\Gamma\), decide whether \(d\,E\,e\) by setting \(N=|d|+|e|\), computing \(M=B_\Gamma(N)\), and testing the decidable relation \(d\,E_M\,e\).  If \(d\,E\,e\), then \(\beta_\Gamma(d,e)\leq M\), so the test succeeds; if the test succeeds, then \(d\,E\,e\) because \(E_M\subseteq E\).
+
+Conversely, given an oracle for \(EQ_\Gamma\), list all pairs with \(|d|+|e|\leq N\), keep the equivalent pairs, compute each \(\beta_\Gamma(d,e)\) by finite-stage search, and take the maximum.  This computes \(B_\Gamma(N)\).
+\end{proof}
+
+\begin{corollary}[Computable majorants]
+The following are equivalent:
+\[
+P_\Gamma\text{ is decidable},\qquad
+C_\Gamma\text{ is computable},\qquad
+W_\Gamma\text{ has a computable majorant}.
+\]
+Likewise,
+\[
+EQ_\Gamma\text{ is decidable}
+\quad\Longleftrightarrow\quad
+B_\Gamma\text{ has a computable majorant}.
+\]
+\end{corollary}
+
+\begin{proof}
+If the decision problem is decidable, the corresponding width profile is computable by the preceding proofs and hence majorizes itself.  Conversely, suppose \(g\) is a computable majorant for \(W_\Gamma\).  To decide \((d,b)\in P_\Gamma\), set \(N=|d|+b\) and test whether some \(e\in D_{\leq b}\) satisfies \(d\,E_{g(N)}\,e\).  The same argument used in the proof of degree conservation shows that this test is correct.  The bridge-width statement is identical, using \(g(|d|+|e|)\) in place of \(B_\Gamma(|d|+|e|)\).
+\end{proof}
+
+\begin{proposition}[Cofinal filtrations]
+Let \((E_t)\) and \((F_s)\) be two decidable increasing filtrations of the same equivalence relation \(E\) on \(D\).  Suppose they are computably cofinal: there are computable functions \(\alpha,\beta:\mathbb N\to\mathbb N\) such that
+\[
+E_t\subseteq F_{\alpha(t)},\qquad F_s\subseteq E_{\beta(s)}.
+\]
+Then the corresponding \(W\)-profiles and \(B\)-profiles majorize each other up to computable change of variable.  In particular, the existence of a computable majorant is independent of replacing a filtration by a computably cofinal one.
+\end{proposition}
+
+\begin{proof}
+If \(E_t\subseteq F_{\alpha(t)}\), let
+\[
+\alpha^*(m)=\max_{0\leq t\leq m}\alpha(t).
+\]
+Then every positive bounded-presentation instance witnessed by the \(E\)-filtration by stage \(m\) is witnessed by the \(F\)-filtration by stage \(\alpha^*(m)\).  Hence \(W_F(N)\leq\alpha^*(W_E(N))\).  The other inequality follows from \(\beta\).  The proof for bridge width is the same.
+\end{proof}
+
+\begin{proposition}[Sharpness of the two degrees]
+Every c.e. Turing degree occurs as \(\deg_T(P_\Gamma)\) for some filtered effective presentation system.  More generally, for every pair of c.e. degrees \(\mathbf a\leq\mathbf b\), there is a filtered effective presentation system with
+\[
+\deg_T(P_\Gamma)=\mathbf a,
+\qquad
+\deg_T(EQ_\Gamma)=\mathbf b.
+\]
+\end{proposition}
+
+\begin{proof}
+For a c.e. set \(A=\bigcup_t A_t\), with \(A_t\) finite and decidable uniformly in \(t\), use descriptions \(0x\) and \(1x\).  Set
+\[
+\kappa(0x)=|x|,
+\qquad
+\kappa(1x)=|x|+1,
+\]
+and let \(0x\) and \(1x\) become equivalent at stage \(t\) precisely when \(x\in A_t\).  Then
+\[
+x\in A
+\quad\Longleftrightarrow\quad
+(1x,|x|)\in P_\Gamma,
+\]
+and the equivalence problem has the same degree.
+
+For a pair \(\mathbf a\leq\mathbf b\), choose c.e. sets \(A,B\) with degrees \(\mathbf a,\mathbf b\) and \(A\leq_T B\).  Take the disjoint union of the preceding \(A\)-system with a second component whose nontrivial equivalences encode \(B\) but whose equivalent pairs have equal cost.  The second component contributes \(B\) to equivalence but only a decidable bounded-presentation problem.  The bounded-presentation degree is therefore \(\mathbf a\), while the equivalence degree is \(\mathbf b\).
 \end{proof}
 
 

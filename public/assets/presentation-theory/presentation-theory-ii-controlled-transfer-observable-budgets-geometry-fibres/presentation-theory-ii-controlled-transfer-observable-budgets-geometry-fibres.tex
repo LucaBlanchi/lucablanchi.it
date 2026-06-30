@@ -34,7 +34,7 @@
 \begin{abstract}
 The first note on Presentation Theory introduced presentation systems, bounded parts, realization fibres, observables, observable costs, and normal-form compilers. This sequel develops the transfer calculus. A map between mathematical worlds is useful for Presentation Theory only when it controls access: descriptions, observables, operations, verification data, and fibres. We package this structure as a transfer package.
 
-The formal part proves reusable transfer principles. A presentation morphism sends bounded source objects to bounded target objects with controlled overhead. Its optimal distortion profile composes along paths. Observable-compatible morphisms pull back bounded observable images and distinguishing-cost lower bounds. Operation-compatible morphisms transport term constructions. Base-fibre decompositions split complexity into a base cost and a relative fibre cost when assembly and extraction are controlled. Verification relations transfer proof data in the directions supplied by the package. These ingredients assemble into a controlled transfer schema for universal statements in a budgeted fragment.
+The formal part proves reusable transfer principles. A presentation morphism sends bounded source objects to bounded target objects with controlled overhead. Its optimal distortion profile composes along paths. In effective filtered systems, equivalence reductions transfer equivalence degrees, while bounded-presentation reductions transfer bounded-presentation degrees; mere cost control gives only an upper bound and does not by itself reflect low-cost representatives. Observable-compatible morphisms pull back bounded observable images and distinguishing-cost lower bounds. Operation-compatible morphisms transport term constructions. Base-fibre decompositions split complexity into a base cost and a relative fibre cost when assembly and extraction are controlled. Verification relations transfer proof data in the directions supplied by the package. These ingredients assemble into a controlled transfer schema for universal statements in a budgeted fragment.
 
 The sequel then isolates several engines that recur across applications. Fragmented positive predicates have optimal resource profiles of the same Turing degree as the underlying decision problem; their total majorants form exactly the upper Turing cone above that problem, giving a no-effective-atlas principle for access tasks with undecidable positive part. Finite-window systems turn undecidable global existence into non-computable obstruction radii. Undecidable threshold problems for computable limiting quantities forbid computable convergence moduli. Move-connected presentation fibres have bridge-height profiles of the same Turing degree as recognition of the fibre. Rank-profile compilers transfer Murphy-type universality into fibres of observables. Wild-fibre compilers place matrix-pair classification problems inside fixed observable fibres. A budgeted Morita principle records when two presentation contexts have the same quantitative theory up to a chosen overhead class.
 
@@ -451,6 +451,98 @@ C_\Gamma(G(F(x)))
 g(C_\Delta(F(x))).
 \]
 Thus \(C_\Gamma\) is controlled by \(C_\Delta\circ F\), and the reverse comparison is analogous.
+\end{proof}
+
+\section{Effective Reductions of Filtered Systems}
+
+The preceding definitions control bounded images.  In computability questions one often needs a stronger, reflected comparison between the actual decision problems attached to two filtered systems.
+
+Let
+\[
+\Gamma=(D_\Gamma,\kappa_\Gamma,(E_t^\Gamma))
+\qquad\text{and}\qquad
+\Delta=(D_\Delta,\kappa_\Delta,(E_t^\Delta))
+\]
+be filtered effective presentation systems in the sense of Part I.
+
+\begin{definition}[Equivalence reduction]
+A computable map
+\[
+F:D_\Gamma\to D_\Delta
+\]
+is an equivalence reduction if, for all \(d,e\in D_\Gamma\),
+\[
+d\,E^\Gamma\,e
+\quad\Longleftrightarrow\quad
+F(d)\,E^\Delta\,F(e).
+\]
+\end{definition}
+
+\begin{proposition}[Transfer of equivalence degree]
+If there is an equivalence reduction \(F:\Gamma\to\Delta\), then
+\[
+EQ_\Gamma\leq_m EQ_\Delta.
+\]
+In particular,
+\[
+\deg_T(EQ_\Gamma)\leq \deg_T(EQ_\Delta).
+\]
+\end{proposition}
+
+\begin{proof}
+Map the input pair \((d,e)\) to \((F(d),F(e))\).  The defining equivalence of an equivalence reduction says exactly that this many-one reduction preserves and reflects membership in the equivalence problem.
+\end{proof}
+
+\begin{definition}[Bounded-presentation reduction]
+A bounded-presentation reduction from \(\Gamma\) to \(\Delta\) is a pair \((F,\varphi)\), where \(F:D_\Gamma\to D_\Delta\) and
+\[
+\varphi:D_\Gamma\times\mathbb N\to\mathbb N
+\]
+are computable, such that for every \(d\in D_\Gamma\) and every \(b\in\mathbb N\),
+\[
+C_\Gamma(d)\leq b
+\quad\Longleftrightarrow\quad
+C_\Delta(F(d))\leq \varphi(d,b).
+\]
+\end{definition}
+
+\begin{proposition}[Transfer of bounded-presentation degree]
+If \((F,\varphi)\) is a bounded-presentation reduction from \(\Gamma\) to \(\Delta\), then
+\[
+P_\Gamma\leq_m P_\Delta.
+\]
+In particular,
+\[
+\deg_T(P_\Gamma)\leq \deg_T(P_\Delta).
+\]
+\end{proposition}
+
+\begin{proof}
+The computable map
+\[
+(d,b)\longmapsto (F(d),\varphi(d,b))
+\]
+preserves and reflects membership in the bounded-presentation problem by definition.
+\end{proof}
+
+\begin{remark}[Cost control is one-sided]
+A computable map \(F:D_\Gamma\to D_\Delta\) may satisfy an upper bound
+\[
+\kappa_\Delta(F(d))\leq a(\kappa_\Gamma(d),|d|)
+\]
+for a computable overhead \(a\).  This proves that images of cheap source descriptions are cheap in the target.  It does not prove that every cheap representative of \(F(d)\) in the target reflects to a cheap representative of \(d\) in the source.  For degree monotonicity of bounded presentation, the reflected condition in the definition of bounded-presentation reduction is the relevant hypothesis.
+\end{remark}
+
+\begin{proposition}[Pullback of effective invariant separation]
+Let \(F:D_\Gamma\to D_\Delta\) be an equivalence reduction, and let \(\mathcal J=(J_\alpha)\) be an effective invariant family for \(\Delta\).  Then
+\[
+F^*\mathcal J=(J_\alpha\circ F)
+\]
+is an effective invariant family for \(\Gamma\).  If \(\mathcal J\) separates non-equivalent target pairs up to a budget \(s\), then \(F^*\mathcal J\) separates the corresponding source pairs up to the same invariant budget.
+\end{proposition}
+
+\begin{proof}
+Effectivity is preserved by composition with the computable map \(F\).  If \(d\,E^\Gamma e\), then \(F(d)\,E^\Delta F(e)\), so each \(J_\alpha\circ F\) is constant on \(E^\Gamma\)-classes.  If a target invariant separates \(F(d)\) and \(F(e)\), then its pullback separates \(d\) and \(e\).
 \end{proof}
 
 \section{Observable-Compatible Transfer}
