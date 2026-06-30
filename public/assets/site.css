@@ -356,6 +356,44 @@ h2 {
   background: rgba(246, 247, 251, 0.7);
 }
 
+.citation-panel {
+  border-top: 1px solid rgba(217, 222, 234, 0.9);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.citation-shell {
+  display: grid;
+  gap: 10px;
+  padding: 22px 0;
+}
+
+.citation-shell h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.citation-shell p {
+  max-width: 84ch;
+  margin: 0;
+  color: #242832;
+  font-size: 0.94rem;
+}
+
+.citation-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
+.citation-links a {
+  color: var(--blue);
+  font-size: 0.9rem;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 .footer-shell {
   display: flex;
   flex-wrap: wrap;

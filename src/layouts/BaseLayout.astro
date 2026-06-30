@@ -1,6 +1,7 @@
 ---
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
+import { getSeoData } from "../lib/seo";
 
 interface Props {
   title: string;
@@ -25,6 +26,8 @@ const {
 const scriptList = ["/assets/site.js", ...scripts].filter(
   (script, index, all) => all.indexOf(script) === index
 );
+
+const seo = getSeoData({ title, description, currentPath, lang });
 ---
 
 <!doctype html>
@@ -32,13 +35,39 @@ const scriptList = ["/assets/site.js", ...scripts].filter(
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{title}</title>
-    <meta name="description" content={description}>
+    <title>{seo.htmlTitle}</title>
+    <meta name="description" content={seo.description}>
+    {seo.metas.map((meta) => meta.name ? <meta name={meta.name} content={meta.content}> : <meta property={meta.property} content={meta.content}>)}
+    {seo.links.map((link) => (
+      <link
+        rel={link.rel}
+        href={link.href}
+        type={link.type}
+        title={link.title}
+        hreflang={link.hreflang}
+      >
+    ))}
     <link rel="stylesheet" href="/assets/site.css">
+    <script type="application/ld+json" set:html={seo.schemaJson}></script>
   </head>
   <body class={bodyClass}>
     <SiteHeader currentPath={currentPath} />
     <slot />
+    {
+      seo.citation && (
+        <aside class="citation-panel" aria-labelledby="citation-panel-title">
+          <div class="shell citation-shell">
+            <h2 id="citation-panel-title">{seo.citation.title}</h2>
+            <p>{seo.citation.text}</p>
+            <div class="citation-links">
+              {seo.citation.links.map((link) => (
+                <a href={link.href}>{link.label}</a>
+              ))}
+            </div>
+          </div>
+        </aside>
+      )
+    }
     {showFooter && <SiteFooter />}
     {scriptList.map((script) => <script is:inline src={script}></script>)}
   </body>
