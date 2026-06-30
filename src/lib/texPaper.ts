@@ -230,6 +230,7 @@ function renderFragment(source: string, state: RenderState): string {
         remark: "Remark",
         example: "Example",
         assumption: "Assumption",
+        principle: "Principle",
       };
 
       const label = labels[environment];

@@ -862,6 +862,27 @@ export const presentationTheoryArticles = [
     ]
   },
   {
+    href: "/presentation-theory/presentation-theory-v-fibre-geometry-navigation-residual-moduli.html",
+    title: "Presentation Theory V: Fibre Geometry, Navigation, and Residual Moduli",
+    description: "Costed kernel pairs, vertical move systems, height navigation, fibre atlases, normal-form contractions, entropy profiles, obstruction calculus, stabilization collapse, and applications to Pachner moves, persistence, CFI graphs, rewriting, and Markov fibres.",
+    date: "June 2026",
+    datetime: "2026-06",
+    slug: "presentation-theory-v-fibre-geometry-navigation-residual-moduli",
+    section: "Axiomatic Core",
+    assets: [
+      {
+        href: "/assets/presentation-theory/presentation-theory-v-fibre-geometry-navigation-residual-moduli/presentation-theory-v-fibre-geometry-navigation-residual-moduli.pdf",
+        label: "PDF: Presentation Theory V Fibre Geometry Navigation Residual Moduli",
+        type: "pdf"
+      },
+      {
+        href: "/assets/presentation-theory/presentation-theory-v-fibre-geometry-navigation-residual-moduli/presentation-theory-v-fibre-geometry-navigation-residual-moduli.tex",
+        label: "TeX source: Presentation Theory V Fibre Geometry Navigation Residual Moduli",
+        type: "tex"
+      }
+    ]
+  },
+  {
     href: "/presentation-theory/no-free-degenerations-presentation-cost-heights-normal-forms.html",
     title: "No Free Degenerations: Presentation Cost, Heights, and the Arithmetic Price of Normal Forms",
     description: "Heighted normal-form presentations, gauge and degeneration costs, orbit-closure height bounds, controlled transfer, and representative-moduli gap estimates.",
@@ -1022,7 +1043,8 @@ export const presentationTheoryArticleGroups = [
       "/presentation-theory/presentation-theory.html",
       "/presentation-theory/presentation-theory-ii-controlled-transfer-observable-budgets-geometry-fibres.html",
       "/presentation-theory/presentation-theory-iii-normal-form-compilation.html",
-      "/presentation-theory/presentation-theory-iv-verifiable-access-audit-lower-bounds-residual-indistinguishability.html"
+      "/presentation-theory/presentation-theory-iv-verifiable-access-audit-lower-bounds-residual-indistinguishability.html",
+      "/presentation-theory/presentation-theory-v-fibre-geometry-navigation-residual-moduli.html"
     ]
   },
   {
