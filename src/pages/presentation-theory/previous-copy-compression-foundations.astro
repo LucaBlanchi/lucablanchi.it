@@ -1,0 +1,80 @@
+---
+import { readFileSync } from "node:fs";
+import GenerativeAiNotice from "../../components/GenerativeAiNotice.astro";
+import PreliminaryStatusNotice from "../../components/PreliminaryStatusNotice.astro";
+import SectionBackLink from "../../components/SectionBackLink.astro";
+import TexPaperDocument from "../../components/TexPaperDocument.astro";
+import { renderTexPaper } from "../../lib/texPaper";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const assetBase = "/assets/presentation-theory/previous-copy-parsing";
+
+const algebraicStem = "previous-copy-compression-algebraic-digit-expansions";
+const metricStem = "metric-extremal-online-previous-copy-compression";
+
+const algebraicPaper = renderTexPaper(
+  readFileSync(`public${assetBase}/${algebraicStem}.tex`, "utf8"),
+  { idPrefix: "algebraic" }
+);
+const metricPaper = renderTexPaper(readFileSync(`public${assetBase}/${metricStem}.tex`, "utf8"), {
+  idPrefix: "metric",
+});
+
+const algebraicAssets = [
+  { label: "Download PDF", href: `${assetBase}/${algebraicStem}.pdf` },
+  { label: "Download TeX", href: `${assetBase}/${algebraicStem}.tex` },
+];
+
+const metricAssets = [
+  { label: "Download PDF", href: `${assetBase}/${metricStem}.pdf` },
+  { label: "Download TeX", href: `${assetBase}/${metricStem}.tex` },
+];
+---
+
+<BaseLayout
+  title="Previous-Copy Compression: Foundations and Algebraic Digit Expansions"
+  description="Foundational notes on online previous-copy compression and algebraic digit expansions."
+  currentPath="/presentation-theory/previous-copy-compression-foundations.html"
+  bodyClass="paper-surface"
+>
+  <script is:inline>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"], ["$", "$"]],
+        displayMath: [["\\[", "\\]"]],
+        macros: {
+          oc: "\\operatorname{oc}",
+          noc: "\\operatorname{noc}",
+          linc: "\\operatorname{lin}",
+          pref: "\\operatorname{pref}",
+          den: "\\operatorname{den}",
+          lcp: "\\operatorname{lcp}",
+          dimH: "\\operatorname{dim_H}",
+        },
+      },
+    };
+  </script>
+  <script is:inline async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+  <main class="shell article-shell">
+    <article class="plain-page ai-article paper-page">
+      <SectionBackLink href="/presentation-theory.html" label="Back to Presentation theory" />
+      <GenerativeAiNotice />
+      <PreliminaryStatusNotice />
+
+      <header class="plain-header paper-header paper-collection-header">
+        <div class="article-meta">
+          <time datetime="2026-06">June 2026</time>
+        </div>
+        <h1>Previous-Copy Compression: Foundations and Algebraic Digit Expansions</h1>
+        <p>
+          This page collects the foundational material for the online
+          previous-copy model and its application to algebraic digit expansions.
+        </p>
+      </header>
+
+      <TexPaperDocument paper={algebraicPaper} assets={algebraicAssets} eyebrow="Part I.A" />
+      <TexPaperDocument paper={metricPaper} assets={metricAssets} eyebrow="Part I.B" />
+    </article>
+  </main>
+</BaseLayout>

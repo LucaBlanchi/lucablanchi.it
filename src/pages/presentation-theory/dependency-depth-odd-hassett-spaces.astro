@@ -1,0 +1,91 @@
+---
+import { readFileSync } from "node:fs";
+import GenerativeAiNotice from "../../components/GenerativeAiNotice.astro";
+import PreliminaryStatusNotice from "../../components/PreliminaryStatusNotice.astro";
+import SectionBackLink from "../../components/SectionBackLink.astro";
+import { renderTexPaper } from "../../lib/texPaper";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const assetBase = "/assets/presentation-theory/dependency-depth-odd-hassett-spaces";
+const stem = "dependency-depth-odd-hassett-spaces";
+const paper = renderTexPaper(readFileSync(`public${assetBase}/${stem}.tex`, "utf8"), {
+  idPrefix: "cat-hassett",
+});
+
+const pdfHref = `${assetBase}/${stem}.pdf`;
+const texHref = `${assetBase}/${stem}.tex`;
+---
+
+<BaseLayout
+  title="Dependency Depth, Strict Product Diagonal Depth, and Rouquier Dimension of Odd Hassett Spaces"
+  description="A preliminary AI-assisted note on dependency depth, strict product diagonal depth, and odd-heavy Hassett spaces."
+  currentPath="/presentation-theory/dependency-depth-odd-hassett-spaces.html"
+  bodyClass="paper-surface"
+>
+  <script is:inline>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"], ["$", "$"]],
+        displayMath: [["\\[", "\\]"]],
+        macros: {
+          Rdim: "\\operatorname{Rdim}",
+          RHom: "\\operatorname{RHom}",
+          SPD: "\\operatorname{SPD}",
+          dep: "\\operatorname{dep}",
+          Db: "D^b_{\\mathrm{coh}}",
+          OO: "\\mathcal O",
+          boxt: "\\boxtimes",
+        },
+      },
+    };
+  </script>
+  <script is:inline async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+  <main class="shell article-shell">
+    <article class="plain-page ai-article paper-page">
+      <SectionBackLink href="/presentation-theory.html" label="Back to Presentation theory" />
+      <GenerativeAiNotice />
+      <PreliminaryStatusNotice />
+
+      <header class="plain-header paper-header">
+        <div class="article-meta">
+          <time datetime="2026-06">June 2026</time>
+        </div>
+        <h1>{paper.title}</h1>
+        <p class="paper-author">{paper.author}</p>
+        <div class="paper-actions" aria-label="Downloads">
+          <a href={pdfHref} download>Download PDF</a>
+          <a href={texHref} download>Download TeX</a>
+        </div>
+      </header>
+
+      <section class="paper-abstract" aria-labelledby="abstract-title">
+        <h2 id="abstract-title">Abstract</h2>
+        <div set:html={paper.abstractHtml} />
+      </section>
+
+      <nav class="paper-toc" aria-labelledby="contents-title">
+        <h2 id="contents-title">Contents</h2>
+        <ol>
+          {
+            paper.tocEntries.map((entry) => (
+              <li class={entry.level === "subsection" ? "paper-toc-subsection" : undefined}>
+                <a href={`#${entry.id}`}>
+                  <span>{entry.number}</span>
+                  {entry.title}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+
+      <div class="paper-body" set:html={paper.bodyHtml} />
+
+      <section class="paper-references" aria-label={`${paper.title} references`}>
+        <h2>References</h2>
+        <div set:html={paper.bibliographyHtml} />
+      </section>
+    </article>
+  </main>
+</BaseLayout>

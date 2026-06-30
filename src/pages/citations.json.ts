@@ -1,4 +1,4 @@
-import { aiArticleGroups, aiArticles } from "../data/aiArticles";
+import { presentationTheoryArticleGroups, presentationTheoryArticles } from "../data/presentationTheoryArticles";
 import { drafts, formatDraftDate } from "../data/drafts";
 import { absoluteUrl, author, site } from "../data/site";
 import { citationText, monthToDate } from "../lib/seo";
@@ -23,8 +23,8 @@ export function GET() {
       {
         "@type": "Collection",
         name: "Presentation theory",
-        url: absoluteUrl("/ai-assisted-math.html"),
-        hasPart: aiArticles.map((article) => ({
+        url: absoluteUrl("/presentation-theory.html"),
+        hasPart: presentationTheoryArticles.map((article) => ({
           "@type": "ScholarlyArticle",
           "@id": `${absoluteUrl(article.href)}#article`,
           headline: article.title,
@@ -73,7 +73,7 @@ export function GET() {
         })),
       },
     ],
-    articleGroups: aiArticleGroups,
+    articleGroups: presentationTheoryArticleGroups,
   };
 
   return new Response(JSON.stringify(payload, null, 2), {

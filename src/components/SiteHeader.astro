@@ -6,8 +6,8 @@ interface Props {
 const { currentPath = "/" } = Astro.props;
 const isHomePage = currentPath === "/";
 const isDraftsPage = currentPath === "/drafts.html" || currentPath.startsWith("/drafts/");
-const isAiMathPage =
-  currentPath === "/ai-assisted-math.html" || currentPath.startsWith("/ai-assisted-math/");
+const isPresentationTheoryPage =
+  currentPath === "/presentation-theory.html" || currentPath.startsWith("/presentation-theory/");
 ---
 
 <header class="top-nav">
@@ -15,7 +15,7 @@ const isAiMathPage =
     <a class="brand-link" href="/" aria-current={isHomePage ? "page" : undefined}>Home</a>
     <nav class="nav-links" aria-label="Main navigation">
       <a href="/drafts.html" aria-current={isDraftsPage ? "page" : undefined}>Draft concepts</a>
-      <a href="/ai-assisted-math.html" aria-current={isAiMathPage ? "page" : undefined}>Presentation theory</a>
+      <a href="/presentation-theory.html" aria-current={isPresentationTheoryPage ? "page" : undefined}>Presentation theory</a>
     </nav>
   </div>
 </header>

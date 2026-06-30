@@ -1,12 +1,12 @@
 import {
-  aiArticleGroups,
-  aiArticles,
-  getAiArticleByHref,
-  getAiArticlePdfAssets,
-  getAiArticleSourceAssets,
-  type AiArticle,
-  type AiArticleAsset,
-} from "../data/aiArticles";
+  presentationTheoryArticleGroups,
+  presentationTheoryArticles,
+  getPresentationTheoryArticleByHref,
+  getPresentationTheoryArticlePdfAssets,
+  getPresentationTheoryArticleSourceAssets,
+  type PresentationTheoryArticle,
+  type PresentationTheoryArticleAsset,
+} from "../data/presentationTheoryArticles";
 import { absoluteUrl, author, site } from "../data/site";
 import { drafts, formatDraftDate, type Draft } from "../data/drafts";
 
@@ -59,14 +59,14 @@ const robots = "index, follow, max-snippet:-1, max-image-preview:large, max-vide
 export function getSeoData(input: SeoInput): SeoData {
   const currentPath = normalizePath(input.currentPath);
   const canonicalUrl = absoluteUrl(currentPath);
-  const aiArticle = getAiArticleByHref(currentPath);
+  const presentationTheoryArticle = getPresentationTheoryArticleByHref(currentPath);
   const draft = drafts.find((item) => item.href === currentPath);
   const htmlTitle = getHtmlTitle(input.title, currentPath);
-  const pageKeywords = keywordsForPage(currentPath, input.title, aiArticle, draft);
-  const links = buildLinks(canonicalUrl, aiArticle, draft);
-  const metas = buildMetas(input, canonicalUrl, htmlTitle, aiArticle, draft);
-  const schema = buildSchema(input, canonicalUrl, currentPath, aiArticle, draft);
-  const citation = buildCitation(canonicalUrl, aiArticle, draft);
+  const pageKeywords = keywordsForPage(currentPath, input.title, presentationTheoryArticle, draft);
+  const links = buildLinks(canonicalUrl, presentationTheoryArticle, draft);
+  const metas = buildMetas(input, canonicalUrl, htmlTitle, presentationTheoryArticle, draft);
+  const schema = buildSchema(input, canonicalUrl, currentPath, presentationTheoryArticle, draft);
+  const citation = buildCitation(canonicalUrl, presentationTheoryArticle, draft);
 
   return {
     htmlTitle,
@@ -100,17 +100,17 @@ function getHtmlTitle(title: string, currentPath: string) {
   return `${title} | Luca Blanchi`;
 }
 
-function keywordsForPage(currentPath: string, title: string, aiArticle?: AiArticle, draft?: Draft) {
+function keywordsForPage(currentPath: string, title: string, presentationTheoryArticle?: PresentationTheoryArticle, draft?: Draft) {
   const base = ["Luca Blanchi", "lucablanchi.it"];
 
-  if (aiArticle) {
+  if (presentationTheoryArticle) {
     return uniqueValues([
       ...base,
       "presentation theory",
       "AI-assisted mathematics",
       "preliminary mathematical research note",
-      aiArticle.section,
-      aiArticle.title,
+      presentationTheoryArticle.section,
+      presentationTheoryArticle.title,
     ]);
   }
 
@@ -124,7 +124,7 @@ function keywordsForPage(currentPath: string, title: string, aiArticle?: AiArtic
     ]);
   }
 
-  if (currentPath === "/ai-assisted-math.html") {
+  if (currentPath === "/presentation-theory.html") {
     return [
       ...base,
       "presentation theory",
@@ -145,7 +145,7 @@ function uniqueValues(values: string[]) {
   return Array.from(new Set(values.map((item) => item.trim()).filter(Boolean))).slice(0, 24);
 }
 
-function buildLinks(canonicalUrl: string, aiArticle?: AiArticle, draft?: Draft): SeoLink[] {
+function buildLinks(canonicalUrl: string, presentationTheoryArticle?: PresentationTheoryArticle, draft?: Draft): SeoLink[] {
   const links: SeoLink[] = [
     { rel: "canonical", href: canonicalUrl },
     { rel: "author", href: author.professionalProfile },
@@ -165,8 +165,8 @@ function buildLinks(canonicalUrl: string, aiArticle?: AiArticle, draft?: Draft):
     );
   }
 
-  if (aiArticle) {
-    for (const asset of aiArticle.assets) {
+  if (presentationTheoryArticle) {
+    for (const asset of presentationTheoryArticle.assets) {
       links.push({
         rel: "alternate",
         type: mimeForAsset(asset),
@@ -183,17 +183,17 @@ function buildMetas(
   input: SeoInput,
   canonicalUrl: string,
   htmlTitle: string,
-  aiArticle?: AiArticle,
+  presentationTheoryArticle?: PresentationTheoryArticle,
   draft?: Draft
 ): SeoMeta[] {
-  const ogType = aiArticle || draft ? "article" : "website";
+  const ogType = presentationTheoryArticle || draft ? "article" : "website";
   const image = author.image;
   const metas: SeoMeta[] = [
     { name: "robots", content: robots },
     { name: "author", content: author.name },
     { name: "creator", content: author.name },
     { name: "publisher", content: author.name },
-    { name: "keywords", content: keywordsForPage(input.currentPath, input.title, aiArticle, draft).join(", ") },
+    { name: "keywords", content: keywordsForPage(input.currentPath, input.title, presentationTheoryArticle, draft).join(", ") },
     { property: "og:type", content: ogType },
     { property: "og:site_name", content: site.name },
     { property: "og:title", content: htmlTitle },
@@ -210,25 +210,25 @@ function buildMetas(
     { name: "DC.description", content: input.description },
   ];
 
-  if (aiArticle) {
-    const publicationDate = monthToDate(aiArticle.datetime);
+  if (presentationTheoryArticle) {
+    const publicationDate = monthToDate(presentationTheoryArticle.datetime);
     metas.push(
       { property: "article:published_time", content: publicationDate },
       { property: "article:modified_time", content: site.updatedDate },
       { property: "article:author", content: author.name },
-      { property: "article:section", content: aiArticle.section },
-      { name: "citation_title", content: aiArticle.title },
+      { property: "article:section", content: presentationTheoryArticle.section },
+      { name: "citation_title", content: presentationTheoryArticle.title },
       { name: "citation_author", content: author.name },
       { name: "citation_publication_date", content: publicationDate },
       { name: "citation_online_date", content: publicationDate },
       { name: "citation_language", content: "en" },
-      { name: "citation_keywords", content: keywordsForPage(input.currentPath, input.title, aiArticle).join("; ") },
+      { name: "citation_keywords", content: keywordsForPage(input.currentPath, input.title, presentationTheoryArticle).join("; ") },
       { name: "citation_fulltext_html_url", content: canonicalUrl },
       { name: "DC.date", content: publicationDate },
       { name: "DC.type", content: "Text" }
     );
 
-    for (const asset of getAiArticlePdfAssets(aiArticle)) {
+    for (const asset of getPresentationTheoryArticlePdfAssets(presentationTheoryArticle)) {
       metas.push({ name: "citation_pdf_url", content: absoluteUrl(asset.href) });
     }
   }
@@ -250,7 +250,7 @@ function buildSchema(
   input: SeoInput,
   canonicalUrl: string,
   currentPath: string,
-  aiArticle?: AiArticle,
+  presentationTheoryArticle?: PresentationTheoryArticle,
   draft?: Draft
 ) {
   const pageId = `${canonicalUrl}#webpage`;
@@ -286,28 +286,28 @@ function buildSchema(
     breadcrumbSchema(currentPath, canonicalUrl),
   ];
 
-  if (aiArticle) {
+  if (presentationTheoryArticle) {
     const articleId = `${canonicalUrl}#article`;
     graph.push({
       "@type": "ScholarlyArticle",
       "@id": articleId,
-      headline: aiArticle.title,
-      name: aiArticle.title,
-      description: aiArticle.description,
-      abstract: aiArticle.description,
+      headline: presentationTheoryArticle.title,
+      name: presentationTheoryArticle.title,
+      description: presentationTheoryArticle.description,
+      abstract: presentationTheoryArticle.description,
       url: canonicalUrl,
       mainEntityOfPage: { "@id": pageId },
       author: { "@id": author.id },
       publisher: { "@id": author.id },
-      datePublished: monthToDate(aiArticle.datetime),
+      datePublished: monthToDate(presentationTheoryArticle.datetime),
       dateModified: site.updatedDate,
       inLanguage: "en-US",
       isAccessibleForFree: true,
       creativeWorkStatus: "Preliminary",
-      genre: ["AI-assisted mathematical research note", aiArticle.section],
-      keywords: keywordsForPage(currentPath, input.title, aiArticle).join(", "),
-      about: ["Presentation theory", aiArticle.section],
-      encoding: aiArticle.assets.map((asset) => ({
+      genre: ["AI-assisted mathematical research note", presentationTheoryArticle.section],
+      keywords: keywordsForPage(currentPath, input.title, presentationTheoryArticle).join(", "),
+      about: ["Presentation theory", presentationTheoryArticle.section],
+      encoding: presentationTheoryArticle.assets.map((asset) => ({
         "@type": "MediaObject",
         name: asset.label,
         contentUrl: absoluteUrl(asset.href),
@@ -340,8 +340,8 @@ function buildSchema(
     return { "@context": "https://schema.org", "@graph": graph };
   }
 
-  if (currentPath === "/ai-assisted-math.html") {
-    graph.push(collectionPageSchema(pageId, canonicalUrl, input, aiArticles));
+  if (currentPath === "/presentation-theory.html") {
+    graph.push(collectionPageSchema(pageId, canonicalUrl, input, presentationTheoryArticles));
   } else if (currentPath === "/drafts.html") {
     graph.push(draftCollectionPageSchema(pageId, canonicalUrl, input));
   } else {
@@ -372,7 +372,7 @@ function webPageSchema(
   };
 }
 
-function collectionPageSchema(pageId: string, canonicalUrl: string, input: SeoInput, articles: readonly AiArticle[]) {
+function collectionPageSchema(pageId: string, canonicalUrl: string, input: SeoInput, articles: readonly PresentationTheoryArticle[]) {
   return {
     ...webPageSchema(pageId, canonicalUrl, input, "CollectionPage"),
     mainEntity: {
@@ -386,7 +386,7 @@ function collectionPageSchema(pageId: string, canonicalUrl: string, input: SeoIn
         description: article.description,
       })),
     },
-    hasPart: aiArticleGroups.map((group) => ({
+    hasPart: presentationTheoryArticleGroups.map((group) => ({
       "@type": "Collection",
       name: group.title,
       hasPart: group.hrefs.map((href) => ({ "@id": `${absoluteUrl(href)}#article` })),
@@ -414,16 +414,16 @@ function draftCollectionPageSchema(pageId: string, canonicalUrl: string, input: 
 function breadcrumbSchema(currentPath: string, canonicalUrl: string) {
   const items = [{ name: "Home", url: `${site.origin}/` }];
 
-  if (currentPath.startsWith("/ai-assisted-math/")) {
-    items.push({ name: "Presentation theory", url: absoluteUrl("/ai-assisted-math.html") });
+  if (currentPath.startsWith("/presentation-theory/")) {
+    items.push({ name: "Presentation theory", url: absoluteUrl("/presentation-theory.html") });
   } else if (currentPath.startsWith("/drafts/")) {
     items.push({ name: "Draft concepts", url: absoluteUrl("/drafts.html") });
   }
 
   if (currentPath !== "/") {
-    const aiArticle = getAiArticleByHref(currentPath);
+    const presentationTheoryArticle = getPresentationTheoryArticleByHref(currentPath);
     const draft = drafts.find((item) => item.href === currentPath);
-    items.push({ name: aiArticle?.title ?? draft?.title.en ?? "Page", url: canonicalUrl });
+    items.push({ name: presentationTheoryArticle?.title ?? draft?.title.en ?? "Page", url: canonicalUrl });
   }
 
   return {
@@ -438,19 +438,19 @@ function breadcrumbSchema(currentPath: string, canonicalUrl: string) {
   };
 }
 
-function buildCitation(canonicalUrl: string, aiArticle?: AiArticle, draft?: Draft): CitationInfo | undefined {
-  if (aiArticle) {
+function buildCitation(canonicalUrl: string, presentationTheoryArticle?: PresentationTheoryArticle, draft?: Draft): CitationInfo | undefined {
+  if (presentationTheoryArticle) {
     const links = [
       { label: "Canonical HTML", href: canonicalUrl },
-      ...getAiArticlePdfAssets(aiArticle).map((asset) => ({ label: asset.label, href: absoluteUrl(asset.href) })),
-      ...getAiArticleSourceAssets(aiArticle).map((asset) => ({ label: asset.label, href: absoluteUrl(asset.href) })),
+      ...getPresentationTheoryArticlePdfAssets(presentationTheoryArticle).map((asset) => ({ label: asset.label, href: absoluteUrl(asset.href) })),
+      ...getPresentationTheoryArticleSourceAssets(presentationTheoryArticle).map((asset) => ({ label: asset.label, href: absoluteUrl(asset.href) })),
       { label: "AI index", href: absoluteUrl(site.llmsPath) },
       { label: "Citation JSON", href: absoluteUrl(site.citationsPath) },
     ];
 
     return {
       title: "Citation",
-      text: citationText(aiArticle.title, canonicalUrl, aiArticle.date),
+      text: citationText(presentationTheoryArticle.title, canonicalUrl, presentationTheoryArticle.date),
       links,
     };
   }
@@ -470,7 +470,7 @@ function buildCitation(canonicalUrl: string, aiArticle?: AiArticle, draft?: Draf
   return undefined;
 }
 
-function mimeForAsset(asset: AiArticleAsset) {
+function mimeForAsset(asset: PresentationTheoryArticleAsset) {
   if (asset.type === "pdf") return "application/pdf";
   if (asset.type === "tex") return "application/x-tex";
   return "text/markdown";

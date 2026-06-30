@@ -1,4 +1,4 @@
-import { aiArticleGroups, aiArticles } from "../data/aiArticles";
+import { presentationTheoryArticleGroups, presentationTheoryArticles } from "../data/presentationTheoryArticles";
 import { drafts, formatDraftDate } from "../data/drafts";
 import { absoluteUrl, author, site } from "../data/site";
 import { citationText } from "../lib/seo";
@@ -33,11 +33,11 @@ export function GET() {
     "",
     "## Presentation Theory Articles",
     "",
-    ...aiArticleGroups.flatMap((group) => [
+    ...presentationTheoryArticleGroups.flatMap((group) => [
       `### ${group.title}`,
       "",
       ...group.hrefs.flatMap((href) => {
-        const article = aiArticles.find((item) => item.href === href);
+        const article = presentationTheoryArticles.find((item) => item.href === href);
         if (!article) return [];
         return [
           `#### ${article.title}`,

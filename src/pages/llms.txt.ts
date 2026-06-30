@@ -1,4 +1,4 @@
-import { aiArticleGroups, aiArticles } from "../data/aiArticles";
+import { presentationTheoryArticleGroups, presentationTheoryArticles } from "../data/presentationTheoryArticles";
 import { absoluteUrl, author, site } from "../data/site";
 
 export function GET() {
@@ -24,11 +24,11 @@ export function GET() {
     "",
     "## Presentation Theory Corpus",
     "",
-    ...aiArticleGroups.flatMap((group) => [
+    ...presentationTheoryArticleGroups.flatMap((group) => [
       `### ${group.title}`,
       "",
       ...group.hrefs.flatMap((href) => {
-        const article = aiArticles.find((item) => item.href === href);
+        const article = presentationTheoryArticles.find((item) => item.href === href);
         if (!article) return [];
         const pdf = article.assets.find((asset) => asset.type === "pdf");
         return [

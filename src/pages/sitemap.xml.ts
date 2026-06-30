@@ -1,4 +1,4 @@
-import { aiArticles } from "../data/aiArticles";
+import { presentationTheoryArticles } from "../data/presentationTheoryArticles";
 import { drafts } from "../data/drafts";
 import { absoluteUrl, site } from "../data/site";
 
@@ -23,14 +23,14 @@ const staticEntries: SitemapEntry[] = [
     priority: "0.8",
   },
   {
-    loc: absoluteUrl("/ai-assisted-math.html"),
+    loc: absoluteUrl("/presentation-theory.html"),
     lastmod: site.updatedDate,
     changefreq: "weekly",
     priority: "0.95",
   },
 ];
 
-const articleEntries: SitemapEntry[] = aiArticles.map((article) => ({
+const articleEntries: SitemapEntry[] = presentationTheoryArticles.map((article) => ({
   loc: absoluteUrl(article.href),
   lastmod: site.updatedDate,
   changefreq: "monthly",
@@ -44,7 +44,7 @@ const draftEntries: SitemapEntry[] = drafts.map((draft) => ({
   priority: "0.75",
 }));
 
-const assetEntries: SitemapEntry[] = aiArticles.flatMap((article) =>
+const assetEntries: SitemapEntry[] = presentationTheoryArticles.flatMap((article) =>
   article.assets.map((asset) => ({
     loc: absoluteUrl(asset.href),
     lastmod: site.updatedDate,
