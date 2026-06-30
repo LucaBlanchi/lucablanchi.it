@@ -63,9 +63,9 @@ const articleSections = articleGroups.map((section) => ({
 
       <p>
         This page contains articles related to a mathematics research program at
-        a preliminary stage. As of now, all the articles have been edited by AI
-        and, for the most part, reviewed only by AI. The research itself has also
-        been AI-assisted, mainly with GPT-5.5. The articles do contain valuable
+        a preliminary stage. The following articles, as of now, have been mostly
+        edited and reviewed by AI. The research itself has also been
+        AI-assisted, mainly with GPT-5.5. The articles do contain valuable
         mathematical content, but please keep in mind that they may contain
         mistakes, be incomplete, or be confusing, as often they are published in
         order to feed them back to the AI for further research.
@@ -80,9 +80,12 @@ const articleSections = articleGroups.map((section) => ({
 
       <section class="article-sections" aria-label="Presentation theory articles">
         {
-          articleSections.map((section) => (
-            <section class="article-section" aria-labelledby={section.id}>
-              <h2 id={section.id}>{section.title}</h2>
+          articleSections.map((section, index) => (
+            <details class="article-section" open={index === 0}>
+              <summary id={section.id}>
+                <span>{section.title}</span>
+                <small>{section.articles.length} articles</small>
+              </summary>
               <div class="article-list">
                 {section.articles.map((article) => (
                   <a class="article-list-item" href={article.href}>
@@ -92,7 +95,7 @@ const articleSections = articleGroups.map((section) => ({
                   </a>
                 ))}
               </div>
-            </section>
+            </details>
           ))
         }
       </section>

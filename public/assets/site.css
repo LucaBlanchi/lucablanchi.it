@@ -584,21 +584,69 @@ h2 {
 
 .article-sections {
   display: grid;
-  gap: 36px;
+  gap: 12px;
   margin-top: 34px;
 }
 
 .article-section {
-  display: grid;
-  gap: 14px;
+  border-top: 1px solid var(--line);
+  padding-top: 6px;
 }
 
-.article-section h2 {
+.article-section summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 54px;
+  cursor: pointer;
   color: var(--ink);
   font-size: clamp(1.15rem, 2.4vw, 1.35rem);
   font-weight: 730;
   letter-spacing: 0;
-  margin: 0;
+  list-style: none;
+  padding: 10px 0;
+}
+
+.article-section summary::-webkit-details-marker {
+  display: none;
+}
+
+.article-section summary::after {
+  content: "+";
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--blue);
+  font-size: 1.1rem;
+  font-weight: 520;
+  line-height: 1;
+}
+
+.article-section[open] summary::after {
+  content: "−";
+}
+
+.article-section summary:hover,
+.article-section summary:focus-visible {
+  color: var(--blue);
+  outline: none;
+}
+
+.article-section summary span {
+  min-width: 0;
+}
+
+.article-section summary small {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 520;
+  white-space: nowrap;
 }
 
 .article-list {
@@ -608,7 +656,7 @@ h2 {
 }
 
 .article-section .article-list {
-  margin-top: 0;
+  margin: 8px 0 28px;
 }
 
 .article-list-item {

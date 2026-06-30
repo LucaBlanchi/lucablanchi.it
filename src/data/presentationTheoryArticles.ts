@@ -988,22 +988,22 @@ export const presentationTheoryArticles = [
     ]
   },
   {
-    href: "/presentation-theory/presentation-theory.html",
-    title: "Presentation Theory",
+    href: "/presentation-theory/presentation-theory-i-description-systems-costs-observable-fibres.html",
+    title: "Presentation Theory I: Description Systems, Costs, and Observable Fibres",
     description: "Presentation systems, realization fibres, observables, verification costs, normal forms, and reusable proof principles.",
     date: "June 2026",
     datetime: "2026-06",
-    slug: "presentation-theory",
+    slug: "presentation-theory-i-description-systems-costs-observable-fibres",
     section: "Axiomatic Core",
     assets: [
       {
-        href: "/assets/presentation-theory/presentation-theory/presentation-theory.pdf",
-        label: "PDF: Presentation Theory",
+        href: "/assets/presentation-theory/presentation-theory-i-description-systems-costs-observable-fibres/presentation-theory-i-description-systems-costs-observable-fibres.pdf",
+        label: "PDF: Presentation Theory I Description Systems Costs Observable Fibres",
         type: "pdf"
       },
       {
-        href: "/assets/presentation-theory/presentation-theory/presentation-theory.tex",
-        label: "TeX source: Presentation Theory",
+        href: "/assets/presentation-theory/presentation-theory-i-description-systems-costs-observable-fibres/presentation-theory-i-description-systems-costs-observable-fibres.tex",
+        label: "TeX source: Presentation Theory I Description Systems Costs Observable Fibres",
         type: "tex"
       }
     ]
@@ -1040,7 +1040,7 @@ export const presentationTheoryArticleGroups = [
   {
     title: "Axiomatic Core",
     hrefs: [
-      "/presentation-theory/presentation-theory.html",
+      "/presentation-theory/presentation-theory-i-description-systems-costs-observable-fibres.html",
       "/presentation-theory/presentation-theory-ii-controlled-transfer-observable-budgets-geometry-fibres.html",
       "/presentation-theory/presentation-theory-iii-normal-form-compilation.html",
       "/presentation-theory/presentation-theory-iv-verifiable-access-audit-lower-bounds-residual-indistinguishability.html",
