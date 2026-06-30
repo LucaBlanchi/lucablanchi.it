@@ -947,6 +947,27 @@ export const presentationTheoryArticles = [
     ]
   },
   {
+    href: "/presentation-theory/presentation-theory-vii-assembly-envelopes-operational-fibres.html",
+    title: "Presentation Theory VII: Assembly Envelopes and Operational Fibres",
+    description: "Operations as presentation engines: assembly envelopes, operational image filtrations, decomposition fibres, bridge costs, observable barriers, and verification records.",
+    date: "June 2026",
+    datetime: "2026-06",
+    slug: "presentation-theory-vii-assembly-envelopes-operational-fibres",
+    section: "Axiomatic Core",
+    assets: [
+      {
+        href: "/assets/presentation-theory/presentation-theory-vii-assembly-envelopes-operational-fibres/presentation-theory-vii-assembly-envelopes-operational-fibres.pdf",
+        label: "PDF: Presentation Theory VII: Assembly Envelopes and Operational Fibres",
+        type: "pdf"
+      },
+      {
+        href: "/assets/presentation-theory/presentation-theory-vii-assembly-envelopes-operational-fibres/presentation-theory-vii-assembly-envelopes-operational-fibres.tex",
+        label: "TeX source: Presentation Theory VII: Assembly Envelopes and Operational Fibres",
+        type: "tex"
+      }
+    ]
+  },
+  {
     href: "/presentation-theory/no-free-degenerations-presentation-cost-heights-normal-forms.html",
     title: "No Free Degenerations: Presentation Cost, Heights, and the Arithmetic Price of Normal Forms",
     description: "Heighted normal-form presentations, gauge and degeneration costs, orbit-closure height bounds, controlled transfer, and representative-moduli gap estimates.",
@@ -1103,14 +1124,15 @@ export const presentationTheoryArticles = [
 export const presentationTheoryArticleGroups = [
   {
     title: "Axiomatic Core",
-    description: "The foundational sequence of the program: description systems and costs, controlled transfer, normal-form compilation, verifiable access, fibre geometry, and observable reconstruction.",
+    description: "The foundational sequence of the program: description systems and costs, controlled transfer, normal-form compilation, verifiable access, fibre geometry, observable reconstruction, and operational assembly.",
     hrefs: [
       "/presentation-theory/presentation-theory-i-description-systems-costs-observable-fibres.html",
       "/presentation-theory/presentation-theory-ii-controlled-transfer-observable-budgets-geometry-fibres.html",
       "/presentation-theory/presentation-theory-iii-normal-form-compilation.html",
       "/presentation-theory/presentation-theory-iv-verifiable-access-audit-lower-bounds-residual-indistinguishability.html",
       "/presentation-theory/presentation-theory-v-fibre-geometry-navigation-residual-moduli.html",
-      "/presentation-theory/presentation-theory-vi-observable-quotients-separation-reconstruction.html"
+      "/presentation-theory/presentation-theory-vi-observable-quotients-separation-reconstruction.html",
+      "/presentation-theory/presentation-theory-vii-assembly-envelopes-operational-fibres.html"
     ]
   },
   {
