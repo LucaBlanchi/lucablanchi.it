@@ -156,7 +156,7 @@ export const presentationTheoryArticles = [
     date: "June 2026",
     datetime: "2026-06",
     slug: "fragmented-presentation-systems-resource-bound-degrees",
-    section: "Direct Applications",
+    section: "Addenda",
     assets: [
       {
         href: "/assets/presentation-theory/fragmented-presentation-systems-resource-bound-degrees/fragmented-presentation-systems-resource-bound-degrees.pdf",
@@ -1073,6 +1073,7 @@ export const presentationTheoryArticleGroups = [
     title: "Addenda",
     hrefs: [
       "/presentation-theory/atlas-controlled-transfer-packages.html",
+      "/presentation-theory/fragmented-presentation-systems-resource-bound-degrees.html",
       "/presentation-theory/controlled-transfer-in-action.html"
     ]
   },
@@ -1082,7 +1083,6 @@ export const presentationTheoryArticleGroups = [
       "/presentation-theory/no-free-degenerations-presentation-cost-heights-normal-forms.html",
       "/presentation-theory/invisible-flats-marked-normal-forms.html",
       "/presentation-theory/statement-presentations-semilinear-greedy-3-sumfree-sequence.html",
-      "/presentation-theory/fragmented-presentation-systems-resource-bound-degrees.html",
       "/presentation-theory/presentation-incidence-rank-fibres-multiparameter-persistence.html"
     ]
   },
