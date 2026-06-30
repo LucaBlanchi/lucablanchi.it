@@ -883,6 +883,27 @@ export const presentationTheoryArticles = [
     ]
   },
   {
+    href: "/presentation-theory/presentation-theory-vi-observable-quotients-separation-reconstruction.html",
+    title: "Presentation Theory VI: Observable Quotients, Separation, and Reconstruction",
+    description: "Observable quotients, indistinguishability relations, target reconstruction, residual target factors, finite set-cover fingerprints, adaptive decision trees, structured resolving refinements, and stability.",
+    date: "June 2026",
+    datetime: "2026-06",
+    slug: "presentation-theory-vi-observable-quotients-separation-reconstruction",
+    section: "Axiomatic Core",
+    assets: [
+      {
+        href: "/assets/presentation-theory/presentation-theory-vi-observable-quotients-separation-reconstruction/presentation-theory-vi-observable-quotients-separation-reconstruction.pdf",
+        label: "PDF: Presentation Theory Vi Observable Quotients Separation Reconstruction",
+        type: "pdf"
+      },
+      {
+        href: "/assets/presentation-theory/presentation-theory-vi-observable-quotients-separation-reconstruction/presentation-theory-vi-observable-quotients-separation-reconstruction.tex",
+        label: "TeX source: Presentation Theory Vi Observable Quotients Separation Reconstruction",
+        type: "tex"
+      }
+    ]
+  },
+  {
     href: "/presentation-theory/no-free-degenerations-presentation-cost-heights-normal-forms.html",
     title: "No Free Degenerations: Presentation Cost, Heights, and the Arithmetic Price of Normal Forms",
     description: "Heighted normal-form presentations, gauge and degeneration costs, orbit-closure height bounds, controlled transfer, and representative-moduli gap estimates.",
@@ -1044,7 +1065,8 @@ export const presentationTheoryArticleGroups = [
       "/presentation-theory/presentation-theory-ii-controlled-transfer-observable-budgets-geometry-fibres.html",
       "/presentation-theory/presentation-theory-iii-normal-form-compilation.html",
       "/presentation-theory/presentation-theory-iv-verifiable-access-audit-lower-bounds-residual-indistinguishability.html",
-      "/presentation-theory/presentation-theory-v-fibre-geometry-navigation-residual-moduli.html"
+      "/presentation-theory/presentation-theory-v-fibre-geometry-navigation-residual-moduli.html",
+      "/presentation-theory/presentation-theory-vi-observable-quotients-separation-reconstruction.html"
     ]
   },
   {
