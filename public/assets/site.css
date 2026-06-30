@@ -649,6 +649,13 @@ h2 {
   white-space: nowrap;
 }
 
+.article-section-note {
+  max-width: 72ch;
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
 .article-list {
   display: grid;
   gap: 12px;

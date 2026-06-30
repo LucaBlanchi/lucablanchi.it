@@ -36,6 +36,7 @@ export function GET() {
     ...presentationTheoryArticleGroups.flatMap((group) => [
       `### ${group.title}`,
       "",
+      ...(group.description ? [group.description, ""] : []),
       ...group.hrefs.flatMap((href) => {
         const article = presentationTheoryArticles.find((item) => item.href === href);
         if (!article) return [];

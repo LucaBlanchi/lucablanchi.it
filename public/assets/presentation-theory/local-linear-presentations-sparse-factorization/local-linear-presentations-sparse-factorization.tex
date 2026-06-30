@@ -24,7 +24,7 @@
 \maketitle
 
 \begin{abstract}
-We introduce two algebraic invariants for exact linear representation problems: local presentation rank and sparse factorization complexity. Let $P\subseteq \mathbb F^n$ be a family of linear observers. The $t$-local presentation rank $\lambda_t(P)$ is the minimum number of stored linear atoms $B=\{b_1,\ldots,b_s\}\subseteq \mathbb F^n$ such that every observer in $P$ is a linear combination of at most $t$ atoms from $B$. We prove that $\lambda_t(P)$ exactly characterizes static exact linear data structures with $s$ stored linear cells and $t$-probe linear queries. Over finite fields, $\lambda_t(P)$ satisfies a sphere-covering lower bound, and for the full observer space $P=\mathbb F_q^r$ it is exactly the minimum length of a $q$-ary linear code of codimension $r$ and covering radius at most $t$.
+We introduce two algebraic invariants for exact linear representation problems: local presentation rank and sparse factorization complexity. Let $P\subseteq \mathbb F^n$ be a family of linear observables. The $t$-local presentation rank $\lambda_t(P)$ is the minimum number of stored linear atoms $B=\{b_1,\ldots,b_s\}\subseteq \mathbb F^n$ such that every observable in $P$ is a linear combination of at most $t$ atoms from $B$. We prove that $\lambda_t(P)$ exactly characterizes static exact linear data structures with $s$ stored linear cells and $t$-probe linear queries. Over finite fields, $\lambda_t(P)$ satisfies a sphere-covering lower bound, and for the full observable space $P=\mathbb F_q^r$ it is exactly the minimum length of a $q$-ary linear code of codimension $r$ and covering radius at most $t$.
 
 We then study dynamic exact linear representations. Given a workload matrix $A\in \mathbb F^{m\times n}$, we prove that an exact dynamic linear data structure with $s$ cells, query locality $q$, and update locality $u$ exists if and only if
 \[
@@ -36,7 +36,7 @@ We prove generic finite-field lower bounds for sparse factorization, formulate t
 \end{abstract}
 
 \section*{Declaration of generative AI and AI-assisted technologies in the writing process}
-This article belongs to the AI-assisted math section. Generative AI, including ChatGPT by \mbox{OpenAI}, was used to assist with mathematical drafting, formalization, review, and editing. The note may be preliminary, may have been only partially reviewed, and in some cases may be only AI-reviewed.
+This article belongs to the Presentation theory section. Generative AI, including ChatGPT by \mbox{OpenAI}, was used to assist with mathematical drafting, formalization, review, and editing. The note may be preliminary, may have been only partially reviewed, and in some cases may be only AI-reviewed.
 
 \section{Introduction}
 
@@ -46,7 +46,7 @@ b_1x,\ldots,b_sx
 \]
 and answers linear queries by combining some of these cells. A dynamic linear data structure maintains such cells under coordinate updates. A materialized aggregate view stores precomputed linear aggregates and answers workload queries by combining a few stored views.
 
-This paper isolates the exact algebraic structure of such representations. Let $x\in\mathbb F^n$ be an input vector. A linear observer is a row vector $p\in\mathbb F^n$ which asks for $px$. A static exact linear representation stores cells $b_1x,\ldots,b_sx$. A query has local access $t$ if every observer $p$ is answerable by reading at most $t$ cells and forming a linear combination.
+This paper isolates the exact algebraic structure of such representations. Let $x\in\mathbb F^n$ be an input vector. A linear observable is a row vector $p\in\mathbb F^n$ which asks for $px$. A static exact linear representation stores cells $b_1x,\ldots,b_sx$. A query has local access $t$ if every observable $p$ is answerable by reading at most $t$ cells and forming a linear combination.
 
 The natural invariant is the $t$-local presentation rank
 \[
@@ -64,6 +64,24 @@ with row-sparse $R$ and column-sparse $M$.
 
 The purpose of the paper is not to replace general cell-probe lower bounds. Rather, it identifies a representation-native algebraic model in which exact linear workloads become local generation and sparse factorization problems.
 
+\subsection{Presentation-theoretic interpretation}
+
+In the terminology of Presentation Theory, a workload \(P\subseteq \mathbb F^n\) is a finite linear observable system on the ambient object \(x\in\mathbb F^n\).  A stored family
+\[
+B=\{b_1,\ldots,b_s\}\subseteq \mathbb F^n
+\]
+is a presentation layer: instead of accessing the observables in \(P\) directly, one presents them through a smaller or more structured set of stored atoms.  The inclusion
+\[
+P\subseteq \operatorname{span}_{\le t}(B)
+\]
+means that every observable in the original system factors through at most \(t\) atoms of the presentation layer.  Thus \(\lambda_t(P)\) is not only a storage invariant; it is the exact size of the smallest presentation layer whose induced observable profile reconstructs all of \(P\) with local access overhead \(t\).
+
+The dynamic factorization
+\[
+A=RM
+\]
+has the same reading with two simultaneous budgets.  The matrix \(M\) is the maintained presentation of the changing input, the matrix \(R\) is the compiler from stored atoms to requested observables, row sparsity of \(R\) is observable-access cost, and column sparsity of \(M\) is update cost.  In this sense sparse factorization is a controlled transfer package from coordinate-update access to workload-query access.  The overhead is not an auxiliary estimate added after the fact; it is encoded in the support constraints on \(R\) and \(M\).
+
 \subsection{Contributions}
 
 The main contributions are:
@@ -74,7 +92,7 @@ The main contributions are:
 |P|\le \sum_{j=0}^t {s\choose j}(q-1)^j
 \]
 for every $t$-local presentation of size $s$.
-\item For the full observer space $P=\mathbb F_q^r$, we identify $\lambda_t(P)$ with the minimum length of a linear $q$-ary code of codimension $r$ and covering radius at most $t$.
+\item For the full observable space $P=\mathbb F_q^r$, we identify $\lambda_t(P)$ with the minimum length of a linear $q$-ary code of codimension $r$ and covering radius at most $t$.
 \item For a workload matrix $A$, we define $\operatorname{sf}_{\mathbb F}(A;q,u)$ as the minimum $s$ for which $A=RM$ with row sparsity of $R$ at most $q$ and column sparsity of $M$ at most $u$, and prove that this exactly characterizes exact dynamic linear data structures.
 \item We prove generic lower bounds over finite fields by counting sparse factorizations.
 \item We formulate the prefix sparse-factorization problem for the lower-triangular all-ones matrix $L_n$, isolate a support-faithful cancellation-free obstruction, and state the arbitrary-field cancellation case as a central open problem.
@@ -94,7 +112,7 @@ J\subseteq [s],\ |J|\le t,\ \alpha_j\in\mathbb F
 \]
 
 \begin{definition}[Local presentation rank]
-Let $P\subseteq\mathbb F^n$ be a finite set of linear observers. The $t$-local presentation rank of $P$ is
+Let $P\subseteq\mathbb F^n$ be a finite set of linear observables. The $t$-local presentation rank of $P$ is
 \[
 \lambda_t(P)
 =
@@ -138,7 +156,7 @@ The invariant $\lambda_t$ satisfies:
 \end{proposition}
 
 \begin{proof}
-The first two assertions are monotonicity in the observer family and in locality. For the third, choose a basis of the linear span of $P$. For the fourth, a nonzero observer lies in the one-local span of $B$ precisely when it is a scalar multiple of an atom of $B$.
+The first two assertions are monotonicity in the observable family and in locality. For the third, choose a basis of the linear span of $P$. For the fourth, a nonzero observable lies in the one-local span of $B$ precisely when it is a scalar multiple of an atom of $B$.
 \end{proof}
 
 \section{Finite Fields and Covering Codes}
@@ -453,7 +471,7 @@ Given $A$, determine the computational complexity of finding near-optimal sparse
 
 \section{Conclusion}
 
-This paper introduced local presentation rank and sparse factorization complexity as algebraic invariants for exact linear representations. For static linear query workloads, $\lambda_t(P)$ exactly characterizes storage under $t$-local query access. For the full observer space over a finite field, it is equivalent to the length of a linear code of specified codimension and covering radius.
+This paper introduced local presentation rank and sparse factorization complexity as algebraic invariants for exact linear representations. For static linear query workloads, $\lambda_t(P)$ exactly characterizes storage under $t$-local query access. For the full observable space over a finite field, it is equivalent to the length of a linear code of specified codimension and covering radius.
 
 For dynamic linear workloads, exact representations are precisely sparse factorizations
 \[
@@ -461,7 +479,7 @@ A=RM,
 \]
 where row sparsity of $R$ is query locality and column sparsity of $M$ is update locality. This framework gives exact characterizations of static and dynamic linear representations, finite-field generic lower bounds, coding-theoretic connections, a sparse-factorization formulation of dynamic prefix sums, a materialized-view interpretation, workload-biased prefix presentations via optimal alphabetic trees, and concrete open problems in algebraic lower bounds.
 
-In access-theoretic terms, a workload matrix is a finite linear observer system. Compressing that observer, or repairing a hidden fibre by adding local linear probes, is exactly the problem of factoring the corresponding workload through a small family of stored atoms. Thus sparse factorization is the linear algebraic mechanism behind local observer compression; it is not a metaphor for compression but the precise presentation model for exact linear access.
+In Presentation Theory terms, a workload matrix is a finite linear observable system. Compressing that observable system, or refining a residual fibre by adding local linear probes, is exactly the problem of factoring the corresponding workload through a small family of stored atoms. Thus sparse factorization is the linear algebraic mechanism behind local observable compression; it is not a metaphor for compression but the precise presentation model for exact linear access.
 
 The main thesis is:
 \[

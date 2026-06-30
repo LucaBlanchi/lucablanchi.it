@@ -15,7 +15,7 @@
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{example}[theorem]{Example}
 
-\title{Pfaffian Degree as Observer Complexity in Class-Two $p$-Groups}
+\title{Pfaffian Degree as Observable Complexity in Class-Two $p$-Groups}
 \author{Luca Blanchi}
 \date{June 2026}
 
@@ -23,7 +23,7 @@
 \maketitle
 
 \begin{abstract}
-We prove exact observer-depth theorems for regular alternating pencils and the associated class-two exponent-$p$ groups. The results identify Pfaffian degree as the intrinsic obstruction to bounded-arity local observation. Let $p$ be odd. A regular affine alternating pencil is modeled by a finite $\mathbb F_p[t]$-module
+We prove exact observable-depth theorems for regular alternating pencils and the associated class-two exponent-$p$ groups. The results identify Pfaffian degree as the intrinsic obstruction to bounded-arity local observation. Let $p$ be odd. A regular affine alternating pencil is modeled by a finite $\mathbb F_p[t]$-module
 
 \[
 R_F=\mathbb F_p[t]/(F)
@@ -54,7 +54,7 @@ D_{\mathcal F}(h)
 =\sum_\nu \deg\gcd(h,F_\nu).
 \]
 
-The first main theorem is an exact support-image tomography theorem. For every structured CSI observer of arity (r), the rank transform is governed by Smith normal form:
+The first main theorem is an exact support-image tomography theorem. For every structured CSI observable of arity (r), the rank transform is governed by Smith normal form:
 
 \[
 \rho_r^{\beta_{\mathcal F}}(U)
@@ -80,7 +80,7 @@ h\longmapsto
 \deg h\le r.
 \]
 
-Thus support-image observers of arity (r) see exactly the elementary-divisor data testable by polynomials of degree at most (r), and nothing more. The second main theorem extends the spectral barrier to arbitrary coefficient-free systems of word equations in the variety of class-two exponent-$p$ groups. After class-two normal form, every word system reduces to a finite system of quadratic commutator equations. A Fourier expansion and the skew-Smith normal form of linear alternating polynomial matrices show that every word observer in (k) variables factors through
+Thus support-image observables of arity (r) see exactly the elementary-divisor data testable by polynomials of degree at most (r), and nothing more. The second main theorem extends the spectral barrier to arbitrary coefficient-free systems of word equations in the variety of class-two exponent-$p$ groups. After class-two normal form, every word system reduces to a finite system of quadratic commutator equations. A Fourier expansion and the skew-Smith normal form of linear alternating polynomial matrices show that every word observable in (k) variables factors through
 
 \[
 D_{\mathcal F,\le \lfloor k/2\rfloor}.
@@ -98,7 +98,7 @@ whereas
 \operatorname{depth}_{\mathrm{word}}=2m.
 \]
 
-Equivalently, if $f,h\in\mathbb F_p[t]$ are irreducible of degree (m) and are not projectively equivalent, then all coefficient-free word observers in fewer than (2m) variables have identical counts on the associated groups $G_f,G_h$, while two explicit word equations in (2m) variables distinguish them. Moreover, no single word equation can distinguish such $G_f,G_h$, regardless of the number of variables. The associated Baer groups $G_f$ are directly indecomposable special class-two exponent-$p$ groups of order
+Equivalently, if $f,h\in\mathbb F_p[t]$ are irreducible of degree (m) and are not projectively equivalent, then all coefficient-free word observables in fewer than (2m) variables have identical counts on the associated groups $G_f,G_h$, while two explicit word equations in (2m) variables distinguish them. Moreover, no single word equation can distinguish such $G_f,G_h$, regardless of the number of variables. The associated Baer groups $G_f$ are directly indecomposable special class-two exponent-$p$ groups of order
 
 \[
 p^{2m+2}.
@@ -119,11 +119,11 @@ p^{m-o(m)}
 =|G_f|^{1/2-o(1)}
 \]
 
-pairwise nonisomorphic directly indecomposable special groups. We also derive consequences for Hom profiles, bounded-generator subgroup occurrence profiles, quantifier-free counting word logic, and classical character/conjugacy data. The results give a precise spectral explanation for the failure of bounded local observers on genus-two $p$-groups: global pencil algorithms can recover the spectrum efficiently, but support-image and word-count observers cannot see an irreducible Pfaffian factor before its degree, and word observers pay an exact factor of two because their polynomial matrices are alternating.
+pairwise nonisomorphic directly indecomposable special groups. We also derive consequences for Hom profiles, bounded-generator subgroup occurrence profiles, quantifier-free counting word logic, and classical character/conjugacy data. The results give a precise spectral explanation for the failure of bounded local observables on genus-two $p$-groups: global pencil algorithms can recover the spectrum efficiently, but support-image and word-count observables cannot see an irreducible Pfaffian factor before its degree, and word observables pay an exact factor of two because their polynomial matrices are alternating.
 \end{abstract}
 
 \section*{Declaration of generative AI and AI-assisted technologies in the writing process}
-This article belongs to the AI-assisted math section. Generative AI, including ChatGPT by \mbox{OpenAI}, was used to assist with mathematical drafting, formalization, review, and editing. The note may be preliminary, may have been only partially reviewed, and in some cases may be only AI-reviewed.
+This article belongs to the Presentation theory section. Generative AI, including ChatGPT by \mbox{OpenAI}, was used to assist with mathematical drafting, formalization, review, and editing. The note may be preliminary, may have been only partially reviewed, and in some cases may be only AI-reviewed.
 
 \section{Introduction}
 
@@ -155,7 +155,7 @@ Then
 [(v,z),(u,w)]=(0,\beta(v,u)).
 \]
 
-Thus pseudo-isometry of alternating maps is the linear-algebraic core of isomorphism for special class-two exponent-$p$ groups. This paper studies the power and limits of bounded-arity observers on such groups. There are two observer hierarchies. The first is the structured support-image hierarchy, or CSI. For
+Thus pseudo-isometry of alternating maps is the linear-algebraic core of isomorphism for special class-two exponent-$p$ groups. This paper studies the power and limits of bounded-arity observables on such groups. There are two observable hierarchies. The first is the structured support-image hierarchy, or CSI. For
 
 \[
 \mathbf x=(x_1,\ldots,x_r)\in V^r,
@@ -176,13 +176,13 @@ The level-(r) support-image profile records the image subspaces
 \operatorname{im}A_{\mathbf x}\le W^r
 \]
 
-as $\mathbf x$ varies. The second is the hierarchy of coefficient-free word observers. Given a system of word equations
+as $\mathbf x$ varies. The second is the hierarchy of coefficient-free word observables. Given a system of word equations
 
 \[
 w_1=1,\ldots,w_s=1
 \]
 
-in (k) variables, one records the number of (k)-tuples in $G_\beta$ satisfying the system. These observers include Hom-counts from finitely generated class-two exponent-$p$ groups. The main discovery of this paper is that, for regular alternating pencils, both hierarchies are governed by a single spectral divisor function. Let
+in (k) variables, one records the number of (k)-tuples in $G_\beta$ satisfying the system. These observables include Hom-counts from finitely generated class-two exponent-$p$ groups. The main discovery of this paper is that, for regular alternating pencils, both hierarchies are governed by a single spectral divisor function. Let
 
 \[
 R_F=\mathbb F_p[t]/(F)
@@ -224,7 +224,7 @@ The proof is a Smith-normal-form computation. Every level-(r) CSI test produces 
 \deg\gcd(s_i,F).
 \]
 
-The second main theorem extends this to all coefficient-free systems of word equations. After reduction to pure commutator equations and Fourier expansion, each frequency produces a linear alternating polynomial matrix. Since skew-Smith factors occur in pairs, a word observer in (k) variables can only test polynomials of degree at most
+The second main theorem extends this to all coefficient-free systems of word equations. After reduction to pure commutator equations and Fourier expansion, each frequency produces a linear alternating polynomial matrix. Since skew-Smith factors occur in pairs, a word observable in (k) variables can only test polynomials of degree at most
 
 \[
 \left\lfloor\frac k2\right\rfloor.
@@ -234,7 +234,7 @@ Therefore
 
 \[
 \boxed{
-\text{word observers in }k\text{ variables}
+\text{word observables in }k\text{ variables}
 \Longleftrightarrow
 D_{\mathcal F}(h)\text{ for }\deg h\le\lfloor k/2\rfloor.
 }
@@ -246,7 +246,7 @@ This gives an exact factor-of-two law. For an irreducible factor (f) of degree (
 \operatorname{CSI}
 \]
 
-detects (f) exactly at arity (m), whereas word observers require (2m) variables. This is optimal. A companion linearization
+detects (f) exactly at arity (m), whereas word observables require (2m) variables. This is optimal. A companion linearization
 
 \[
 L_f(t)=tI_m-C_f
@@ -262,7 +262,7 @@ K_f(t)=
 \end{pmatrix}
 \]
 
-gives two explicit word equations in (2m) variables distinguishing the associated groups. No single word equation ever distinguishes irreducible blocks of the same degree. The conclusion is that Pfaffian degree is observer complexity.
+gives two explicit word equations in (2m) variables distinguishing the associated groups. No single word equation ever distinguishes irreducible blocks of the same degree. The conclusion is that Pfaffian degree is observable complexity.
 
 \[
 \boxed{
@@ -274,7 +274,7 @@ gives two explicit word equations in (2m) variables distinguishing the associate
 \[
 \boxed{
 2\cdot\text{Pfaffian degree}=
-\text{word-observer arity}.
+\text{word-observable arity}.
 }
 \]
 
@@ -290,17 +290,17 @@ pairwise nonisomorphic directly indecomposable special groups of order
 p^{2m+2}
 \]
 
-which no word observer in fewer than (2m) variables can distinguish. Since
+which no word observable in fewer than (2m) variables can distinguish. Since
 
 \[
 2m=\log_p |G|-2,
 \]
 
-this is a logarithmic arity lower bound with a matching upper bound inside the word-observer hierarchy. The result should be read as a local-observer lower bound, not as a time lower bound for group isomorphism. Genus-two groups are globally tractable through their pencil structure. Our theorem shows that, even in this globally tractable setting, bounded local invariants cannot see the irreducible Pfaffian factor before its exact degree.
+this is a logarithmic arity lower bound with a matching upper bound inside the word-observable hierarchy. The result should be read as a local-observable lower bound, not as a time lower bound for group isomorphism. Genus-two groups are globally tractable through their pencil structure. Our theorem shows that, even in this globally tractable setting, bounded local invariants cannot see the irreducible Pfaffian factor before its exact degree.
 
 \section{Related work and positioning}
 
-Class-two exponent-$p$ groups are a central bottleneck in finite group isomorphism. Their isomorphism problem is governed by pseudo-isometry of alternating bilinear maps, or equivalently by isometry of alternating matrix spaces. Several global algorithms and reductions exploit this linear-algebraic structure. Alternating matrix space isometry has been studied as a linear-algebraic analogue of graph isomorphism, and genus-two groups admit efficient isomorphism algorithms using the structure of pencils and their adjoint algebras. More recently, faster algorithms for class-two exponent-$p$ groups and reductions between tensor, group, and polynomial isomorphism problems have clarified the central role of these groups. This paper does not improve those global algorithms. Instead, it gives a sharp lower bound for local observer hierarchies inside a globally tractable family. The closest group-theoretic comparison is Wilson's construction of genus-two $p$-groups with identical proper subgroup and quotient profiles, character tables, and power maps. Our groups belong to the same genus-two universe. The contribution here is different: we give an exact spectral formula for all CSI and coefficient-free word-count observers, prove optimal arity thresholds, produce explicit optimal witnesses, and explain the obstruction through Smith normal form and Pfaffian degree. We also separate our results from Weisfeiler--Leman and full counting-logic lower bounds. We prove indistinguishability for quantifier-free coefficient-free word-counting observers and for Hom profiles from bounded-generator sources. We do not claim a lower bound for full bounded-variable counting logic with quantifier alternation, nor for all WL variants on groups.
+Class-two exponent-$p$ groups are a central bottleneck in finite group isomorphism. Their isomorphism problem is governed by pseudo-isometry of alternating bilinear maps, or equivalently by isometry of alternating matrix spaces. Several global algorithms and reductions exploit this linear-algebraic structure. Alternating matrix space isometry has been studied as a linear-algebraic analogue of graph isomorphism, and genus-two groups admit efficient isomorphism algorithms using the structure of pencils and their adjoint algebras. More recently, faster algorithms for class-two exponent-$p$ groups and reductions between tensor, group, and polynomial isomorphism problems have clarified the central role of these groups. This paper does not improve those global algorithms. Instead, it gives a sharp lower bound for local observable hierarchies inside a globally tractable family. The closest group-theoretic comparison is Wilson's construction of genus-two $p$-groups with identical proper subgroup and quotient profiles, character tables, and power maps. Our groups belong to the same genus-two universe. The contribution here is different: we give an exact spectral formula for all CSI and coefficient-free word-count observables, prove optimal arity thresholds, produce explicit optimal witnesses, and explain the obstruction through Smith normal form and Pfaffian degree. We also separate our results from Weisfeiler--Leman and full counting-logic lower bounds. We prove indistinguishability for quantifier-free coefficient-free word-counting observables and for Hom profiles from bounded-generator sources. We do not claim a lower bound for full bounded-variable counting logic with quantifier alternation, nor for all WL variants on groups.
 
 \section{Regular affine alternating pencils}
 
@@ -974,7 +974,7 @@ distinguishes (f) from (h) unless (f=h). Projectively, equality at level (m) hol
 
 \end{theorem}
 
-\section{Word observers and QCO}
+\section{Word observables and QCO}
 
 We now pass from CSI to word equations. Let
 
@@ -1069,7 +1069,7 @@ in (V), leaving $n=\dim\ker A$ free (V)-variables. The central coordinates $z_i\
 
 \end{proof}
 
-A finite Boolean combination of word equations and disequations is a finite integer linear combination of counts of systems of equations, by inclusion--exclusion. Thus the same analysis applies to quantifier-free Boolean word observers.
+A finite Boolean combination of word equations and disequations is a finite integer linear combination of counts of systems of equations, by inclusion--exclusion. Thus the same analysis applies to quantifier-free Boolean word observables.
 
 \section{Fourier--Smith formula for word counts}
 
@@ -1250,7 +1250,7 @@ In particular, every individual skew-Smith factor satisfies
 
 \section{Word-spectrum factorization}
 
-\begin{theorem}[Word observers factor through truncated spectral data]
+\begin{theorem}[Word observables factor through truncated spectral data]
 Let $\beta_{\mathcal F}$ and $\beta_{\mathcal G}$ be regular affine pencils with the same total spectral degree (M). Suppose
 
 \[
@@ -1263,7 +1263,7 @@ for every polynomial $h$ with
 \deg h\le \left\lfloor\frac k2\right\rfloor.
 \]
 
-Then every coefficient-free word observer in at most (k) variables has the same count on
+Then every coefficient-free word observable in at most (k) variables has the same count on
 
 \[
 G_{\mathcal F}
@@ -1385,14 +1385,14 @@ D_{{f},\le m-1}
 =D_{{h},\le m-1}.
 \]
 
-\begin{theorem}[Complete word-observer blindness below (2m)]
+\begin{theorem}[Complete word-observable blindness below (2m)]
 If
 
 \[
 k<2m,
 \]
 
-then every coefficient-free word observer in (k) variables has the same count on
+then every coefficient-free word observable in (k) variables has the same count on
 
 \[
 G_f
@@ -1430,7 +1430,7 @@ Thus the truncated spectral divisor functions agree through degree $\lfloor k/2\
 
 \section{An optimal two-equation word witness}
 
-We now construct a distinguishing word observer in exactly (2m) variables. Let
+We now construct a distinguishing word observable in exactly (2m) variables. Let
 
 \[
 L_f(t)=tI_m-C_f
@@ -1683,7 +1683,7 @@ Moreover, (2m) variables suffice with two equations, and one equation never suff
 \end{theorem}
 
 \begin{proof}
-The CSI statement is Theorem 8.1. The lower bound for word observers is Theorem 14.1. The upper bound is Theorem 15.1. The one-equation statement is Theorem 16.1.
+The CSI statement is Theorem 8.1. The lower bound for word observables is Theorem 14.1. The upper bound is Theorem 15.1. The one-equation statement is Theorem 16.1.
 
 \end{proof}
 
@@ -1771,7 +1771,7 @@ Thus there are at least
 p^{m-o(m)}
 \]
 
-pairwise nonisomorphic groups $G_f$ of order $p^{2m+2}$ in the same $\operatorname{CSI}_{\le m-1}$-fibre and in the same word-observer fibre below (2m) variables. In terms of
+pairwise nonisomorphic groups $G_f$ of order $p^{2m+2}$ in the same $\operatorname{CSI}_{\le m-1}$-fibre and in the same word-observable fibre below (2m) variables. In terms of
 
 \[
 N=|G_f|,
@@ -1871,7 +1871,7 @@ The equivalence below (2m) follows from Corollary 13.1. The separation at (2m) f
 
 \end{proof}
 
-\section{Local observer lower bounds}
+\section{Local observable lower bounds}
 
 The preceding results may be summarized as a lower bound for local invariant-refinement procedures. Consider any invariant procedure whose decisions factor through any finite combination of: CSI, rank-support, flag, or star data of arity $<m$; coefficient-free word-system counts in $<2m$ variables; Hom counts from $<2m$-generated sources; quantifier-free coefficient-free counting word formulas in $<2m$ variables; subgroup occurrence counts for $<2m$-generated subgroups. Then the procedure is constant on a fibre of size
 
@@ -1879,27 +1879,27 @@ The preceding results may be summarized as a lower bound for local invariant-ref
 |G|^{1/2-o(1)}
 \]
 
-inside the directly indecomposable special groups of order (G). This is not a lower bound for all algorithms. It is an observer-complexity lower bound for a broad class of local and counting invariants.
+inside the directly indecomposable special groups of order (G). This is not a lower bound for all algorithms. It is an observable-complexity lower bound for a broad class of local and counting invariants.
 
 \section{Relation to Wilson's genus-two groups}
 
-The groups $G_f$ lie in the genus-two family of groups associated with quotients of the Heisenberg group over $\mathbb F_{p^m}$. Wilson showed that this family contains many directly and centrally indecomposable groups of order $p^{2m+2}$ with identical proper subgroup and quotient profiles, character tables, and power maps. The present results are complementary. Wilson's theorem gives a strong subgroup/quotient-profile obstruction. Here we give a spectral explanation of bounded-arity word and support-image invisibility: Every CSI level (r) sees exactly spectral divisor data of degree $\le r$. Every word observer in (k) variables sees exactly spectral divisor data of degree $\le\lfloor k/2\rfloor$. The irreducible Pfaffian degree (m) is invisible below CSI arity (m) and word arity (2m). A concrete two-equation witness at (2m) variables distinguishes the groups optimally. One equation never distinguishes. Thus the contribution is not merely another family of hard examples; it is an exact spectral formula explaining the observer barrier.
+The groups $G_f$ lie in the genus-two family of groups associated with quotients of the Heisenberg group over $\mathbb F_{p^m}$. Wilson showed that this family contains many directly and centrally indecomposable groups of order $p^{2m+2}$ with identical proper subgroup and quotient profiles, character tables, and power maps. The present results are complementary. Wilson's theorem gives a strong subgroup/quotient-profile obstruction. Here we give a spectral explanation of bounded-arity word and support-image invisibility: Every CSI level (r) sees exactly spectral divisor data of degree $\le r$. Every word observable in (k) variables sees exactly spectral divisor data of degree $\le\lfloor k/2\rfloor$. The irreducible Pfaffian degree (m) is invisible below CSI arity (m) and word arity (2m). A concrete two-equation witness at (2m) variables distinguishes the groups optimally. One equation never distinguishes. Thus the contribution is not merely another family of hard examples; it is an exact spectral formula explaining the observable barrier.
 
 \section{Algorithmic interpretation}
 
-The results are not time lower bounds for group isomorphism. In fact, genus-two $p$-groups admit efficient algorithms using global pencil structure. The theorem instead separates global isomorphism methods from bounded-local-observer methods. For regular pencils, a minimal CSI certificate of nonisomorphism between $\mathcal F$ and $\mathcal G$ is obtained by finding a polynomial (h) of least degree such that
+The results are not time lower bounds for group isomorphism. In fact, genus-two $p$-groups admit efficient algorithms using global pencil structure. The theorem instead separates global isomorphism methods from bounded-local-observable methods. For regular pencils, a minimal CSI certificate of nonisomorphism between $\mathcal F$ and $\mathcal G$ is obtained by finding a polynomial (h) of least degree such that
 
 \[
 D_{\mathcal F}(h)\ne D_{\mathcal G}(h).
 \]
 
-The companion linearization $L_h(t)$ is then an optimal CSI witness. For irreducible (f), the skew-linearization $K_f(t)$ gives an optimal word-count witness with two equations in (2m) variables. Thus the theory gives explicit, checkable nonisomorphism certificates whose arity is provably minimal inside the corresponding observer hierarchy.
+The companion linearization $L_h(t)$ is then an optimal CSI witness. For irreducible (f), the skew-linearization $K_f(t)$ gives an optimal word-count witness with two equations in (2m) variables. Thus the theory gives explicit, checkable nonisomorphism certificates whose arity is provably minimal inside the corresponding observable hierarchy.
 
 \section{Main theorem package}
 
 We collect the main statements.
 
-\begin{theorem}[Pfaffian degree as observer complexity]
+\begin{theorem}[Pfaffian degree as observable complexity]
 Let $p$ be odd. Let
 
 \[
@@ -1912,13 +1912,13 @@ be a regular affine spectral pencil and define
 D_{\mathcal F}(h)=\sum_\nu\deg\gcd(h,F_\nu).
 \]
 
-Then: $\operatorname{CSI}_{\le r}(\beta_{\mathcal F})$ determines and is determined by $D_{\mathcal F,\le r}$. Every coefficient-free word observer in (k) variables factors through $D_{\mathcal F,\le\lfloor k/2\rfloor}$. If $f,h$ are irreducible of degree (m), then all CSI observers below arity (m) and all word observers below (2m) variables are blind to the difference between $G_f$ and $G_h$. If $f,h$ are not projectively equivalent, then CSI at arity (m) and two explicit word equations in (2m) variables distinguish them. One word equation never distinguishes irreducible degree-(m) blocks. The associated directly indecomposable special groups have order $p^{2m+2}$, so the exact word-observer threshold is
+Then: $\operatorname{CSI}_{\le r}(\beta_{\mathcal F})$ determines and is determined by $D_{\mathcal F,\le r}$. Every coefficient-free word observable in (k) variables factors through $D_{\mathcal F,\le\lfloor k/2\rfloor}$. If $f,h$ are irreducible of degree (m), then all CSI observables below arity (m) and all word observables below (2m) variables are blind to the difference between $G_f$ and $G_h$. If $f,h$ are not projectively equivalent, then CSI at arity (m) and two explicit word equations in (2m) variables distinguish them. One word equation never distinguishes irreducible degree-(m) blocks. The associated directly indecomposable special groups have order $p^{2m+2}$, so the exact word-observable threshold is
 
 \[
 2m=\log_p|G_f|-2.
 \]
 
-A single lower-level observer fibre contains
+A single lower-level observable fibre contains
 
 \[
 |G_f|^{1/2-o(1)}
@@ -1938,9 +1938,9 @@ The affine regular model assumes a chosen nondegenerate scalar member. A homogen
 
 For $\dim W>2$, the corresponding spectral data are no longer elementary divisors of a pencil but Pfaffian systems. A higher-dimensional analogue would likely involve determinantal ideals and multivariate Smith-like invariants.
 
-\subsection{Logical observers}
+\subsection{Logical observables}
 
-The present paper proves lower bounds for coefficient-free quantifier-free word-count observers. Extending the factorization theorem to bounded-variable counting logic fragments with quantifier alternation would require a separate translation from formulas to spectral divisor data.
+The present paper proves lower bounds for coefficient-free quantifier-free word-count observables. Extending the factorization theorem to bounded-variable counting logic fragments with quantifier alternation would require a separate translation from formulas to spectral divisor data.
 
 \subsection{Zeta functions and subgroup growth}
 

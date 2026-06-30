@@ -48,6 +48,7 @@ const sectionId = (title) =>
 const articleSections = articleGroups.map((section) => ({
   id: sectionId(section.title),
   title: section.title,
+  description: section.description,
   articles: section.hrefs.map((href) => articleByHref.get(href)),
 }));
 ---
@@ -86,6 +87,7 @@ const articleSections = articleGroups.map((section) => ({
                 <span>{section.title}</span>
                 <small>{section.articles.length} articles</small>
               </summary>
+              {section.description && <p class="article-section-note">{section.description}</p>}
               <div class="article-list">
                 {section.articles.map((article) => (
                   <a class="article-list-item" href={article.href}>

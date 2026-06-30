@@ -3,13 +3,13 @@ import { readFileSync } from "node:fs";
 import GenerativeAiNotice from "../../components/GenerativeAiNotice.astro";
 import PreliminaryStatusNotice from "../../components/PreliminaryStatusNotice.astro";
 import SectionBackLink from "../../components/SectionBackLink.astro";
-import { renderMarkdownPaper } from "../../lib/markdownPaper";
+import { renderTexPaper } from "../../lib/texPaper";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const assetBase = "/assets/presentation-theory/random-saturation-real-homogeneous-threshold-boxes";
-const stem = "random-saturation-optimal-off-origin-slack-real-homogeneous-boolean-threshold-boxes";
-const paper = renderMarkdownPaper(readFileSync(`public${assetBase}/${stem}.md`, "utf8"), {
-  idPrefix: "random-saturation",
+const assetBase = "/assets/presentation-theory/relative-linear-word-observables-semidirect-products";
+const stem = "relative-linear-word-observables-semidirect-products";
+const paper = renderTexPaper(readFileSync(`public${assetBase}/${stem}.tex`, "utf8"), {
+  idPrefix: "relative-linear-word-observables",
 });
 
 const pdfHref = `${assetBase}/${stem}.pdf`;
@@ -17,9 +17,9 @@ const texHref = `${assetBase}/${stem}.tex`;
 ---
 
 <BaseLayout
-  title="Random Saturation and Optimal Off-Origin Slack in Real Homogeneous Boolean Threshold Boxes"
-  description="A real-coefficient bounded-height model for homogeneous Boolean threshold boxes, random saturation, and optimal off-origin slack."
-  currentPath="/presentation-theory/random-saturation-real-homogeneous-threshold-boxes.html"
+  title="Relative Linear Word Observables and Representation Complexity of Semidirect Products"
+  description="Relative k-linear word observables, matrix-rank profiles, and semisimple, cyclic modular, and wild regimes for marked semidirect products."
+  currentPath="/presentation-theory/relative-linear-word-observables-semidirect-products.html"
   bodyClass="paper-surface"
 >
   <script is:inline>
@@ -43,7 +43,7 @@ const texHref = `${assetBase}/${stem}.tex`;
           <time datetime="2026-06">June 2026</time>
         </div>
         <h1>{paper.title}</h1>
-        <p class="paper-author">Luca Blanchi</p>
+        <p class="paper-author">{paper.author}</p>
         <div class="paper-actions" aria-label="Downloads">
           <a href={pdfHref} download>Download PDF</a>
           <a href={texHref} download>Download TeX</a>
@@ -62,7 +62,7 @@ const texHref = `${assetBase}/${stem}.tex`;
             paper.tocEntries.map((entry) => (
               <li class={entry.level === "subsection" ? "paper-toc-subsection" : undefined}>
                 <a href={`#${entry.id}`}>
-                  {entry.number && <span>{entry.number}</span>}
+                  <span>{entry.number}</span>
                   {entry.title}
                 </a>
               </li>
@@ -72,6 +72,11 @@ const texHref = `${assetBase}/${stem}.tex`;
       </nav>
 
       <div class="paper-body" set:html={paper.bodyHtml} />
+
+      <section class="paper-references" aria-label={`${paper.title} references`}>
+        <h2>References</h2>
+        <div set:html={paper.bibliographyHtml} />
+      </section>
     </article>
   </main>
 </BaseLayout>

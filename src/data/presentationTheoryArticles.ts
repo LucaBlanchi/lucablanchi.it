@@ -19,6 +19,7 @@ export interface PresentationTheoryArticle {
 
 export interface PresentationTheoryArticleGroup {
   title: string;
+  description?: string;
   hrefs: readonly string[];
 }
 
@@ -194,7 +195,7 @@ export const presentationTheoryArticles = [
   {
     href: "/presentation-theory/exact-preimage-layers-effective-primitive-divisors-rational-maps-p1.html",
     title: "Exact Preimage Layers and Effective Primitive Divisors for Rational Maps on P1",
-    description: "A preliminary note on exact preimage layers and effective primitive divisor criteria for rational maps on the projective line.",
+    description: "Exact preimage layers and effective primitive divisor criteria for rational maps on the projective line.",
     date: "June 2026",
     datetime: "2026-06",
     slug: "exact-preimage-layers-effective-primitive-divisors-rational-maps-p1",
@@ -215,7 +216,7 @@ export const presentationTheoryArticles = [
   {
     href: "/presentation-theory/proof-carrying-toric-guard-certificates-positivity-linear-recurrence-sequences.html",
     title: "Proof-Carrying Toric Guard Certificates for Positivity of Linear Recurrence Sequences",
-    description: "A preliminary note on proof-carrying toric guard certificates for positivity of real algebraic linear recurrence sequences.",
+    description: "Proof-carrying toric guard certificates for positivity of real algebraic linear recurrence sequences.",
     date: "June 2026",
     datetime: "2026-06",
     slug: "proof-carrying-toric-guard-certificates-positivity-linear-recurrence-sequences",
@@ -236,7 +237,7 @@ export const presentationTheoryArticles = [
   {
     href: "/presentation-theory/exact-rational-preperiodic-portraits-controlled-p-adic-traps.html",
     title: "Exact Rational Preperiodic Portraits from Controlled p-adic Traps",
-    description: "A preliminary note constructing exact rational preperiodic portraits for rational maps from controlled bad reduction and p-adic trap dynamics.",
+    description: "Exact rational preperiodic portraits for rational maps from controlled bad reduction and p-adic trap dynamics.",
     date: "June 2026",
     datetime: "2026-06",
     slug: "exact-rational-preperiodic-portraits-controlled-p-adic-traps",
@@ -257,7 +258,7 @@ export const presentationTheoryArticles = [
   {
     href: "/presentation-theory/toric-certificates-effective-skolem-tails-subspace-orbit-reachability.html",
     title: "Toric Certificates for Effective Skolem Tails and Subspace Orbit Reachability",
-    description: "A preliminary note on toric lower-bound certificates, binomial-stratified certificate trees, and automatic effective zero-free tails for simultaneous Skolem and subspace orbit reachability.",
+    description: "Toric lower-bound certificates, binomial-stratified certificate trees, and automatic effective zero-free tails for simultaneous Skolem and subspace orbit reachability.",
     date: "June 2026",
     datetime: "2026-06",
     slug: "toric-certificates-effective-skolem-tails-subspace-orbit-reachability",
@@ -278,7 +279,7 @@ export const presentationTheoryArticles = [
   {
     href: "/presentation-theory/blow-up-diagonal-depth-wonderful-compactifications.html",
     title: "Blow-up Diagonal Depth and Wonderful Compactifications",
-    description: "A preliminary note on coherent product diagonal depth under smooth blow-ups, with applications to wonderful compactifications, Fulton-MacPherson spaces, and moduli spaces of pointed curves.",
+    description: "Coherent product diagonal depth under smooth blow-ups, with applications to wonderful compactifications, Fulton-MacPherson spaces, and moduli spaces of pointed curves.",
     date: "June 2026",
     datetime: "2026-06",
     slug: "blow-up-diagonal-depth-wonderful-compactifications",
@@ -299,7 +300,7 @@ export const presentationTheoryArticles = [
   {
     href: "/presentation-theory/dependency-depth-odd-hassett-spaces.html",
     title: "Dependency Depth, Strict Product Diagonal Depth, and Rouquier Dimension of Odd Hassett Spaces",
-    description: "A preliminary note extracting optimal Rouquier dimension bounds for odd-heavy Hassett spaces from dependency depth and strict product diagonal depth.",
+    description: "Optimal Rouquier dimension bounds for odd-heavy Hassett spaces from dependency depth and strict product diagonal depth.",
     date: "June 2026",
     datetime: "2026-06",
     slug: "dependency-depth-odd-hassett-spaces",
@@ -320,7 +321,7 @@ export const presentationTheoryArticles = [
   {
     href: "/presentation-theory/polar-code-endpoint-class-two-p-groups.html",
     title: "The Polar-Code Endpoint for Class-Two p-Groups",
-    description: "The endpoint of the class-two p-group observer hierarchy: polar-code completeness, generic geometric reconstruction, and standard-structure residual reduction.",
+    description: "The endpoint of the class-two p-group observable hierarchy: polar-code completeness, generic geometric reconstruction, and standard-structure residual reduction.",
     date: "June 2026",
     datetime: "2026-06",
     slug: "polar-code-endpoint-class-two-p-groups",
@@ -360,22 +361,22 @@ export const presentationTheoryArticles = [
     ]
   },
   {
-    href: "/presentation-theory/relative-linear-word-observers-semidirect-products.html",
-    title: "Relative Linear Word Observers and Representation Complexity of Semidirect Products",
-    description: "Relative k-linear word observers, matrix-rank profiles, and semisimple, cyclic modular, and wild regimes for marked semidirect products.",
+    href: "/presentation-theory/relative-linear-word-observables-semidirect-products.html",
+    title: "Relative Linear Word Observables and Representation Complexity of Semidirect Products",
+    description: "Relative k-linear word observables, matrix-rank profiles, and semisimple, cyclic modular, and wild regimes for marked semidirect products.",
     date: "June 2026",
     datetime: "2026-06",
-    slug: "relative-linear-word-observers-semidirect-products",
+    slug: "relative-linear-word-observables-semidirect-products",
     section: "Observable Geometry in Groups",
     assets: [
       {
-        href: "/assets/presentation-theory/relative-linear-word-observers-semidirect-products/relative-linear-word-observers-semidirect-products.pdf",
-        label: "PDF: Relative Linear Word Observers Semidirect Products",
+        href: "/assets/presentation-theory/relative-linear-word-observables-semidirect-products/relative-linear-word-observables-semidirect-products.pdf",
+        label: "PDF: Relative Linear Word Observables Semidirect Products",
         type: "pdf"
       },
       {
-        href: "/assets/presentation-theory/relative-linear-word-observers-semidirect-products/relative-linear-word-observers-semidirect-products.tex",
-        label: "TeX source: Relative Linear Word Observers Semidirect Products",
+        href: "/assets/presentation-theory/relative-linear-word-observables-semidirect-products/relative-linear-word-observables-semidirect-products.tex",
+        label: "TeX source: Relative Linear Word Observables Semidirect Products",
         type: "tex"
       }
     ]
@@ -445,8 +446,8 @@ export const presentationTheoryArticles = [
   },
   {
     href: "/presentation-theory/sharp-support-image-thresholds-alternating-pencils.html",
-    title: "Pfaffian Degree as Observer Complexity in Class-Two p-Groups",
-    description: "Exact support-image and word-observer depth theorems for regular alternating pencils and associated class-two exponent-p groups.",
+    title: "Pfaffian Degree as Observable Complexity in Class-Two p-Groups",
+    description: "Exact support-image and word-observable depth theorems for regular alternating pencils and associated class-two exponent-p groups.",
     date: "June 2026",
     datetime: "2026-06",
     slug: "sharp-support-image-thresholds-alternating-pencils",
@@ -486,22 +487,22 @@ export const presentationTheoryArticles = [
     ]
   },
   {
-    href: "/presentation-theory/quadratic-presentational-complexity-observer-barriers.html",
-    title: "Quadratic Presentational Complexity and Exact Observer Barriers for Class-Two p-Groups",
-    description: "Quadratic normal forms for word observers, graphical class-two groups, right homomorphism profiles, and exact arity barriers.",
+    href: "/presentation-theory/quadratic-presentational-complexity-observable-barriers.html",
+    title: "Quadratic Presentational Complexity and Exact Observable Barriers for Class-Two p-Groups",
+    description: "Quadratic normal forms for word observables, graphical class-two groups, right homomorphism profiles, and exact arity barriers.",
     date: "June 2026",
     datetime: "2026-06",
-    slug: "quadratic-presentational-complexity-observer-barriers",
+    slug: "quadratic-presentational-complexity-observable-barriers",
     section: "Observable Geometry in Groups",
     assets: [
       {
-        href: "/assets/presentation-theory/quadratic-presentational-complexity-observer-barriers/quadratic-presentational-complexity-observer-barriers.pdf",
-        label: "PDF: Quadratic Presentational Complexity Observer Barriers",
+        href: "/assets/presentation-theory/quadratic-presentational-complexity-observable-barriers/quadratic-presentational-complexity-observable-barriers.pdf",
+        label: "PDF: Quadratic Presentational Complexity Observable Barriers",
         type: "pdf"
       },
       {
-        href: "/assets/presentation-theory/quadratic-presentational-complexity-observer-barriers/quadratic-presentational-complexity-observer-barriers.tex",
-        label: "TeX source: Quadratic Presentational Complexity Observer Barriers",
+        href: "/assets/presentation-theory/quadratic-presentational-complexity-observable-barriers/quadratic-presentational-complexity-observable-barriers.tex",
+        label: "TeX source: Quadratic Presentational Complexity Observable Barriers",
         type: "tex"
       }
     ]
@@ -707,7 +708,7 @@ export const presentationTheoryArticles = [
   {
     href: "/presentation-theory/previous-copy-compression-quantitative-barriers.html",
     title: "Previous-Copy Compression: Quantitative Barriers",
-    description: "Advanced notes on finite stammering profiles, exponential tube barriers, and conditional quantitative lower bounds.",
+    description: "Finite stammering profiles, exponential tube barriers, and conditional quantitative lower bounds for previous-copy compression.",
     date: "June 2026",
     datetime: "2026-06",
     slug: "previous-copy-compression-quantitative-barriers",
@@ -759,7 +760,7 @@ export const presentationTheoryArticles = [
   {
     href: "/presentation-theory/lef-growth-wreath-products.html",
     title: "LEF Growth of Wreath Products with Abelian and Virtually Abelian Lamps",
-    description: "A paper on LEF growth for wreath products with abelian, non-abelian, virtually abelian, and Heisenberg-base examples.",
+    description: "LEF growth for wreath products with abelian, non-abelian, virtually abelian, and Heisenberg-base examples.",
     date: "June 2026",
     datetime: "2026-06",
     slug: "lef-growth-wreath-products",
@@ -1060,6 +1061,7 @@ export const presentationTheoryArticles = [
 export const presentationTheoryArticleGroups = [
   {
     title: "Axiomatic Core",
+    description: "The foundational sequence of the program: description systems and costs, controlled transfer, normal-form compilation, verifiable access, fibre geometry, and observable reconstruction.",
     hrefs: [
       "/presentation-theory/presentation-theory-i-description-systems-costs-observable-fibres.html",
       "/presentation-theory/presentation-theory-ii-controlled-transfer-observable-budgets-geometry-fibres.html",
@@ -1071,6 +1073,7 @@ export const presentationTheoryArticleGroups = [
   },
   {
     title: "Addenda",
+    description: "Supporting technical material for the core papers, including transfer-package atlases, fragmented resource bounds, and selected controlled-transfer examples.",
     hrefs: [
       "/presentation-theory/atlas-controlled-transfer-packages.html",
       "/presentation-theory/fragmented-presentation-systems-resource-bound-degrees.html",
@@ -1079,6 +1082,7 @@ export const presentationTheoryArticleGroups = [
   },
   {
     title: "Direct Applications",
+    description: "Applications where the presentation-theoretic mechanisms are part of the main argument: normal-form costs, marked reconstruction, statement presentations, and persistence fibres.",
     hrefs: [
       "/presentation-theory/no-free-degenerations-presentation-cost-heights-normal-forms.html",
       "/presentation-theory/invisible-flats-marked-normal-forms.html",
@@ -1088,6 +1092,7 @@ export const presentationTheoryArticleGroups = [
   },
   {
     title: "Langlands Access",
+    description: "Finite access and verification formats for Langlands-type data, including Hecke records, class-group ambiguity, transfer audits, and auxiliary analytic or categorical modules.",
     hrefs: [
       "/presentation-theory/presentation-langlands-i-proof-carrying-hecke-records.html",
       "/presentation-theory/class-group-tomography-hecke-eigensystems-number-fields.html",
@@ -1097,15 +1102,16 @@ export const presentationTheoryArticleGroups = [
   },
   {
     title: "Observable Geometry in Groups",
+    description: "A group-theoretic ladder from quadratic normal forms and local profiles to Pfaffian thresholds, commutator-word reconstruction, residual moduli, and endpoint completeness results.",
     hrefs: [
-      "/presentation-theory/quadratic-presentational-complexity-observer-barriers.html",
+      "/presentation-theory/quadratic-presentational-complexity-observable-barriers.html",
       "/presentation-theory/star-support-image-profiles-class-two-p-groups.html",
       "/presentation-theory/sharp-support-image-thresholds-alternating-pencils.html",
       "/presentation-theory/complete-commutator-word-tomography-alternating-pencils.html",
       "/presentation-theory/generic-odd-pfaffian-reconstruction-commutator-word-moments.html",
       "/presentation-theory/word-measure-twins-pfaffian-moduli-class-two-p-groups.html",
       "/presentation-theory/polar-code-endpoint-class-two-p-groups.html",
-      "/presentation-theory/relative-linear-word-observers-semidirect-products.html",
+      "/presentation-theory/relative-linear-word-observables-semidirect-products.html",
       "/presentation-theory/finite-lovasz-profiles-coprime-affine-groups.html",
       "/presentation-theory/degree-weighted-normal-covers-symmetric-alternating-groups.html",
       "/presentation-theory/lef-growth-wreath-products.html"
@@ -1113,6 +1119,7 @@ export const presentationTheoryArticleGroups = [
   },
   {
     title: "Algebraic and Computational Complexity",
+    description: "Algebraic and computational modules around filtered membership, scalar compression, local linear presentations, proof-carrying inference, and toric reachability or positivity.",
     hrefs: [
       "/presentation-theory/representation-theoretic-scalar-compression-linear-differential-equations.html",
       "/presentation-theory/filtered-equivariant-membership-static-algebraic-proof-degree.html",
@@ -1124,6 +1131,7 @@ export const presentationTheoryArticleGroups = [
   },
   {
     title: "Arithmetic Dynamics and Geometry",
+    description: "Arithmetic and geometric applications where presentation costs or finite access data control preimage layers, p-adic traps, blow-up depth, and Rouquier-dimension bounds.",
     hrefs: [
       "/presentation-theory/exact-rational-preperiodic-portraits-controlled-p-adic-traps.html",
       "/presentation-theory/exact-preimage-layers-effective-primitive-divisors-rational-maps-p1.html",
@@ -1133,6 +1141,7 @@ export const presentationTheoryArticleGroups = [
   },
   {
     title: "Compression, Boolean Lifts, and Finite Structures",
+    description: "Finite and symbolic compression problems, including previous-copy parsing, Boolean lift obstructions, random threshold models, relation lattices, and closure systems.",
     hrefs: [
       "/presentation-theory/previous-copy-compression-foundations.html",
       "/presentation-theory/previous-copy-compression-quantitative-barriers.html",
@@ -1145,6 +1154,7 @@ export const presentationTheoryArticleGroups = [
   },
   {
     title: "Proof Strategies",
+    description: "Long-form conditional or strategic notes where the presentation-theoretic language organizes proof obligations, residual fibres, and remaining source blocks.",
     hrefs: [
       "/presentation-theory/predictive-fibres-critical-oseen-transfer-navier-stokes.html",
       "/presentation-theory/conway-thrackle-proof-strategy.html"

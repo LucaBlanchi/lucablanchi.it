@@ -17,7 +17,7 @@
 \newtheorem{problem}[theorem]{Problem}
 \newtheorem{example}[theorem]{Example}
 
-\title{Relative Linear Word Observers and Representation Complexity of Semidirect Products}
+\title{Relative Linear Word Observables and Representation Complexity of Semidirect Products}
 \author{Luca Blanchi}
 \date{June 2026}
 
@@ -25,22 +25,22 @@
 \maketitle
 
 \begin{abstract}
-We introduce and study relative linear word-observer profiles for marked semidirect products
+We introduce and study relative linear word-observable profiles for marked semidirect products
 \[
 G_M=M\rtimes Q,
 \]
-where $Q$ is a finite group and $M$ is a finite-dimensional module over the group algebra $kQ$. A relative linear word observer is obtained by evaluating expressions in variables ranging over the abelian normal subgroup $M$, with conjugations by elements of $Q$ and with scalar operations from $k$ explicitly included in the marked observer language. This distinction is essential: when $k=\mathbb F_p$, the scalar operations are ordinary powers in the elementary abelian $p$-group $M$, while over a general finite field $\mathbb F_q$ they should be regarded as part of a $k$-linear relative observer language rather than as ordinary group words.
+where $Q$ is a finite group and $M$ is a finite-dimensional module over the group algebra $kQ$. A relative linear word observable is obtained by evaluating expressions in variables ranging over the abelian normal subgroup $M$, with conjugations by elements of $Q$ and with scalar operations from $k$ explicitly included in the marked observable language. This distinction is essential: when $k=\mathbb F_p$, the scalar operations are ordinary powers in the elementary abelian $p$-group $M$, while over a general finite field $\mathbb F_q$ they should be regarded as part of a $k$-linear relative observable language rather than as ordinary group words.
 
-The first main result identifies these observers exactly with matrix-rank observers on the $kQ$-module $M$: every matrix over $kQ$ is realized by a finite tuple of relative linear word observers, and the corresponding value distribution determines the rank of the induced linear map on $M$. This gives a bridge between word-statistical observation of semidirect products and modular representation theory.
+The first main result identifies these observables exactly with matrix-rank observables on the $kQ$-module $M$: every matrix over $kQ$ is realized by a finite tuple of relative linear word observables, and the corresponding value distribution determines the rank of the induced linear map on $M$. This gives a bridge between word-statistical observation of semidirect products and modular representation theory.
 
-We prove that the full relative matrix word profile is a complete invariant of marked semidirect products: if all matrix-rank observers agree on two finite-dimensional $kQ$-modules $M,N$, then $M\cong N$, hence $M\rtimes Q\cong N\rtimes Q$ as marked semidirect products. The proof uses the standard module-theoretic fact that pp-pairs, equivalently finitely presented functors, detect indecomposable summands of finite-dimensional modules.
+We prove that the full relative matrix word profile is a complete invariant of marked semidirect products: if all matrix-rank observables agree on two finite-dimensional $kQ$-modules $M,N$, then $M\cong N$, hence $M\rtimes Q\cong N\rtimes Q$ as marked semidirect products. The proof uses the standard module-theoretic fact that pp-pairs, equivalently finitely presented functors, detect indecomposable summands of finite-dimensional modules.
 
-We then analyze finite-budget observers. In the semisimple fixed-quotient case, primitive central idempotents give bounded complete observers. For cyclic modular quotients, difference observers recover ranks of radical powers and hence the Jordan partition. In wild modular regimes, the full profile remains complete, but every finite set of matrix-rank observers is generically blind on positive-dimensional algebraic families. Thus the paper exhibits a trichotomy:
+We then analyze finite-budget observables. In the semisimple fixed-quotient case, primitive central idempotents give bounded complete observables. For cyclic modular quotients, difference observables recover ranks of radical powers and hence the Jordan partition. In wild modular regimes, the full profile remains complete, but every finite set of matrix-rank observables is generically blind on positive-dimensional algebraic families. Thus the paper exhibits a trichotomy:
 \[
-\text{semisimple fixed quotient}\Rightarrow\text{bounded complete observers},
+\text{semisimple fixed quotient}\Rightarrow\text{bounded complete observables},
 \]
 \[
-\text{cyclic modular quotient}\Rightarrow\text{radical-depth observers},
+\text{cyclic modular quotient}\Rightarrow\text{radical-depth observables},
 \]
 \[
 \text{wild modular quotient}\Rightarrow\text{complete infinite profile but finite-budget residual fibers}.
@@ -48,7 +48,7 @@ We then analyze finite-budget observers. In the semisimple fixed-quotient case, 
 \end{abstract}
 
 \section*{Declaration of generative AI and AI-assisted technologies in the writing process}
-This article belongs to the AI-assisted math section. Generative AI, including ChatGPT by \mbox{OpenAI}, was used to assist with mathematical drafting, formalization, review, and editing. The note may be preliminary, may have been only partially reviewed, and in some cases may be only AI-reviewed.
+This article belongs to the Presentation theory section. Generative AI, including ChatGPT by \mbox{OpenAI}, was used to assist with mathematical drafting, formalization, review, and editing. The note may be preliminary, may have been only partially reviewed, and in some cases may be only AI-reviewed.
 
 \section{Introduction}
 
@@ -56,7 +56,7 @@ A finite group may be represented in many ways: by generators and relations, by 
 \[
 1\to N\to G\to Q\to 1.
 \]
-Such representations do more than describe the abstract group. They determine which operations are easy, which observers are available, what data can be recovered, and how much information is visible at bounded complexity.
+Such representations do more than describe the abstract group. They determine which operations are easy, which observables are available, what data can be recovered, and how much information is visible at bounded complexity.
 
 This paper studies a concrete representation system: marked semidirect products
 \[
@@ -64,22 +64,22 @@ G_M=M\rtimes Q,
 \]
 where $Q$ is a fixed finite group and $M$ is a finite-dimensional $kQ$-module. The marking means that the normal abelian subgroup $M$, the quotient $Q$, and the action of $Q$ on $M$ are part of the represented object. This avoids ambiguities caused by automorphisms of $Q$ or by noncanonical choices of complements.
 
-The central question is: \emph{how much of the $kQ$-module $M$ is visible through bounded-complexity relative observers in $M\rtimes Q$?}
+The central question is: \emph{how much of the $kQ$-module $M$ is visible through bounded-complexity relative observables in $M\rtimes Q$?}
 The answer is sharp.
 
-First, relative linear word observers are exactly matrix-rank observers. Given
+First, relative linear word observables are exactly matrix-rank observables. Given
 \[
 a=\sum_{q\in Q} c_q q\in kQ,
 \]
-we form the relative observer
+we form the relative observable
 \[
 w_a(y)=\prod_{q\in Q} q\, y^{c_q}\, q^{-1},
 \]
-where $y$ ranges over the abelian normal subgroup $M$ and $y^{c_q}$ denotes the scalar multiple $c_qy$. If $k=\mathbb F_p$, this scalar operation is an ordinary group power in $M$. If $k=\mathbb F_q$ with $q>p$, it is part of the marked $k$-linear observer language. Since $M$ is abelian,
+where $y$ ranges over the abelian normal subgroup $M$ and $y^{c_q}$ denotes the scalar multiple $c_qy$. If $k=\mathbb F_p$, this scalar operation is an ordinary group power in $M$. If $k=\mathbb F_q$ with $q>p$, it is part of the marked $k$-linear observable language. Since $M$ is abelian,
 \[
 w_a(v)=a\cdot v.
 \]
-More generally, a matrix $A\in M_{s\times t}(kQ)$ gives a tuple of relative observers whose evaluation is exactly the linear map
+More generally, a matrix $A\in M_{s\times t}(kQ)$ gives a tuple of relative observables whose evaluation is exactly the linear map
 \[
 A_M:M^t\to M^s.
 \]
@@ -91,9 +91,9 @@ Second, the full profile is complete. If
 \]
 for all matrices $A$ over $kQ$, then $M\cong N$ as $kQ$-modules. Hence the full relative matrix word profile classifies marked semidirect products. The proof uses standard tools from model theory of modules: ranks of matrices determine dimensions of pp-definable subgroups and pp-pairs; pp-pairs, equivalently finitely presented functors, detect indecomposable summands; Krull-Schmidt then recovers the module.
 
-Third, finite-budget behavior separates the representation-theoretic regimes. If $kQ$ is semisimple, primitive central idempotents give bounded complete observers. If $Q=C_{p^a}$ in characteristic $p$, iterated difference observers recover the ranks of radical powers and hence the Jordan partition. In wild modular regimes, finite observers cannot classify generic positive-dimensional families, even though the full profile is complete.
+Third, finite-budget behavior separates the representation-theoretic regimes. If $kQ$ is semisimple, primitive central idempotents give bounded complete observables. If $Q=C_{p^a}$ in characteristic $p$, iterated difference observables recover the ranks of radical powers and hence the Jordan partition. In wild modular regimes, finite observables cannot classify generic positive-dimensional families, even though the full profile is complete.
 
-\section{Marked Semidirect Products and Relative Observers}
+\section{Marked Semidirect Products and Relative Observables}
 
 Let $k$ be a field, $Q$ a finite group, and $M$ a finite-dimensional left $kQ$-module. We write the associated semidirect product as
 \[
@@ -105,8 +105,8 @@ The multiplication is
 \]
 We regard $G_M$ as a marked semidirect product: the subgroup $M$, the quotient $Q$, and the action of representatives of $Q$ by conjugation are part of the representation.
 
-\begin{definition}[Relative linear word observers]
-A relative linear word observer in variables $y_1,\ldots,y_t$ ranging over $M$ is an expression built from:
+\begin{definition}[Relative linear word observables]
+A relative linear word observable in variables $y_1,\ldots,y_t$ ranging over $M$ is an expression built from:
 \begin{itemize}
 \item multiplication in the abelian group $M$;
 \item conjugation by marked elements of $Q$;
@@ -116,18 +116,18 @@ Equivalently, each output coordinate is a $kQ$-linear combination of the variabl
 \end{definition}
 
 \begin{remark}[Ordinary group words]
-When $k=\mathbb F_p$, the additive group of $M$ is elementary abelian, and scalar multiplication by $c\in\mathbb F_p$ is the ordinary group power $y\mapsto y^c$. In this prime-field case, the relative linear observers above can be realized by ordinary relative group words using conjugation by $Q$.
+When $k=\mathbb F_p$, the additive group of $M$ is elementary abelian, and scalar multiplication by $c\in\mathbb F_p$ is the ordinary group power $y\mapsto y^c$. In this prime-field case, the relative linear observables above can be realized by ordinary relative group words using conjugation by $Q$.
 
-When $k=\mathbb F_q$ with $q=p^f$ and $f>1$, scalar multiplication by a general $c\in\mathbb F_q$ is not an ordinary group word operation on the underlying abelian group. For this reason the present paper uses the more precise term relative $k$-linear word observer. The ordinary-word interpretation should be read literally only in the prime-field case or after adding the scalar operations to the marked language.
+When $k=\mathbb F_q$ with $q=p^f$ and $f>1$, scalar multiplication by a general $c\in\mathbb F_q$ is not an ordinary group word operation on the underlying abelian group. For this reason the present paper uses the more precise term relative $k$-linear word observable. The ordinary-word interpretation should be read literally only in the prime-field case or after adding the scalar operations to the marked language.
 \end{remark}
 
-\subsection{Unary observers}
+\subsection{Unary observables}
 
 For
 \[
 a=\sum_{q\in Q}c_q q\in kQ,
 \]
-define the unary relative observer
+define the unary relative observable
 \[
 w_a(y)=\prod_{q\in Q}q\, y^{c_q}\,q^{-1}.
 \]
@@ -151,7 +151,7 @@ w_a(v)=\sum_{q\in Q}c_q(q\cdot v)=a\cdot v.
 \]
 \end{proof}
 
-\subsection{Matrix observers}
+\subsection{Matrix observables}
 
 Let
 \[
@@ -176,7 +176,7 @@ w_i(y_1,\ldots,y_t)=\prod_{j=1}^t w_{a_{ij}}(y_j),
 \]
 and let $W_A=(w_1,\ldots,w_s)$.
 
-\begin{proposition}[Matrix observer evaluation]
+\begin{proposition}[Matrix observable evaluation]
 For every $\mathbf v=(v_1,\ldots,v_t)\in M^t$,
 \[
 W_A(\mathbf v)=A_M(\mathbf v).
@@ -216,10 +216,10 @@ If $A=kQ$ and $G_M=M\rtimes Q$, the full relative matrix word profile is
 \[
 \operatorname{RelMRWP}(G_M)=\operatorname{MRP}_{kQ}(M).
 \]
-A finite-budget version is obtained by restricting to matrices $B$ whose entries are described by observers of complexity at most $L$.
+A finite-budget version is obtained by restricting to matrices $B$ whose entries are described by observables of complexity at most $L$.
 \end{definition}
 
-\begin{theorem}[Relative observers equal matrix-rank observers]
+\begin{theorem}[Relative observables equal matrix-rank observables]
 Let $G_M=M\rtimes Q$ be a marked semidirect product over a finite field $k$. Then relative $k$-linear multi-word value distributions determine exactly the matrix rank profile of the $kQ$-module $M$:
 \[
 \operatorname{RelMRWP}(G_M)=\operatorname{MRP}_{kQ}(M).
@@ -227,13 +227,13 @@ Let $G_M=M\rtimes Q$ be a marked semidirect product over a finite field $k$. The
 \end{theorem}
 
 \begin{proof}
-The matrix observer construction realizes every matrix $A$ over $kQ$ by a tuple of relative observers $W_A$, and the value distribution determines $\operatorname{rank}A_M$.
+The matrix observable construction realizes every matrix $A$ over $kQ$ by a tuple of relative observables $W_A$, and the value distribution determines $\operatorname{rank}A_M$.
 
 Conversely, every relative $k$-linear word expression in the abelian variables $y_1,\ldots,y_t$, using scalar operations and conjugations by elements of $Q$, has each output coordinate of the form
 \[
 \sum_j a_{ij}y_j
 \]
-with $a_{ij}\in kQ$. Thus every such observer is represented by a matrix over $kQ$.
+with $a_{ij}\in kQ$. Thus every such observable is represented by a matrix over $kQ$.
 \end{proof}
 
 \section{Completeness of the Full Matrix Rank Profile}
@@ -333,7 +333,7 @@ by $(m,q)\mapsto (Sm,q)$, where $S:M\to N$ is the module isomorphism.
 \end{proof}
 
 \begin{remark}
-The completeness theorem is not a claim that a finite list of observers classifies arbitrary modules. Rather, the full infinite profile is complete. Finite-budget profiles form a hierarchy of approximations to isomorphism. In semisimple fixed-quotient cases this hierarchy collapses at bounded budget; in wild cases it typically does not.
+The completeness theorem is not a claim that a finite list of observables classifies arbitrary modules. Rather, the full infinite profile is complete. Finite-budget profiles form a hierarchy of approximations to isomorphism. In semisimple fixed-quotient cases this hierarchy collapses at bounded budget; in wild cases it typically does not.
 \end{remark}
 
 \section{Semisimple Fixed Quotients}
@@ -351,8 +351,8 @@ The operator $e_i$ acts as the projection onto the $S_i$-isotypic component. Hen
 \operatorname{rank}(e_i)_M=m_i d_i.
 \]
 
-\begin{theorem}[Bounded observer classification for fixed semisimple quotients]
-Fix $k=\mathbb F_q$ and a finite group $Q$ with $\operatorname{char}k\nmid |Q|$. There exists a constant $L=L(k,Q)$ such that, for every finite-dimensional $kQ$-module $M$, the marked semidirect product $G_M=M\rtimes Q$ is classified by the relative identity profiles of unary $k$-linear observers of complexity at most $L$.
+\begin{theorem}[Bounded observable classification for fixed semisimple quotients]
+Fix $k=\mathbb F_q$ and a finite group $Q$ with $\operatorname{char}k\nmid |Q|$. There exists a constant $L=L(k,Q)$ such that, for every finite-dimensional $kQ$-module $M$, the marked semidirect product $G_M=M\rtimes Q$ is classified by the relative identity profiles of unary $k$-linear observables of complexity at most $L$.
 \end{theorem}
 
 \begin{proof}
@@ -360,17 +360,17 @@ For each primitive central idempotent
 \[
 e_i=\sum_{q\in Q}c_{i,q}q,
 \]
-form the unary observer $w_{e_i}$. By the group-algebra evaluation lemma, $w_{e_i}(v)=e_iv$. Therefore
+form the unary observable $w_{e_i}$. By the group-algebra evaluation lemma, $w_{e_i}(v)=e_iv$. Therefore
 \[
 \Pr_{v\in M}[w_{e_i}(v)=0]
 =
 q^{-\operatorname{rank}(e_i)_M}.
 \]
-The profile of $w_{e_i}$ determines $\operatorname{rank}(e_i)_M=m_i d_i$, hence the multiplicity $m_i$. The idempotents $e_i$ depend only on $k$ and $Q$, so the corresponding observers have uniformly bounded description complexity. The multiplicities $m_i$ determine the semisimple module $M$, hence the marked semidirect product.
+The profile of $w_{e_i}$ determines $\operatorname{rank}(e_i)_M=m_i d_i$, hence the multiplicity $m_i$. The idempotents $e_i$ depend only on $k$ and $Q$, so the corresponding observables have uniformly bounded description complexity. The multiplicities $m_i$ determine the semisimple module $M$, hence the marked semidirect product.
 \end{proof}
 
 \begin{remark}
-If one insists on ordinary group words rather than $k$-linear relative observers, the prime-field case $k=\mathbb F_p$ is literal. Over larger finite fields, the theorem should be read in the marked $k$-linear observer language, or after replacing scalar operations by a fixed marked implementation when such an implementation is part of the representation.
+If one insists on ordinary group words rather than $k$-linear relative observables, the prime-field case $k=\mathbb F_p$ is literal. Over larger finite fields, the theorem should be read in the marked $k$-linear observable language, or after replacing scalar operations by a fixed marked implementation when such an implementation is part of the representation.
 \end{remark}
 
 \section{Cyclic Modular Quotients and Radical Depth}
@@ -389,7 +389,7 @@ T^{p^a}-I=(T-I)^{p^a}=N^{p^a},
 \]
 so $N$ is nilpotent. Let $G_T=V\rtimes_T C_{p^a}$.
 
-Define the difference observer
+Define the difference observable
 \[
 \Delta(y)=tyt^{-1}y^{-1}.
 \]
@@ -449,7 +449,7 @@ These numbers determine the partition $\lambda$, hence the similarity class of $
 \end{proof}
 
 \begin{proposition}[Pure-difference lower bound]
-For every $D\ge1$, there exist two nonisomorphic $kC_{p^a}$-modules, for $a$ large enough, that are indistinguishable by the observers
+For every $D\ge1$, there exist two nonisomorphic $kC_{p^a}$-modules, for $a$ large enough, that are indistinguishable by the observables
 \[
 \Delta^{(e)},\qquad 1\le e\le D.
 \]
@@ -478,7 +478,7 @@ evaluates to
 \[
 (T^{p^s}-I)y=(T-I)^{p^s}y=N^{p^s}y.
 \]
-Thus the observer complexity of probing $N^e$ depends on the operator-polynomial complexity of $(z-1)^e$ modulo $(z-1)^{p^a}$, not simply on $e$.
+Thus the observable complexity of probing $N^e$ depends on the operator-polynomial complexity of $(z-1)^e$ modulo $(z-1)^{p^a}$, not simply on $e$.
 \end{remark}
 
 \section{Elementary Abelian Quotients and Rank Varieties}
@@ -503,16 +503,16 @@ N_\lambda=\lambda_1N_1+\cdots+\lambda_rN_r.
 \]
 The Jordan type of $N_\lambda$ is determined by the ranks of $N_\lambda^e$ for $1\le e\le p$.
 
-\begin{theorem}[Rank-variety observers]
+\begin{theorem}[Rank-variety observables]
 The relative matrix-rank profile of $M\rtimes E_r$ recovers the rank and Jordan-type data of the restrictions of $M$ to all rank-one shifted cyclic subgroups. In particular, it recovers the usual rank-variety and constant-Jordan-type loci associated to $M$.
 \end{theorem}
 
 \begin{proof}
-For each $\lambda$ and $e$, the operator $N_\lambda^e$ is an element of $kE_r$. The unary observer associated to this group-algebra element evaluates on $v\in M$ as $N_\lambda^ev$. The identity probability determines $\operatorname{rank}N_\lambda^e$, and these ranks determine the Jordan type of $N_\lambda$.
+For each $\lambda$ and $e$, the operator $N_\lambda^e$ is an element of $kE_r$. The unary observable associated to this group-algebra element evaluates on $v\in M$ as $N_\lambda^ev$. The identity probability determines $\operatorname{rank}N_\lambda^e$, and these ranks determine the Jordan type of $N_\lambda$.
 \end{proof}
 
 \begin{remark}
-Rank varieties and constant Jordan type are therefore contained in the relative matrix-rank observer profile. The full matrix word profile is broader: it includes ranks of arbitrary matrices over $kE_r$, not only ranks of powers of one-parameter nilpotent restrictions.
+Rank varieties and constant Jordan type are therefore contained in the relative matrix-rank observable profile. The full matrix word profile is broader: it includes ranks of arbitrary matrices over $kE_r$, not only ranks of powers of one-parameter nilpotent restrictions.
 \end{remark}
 
 \section{Wild Regimes}
@@ -533,8 +533,8 @@ x\mapsto \operatorname{rank}B_{M_x}
 \]
 is maximal on a dense open subset of $X$.
 
-\begin{theorem}[Generic finite-observer blindness]
-Let $(M_x)_{x\in X}$ be an irreducible algebraic family of $A$-modules. For every finite set of matrix-rank observers
+\begin{theorem}[Generic finite-observable blindness]
+Let $(M_x)_{x\in X}$ be an irreducible algebraic family of $A$-modules. For every finite set of matrix-rank observables
 \[
 \mathcal S=\{B_1,\ldots,B_N\},
 \]
@@ -552,12 +552,12 @@ If the family is generically non-isomorphic and positive-dimensional, the dense 
 \end{proof}
 
 \begin{corollary}
-Let $G_x=M_x\rtimes Q$ be a marked semidirect family with $A=kQ$. For any finite family of relative matrix-rank observers, there is a dense open subset of $X$ on which all corresponding observer profiles are constant. Thus finite observers detect rank-degeneration strata, not generic parameters, in positive-dimensional wild families.
+Let $G_x=M_x\rtimes Q$ be a marked semidirect family with $A=kQ$. For any finite family of relative matrix-rank observables, there is a dense open subset of $X$ on which all corresponding observable profiles are constant. Thus finite observables detect rank-degeneration strata, not generic parameters, in positive-dimensional wild families.
 \end{corollary}
 
 \section{Fox-Linear Homomorphism Lifting}
 
-We include a further application connecting relative observers with homomorphism counts.
+We include a further application connecting relative observables with homomorphism counts.
 
 Let
 \[
@@ -639,21 +639,21 @@ In general, unmarked classification requires quotienting module classification b
 The results give the following hierarchy for marked semidirect products $G_M=M\rtimes Q$.
 
 \begin{itemize}
-\item In the semisimple fixed-quotient case, bounded observers classify arbitrary-dimensional semidirect products.
-\item In the cyclic modular case, observers $\Delta^{(e)}$ recover radical depth and the Jordan partition.
-\item In elementary abelian and wild modular cases, relative matrix-rank observers include rank-variety and constant-Jordan-type data; the full profile is complete, but finite profiles are generically blind on positive-dimensional wild families.
+\item In the semisimple fixed-quotient case, bounded observables classify arbitrary-dimensional semidirect products.
+\item In the cyclic modular case, observables $\Delta^{(e)}$ recover radical depth and the Jordan partition.
+\item In elementary abelian and wild modular cases, relative matrix-rank observables include rank-variety and constant-Jordan-type data; the full profile is complete, but finite profiles are generically blind on positive-dimensional wild families.
 \end{itemize}
 
 \begin{problem}
-For a wild algebra $A$ and a finite-budget observer class, estimate the residual fiber size over finite fields, or the geometric residual fiber dimension over algebraically closed fields.
+For a wild algebra $A$ and a finite-budget observable class, estimate the residual fiber size over finite fields, or the geometric residual fiber dimension over algebraically closed fields.
 \end{problem}
 
 \begin{problem}
-For tame algebras, determine whether finite or logarithmically growing observer budgets recover the parameters of one-parameter families.
+For tame algebras, determine whether finite or logarithmically growing observable budgets recover the parameters of one-parameter families.
 \end{problem}
 
 \begin{problem}
-For $kC_{p^a}\cong k[\epsilon]/(\epsilon^{p^a})$, determine the straight-line complexity of constructing the operator $\epsilon^e$ as a relative observer.
+For $kC_{p^a}\cong k[\epsilon]/(\epsilon^{p^a})$, determine the straight-line complexity of constructing the operator $\epsilon^e$ as a relative observable.
 \end{problem}
 
 \begin{problem}
@@ -661,7 +661,7 @@ Determine conditions under which the abelian normal subgroup $M$ and quotient $Q
 \end{problem}
 
 \begin{problem}
-Describe precisely which finite-budget matrix-rank observers correspond to known rank varieties, constant Jordan type, radical type, and socle type invariants for elementary abelian $p$-groups.
+Describe precisely which finite-budget matrix-rank observables correspond to known rank varieties, constant Jordan type, radical type, and socle type invariants for elementary abelian $p$-groups.
 \end{problem}
 
 \begin{thebibliography}{99}
