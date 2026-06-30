@@ -186,7 +186,7 @@ function renderFragment(source: string, state: RenderState): string {
         mathLines.push(lines[index]);
         if (lines[index].trim() === endMarker) break;
       }
-      html.push(`<div class="math-display">${mathLines.join("\n")}</div>`);
+      html.push(`<div class="math-display">${escapeHtml(mathLines.join("\n"))}</div>`);
       continue;
     }
 
@@ -320,7 +320,7 @@ function refId(prefix: string, key: string) {
 }
 
 function formatInline(value: string, state: RenderState) {
-  return value
+  return escapeHtml(value)
     .replace(/\\noindent\s*/g, "")
     .replace(/\\textbf\{([^{}]+)\}/g, "<strong>$1</strong>")
     .replace(/\\emph\{([^{}]+)\}/g, "<em>$1</em>")
@@ -335,4 +335,11 @@ function formatInline(value: string, state: RenderState) {
         })
         .join(", ")
     );
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }

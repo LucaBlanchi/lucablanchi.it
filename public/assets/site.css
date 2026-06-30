@@ -907,6 +907,12 @@ h2 {
   margin-bottom: 8px;
 }
 
+.paper-page-light-statements .paper-statement-label,
+.paper-page-light-statements .paper-proof-label {
+  color: #3b4352;
+  font-weight: 560;
+}
+
 .paper-references li {
   margin-bottom: 10px;
 }
