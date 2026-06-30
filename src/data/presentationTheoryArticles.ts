@@ -24,6 +24,90 @@ export interface PresentationTheoryArticleGroup {
 
 export const presentationTheoryArticles = [
   {
+    href: "/presentation-theory/presentation-langlands-i-proof-carrying-hecke-records.html",
+    title: "Presentation-Langlands I: Proof-Carrying Hecke Records",
+    description: "A finite proof-carrying format for Hecke eigensystem data, with separating fingerprints, projector witnesses, negative ideal-membership witnesses, residual ledgers, and normalization records.",
+    date: "June 2026",
+    datetime: "2026-06",
+    slug: "presentation-langlands-i-proof-carrying-hecke-records",
+    section: "Langlands Access",
+    assets: [
+      {
+        href: "/assets/presentation-theory/presentation-langlands-i-proof-carrying-hecke-records/presentation-langlands-i-proof-carrying-hecke-records.pdf",
+        label: "PDF: Presentation Langlands I Proof Carrying Hecke Records",
+        type: "pdf"
+      },
+      {
+        href: "/assets/presentation-theory/presentation-langlands-i-proof-carrying-hecke-records/presentation-langlands-i-proof-carrying-hecke-records.tex",
+        label: "TeX source: Presentation Langlands I Proof Carrying Hecke Records",
+        type: "tex"
+      }
+    ]
+  },
+  {
+    href: "/presentation-theory/class-group-tomography-hecke-eigensystems-number-fields.html",
+    title: "Optimal Class-Group Tomography for Hecke Eigensystems over Number Fields",
+    description: "A sharp class-group tomography theorem for principal-Hecke fibres: effective unramified quadratic twist ambiguity, invisible self-twist ledgers, minimal non-principal resolvers, and finite verification data.",
+    date: "June 2026",
+    datetime: "2026-06",
+    slug: "class-group-tomography-hecke-eigensystems-number-fields",
+    section: "Langlands Access",
+    assets: [
+      {
+        href: "/assets/presentation-theory/class-group-tomography-hecke-eigensystems-number-fields/class-group-tomography-hecke-eigensystems-number-fields.pdf",
+        label: "PDF: Optimal Class Group Tomography Hecke Eigensystems Number Fields",
+        type: "pdf"
+      },
+      {
+        href: "/assets/presentation-theory/class-group-tomography-hecke-eigensystems-number-fields/class-group-tomography-hecke-eigensystems-number-fields.tex",
+        label: "TeX source: Optimal Class Group Tomography Hecke Eigensystems Number Fields",
+        type: "tex"
+      }
+    ]
+  },
+  {
+    href: "/presentation-theory/verified-transfer-audits-finite-langlands-windows.html",
+    title: "Finite Transfer Audits in Presentation-Langlands",
+    description: "A finite-window audit format for Langlands transfers, with match/no-target/ambiguous outputs, target-completeness ledgers, ramification ledgers, local resolvers, and packet-period fibres.",
+    date: "June 2026",
+    datetime: "2026-06",
+    slug: "verified-transfer-audits-finite-langlands-windows",
+    section: "Langlands Access",
+    assets: [
+      {
+        href: "/assets/presentation-theory/verified-transfer-audits-finite-langlands-windows/verified-transfer-audits-finite-langlands-windows.pdf",
+        label: "PDF: Finite Transfer Audits Presentation Langlands",
+        type: "pdf"
+      },
+      {
+        href: "/assets/presentation-theory/verified-transfer-audits-finite-langlands-windows/verified-transfer-audits-finite-langlands-windows.tex",
+        label: "TeX source: Finite Transfer Audits Presentation Langlands",
+        type: "tex"
+      }
+    ]
+  },
+  {
+    href: "/presentation-theory/analytic-categorical-database-access-modules-presentation-langlands.html",
+    title: "Analytic, Categorical, and Database Access Modules in Presentation-Langlands",
+    description: "An addendum of finite access modules for Maass verification, categorical and spectral-action fingerprints, automorphic error-correcting codes, murmurations, and proof-carrying database links.",
+    date: "June 2026",
+    datetime: "2026-06",
+    slug: "analytic-categorical-database-access-modules-presentation-langlands",
+    section: "Langlands Access",
+    assets: [
+      {
+        href: "/assets/presentation-theory/analytic-categorical-database-access-modules-presentation-langlands/analytic-categorical-database-access-modules-presentation-langlands.pdf",
+        label: "PDF: Analytic Categorical Database Access Modules Presentation Langlands",
+        type: "pdf"
+      },
+      {
+        href: "/assets/presentation-theory/analytic-categorical-database-access-modules-presentation-langlands/analytic-categorical-database-access-modules-presentation-langlands.tex",
+        label: "TeX source: Analytic Categorical Database Access Modules Presentation Langlands",
+        type: "tex"
+      }
+    ]
+  },
+  {
     href: "/presentation-theory/filtered-equivariant-membership-static-algebraic-proof-degree.html",
     title: "Filtered Equivariant Membership and Static Algebraic Proof Degree",
     description: "Static algebraic proof degree, homogenized presentation ideals, finite-domain filtered membership, Boolean reciprocals, and equivariant Macaulay compression.",
@@ -956,6 +1040,15 @@ export const presentationTheoryArticleGroups = [
       "/presentation-theory/statement-presentations-semilinear-greedy-3-sumfree-sequence.html",
       "/presentation-theory/fragmented-presentation-systems-resource-bound-degrees.html",
       "/presentation-theory/presentation-incidence-rank-fibres-multiparameter-persistence.html"
+    ]
+  },
+  {
+    title: "Langlands Access",
+    hrefs: [
+      "/presentation-theory/presentation-langlands-i-proof-carrying-hecke-records.html",
+      "/presentation-theory/class-group-tomography-hecke-eigensystems-number-fields.html",
+      "/presentation-theory/verified-transfer-audits-finite-langlands-windows.html",
+      "/presentation-theory/analytic-categorical-database-access-modules-presentation-langlands.html"
     ]
   },
   {

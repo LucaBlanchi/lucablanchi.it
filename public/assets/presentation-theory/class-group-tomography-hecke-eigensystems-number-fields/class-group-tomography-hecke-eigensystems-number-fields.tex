@@ -1,0 +1,365 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.06in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Cl}{Cl}
+\DeclareMathOperator{\Span}{span}
+
+\title{Optimal Class-Group Tomography for Hecke Eigensystems over Number Fields}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Recent work on Hecke operators over number fields shows that, in important Bianchi and Hilbert settings, principal Hecke operators recover complete eigensystems only up to unramified quadratic twist.  This note reformulates that ambiguity as an observable fibre and gives an optimal presentation-theoretic resolver for it.  The residual fibre is controlled by the group
+\[
+G_2(K)=\Hom(\Cl(K),\{\pm1\})
+\]
+of unramified quadratic characters.  Non-principal Hecke operators evaluate these characters on ideal classes whenever the relevant Hecke values are nonzero.  Therefore resolving a principal-Hecke fibre becomes a finite tomography problem on the class group.
+
+The main theorem includes the self-twist and zero-value phenomena that occur in computations.  For an eigensystem \(\lambda\), let \(\mathcal P_\lambda\) be the set of ideal classes admitting nonzero non-principal probe values, let \(W_\lambda\subseteq \Cl(K)/2\Cl(K)\) be their span, and let \(H_{\mathrm{eff}}(\lambda)\) be the image of the residual twist group on \(W_\lambda\).  A set of nondegenerate probe classes resolves the principal fibre exactly when its evaluation map is injective on \(H_{\mathrm{eff}}(\lambda)\).  The minimum number of independent nondegenerate probes is therefore
+\[
+\dim_{\mathbb F_2}H_{\mathrm{eff}}(\lambda),
+\]
+and such a minimum resolver always exists.  In restricted or degenerate computational windows, the optimal remaining resolver is a weighted set cover on pairs of residual twists.
+
+The result gives a concrete example where Presentation Theory does not merely rename a known ambiguity.  It identifies the fibre, quotients out invisible inner-twist data, chooses observables adapted to the visible fibre, proves a sharp lower bound, gives an algorithm, and produces finite verification data.
+\end{abstract}
+
+\section{Introduction}
+
+Let \(K\) be a number field.  In the computational theory of modular and automorphic forms over \(K\), Hecke operators are naturally indexed by ideals of \(K\).  Principal ideals and non-principal ideals do not always carry the same amount of information.  Work of Cremona on Hecke operators and formal modular symbols over number fields shows that, in the relevant setting, principal Hecke data determine the complete eigensystem only up to unramified twist; after fixing the appropriate character, the remaining ambiguity is quadratic \cite{cremona2026}.  In Bianchi computations, the role of non-principal Hecke operators and self-twists is also visible in the class-group structure of the algorithm \cite{thalagoda-yasaki2025}.
+
+This note turns that residual ambiguity into a finite tomography theorem.  Principal Hecke operators define an observable map.  The fibre of this map is controlled by unramified quadratic characters, hence by
+\[
+G_2(K)=\Hom(\Cl(K),\{\pm1\}).
+\]
+Non-principal Hecke operators evaluate these characters on ideal classes.  The only subtlety is that some Hecke values vanish, and some twists are invisible on the nonzero support actually available in a finite computation.  The correct resolver is therefore not the full class group, but the effective quotient seen by the nondegenerate probe classes.
+
+The main result is optimal.  For a fixed eigensystem \(\lambda\), let \(\mathcal P_\lambda\) be the set of ideal classes on which at least one available Hecke value is nonzero.  Let \(W_\lambda\) be the span of these classes in \(\Cl(K)/2\Cl(K)\), and let \(H_{\mathrm{eff}}(\lambda)\) be the image of the residual twist group on \(W_\lambda\).  Then the minimum number of independent nondegenerate class probes needed to resolve the principal fibre, modulo twists invisible on all available nonzero probes, is exactly
+\[
+\dim_{\mathbb F_2} H_{\mathrm{eff}}(\lambda).
+\]
+
+\section{Principal data and residual twists}
+
+Let \(\Cl(K)\) be the ideal class group, and define
+\[
+G_2(K)=\Hom(\Cl(K),\{\pm1\}).
+\]
+Elements of \(G_2(K)\) are the unramified quadratic characters of the ideal class group.  We restrict throughout to ideals prime to the declared level.
+
+Throughout this note, an unramified class character means a quadratic character of the finite class quotient acting on the prime-to-level Hecke operators in the normalization of the declared computation.  In the simplest case this quotient is \(\Cl(K)\).  In variants involving ray class characters, nebentypus, or additional local level structure, \(\Cl(K)\) should be replaced everywhere by the corresponding finite class quotient.  The linear-algebra statements are unchanged after that replacement.
+
+Let \(\mathcal E\) be a finite computational window of Hecke eigensystems.  For \(\lambda\in\mathcal E\), write
+\[
+\lambda(T_{\mathfrak a})
+\]
+for the value of the Hecke operator indexed by the ideal \(\mathfrak a\).  Let
+\[
+\mathcal O_{\mathrm{prin}}(\lambda)=
+(\lambda(T_{\mathfrak a}))_{[\mathfrak a]=1}
+\]
+be the principal Hecke data.
+
+\begin{definition}[Residual twist ledger]
+The principal residual ledger of \(\lambda\) is
+\[
+\mathsf{TwLed}(\lambda)=
+\{\mu\in\mathcal E:
+\mathcal O_{\mathrm{prin}}(\mu)=\mathcal O_{\mathrm{prin}}(\lambda)\}.
+\]
+In a twist-governed window, we choose a residual twist group
+\[
+H\subseteq G_2(K)
+\]
+such that every element of the ledger is represented by a twist
+\[
+\lambda^\chi,\qquad \chi\in H.
+\]
+\end{definition}
+
+The group \(H\) is part of the finite record.  It may be smaller than \(G_2(K)\), and it depends on the fixed character, the finite window, the normalization conventions, and possible self-twist phenomena.  The theorem below does not assume that the principal fibre is the full quadratic character group.
+
+The twist rule has the form
+\[
+\lambda^\chi(T_{\mathfrak a})
+=
+\chi([\mathfrak a])\lambda(T_{\mathfrak a})
+\]
+for the ideals and normalizations in the declared computation.  Principal ideals have class \(1\), so unramified class characters do not change principal Hecke values.  Non-principal ideals can detect the residual character.
+
+\section{Observable support}
+
+A non-principal class is useful only when it is represented by a Hecke operator whose baseline value is nonzero.  This is the finite support on which twist ratios can be read.
+
+\begin{definition}[Nondegenerate probe class]
+A class \(c\in\Cl(K)\) is nondegenerate for \(\lambda\) if there is an ideal \(\mathfrak a\), prime to the level, such that
+\[
+[\mathfrak a]=c
+\quad\text{and}\quad
+\lambda(T_{\mathfrak a})\neq0.
+\]
+Let \(\mathcal P_\lambda\subseteq\Cl(K)\) be the set of nondegenerate probe classes.
+\end{definition}
+
+Since the characters in \(G_2(K)\) are quadratic, they factor through \(\Cl(K)/2\Cl(K)\).  Let
+\[
+\overline{\mathcal P}_\lambda
+\subseteq
+\Cl(K)/2\Cl(K)
+\]
+be the image of \(\mathcal P_\lambda\), and set
+\[
+W_\lambda=
+\Span_{\mathbb F_2}(\overline{\mathcal P}_\lambda)
+\subseteq
+\Cl(K)/2\Cl(K).
+\]
+
+\begin{definition}[Effective twist group]
+The effective twist group of \(\lambda\) is
+\[
+H_{\mathrm{eff}}(\lambda)=
+\operatorname{im}\left(
+H\longrightarrow\Hom(W_\lambda,\{\pm1\})
+\right).
+\]
+The invisible twist ledger is
+\[
+I_\lambda=
+\ker\left(
+H\longrightarrow\Hom(W_\lambda,\{\pm1\})
+\right).
+\]
+\end{definition}
+
+Thus \(H_{\mathrm{eff}}(\lambda)\cong H/I_\lambda\).  The subgroup \(I_\lambda\) consists of the residual twists that cannot be distinguished by any nonzero probe in the declared support.  It includes the part of the self-twist or zero-value phenomenon that is invisible to the chosen computational window.
+
+\section{Optimal tomography theorem}
+
+For \(c\in\mathcal P_\lambda\), choose an ideal \(\mathfrak a\) with class \(c\) and \(\lambda(T_{\mathfrak a})\neq0\).  For every residual twist \(\chi\in H\), the ratio
+\[
+\frac{\lambda^\chi(T_{\mathfrak a})}{\lambda(T_{\mathfrak a})}
+\]
+is equal to \(\chi(c)\).  A class probe is therefore an evaluation functional on the effective twist group.
+
+\begin{theorem}[Optimal class-group tomography]
+Let \(C=(c_1,\ldots,c_s)\) be a list of nondegenerate probe classes for \(\lambda\), and choose ideals \(\mathfrak a_i\) representing them with
+\[
+\lambda(T_{\mathfrak a_i})\neq0.
+\]
+Then the Hecke values
+\[
+\lambda^\chi(T_{\mathfrak a_1}),\ldots,\lambda^\chi(T_{\mathfrak a_s})
+\]
+separate the principal residual fibre modulo \(I_\lambda\) if and only if the evaluation map
+\[
+\operatorname{ev}_C:
+H_{\mathrm{eff}}(\lambda)\longrightarrow\{\pm1\}^s,
+\qquad
+\eta\longmapsto(\eta(c_1),\ldots,\eta(c_s))
+\]
+is injective.  Equivalently, the classes \(c_1,\ldots,c_s\) span the dual of \(H_{\mathrm{eff}}(\lambda)\) through evaluation.
+\end{theorem}
+
+\begin{proof}
+Let \(\chi,\psi\in H\).  The selected Hecke values of \(\lambda^\chi\) and \(\lambda^\psi\) agree for all \(i\) exactly when
+\[
+\chi(c_i)\lambda(T_{\mathfrak a_i})
+=
+\psi(c_i)\lambda(T_{\mathfrak a_i})
+\]
+for all \(i\).  Since the chosen baseline values are nonzero, this is equivalent to
+\[
+\chi(c_i)=\psi(c_i)
+\]
+for all \(i\).  Equivalently, the image of \(\chi\psi^{-1}\) in \(H_{\mathrm{eff}}(\lambda)\) lies in the kernel of \(\operatorname{ev}_C\).
+
+Therefore the selected Hecke operators distinguish two residual twists precisely when their effective classes in \(H/I_\lambda\) have different images under \(\operatorname{ev}_C\).  They separate the fibre modulo \(I_\lambda\) precisely when no nontrivial element of \(H_{\mathrm{eff}}(\lambda)\) is trivial on all the selected classes.  This is exactly injectivity of \(\operatorname{ev}_C\).
+\end{proof}
+
+\begin{corollary}[Sharp minimum]
+Let
+\[
+d_\lambda=\dim_{\mathbb F_2}H_{\mathrm{eff}}(\lambda).
+\]
+Every independent nondegenerate class-probe resolver of the principal fibre modulo \(I_\lambda\) has length at least \(d_\lambda\), and there is one of length exactly \(d_\lambda\).  Hence
+\[
+R_{\mathrm{CGT}}(\lambda)=d_\lambda.
+\]
+\end{corollary}
+
+\begin{proof}
+Each selected class contributes one binary evaluation on \(H_{\mathrm{eff}}(\lambda)\).  If \(s\) probes separate \(H_{\mathrm{eff}}(\lambda)\), then \(H_{\mathrm{eff}}(\lambda)\) injects into \(\{\pm1\}^s\).  As an elementary abelian \(2\)-group, it has \(\mathbb F_2\)-dimension \(d_\lambda\), so \(s\ge d_\lambda\).
+
+For existence, use the definition of \(W_\lambda\).  The images of the classes in \(\mathcal P_\lambda\) span \(W_\lambda\).  Evaluation by elements of \(W_\lambda\) gives the full dual space of \(H_{\mathrm{eff}}(\lambda)\), modulo the annihilator of \(H_{\mathrm{eff}}(\lambda)\).  Since the columns coming from \(\mathcal P_\lambda\) span that dual, one can choose \(d_\lambda\) pivot columns.  The corresponding \(d_\lambda\) nondegenerate probe classes give an injective evaluation map.
+\end{proof}
+
+\begin{corollary}[Uniform families]
+Suppose a family has a common residual twist group \(H_{\mathcal F}\) and a common nondegenerate support space \(W_{\mathcal F}\).  Define
+\[
+H_{\mathrm{eff}}(\mathcal F)=
+\operatorname{im}\left(
+H_{\mathcal F}\longrightarrow\Hom(W_{\mathcal F},\{\pm1\})
+\right).
+\]
+Then the minimum number of independent class probes resolving the family, modulo the common invisible ledger, is
+\[
+\dim_{\mathbb F_2}H_{\mathrm{eff}}(\mathcal F).
+\]
+\end{corollary}
+
+\begin{proof}
+The preceding proof is linear algebra over the common support space \(W_{\mathcal F}\).  Applying it to the shared effective image gives the stated minimum.
+\end{proof}
+
+In practice a family may not have a single natural support space.  One can instead use an intersection support, a union support, or a fibrewise support, producing different universal-resolver notions.  The corollary applies only after that support convention is declared.
+
+\begin{example}[Four-twist fibre]
+Suppose, in a declared finite window, that
+\[
+\Cl(K)/2\Cl(K)\cong \mathbb F_2 a\oplus \mathbb F_2 b
+\]
+and that the residual twist group is the full dual \(H=G_2(K)\).  Then there are four residual twists.  Assume that the classes \(a\) and \(b\) are nondegenerate for \(\lambda\), while every available ideal in the class \(a+b\) has baseline Hecke value zero in the window.  Then
+\[
+W_\lambda=\mathbb F_2 a\oplus \mathbb F_2 b,
+\qquad
+H_{\mathrm{eff}}(\lambda)=H,
+\]
+and the two probes \(a,b\) have evaluation matrix
+\[
+\begin{pmatrix}
+1&1\\
+-1&1\\
+1&-1\\
+-1&-1
+\end{pmatrix}
+\]
+on the four twists, after choosing an ordering of \(H\).  Equivalently, after writing a negative sign as \(1\) and a positive sign as \(0\), the two columns have rank \(2\) over \(\mathbb F_2\).  Thus two nondegenerate probes are necessary and sufficient.  The zero values in the class \(a+b\) are recorded in the zero-value ledger; they do not change the optimum because \(a\) and \(b\) already span the effective support.
+\end{example}
+
+\section{Restricted windows and set cover}
+
+The sharp theorem applies to the clean linear setting where all chosen class probes are nondegenerate and where the support space is known.  A finite computation may impose additional restrictions: only some ideals have been computed, some values vanish, and costs may vary by norm, ramification, or implementation.
+
+Let \(F\) be the finite residual candidate set left by the principal data after identifying candidates that are already indistinguishable in the intended quotient.  For an available ideal \(\mathfrak a\), define
+\[
+C_{\mathfrak a}=
+\{\{\mu,\nu\}\subseteq F:
+\mu(T_{\mathfrak a})\neq\nu(T_{\mathfrak a})\}.
+\]
+Thus \(C_{\mathfrak a}\) is the set of unordered residual pairs separated by \(T_{\mathfrak a}\).
+
+\begin{proposition}[Restricted resolver]
+In a finite restricted window, choosing a minimum-cost list of non-principal Hecke operators that separates all remaining residual candidates is exactly weighted set cover on unordered pairs:
+\[
+\bigcup_{\mathfrak a\in J}C_{\mathfrak a}
+=
+\{\{\mu,\nu\}\subseteq F:\mu\neq\nu\}.
+\]
+\end{proposition}
+
+\begin{proof}
+An operator contributes exactly the pairs it separates.  A list separates the finite residual set if and only if every unordered pair is separated by at least one chosen operator.  Adding an operator cost function therefore gives the standard weighted set-cover problem on the universe of residual pairs.
+\end{proof}
+
+\section{The CGT resolver}
+
+The class-group tomography resolver is the following finite procedure.
+
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item Compute the class group \(\Cl(K)\) and the quadratic class-character group \(G_2(K)\).
+\item Compute the principal Hecke data and identify the residual twist group \(H\) in the declared finite window.
+\item List the nondegenerate probe classes \(\mathcal P_\lambda\), form their images in \(\Cl(K)/2\Cl(K)\), and compute
+\[
+W_\lambda=\Span_{\mathbb F_2}(\overline{\mathcal P}_\lambda).
+\]
+\item Restrict \(H\) to \(W_\lambda\), producing \(H_{\mathrm{eff}}(\lambda)\) and \(I_\lambda\).
+\item Build the evaluation matrix with rows indexed by effective twists and columns indexed by available nondegenerate probe classes:
+\[
+M_\lambda(\eta,c)=\eta(c).
+\]
+\item In the clean case, select pivot columns of rank \(\dim_{\mathbb F_2}H_{\mathrm{eff}}(\lambda)\).  In a restricted window, run weighted set cover on residual pairs.
+\item Output the selected non-principal operators and the remaining invisible ledger \(I_\lambda\).
+\end{enumerate}
+
+\section{Verification data}
+
+A class-group tomography record contains:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item the field \(K\), the level, and the computed class group \(\Cl(K)\);
+\item the convention identifying the relevant finite class quotient, if it is not the ordinary ideal class group;
+\item the principal Hecke data and the residual twist group \(H\);
+\item the nondegenerate support \(\mathcal P_\lambda\), the space \(W_\lambda\), and the invisible ledger \(I_\lambda\);
+\item the selected ideals \(\mathfrak a_1,\ldots,\mathfrak a_s\) and their classes;
+\item the evaluation matrix on \(H_{\mathrm{eff}}(\lambda)\);
+\item a rank witness for the selected columns;
+\item the zero-value ledger recording unavailable classes;
+\item the prime-to-level restriction and the Hecke-operator normalization ledger;
+\item the residual ledger after adding the selected non-principal observables.
+\end{enumerate}
+
+The audit is finite.  It checks the class group computation, the twist ledger, the nonzero Hecke values, the evaluation matrix, and the rank condition proving optimality in the clean case.
+
+\section{Relation with Presentation Theory}
+
+This application has the presentation-theoretic form
+\[
+\text{principal Hecke data}
+\longrightarrow
+\text{effective class-group fibre}
+\longrightarrow
+\text{minimal non-principal resolver}.
+\]
+The first arrow is a quotient: principal operators forget unramified quadratic twist data.  The second arrow is a resolver: non-principal ideal classes evaluate the remaining characters.  The self-twist and zero-value phenomena are not exceptions to the method; they determine the support space \(W_\lambda\) and the invisible ledger \(I_\lambda\).
+
+The useful output is not just that extra Hecke operators may distinguish twists.  The theorem says exactly which quotient is distinguishable, how many independent probes are necessary, how to choose them, and how to audit the choice in a finite computation.
+
+\begin{thebibliography}{99}
+
+\bibitem{cremona2026}
+J. E. Cremona,
+\emph{Hecke operators, Hecke eigensystems, and formal modular symbols over number fields},
+arXiv:2601.17524, 2026.
+
+\bibitem{thalagoda-yasaki2025}
+K. Thalagoda and D. Yasaki,
+\emph{Bianchi Modular Forms over Class Number 4 Fields},
+arXiv:2502.00141, 2025.
+
+\bibitem{lmfdb}
+J. Cremona, J. Balakrishnan, N. Dunfield, M. Harrison, D. Roberts, W. Stein, and others,
+\emph{The L-functions and modular forms database project},
+arXiv:1511.04289, 2015.
+
+\bibitem{neukirch}
+J. Neukirch,
+\emph{Algebraic Number Theory},
+Grundlehren der mathematischen Wissenschaften 322, Springer, 1999.
+
+\bibitem{miyake}
+T. Miyake,
+\emph{Modular Forms},
+Springer Monographs in Mathematics, Springer, 2006.
+
+\end{thebibliography}
+
+\end{document}

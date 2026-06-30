@@ -1,0 +1,313 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.06in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\DeclareMathOperator{\RHom}{RHom}
+\DeclareMathOperator{\Bun}{Bun}
+\DeclareMathOperator{\SSupp}{SS}
+\DeclareMathOperator{\CT}{CT}
+\DeclareMathOperator{\dist}{dist}
+
+\title{Analytic, Categorical, and Database Access Modules in Presentation-Langlands}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This addendum collects secondary Presentation-Langlands modules whose common feature is finite access in large or noisy environments.  The analytic module gives robust trace-Hecke records for finite windows of Maass forms: if the observed values separate the window with margin greater than twice the certified numerical error, then the identification is rigorous.  The categorical module treats finite windows in geometric or local Langlands categories through generator, Hecke-functor, singular-support, constant-term, and spectral-action observables.  The coding module regards bounded automorphic families as error-correcting codes built from local coefficients.  The database module packages mathematical links as proof-carrying records with budgets, normalizations, residual ledgers, and formalization depth.
+
+The results here are deliberately finite.  They do not assert global classification theorems in analytic, categorical, or motivic Langlands.  They provide reusable audit templates: how to state what a finite computation or finite categorical window sees, how to prove uniqueness inside that window, and how to record unresolved fibres when uniqueness is not justified.
+\end{abstract}
+
+\section{Purpose of the addendum}
+
+The first Presentation-Langlands papers focus on finite Hecke records, class-group tomography, and transfer audits.  This addendum records additional modules that use the same architecture:
+\[
+\text{observable data}
+\quad+\quad
+\text{budget}
+\quad+\quad
+\text{verification data}
+\quad+\quad
+\text{residual fibre}.
+\]
+The modules are not all at the same level of maturity.  Robust trace-Hecke records and automorphic code bounds are finite and elementary once the data are supplied.  Categorical and spectral-action modules are better understood as finite-window formalisms and conjectural cost questions.  Database links are infrastructural: they specify what should be recorded when a database asserts a mathematical relation.
+
+\section{Robust trace-Hecke records for Maass forms}
+
+Let \(\mathcal S\) be a finite spectral window of Hecke-Maass forms.  Assume that rigorous computation supplies intervals or certified error bounds for a finite list of observables
+\[
+q_i(\pi)=h_i(\lambda_\Delta(\pi))\lambda_\pi(T_i),
+\qquad
+1\leq i\leq m.
+\]
+Here \(h_i\) is a spectral test function, \(\lambda_\Delta(\pi)\) is a Laplace eigenvalue, and \(T_i\) is a Hecke operator.
+
+The values may be real or complex.  In the complex case, the certified sets may be discs, rectangles, or any explicitly declared norm-balls in the coefficient field.
+
+For \(\pi\in\mathcal S\), define the separation margin
+\[
+\operatorname{margin}(\pi)=
+\min_{\pi'\neq \pi}
+\max_i |q_i(\pi)-q_i(\pi')|.
+\]
+
+\begin{theorem}[Robust trace-Hecke identification]
+Suppose each observed value \(q_i(\pi)\) is known with error at most \(\varepsilon\), and
+\[
+\operatorname{margin}(\pi)>2\varepsilon.
+\]
+Then the observed vector identifies \(\pi\) uniquely inside the finite window \(\mathcal S\).
+\end{theorem}
+
+\begin{proof}
+Let \(D_i\) be the observed data for \(\pi\).  If \(\pi'\neq\pi\), then for some \(i\),
+\[
+|q_i(\pi)-q_i(\pi')|>2\varepsilon.
+\]
+The interval of radius \(\varepsilon\) around \(q_i(\pi)\) is disjoint from the interval of radius \(\varepsilon\) around \(q_i(\pi')\).  Hence \(\pi'\) cannot produce the same certified observation vector.
+\end{proof}
+
+\begin{proposition}[Non-uniform error bounds]
+Suppose each value \(q_i(\rho)\), for \(\rho\in\mathcal S\), is known inside a certified error radius \(\varepsilon_i(\rho)\) in the declared norm.  If for every \(\pi'\neq\pi\) there exists \(i\) such that
+\[
+|q_i(\pi)-q_i(\pi')|
+>
+\varepsilon_i(\pi)+\varepsilon_i(\pi'),
+\]
+then the certified observation vector identifies \(\pi\) uniquely inside \(\mathcal S\).
+\end{proposition}
+
+\begin{proof}
+For the separating index \(i\), the two certified balls are disjoint by the displayed inequality.  Hence \(\pi'\) cannot be compatible with the same certified data as \(\pi\).  This holds for every \(\pi'\neq\pi\).
+\end{proof}
+
+This gives a compact record:
+\[
+\mathsf{TraceRec}(\pi)=
+(q_1,\ldots,q_m,(\varepsilon_i),\operatorname{margin},\mathsf{Led}).
+\]
+The ledger is trivial when the margin condition, or its non-uniform variant, holds.  If the condition fails, the ledger consists of the forms whose certified intervals or balls still overlap.
+
+The relevance to current computation is direct: rigorous algorithms for Maass cusp forms use trace formulae and Hecke operators to isolate spectral data in finite windows \cite{seymourhowell}.
+
+\section{Categorical access in finite windows}
+
+Let \(\mathcal C\) be a compactly generated stable category, and let
+\[
+\mathcal W=\{\mathcal F_1,\ldots,\mathcal F_r\}
+\]
+be a finite window of objects.  Categorical observables may include
+\[
+\RHom(G,\mathcal F),
+\qquad
+H_\lambda(\mathcal F),
+\qquad
+\SSupp(\mathcal F),
+\qquad
+\CT_P(\mathcal F),
+\]
+where \(G\) ranges over compact generators, \(H_\lambda\) over Hecke functors, \(\SSupp\) is singular support, and \(\CT_P\) is a constant-term functor.
+
+\begin{proposition}[Finite categorical fingerprint]
+If a family of categorical observables separates the finite window \(\mathcal W\), then a finite subfamily separates \(\mathcal W\).  Choosing a minimum-cost finite subfamily is weighted set cover on pairs of objects in \(\mathcal W\).
+\end{proposition}
+
+\begin{proof}
+For every pair \(\mathcal F_a\neq\mathcal F_b\), choose an observable that distinguishes them.  Finiteness of \(\mathcal W\) gives a finite list.  The weighted optimization formulation records, for each observable, the pairs it separates.
+\end{proof}
+
+The proposition is formal, but it asks a meaningful geometric question: for natural Langlands windows, which small families of generators, Hecke functors, supports, or constant terms actually separate the objects?
+
+\begin{conjecture}[Small categorical access radius]
+For a declared family of finite windows \(\mathcal W_r\), let \(R_{\mathrm{cat}}(\mathcal W_r)\) be the minimum cost of a categorical fingerprint separating \(\mathcal W_r\).  In natural windows arising from geometric Langlands or local Langlands categories, one may have
+\[
+R_{\mathrm{cat}}(\mathcal W_r)=o(|\mathcal W_r|)
+\]
+or another explicit sublinear bound for natural cost functions.
+\end{conjecture}
+
+\section{Spectral-action fingerprints}
+
+In the Fargues-Scholze geometrization of local Langlands, perfect complexes on the stack of \(L\)-parameters act spectrally on sheaves on \(\Bun_G\) \cite{farguesscholze}.  For a perfect complex \(A\), write the spectral-action observable as
+\[
+\mathcal F\longmapsto A\star\mathcal F.
+\]
+For a finite set \(S\) of such complexes, define
+\[
+\mathsf{SpecAct}_S(\mathcal F)=(A\star\mathcal F)_{A\in S}.
+\]
+The residual spectral-action ledger is
+\[
+\mathsf{SpecLed}_S(\mathcal F)=
+\{\mathcal G\in\mathcal W:
+A\star\mathcal G\simeq A\star\mathcal F
+\text{ for all }A\in S\}.
+\]
+
+\begin{proposition}[Finite spectral-action separation]
+Let \(\mathcal W\) be a finite window.  If the full available spectral action separates \(\mathcal W\), then finitely many perfect complexes separate \(\mathcal W\).
+\end{proposition}
+
+\begin{proof}
+Apply the finite categorical fingerprint proposition to the family of spectral-action observables \(A\star(-)\).
+\end{proof}
+
+The research content is not the finite extraction itself.  It is the search for natural low-cost spectral-action fingerprints and the study of the residual fibres they leave.
+
+\section{Automorphic error-correcting codes}
+
+Let \(\mathcal F\) be a bounded finite family of automorphic objects, and let \(B\) be a norm bound for primes or prime ideals.  Define the code
+\[
+\mathcal C_B(\mathcal F)=
+\{(a_{\mathfrak p}(\pi))_{N\mathfrak p\leq B}:\pi\in\mathcal F\}.
+\]
+For \(\pi,\pi'\in\mathcal F\), define the Hamming distance
+\[
+d_B(\pi,\pi')=
+|\{\mathfrak p:N\mathfrak p\leq B,\ a_{\mathfrak p}(\pi)\neq a_{\mathfrak p}(\pi')\}|.
+\]
+Let
+\[
+d_B(\mathcal F)=\min_{\pi\neq\pi'}d_B(\pi,\pi').
+\]
+
+\begin{theorem}[Error and erasure correction]
+If
+\[
+d_B(\mathcal F)\geq 2e+s+1,
+\]
+then any local-data packet with at most \(e\) erroneous entries and \(s\) erased entries has at most one decoding in \(\mathcal F\).
+\end{theorem}
+
+\begin{proof}
+This is the usual Hamming bound.  If two different objects were both compatible with the received packet, their codewords would differ in at most \(2e+s\) positions: at most \(e\) corrections from the first to the received data, at most \(e\) from the received data to the second, and at most \(s\) erased positions.  This contradicts \(d_B(\mathcal F)\geq 2e+s+1\).
+\end{proof}
+
+The residual decoding ledger is
+\[
+\mathsf{DecodeLed}(D)=
+\{\pi\in\mathcal F:
+\dist(D,\mathcal O_B(\pi))\leq e
+\text{ and compatible with the erasures}\}.
+\]
+Thus incomplete or noisy automorphic data have a precise finite ambiguity set.
+
+\section{Murmurations as family observables}
+
+Murmurations are statistical observables of families rather than identifiers of individual objects.  A schematic family observable is
+\[
+\mathcal O_{\mathrm{mur},B}(\mathcal F)=
+\left(
+\frac{1}{|\mathcal F|}
+\sum_{\pi\in\mathcal F}w(\pi)a_p(\pi)
+\right)_{p\leq B}.
+\]
+It induces a family fibre
+\[
+F_{\mathrm{mur},B}(\mathcal F)=
+\{\mathcal G:
+\mathcal O_{\mathrm{mur},B}(\mathcal G)=
+\mathcal O_{\mathrm{mur},B}(\mathcal F)\}.
+\]
+
+The useful question is where murmurations sit between coarse statistics and individual fingerprints:
+\[
+\text{low moments}
+\quad\prec\quad
+\text{murmuration observables}
+\quad\prec\quad
+\text{individual Hecke fingerprints}.
+\]
+Recent work on murmurations of Hecke \(L\)-functions supplies examples where these statistical patterns have refined structure \cite{murmurations}.
+
+This module does not classify murmurations.  It only packages them as family observables with a declared range, budget, and residual family fibre.
+
+\section{Proof-carrying database links}
+
+Arithmetic databases such as LMFDB organize objects and relationships: same \(L\)-function, twist, base change, Galois representation, packet membership, motivic match, or functional-equation data \cite{lmfdb}.  A Presentation-Langlands database link should record its epistemic status.
+
+\begin{definition}[Proof-carrying database link]
+A proof-carrying link between database objects \(X\) and \(Y\) is a tuple
+\[
+\mathsf{LinkRec}(X,Y)=
+(\mathsf{Claim},\mathsf{Obs},\mathsf{Budget},\mathsf{Evidence},
+\mathsf{Led},\mathsf N,D_{\mathrm{form}}).
+\]
+Here \(\mathsf{Obs}\) are the observables used, \(\mathsf{Budget}\) records their range and cost, \(\mathsf{Evidence}\) records the verification data or theorem source, \(\mathsf{Led}\) records remaining ambiguity, \(\mathsf N\) records normalizations, and \(D_{\mathrm{form}}\) records the formalization depth.
+\end{definition}
+
+Possible states include:
+\[
+\text{empirical},
+\qquad
+\text{bounded verified},
+\qquad
+\text{theorem-backed},
+\qquad
+\text{formalized}.
+\]
+
+\begin{proposition}[Finite link verification]
+In finite declared windows, any database link supported by separating observables and explicit verification data can be stored as a proof-carrying link.  If the observables do not separate the relevant windows, the link must carry the residual ledger.
+\end{proposition}
+
+\begin{proof}
+The link is a finite identification or relation claim between finite windows.  Separating observables and verification data justify the relation in that window.  If separation fails, the fibre of indistinguishable alternatives is precisely the residual ledger that must be recorded.
+\end{proof}
+
+This module is infrastructural, but it is not cosmetic.  It changes a database link from an assertion into an auditable object with declared data, range, normalization, proof source, and remaining ambiguity.
+
+\section{Summary}
+
+The modules in this addendum share a finite access principle.  A large analytic spectrum, a large category, a noisy automorphic family, or a mathematical database becomes usable through finite windows and explicit ledgers.  The main danger is to mistake a finite formal extraction for deep arithmetic content.  The value of the framework is that it separates these layers:
+\[
+\begin{aligned}
+&\text{formal finite access}\\
+&\quad+\text{domain-specific separation theorem}\\
+&\quad+\text{cost and naturality question}.
+\end{aligned}
+\]
+
+\begin{thebibliography}{99}
+
+\bibitem{seymourhowell}
+J. Seymour-Howell,
+\emph{Rigorous computation of Maass cusp forms of squarefree level},
+arXiv:2201.08760, 2022.
+
+\bibitem{farguesscholze}
+L. Fargues and P. Scholze,
+\emph{Geometrization of the local Langlands correspondence},
+arXiv:2102.13459, 2021.
+
+\bibitem{lmfdb}
+J. Cremona, J. Balakrishnan, N. Dunfield, M. Harrison, D. Roberts, W. Stein, and others,
+\emph{The L-functions and modular forms database project},
+arXiv:1511.04289, 2015.
+
+\bibitem{murmurations}
+Z. Wang,
+\emph{Murmurations of Hecke L-functions of imaginary quadratic fields},
+arXiv:2503.17967, 2025.
+
+\end{thebibliography}
+
+\end{document}
