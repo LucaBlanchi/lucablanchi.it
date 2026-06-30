@@ -193,6 +193,48 @@ export const presentationTheoryArticles = [
     ]
   },
   {
+    href: "/presentation-theory/presentation-complexity-irregular-connections-stokes-data.html",
+    title: "Presentation Complexity of Irregular Connections and Stokes Data",
+    description: "Formal types, Stokes directions and factors, ordinary-monodromy fibres, local presentation lower bounds, and controlled irregular Riemann-Hilbert transfer.",
+    date: "June 2026",
+    datetime: "2026-06",
+    slug: "presentation-complexity-irregular-connections-stokes-data",
+    section: "Differential Equations and Analytic Geometry",
+    assets: [
+      {
+        href: "/assets/presentation-theory/presentation-complexity-irregular-connections-stokes-data/presentation-complexity-irregular-connections-stokes-data.pdf",
+        label: "PDF: Presentation Complexity Irregular Connections Stokes Data",
+        type: "pdf"
+      },
+      {
+        href: "/assets/presentation-theory/presentation-complexity-irregular-connections-stokes-data/presentation-complexity-irregular-connections-stokes-data.tex",
+        label: "TeX source: Presentation Complexity Irregular Connections Stokes Data",
+        type: "tex"
+      }
+    ]
+  },
+  {
+    href: "/presentation-theory/stokes-geometry-presentation-complexity-applications.html",
+    title: "Stokes Geometry and Presentation Complexity: Four Applications",
+    description: "Turning-locus lower bounds, tame exponential direct images, finite curve restrictions, and bounded-presentation filtrations on wild character varieties.",
+    date: "June 2026",
+    datetime: "2026-06",
+    slug: "stokes-geometry-presentation-complexity-applications",
+    section: "Differential Equations and Analytic Geometry",
+    assets: [
+      {
+        href: "/assets/presentation-theory/stokes-geometry-presentation-complexity-applications/stokes-geometry-presentation-complexity-applications.pdf",
+        label: "PDF: Stokes Geometry Presentation Complexity Applications",
+        type: "pdf"
+      },
+      {
+        href: "/assets/presentation-theory/stokes-geometry-presentation-complexity-applications/stokes-geometry-presentation-complexity-applications.tex",
+        label: "TeX source: Stokes Geometry Presentation Complexity Applications",
+        type: "tex"
+      }
+    ]
+  },
+  {
     href: "/presentation-theory/exact-preimage-layers-effective-primitive-divisors-rational-maps-p1.html",
     title: "Exact Preimage Layers and Effective Primitive Divisors for Rational Maps on P1",
     description: "Exact preimage layers and effective primitive divisor criteria for rational maps on the projective line.",
@@ -1150,6 +1192,14 @@ export const presentationTheoryArticleGroups = [
       "/presentation-theory/random-saturation-real-homogeneous-threshold-boxes.html",
       "/presentation-theory/relation-lattices-kolmogorov-deficiency-rational-points.html",
       "/presentation-theory/box-closure-systems-downsets-products-of-chains.html"
+    ]
+  },
+  {
+    title: "Differential Equations and Analytic Geometry",
+    description: "Presentation-theoretic applications to differential equations and analytic geometry, including irregular connections, Stokes data, and controlled Riemann-Hilbert transfer.",
+    hrefs: [
+      "/presentation-theory/presentation-complexity-irregular-connections-stokes-data.html",
+      "/presentation-theory/stokes-geometry-presentation-complexity-applications.html"
     ]
   },
   {

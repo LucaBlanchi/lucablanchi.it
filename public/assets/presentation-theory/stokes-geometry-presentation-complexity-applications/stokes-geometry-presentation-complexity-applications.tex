@@ -1,0 +1,342 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.15in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\title{Stokes Geometry and Presentation Complexity: Four Applications}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note records four applications of the presentation-theoretic viewpoint to Stokes geometry.  The strongest applications are lower bounds from turning loci and from tame exponential direct images.  Two further applications give finite curve-restriction criteria for bounded global Stokes presentations and bounded-presentation filtrations on wild character varieties.  The results are deliberately stated under explicit extraction, boundedness, and coordinate-model hypotheses.  The classical input is the theory of good formal structures, Stokes data, enhanced Riemann-Hilbert correspondence, curve tests, Picard-Lefschetz theory, and wild character varieties; the presentation-theoretic output is a set of lower bounds and finite verification principles for complete presentations.
+\end{abstract}
+
+\section{Overview}
+
+The local paper on irregular connections isolates the basic mechanism: formal type, Stokes directions, and Stokes factors are observables that every complete presentation must recover.  This note develops four global or geometric consequences.
+
+The applications are ordered by present reliability:
+\begin{enumerate}[leftmargin=2em]
+\item turning loci as lower-bound invariants for global presentations;
+\item tame exponential direct images, where critical values and Picard-Lefschetz jumps force Stokes presentation cost;
+\item finite curve restrictions for bounded global Stokes data;
+\item bounded-presentation filtrations on wild character varieties.
+\end{enumerate}
+
+The first two are the main mathematical applications.  The last two are useful structural consequences, but they depend more visibly on boundedness and coordinate-model choices.
+
+\section{A Reusable Lower-Bound Principle}
+
+\begin{definition}[Presentation lower-bound datum]
+Let \(\mathcal C\) be a class of objects with presentation cost \(\mathbf C_{\mathcal C}\).  A presentation lower-bound datum consists of an isomorphism-invariant observable
+\[
+I:\mathcal C_0\to \mathcal I,
+\]
+a cost \(\mathbf C_I\) on values of \(I\), and a nondecreasing overhead function \(F_I\) such that every complete presentation of \(X\in\mathcal C_0\) determines \(I(X)\) with cost at most \(F_I\) of the presentation cost.
+\end{definition}
+
+\begin{theorem}[Observable lower bound]
+For every presentation lower-bound datum and every \(X\in\mathcal C_0\),
+\[
+\mathbf C_{\mathcal C}(X)
+\ge
+\inf\{t:\ F_I(t)\ge \mathbf C_I(I(X))\}.
+\]
+In the affine-linear case \(F_I(t)=at+b\), this gives
+\[
+\mathbf C_{\mathcal C}(X)
+\ge
+\frac{1}{a}\mathbf C_I(I(X))-\frac{b}{a}.
+\]
+\end{theorem}
+
+\begin{proof}
+Let \(p\) be any complete presentation of \(X\).  By hypothesis \(p\) determines a presentation of \(I(X)\) of cost at most \(F_I(\mathbf C_{\mathcal P}(p))\).  Hence
+\[
+\mathbf C_I(I(X))\le F_I(\mathbf C_{\mathcal P}(p)).
+\]
+Taking the infimum over all presentations of \(X\) gives the inverse-scale inequality.  The affine-linear form is obtained by rearranging.
+\end{proof}
+
+\section{Turning Loci as Presentation Obstructions}
+
+Let \(X\) be a smooth complex variety, \(D\subset X\) a divisor, and \(M\) a meromorphic connection with poles along \(D\).  The turning locus records where the chosen model fails to have good formal structure before modification.
+
+\begin{definition}[Turning cost]
+Fix a presentation model for closed subvarieties or analytic subsets of \(D\).  The turning cost of \(M\) is
+\[
+\mathbf C_{\operatorname{turn}}(M)
+=
+\mathbf C_{\operatorname{subvar}}(\operatorname{Turn}(M)).
+\]
+One may also use a resolution cost
+\[
+\mathbf C_{\operatorname{res}}(M)
+=
+\inf_{\pi}\mathbf C_{\operatorname{mod}}(\pi),
+\]
+where \(\pi:Y\to X\) ranges over admissible modifications for which \(\pi^\dagger M\) has good formal structure.
+\end{definition}
+
+\begin{theorem}[Turning lower bound]
+Suppose every complete global presentation of \(M\) determines \(\operatorname{Turn}(M)\) with overhead \(F_{\operatorname{turn}}\).  Then
+\[
+\mathbf C_{\mathcal C}(M)
+\ge
+\inf\{t:\ F_{\operatorname{turn}}(t)\ge
+\mathbf C_{\operatorname{turn}}(M)\}.
+\]
+\end{theorem}
+
+\begin{proof}
+Apply the observable lower-bound principle to the observable \(I(M)=\operatorname{Turn}(M)\).  The assumption says precisely that this observable is extracted with overhead \(F_{\operatorname{turn}}\).
+\end{proof}
+
+\begin{theorem}[Resolution lower bound]
+Suppose every complete global Stokes presentation determines an admissible good-formal-structure modification with overhead \(F_{\operatorname{res}}\).  Then
+\[
+\mathbf C_{\mathcal C}(M)
+\ge
+\inf\{t:\ F_{\operatorname{res}}(t)\ge
+\mathbf C_{\operatorname{res}}(M)\}.
+\]
+\end{theorem}
+
+\begin{proof}
+From a presentation \(p\) of \(M\), extract a modification \(\pi_p\) such that \(\pi_p^\dagger M\) has good formal structure.  By definition of \(\mathbf C_{\operatorname{res}}\),
+\[
+\mathbf C_{\operatorname{res}}(M)\le \mathbf C_{\operatorname{mod}}(\pi_p)
+\le F_{\operatorname{res}}(\mathbf C_{\mathcal P}(p)).
+\]
+Taking the infimum over all \(p\) gives the result.
+\end{proof}
+
+\begin{remark}
+Teyssier's criterion identifies the good formal structure locus with a solution-theoretic local-system locus for the restrictions of the solution complexes of \(M\) and \(\operatorname{End}M\).  In classes where this criterion applies, the same lower bound can be read on the solution side: a presentation of enough irregular Riemann-Hilbert data must detect where those restrictions fail to be local systems.  The classical theorem identifies the obstruction; the presentation-theoretic layer turns it into a cost lower bound.
+\end{remark}
+
+\section{Tame Exponential Direct Images}
+
+This is the most concrete asymptotic application.  Let \(g:X\to\mathbb C\) be a holomorphic function with finitely many nondegenerate critical points \(p_1,\ldots,p_\mu\), and let
+\[
+c_i=g(p_i)
+\]
+be their critical values.
+
+\begin{assumption}[Tame Morse direct-image class]
+We work in a tame Morse class of exponential direct images for which the relevant irregular object \(M\), for instance a direct image of \(\mathcal O_X e^g\), has formal exponential factors determined by the critical values \(c_i\), and Stokes matrices determined by the corresponding Picard-Lefschetz intersection data.
+\end{assumption}
+
+\begin{definition}[Critical Stokes data]
+Let
+\[
+\Delta C=\{c_i-c_j:\ i\ne j\}.
+\]
+Let \(\Theta_{\operatorname{crit}}\) be the Stokes-direction configuration determined by the differences in \(\Delta C\), and let \(S_{\operatorname{PL}}\) denote the Picard-Lefschetz/Stokes matrices in the chosen tame class.  Define
+\[
+\mathbf C_{\operatorname{critSt}}(g)
+=
+\mathbf C_{\Delta C}(\Delta C)
++
+\mathbf C_{\Theta}(\Theta_{\operatorname{crit}})
++
+\mathbf C_{\operatorname{PL}}(S_{\operatorname{PL}}).
+\]
+\end{definition}
+
+\begin{theorem}[Direct-image lower bound]
+Let \(M\) be an exponential direct-image object satisfying the tame Morse assumption.  Suppose every complete presentation of \(M\) determines the critical Stokes data
+\[
+(\Delta C,\Theta_{\operatorname{crit}},S_{\operatorname{PL}})
+\]
+with overhead \(F_{\operatorname{critSt}}\).  Then
+\[
+\mathbf C_{\mathcal C}(M)
+\ge
+\inf\{t:\ F_{\operatorname{critSt}}(t)\ge
+\mathbf C_{\operatorname{critSt}}(g)\}.
+\]
+\end{theorem}
+
+\begin{proof}
+In the tame Morse class, the critical values give the exponential factors at the relevant irregular point, their differences give the Stokes-direction arrangement, and the Picard-Lefschetz intersection data give the Stokes jumps.  Therefore the tuple
+\[
+I(M)=(\Delta C,\Theta_{\operatorname{crit}},S_{\operatorname{PL}})
+\]
+is an invariant of the complete Stokes presentation of \(M\).  The result is the observable lower-bound principle applied to \(I\).
+\end{proof}
+
+\begin{example}[Two critical values]
+If there are two critical values \(c_1,c_2\), then the exponential separation is \(c_1-c_2\).  In a one-parameter asymptotic coordinate, the Stokes directions are governed by
+\[
+\operatorname{Re}((c_1-c_2)\lambda)=0.
+\]
+If the relevant Picard-Lefschetz jump is represented in a chosen basis by
+\[
+\begin{pmatrix}
+1 & n\\
+0 & 1
+\end{pmatrix},
+\]
+then any complete presentation in a cost model charging for the separation and the jump coefficient satisfies a lower bound of the form
+\[
+\mathbf C_{\mathcal C}(M)
+\ge
+c\bigl(\mathbf h(c_1-c_2)+\mathbf C(n)\bigr)-O(1),
+\]
+with constants determined by the extraction overhead and the chosen encodings.
+\end{example}
+
+\section{Finite Curve Restrictions for Bounded Stokes Data}
+
+Curve tests are a classical way to probe higher-dimensional irregular data.  The presentation-theoretic refinement below is not a universal finite curve theorem; it is a bounded finite verification statement.
+
+\begin{definition}[Bounded global Stokes class]
+Let \(B\) be the boundary of the real oriented blow-up along the pole divisor.  A bounded global Stokes class is a class of objects whose global Stokes data are constructible with respect to cell decompositions of \(B\) having at most \(N_0\) cells, with Stokes cocycles represented on covers of bounded combinatorial type and with all local Stokes formats drawn from a bounded list.
+\end{definition}
+
+\begin{definition}[Stokes-determining curve family]
+A finite family of holomorphic curves \(\mathcal K=\{C_1,\ldots,C_N\}\) is Stokes-determining for a bounded global Stokes class if the restricted Stokes presentations of \(M|_{C_i}\) determine the global Stokes data of \(M\) up to the equivalence relation used in the bounded class.
+\end{definition}
+
+\begin{theorem}[Finite curve determination under incidence hypotheses]
+Let \(\mathcal F\) be a bounded global Stokes class.  Suppose a finite family of curves has boundary maps meeting every cell of the Stokes cell decomposition and every incidence needed to determine the chosen Cech representative of the Stokes gluing class.  Then the restricted Stokes data on these curves determine the global Stokes presentation for every \(M\in\mathcal F\).
+\end{theorem}
+
+\begin{proof}
+The boundary maps meet every cell, so the restrictions detect the local chamber orderings of irregular values and the Stokes hypersurface arrangement in the bounded model.  They also meet the incidences used by the chosen cover, so the transition functions representing the Stokes gluing class are sampled on a generating set of overlaps.  The Stokes groups on cells are determined by active differences of irregular values and by the graded regular data, which are part of the bounded local format.  Since the class is bounded, there are no additional cells, overlaps, or higher-complexity cocycle components outside the declared finite model.  Hence the restricted presentations determine the global Stokes presentation.
+\end{proof}
+
+\begin{theorem}[Missing-cell obstruction]
+In the same bounded setting, suppose a finite family of curves fails to meet a cell or incidence on which the global Stokes data are allowed to vary within the class.  Then the family is not Stokes-determining.
+\end{theorem}
+
+\begin{proof}
+Choose two global Stokes presentations that agree on every cell and incidence met by the curves and differ only on an unmet cell or on an unsampled cocycle incidence.  The restrictions to all curves in the family are identical, but the global Stokes presentations are different in the bounded equivalence relation.  Therefore the family cannot be determining.
+\end{proof}
+
+\section{Bounded-Presentation Filtrations on Wild Character Varieties}
+
+Wild character varieties parametrize generalized monodromy data for irregular connections on curves.  Presentation Theory adds a cost layer over these moduli spaces.
+
+\begin{definition}[Bounded-presentation locus]
+Fix a wild character variety
+\[
+\mathcal X_{\operatorname{wild}}(C,D,G,Q)
+\]
+with a finite Stokes coordinate atlas.  For a point \(x\), let \(\mathbf C_{\operatorname{St}}^\ast(x)\) be the minimal cost of a Stokes presentation of \(x\) in the chosen atlas.  Define
+\[
+\mathcal X_{\operatorname{wild}}^{\le B}
+=
+\{x:\mathbf C_{\operatorname{St}}^\ast(x)\le B\}.
+\]
+\end{definition}
+
+\begin{theorem}[Constructibility in fixed coordinate models]
+Assume that, in each chart of the chosen finite Stokes coordinate atlas, the condition \(\mathbf C_{\operatorname{St}}(P_x)\le B\) is a finite Boolean combination of algebraic equations, inequations, rank bounds, support conditions, and global relation equations.  Then
+\[
+\mathcal X_{\operatorname{wild}}^{\le B}
+\]
+is constructible.
+\end{theorem}
+
+\begin{proof}
+In one chart, the cost bound is constructible by assumption because it is a finite Boolean combination of algebraic conditions.  A finite union of constructible subsets over the finite atlas is constructible.  Passing to the moduli quotient in the chosen coordinate presentation preserves constructibility at this level of finite algebraic description.
+\end{proof}
+
+\begin{theorem}[Generic dimension lower bound]
+Let a component of a wild character variety have effective Stokes-parameter dimension \(d_{\operatorname{eff}}\) after imposing the global relation and quotienting by the generic gauge action.  In any coordinate presentation model that charges at least linearly for independent scalar parameters, a generic point of that component has presentation complexity at least
+\[
+c\,d_{\operatorname{eff}}-O(1).
+\]
+\end{theorem}
+
+\begin{proof}
+A generic point in an algebraic family of effective dimension \(d_{\operatorname{eff}}\) cannot be specified in the chosen coordinate model without \(d_{\operatorname{eff}}\) independent scalar parameters, up to the fixed overhead of charts, gauge conventions, and relations.  Since the Stokes parameter map is dominant on the component under consideration, these independent parameters are part of the presentation of a generic point.  Linearity of the parameter cost gives the stated lower bound.
+\end{proof}
+
+\begin{theorem}[Active-root lower bound]
+Let \(G\) be reductive and \(Q\) an irregular type.  Let
+\[
+R_{\operatorname{act}}(Q)
+=
+\{\alpha:\alpha(Q)\text{ contributes a nontrivial Stokes direction}\}
+\]
+be the active-root set.  On any class where the active-root data are extracted with overhead \(F_{\operatorname{act}}\),
+\[
+\mathbf C_{\mathcal C}(x)
+\ge
+\inf\{t:\ F_{\operatorname{act}}(t)\ge
+\mathbf C_{\operatorname{act}}(R_{\operatorname{act}}(Q))\}.
+\]
+If the active-root cost dominates cardinality, this gives a lower bound linear in \(\#R_{\operatorname{act}}(Q)\).
+\end{theorem}
+
+\begin{proof}
+The active-root set determines which root subgroups contribute to the Stokes groups.  Therefore it is an observable of the Stokes presentation.  Applying the observable lower-bound principle gives the first inequality.  The cardinality statement follows from the assumed domination.
+\end{proof}
+
+\section{Conclusion}
+
+The four applications have different strengths.  Turning loci and tame exponential direct images give direct lower bounds from geometric and asymptotic invariants.  Finite curve restrictions give a bounded verification mechanism.  Wild character varieties acquire a natural cost filtration once a finite Stokes coordinate model has been fixed.  In all four cases, the classical theory supplies the Stokes or enhanced invariant, while Presentation Theory supplies the assertion that complete finite descriptions must pay for it.
+
+\begin{thebibliography}{99}
+
+\bibitem{Boalch2014}
+P. Boalch.
+Geometry and braiding of Stokes data; fission and wild character varieties.
+\emph{Annals of Mathematics} 179 (2014), 301--365.
+
+\bibitem{DAgnoloKashiwara2016}
+A. D'Agnolo and M. Kashiwara.
+Riemann-Hilbert correspondence for holonomic D-modules.
+\emph{Publications mathematiques de l'IHES} 123 (2016), 69--197.
+
+\bibitem{HienRoucairol2007}
+M. Hien and C. Roucairol.
+Integral representations for solutions of exponential Gauss-Manin systems.
+arXiv:0704.1739.
+
+\bibitem{Kedlaya2013}
+K. S. Kedlaya.
+Good formal structures for flat meromorphic connections, III: Irregularity and turning loci.
+arXiv:1308.5259.
+
+\bibitem{Mochizuki2016}
+T. Mochizuki.
+Curve test for enhanced ind-sheaves and holonomic D-modules.
+arXiv:1610.08572.
+
+\bibitem{Roucairol2005}
+C. Roucairol.
+Irregularity of an analogue of the Gauss-Manin systems.
+arXiv:math/0505075.
+
+\bibitem{Sabbah2013}
+C. Sabbah.
+\emph{Introduction to Stokes Structures}.
+Lecture Notes in Mathematics 2060, Springer, 2013.
+
+\bibitem{Teyssier2022}
+J.-B. Teyssier.
+Moduli of Stokes torsors and singularities of differential equations.
+\emph{Journal of the European Mathematical Society} 24 (2022), 1071--1171.
+
+\end{thebibliography}
+
+\end{document}

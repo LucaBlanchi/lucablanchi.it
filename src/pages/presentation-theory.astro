@@ -85,7 +85,7 @@ const articleSections = articleGroups.map((section) => ({
             <details class="article-section" open={index === 0}>
               <summary id={section.id}>
                 <span>{section.title}</span>
-                <small>{section.articles.length} articles</small>
+                <small>{section.articles.length} {section.articles.length === 1 ? "article" : "articles"}</small>
               </summary>
               {section.description && <p class="article-section-note">{section.description}</p>}
               <div class="article-list">

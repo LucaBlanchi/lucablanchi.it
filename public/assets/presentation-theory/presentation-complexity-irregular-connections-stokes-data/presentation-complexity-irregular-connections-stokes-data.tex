@@ -1,0 +1,502 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.15in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\title{Presentation Complexity of Irregular Connections and Stokes Data}
+\author{Luca Blanchi}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note applies Presentation Theory to local meromorphic connections with irregular singularities.  The classical analytic input is the Hukuhara-Levelt-Turrittin formal decomposition and the Stokes classification.  The presentation-theoretic output is a family of reusable lower-bound principles: formal types, Stokes directions, Stokes factors, and turning data become extracted observables whose encoding cost is forced inside any complete presentation system for the corresponding class of connections.  Ordinary monodromy is shown to have large residual fibres already for rank-one exponential connections, while local Stokes normal forms give a controlled presentation format.  A final section records the corresponding controlled-transfer statement for irregular Riemann-Hilbert presentations on bounded good classes.
+\end{abstract}
+
+\section{Introduction}
+
+Irregular singularities contain information that is invisible to ordinary monodromy.  A meromorphic connection on a punctured disc is not classified by its local system on the punctured disc: formal exponential factors and Stokes matrices are additional data, and they are essential.  The classical theory explains precisely which data are needed.  This paper asks a different question: once a class of irregular connections is presented by finite descriptions, which parts of the Stokes data must be paid for by any complete presentation?
+
+The point is not to reprove the Stokes classification.  The classification is used as input.  The contribution is to place it in the language of Presentation Theory: formal type, Stokes directions, Stokes factors, and turning data are treated as observables extracted from a presentation.  Whenever such an observable has intrinsic encoding cost, any complete presentation system for the connections must have at least that much presentation complexity, up to the declared overhead of extraction.
+
+The resulting statements have a uniform shape.  Let a presentation system describe a class of objects.  If a mathematically necessary invariant can be extracted from every presentation with overhead \(F\), and if that invariant has cost \(N\), then the original presentation has cost at least the inverse \(F\)-scale of \(N\).  In the irregular-connection setting, the invariants include:
+\begin{itemize}[leftmargin=2em]
+\item the reduced formal exponential type;
+\item the cyclic Stokes-direction configuration determined by differences of exponential factors;
+\item the Stokes factors in the corresponding unipotent Stokes groups;
+\item global Stokes hypersurfaces and turning data, in classes where good formal structures are available;
+\item enhanced-sheaf or Stokes-filtered presentations related by irregular Riemann-Hilbert correspondences.
+\end{itemize}
+
+The note is deliberately local first.  The local statements are the cleanest and are the natural testing ground for presentation-theoretic lower bounds.  The global and Riemann-Hilbert statements at the end are included as controlled transfer principles on bounded good classes, where the required analytic operations are part of the declared package.
+
+\section{Presentation Systems and Extracted Observables}
+
+\begin{definition}[Presentation system]
+Let \(\mathcal C\) be a class of mathematical objects.  A presentation system for \(\mathcal C\) is a triple
+\[
+(\mathcal P,\rho,\mathbf C_{\mathcal P})
+\]
+where \(\mathcal P\) is a set of finite descriptions, \(\rho:\mathcal P\to \mathcal C\) is a realization map, and \(\mathbf C_{\mathcal P}:\mathcal P\to \mathbb R_{\ge 0}\) is a cost function.  The induced presentation cost of \(X\in\mathcal C\) is
+\[
+\mathbf C_{\mathcal C}(X)=
+\inf\{\mathbf C_{\mathcal P}(p):p\in\mathcal P,\ \rho(p)\cong X\}.
+\]
+The system is complete on a subclass \(\mathcal C_0\subseteq \mathcal C\) if every object of \(\mathcal C_0\) is isomorphic to \(\rho(p)\) for some \(p\in\mathcal P\).
+\end{definition}
+
+\begin{definition}[Extracted observable with overhead]
+Let \(A:\mathcal C_0\to\mathcal A\) be an isomorphism-invariant observable, and let \(\mathbf C_{\mathcal A}\) be a cost on the target.  We say that \(A\) is extracted from \((\mathcal P,\rho,\mathbf C_{\mathcal P})\) with overhead \(F\) if \(F:\mathbb R_{\ge0}\to\mathbb R_{\ge0}\) is nondecreasing and every presentation \(p\in\mathcal P\) with \(\rho(p)\in\mathcal C_0\) determines a presentation of \(A(\rho(p))\) of cost at most
+\[
+F(\mathbf C_{\mathcal P}(p)).
+\]
+\end{definition}
+
+\begin{theorem}[Extracted-observable lower bound]
+Let \(A:\mathcal C_0\to\mathcal A\) be extracted with nondecreasing overhead \(F\).  Then every \(X\in\mathcal C_0\) satisfies
+\[
+\mathbf C_{\mathcal A}(A(X))
+\le
+F(\mathbf C_{\mathcal C}(X)).
+\]
+Equivalently,
+\[
+\mathbf C_{\mathcal C}(X)
+\ge
+\inf\{t\ge0:\ F(t)\ge \mathbf C_{\mathcal A}(A(X))\}.
+\]
+\end{theorem}
+
+\begin{proof}
+Choose a presentation \(p\) of \(X\).  By the extraction hypothesis, \(p\) determines a presentation of \(A(X)\) of cost at most \(F(\mathbf C_{\mathcal P}(p))\).  Therefore
+\[
+\mathbf C_{\mathcal A}(A(X))\le F(\mathbf C_{\mathcal P}(p)).
+\]
+Taking the infimum over all presentations \(p\) realizing \(X\), and using monotonicity of \(F\), gives the first inequality.  The second formulation is the same inequality written in inverse-scale form.
+\end{proof}
+
+\begin{definition}[Residual fibre]
+Let \(B:\mathcal C_0\to\mathcal B\) be another observable.  The residual fibre of \(B\) over \(b\in\mathcal B\) is
+\[
+B^{-1}(b)=\{X\in\mathcal C_0:\ B(X)=b\}/\cong.
+\]
+If \(A\) is nonconstant on \(B^{-1}(b)\), then \(B\) does not separate the objects in that fibre.
+\end{definition}
+
+\begin{proposition}[Fibre lower bound]
+Assume that \(B\) is part of the presentation format, and that a complete presentation of an object in a fibre \(B^{-1}(b)\) must also determine an observable \(A\).  If \(A\) is extracted with overhead \(F\), then for every \(X\in B^{-1}(b)\)
+\[
+\mathbf C_{\mathcal C}(X)
+\ge
+\inf\{t\ge0:\ F(t)\ge \mathbf C_{\mathcal A}(A(X))\}.
+\]
+In particular, a large \(A\)-profile inside a single \(B\)-fibre forces presentation cost that is not visible from \(B\) alone.
+\end{proposition}
+
+\begin{proof}
+This is the extracted-observable lower bound applied after restricting the presentation system to the fibre \(B^{-1}(b)\).  The observable \(B\) is constant there, so any remaining lower bound comes from the additional observable \(A\).
+\end{proof}
+
+\section{Local Irregular Connections}
+
+Let \(K=\mathbb C((z))\).  A local meromorphic connection may be represented algebraically as a finite-dimensional differential \(K\)-module, or analytically as a meromorphic connection on a punctured complex disc.  After a finite ramification \(z=t^e\) and a formal gauge transformation, the Hukuhara-Levelt-Turrittin theorem gives a decomposition of the form
+\[
+M\widehat{\otimes}_{\mathbb C((z))}\mathbb C((t))
+\cong
+\bigoplus_{\phi\in Q}
+\left(E^{\phi}\otimes R_{\phi}\right),
+\]
+where \(\phi\in t^{-1}\mathbb C[t^{-1}]\) is an exponential factor, \(E^{\phi}\) is the rank-one exponential connection, and \(R_{\phi}\) is regular singular.  The finite set \(Q\), with multiplicities and Galois descent data when ramification is present, is the formal exponential type.
+
+\begin{definition}[Reduced formal type]
+For this paper the reduced formal type of \(M\), denoted \(Q(M)\), is the finite collection of exponential factors appearing after a chosen minimal ramification, modulo addition of holomorphic terms and modulo the descent equivalence imposed by the ramification.  It is understood together with multiplicities and the regular-singular formal blocks attached to the factors when those blocks are part of the chosen presentation problem.
+\end{definition}
+
+The Stokes directions are determined by differences of exponential factors.  If \(\delta=\phi-\psi\) has leading term
+\[
+\delta(t)=a t^{-m}+\text{lower pole order terms},\qquad a\ne0,
+\]
+then, on the ramified circle in the \(t\)-coordinate, the pair \((\phi,\psi)\) contributes \(2m\) anti-Stokes directions before possible identifications coming from descent or coincidences with other pairs.  Along sectors between consecutive directions, the relative exponential growth order is constant; crossing a Stokes direction permits a Stokes factor.
+
+\begin{definition}[Local Stokes presentation]
+Fix a class of local meromorphic connections for which a ramification convention, a formal normal form convention, and a sector convention have been declared.  A local Stokes presentation consists of:
+\begin{itemize}[leftmargin=2em]
+\item the reduced formal type \(Q\);
+\item the regular singular formal blocks \(R_{\phi}\);
+\item the cyclic Stokes-direction arrangement determined by all differences \(\phi-\psi\);
+\item one Stokes factor in the appropriate unipotent Stokes group for each Stokes direction;
+\item the compatibility and descent data required by the chosen ramification and sector conventions.
+\end{itemize}
+\end{definition}
+
+\section{Formal Type and Directional Cost}
+
+\begin{definition}[Formal-type cost]
+Let \(\mathbf C_{\operatorname{form}}(Q)\) be a declared encoding cost for reduced formal types.  Examples include a bit-height cost for the coefficients of the exponential factors, a pole-order cost, a ramification cost, or a combined height and combinatorial-size cost.  The following results do not depend on a specific choice, only on the fact that the formal type is an extracted observable with a declared overhead.
+\end{definition}
+
+\begin{theorem}[Formal-type lower bound]
+Let \(\mathcal C_0\) be a class of local meromorphic connections and let \((\mathcal P,\rho,\mathbf C_{\mathcal P})\) be complete on \(\mathcal C_0\).  Suppose the reduced formal type
+\[
+M\longmapsto Q(M)
+\]
+is extracted from presentations with overhead \(F_{\operatorname{form}}\).  Then every \(M\in\mathcal C_0\) satisfies
+\[
+\mathbf C_{\mathcal C}(M)
+\ge
+\inf\{t:\ F_{\operatorname{form}}(t)\ge
+\mathbf C_{\operatorname{form}}(Q(M))\}.
+\]
+\end{theorem}
+
+\begin{proof}
+This is the extracted-observable lower bound applied to the observable \(Q\).  The analytic content is the existence and invariance of the reduced formal type; the cost conclusion is purely presentation-theoretic.
+\end{proof}
+
+\begin{definition}[Directional profile]
+The directional profile \(\Theta(M)\) is the cyclic finite set of Stokes directions, with multiplicity data recording which ordered pairs of exponential factors become active at each direction.  A cost \(\mathbf C_{\Theta}\) may charge for the number of directions, their angular precision, the ramification coordinate, and the incidence relation between directions and factor pairs.
+\end{definition}
+
+\begin{proposition}[Pole order forces lifted directions]
+Let \(\phi\) and \(\psi\) be two exponential factors after a fixed ramification \(z=t^e\).  If
+\[
+\phi(t)-\psi(t)=a t^{-m}+O(t^{-m+1}),\qquad a\ne0,
+\]
+then the lifted Stokes-direction set for the pair \((\phi,\psi)\) on the \(t\)-circle has cardinality \(2m\).
+\end{proposition}
+
+\begin{proof}
+Write \(t=re^{i\theta}\).  The leading contribution to the real part of the difference is
+\[
+\operatorname{Re}(a t^{-m})
+=
+r^{-m}\operatorname{Re}(a e^{-im\theta}).
+\]
+The Stokes directions for the pair are the directions where the leading exponential comparison is purely oscillatory, equivalently where this real part vanishes.  As \(\theta\) runs around a circle, the argument of \(a e^{-im\theta}\) winds \(m\) times.  The real part vanishes twice in each turn.  Hence there are \(2m\) lifted directions.  Lower-order pole terms do not change the number of leading anti-Stokes directions for sufficiently small \(r\); they only perturb the comparison away from the leading-direction set.
+\end{proof}
+
+\begin{theorem}[Directional lower bound]
+Assume \(\Theta\) is extracted from a complete local presentation system with overhead \(F_{\Theta}\).  Then
+\[
+\mathbf C_{\mathcal C}(M)
+\ge
+\inf\{t:\ F_{\Theta}(t)\ge \mathbf C_{\Theta}(\Theta(M))\}.
+\]
+In particular, for any cost \(\mathbf C_{\Theta}\) that dominates the number of lifted Stokes directions, a pair of exponential factors whose difference has pole order \(m\) contributes a lower bound of order at least \(2m\), before identifications imposed by descent or by coincident directions.
+\end{theorem}
+
+\begin{proof}
+The first inequality is the extracted-observable lower bound.  The final assertion follows from the preceding proposition and from the assumed domination of cardinality by \(\mathbf C_{\Theta}\).
+\end{proof}
+
+\section{Stokes Factors and Ordinary-Monodromy Fibres}
+
+Fix a formal type \(Q\) and sector conventions.  For each Stokes direction \(\theta\), the allowed Stokes factor lies in a unipotent algebraic group \(U_{\theta}(Q)\).  The full Stokes-factor space is an iterated product
+\[
+\mathcal U(Q)=\prod_{\theta\in\Theta(Q)} U_{\theta}(Q),
+\]
+with compatibility and product constraints determined by the formal monodromy convention.
+
+\begin{definition}[Stokes-factor observable]
+The Stokes-factor observable sends a local connection \(M\) with formal type \(Q\) to its tuple
+\[
+S(M)\in \mathcal U(Q)
+\]
+in the declared Stokes coordinates.  Its cost \(\mathbf C_{\operatorname{Stokes}}\) may be a coordinate-height cost, a sparsity cost, a dimension-sensitive algebraic cost, or any declared cost on the corresponding unipotent data.
+\end{definition}
+
+\begin{theorem}[Stokes-factor lower bound]
+Let \(S\) be extracted from local presentations with overhead \(F_{\operatorname{Stokes}}\).  Then
+\[
+\mathbf C_{\mathcal C}(M)
+\ge
+\inf\{t:\ F_{\operatorname{Stokes}}(t)\ge
+\mathbf C_{\operatorname{Stokes}}(S(M))\}.
+\]
+Consequently, whenever a family of connections has fixed formal type and varying Stokes factors of increasing coordinate cost, the presentation cost must increase at the corresponding inverse-overhead scale.
+\end{theorem}
+
+\begin{proof}
+Apply the extracted-observable lower bound to the Stokes-factor observable.  The statement with fixed formal type is the same inequality restricted to the fibre of \(Q\).
+\end{proof}
+
+\begin{example}[Rank-one exponential residual fibre]
+For \(m\ge1\) and \(a\in\mathbb C^{\ast}\), consider the rank-one connection
+\[
+\nabla_{a,m}=d-d(a z^{-m})
+\]
+on the punctured disc.  A local solution is \(\exp(a z^{-m})\).  Since \(z^{-m}\) is single-valued around the puncture, the ordinary monodromy of this rank-one local system is trivial.  Nevertheless the formal exponential factor \(a z^{-m}\) changes with \(a\) and \(m\).
+\end{example}
+
+\begin{proposition}[Ordinary monodromy does not separate formal type]
+The ordinary monodromy observable has an infinite residual fibre on the class of rank-one exponential connections \(\nabla_{a,m}\).  Inside the fibre of trivial ordinary monodromy, the reduced formal type can have arbitrarily large pole order and arbitrarily large coefficient height.
+\end{proposition}
+
+\begin{proof}
+The preceding example shows that every \(\nabla_{a,m}\) has trivial ordinary monodromy.  If \((a,m)\ne(a',m')\), then the exponential factors \(a z^{-m}\) and \(a' z^{-m'}\) are distinct modulo holomorphic terms unless the negative Laurent polynomials agree.  Hence ordinary monodromy is constant on an infinite set of distinct formal types.  The pole order \(m\) and the height of \(a\), when a height model is declared, can be made arbitrarily large.
+\end{proof}
+
+\begin{corollary}[Formal cost invisible to ordinary monodromy]
+Let a presentation system be complete for the rank-one exponential family and suppose the formal type is extracted with overhead \(F_{\operatorname{form}}\).  Then no cost model depending only on ordinary monodromy can bound the presentation cost of this family.  More precisely,
+\[
+\mathbf C_{\mathcal C}(\nabla_{a,m})
+\ge
+\inf\{t:\ F_{\operatorname{form}}(t)\ge
+\mathbf C_{\operatorname{form}}(a z^{-m})\}.
+\]
+\end{corollary}
+
+\begin{proof}
+Ordinary monodromy is constant on the family, while the formal-type observable is not.  The inequality is the formal-type lower bound applied to \(\nabla_{a,m}\).
+\end{proof}
+
+\section{Local Stokes Normal Forms}
+
+The previous sections give lower bounds from observables.  Conversely, the classical Stokes classification gives a complete local presentation format once conventions have been fixed.
+
+\begin{definition}[Local normal-form data]
+For a bounded class of local meromorphic connections, local Stokes normal-form data consist of:
+\begin{enumerate}[leftmargin=2em]
+\item a ramification degree and descent convention;
+\item a reduced formal type \(Q\);
+\item regular-singular formal blocks \(R_{\phi}\);
+\item the induced directional profile \(\Theta(Q)\);
+\item Stokes factors \(S_{\theta}\in U_{\theta}(Q)\);
+\item the formal monodromy and product compatibility data.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Completeness of local Stokes normal forms]
+After fixing the above conventions, local Stokes normal-form data determine the analytic isomorphism class of the corresponding local meromorphic connection.  Conversely, every connection in the bounded class determines such data.
+\end{theorem}
+
+\begin{proof}
+The Hukuhara-Levelt-Turrittin theorem gives the formal decomposition after ramification.  On each sector between consecutive Stokes directions, one chooses sectorial normalizations compatible with the formal type.  On overlaps of adjacent sectors the transition maps are precisely the Stokes factors, together with the formal monodromy contribution.  Thus the listed data reconstruct the sectorial gluing problem.  If two connections have the same listed data, their sectorial normal forms can be identified on every sector and the transition functions agree on overlaps, so the sectorial identifications glue to an analytic isomorphism.  Conversely, an analytic connection produces the same type of data by formal decomposition and sectorial comparison.
+\end{proof}
+
+\begin{proposition}[Quasi-minimality under bounded conventions]
+Fix a bounded local class in which ramification degree, rank, sector convention, and regular-singular block format are bounded.  Suppose a complete presentation system admits extraction of \(Q\), \(\Theta\), and \(S\) with overheads \(F_{\operatorname{form}},F_{\Theta},F_{\operatorname{Stokes}}\).  Then every complete presentation of \(M\) has cost at least the maximum of the corresponding inverse-overhead lower bounds:
+\[
+\mathbf C_{\mathcal C}(M)
+\ge
+\max\Bigl\{
+\inf\{t:F_{\operatorname{form}}(t)\ge\mathbf C_{\operatorname{form}}(Q(M))\},
+\inf\{t:F_{\Theta}(t)\ge\mathbf C_{\Theta}(\Theta(M))\},
+\inf\{t:F_{\operatorname{Stokes}}(t)\ge\mathbf C_{\operatorname{Stokes}}(S(M))\}
+\Bigr\}.
+\]
+If the declared local Stokes normal-form encoder has total cost bounded above by a function of these three observable costs, then the lower and upper bounds match up to the corresponding overhead functions.
+\end{proposition}
+
+\begin{proof}
+The lower bound is obtained by applying the extracted-observable theorem to each observable and taking the maximum.  The final assertion is an upper-bound statement for the chosen encoder: once the normal-form data have been encoded, the completeness theorem reconstructs the analytic class.  Hence the presentation cost is bounded above by the declared cost of that normal-form encoder, while the first part shows that each of its essential components is forced by any complete presentation.
+\end{proof}
+
+\section{Global Stokes Data and Turning Loci}
+
+On higher-dimensional bases, good formal structures need not be present everywhere without modification.  Turning loci record where the formal decomposition changes or fails to be good in the chosen model.  The following statements are therefore formulated for classes where the relevant good-structure operations are part of the declared presentation package.
+
+\begin{definition}[Global good class]
+A global good class is a bounded class of meromorphic connections on smooth complex varieties with divisor of poles, together with:
+\begin{itemize}[leftmargin=2em]
+\item a bounded format for local charts and normal-crossing data;
+\item a declared procedure, possibly after admissible modifications, for obtaining good formal structures;
+\item a finite presentation format for the resulting formal types, Stokes hypersurfaces, gluing data, and descent data.
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Turning observable]
+The turning observable \(T\) records the locus where the original model does not already carry the declared good formal structure, together with the combinatorial or local data needed by the chosen modification procedure.  Its cost \(\mathbf C_T\) may measure degree, number of components, local multiplicities, or a heighted algebraic presentation of the locus.
+\end{definition}
+
+\begin{theorem}[Turning-data lower bound]
+Let \(\mathcal C_0\) be a global good class, and suppose the turning observable \(T\) is extracted from presentations with overhead \(F_T\).  Then
+\[
+\mathbf C_{\mathcal C}(M)
+\ge
+\inf\{t:\ F_T(t)\ge \mathbf C_T(T(M))\}.
+\]
+\end{theorem}
+
+\begin{proof}
+This is the extracted-observable lower bound applied to \(T\).  The geometric input is that the chosen class has a well-defined turning observable in the declared presentation format.
+\end{proof}
+
+\begin{definition}[Good-model resolution cost]
+Let \(\Pi(M)\) be the set of admissible modifications \(\pi:Y\to X\) in the declared global class such that the pulled-back connection \(\pi^\dagger M\) has good formal structure.  If \(\mathbf C_{\operatorname{mod}}\) is a cost on such modifications, define
+\[
+\mathbf C_{\operatorname{res}}(M)
+=
+\inf_{\pi\in\Pi(M)}\mathbf C_{\operatorname{mod}}(\pi).
+\]
+This is not an intrinsic number independent of conventions; it is a presentation cost for resolving the failure of good formal structure in the chosen global model.
+\end{definition}
+
+\begin{theorem}[Good-model resolution lower bound]
+Assume that every complete global Stokes presentation in the chosen class determines an admissible modification \(\pi:Y\to X\) for which \(\pi^\dagger M\) has good formal structure, with extraction overhead \(F_{\operatorname{res}}\).  Then
+\[
+\mathbf C_{\mathcal C}(M)
+\ge
+\inf\{t:\ F_{\operatorname{res}}(t)\ge \mathbf C_{\operatorname{res}}(M)\}.
+\]
+\end{theorem}
+
+\begin{proof}
+Let \(p\) be a complete presentation of \(M\).  By hypothesis it determines a good-model modification \(\pi_p\) whose cost is at most \(F_{\operatorname{res}}(\mathbf C_{\mathcal P}(p))\).  Since \(\mathbf C_{\operatorname{res}}(M)\) is the infimum over all such modifications, one has
+\[
+\mathbf C_{\operatorname{res}}(M)
+\le
+\mathbf C_{\operatorname{mod}}(\pi_p)
+\le
+F_{\operatorname{res}}(\mathbf C_{\mathcal P}(p)).
+\]
+Taking the infimum over all presentations \(p\) realizing \(M\) gives the stated lower bound.
+\end{proof}
+
+\begin{theorem}[Solution-side turning lower bound]
+Work in a class where Teyssier's solution-theoretic criterion for good formal structure applies: the good formal structure locus is detected by the locus where the restrictions of the solution complexes of \(M\) and \(\operatorname{End}M\) to the pole divisor are local systems.  Suppose this solution-side failure locus is extracted from the chosen presentation format with overhead \(F_{\operatorname{solturn}}\).  Then
+\[
+\mathbf C_{\mathcal C}(M)
+\ge
+\inf\{t:\ F_{\operatorname{solturn}}(t)\ge
+\mathbf C_{\operatorname{turn}}(\operatorname{Turn}(M))\}.
+\]
+\end{theorem}
+
+\begin{proof}
+Under the stated criterion, the solution-side failure locus equals the turning locus in the chosen class.  Thus extracting the solution-side local-system failure locus is also an extraction of \(\operatorname{Turn}(M)\).  The result is the turning-data lower bound applied to this particular extraction route.  The role of the analytic theorem is to identify the same obstruction on the formal side and on the solution side; the presentation-theoretic conclusion is the cost lower bound forced by that obstruction.
+\end{proof}
+
+\begin{theorem}[Global Stokes-data lower bound]
+In a global good class, suppose the global Stokes presentation \(G(M)\), including local formal types, Stokes hypersurfaces, Stokes factors, and gluing data, is extracted with overhead \(F_G\).  Then
+\[
+\mathbf C_{\mathcal C}(M)
+\ge
+\inf\{t:\ F_G(t)\ge \mathbf C_G(G(M))\}.
+\]
+In particular, families with bounded underlying topological local-system data but unbounded global Stokes or turning data cannot have uniformly bounded complete presentations unless the overhead function already absorbs that unbounded cost.
+\end{theorem}
+
+\begin{proof}
+The inequality is formal.  For the final assertion, restrict to a residual fibre of the underlying topological local-system observable.  If \(G\) or \(T\) is unbounded on that fibre and is required for completeness, the preceding inequality prevents uniformly bounded complete presentations.
+\end{proof}
+
+\section{Controlled Irregular Riemann-Hilbert Transfer}
+
+The irregular Riemann-Hilbert correspondence identifies holonomic \(\mathcal D\)-module data with enhanced-sheaf data in a way that remembers Stokes phenomena.  Presentation Theory separates the categorical equivalence from the cost statement: the equivalence supplies the mathematical bridge, while a controlled transfer package supplies explicit overhead functions for finite presentations.
+
+\begin{definition}[Controlled irregular Riemann-Hilbert package]
+On a bounded good class, a controlled irregular Riemann-Hilbert package consists of:
+\begin{itemize}[leftmargin=2em]
+\item a presentation system for meromorphic or holonomic \(\mathcal D\)-module objects in the class;
+\item a presentation system for the corresponding enhanced-sheaf or Stokes-filtered objects;
+\item forward and inverse realization procedures implementing the correspondence on the class;
+\item nondecreasing overhead functions \(F_{\rightarrow}\) and \(F_{\leftarrow}\) bounding the cost of these procedures;
+\item verification data ensuring that the presentations lie in the bounded good class.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Controlled transfer of presentation bounds]
+Assume a controlled irregular Riemann-Hilbert package on a bounded good class.  Let \(M\) be an object on the \(\mathcal D\)-module side and let \(\operatorname{Sol}^{\operatorname{enh}}(M)\) denote its enhanced solution object in the package.  Then
+\[
+\mathbf C_{\operatorname{enh}}(\operatorname{Sol}^{\operatorname{enh}}(M))
+\le
+F_{\rightarrow}(\mathbf C_{\mathcal D}(M)),
+\]
+and
+\[
+\mathbf C_{\mathcal D}(M)
+\le
+F_{\leftarrow}(\mathbf C_{\operatorname{enh}}(\operatorname{Sol}^{\operatorname{enh}}(M))).
+\]
+Consequently, any lower bound for an extracted observable on one side transfers to the other side after composing with the corresponding overhead function.
+\end{theorem}
+
+\begin{proof}
+The first two inequalities are exactly the cost guarantees in the controlled package: a presentation of \(M\) is transformed into a presentation of its enhanced solution object with overhead \(F_{\rightarrow}\), and a presentation of the enhanced object is transformed back with overhead \(F_{\leftarrow}\).  For the final statement, suppose an observable \(A\) on the enhanced side gives
+\[
+\mathbf C_{\operatorname{enh}}(\operatorname{Sol}^{\operatorname{enh}}(M))
+\ge L(M).
+\]
+Combining this with the first inequality gives
+\[
+L(M)\le F_{\rightarrow}(\mathbf C_{\mathcal D}(M)),
+\]
+which is the transferred lower bound on the \(\mathcal D\)-module side.  The other direction is identical using \(F_{\leftarrow}\).
+\end{proof}
+
+\begin{corollary}[Enhanced-sheaf visibility of Stokes cost]
+In a controlled irregular Riemann-Hilbert package, local formal type, Stokes directions, and Stokes factors give lower bounds for enhanced-sheaf presentations whenever they are extracted from the enhanced side.  Conversely, enhanced-sheaf observables that recover Stokes-filtered data give lower bounds for meromorphic-connection presentations.
+\end{corollary}
+
+\begin{proof}
+Apply the controlled-transfer theorem to the formal-type, directional, and Stokes-factor lower bounds proved above.  The enhanced solution object carries the Stokes-filtered asymptotic information; the controlled package is precisely the assertion that this information is available with declared finite overhead on the bounded class.
+\end{proof}
+
+\section{Synthesis}
+
+The local classification of irregular connections supplies a natural normal-form presentation, while Presentation Theory explains which parts of that normal form are forced by any complete finite description.  Ordinary monodromy can be constant on large residual fibres; formal type and Stokes data separate those fibres and therefore impose presentation cost.  In global settings, turning loci and Stokes hypersurfaces play the same role once a good-structure package has been fixed.  Under controlled irregular Riemann-Hilbert transfer, these lower bounds move between meromorphic-connection presentations and enhanced-sheaf presentations.
+
+The main reusable pattern is therefore:
+\[
+\text{classical irregular invariant}
+\quad\Longrightarrow\quad
+\text{extracted observable}
+\quad\Longrightarrow\quad
+\text{presentation lower bound}.
+\]
+The analytic theory determines the invariant.  The presentation-theoretic layer records how much finite description cost is forced by making that invariant available.
+
+\begin{thebibliography}{99}
+
+\bibitem{Boalch2014}
+P. Boalch.
+Geometry and braiding of Stokes data; fission and wild character varieties.
+\emph{Annals of Mathematics} 179 (2014), 301--365.
+
+\bibitem{DAgnoloKashiwara2016}
+A. D'Agnolo and M. Kashiwara.
+Riemann-Hilbert correspondence for holonomic D-modules.
+\emph{Publications mathematiques de l'IHES} 123 (2016), 69--197.
+
+\bibitem{Kedlaya2010}
+K. S. Kedlaya.
+Good formal structures for flat meromorphic connections, I: Surfaces.
+\emph{Duke Mathematical Journal} 154 (2010), 343--418.
+
+\bibitem{Kedlaya2011}
+K. S. Kedlaya.
+Good formal structures for flat meromorphic connections, II: Excellent schemes.
+\emph{Journal of the American Mathematical Society} 24 (2011), 183--229.
+
+\bibitem{Mochizuki2011}
+T. Mochizuki.
+\emph{Wild Harmonic Bundles and Wild Pure Twistor D-modules}.
+Asterisque 340, Societe Mathematique de France, 2011.
+
+\bibitem{Sabbah2013}
+C. Sabbah.
+\emph{Introduction to Stokes Structures}.
+Lecture Notes in Mathematics 2060, Springer, 2013.
+
+\bibitem{Wasow1987}
+W. Wasow.
+\emph{Asymptotic Expansions for Ordinary Differential Equations}.
+Dover, 1987.
+
+\end{thebibliography}
+
+\end{document}
