@@ -6,10 +6,11 @@ import SectionBackLink from "../../components/SectionBackLink.astro";
 import { renderTexPaper } from "../../lib/texPaper";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const assetBase = "/assets/ai-assisted-math/certified-adaptive-discovery-algebraic-laws";
-const stem = "certified-adaptive-discovery-algebraic-laws";
+const assetBase =
+  "/assets/ai-assisted-math/polar-code-endpoint-class-two-p-groups";
+const stem = "polar-code-endpoint-class-two-p-groups";
 const paper = renderTexPaper(readFileSync(`public${assetBase}/${stem}.tex`, "utf8"), {
-  idPrefix: "certified-discovery",
+  idPrefix: "polar-code-endpoint",
 });
 
 const pdfHref = `${assetBase}/${stem}.pdf`;
@@ -17,9 +18,9 @@ const texHref = `${assetBase}/${stem}.tex`;
 ---
 
 <BaseLayout
-  title="Certified Adaptive Discovery of Algebraic Laws"
-  description="A preliminary AI-assisted note on volume certificates, e-values, and post-selection-valid inference for algebraic law discovery."
-  currentPath="/ai-assisted-math/certified-adaptive-discovery-algebraic-laws.html"
+  title="The Polar-Code Endpoint for Class-Two p-Groups"
+  description="The endpoint of the class-two p-group observer hierarchy: polar-code completeness, generic geometric reconstruction, and standard-structure residual reduction."
+  currentPath="/ai-assisted-math/polar-code-endpoint-class-two-p-groups.html"
   bodyClass="paper-surface"
 >
   <script is:inline>

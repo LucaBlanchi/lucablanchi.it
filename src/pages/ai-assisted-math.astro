@@ -88,6 +88,14 @@ const articles = [
     datetime: "2026-06",
   },
   {
+    href: "/ai-assisted-math/polar-code-endpoint-class-two-p-groups.html",
+    title: "The Polar-Code Endpoint for Class-Two p-Groups",
+    description:
+      "The endpoint of the class-two p-group observer hierarchy: polar-code completeness, generic geometric reconstruction, and standard-structure residual reduction.",
+    date: "June 2026",
+    datetime: "2026-06",
+  },
+  {
     href: "/ai-assisted-math/finite-lovasz-profiles-coprime-affine-groups.html",
     title: "Finite Lovász Profiles for Coprime Affine Groups",
     description:
@@ -357,12 +365,13 @@ const articleGroups = [
     title: "Observable Geometry in Groups",
     hrefs: [
       "/ai-assisted-math/quadratic-presentational-complexity-observer-barriers.html",
-      "/ai-assisted-math/relative-linear-word-observers-semidirect-products.html",
-      "/ai-assisted-math/sharp-support-image-thresholds-alternating-pencils.html",
       "/ai-assisted-math/star-support-image-profiles-class-two-p-groups.html",
+      "/ai-assisted-math/sharp-support-image-thresholds-alternating-pencils.html",
       "/ai-assisted-math/complete-commutator-word-tomography-alternating-pencils.html",
       "/ai-assisted-math/generic-odd-pfaffian-reconstruction-commutator-word-moments.html",
       "/ai-assisted-math/word-measure-twins-pfaffian-moduli-class-two-p-groups.html",
+      "/ai-assisted-math/polar-code-endpoint-class-two-p-groups.html",
+      "/ai-assisted-math/relative-linear-word-observers-semidirect-products.html",
       "/ai-assisted-math/finite-lovasz-profiles-coprime-affine-groups.html",
       "/ai-assisted-math/degree-weighted-normal-covers-symmetric-alternating-groups.html",
       "/ai-assisted-math/lef-growth-wreath-products.html",
@@ -457,33 +466,25 @@ const articleSections = articleGroups.map((section) => ({
 ---
 
 <BaseLayout
-  title="AI-assisted math"
-  description="AI-assisted, AI-driven, and AI-authored mathematics."
+  title="Presentation theory"
+  description="Articles related to a mathematics research program at a preliminary stage."
   currentPath="/ai-assisted-math.html"
 >
   <main class="shell article-shell">
     <article class="plain-page">
-      <h1>Ai-assisted math</h1>
+      <h1>Presentation theory</h1>
 
       <p>
-        This section contains ai-assisted, ai-driven, and/or ai-authored and
-        reviewed mathematics.
-      </p>
-      <p>
-        Most articles should be considered drafts, as the math may have been only
-        partially reviewed, and it could be in some cases only ai-reviewed.
-        Nonetheless, I share whatever I feel could be useful to somebody, even if
-        it still needs lots of work.
-      </p>
-      <p>
-        I also aim to share prompts, handoff notes, and the original ideas that
-        led the ai to the proofs.
-      </p>
-      <p>
-        I mainly use ChatGPT 5.5 as of June 2026.
+        This page contains articles related to a mathematics research program at
+        a preliminary stage. As of now, all the articles have been edited by AI
+        and, for the most part, reviewed only by AI. The research itself has also
+        been AI-assisted, mainly with GPT-5.5. The articles do contain valuable
+        mathematical content, but please keep in mind that they may contain
+        mistakes, be incomplete, or be confusing, as often they are published in
+        order to feed them back to the AI for further research.
       </p>
 
-      <section class="article-sections" aria-label="AI-assisted math articles">
+      <section class="article-sections" aria-label="Presentation theory articles">
         {
           articleSections.map((section) => (
             <section class="article-section" aria-labelledby={section.id}>
