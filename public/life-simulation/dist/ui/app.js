@@ -673,7 +673,13 @@ export function startLifeApp() {
     <div class="organism-compact">
       <div><span>ID</span><strong>#${organism.id}</strong></div>
       <div><span>Pos</span><strong>${organism.x}, ${organism.y}</strong></div>
-      <div><span>Energy</span><strong>${organism.energy.toFixed(1)} / ${organism.maxEnergy.toFixed(1)}</strong></div>
+      <div>
+        <span>Energy</span>
+        <strong class="organism-energy-value">
+          <span>${organism.energy.toFixed(1)}</span>
+          <span>/ ${organism.maxEnergy.toFixed(1)}</span>
+        </strong>
+      </div>
       <div><span>Repro energy</span><strong>${organism.reproductionCost.toFixed(1)}</strong></div>
       <div><span>Blocks</span><strong>${organism.code.length}</strong></div>
       <div><span>Actions/turn</span><strong>${organism.turnBudget}</strong></div>

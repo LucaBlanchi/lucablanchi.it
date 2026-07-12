@@ -11,7 +11,7 @@
   --accent: #31cfc4;
   --accent-strong: #f0bd61;
   --danger: #ff6f79;
-  --food: #8ed46e;
+  --food: #9ca3af;
   --empty: #080a0d;
   --shadow: 0 20px 48px rgb(20 22 26 / 0.18);
   font-family:
@@ -887,7 +887,7 @@ body.life-simulation-shell .nav-links a[aria-current="page"] {
   background: var(--surface-2);
 }
 
-.organism-compact span {
+.organism-compact div > span {
   display: block;
   color: var(--muted);
   font-size: 0.7rem;
@@ -898,6 +898,14 @@ body.life-simulation-shell .nav-links a[aria-current="page"] {
   margin-top: 0.05rem;
   overflow-wrap: anywhere;
   font-size: 0.84rem;
+}
+
+.organism-energy-value {
+  line-height: 1.12;
+}
+
+.organism-energy-value span {
+  display: block;
 }
 
 .program-details {
