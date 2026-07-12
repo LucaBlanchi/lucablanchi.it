@@ -29,7 +29,7 @@ const staticEntries: SitemapEntry[] = [
     priority: "0.95",
   },
   {
-    loc: absoluteUrl("/life-simulation/"),
+    loc: absoluteUrl("/life-simulation.html"),
     lastmod: site.updatedDate,
     changefreq: "monthly",
     priority: "0.7",

@@ -8,7 +8,7 @@ const isHomePage = currentPath === "/";
 const isDraftsPage = currentPath === "/drafts.html" || currentPath.startsWith("/drafts/");
 const isPresentationTheoryPage =
   currentPath === "/presentation-theory.html" || currentPath.startsWith("/presentation-theory/");
-const isLifeSimulationPage = currentPath.startsWith("/life-simulation/");
+const isLifeSimulationPage = currentPath === "/life-simulation.html";
 ---
 
 <header class="top-nav">
@@ -17,7 +17,7 @@ const isLifeSimulationPage = currentPath.startsWith("/life-simulation/");
     <nav class="nav-links" aria-label="Main navigation">
       <a href="/drafts.html" aria-current={isDraftsPage ? "page" : undefined}>Draft concepts</a>
       <a href="/presentation-theory.html" aria-current={isPresentationTheoryPage ? "page" : undefined}>Presentation theory</a>
-      <a href="/life-simulation/" aria-current={isLifeSimulationPage ? "page" : undefined}>Life simulation</a>
+      <a href="/life-simulation.html" aria-current={isLifeSimulationPage ? "page" : undefined}>Life simulation</a>
     </nav>
   </div>
 </header>

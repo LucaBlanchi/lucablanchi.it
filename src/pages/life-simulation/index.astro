@@ -1,3 +1,6 @@
+---
+---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -8,8 +11,8 @@
       name="description"
       content="Programmable life simulation with grid organisms, energy, food, reproduction, mutations, editable instruction blocks, and lineage colors."
     />
-    <link rel="canonical" href="https://lucablanchi.it/life-simulation/" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="canonical" href="https://lucablanchi.it/life-simulation.html" />
+    <link rel="stylesheet" href="/life-simulation/styles.css" />
   </head>
   <body>
     <div id="app">
@@ -36,7 +39,16 @@
             </label>
             <label class="speed-control">
               <span class="speed-title">Render speed</span>
-              <input id="speedNumberInput" class="speed-number" type="number" min="1" max="250" step="1" value="20" aria-label="Render speed ticks per second" />
+              <input
+                id="speedNumberInput"
+                class="speed-number"
+                type="number"
+                min="1"
+                max="250"
+                step="1"
+                value="20"
+                aria-label="Render speed ticks per second"
+              />
               <span class="speed-unit">/s</span>
               <input id="speedInput" class="speed-range" type="range" min="1" max="250" value="20" />
             </label>
@@ -120,6 +132,6 @@
       </dialog>
     </div>
 
-    <script type="module" src="./dist/main.js"></script>
+    <script type="module" src="/life-simulation/dist/main.js"></script>
   </body>
 </html>
