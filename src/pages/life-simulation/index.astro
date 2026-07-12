@@ -101,8 +101,8 @@ const description =
           </div>
           <div class="seed-editor-main">
             <label class="field">
-              <span>Preset</span>
-              <select id="seedPresetInput" class="select-input"></select>
+              <span>Overwrite with preset</span>
+              <select id="seedPresetInput" class="select-input" aria-label="Overwrite selected seed creature with preset"></select>
             </label>
             <label class="field">
               <span>New block</span>
@@ -124,7 +124,6 @@ const description =
             <div class="editor-actions">
               <button id="applySeed" type="button" class="primary">Use and reset</button>
               <button id="formatSeed" type="button">Format</button>
-              <button id="loadSelectedSeed" type="button">From selection</button>
             </div>
           </div>
         </div>

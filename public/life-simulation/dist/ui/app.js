@@ -201,7 +201,6 @@ export function startLifeApp() {
     const seedStatus = requireElement("#seedStatus");
     const applySeedButton = requireElement("#applySeed");
     const formatSeedButton = requireElement("#formatSeed");
-    const loadSelectedSeedButton = requireElement("#loadSelectedSeed");
     const programDetails = requireElement("#programDetails");
     const organismDetails = requireElement("#organismDetails");
     const context = requireCanvasContext(canvas);
@@ -471,10 +470,12 @@ export function startLifeApp() {
         }
     }
     function populateSeedPresets() {
-        seedPresetInput.innerHTML = savedSeedLifeForms
-            .map((seed) => `<option value="${seed.name}">${seed.name}</option>`)
+        seedPresetInput.innerHTML = [
+            `<option value="">Choose preset...</option>`,
+            ...savedSeedLifeForms.map((seed) => `<option value="${seed.name}">${seed.name}</option>`)
+        ]
             .join("");
-        seedPresetInput.value = startingSeedLifeForm.name;
+        seedPresetInput.value = "";
         blockOpcodeInput.innerHTML = opcodes.map((op) => `<option value="${op}">${op}</option>`).join("");
         blockOpcodeInput.value = "NOOP";
         blockPalette.innerHTML = opcodeGroups
@@ -490,6 +491,7 @@ export function startLifeApp() {
     }
     function selectSeedDraft(index) {
         selectedSeedIndex = Math.min(Math.max(0, index), seedDrafts.length - 1);
+        seedPresetInput.value = "";
         seedEditor.value = seedDrafts[selectedSeedIndex] ?? "";
         renderSeedEditorState();
     }
@@ -787,9 +789,13 @@ export function startLifeApp() {
     seedPresetInput.addEventListener("change", () => {
         const seed = savedSeedLifeForms.find((candidate) => candidate.name === seedPresetInput.value);
         if (!seed) {
+            seedPresetInput.value = "";
             return;
         }
         setSelectedSeedCode(seed.createCode());
+        seedStatus.className = "seed-status is-ok";
+        seedStatus.textContent = `${seed.name} applied to creature ${selectedSeedIndex + 1}`;
+        seedPresetInput.value = "";
     });
     seedEditor.addEventListener("input", () => {
         seedDrafts[selectedSeedIndex] = seedEditor.value;
@@ -901,15 +907,6 @@ export function startLifeApp() {
             return;
         }
         setSelectedSeedCode(parsed.code);
-    });
-    loadSelectedSeedButton.addEventListener("click", () => {
-        const selected = ensureSelection();
-        if (!selected) {
-            seedStatus.className = "seed-status is-error";
-            seedStatus.textContent = "No organism selected";
-            return;
-        }
-        setSelectedSeedCode(selected.code);
     });
     canvas.addEventListener("click", (event) => {
         const rect = canvas.getBoundingClientRect();
