@@ -239,6 +239,11 @@ export function startLifeApp() {
         }
     }
     function cssVar(name) {
+        const appRoot = canvas.closest(".life-simulation-page") ?? document.documentElement;
+        const scopedValue = getComputedStyle(appRoot).getPropertyValue(name).trim();
+        if (scopedValue) {
+            return scopedValue;
+        }
         return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
     }
     function normalizeRenderSpeed(value) {
