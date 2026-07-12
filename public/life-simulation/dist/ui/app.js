@@ -30,6 +30,7 @@ const settingGroups = [
             { type: "number", key: "foodSpawnAttemptsPerTick", label: "Food attempts/tick", min: 0, max: 100, step: 1 },
             { type: "number", key: "maxFood", label: "Food cap", min: 0, max: 50000, step: 100 },
             { type: "number", key: "foodEnergy", label: "Food energy gain", min: 0, max: 100, step: 1, digits: 1 },
+            { type: "number", key: "maxAge", label: "Max age (0 off)", min: 0, max: 100000, step: 100 },
             { type: "number", key: "mutationRate", label: "Point mutation %", min: 0, max: 10, step: 0.1, scale: 100, digits: 1 }
         ]
     },
@@ -670,6 +671,7 @@ export function startLifeApp() {
             organismDetails.textContent = "Click an occupied cell to inspect details.";
             return;
         }
+        const maxAgeLabel = currentConfig.maxAge > 0 ? String(Math.round(currentConfig.maxAge)) : "off";
         organismDetails.className = "organism-details has-selection";
         organismDetails.innerHTML = `
     <div class="organism-compact">
@@ -683,6 +685,7 @@ export function startLifeApp() {
         </strong>
       </div>
       <div><span>Repro energy</span><strong>${organism.reproductionCost.toFixed(1)}</strong></div>
+      <div><span>Age</span><strong>${organism.age} / ${maxAgeLabel}</strong></div>
       <div><span>Blocks</span><strong>${organism.code.length}</strong></div>
       <div><span>Actions/turn</span><strong>${organism.turnBudget}</strong></div>
     </div>

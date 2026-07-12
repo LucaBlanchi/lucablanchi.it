@@ -5,6 +5,7 @@ export const defaultConfig = {
     foodSpawnAttemptsPerTick: 5,
     foodEnergy: 16,
     moveFoodEnergyMultiplier: 0.25,
+    maxAge: 0,
     baseTurnCost: 0.02,
     instructionCost: 0.002,
     moveCost: 0.15,

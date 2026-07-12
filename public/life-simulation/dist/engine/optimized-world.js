@@ -253,6 +253,10 @@ export class OptimizedWorld extends AbstractSimulationEngine {
     }
     runOrganismTurn(organism, budget) {
         organism.age += 1;
+        if (this.config.maxAge > 0 && organism.age > this.config.maxAge) {
+            this.removeOrganism(organism);
+            return;
+        }
         organism.energy -= this.config.baseTurnCost;
         organism.executedLastTurn = 0;
         const compiled = organism.compiledCode;
