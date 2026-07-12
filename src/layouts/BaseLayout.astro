@@ -10,6 +10,7 @@ interface Props {
   currentPath?: string;
   showFooter?: boolean;
   bodyClass?: string;
+  styles?: string[];
   scripts?: string[];
 }
 
@@ -20,8 +21,13 @@ const {
   currentPath = "/",
   showFooter = true,
   bodyClass,
+  styles = [],
   scripts = []
 } = Astro.props;
+
+const styleList = styles.filter(
+  (style, index, all) => all.indexOf(style) === index
+);
 
 const scriptList = ["/assets/site.js", ...scripts].filter(
   (script, index, all) => all.indexOf(script) === index
@@ -48,6 +54,7 @@ const seo = getSeoData({ title, description, currentPath, lang });
       >
     ))}
     <link rel="stylesheet" href="/assets/site.css">
+    {styleList.map((style) => <link rel="stylesheet" href={style}>)}
     <script type="application/ld+json" set:html={seo.schemaJson}></script>
   </head>
   <body class={bodyClass}>

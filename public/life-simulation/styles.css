@@ -1,4 +1,4 @@
-:root {
+.life-simulation-page {
   color-scheme: dark;
   --bg: #15171b;
   --surface: #20242b;
@@ -13,27 +13,24 @@
   --empty: #111317;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
   min-width: 320px;
   background: var(--bg);
   color: var(--text);
 }
 
-button,
-input,
-select,
-textarea {
+.life-simulation-page,
+.life-simulation-page * {
+  box-sizing: border-box;
+}
+
+.life-simulation-page button,
+.life-simulation-page input,
+.life-simulation-page select,
+.life-simulation-page textarea {
   font: inherit;
 }
 
-button {
+.life-simulation-page button {
   min-height: 2.4rem;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -43,16 +40,16 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.life-simulation-page button:hover {
   border-color: var(--accent);
 }
 
-button:disabled {
+.life-simulation-page button:disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }
 
-button.primary {
+.life-simulation-page button.primary {
   border-color: transparent;
   background: var(--accent);
   color: #06201d;
@@ -79,18 +76,18 @@ button.primary {
   padding: 0 0 0.6rem;
 }
 
-h1,
-h2,
-p {
+.life-simulation-page h1,
+.life-simulation-page h2,
+.life-simulation-page p {
   margin: 0;
 }
 
-h1 {
+.life-simulation-page h1 {
   font-size: clamp(1.8rem, 4vw, 3rem);
   letter-spacing: 0;
 }
 
-h2 {
+.life-simulation-page h2 {
   font-size: 1rem;
   letter-spacing: 0;
 }
@@ -250,7 +247,7 @@ h2 {
   background: var(--empty);
 }
 
-canvas {
+.life-simulation-page canvas {
   display: block;
   width: 100%;
   height: 100%;
@@ -342,7 +339,7 @@ canvas {
   color: var(--text);
 }
 
-input[type="range"] {
+.life-simulation-page input[type="range"] {
   width: 100%;
   accent-color: var(--accent);
 }
