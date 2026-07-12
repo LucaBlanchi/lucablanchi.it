@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Life Simulation | Luca Blanchi</title>
+    <meta
+      name="description"
+      content="Programmable life simulation with grid organisms, energy, food, reproduction, mutations, editable instruction blocks, and lineage colors."
+    />
+    <link rel="canonical" href="https://lucablanchi.it/life-simulation/" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <div class="reset-slot">
+          <button id="resetWorld" type="button">Reset</button>
+          <button id="openSeedEditor" type="button">Seed</button>
+        </div>
+        <div class="topbar-main">
+          <div class="status-grid" aria-live="polite">
+            <div><span>Tick</span><strong id="tickValue">0</strong></div>
+            <div><span>Organisms</span><strong id="organismValue">0</strong></div>
+            <div><span>Food</span><strong id="foodValue">0</strong></div>
+            <div><span>Selection</span><strong id="selectionValue">-</strong></div>
+          </div>
+          <div class="controls" aria-label="Simulation controls">
+            <div class="run-actions">
+              <button id="toggleRun" type="button" class="primary">Start</button>
+              <button id="stepOnce" type="button">Step</button>
+            </div>
+            <label class="render-switch">
+              <input id="renderInput" type="checkbox" checked />
+              <span>Render</span>
+            </label>
+            <label class="speed-control">
+              <span class="speed-title">Render speed</span>
+              <input id="speedNumberInput" class="speed-number" type="number" min="1" max="250" step="1" value="20" aria-label="Render speed ticks per second" />
+              <span class="speed-unit">/s</span>
+              <input id="speedInput" class="speed-range" type="range" min="1" max="250" value="20" />
+            </label>
+          </div>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="code-panel" aria-label="Selected organism instructions">
+          <section class="panel-section">
+            <h2>Organism</h2>
+            <div id="organismDetails" class="organism-details">Click an occupied cell to inspect details.</div>
+          </section>
+
+          <section class="panel-section">
+            <h2>Instructions</h2>
+            <div id="programDetails" class="program-details">Click an occupied cell to inspect code.</div>
+          </section>
+        </aside>
+
+        <section class="sim-area" aria-label="Simulation grid">
+          <div class="canvas-shell">
+            <canvas id="worldCanvas" width="768" height="768" aria-label="128 by 128 grid"></canvas>
+          </div>
+        </section>
+
+        <aside class="side-panel" aria-label="Parameters">
+          <section class="panel-section settings-section">
+            <h2>Simulation</h2>
+            <div id="settingsPanel" class="settings-panel"></div>
+          </section>
+        </aside>
+      </main>
+
+      <dialog id="seedDialog" class="seed-dialog" aria-labelledby="seedDialogTitle">
+        <div class="seed-dialog-header">
+          <h2 id="seedDialogTitle">Seed</h2>
+          <button id="closeSeedEditor" type="button">Close</button>
+        </div>
+        <div class="seed-dialog-body">
+          <div class="seed-creature-column">
+            <div class="seed-list-header">
+              <span>Creatures</span>
+              <button id="addSeedCreature" type="button">Add</button>
+            </div>
+            <div id="seedCreatureList" class="seed-creature-list" aria-label="Initial creatures"></div>
+            <div class="seed-list-actions">
+              <button id="duplicateSeedCreature" type="button">Duplicate</button>
+              <button id="removeSeedCreature" type="button">Remove</button>
+            </div>
+          </div>
+          <div class="seed-editor-main">
+            <label class="field">
+              <span>Preset</span>
+              <select id="seedPresetInput" class="select-input"></select>
+            </label>
+            <label class="field">
+              <span>New block</span>
+              <span class="seed-add-row">
+                <select id="blockOpcodeInput" class="select-input"></select>
+                <button id="appendBlock" type="button">Add block</button>
+              </span>
+            </label>
+            <div id="seedBlockEditor" class="seed-block-editor" aria-label="Creature block editor"></div>
+            <details class="seed-source-details">
+              <summary>Text code</summary>
+              <textarea id="seedEditor" spellcheck="false" class="seed-editor" aria-label="Seed creature code"></textarea>
+            </details>
+          </div>
+          <div class="seed-editor-side">
+            <div id="seedStats" class="seed-stats" aria-live="polite"></div>
+            <div id="seedStatus" class="seed-status" aria-live="polite"></div>
+            <div id="blockPalette" class="block-palette" aria-label="Available blocks"></div>
+            <div class="editor-actions">
+              <button id="applySeed" type="button" class="primary">Use and reset</button>
+              <button id="formatSeed" type="button">Format</button>
+              <button id="loadSelectedSeed" type="button">From selection</button>
+            </div>
+          </div>
+        </div>
+      </dialog>
+    </div>
+
+    <script type="module" src="./dist/main.js"></script>
+  </body>
+</html>

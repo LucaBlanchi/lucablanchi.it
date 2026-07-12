@@ -44,6 +44,7 @@ export function GET() {
     "## Additional Resources",
     "",
     `- Draft concepts index: ${absoluteUrl("/drafts.html")}`,
+    `- Life simulation: ${absoluteUrl("/life-simulation/")}`,
     `- Machine-readable citations: ${absoluteUrl(site.citationsPath)}`,
     "",
   ];

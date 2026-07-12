@@ -28,6 +28,12 @@ const staticEntries: SitemapEntry[] = [
     changefreq: "weekly",
     priority: "0.95",
   },
+  {
+    loc: absoluteUrl("/life-simulation/"),
+    lastmod: site.updatedDate,
+    changefreq: "monthly",
+    priority: "0.7",
+  },
 ];
 
 const articleEntries: SitemapEntry[] = presentationTheoryArticles.map((article) => ({

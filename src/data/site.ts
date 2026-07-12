@@ -9,7 +9,7 @@ export const site = {
   llmsPath: "/llms.txt",
   fullLlmsPath: "/llms-full.txt",
   citationsPath: "/citations.json",
-  updatedDate: "2026-06-30",
+  updatedDate: "2026-07-12",
 } as const;
 
 export const author = {

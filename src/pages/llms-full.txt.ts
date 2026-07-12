@@ -22,6 +22,7 @@ export function GET() {
     "## Site-Level Files",
     "",
     `- Homepage: ${absoluteUrl("/")}`,
+    `- Life simulation: ${absoluteUrl("/life-simulation/")}`,
     `- Sitemap: ${absoluteUrl("/sitemap.xml")}`,
     `- Robots: ${absoluteUrl("/robots.txt")}`,
     `- Citation JSON: ${absoluteUrl(site.citationsPath)}`,
