@@ -20,7 +20,6 @@ export const author = {
   jobTitle: "Software Engineer and author of AI-assisted mathematical research notes",
   url: site.origin,
   professionalProfile: "https://lucablanchi.dev/",
-  image: "https://lucablanchi.dev/assets/profile-photo.jpg",
   sameAs: [
     "https://lucablanchi.dev/",
     "https://github.com/LucaBlanchi",

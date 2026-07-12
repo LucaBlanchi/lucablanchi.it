@@ -187,7 +187,6 @@ function buildMetas(
   draft?: Draft
 ): SeoMeta[] {
   const ogType = presentationTheoryArticle || draft ? "article" : "website";
-  const image = author.image;
   const metas: SeoMeta[] = [
     { name: "robots", content: robots },
     { name: "author", content: author.name },
@@ -199,12 +198,10 @@ function buildMetas(
     { property: "og:title", content: htmlTitle },
     { property: "og:description", content: input.description },
     { property: "og:url", content: canonicalUrl },
-    { property: "og:image", content: image },
     { property: "og:locale", content: input.lang === "it" ? "it_IT" : "en_US" },
-    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:card", content: "summary" },
     { name: "twitter:title", content: htmlTitle },
     { name: "twitter:description", content: input.description },
-    { name: "twitter:image", content: image },
     { name: "DC.creator", content: author.name },
     { name: "DC.title", content: input.title },
     { name: "DC.description", content: input.description },
@@ -264,7 +261,6 @@ function buildSchema(
       familyName: author.familyName,
       jobTitle: author.jobTitle,
       url: author.url,
-      image: author.image,
       sameAs: author.sameAs,
       alumniOf: {
         "@type": "CollegeOrUniversity",
