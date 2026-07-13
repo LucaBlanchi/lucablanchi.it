@@ -1,7 +1,6 @@
 export const defaultConfig = {
     gridSize: 128,
-    initialEnergy: 16,
-    maxFood: 6500,
+    maxFood: 0,
     foodSpawnAttemptsPerTick: 5,
     foodEnergy: 16,
     moveFoodEnergyMultiplier: 0.25,

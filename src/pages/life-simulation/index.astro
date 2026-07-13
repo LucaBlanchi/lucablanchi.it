@@ -19,6 +19,7 @@ const description =
         <div class="reset-slot">
           <button id="resetWorld" type="button">Reset</button>
           <button id="openSeedEditor" type="button">Seed</button>
+          <button id="openSpawnDialog" type="button">Spawn</button>
         </div>
         <div class="topbar-main">
           <div class="status-grid" aria-live="polite">
@@ -58,12 +59,21 @@ const description =
       <div class="layout">
         <aside class="code-panel" aria-label="Selected organism instructions">
           <section class="panel-section">
-            <h2>Organism</h2>
+            <div class="panel-heading organism-heading">
+              <h2>Organism</h2>
+              <div class="auto-select-controls" aria-label="Auto select organism" role="group">
+                <button id="autoSelectOldest" type="button" class="auto-select-button" aria-pressed="true">Oldest</button>
+                <button id="autoSelectMostChildren" type="button" class="auto-select-button" aria-pressed="false">Most children</button>
+              </div>
+            </div>
             <div id="organismDetails" class="organism-details">Click an occupied cell to inspect details.</div>
           </section>
 
           <section class="panel-section">
-            <h2>Instructions</h2>
+            <div class="panel-heading">
+              <h2>Instructions</h2>
+              <button id="copySelectedProgram" type="button">Copy</button>
+            </div>
             <div id="programDetails" class="program-details">Click an occupied cell to inspect code.</div>
           </section>
         </aside>
@@ -112,10 +122,16 @@ const description =
               </span>
             </label>
             <div id="seedBlockEditor" class="seed-block-editor" aria-label="Creature block editor"></div>
-            <details class="seed-source-details">
-              <summary>Text code</summary>
+            <section class="seed-code-panel" aria-label="Seed text code">
+              <div class="seed-code-header">
+                <span>Text code</span>
+                <span class="seed-code-actions">
+                  <button id="copySeedCode" type="button">Copy</button>
+                  <button id="pasteSeedCode" type="button">Paste</button>
+                </span>
+              </div>
               <textarea id="seedEditor" spellcheck="false" class="seed-editor" aria-label="Seed creature code"></textarea>
-            </details>
+            </section>
           </div>
           <div class="seed-editor-side">
             <div id="seedStats" class="seed-stats" aria-live="polite"></div>
@@ -125,6 +141,28 @@ const description =
               <button id="applySeed" type="button" class="primary">Use and reset</button>
               <button id="formatSeed" type="button">Format</button>
             </div>
+          </div>
+        </div>
+      </dialog>
+
+      <dialog id="spawnDialog" class="code-dialog spawn-dialog" aria-labelledby="spawnDialogTitle">
+        <div class="code-dialog-header">
+          <h2 id="spawnDialogTitle">Spawn life form</h2>
+          <button id="closeSpawnDialog" type="button">Close</button>
+        </div>
+        <div class="code-dialog-body">
+          <label class="field">
+            <span>Preset</span>
+            <select id="spawnPresetInput" class="select-input" aria-label="Load spawn preset"></select>
+          </label>
+          <label class="field code-field">
+            <span>Code</span>
+            <textarea id="spawnEditor" spellcheck="false" class="seed-editor" aria-label="Life form code to spawn"></textarea>
+          </label>
+          <div id="spawnStatus" class="seed-status" aria-live="polite"></div>
+          <div class="code-dialog-actions">
+            <button id="pasteSpawnCode" type="button">Paste</button>
+            <button id="spawnCode" type="button" class="primary">Spawn</button>
           </div>
         </div>
       </dialog>

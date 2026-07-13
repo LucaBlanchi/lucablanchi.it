@@ -9,15 +9,15 @@ function patchThreshold(code, instructionIndex) {
     code[instructionIndex].args[1] = num(reproductionThresholdForCodeLength(code.length));
     return code;
 }
-export function seedMicroDrifterCode() {
+export function seedMicroForagerCode() {
     return patchThreshold([
         inst("RAND", reg("A"), num(directionCount)),
+        inst("EAT", reg("A")),
         inst("MOVE", reg("A")),
         inst("SENSE_ENERGY", reg("B")),
-        inst("JLT", reg("B"), num(0), num(5)),
-        inst("REPRODUCE"),
-        inst("JMP", num(0))
-    ], 3);
+        inst("JLT", reg("B"), num(0), num(0)),
+        inst("REPRODUCE")
+    ], 4);
 }
 export function seedNearbyForagerCode() {
     return patchThreshold([
@@ -29,8 +29,7 @@ export function seedNearbyForagerCode() {
         inst("JLT", reg("C"), num(0), num(7)),
         inst("REPRODUCE"),
         inst("JMP", num(0)),
-        inst("EAT", reg("A")),
-        inst("JMP", num(0))
+        inst("EAT", reg("A"))
     ], 5);
 }
 export function seedRayForagerCode() {
@@ -47,8 +46,7 @@ export function seedRayForagerCode() {
         inst("JMP", num(0)),
         inst("EAT", reg("A")),
         inst("JMP", num(0)),
-        inst("MOVE", reg("A")),
-        inst("JMP", num(0))
+        inst("MOVE", reg("A"))
     ], 1);
 }
 export function seedPatientSentryCode() {
@@ -65,8 +63,7 @@ export function seedPatientSentryCode() {
         inst("JMP", num(0)),
         inst("ATTACK", reg("A")),
         inst("JMP", num(0)),
-        inst("EAT", reg("A")),
-        inst("JMP", num(0))
+        inst("EAT", reg("A"))
     ], 1);
 }
 export function seedLifeHunterCode() {
@@ -91,14 +88,13 @@ export function seedLifeHunterCode() {
         inst("JMP", num(0)),
         inst("EAT", reg("A")),
         inst("JMP", num(0)),
-        inst("MOVE", reg("A")),
-        inst("JMP", num(0))
+        inst("MOVE", reg("A"))
     ], 1);
 }
 export const savedSeedLifeForms = [
     {
-        name: "micro-drifter",
-        createCode: seedMicroDrifterCode
+        name: "micro-forager",
+        createCode: seedMicroForagerCode
     },
     {
         name: "nearby-forager",

@@ -33,6 +33,7 @@ export class AbstractSimulationEngine {
             registers: new Int32Array(registers.length),
             turnBudget: turnBudgetForCodeLength(clonedCode.length, this.config),
             generation,
+            offspringCount: 0,
             lineageHue,
             color: colorForLineageCode(clonedCode, lineageHue),
             alive: true,

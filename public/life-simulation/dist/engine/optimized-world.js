@@ -1,4 +1,4 @@
-import { ARG_REG, ARG_DIR, compileCode, directionCount, directionDx, directionDy, modulo, randomInt, OP_ADD, OP_ATTACK, OP_CMP, OP_COPY, OP_COUNT_FOOD, OP_COUNT_LIFE, OP_EAT, OP_JGT, OP_JGT_REL, OP_JLT, OP_JLT_REL, OP_JMP, OP_JMP_REL, OP_JNZ, OP_JNZ_REL, OP_JZ, OP_JZ_REL, OP_LOOK_FOOD, OP_LOOK_LIFE, OP_MOD, OP_MOVE, OP_MUL, OP_NOOP, OP_RAND, OP_REPRODUCE, OP_SENSE_EMPTY, OP_SENSE_ENERGY, OP_SENSE_FOOD, OP_SENSE_LIFE, OP_SET, OP_SLEEP, OP_SUB } from "../domain/instructions.js";
+import { ARG_REG, ARG_DIR, cloneInstruction, compileCode, directionCount, directionDx, directionDy, modulo, randomInt, OP_ADD, OP_ATTACK, OP_CMP, OP_COPY, OP_COUNT_FOOD, OP_COUNT_LIFE, OP_EAT, OP_JGT, OP_JGT_REL, OP_JLT, OP_JLT_REL, OP_JMP, OP_JMP_REL, OP_JNZ, OP_JNZ_REL, OP_JZ, OP_JZ_REL, OP_LOOK_FOOD, OP_LOOK_LIFE, OP_MOD, OP_MOVE, OP_MUL, OP_NOOP, OP_RAND, OP_REPRODUCE, OP_SENSE_EMPTY, OP_SENSE_ENERGY, OP_SENSE_FOOD, OP_SENSE_LIFE, OP_SET, OP_SLEEP, OP_SUB } from "../domain/instructions.js";
 import { colorForLineageCode, founderHueForCode, nextLineageHue } from "../domain/life-form-color.js";
 import { energyProfileForCodeLength, turnBudgetForCodeLength } from "../domain/life-form.js";
 import { startingSeedLifeForm } from "../domain/seeds.js";
@@ -14,9 +14,13 @@ export class OptimizedWorld extends AbstractSimulationEngine {
     organismById = [];
     organismListIndexes = new Map();
     turnOrder = [];
+    stepTurnOrder = [];
     directionOffsets;
     totalCells;
     seedCodes;
+    stepTurnIndex = 0;
+    stepSelectedTurnId;
+    stepSelectedBudgetSpent = 0;
     constructor(config, options = {}) {
         super(config);
         this.seedCodes = options.seedCodes ?? (() => [(options.seedCode ?? startingSeedLifeForm.createCode)()]);
@@ -40,6 +44,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         this.organismList.length = 0;
         this.organismListIndexes.clear();
         this.turnOrder.length = 0;
+        this.clearSteppingState();
         this.food.length = 0;
         this.occupancy.fill(-1);
         this.foodGrid.fill(0);
@@ -53,7 +58,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
                 break;
             }
             const seedCode = seedCodes[i];
-            const seed = this.createOrganism(position.x, position.y, seedCode, this.config.initialEnergy, 0, founderHueForCode(seedCode, i));
+            const seed = this.createOrganism(position.x, position.y, seedCode, this.birthEnergyForCode(seedCode), 0, founderHueForCode(seedCode, i));
             this.addOrganism(seed);
         }
         this.addFoodAt(center, center - 1);
@@ -63,6 +68,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         }
     }
     tick() {
+        this.clearSteppingState();
         this.tickCount += 1;
         for (let i = 0; i < this.config.foodSpawnAttemptsPerTick; i += 1) {
             this.spawnFood();
@@ -78,6 +84,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
     }
     applyRuntimeConfig(config) {
         Object.assign(this.config, config);
+        this.clearSteppingState();
         for (let i = 0; i < this.organismList.length; i += 1) {
             this.refreshOrganismDerivedState(this.organismList[i]);
         }
@@ -92,6 +99,46 @@ export class OptimizedWorld extends AbstractSimulationEngine {
     foodAt(x, y) {
         return this.inBounds(x, y) && this.foodGrid[y * this.config.gridSize + x] > 0;
     }
+    spawnOrganismFromCode(code) {
+        this.clearSteppingState();
+        const locationIndex = this.randomFreeOrganismIndex();
+        if (locationIndex < 0) {
+            return undefined;
+        }
+        const clonedCode = code.map(cloneInstruction);
+        const organism = this.createOrganism(locationIndex % this.config.gridSize, Math.floor(locationIndex / this.config.gridSize), clonedCode, this.birthEnergyForCode(clonedCode), 0, founderHueForCode(clonedCode, this.nextId));
+        this.addOrganism(organism);
+        return organism;
+    }
+    stepSelectedInstruction(selectedId) {
+        let selected = this.organisms.get(selectedId);
+        if (!selected?.alive) {
+            this.clearSteppingState();
+            return undefined;
+        }
+        for (let guard = 0; guard < Math.max(1, this.organismList.length + 2); guard += 1) {
+            if (this.stepTurnIndex >= this.stepTurnOrder.length) {
+                this.beginSteppingTick();
+            }
+            const organism = this.stepTurnOrder[this.stepTurnIndex];
+            if (!organism?.alive || this.organisms.get(organism.id) !== organism) {
+                this.stepTurnIndex += 1;
+                continue;
+            }
+            if (organism.id !== selectedId) {
+                this.runOrganismTurn(organism, organism.turnBudget);
+                this.stepTurnIndex += 1;
+                selected = this.organisms.get(selectedId);
+                if (!selected?.alive) {
+                    this.clearSteppingState();
+                    return undefined;
+                }
+                continue;
+            }
+            return this.stepSelectedOrganismInstruction(organism);
+        }
+        return this.organisms.get(selectedId);
+    }
     organismAtIndex(index) {
         const id = this.occupancy[index];
         return id > 0 ? this.organismById[id] : undefined;
@@ -103,7 +150,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         return this.addFoodAtIndex(y * this.config.gridSize + x);
     }
     addFoodAtIndex(index) {
-        if (this.food.length >= this.config.maxFood || this.occupancy[index] > 0 || this.foodGrid[index] > 0) {
+        if ((this.config.maxFood > 0 && this.food.length >= this.config.maxFood) || this.occupancy[index] > 0 || this.foodGrid[index] > 0) {
             return false;
         }
         this.foodGrid[index] = 1;
@@ -126,7 +173,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         return true;
     }
     spawnFood() {
-        if (this.food.length >= this.config.maxFood) {
+        if (this.config.maxFood > 0 && this.food.length >= this.config.maxFood) {
             return;
         }
         this.addFoodAtIndex(randomInt(this.totalCells));
@@ -197,6 +244,9 @@ export class OptimizedWorld extends AbstractSimulationEngine {
             compiledCode: compileCode(base.code, this.config)
         };
     }
+    birthEnergyForCode(code) {
+        return energyProfileForCodeLength(code.length, this.config).offspringEnergy;
+    }
     refreshOrganismDerivedState(organism) {
         const energyProfile = energyProfileForCodeLength(organism.code.length, this.config);
         organism.reproductionCost = energyProfile.reproductionCost;
@@ -251,14 +301,96 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         }
         return turnOrder;
     }
-    runOrganismTurn(organism, budget) {
+    beginSteppingTick() {
+        this.tickCount += 1;
+        for (let i = 0; i < this.config.foodSpawnAttemptsPerTick; i += 1) {
+            this.spawnFood();
+        }
+        const count = this.organismList.length;
+        this.stepTurnOrder.length = count;
+        for (let i = 0; i < count; i += 1) {
+            this.stepTurnOrder[i] = this.organismList[i];
+        }
+        for (let i = count - 1; i > 0; i -= 1) {
+            const j = randomInt(i + 1);
+            const item = this.stepTurnOrder[i];
+            this.stepTurnOrder[i] = this.stepTurnOrder[j];
+            this.stepTurnOrder[j] = item;
+        }
+        this.stepTurnIndex = 0;
+        this.stepSelectedTurnId = undefined;
+        this.stepSelectedBudgetSpent = 0;
+    }
+    clearSteppingState() {
+        this.stepTurnOrder.length = 0;
+        this.stepTurnIndex = 0;
+        this.stepSelectedTurnId = undefined;
+        this.stepSelectedBudgetSpent = 0;
+    }
+    startOrganismTurn(organism) {
         organism.age += 1;
         if (this.config.maxAge > 0 && organism.age > this.config.maxAge) {
             this.removeOrganism(organism);
-            return;
+            return false;
         }
         organism.energy -= this.config.baseTurnCost;
         organism.executedLastTurn = 0;
+        return organism.alive;
+    }
+    stepSelectedOrganismInstruction(organism) {
+        if (this.stepSelectedTurnId !== organism.id) {
+            this.stepSelectedTurnId = organism.id;
+            this.stepSelectedBudgetSpent = 0;
+            if (!this.startOrganismTurn(organism)) {
+                this.stepTurnIndex += 1;
+                this.stepSelectedTurnId = undefined;
+                return undefined;
+            }
+        }
+        const compiled = organism.compiledCode;
+        const codeLength = compiled.length;
+        if (codeLength === 0 || organism.energy <= 0) {
+            if (organism.energy <= 0) {
+                this.removeOrganism(organism);
+            }
+            this.stepTurnIndex += 1;
+            this.stepSelectedTurnId = undefined;
+            this.stepSelectedBudgetSpent = 0;
+            return this.organisms.get(organism.id);
+        }
+        if (organism.pc >= codeLength) {
+            organism.pc %= codeLength;
+        }
+        const pc = organism.pc;
+        const instructionBudgetCost = compiled.budgetCosts[pc];
+        if (this.stepSelectedBudgetSpent + instructionBudgetCost > organism.turnBudget) {
+            this.stepTurnIndex += 1;
+            this.stepSelectedTurnId = undefined;
+            this.stepSelectedBudgetSpent = 0;
+            return organism;
+        }
+        organism.energy -= this.config.instructionCost;
+        const shouldEndTurn = this.executeCompiledInstruction(organism, compiled, pc);
+        this.stepSelectedBudgetSpent += instructionBudgetCost;
+        organism.executedLastTurn += 1;
+        if (organism.energy <= 0) {
+            this.removeOrganism(organism);
+            this.stepTurnIndex += 1;
+            this.stepSelectedTurnId = undefined;
+            this.stepSelectedBudgetSpent = 0;
+            return undefined;
+        }
+        if (shouldEndTurn || this.stepSelectedBudgetSpent >= organism.turnBudget) {
+            this.stepTurnIndex += 1;
+            this.stepSelectedTurnId = undefined;
+            this.stepSelectedBudgetSpent = 0;
+        }
+        return organism;
+    }
+    runOrganismTurn(organism, budget) {
+        if (!this.startOrganismTurn(organism)) {
+            return;
+        }
         const compiled = organism.compiledCode;
         const codeLength = compiled.length;
         if (codeLength === 0) {
@@ -629,6 +761,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         const childLineageHue = nextLineageHue(organism.lineageHue, childMutation.didMutate, this.config);
         const child = this.createOrganism(locationIndex % this.config.gridSize, Math.floor(locationIndex / this.config.gridSize), childMutation.code, organism.offspringEnergy, organism.generation + 1, childLineageHue);
         this.addOrganism(child);
+        organism.offspringCount += 1;
     }
     randomBirthIndex(parent) {
         const radius = Math.max(1, Math.round(this.config.reproductionSpawnRadius));
@@ -663,6 +796,20 @@ export class OptimizedWorld extends AbstractSimulationEngine {
                 if (this.isBirthCellFree(index)) {
                     return index;
                 }
+            }
+        }
+        return -1;
+    }
+    randomFreeOrganismIndex() {
+        for (let attempts = 0; attempts < 256; attempts += 1) {
+            const index = randomInt(this.totalCells);
+            if (this.isBirthCellFree(index)) {
+                return index;
+            }
+        }
+        for (let index = 0; index < this.totalCells; index += 1) {
+            if (this.isBirthCellFree(index)) {
+                return index;
             }
         }
         return -1;
