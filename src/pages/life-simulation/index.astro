@@ -20,6 +20,7 @@ const description =
           <button id="resetWorld" type="button">Reset</button>
           <button id="openSeedEditor" type="button">Seed</button>
           <button id="openSpawnDialog" type="button">Spawn</button>
+          <button id="finishPlacement" type="button" hidden>Done placing</button>
         </div>
         <div class="topbar-main">
           <div class="status-grid" aria-live="polite">
@@ -162,7 +163,8 @@ const description =
           <div id="spawnStatus" class="seed-status" aria-live="polite"></div>
           <div class="code-dialog-actions">
             <button id="pasteSpawnCode" type="button">Paste</button>
-            <button id="spawnCode" type="button" class="primary">Spawn</button>
+            <button id="placeSpawnCode" type="button">Place on map</button>
+            <button id="spawnCode" type="button" class="primary">Spawn random</button>
           </div>
         </div>
       </dialog>

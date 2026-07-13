@@ -34,6 +34,48 @@ const settingGroups = [
         ]
     },
     {
+        title: "Environment",
+        advanced: true,
+        settings: [
+            {
+                type: "select",
+                key: "foodSpawnPattern",
+                label: "Food spawn pattern",
+                options: [
+                    { value: "uniform", label: "Uniform" },
+                    { value: "gradient", label: "West gradient" },
+                    { value: "eastGradient", label: "East gradient" },
+                    { value: "corner", label: "One corner" },
+                    { value: "oppositeCorners", label: "Opposite corners" },
+                    { value: "center", label: "Center cluster" }
+                ]
+            },
+            {
+                type: "select",
+                key: "mapTopology",
+                label: "Map topology",
+                options: [
+                    { value: "square", label: "Square edges" },
+                    { value: "cylinder", label: "Cylinder, wraps E/W" },
+                    { value: "torus", label: "Torus, wraps all" }
+                ]
+            },
+            {
+                type: "select",
+                key: "barrierPattern",
+                label: "Barrier pattern",
+                options: [
+                    { value: "none", label: "None" },
+                    { value: "verticalWall", label: "Middle wall" },
+                    { value: "horizontalWall", label: "Horizontal wall" },
+                    { value: "cross", label: "Cross" },
+                    { value: "wallGap", label: "Wall with gap" },
+                    { value: "box", label: "Box enclosure" }
+                ]
+            }
+        ]
+    },
+    {
         title: "Food gain and MOVE energy",
         advanced: true,
         settings: [
@@ -178,6 +220,7 @@ export function startLifeApp() {
     const resetWorldButton = requireElement("#resetWorld");
     const openSeedEditorButton = requireElement("#openSeedEditor");
     const openSpawnDialogButton = requireElement("#openSpawnDialog");
+    const finishPlacementButton = requireElement("#finishPlacement");
     const seedDialog = requireElement("#seedDialog");
     const closeSeedEditorButton = requireElement("#closeSeedEditor");
     const spawnDialog = requireElement("#spawnDialog");
@@ -187,6 +230,7 @@ export function startLifeApp() {
     const spawnStatus = requireElement("#spawnStatus");
     const pasteSpawnCodeButton = requireElement("#pasteSpawnCode");
     const spawnCodeButton = requireElement("#spawnCode");
+    const placeSpawnCodeButton = requireElement("#placeSpawnCode");
     const renderInput = requireElement("#renderInput");
     const tickValue = requireElement("#tickValue");
     const organismValue = requireElement("#organismValue");
@@ -231,6 +275,7 @@ export function startLifeApp() {
     let isRenderingEnabled = true;
     let selectedId;
     let autoSelectionMode = "oldest";
+    let placementCode;
     let speed = normalizeRenderSpeed(Number(speedInput.value));
     let lastFrameTime = performance.now();
     let lastFastForwardStatusTime = 0;
@@ -239,6 +284,7 @@ export function startLifeApp() {
     let renderedProgramNextIndex;
     let copySelectedProgramLabelTimer;
     let copySeedCodeLabelTimer;
+    let placementLabelTimer;
     function cloneCode(code) {
         return code.map(cloneInstruction);
     }
@@ -349,6 +395,12 @@ export function startLifeApp() {
         const cellHeight = height / size;
         context.fillStyle = cssVar("--empty");
         context.fillRect(0, 0, width, height);
+        context.fillStyle = cssVar("--barrier");
+        for (const index of world.barriers) {
+            const x = index % size;
+            const y = Math.floor(index / size);
+            context.fillRect(Math.floor(x * cellWidth), Math.floor(y * cellHeight), Math.ceil(cellWidth), Math.ceil(cellHeight));
+        }
         context.fillStyle = cssVar("--food");
         for (const index of world.food) {
             const x = index % size;
@@ -380,17 +432,41 @@ export function startLifeApp() {
         }
     }
     function renderSeedEditorState() {
+        if (seedDrafts.length === 0) {
+            selectedSeedIndex = 0;
+            if (seedEditor.value !== "") {
+                seedEditor.value = "";
+            }
+            seedEditor.disabled = true;
+            copySeedCodeButton.disabled = true;
+            duplicateSeedCreatureButton.disabled = true;
+            removeSeedCreatureButton.disabled = true;
+            formatSeedButton.disabled = true;
+            applySeedButton.disabled = false;
+            renderSeedCreatureList();
+            seedStats.innerHTML = `
+        <div><span>Creatures</span><strong>0</strong></div>
+        <div><span>Selection</span><strong>-</strong></div>
+      `;
+            seedBlockEditor.innerHTML = `<div class="seed-block-empty">Seed is empty. Add a creature, choose a preset, or place organisms on the map.</div>`;
+            seedStatus.className = "seed-status is-ok";
+            seedStatus.textContent = "Seed empty";
+            return parseProgramText("");
+        }
         selectedSeedIndex = Math.min(Math.max(0, selectedSeedIndex), seedDrafts.length - 1);
         const selectedText = seedDrafts[selectedSeedIndex] ?? "";
         if (seedEditor.value !== selectedText) {
             seedEditor.value = selectedText;
         }
+        seedEditor.disabled = false;
+        copySeedCodeButton.disabled = false;
         const parsed = parseProgramText(selectedText);
         const allParsed = parseAllSeedDrafts();
         renderSeedCreatureList();
         renderSeedStats(parsed);
         renderSeedBlocks(parsed);
-        removeSeedCreatureButton.disabled = seedDrafts.length <= 1;
+        removeSeedCreatureButton.disabled = false;
+        duplicateSeedCreatureButton.disabled = !parsed.ok;
         formatSeedButton.disabled = !parsed.ok;
         applySeedButton.disabled = !allParsed.ok;
         if (parsed.ok && allParsed.ok) {
@@ -441,6 +517,10 @@ export function startLifeApp() {
     `;
     }
     function renderSeedCreatureList() {
+        if (seedDrafts.length === 0) {
+            seedCreatureList.innerHTML = `<div class="seed-creature-empty">No seed creatures</div>`;
+            return;
+        }
         seedCreatureList.innerHTML = seedDrafts
             .map((draft, index) => {
             const parsed = parseProgramText(draft);
@@ -556,17 +636,39 @@ export function startLifeApp() {
             .join("");
     }
     function selectSeedDraft(index) {
+        if (seedDrafts.length === 0) {
+            selectedSeedIndex = 0;
+            seedPresetInput.value = "";
+            renderSeedEditorState();
+            return;
+        }
         selectedSeedIndex = Math.min(Math.max(0, index), seedDrafts.length - 1);
         seedPresetInput.value = "";
         seedEditor.value = seedDrafts[selectedSeedIndex] ?? "";
         renderSeedEditorState();
     }
     function setSelectedSeedCode(code) {
+        if (seedDrafts.length === 0) {
+            seedDrafts.push(formatProgramText(code));
+            selectedSeedIndex = 0;
+            seedEditor.value = seedDrafts[selectedSeedIndex] ?? "";
+            renderSeedEditorState();
+            return;
+        }
         seedDrafts[selectedSeedIndex] = formatProgramText(code);
         seedEditor.value = seedDrafts[selectedSeedIndex] ?? "";
         renderSeedEditorState();
     }
     function mutateSelectedSeedCode(mutator) {
+        if (seedDrafts.length === 0) {
+            const code = [];
+            mutator(code);
+            if (code.length === 0) {
+                code.push(defaultInstructionForOpcode("NOOP"));
+            }
+            addSeedCreatureFromCode(code);
+            return;
+        }
         const parsed = parseProgramText(seedDrafts[selectedSeedIndex] ?? "");
         if (!parsed.ok) {
             renderSeedEditorState();
@@ -590,6 +692,9 @@ export function startLifeApp() {
         renderSeedEditorState();
     }
     function selectedSeedParsedCode() {
+        if (seedDrafts.length === 0) {
+            return undefined;
+        }
         const parsed = parseProgramText(seedDrafts[selectedSeedIndex] ?? "");
         return parsed.ok ? parsed.code : undefined;
     }
@@ -608,21 +713,36 @@ export function startLifeApp() {
     function openSpawnEditor() {
         const selectedCode = selectedOrganismCodeText();
         spawnPresetInput.value = "";
-        spawnEditor.value = selectedCode ?? "";
+        spawnEditor.value = selectedCode ?? (placementCode ? formatProgramText(placementCode) : "");
         spawnStatus.className = "seed-status";
-        spawnStatus.textContent = selectedCode ? "Selected organism code loaded" : "Paste code to spawn a new life form";
+        spawnStatus.textContent = selectedCode
+            ? "Selected organism code loaded"
+            : placementCode
+                ? "Placement code loaded"
+                : "Paste code to spawn a new life form";
         showDialog(spawnDialog);
     }
-    function spawnCodeFromEditor() {
+    function parseSpawnEditorCode() {
         const parsed = parseProgramText(spawnEditor.value);
         if (!parsed.ok) {
             showCodeStatus(spawnStatus, parsed.errors
                 .slice(0, 3)
                 .map((error) => `line ${error.line}: ${error.message}`)
                 .join(" - "), false);
+            return undefined;
+        }
+        if (parsed.code.length === 0) {
+            showCodeStatus(spawnStatus, "Code is empty", false);
+            return undefined;
+        }
+        return parsed.code;
+    }
+    function spawnCodeFromEditor() {
+        const code = parseSpawnEditorCode();
+        if (!code) {
             return;
         }
-        const spawned = world.spawnOrganismFromCode(parsed.code);
+        const spawned = world.spawnOrganismFromCode(code);
         if (!spawned) {
             showCodeStatus(spawnStatus, "No free cell available", false);
             return;
@@ -631,6 +751,42 @@ export function startLifeApp() {
         autoSelectionMode = undefined;
         tickAccumulator = 0;
         showCodeStatus(spawnStatus, `Spawned #${spawned.id}`, true);
+        updateStatus(true);
+        if (isRenderingEnabled) {
+            drawWorld();
+        }
+    }
+    function startPlacementFromEditor() {
+        const code = parseSpawnEditorCode();
+        if (!code) {
+            return;
+        }
+        setPlacementCode(code);
+        showCodeStatus(spawnStatus, "Placement mode active", true);
+        spawnDialog.close();
+    }
+    function setPlacementCode(code) {
+        placementCode = code ? cloneCode(code) : undefined;
+        finishPlacementButton.hidden = !placementCode;
+        canvas.classList.toggle("is-placing", placementCode !== undefined);
+        openSpawnDialogButton.classList.toggle("is-active", placementCode !== undefined);
+        openSpawnDialogButton.title = placementCode ? "Placement mode is active" : "";
+        finishPlacementButton.title = placementCode ? "Stop placing life forms on the map" : "";
+    }
+    function placeCodeAtCell(x, y) {
+        if (!placementCode) {
+            return;
+        }
+        const spawned = world.spawnOrganismFromCodeAt(placementCode, x, y);
+        if (!spawned) {
+            flashButtonLabel(finishPlacementButton, "Blocked", placementLabelTimer, (timer) => {
+                placementLabelTimer = timer;
+            });
+            return;
+        }
+        selectedId = spawned.id;
+        autoSelectionMode = undefined;
+        tickAccumulator = 0;
         updateStatus(true);
         if (isRenderingEnabled) {
             drawWorld();
@@ -670,7 +826,7 @@ export function startLifeApp() {
         if (setting.type === "select") {
             return `
         <label class="setting-field">
-          <span>${setting.label}</span>
+          <span>${setting.label}${setting.resetOnly ? " (reset)" : ""}</span>
           <select data-setting-key="${setting.key}" class="select-input">
             ${setting.options
                 .map((option) => `<option value="${option.value}" ${currentConfig[setting.key] === option.value ? "selected" : ""}>${option.label}</option>`)
@@ -709,7 +865,7 @@ export function startLifeApp() {
             const scaledValue = rawValue / (setting.scale ?? 1);
             currentConfig = { ...currentConfig, [setting.key]: scaledValue };
         }
-        const resetOnly = setting.type === "number" && setting.resetOnly;
+        const resetOnly = setting.resetOnly === true;
         if (!resetOnly) {
             world.applyRuntimeConfig(runtimeConfigForCurrentWorld());
         }
@@ -947,6 +1103,9 @@ export function startLifeApp() {
     resetWorldButton.addEventListener("click", () => {
         resetWorldFromActiveSeed();
     });
+    finishPlacementButton.addEventListener("click", () => {
+        setPlacementCode(undefined);
+    });
     autoSelectOldestButton.addEventListener("click", () => {
         activateAutoSelection("oldest");
     });
@@ -1068,6 +1227,9 @@ export function startLifeApp() {
     spawnCodeButton.addEventListener("click", () => {
         spawnCodeFromEditor();
     });
+    placeSpawnCodeButton.addEventListener("click", () => {
+        startPlacementFromEditor();
+    });
     seedCreatureList.addEventListener("click", (event) => {
         const button = event.target.closest("[data-seed-index]");
         if (!button) {
@@ -1086,11 +1248,11 @@ export function startLifeApp() {
         addSeedCreatureFromCode(code);
     });
     removeSeedCreatureButton.addEventListener("click", () => {
-        if (seedDrafts.length <= 1) {
+        if (seedDrafts.length === 0) {
             return;
         }
         seedDrafts.splice(selectedSeedIndex, 1);
-        selectedSeedIndex = Math.min(selectedSeedIndex, seedDrafts.length - 1);
+        selectedSeedIndex = seedDrafts.length === 0 ? 0 : Math.min(selectedSeedIndex, seedDrafts.length - 1);
         renderSeedEditorState();
     });
     appendBlockButton.addEventListener("click", () => {
@@ -1179,6 +1341,10 @@ export function startLifeApp() {
         const rect = canvas.getBoundingClientRect();
         const x = Math.floor(((event.clientX - rect.left) / rect.width) * world.config.gridSize);
         const y = Math.floor(((event.clientY - rect.top) / rect.height) * world.config.gridSize);
+        if (placementCode) {
+            placeCodeAtCell(x, y);
+            return;
+        }
         const organism = world.organismAt(x, y);
         selectedId = organism?.id;
         autoSelectionMode = undefined;

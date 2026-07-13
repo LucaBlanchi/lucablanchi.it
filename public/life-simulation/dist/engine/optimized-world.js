@@ -7,15 +7,16 @@ export class OptimizedWorld extends AbstractSimulationEngine {
     occupancy;
     foodGrid;
     foodIndexes;
+    barrierGrid;
     organisms = new Map();
     organismList = [];
     food = [];
+    barriers = [];
     nextId = 1;
     organismById = [];
     organismListIndexes = new Map();
     turnOrder = [];
     stepTurnOrder = [];
-    directionOffsets;
     totalCells;
     seedCodes;
     stepTurnIndex = 0;
@@ -28,10 +29,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         this.occupancy = new Int32Array(this.totalCells);
         this.foodGrid = new Uint8Array(this.totalCells);
         this.foodIndexes = new Int32Array(this.totalCells);
-        this.directionOffsets = new Int32Array(directionCount);
-        for (let i = 0; i < directionCount; i += 1) {
-            this.directionOffsets[i] = directionDy[i] * this.config.gridSize + directionDx[i];
-        }
+        this.barrierGrid = new Uint8Array(this.totalCells);
         this.occupancy.fill(-1);
         this.foodIndexes.fill(-1);
         this.reset();
@@ -46,9 +44,12 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         this.turnOrder.length = 0;
         this.clearSteppingState();
         this.food.length = 0;
+        this.barriers.length = 0;
         this.occupancy.fill(-1);
         this.foodGrid.fill(0);
         this.foodIndexes.fill(-1);
+        this.barrierGrid.fill(0);
+        this.rebuildBarriers();
         const center = Math.floor(this.config.gridSize / 2);
         const seedCodes = this.seedCodes();
         const positions = this.initialSeedPositions(seedCodes.length);
@@ -85,6 +86,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
     applyRuntimeConfig(config) {
         Object.assign(this.config, config);
         this.clearSteppingState();
+        this.rebuildBarriers();
         for (let i = 0; i < this.organismList.length; i += 1) {
             this.refreshOrganismDerivedState(this.organismList[i]);
         }
@@ -109,6 +111,23 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         const organism = this.createOrganism(locationIndex % this.config.gridSize, Math.floor(locationIndex / this.config.gridSize), clonedCode, this.birthEnergyForCode(clonedCode), 0, founderHueForCode(clonedCode, this.nextId));
         this.addOrganism(organism);
         return organism;
+    }
+    spawnOrganismFromCodeAt(code, x, y) {
+        this.clearSteppingState();
+        if (!this.inBounds(x, y)) {
+            return undefined;
+        }
+        const locationIndex = this.index(x, y);
+        if (!this.isPlacementCellFree(locationIndex)) {
+            return undefined;
+        }
+        const clonedCode = code.map(cloneInstruction);
+        const organism = this.createOrganism(x, y, clonedCode, this.birthEnergyForCode(clonedCode), 0, founderHueForCode(clonedCode, this.nextId));
+        this.addOrganism(organism);
+        return organism;
+    }
+    canPlaceOrganismAt(x, y) {
+        return this.inBounds(x, y) && this.isPlacementCellFree(this.index(x, y));
     }
     stepSelectedInstruction(selectedId) {
         let selected = this.organisms.get(selectedId);
@@ -150,7 +169,10 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         return this.addFoodAtIndex(y * this.config.gridSize + x);
     }
     addFoodAtIndex(index) {
-        if ((this.config.maxFood > 0 && this.food.length >= this.config.maxFood) || this.occupancy[index] > 0 || this.foodGrid[index] > 0) {
+        if ((this.config.maxFood > 0 && this.food.length >= this.config.maxFood) ||
+            this.barrierGrid[index] > 0 ||
+            this.occupancy[index] > 0 ||
+            this.foodGrid[index] > 0) {
             return false;
         }
         this.foodGrid[index] = 1;
@@ -176,7 +198,98 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         if (this.config.maxFood > 0 && this.food.length >= this.config.maxFood) {
             return;
         }
-        this.addFoodAtIndex(randomInt(this.totalCells));
+        this.addFoodAtIndex(this.randomFoodSpawnIndex());
+    }
+    randomFoodSpawnIndex() {
+        const size = this.config.gridSize;
+        switch (this.config.foodSpawnPattern) {
+            case "gradient":
+                return this.index(Math.floor(Math.random() * Math.random() * size), randomInt(size));
+            case "eastGradient":
+                return this.index(size - 1 - Math.floor(Math.random() * Math.random() * size), randomInt(size));
+            case "corner":
+                return this.index(Math.floor(Math.random() * Math.random() * size), Math.floor(Math.random() * Math.random() * size));
+            case "oppositeCorners":
+                if (Math.random() < 0.5) {
+                    return this.index(Math.floor(Math.random() * Math.random() * size), Math.floor(Math.random() * Math.random() * size));
+                }
+                return this.index(size - 1 - Math.floor(Math.random() * Math.random() * size), size - 1 - Math.floor(Math.random() * Math.random() * size));
+            case "center": {
+                const radius = Math.max(1, Math.floor(size * 0.18));
+                const x = Math.min(size - 1, Math.max(0, Math.floor(size / 2) + randomInt(radius * 2 + 1) - radius));
+                const y = Math.min(size - 1, Math.max(0, Math.floor(size / 2) + randomInt(radius * 2 + 1) - radius));
+                return this.index(x, y);
+            }
+            case "uniform":
+            default:
+                return randomInt(this.totalCells);
+        }
+    }
+    rebuildBarriers() {
+        this.barrierGrid.fill(0);
+        this.barriers.length = 0;
+        const size = this.config.gridSize;
+        const middle = Math.floor(size / 2);
+        const gapRadius = Math.max(2, Math.floor(size * 0.045));
+        const boxMin = Math.max(1, Math.floor(size * 0.24));
+        const boxMax = Math.min(size - 2, Math.ceil(size * 0.76));
+        switch (this.config.barrierPattern) {
+            case "verticalWall":
+                for (let y = 0; y < size; y += 1) {
+                    this.addBarrierAt(middle, y);
+                }
+                break;
+            case "horizontalWall":
+                for (let x = 0; x < size; x += 1) {
+                    this.addBarrierAt(x, middle);
+                }
+                break;
+            case "cross":
+                for (let i = 0; i < size; i += 1) {
+                    this.addBarrierAt(middle, i);
+                    this.addBarrierAt(i, middle);
+                }
+                break;
+            case "wallGap":
+                for (let y = 0; y < size; y += 1) {
+                    if (Math.abs(y - middle) > gapRadius) {
+                        this.addBarrierAt(middle, y);
+                    }
+                }
+                break;
+            case "box":
+                for (let x = boxMin; x <= boxMax; x += 1) {
+                    this.addBarrierAt(x, boxMin);
+                    this.addBarrierAt(x, boxMax);
+                }
+                for (let y = boxMin; y <= boxMax; y += 1) {
+                    this.addBarrierAt(boxMin, y);
+                    this.addBarrierAt(boxMax, y);
+                }
+                break;
+            case "none":
+            default:
+                break;
+        }
+        for (let i = 0; i < this.barriers.length; i += 1) {
+            const index = this.barriers[i];
+            this.removeFoodAtIndex(index);
+            const organism = this.organismAtIndex(index);
+            if (organism) {
+                this.removeOrganism(organism);
+            }
+        }
+    }
+    addBarrierAt(x, y) {
+        if (!this.inBounds(x, y)) {
+            return;
+        }
+        const index = y * this.config.gridSize + x;
+        if (this.barrierGrid[index] > 0) {
+            return;
+        }
+        this.barrierGrid[index] = 1;
+        this.barriers.push(index);
     }
     initialSeedPositions(count) {
         const positions = [];
@@ -184,8 +297,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         if (count <= 0) {
             return positions;
         }
-        if (count === 1) {
-            positions.push({ x: center, y: center });
+        if (count === 1 && this.addInitialSeedPosition(positions, center, center)) {
             return positions;
         }
         const rows = Math.max(1, Math.floor(Math.sqrt(count)));
@@ -224,7 +336,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
             return false;
         }
         const index = this.index(x, y);
-        if (this.occupancy[index] > 0) {
+        if (this.barrierGrid[index] > 0 || this.occupancy[index] > 0) {
             return false;
         }
         for (let i = 0; i < positions.length; i += 1) {
@@ -520,7 +632,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
             }
             case OP_SENSE_EMPTY: {
                 const targetIndex = this.neighborIndex(organism, this.readCompiledDirection(registerValues, kind1, value1));
-                this.writeCompiledRegister(registerValues, kind0, value0, targetIndex >= 0 && this.occupancy[targetIndex] < 0 && this.foodGrid[targetIndex] === 0 ? 1 : 0);
+                this.writeCompiledRegister(registerValues, kind0, value0, targetIndex >= 0 && this.barrierGrid[targetIndex] === 0 && this.occupancy[targetIndex] < 0 && this.foodGrid[targetIndex] === 0 ? 1 : 0);
                 organism.pc = this.nextCompiledPc(pc, codeLength);
                 return;
             }
@@ -617,23 +729,34 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         }
     }
     neighborIndex(organism, directionIndex) {
-        const x = organism.x + directionDx[directionIndex];
-        const y = organism.y + directionDy[directionIndex];
-        return x >= 0 && x < this.config.gridSize && y >= 0 && y < this.config.gridSize
-            ? organism.cellIndex + this.directionOffsets[directionIndex]
-            : -1;
+        return this.topologyIndex(organism.x + directionDx[directionIndex], organism.y + directionDy[directionIndex]);
     }
     rayIndex(organism, directionIndex, distance) {
-        const x = organism.x + directionDx[directionIndex] * distance;
-        const y = organism.y + directionDy[directionIndex] * distance;
-        return x >= 0 && x < this.config.gridSize && y >= 0 && y < this.config.gridSize
-            ? organism.cellIndex + this.directionOffsets[directionIndex] * distance
-            : -1;
+        return this.topologyIndex(organism.x + directionDx[directionIndex] * distance, organism.y + directionDy[directionIndex] * distance);
+    }
+    topologyIndex(x, y) {
+        const size = this.config.gridSize;
+        if (x < 0 || x >= size) {
+            if (this.config.mapTopology === "square") {
+                return -1;
+            }
+            x = modulo(x, size);
+        }
+        if (y < 0 || y >= size) {
+            if (this.config.mapTopology !== "torus") {
+                return -1;
+            }
+            y = modulo(y, size);
+        }
+        return y * size + x;
     }
     lookForFood(organism, directionIndex) {
         for (let distance = 1; distance <= this.config.senseRange; distance += 1) {
             const targetIndex = this.rayIndex(organism, directionIndex, distance);
             if (targetIndex < 0) {
+                return 0;
+            }
+            if (this.barrierGrid[targetIndex] > 0) {
                 return 0;
             }
             if (this.occupancy[targetIndex] > 0) {
@@ -651,6 +774,9 @@ export class OptimizedWorld extends AbstractSimulationEngine {
             if (targetIndex < 0) {
                 return 0;
             }
+            if (this.barrierGrid[targetIndex] > 0) {
+                return 0;
+            }
             if (this.occupancy[targetIndex] > 0) {
                 return distance;
             }
@@ -660,14 +786,13 @@ export class OptimizedWorld extends AbstractSimulationEngine {
     countFoodAround(organism) {
         let count = 0;
         const radius = Math.max(1, this.config.senseAreaRadius);
-        const minX = Math.max(0, organism.x - radius);
-        const maxX = Math.min(this.config.gridSize - 1, organism.x + radius);
-        const minY = Math.max(0, organism.y - radius);
-        const maxY = Math.min(this.config.gridSize - 1, organism.y + radius);
-        for (let y = minY; y <= maxY; y += 1) {
-            const row = y * this.config.gridSize;
-            for (let x = minX; x <= maxX; x += 1) {
-                if ((x !== organism.x || y !== organism.y) && this.foodGrid[row + x] > 0) {
+        for (let dy = -radius; dy <= radius; dy += 1) {
+            for (let dx = -radius; dx <= radius; dx += 1) {
+                if (dx === 0 && dy === 0) {
+                    continue;
+                }
+                const index = this.topologyIndex(organism.x + dx, organism.y + dy);
+                if (index >= 0 && this.barrierGrid[index] === 0 && this.foodGrid[index] > 0) {
                     count += 1;
                 }
             }
@@ -677,15 +802,13 @@ export class OptimizedWorld extends AbstractSimulationEngine {
     countLifeAround(organism) {
         let count = 0;
         const radius = Math.max(1, this.config.senseAreaRadius);
-        const minX = Math.max(0, organism.x - radius);
-        const maxX = Math.min(this.config.gridSize - 1, organism.x + radius);
-        const minY = Math.max(0, organism.y - radius);
-        const maxY = Math.min(this.config.gridSize - 1, organism.y + radius);
-        for (let y = minY; y <= maxY; y += 1) {
-            const row = y * this.config.gridSize;
-            for (let x = minX; x <= maxX; x += 1) {
-                const index = row + x;
-                if ((x !== organism.x || y !== organism.y) && this.occupancy[index] > 0) {
+        for (let dy = -radius; dy <= radius; dy += 1) {
+            for (let dx = -radius; dx <= radius; dx += 1) {
+                if (dx === 0 && dy === 0) {
+                    continue;
+                }
+                const index = this.topologyIndex(organism.x + dx, organism.y + dy);
+                if (index >= 0 && this.barrierGrid[index] === 0 && this.occupancy[index] > 0) {
                     count += 1;
                 }
             }
@@ -695,7 +818,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
     move(organism, directionIndex) {
         organism.energy -= this.config.moveCost;
         const targetIndex = this.neighborIndex(organism, directionIndex);
-        if (targetIndex < 0 || this.occupancy[targetIndex] > 0) {
+        if (targetIndex < 0 || this.barrierGrid[targetIndex] > 0 || this.occupancy[targetIndex] > 0) {
             return;
         }
         this.moveOrganismToIndex(organism, targetIndex);
@@ -714,7 +837,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
     eat(organism, directionIndex) {
         organism.energy -= this.config.eatCost;
         const targetIndex = this.neighborIndex(organism, directionIndex);
-        if (targetIndex < 0 || this.occupancy[targetIndex] > 0) {
+        if (targetIndex < 0 || this.barrierGrid[targetIndex] > 0 || this.occupancy[targetIndex] > 0) {
             return;
         }
         if (this.removeFoodAtIndex(targetIndex)) {
@@ -723,7 +846,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
     }
     attack(organism, directionIndex) {
         const targetIndex = this.neighborIndex(organism, directionIndex);
-        if (targetIndex < 0) {
+        if (targetIndex < 0 || this.barrierGrid[targetIndex] > 0) {
             organism.energy -= this.config.attackMissCost;
             return;
         }
@@ -765,34 +888,23 @@ export class OptimizedWorld extends AbstractSimulationEngine {
     }
     randomBirthIndex(parent) {
         const radius = Math.max(1, Math.round(this.config.reproductionSpawnRadius));
-        const minX = Math.max(0, parent.x - radius);
-        const maxX = Math.min(this.config.gridSize - 1, parent.x + radius);
-        const minY = Math.max(0, parent.y - radius);
-        const maxY = Math.min(this.config.gridSize - 1, parent.y + radius);
-        const width = maxX - minX + 1;
-        const height = maxY - minY + 1;
-        const localCellCount = width * height - 1;
-        if (localCellCount <= 0) {
-            return -1;
-        }
         for (let attempts = 0; attempts < 80; attempts += 1) {
-            const x = minX + randomInt(width);
-            const y = minY + randomInt(height);
-            if (x === parent.x && y === parent.y) {
+            const dx = randomInt(radius * 2 + 1) - radius;
+            const dy = randomInt(radius * 2 + 1) - radius;
+            if (dx === 0 && dy === 0) {
                 continue;
             }
-            const index = y * this.config.gridSize + x;
+            const index = this.topologyIndex(parent.x + dx, parent.y + dy);
             if (this.isBirthCellFree(index)) {
                 return index;
             }
         }
-        for (let y = minY; y <= maxY; y += 1) {
-            const row = y * this.config.gridSize;
-            for (let x = minX; x <= maxX; x += 1) {
-                if (x === parent.x && y === parent.y) {
+        for (let dy = -radius; dy <= radius; dy += 1) {
+            for (let dx = -radius; dx <= radius; dx += 1) {
+                if (dx === 0 && dy === 0) {
                     continue;
                 }
-                const index = row + x;
+                const index = this.topologyIndex(parent.x + dx, parent.y + dy);
                 if (this.isBirthCellFree(index)) {
                     return index;
                 }
@@ -815,6 +927,9 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         return -1;
     }
     isBirthCellFree(index) {
-        return this.occupancy[index] < 0 && this.foodGrid[index] === 0;
+        return index >= 0 && this.barrierGrid[index] === 0 && this.occupancy[index] < 0 && this.foodGrid[index] === 0;
+    }
+    isPlacementCellFree(index) {
+        return index >= 0 && this.barrierGrid[index] === 0 && this.occupancy[index] < 0;
     }
 }
