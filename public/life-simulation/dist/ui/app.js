@@ -221,6 +221,7 @@ export function startLifeApp() {
     const openSeedEditorButton = requireElement("#openSeedEditor");
     const openSpawnDialogButton = requireElement("#openSpawnDialog");
     const finishPlacementButton = requireElement("#finishPlacement");
+    const placementStatus = requireElement("#placementStatus");
     const seedDialog = requireElement("#seedDialog");
     const closeSeedEditorButton = requireElement("#closeSeedEditor");
     const spawnDialog = requireElement("#spawnDialog");
@@ -284,7 +285,7 @@ export function startLifeApp() {
     let renderedProgramNextIndex;
     let copySelectedProgramLabelTimer;
     let copySeedCodeLabelTimer;
-    let placementLabelTimer;
+    let placementStatusTimer;
     function cloneCode(code) {
         return code.map(cloneInstruction);
     }
@@ -767,11 +768,28 @@ export function startLifeApp() {
     }
     function setPlacementCode(code) {
         placementCode = code ? cloneCode(code) : undefined;
+        finishPlacementButton.textContent = "Done placing";
         finishPlacementButton.hidden = !placementCode;
         canvas.classList.toggle("is-placing", placementCode !== undefined);
         openSpawnDialogButton.classList.toggle("is-active", placementCode !== undefined);
         openSpawnDialogButton.title = placementCode ? "Placement mode is active" : "";
         finishPlacementButton.title = placementCode ? "Stop placing life forms on the map" : "";
+        showPlacementStatus(placementCode ? "Click cells to place" : "", Boolean(placementCode));
+    }
+    function showPlacementStatus(message, persistent = false) {
+        placementStatus.textContent = message;
+        placementStatus.hidden = message.length === 0;
+        if (placementStatusTimer !== undefined) {
+            window.clearTimeout(placementStatusTimer);
+            placementStatusTimer = undefined;
+        }
+        if (message.length > 0 && !persistent) {
+            placementStatusTimer = window.setTimeout(() => {
+                placementStatus.textContent = placementCode ? "Click cells to place" : "";
+                placementStatus.hidden = !placementCode;
+                placementStatusTimer = undefined;
+            }, 1200);
+        }
     }
     function placeCodeAtCell(x, y) {
         if (!placementCode) {
@@ -779,9 +797,7 @@ export function startLifeApp() {
         }
         const spawned = world.spawnOrganismFromCodeAt(placementCode, x, y);
         if (!spawned) {
-            flashButtonLabel(finishPlacementButton, "Blocked", placementLabelTimer, (timer) => {
-                placementLabelTimer = timer;
-            });
+            showPlacementStatus("Blocked cell");
             return;
         }
         selectedId = spawned.id;
@@ -791,6 +807,7 @@ export function startLifeApp() {
         if (isRenderingEnabled) {
             drawWorld();
         }
+        showPlacementStatus(`Placed #${spawned.id}`);
     }
     function renderSettingsPanel() {
         settingsPanel.innerHTML = settingGroups.map(renderSettingGroup).join("");

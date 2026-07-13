@@ -288,6 +288,15 @@ body.life-simulation-shell .nav-links a[aria-current="page"] {
   gap: 0.5rem;
 }
 
+.placement-status {
+  min-height: 2.35rem;
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
 .layout {
   display: grid;
   grid-template-columns:
