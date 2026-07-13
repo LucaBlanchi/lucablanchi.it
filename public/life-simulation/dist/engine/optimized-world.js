@@ -1,5 +1,5 @@
 import { ARG_REG, ARG_DIR, cloneInstruction, compileCode, directionCount, directionDx, directionDy, modulo, randomInt, OP_ADD, OP_ATTACK, OP_CMP, OP_COPY, OP_COUNT_FOOD, OP_COUNT_LIFE, OP_EAT, OP_JGT, OP_JGT_REL, OP_JLT, OP_JLT_REL, OP_JMP, OP_JMP_REL, OP_JNZ, OP_JNZ_REL, OP_JZ, OP_JZ_REL, OP_LOOK_FOOD, OP_LOOK_LIFE, OP_MOD, OP_MOVE, OP_MUL, OP_NOOP, OP_RAND, OP_REPRODUCE, OP_SENSE_EMPTY, OP_SENSE_ENERGY, OP_SENSE_FOOD, OP_SENSE_LIFE, OP_SET, OP_SLEEP, OP_SUB } from "../domain/instructions.js";
-import { colorForLineageCode, founderHueForCode, nextLineageHue } from "../domain/life-form-color.js";
+import { colorForLifeFormCode, founderHueForCode, nextLineageHue } from "../domain/life-form-color.js";
 import { energyProfileForCodeLength, turnBudgetForCodeLength } from "../domain/life-form.js";
 import { startingSeedLifeForm } from "../domain/seeds.js";
 import { AbstractSimulationEngine } from "./abstract-world.js";
@@ -384,8 +384,8 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         }
         return undefined;
     }
-    createOrganism(x, y, code, energy, generation, lineageHue) {
-        const base = this.buildLifeFormBase(this.nextId, x, y, code, energy, generation, lineageHue);
+    createOrganism(x, y, code, energy, generation, lineageHue, oldestAncestorId) {
+        const base = this.buildLifeFormBase(this.nextId, x, y, code, energy, generation, lineageHue, oldestAncestorId);
         return {
             ...base,
             cellIndex: this.index(x, y),
@@ -402,7 +402,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         organism.reproductionRequirement = energyProfile.reproductionRequirement;
         organism.maxEnergy = energyProfile.maxEnergy;
         organism.turnBudget = turnBudgetForCodeLength(organism.code.length, this.config);
-        organism.color = colorForLineageCode(organism.code, organism.lineageHue);
+        organism.color = colorForLifeFormCode(organism.code, organism.lineageHue, organism.oldestAncestorId, this.config);
         organism.compiledCode = compileCode(organism.code, this.config);
         organism.energy = Math.min(organism.energy, organism.maxEnergy);
     }
@@ -918,7 +918,7 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         organism.energy -= totalCost;
         const childMutation = this.reproductionEngine.mutateCodeWithResult(organism.code);
         const childLineageHue = nextLineageHue(organism.lineageHue, childMutation.didMutate, this.config);
-        const child = this.createOrganism(locationIndex % this.config.gridSize, Math.floor(locationIndex / this.config.gridSize), childMutation.code, organism.offspringEnergy, organism.generation + 1, childLineageHue);
+        const child = this.createOrganism(locationIndex % this.config.gridSize, Math.floor(locationIndex / this.config.gridSize), childMutation.code, organism.offspringEnergy, organism.generation + 1, childLineageHue, organism.oldestAncestorId);
         this.addOrganism(child);
         organism.offspringCount += 1;
     }

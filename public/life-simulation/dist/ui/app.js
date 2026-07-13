@@ -164,6 +164,7 @@ const settingGroups = [
         title: "Lineage color",
         advanced: true,
         settings: [
+            { type: "boolean", key: "colorByOldestAncestor", label: "Color by oldest ancestor" },
             { type: "number", key: "lineageColorDriftRate", label: "Drift chance/code mutation %", min: 0, max: 100, step: 1, scale: 100, digits: 1 },
             { type: "number", key: "lineageColorMinDriftDegrees", label: "Minimum hue drift", min: 0, max: 30, step: 1 },
             { type: "number", key: "lineageColorDriftDegrees", label: "Maximum hue drift", min: 0, max: 60, step: 1 }
@@ -1119,6 +1120,7 @@ export function startLifeApp() {
         organismDetails.innerHTML = `
     <div class="organism-compact">
       <div><span>ID</span><strong>#${organism.id}</strong></div>
+      <div><span>Oldest ancestor</span><strong>#${organism.oldestAncestorId}</strong></div>
       <div><span>Pos</span><strong>${organism.x}, ${organism.y}</strong></div>
       <div>
         <span>Energy</span>

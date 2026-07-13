@@ -1,5 +1,6 @@
 import { modulo } from "./instructions.js";
 const founderHueBands = [4, 28, 155, 205, 258, 305, 334];
+const ancestorHueBands = [4, 24, 42, 205, 226, 252, 278, 306, 334, 352];
 export function founderHueForCode(code, seedIndex = 0) {
     const hash = hashCode(code);
     const baseHue = founderHueBands[(hash + seedIndex) % founderHueBands.length];
@@ -25,6 +26,16 @@ export function colorForLineageCode(code, lineageHue) {
     const saturation = Math.round(clamp(50 + complexity * 28 + profile.saturationShift, 42, 92));
     const lightness = Math.round(clamp(56 + profile.lightnessShift - complexity * 5, 46, 68));
     return `hsl(${roundTo(hue, 1)} ${saturation}% ${lightness}%)`;
+}
+export function colorForLifeFormCode(code, lineageHue, oldestAncestorId, config) {
+    return colorForLineageCode(code, config.colorByOldestAncestor ? hueForOldestAncestorId(oldestAncestorId) : lineageHue);
+}
+export function hueForOldestAncestorId(oldestAncestorId) {
+    const id = Math.max(1, Math.floor(Math.abs(oldestAncestorId)));
+    const hash = Math.imul(id, 2654435761) >>> 0;
+    const baseHue = ancestorHueBands[hash % ancestorHueBands.length];
+    const jitter = ((hash >>> 8) % 13) - 6;
+    return modulo(baseHue + jitter, 360);
 }
 function hashCode(code) {
     let hash = 2166136261;

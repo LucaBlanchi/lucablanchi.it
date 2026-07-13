@@ -45,5 +45,6 @@ export const defaultConfig = {
     lineageColorDriftRate: 0.8,
     lineageColorMinDriftDegrees: 8,
     lineageColorDriftDegrees: 24,
+    colorByOldestAncestor: false,
     minProgramLength: 1
 };

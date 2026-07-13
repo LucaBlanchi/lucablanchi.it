@@ -1,4 +1,4 @@
-import { colorForLineageCode } from "../domain/life-form-color.js";
+import { colorForLifeFormCode } from "../domain/life-form-color.js";
 import { cloneInstruction, registers } from "../domain/instructions.js";
 import { energyProfileForCodeLength, turnBudgetForCodeLength } from "../domain/life-form.js";
 import { ReproductionEngine } from "./reproduction.js";
@@ -19,7 +19,7 @@ export class AbstractSimulationEngine {
     inBounds(x, y) {
         return x >= 0 && x < this.config.gridSize && y >= 0 && y < this.config.gridSize;
     }
-    buildLifeFormBase(id, x, y, code, energy, generation, lineageHue) {
+    buildLifeFormBase(id, x, y, code, energy, generation, lineageHue, oldestAncestorId = id) {
         const clonedCode = code.map(cloneInstruction);
         const energyProfile = this.energyProfileForCodeLength(clonedCode.length);
         return {
@@ -33,9 +33,10 @@ export class AbstractSimulationEngine {
             registers: new Int32Array(registers.length),
             turnBudget: turnBudgetForCodeLength(clonedCode.length, this.config),
             generation,
+            oldestAncestorId,
             offspringCount: 0,
             lineageHue,
-            color: colorForLineageCode(clonedCode, lineageHue),
+            color: colorForLifeFormCode(clonedCode, lineageHue, oldestAncestorId, this.config),
             alive: true,
             executedLastTurn: 0,
             ...energyProfile
