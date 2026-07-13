@@ -241,6 +241,9 @@ export function startLifeApp() {
     const speedNumberInput = requireElement("#speedNumberInput");
     const settingsPanel = requireElement("#settingsPanel");
     const seedPresetInput = requireElement("#seedPresetInput");
+    const seedSpawnXInput = requireElement("#seedSpawnXInput");
+    const seedSpawnYInput = requireElement("#seedSpawnYInput");
+    const clearSeedPositionButton = requireElement("#clearSeedPosition");
     const seedCreatureList = requireElement("#seedCreatureList");
     const addSeedCreatureButton = requireElement("#addSeedCreature");
     const duplicateSeedCreatureButton = requireElement("#duplicateSeedCreature");
@@ -268,8 +271,9 @@ export function startLifeApp() {
     const fastForwardMaxTicksPerFrame = 5000000;
     const fastForwardStatusIntervalMs = 1000;
     let currentConfig = { ...defaultConfig };
-    let activeSeedCodes = [startingSeedLifeForm.createCode()];
-    let seedDrafts = activeSeedCodes.map((code) => formatProgramText(code));
+    let activeSeedCreatures = [{ code: startingSeedLifeForm.createCode() }];
+    let seedDrafts = activeSeedCreatures.map((creature) => formatProgramText(creature.code));
+    let seedPositions = activeSeedCreatures.map((creature) => cloneSeedPosition(creature.position));
     let selectedSeedIndex = 0;
     let world = createWorld(currentConfig);
     let isRunning = false;
@@ -289,8 +293,18 @@ export function startLifeApp() {
     function cloneCode(code) {
         return code.map(cloneInstruction);
     }
+    function cloneSeedPosition(position) {
+        return position ? { x: position.x, y: position.y } : undefined;
+    }
+    function seedOrganismFromActiveCreature(creature) {
+        const code = cloneCode(creature.code);
+        const position = cloneSeedPosition(creature.position);
+        return position ? { code, position } : { code };
+    }
     function createWorld(config) {
-        return new OptimizedWorld(config, { seedCodes: () => activeSeedCodes.map((code) => cloneCode(code)) });
+        return new OptimizedWorld(config, {
+            seedCreatures: () => activeSeedCreatures.map(seedOrganismFromActiveCreature)
+        });
     }
     function resizeCanvasToDisplaySize() {
         const rect = canvas.getBoundingClientRect();
@@ -432,12 +446,80 @@ export function startLifeApp() {
             renderOrganismDetails(selected);
         }
     }
+    function ensureSeedPositionSlots() {
+        while (seedPositions.length < seedDrafts.length) {
+            seedPositions.push(undefined);
+        }
+        if (seedPositions.length > seedDrafts.length) {
+            seedPositions.length = seedDrafts.length;
+        }
+    }
+    function normalizeSeedCoordinate(value) {
+        return Math.min(currentConfig.gridSize - 1, Math.max(0, Math.round(value)));
+    }
+    function normalizeSeedPosition(position) {
+        if (!position || !Number.isFinite(position.x) || !Number.isFinite(position.y)) {
+            return undefined;
+        }
+        return {
+            x: normalizeSeedCoordinate(position.x),
+            y: normalizeSeedCoordinate(position.y)
+        };
+    }
+    function seedPositionLabel(index) {
+        const position = normalizeSeedPosition(seedPositions[index]);
+        return position ? `${position.x}, ${position.y}` : "Auto";
+    }
+    function syncSeedPositionControls() {
+        const hasSelection = seedDrafts.length > 0;
+        const maxCoordinate = String(Math.max(0, currentConfig.gridSize - 1));
+        seedSpawnXInput.disabled = !hasSelection;
+        seedSpawnYInput.disabled = !hasSelection;
+        clearSeedPositionButton.disabled = !hasSelection;
+        seedSpawnXInput.min = "0";
+        seedSpawnYInput.min = "0";
+        seedSpawnXInput.max = maxCoordinate;
+        seedSpawnYInput.max = maxCoordinate;
+        if (!hasSelection) {
+            seedSpawnXInput.value = "";
+            seedSpawnYInput.value = "";
+            return;
+        }
+        const position = normalizeSeedPosition(seedPositions[selectedSeedIndex]);
+        seedSpawnXInput.value = position ? String(position.x) : "";
+        seedSpawnYInput.value = position ? String(position.y) : "";
+    }
+    function updateSelectedSeedPositionFromInputs() {
+        if (seedDrafts.length === 0) {
+            return;
+        }
+        const xText = seedSpawnXInput.value.trim();
+        const yText = seedSpawnYInput.value.trim();
+        if (!xText && !yText) {
+            seedPositions[selectedSeedIndex] = undefined;
+        }
+        else {
+            const x = Number(xText);
+            const y = Number(yText);
+            seedPositions[selectedSeedIndex] =
+                Number.isFinite(x) && Number.isFinite(y)
+                    ? {
+                        x: normalizeSeedCoordinate(x),
+                        y: normalizeSeedCoordinate(y)
+                    }
+                    : undefined;
+        }
+        renderSeedCreatureList();
+        renderSeedStats(parseProgramText(seedDrafts[selectedSeedIndex] ?? ""));
+    }
     function renderSeedEditorState() {
+        ensureSeedPositionSlots();
         if (seedDrafts.length === 0) {
             selectedSeedIndex = 0;
             if (seedEditor.value !== "") {
                 seedEditor.value = "";
             }
+            syncSeedPositionControls();
             seedEditor.disabled = true;
             copySeedCodeButton.disabled = true;
             duplicateSeedCreatureButton.disabled = true;
@@ -459,6 +541,7 @@ export function startLifeApp() {
         if (seedEditor.value !== selectedText) {
             seedEditor.value = selectedText;
         }
+        syncSeedPositionControls();
         seedEditor.disabled = false;
         copySeedCodeButton.disabled = false;
         const parsed = parseProgramText(selectedText);
@@ -504,6 +587,7 @@ export function startLifeApp() {
             seedStats.innerHTML = `
         <div><span>Creature</span><strong>${seedDrafts.length}</strong></div>
         <div><span>Selection</span><strong>${selectedSeedIndex + 1}</strong></div>
+        <div><span>Spawn</span><strong>${seedPositionLabel(selectedSeedIndex)}</strong></div>
       `;
             return;
         }
@@ -511,6 +595,7 @@ export function startLifeApp() {
         const budget = turnBudgetForCodeLength(parsed.code.length, currentConfig);
         seedStats.innerHTML = `
       <div><span>Creature</span><strong>${seedDrafts.length}</strong></div>
+      <div><span>Spawn</span><strong>${seedPositionLabel(selectedSeedIndex)}</strong></div>
       <div><span>Blocks</span><strong>${parsed.code.length}</strong></div>
       <div><span>Actions/turn</span><strong>${budget}</strong></div>
       <div><span>Repro energy</span><strong>${profile.reproductionCost.toFixed(2)}</strong></div>
@@ -526,7 +611,7 @@ export function startLifeApp() {
             .map((draft, index) => {
             const parsed = parseProgramText(draft);
             const selectedClass = index === selectedSeedIndex ? " is-selected" : "";
-            const detail = parsed.ok ? `${parsed.code.length} blocks` : "error";
+            const detail = parsed.ok ? `${parsed.code.length} blocks - ${seedPositionLabel(index)}` : "error";
             return `
           <button type="button" class="seed-creature-item${selectedClass}" data-seed-index="${index}">
             <strong>Creature ${index + 1}</strong>
@@ -593,8 +678,13 @@ export function startLifeApp() {
             renderSeedEditorState();
             return;
         }
-        activeSeedCodes = parsed.codes.map((code) => cloneCode(code));
-        seedDrafts = activeSeedCodes.map((code) => formatProgramText(code));
+        activeSeedCreatures = parsed.codes.map((code, index) => {
+            const clonedCode = cloneCode(code);
+            const position = normalizeSeedPosition(seedPositions[index]);
+            return position ? { code: clonedCode, position } : { code: clonedCode };
+        });
+        seedDrafts = activeSeedCreatures.map((creature) => formatProgramText(creature.code));
+        seedPositions = activeSeedCreatures.map((creature) => cloneSeedPosition(creature.position));
         resetWorldFromActiveSeed();
         seedDialog.close();
     }
@@ -651,6 +741,7 @@ export function startLifeApp() {
     function setSelectedSeedCode(code) {
         if (seedDrafts.length === 0) {
             seedDrafts.push(formatProgramText(code));
+            seedPositions.push(undefined);
             selectedSeedIndex = 0;
             seedEditor.value = seedDrafts[selectedSeedIndex] ?? "";
             renderSeedEditorState();
@@ -689,6 +780,7 @@ export function startLifeApp() {
     }
     function addSeedCreatureFromCode(code) {
         seedDrafts.push(formatProgramText(code));
+        seedPositions.push(undefined);
         selectedSeedIndex = seedDrafts.length - 1;
         renderSeedEditorState();
     }
@@ -1170,6 +1262,29 @@ export function startLifeApp() {
         seedStatus.textContent = `${seed.name} applied to creature ${selectedSeedIndex + 1}`;
         seedPresetInput.value = "";
     });
+    seedSpawnXInput.addEventListener("input", () => {
+        updateSelectedSeedPositionFromInputs();
+    });
+    seedSpawnYInput.addEventListener("input", () => {
+        updateSelectedSeedPositionFromInputs();
+    });
+    seedSpawnXInput.addEventListener("change", () => {
+        updateSelectedSeedPositionFromInputs();
+        syncSeedPositionControls();
+    });
+    seedSpawnYInput.addEventListener("change", () => {
+        updateSelectedSeedPositionFromInputs();
+        syncSeedPositionControls();
+    });
+    clearSeedPositionButton.addEventListener("click", () => {
+        if (seedDrafts.length === 0) {
+            return;
+        }
+        seedPositions[selectedSeedIndex] = undefined;
+        syncSeedPositionControls();
+        renderSeedCreatureList();
+        renderSeedStats(parseProgramText(seedDrafts[selectedSeedIndex] ?? ""));
+    });
     spawnPresetInput.addEventListener("change", () => {
         const seed = savedSeedLifeForms.find((candidate) => candidate.name === spawnPresetInput.value);
         if (!seed) {
@@ -1181,6 +1296,9 @@ export function startLifeApp() {
         spawnPresetInput.value = "";
     });
     seedEditor.addEventListener("input", () => {
+        if (seedDrafts.length === 0) {
+            seedPositions.push(undefined);
+        }
         seedDrafts[selectedSeedIndex] = seedEditor.value;
         renderSeedEditorState();
     });
@@ -1221,6 +1339,9 @@ export function startLifeApp() {
     });
     pasteSeedCodeButton.addEventListener("click", async () => {
         try {
+            if (seedDrafts.length === 0) {
+                seedPositions.push(undefined);
+            }
             seedEditor.value = await readClipboard();
             seedDrafts[selectedSeedIndex] = seedEditor.value;
             renderSeedEditorState();
@@ -1269,6 +1390,7 @@ export function startLifeApp() {
             return;
         }
         seedDrafts.splice(selectedSeedIndex, 1);
+        seedPositions.splice(selectedSeedIndex, 1);
         selectedSeedIndex = seedDrafts.length === 0 ? 0 : Math.min(selectedSeedIndex, seedDrafts.length - 1);
         renderSeedEditorState();
     });

@@ -116,6 +116,17 @@ const description =
               <span>Overwrite with preset</span>
               <select id="seedPresetInput" class="select-input" aria-label="Overwrite selected seed creature with preset"></select>
             </label>
+            <div class="seed-position-row" aria-label="Selected seed creature spawn position">
+              <label class="field">
+                <span>Spawn X</span>
+                <input id="seedSpawnXInput" class="seed-position-input" type="number" min="0" step="1" placeholder="Auto" />
+              </label>
+              <label class="field">
+                <span>Spawn Y</span>
+                <input id="seedSpawnYInput" class="seed-position-input" type="number" min="0" step="1" placeholder="Auto" />
+              </label>
+              <button id="clearSeedPosition" type="button">Auto</button>
+            </div>
             <label class="field">
               <span>New block</span>
               <span class="seed-add-row">

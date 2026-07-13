@@ -726,6 +726,23 @@ body.life-simulation-shell .nav-links a[aria-current="page"] {
   gap: 0.5rem;
 }
 
+.seed-position-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.seed-position-row .field {
+  margin-top: 0;
+}
+
+.seed-position-row button {
+  min-height: 2.35rem;
+  padding: 0.35rem 0.55rem;
+}
+
 .seed-list-header {
   justify-content: space-between;
   color: var(--muted);
@@ -854,6 +871,7 @@ body.life-simulation-shell .nav-links a[aria-current="page"] {
 }
 
 .select-input,
+.seed-position-input,
 .seed-editor {
   width: 100%;
   border: 1px solid var(--line);
@@ -862,7 +880,8 @@ body.life-simulation-shell .nav-links a[aria-current="page"] {
   color: var(--text);
 }
 
-.select-input {
+.select-input,
+.seed-position-input {
   min-height: 2.35rem;
   padding: 0.4rem 0.55rem;
 }
@@ -1305,6 +1324,14 @@ body.life-simulation-shell .nav-links a[aria-current="page"] {
   .seed-add-row,
   .code-dialog-actions {
     display: grid;
+  }
+
+  .seed-position-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .seed-position-row button {
+    grid-column: 1 / -1;
   }
 
   .seed-block {

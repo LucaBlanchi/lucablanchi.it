@@ -17,19 +17,30 @@ export class OptimizedWorld extends AbstractSimulationEngine {
     organismListIndexes = new Map();
     turnOrder = [];
     stepTurnOrder = [];
+    birthSearchQueue;
+    birthSearchDepths;
+    birthSearchVisited;
     totalCells;
-    seedCodes;
+    seedCreatures;
     stepTurnIndex = 0;
     stepSelectedTurnId;
     stepSelectedBudgetSpent = 0;
+    birthSearchToken = 0;
     constructor(config, options = {}) {
         super(config);
-        this.seedCodes = options.seedCodes ?? (() => [(options.seedCode ?? startingSeedLifeForm.createCode)()]);
+        this.seedCreatures =
+            options.seedCreatures ??
+                (() => (options.seedCodes?.() ?? [(options.seedCode ?? startingSeedLifeForm.createCode)()]).map((code) => ({
+                    code
+                })));
         this.totalCells = this.config.gridSize * this.config.gridSize;
         this.occupancy = new Int32Array(this.totalCells);
         this.foodGrid = new Uint8Array(this.totalCells);
         this.foodIndexes = new Int32Array(this.totalCells);
         this.barrierGrid = new Uint8Array(this.totalCells);
+        this.birthSearchQueue = new Int32Array(this.totalCells);
+        this.birthSearchDepths = new Uint16Array(this.totalCells);
+        this.birthSearchVisited = new Int32Array(this.totalCells);
         this.occupancy.fill(-1);
         this.foodIndexes.fill(-1);
         this.reset();
@@ -51,14 +62,18 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         this.barrierGrid.fill(0);
         this.rebuildBarriers();
         const center = Math.floor(this.config.gridSize / 2);
-        const seedCodes = this.seedCodes();
-        const positions = this.initialSeedPositions(seedCodes.length);
-        for (let i = 0; i < seedCodes.length; i += 1) {
-            const position = positions[i];
+        const seedCreatures = this.seedCreatures();
+        const autoPositions = this.initialSeedPositions(seedCreatures.length);
+        let autoPositionIndex = 0;
+        for (let i = 0; i < seedCreatures.length; i += 1) {
+            const seedCreature = seedCreatures[i];
+            const position = this.validSeedPosition(seedCreature.position) ??
+                this.nextAvailableSeedPosition(autoPositions, autoPositionIndex);
             if (!position) {
-                break;
+                continue;
             }
-            const seedCode = seedCodes[i];
+            autoPositionIndex = Math.max(autoPositionIndex, autoPositions.indexOf(position) + 1);
+            const seedCode = seedCreature.code;
             const seed = this.createOrganism(position.x, position.y, seedCode, this.birthEnergyForCode(seedCode), 0, founderHueForCode(seedCode, i));
             this.addOrganism(seed);
         }
@@ -347,6 +362,27 @@ export class OptimizedWorld extends AbstractSimulationEngine {
         }
         positions.push({ x, y });
         return true;
+    }
+    validSeedPosition(position) {
+        if (!position || !Number.isFinite(position.x) || !Number.isFinite(position.y)) {
+            return undefined;
+        }
+        const x = Math.round(position.x);
+        const y = Math.round(position.y);
+        if (!this.inBounds(x, y)) {
+            return undefined;
+        }
+        const index = this.index(x, y);
+        return this.isBirthCellFree(index) ? { x, y } : undefined;
+    }
+    nextAvailableSeedPosition(positions, startIndex) {
+        for (let i = startIndex; i < positions.length; i += 1) {
+            const position = positions[i];
+            if (this.isBirthCellFree(this.index(position.x, position.y))) {
+                return position;
+            }
+        }
+        return undefined;
     }
     createOrganism(x, y, code, energy, generation, lineageHue) {
         const base = this.buildLifeFormBase(this.nextId, x, y, code, energy, generation, lineageHue);
@@ -888,29 +924,116 @@ export class OptimizedWorld extends AbstractSimulationEngine {
     }
     randomBirthIndex(parent) {
         const radius = Math.max(1, Math.round(this.config.reproductionSpawnRadius));
-        for (let attempts = 0; attempts < 80; attempts += 1) {
-            const dx = randomInt(radius * 2 + 1) - radius;
-            const dy = randomInt(radius * 2 + 1) - radius;
-            if (dx === 0 && dy === 0) {
+        const token = this.nextBirthSearchToken();
+        const queue = this.birthSearchQueue;
+        const depths = this.birthSearchDepths;
+        const visited = this.birthSearchVisited;
+        let readIndex = 0;
+        let writeIndex = 0;
+        let candidateCount = 0;
+        let selectedIndex = -1;
+        queue[writeIndex] = parent.cellIndex;
+        depths[writeIndex] = 0;
+        writeIndex += 1;
+        visited[parent.cellIndex] = token;
+        while (readIndex < writeIndex) {
+            const index = queue[readIndex];
+            const depth = depths[readIndex];
+            readIndex += 1;
+            if (depth >= radius) {
                 continue;
             }
-            const index = this.topologyIndex(parent.x + dx, parent.y + dy);
-            if (this.isBirthCellFree(index)) {
-                return index;
-            }
-        }
-        for (let dy = -radius; dy <= radius; dy += 1) {
-            for (let dx = -radius; dx <= radius; dx += 1) {
-                if (dx === 0 && dy === 0) {
+            const x = index % this.config.gridSize;
+            const y = Math.floor(index / this.config.gridSize);
+            const nextDepth = depth + 1;
+            for (let directionIndex = 0; directionIndex < directionCount; directionIndex += 1) {
+                const nextIndex = this.topologyIndex(x + directionDx[directionIndex], y + directionDy[directionIndex]);
+                if (nextIndex < 0 || visited[nextIndex] === token) {
                     continue;
                 }
-                const index = this.topologyIndex(parent.x + dx, parent.y + dy);
-                if (this.isBirthCellFree(index)) {
-                    return index;
+                visited[nextIndex] = token;
+                if (this.barrierGrid[nextIndex] > 0) {
+                    continue;
+                }
+                if (this.isBirthCellFree(nextIndex) && this.birthLineIsClear(parent, nextIndex)) {
+                    candidateCount += 1;
+                    if (randomInt(candidateCount) === 0) {
+                        selectedIndex = nextIndex;
+                    }
+                }
+                if (nextDepth < radius) {
+                    queue[writeIndex] = nextIndex;
+                    depths[writeIndex] = nextDepth;
+                    writeIndex += 1;
                 }
             }
         }
-        return -1;
+        return selectedIndex;
+    }
+    birthLineIsClear(parent, targetIndex) {
+        const targetX = targetIndex % this.config.gridSize;
+        const targetY = Math.floor(targetIndex / this.config.gridSize);
+        const dx = this.shortestTopologyDelta(targetX - parent.x, this.config.mapTopology !== "square");
+        const dy = this.shortestTopologyDelta(targetY - parent.y, this.config.mapTopology === "torus");
+        return this.gridLineIsClear(parent.x, parent.y, parent.x + dx, parent.y + dy);
+    }
+    shortestTopologyDelta(delta, wraps) {
+        if (!wraps) {
+            return delta;
+        }
+        const size = this.config.gridSize;
+        if (Math.abs(delta) <= size / 2) {
+            return delta;
+        }
+        return delta > 0 ? delta - size : delta + size;
+    }
+    gridLineIsClear(startX, startY, endX, endY) {
+        const dx = endX - startX;
+        const dy = endY - startY;
+        const xStep = Math.sign(dx);
+        const yStep = Math.sign(dy);
+        const xDistance = Math.abs(dx);
+        const yDistance = Math.abs(dy);
+        let x = startX;
+        let y = startY;
+        let xProgress = 0;
+        let yProgress = 0;
+        while (xProgress < xDistance || yProgress < yDistance) {
+            const decision = (1 + 2 * xProgress) * yDistance - (1 + 2 * yProgress) * xDistance;
+            if (decision === 0) {
+                if (this.lineCellHasBarrier(x + xStep, y) || this.lineCellHasBarrier(x, y + yStep)) {
+                    return false;
+                }
+                x += xStep;
+                y += yStep;
+                xProgress += 1;
+                yProgress += 1;
+            }
+            else if (decision < 0) {
+                x += xStep;
+                xProgress += 1;
+            }
+            else {
+                y += yStep;
+                yProgress += 1;
+            }
+            if (this.lineCellHasBarrier(x, y)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    lineCellHasBarrier(x, y) {
+        const index = this.topologyIndex(x, y);
+        return index < 0 || this.barrierGrid[index] > 0;
+    }
+    nextBirthSearchToken() {
+        this.birthSearchToken += 1;
+        if (this.birthSearchToken >= 0x7fffffff) {
+            this.birthSearchVisited.fill(0);
+            this.birthSearchToken = 1;
+        }
+        return this.birthSearchToken;
     }
     randomFreeOrganismIndex() {
         for (let attempts = 0; attempts < 256; attempts += 1) {
