@@ -28,7 +28,7 @@ draft URLs.
 
 ## Article sources
 
-Presentation theory pages read their article directly from the `.tex`
+The exploratory presentation note reads its text directly from the `.tex`
 file in `public/assets/presentation-theory/`. Every page uses
 `PresentationTheoryArticle.astro` and `TexPaperDocument.astro`; the download link
 points to that same file. Keep one canonical source per document; a separate
@@ -38,6 +38,9 @@ so metadata, the sitemap, and the text indexes agree with the page.
 Draft AI notices are opt-in: set `aiAssisted: true` on the individual entry in
 `src/data/drafts.ts`. Omitting this field leaves the notice off for future drafts.
 
-The brief for the later mathematical review is in
-`docs/presentation-theory-review-objective.txt`. It is a task specification, not
-a record of a completed review.
+The mathematical review brief is in `docs/presentation-theory-review-objective.txt`.
+The completed review and its limits are documented in Italian in
+`docs/presentation-theory-review-report.txt`. The original 52 documents remain
+recoverable from Git commit `60bcdcc`; they are no longer public site assets.
+The local review ledger and provisional independent notes are in `.review/`,
+which is ignored by Git and excluded from the site build.

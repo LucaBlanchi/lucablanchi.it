@@ -743,7 +743,7 @@ h2 {
 }
 
 .paper-page {
-  max-width: 920px;
+  max-width: 760px;
   min-width: 0;
 }
 
@@ -1219,6 +1219,17 @@ textarea:focus {
 }
 
 @media (max-width: 760px) {
+  .nav-shell {
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    padding-block: 12px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+
   .index-shell {
     padding: 42px 0 34px;
   }

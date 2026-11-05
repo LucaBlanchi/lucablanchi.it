@@ -1,14 +1,14 @@
 export const site = {
   origin: "https://lucablanchi.it",
   name: "lucablanchi.it",
-  title: "Luca Blanchi - Draft concepts and presentation theory",
+  title: "Luca Blanchi - Draft concepts and notes",
   description:
-    "Draft concepts and preliminary AI-assisted mathematical research notes by Luca Blanchi, including presentation theory and related applications.",
+    "Draft concepts, working notes, and an exploratory note on mathematical descriptions by Luca Blanchi.",
   language: "en",
   alternateLanguages: ["en", "it"],
   llmsPath: "/llms.txt",
   fullLlmsPath: "/llms-full.txt",
-  updatedDate: "2026-07-12",
+  updatedDate: "2026-11-06",
 } as const;
 
 export const author = {
@@ -16,7 +16,7 @@ export const author = {
   name: "Luca Blanchi",
   givenName: "Luca",
   familyName: "Blanchi",
-  jobTitle: "Software Engineer and author of AI-assisted mathematical research notes",
+  jobTitle: "Software Engineer",
   url: site.origin,
   professionalProfile: "https://lucablanchi.dev/",
   sameAs: [
@@ -29,9 +29,6 @@ export const author = {
     url: "https://www.unipi.it/",
   },
   knowsAbout: [
-    "presentation theory",
-    "AI-assisted mathematics",
-    "preliminary mathematical research notes",
     "pure mathematics",
     "software engineering",
     "full-stack development",

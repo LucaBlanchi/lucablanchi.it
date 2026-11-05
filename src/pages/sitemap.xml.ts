@@ -25,8 +25,8 @@ const staticEntries: SitemapEntry[] = [
   {
     loc: absoluteUrl("/presentation-theory.html"),
     lastmod: site.updatedDate,
-    changefreq: "weekly",
-    priority: "0.95",
+    changefreq: "monthly",
+    priority: "0.7",
   },
   {
     loc: absoluteUrl("/life-simulation.html"),
@@ -40,7 +40,7 @@ const articleEntries: SitemapEntry[] = presentationTheoryArticles.map((article) 
   loc: absoluteUrl(article.href),
   lastmod: site.updatedDate,
   changefreq: "monthly",
-  priority: "0.9",
+  priority: "0.7",
 }));
 
 const draftEntries: SitemapEntry[] = drafts.map((draft) => ({

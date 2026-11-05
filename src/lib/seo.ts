@@ -86,9 +86,9 @@ function keywordsForPage(currentPath: string, title: string, presentationTheoryA
   if (presentationTheoryArticle) {
     return uniqueValues([
       ...base,
-      "presentation theory",
+      "mathematical descriptions",
       "AI-assisted mathematics",
-      "preliminary mathematical research note",
+      "exploratory mathematical note",
       presentationTheoryArticle.section,
       presentationTheoryArticle.title,
     ]);
@@ -107,10 +107,10 @@ function keywordsForPage(currentPath: string, title: string, presentationTheoryA
   if (currentPath === "/presentation-theory.html") {
     return [
       ...base,
-      "presentation theory",
+      "mathematical descriptions",
       "AI-assisted mathematics",
-      "preliminary research notes",
-      "mathematical articles",
+      "exploratory note",
+      "description models",
     ];
   }
 
@@ -248,7 +248,7 @@ function buildSchema(
   if (presentationTheoryArticle) {
     const articleId = `${canonicalUrl}#article`;
     graph.push({
-      "@type": "ScholarlyArticle",
+      "@type": "Article",
       "@id": articleId,
       headline: presentationTheoryArticle.title,
       name: presentationTheoryArticle.title,
@@ -263,9 +263,9 @@ function buildSchema(
       inLanguage: "en-US",
       isAccessibleForFree: true,
       creativeWorkStatus: "Preliminary",
-      genre: ["AI-assisted mathematical research note", presentationTheoryArticle.section],
+      genre: ["AI-assisted exploratory note", presentationTheoryArticle.section],
       keywords: keywordsForPage(currentPath, input.title, presentationTheoryArticle).join(", "),
-      about: ["Presentation theory", presentationTheoryArticle.section],
+      about: ["Presentations", presentationTheoryArticle.section],
       encoding: presentationTheoryArticle.assets.map((asset) => ({
         "@type": "MediaObject",
         name: asset.label,
@@ -336,7 +336,7 @@ function collectionPageSchema(pageId: string, canonicalUrl: string, input: SeoIn
     ...webPageSchema(pageId, canonicalUrl, input, "CollectionPage"),
     mainEntity: {
       "@type": "ItemList",
-      name: "Presentation theory articles",
+      name: "Exploratory note on presentations",
       itemListElement: articles.map((article, index) => ({
         "@type": "ListItem",
         position: index + 1,
@@ -374,7 +374,7 @@ function breadcrumbSchema(currentPath: string, canonicalUrl: string) {
   const items = [{ name: "Home", url: `${site.origin}/` }];
 
   if (currentPath.startsWith("/presentation-theory/")) {
-    items.push({ name: "Presentation theory", url: absoluteUrl("/presentation-theory.html") });
+    items.push({ name: "Presentations", url: absoluteUrl("/presentation-theory.html") });
   } else if (currentPath.startsWith("/drafts/")) {
     items.push({ name: "Draft concepts", url: absoluteUrl("/drafts.html") });
   }

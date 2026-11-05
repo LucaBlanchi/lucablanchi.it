@@ -5,7 +5,7 @@ export function GET() {
   const lines = [
     "# lucablanchi.it",
     "",
-    "> Draft concepts and preliminary AI-assisted mathematical research notes by Luca Blanchi. The Presentation theory section is the main research corpus.",
+    "> Draft concepts and working notes by Luca Blanchi. The former Presentation theory collection has been withdrawn after critical review and replaced by one exploratory note; no novelty or new general theory is claimed.",
     "",
     "## Canonical Site Information",
     "",
@@ -17,7 +17,7 @@ export function GET() {
     `- Full AI index: ${absoluteUrl(site.fullLlmsPath)}`,
     `- Sitemap: ${absoluteUrl("/sitemap.xml")}`,
     "",
-    "## Presentation Theory Corpus",
+    "## Presentations",
     "",
     ...presentationTheoryArticleGroups.flatMap((group) => [
       `### ${group.title}`,

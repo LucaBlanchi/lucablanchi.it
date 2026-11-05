@@ -1,95 +1,35 @@
 ---
-import { presentationTheoryArticleGroups, presentationTheoryArticles } from "../data/presentationTheoryArticles";
+import { presentationTheoryArticles } from "../data/presentationTheoryArticles";
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-const articles = presentationTheoryArticles;
-const articleGroups = presentationTheoryArticleGroups;
-
-const articleByHref = new Map(articles.map((article) => [article.href, article]));
-const groupedHrefs = articleGroups.flatMap((section) => section.hrefs);
-const missingArticles = groupedHrefs.filter((href) => !articleByHref.has(href));
-const duplicateHrefs = groupedHrefs.filter(
-  (href, index) => groupedHrefs.indexOf(href) !== index,
-);
-const unlistedArticles = articles.filter(
-  (article) => !groupedHrefs.includes(article.href),
-);
-
-if (
-  missingArticles.length > 0 ||
-  duplicateHrefs.length > 0 ||
-  unlistedArticles.length > 0
-) {
-  throw new Error(
-    [
-      missingArticles.length > 0
-        ? `Missing article data: ${missingArticles.join(", ")}`
-        : "",
-      duplicateHrefs.length > 0
-        ? `Duplicate article entries: ${duplicateHrefs.join(", ")}`
-        : "",
-      unlistedArticles.length > 0
-        ? `Unlisted articles: ${unlistedArticles
-            .map((article) => article.href)
-            .join(", ")}`
-        : "",
-    ]
-      .filter(Boolean)
-      .join(" "),
-  );
-}
-
-const sectionId = (title) =>
-  `presentation-theory-${title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "")}`;
-
-const articleSections = articleGroups.map((section) => ({
-  id: sectionId(section.title),
-  title: section.title,
-  description: section.description,
-  articles: section.hrefs.map((href) => articleByHref.get(href)),
-}));
 ---
 
 <BaseLayout
-  title="Presentation theory"
-  description="Preliminary AI-assisted mathematical research notes by Luca Blanchi on presentation theory, observables, fibres, normal forms, algebraic complexity, groups, arithmetic dynamics, and proof strategies."
+  title="Presentations"
+  description="An exploratory note on restricted mathematical descriptions, with elementary examples and explicit limits."
   currentPath="/presentation-theory.html"
 >
   <main class="shell article-shell">
     <article class="plain-page">
-      <h1>Presentation theory</h1>
-
+      <h1>Presentations</h1>
       <p>
-        These preliminary articles were generated and revised with AI, mainly
-        ChatGPT (GPT-5.5+). They have not undergone systematic mathematical review
-        and may contain errors, gaps, or unsupported claims.
+        Can a choice of admissible descriptions suggest useful mathematics?
+        The former Presentation theory collection has been withdrawn after
+        critical review. What remains is one short exploratory note, with
+        elementary examples and no claim of novelty or of a new general theory.
       </p>
-
-      <section class="article-sections" aria-label="Presentation theory articles">
-        {
-          articleSections.map((section, index) => (
-            <details class="article-section" open={index === 0}>
-              <summary id={section.id}>
-                <span>{section.title}</span>
-                <small>{section.articles.length} {section.articles.length === 1 ? "article" : "articles"}</small>
-              </summary>
-              {section.description && <p class="article-section-note">{section.description}</p>}
-              <div class="article-list">
-                {section.articles.map((article) => (
-                  <a class="article-list-item" href={article.href}>
-                    <time datetime={article.datetime}>{article.date}</time>
-                    <span>{article.title}</span>
-                    <p>{article.description}</p>
-                  </a>
-                ))}
-              </div>
-            </details>
-          ))
-        }
-      </section>
+      <p>
+        The note was generated and revised with ChatGPT (GPT-5.5+).
+        It has not been peer-reviewed.
+      </p>
+      <div class="article-list">
+        {presentationTheoryArticles.map((article) => (
+          <a class="article-list-item" href={article.href}>
+            <time datetime={article.datetime}>{article.date}</time>
+            <span>{article.title}</span>
+            <p>{article.description}</p>
+          </a>
+        ))}
+      </div>
     </article>
   </main>
 </BaseLayout>

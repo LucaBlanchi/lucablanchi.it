@@ -1,0 +1,263 @@
+REVISIONE CRITICA DEL CORPUS «PRESENTATION THEORY»
+Luca Blanchi — revisione locale, 6 novembre 2026
+
+ESITO
+
+Il corpus non sostiene la presentazione di una nuova teoria matematica. Ho
+ritirato le 50 pagine di articoli e i loro 52 documenti TeX, sostituendoli con
+una sola nota esplorativa in inglese: «Presentations and Restricted Descriptions».
+La nota contiene due esempi elementari, con prove complete e limiti espliciti.
+Non rivendica originalità. Il sito mantiene il percorso /presentation-theory.html
+per orientare chi conosceva la sezione, ora chiamata «Presentations».
+
+Questa conclusione riguarda il corpus esaminato: non dimostra che ogni possibile
+studio delle presentazioni sia inutile. Esistono argomenti più interessanti degli
+esempi pubblicati, ma appartengono a discipline già consolidate oppure richiedono
+verifiche ulteriori. Sono separati negli appunti locali, non impiegati per
+accreditare la Presentation Theory e non cancellati senza traccia.
+
+Non è stato effettuato alcun commit o push durante la revisione.
+
+1. PERIMETRO E METODO
+
+Sono stati letti integralmente tutti i 52 documenti: 63.488 righe e circa 244.000
+parole secondo l'inventario dei sorgenti. Questi numeri descrivono il materiale,
+non misurano il valore o la profondità della verifica. La lettura integrale non
+equivale a certificare ogni dimostrazione o ogni riferimento bibliografico.
+
+Per ciascun documento il registro locale associa sorgente, hash, intervalli letti,
+esito editoriale, scheda critica, dipendenze e limiti. Le schede distinguono le
+prove controllate direttamente dagli input esterni consultati soltanto a livello
+di enunciato, dai risultati condizionali e dalle affermazioni false. Le ricerche
+bibliografiche sono mirate e non esaustive. Le fonti primarie e le parti davvero
+consultate sono indicate nelle schede.
+
+Gli originali restano recuperabili nella cronologia Git, al commit
+60bcdcc24a45bac1744630dbc1361515677d2932. Nessuna cronologia è stata riscritta.
+Il registro e gli appunti sono in .review/presentation-theory/, ignorato da Git
+e non incluso negli asset del sito. Questa relazione è documentazione del
+repository, non un articolo del sito.
+
+2. QUALE MATEMATICA CORRETTA E NON BANALE RIMANE?
+
+Nella nota pubblica rimane volutamente solo materiale elementare. Per l'ordine
+sul quadrato {0,1}², riflessività e transitività richiedono quattro generatori;
+aggiungendo una regola di miscela delle coordinate ne bastano tre, e tre sono
+necessari. Per la parola a^N, N >= 2, servono N istruzioni letterali ma bastano
+due istruzioni se è ammessa la copia sovrapposta da una posizione precedente.
+Il parametro N continua a richiedere spazio: due istruzioni non significano due
+bit. Sono confronti fra modelli dichiarati, non invarianti assoluti né nuovi
+teoremi di complessità.
+
+Negli appunti resta matematica più sostanziale, con stati diversi:
+
+- Le fibre degli invarianti di rango della persistenza possono contenere moduli
+  non isomorfi e problemi di classificazione di coppie di matrici. La costruzione
+  lineare è controllabile; l'esempio delle quattro rette e del birapporto è già
+  esplicitamente in Carlsson–Zomorodian, §5.2. Il problema dei cinque sottospazi
+  appartiene alla teoria classica delle rappresentazioni. Non è una scoperta del
+  corpus. Le pretese più forti su universalità delle singolarità non sono provate.
+
+- L'ordine minimo di equazioni differenziali scalari è legato allo spazio
+  generato da un'orbita mediante il criterio wronskiano standard. La struttura
+  aritmetica essenziale della «class-group tomography» compare già nella fonte
+  di Cremona; scegliere pivot aggiunge algebra lineare elementare. Questi casi
+  non giustificano nuovi articoli con terminologia presentazionale.
+
+- Per le cifre di un irrazionale algebrico, il numero di frasi di copia precedente
+  cresce più di log N: l'argomento combina un criterio noto di ripetizione
+  di Adamczewski–Bugeaud con la crescita moltiplicativa dei confini delle frasi.
+  Una versione con un numero limitato di intervalli corrotti si riduce a un
+  lungo intervallo esatto. Sono conseguenze e semplificazioni da valutare nella
+  letteratura di compressione e approssimazione diofantea; non nuovi teoremi di
+  trascendenza. Sono state eliminate un'affermazione falsa sull'«energia» delle
+  frasi e una formulazione scorretta del teorema del sottospazio.
+
+- Alcuni argomenti sui conteggi di omomorfismi per gruppi affini coprimi, sui
+  profili di parole di gruppi di classe due, sulle coperture normali pesate e
+  su uno specifico modello di coefficienti booleani hanno contenuto concreto.
+  Le schede riportano ipotesi e correzioni. Il confronto bibliografico non basta
+  ad attribuire novità e alcuni input specialistici restano da controllare.
+
+- L'argomento uniforme per una sequenza greedy che evita somme di tre termini
+  distinti dimostra, dopo una correzione nella classificazione degli elementi
+  eccezionali, la formula della Congettura 17 di Bosma e coautori (JIS, 2025).
+  La formula e l'approccio periodico sono dunque già pubblicati. Esiste inoltre
+  una distinta rivendicazione di formalizzazione che non ho verificato nel codice:
+  non attribuisco priorità a questo corpus. La prova elementare e il confronto
+  sono preservati separatamente.
+
+3. CI SONO CONTRIBUTI CON NOVITÀ SOSTENUTA DA EVIDENZE?
+
+Non ho identificato un risultato per il quale questa revisione giustifichi una
+rivendicazione di novità. Ciò non equivale ad affermare che ogni singolo argomento
+sia già pubblicato. Per diversi candidati non è stato trovato un precedente
+esattamente coincidente; una ricerca limitata non risolve la questione.
+
+In particolare, i risultati più specifici su gruppi affini, coperture pesate,
+profili di parole, crescita LEF e modelli booleani richiedono un confronto con
+specialisti e con terminologie alternative prima di essere presentati come
+contributi originali. Dove una fonte completa non era accessibile, il controllo
+dell'enunciato è registrato come tale e non come verifica della sua dimostrazione.
+Nessun risultato non verificato sostiene le conclusioni della nota pubblica.
+
+4. CHE COSA APPORTA LA SCELTA DELLE PRESENTAZIONI?
+
+Il contributo effettivamente esibito è una disciplina di modellazione: fissare
+oggetti, descrizioni ammissibili, interpretazione ed equivalenza prima di parlare
+di costo o ricostruzione. Nel quadrato cambiare una regola modifica il minimo
+numero di generatori. Nelle parole scegliere le istruzioni di copia pone una
+domanda diversa dalla lunghezza di un programma arbitrario. Si può ripetere
+esattamente il confronto e verificarne il risultato.
+
+Questo è un uso concreto ma modesto. Gli argomenti funzionano interamente nel
+linguaggio ordinario di chiusure, generatori e compressione. Il corpus non mostra
+un passaggio matematico essenziale che richieda il formalismo generale proposto.
+Non fornisce neppure una documentazione della scoperta sufficiente a stabilire
+che tale formalismo abbia suggerito i risultati indipendenti. La provenienza
+euristica resta ignota: non la ricostruisco a posteriori.
+
+Molti presunti teoremi generali affermavano in sostanza che una mappa con una
+certa stima trasferisce quella stima, che dati sufficienti ricostruiscono ciò
+che per ipotesi distinguono, oppure che certificati risolutivi risolvono il
+problema se esistono. Queste osservazioni non producono i certificati, le stime
+o la completezza mancanti. Sono state rimosse invece di conservarle come teoria.
+
+5. MATERIALE SEPARATO E VERIFICHE MANCANTI
+
+L'area provvisoria non è una seconda collezione di articoli pubblicabili.
+provisional/index.txt organizza le piste e rinvia alle schede con enunciati,
+argomenti, correzioni e fonti. provisional/candidates.txt mantiene il registro
+A–V delle decisioni maturate durante la lettura.
+
+Le piste più concrete sono:
+
+- Gruppi affini coprimi: famiglie finite di test mediante idempotenti, inversione
+  di Möbius e momenti di orbite; criterio a due oggetti in una classe ristretta.
+  Controllati gli argomenti sotto le ipotesi indicate. Restano confronto con la
+  letteratura sui conteggi di omomorfismi e revisione specialistica; il caso
+  Q = 1 va separato e l'estensione omociclica richiede il preciso accesso indicato.
+
+- Gruppi di classe due: formula tramite Smith e gcd per profili di supporto,
+  esempi geometrici che distinguono osservabili, ricostruzione di dati di matite
+  alternanti mediante strumenti classici. La parte sulle reti pfaffiane richiede
+  controllo di discesa, conteggi geometrici e input esterni. Nessuna identificazione
+  automatica fra tutti i conteggi di parole e un profilo etichettato è conservata.
+
+- Coperture normali pesate di S_n e A_n: argomenti controllati usando risultati
+  esterni di Maróti e Jones; da correggere la convenzione per gruppi ciclici e
+  precisare i pesi sulle classi scisse. Manca un confronto specialistico sul
+  problema del minimo della somma degli indici, distinto dal numero di sottogruppi.
+
+- Crescita LEF di prodotti wreath: estensione del metodo di Bradford mediante
+  quozienti per il centro, valutazione di polinomi sparsi e casi virtualmente
+  abeliani o di Heisenberg. Alcuni limiti sono già conseguenze di risultati su
+  gruppi lineari. Restano input sugli anelli finiti, confronto preciso con i
+  precedenti e correzione delle convenzioni di azione destra/sinistra.
+
+- Tre articoli booleani accorpati in una sola pista: il modello espanso dei
+  coefficienti è essenziale. Le soglie casuali e le ostruzioni reticolari non
+  autorizzano conclusioni sull'arrotondamento intero o sulla complessità in
+  coordinate arbitrarie. L'input non identicamente distribuito di Bentkus è
+  stato controllato nell'enunciato ufficiale, non riprovato dal testo completo.
+
+- Dinamica aritmetica: riduzione degli strati di preimmagini a punti S-interi
+  e costruzioni p-adiche con grado di estensione limitato. Manca il confronto
+  preciso con i precedenti effettivi. La pretesa su tutti i cambiamenti di base
+  è falsa e non è conservata. Il criterio torico per code di Skolem rimane
+  condizionale agli input effettivi specificati, senza un compilatore realizzato.
+
+- Compressione e sequenza greedy: mantenere un solo nucleo per ciascun tema,
+  con attribuzioni corrette, non le tassonomie duplicate. Per la compressione
+  serve confronto specialistico dei corollari; per la sequenza va controllata
+  l'eventuale precedente formalizzazione prima di parlare di novità della prova.
+
+Le altre schede preservano soprattutto confronti con risultati noti oppure
+ostacoli precisi: restrizioni curve dei dati di Stokes, profondità di Johnson,
+singolarità delle fibre, risoluzioni derivate e spazio di Hassett. La loro
+presenza nell'archivio non attribuisce loro plausibilità o priorità.
+
+6. PERCHÉ RITIRARE LE STRATEGIE PIÙ AMBIZIOSE?
+
+Non si tratta soltanto di una valutazione stilistica. Alcuni difetti decisivi:
+
+- Navier–Stokes: un campo w costante non nullo annulla un lato della stima di
+  collare proposta senza annullare l'altro. La famiglia locale
+  u(x,t) = sin(Mt)e_1, p(x,t) = -M cos(Mt)x_1 mantiene limitata la velocità
+  mentre fa crescere la pressione: smentisce l'uniformità relativa affermata
+  senza controllo della pressione. Inoltre inf_g sup_u non esprime la scelta
+  di un predittore diverso per ogni u; la semicontinuità inferiore non chiude
+  i sopralivelli. Le percentuali di «completamento» non avevano fondamento.
+
+- Thrackle di Conway: cancellare un candidato inerte da un registro non esclude
+  la sua esistenza come controesempio geometrico. Un rango minimo in una
+  componente fortemente connessa non obbliga tutti i ranghi a coincidere: un
+  ciclo fra ranghi 1 e 2 basta a smentire l'inferenza. Il catalogo esaustivo e
+  la discesa delle mosse geometriche non erano costruiti.
+
+- Categorie derivate: il lemma di assemblaggio di coni proposto ridurrebbe
+  indebitamente ogni risoluzione finita a profondità uno; la diagonale di P²
+  offre l'ostacolo registrato. Le conseguenze geometriche non seguono dal testo.
+
+- Fibre e ricostruzione: un'immersione universale di rappresentazioni di quiver
+  perde l'informazione dei loop nell'esempio verificato; un'identificazione di
+  punti non basta per trasferire la struttura locale degli schemi. Risultati
+  più forti sono stati esclusi, non salvati aggiungendo ipotesi equivalenti
+  alla conclusione.
+
+Questi difetti sono motivi sufficienti per non pubblicare i testi come prove.
+Non era necessario riparare ogni sezione esclusa per concludere la revisione.
+
+7. DECISIONE EDITORIALE E VERIFICHE TECNICHE
+
+Mantengo una nota esplorativa, non una sezione che si presenti come programma
+di ricerca sviluppato. I due esempi chiariscono la domanda originaria in uno
+spazio breve e consentono di vedere precisamente quanto poco sia stato stabilito.
+Se in futuro non servisse nemmeno questa funzione esplicativa, sopprimere la
+nota sarebbe una scelta coerente; non occorre mantenerla per salvare la teoria.
+
+Il testo mostrato e il download provengono dallo stesso file TeX e passano dal
+lettore comune già presente. Non sono stati reintrodotti PDF o Markdown paralleli.
+I disclaimer IA restano; quelli dei sei draft sono ancora opzioni dei singoli
+articoli. Indice, navigazione, descrizioni, metadati strutturati, sitemap e indici
+LLM riflettono il corpus ridotto. Le vecchie pagine ritirate e gli alias che le
+puntavano non vengono più generati: non sono reindirizzati come se il nuovo
+contenuto fosse lo stesso articolo.
+
+I cinque test del lettore e la build passano. Sono state controllate le 11 pagine
+a larghezze desktop e mobile, con un controllo aggiuntivo della nota a 320 pixel:
+nessun overflow di pagina, errore JavaScript o errore MathJax. Il download effettivo
+è byte per byte identico al sorgente. Collegamenti locali, sitemap e disclaimer
+bilingui dei sei draft sono verificati; gli screenshot sono stati ispezionati.
+I dettagli riproducibili sono in .review/presentation-theory/verification.txt.
+Il lavoro resta locale; il sito
+remoto non viene modificato fino a un'esplicita autorizzazione al push.
+
+FONTI PRIMARIE DI RIFERIMENTO (SELEZIONE)
+
+Le schede contengono il confronto puntuale, l'estensione della lettura e i limiti.
+Questi riferimenti non costituiscono una bibliografia esaustiva.
+
+Carlsson–Zomorodian, persistenza multidimensionale, §5.2:
+https://fodava.gatech.edu/sites/default/files/FODAVA-07-01.pdf
+
+Adamczewski–Bugeaud, criterio di ripetizione, §4:
+https://arxiv.org/pdf/math/0511674
+
+Bugeaud, complessità finita delle cifre algebriche, Teorema 1:
+https://ems.press/content/serial-article-files/39645?nt=1
+
+Ceres–Costoya–Viruel, conteggi di omomorfismi e famiglie di test:
+https://arxiv.org/pdf/2506.01501
+
+Bosma e coautori, sequenze greedy, Congettura 17 nella versione pubblicata:
+https://cs.uwaterloo.ca/journals/JIS/VOL28/Fokkink/fokkink9.pdf
+
+Bradford, crescita LEF dei prodotti wreath, §3:
+https://arxiv.org/pdf/2104.07111
+
+Maróti, ordini dei gruppi primitivi, Corollario 1.1:
+https://www.renyi.hu/~maroti/primitive.pdf
+
+Jones, gruppi primitivi contenenti un ciclo, Teorema 1.2:
+https://arxiv.org/pdf/1209.5169
