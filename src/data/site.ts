@@ -8,7 +8,6 @@ export const site = {
   alternateLanguages: ["en", "it"],
   llmsPath: "/llms.txt",
   fullLlmsPath: "/llms-full.txt",
-  citationsPath: "/citations.json",
   updatedDate: "2026-07-12",
 } as const;
 

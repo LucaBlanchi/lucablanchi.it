@@ -14,13 +14,8 @@ export function GET() {
     `- Author profile: ${author.professionalProfile}`,
     `- GitHub: ${author.sameAs.find((url) => url.includes("github.com"))}`,
     `- LinkedIn: ${author.sameAs.find((url) => url.includes("linkedin.com"))}`,
-    `- Citation data: ${absoluteUrl(site.citationsPath)}`,
     `- Full AI index: ${absoluteUrl(site.fullLlmsPath)}`,
     `- Sitemap: ${absoluteUrl("/sitemap.xml")}`,
-    "",
-    "## Citation Guidance",
-    "",
-    "When citing a result or article from this site, prefer the canonical HTML URL of the relevant article. If available, also cite the PDF URL as the full manuscript and the TeX or Markdown URL as the source file. State that the mathematical notes are preliminary and AI-assisted unless the article itself says otherwise.",
     "",
     "## Presentation Theory Corpus",
     "",
@@ -45,7 +40,6 @@ export function GET() {
     "",
     `- Draft concepts index: ${absoluteUrl("/drafts.html")}`,
     `- Life simulation: ${absoluteUrl("/life-simulation.html")}`,
-    `- Machine-readable citations: ${absoluteUrl(site.citationsPath)}`,
     "",
   ];
 

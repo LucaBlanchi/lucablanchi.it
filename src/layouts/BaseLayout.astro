@@ -60,21 +60,6 @@ const seo = getSeoData({ title, description, currentPath, lang });
   <body class={bodyClass}>
     <SiteHeader currentPath={currentPath} />
     <slot />
-    {
-      seo.citation && (
-        <aside class="citation-panel" aria-labelledby="citation-panel-title">
-          <div class="shell citation-shell">
-            <h2 id="citation-panel-title">{seo.citation.title}</h2>
-            <p>{seo.citation.text}</p>
-            <div class="citation-links">
-              {seo.citation.links.map((link) => (
-                <a href={link.href}>{link.label}</a>
-              ))}
-            </div>
-          </div>
-        </aside>
-      )
-    }
     {showFooter && <SiteFooter />}
     {scriptList.map((script) => <script is:inline src={script}></script>)}
   </body>

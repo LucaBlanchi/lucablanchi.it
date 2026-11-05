@@ -8,7 +8,6 @@ export function GET() {
       "",
       `Sitemap: ${absoluteUrl("/sitemap.xml")}`,
       `LLMs: ${absoluteUrl(site.llmsPath)}`,
-      `Citations: ${absoluteUrl(site.citationsPath)}`,
       "",
     ].join("\n"),
     {

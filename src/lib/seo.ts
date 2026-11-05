@@ -2,13 +2,11 @@ import {
   presentationTheoryArticleGroups,
   presentationTheoryArticles,
   getPresentationTheoryArticleByHref,
-  getPresentationTheoryArticlePdfAssets,
-  getPresentationTheoryArticleSourceAssets,
   type PresentationTheoryArticle,
   type PresentationTheoryArticleAsset,
 } from "../data/presentationTheoryArticles";
 import { absoluteUrl, author, site } from "../data/site";
-import { drafts, formatDraftDate, type Draft } from "../data/drafts";
+import { drafts, type Draft } from "../data/drafts";
 
 export interface SeoInput {
   title: string;
@@ -31,17 +29,6 @@ export interface SeoLink {
   hreflang?: string;
 }
 
-export interface CitationLink {
-  label: string;
-  href: string;
-}
-
-export interface CitationInfo {
-  title: string;
-  text: string;
-  links: CitationLink[];
-}
-
 export interface SeoData {
   htmlTitle: string;
   description: string;
@@ -51,7 +38,6 @@ export interface SeoData {
   metas: SeoMeta[];
   links: SeoLink[];
   schemaJson: string;
-  citation?: CitationInfo;
 }
 
 const robots = "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1";
@@ -66,7 +52,6 @@ export function getSeoData(input: SeoInput): SeoData {
   const links = buildLinks(canonicalUrl, presentationTheoryArticle, draft);
   const metas = buildMetas(input, canonicalUrl, htmlTitle, presentationTheoryArticle, draft);
   const schema = buildSchema(input, canonicalUrl, currentPath, presentationTheoryArticle, draft);
-  const citation = buildCitation(canonicalUrl, presentationTheoryArticle, draft);
 
   return {
     htmlTitle,
@@ -77,16 +62,11 @@ export function getSeoData(input: SeoInput): SeoData {
     metas,
     links,
     schemaJson: JSON.stringify(schema).replace(/</g, "\\u003c"),
-    citation,
   };
 }
 
 export function monthToDate(value: string) {
   return /^\d{4}-\d{2}$/.test(value) ? `${value}-01` : value;
-}
-
-export function citationText(title: string, url: string, dateLabel: string) {
-  return `${author.name}. "${title}." ${site.name}, ${dateLabel}, ${url}.`;
 }
 
 function normalizePath(path: string) {
@@ -150,12 +130,6 @@ function buildLinks(canonicalUrl: string, presentationTheoryArticle?: Presentati
     { rel: "canonical", href: canonicalUrl },
     { rel: "author", href: author.professionalProfile },
     { rel: "alternate", type: "text/plain", href: absoluteUrl(site.llmsPath), title: "AI-readable site index" },
-    {
-      rel: "alternate",
-      type: "application/json",
-      href: absoluteUrl(site.citationsPath),
-      title: "Machine-readable citation data",
-    },
   ];
 
   if (draft) {
@@ -214,20 +188,9 @@ function buildMetas(
       { property: "article:modified_time", content: site.updatedDate },
       { property: "article:author", content: author.name },
       { property: "article:section", content: presentationTheoryArticle.section },
-      { name: "citation_title", content: presentationTheoryArticle.title },
-      { name: "citation_author", content: author.name },
-      { name: "citation_publication_date", content: publicationDate },
-      { name: "citation_online_date", content: publicationDate },
-      { name: "citation_language", content: "en" },
-      { name: "citation_keywords", content: keywordsForPage(input.currentPath, input.title, presentationTheoryArticle).join("; ") },
-      { name: "citation_fulltext_html_url", content: canonicalUrl },
       { name: "DC.date", content: publicationDate },
       { name: "DC.type", content: "Text" }
     );
-
-    for (const asset of getPresentationTheoryArticlePdfAssets(presentationTheoryArticle)) {
-      metas.push({ name: "citation_pdf_url", content: absoluteUrl(asset.href) });
-    }
   }
 
   if (draft) {
@@ -432,38 +395,6 @@ function breadcrumbSchema(currentPath: string, canonicalUrl: string) {
       item: item.url,
     })),
   };
-}
-
-function buildCitation(canonicalUrl: string, presentationTheoryArticle?: PresentationTheoryArticle, draft?: Draft): CitationInfo | undefined {
-  if (presentationTheoryArticle) {
-    const links = [
-      { label: "Canonical HTML", href: canonicalUrl },
-      ...getPresentationTheoryArticlePdfAssets(presentationTheoryArticle).map((asset) => ({ label: asset.label, href: absoluteUrl(asset.href) })),
-      ...getPresentationTheoryArticleSourceAssets(presentationTheoryArticle).map((asset) => ({ label: asset.label, href: absoluteUrl(asset.href) })),
-      { label: "AI index", href: absoluteUrl(site.llmsPath) },
-      { label: "Citation JSON", href: absoluteUrl(site.citationsPath) },
-    ];
-
-    return {
-      title: "Citation",
-      text: citationText(presentationTheoryArticle.title, canonicalUrl, presentationTheoryArticle.date),
-      links,
-    };
-  }
-
-  if (draft) {
-    return {
-      title: "Citation",
-      text: citationText(draft.title.en, canonicalUrl, formatDraftDate(draft.dateTime, "en")),
-      links: [
-        { label: "Canonical HTML", href: canonicalUrl },
-        { label: "AI index", href: absoluteUrl(site.llmsPath) },
-        { label: "Citation JSON", href: absoluteUrl(site.citationsPath) },
-      ],
-    };
-  }
-
-  return undefined;
 }
 
 function mimeForAsset(asset: PresentationTheoryArticleAsset) {
