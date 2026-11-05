@@ -21,6 +21,7 @@ export interface Draft {
   title: LocalizedText;
   description: LocalizedText;
   dateTime: string;
+  aiAssisted?: boolean;
   visual: DraftVisual;
 }
 
@@ -63,6 +64,7 @@ export const drafts = [
       it: "Una nota di teoria dei giochi su una variante della morra cinese in cui un giocatore non può giocare forbici, ridotta al problema di indovinare un intero positivo."
     },
     dateTime: "2026-06-28",
+    aiAssisted: true,
     visual: {
       kind: "concept",
       items: ["paper ties", "scissors turn", "guess N", "1/N"],
@@ -81,6 +83,7 @@ export const drafts = [
       it: "Una cella di memoria difettosa perde una quantità continua di informazione utile al crescere del rumore di lettura; l'entropia di Shannon individua la probabilità di flip che lascia mezzo bit."
     },
     dateTime: "2026-06-14",
+    aiAssisted: true,
     visual: {
       kind: "concept",
       items: ["bit", "flip p", "H(p)", "1 - H"],
@@ -99,6 +102,7 @@ export const drafts = [
       it: "Una bozza su un gioco di descrizioni corte, numeri enormi e ricorsioni alla Ackermann."
     },
     dateTime: "2026-06-13",
+    aiAssisted: true,
     visual: {
       kind: "concept",
       items: ["50 ASCII", "Ackermann", "hyperoperators", "hill king"],
@@ -117,6 +121,7 @@ export const drafts = [
       it: "Una bozza su popolazioni di strategie, grafi di gioco, dinamiche nel simplesso e operazioni categoriali."
     },
     dateTime: "2021-12-01",
+    aiAssisted: true,
     visual: {
       kind: "concept",
       items: ["strategies", "payoff graph", "simplex flow", "quotients"],
@@ -135,6 +140,7 @@ export const drafts = [
       it: "Un'euristica informale sui numeri primi, scritta come formula annidata e poi compressa in una produttoria."
     },
     dateTime: "2026-06-12",
+    aiAssisted: true,
     visual: {
       kind: "concept",
       items: ["2", "3", "5", "7..."],
@@ -153,6 +159,7 @@ export const drafts = [
       it: "Codificare mosse, posizioni, partite e grafi di partite di scacchi con il minor numero di bit ragionevole, senza perdere leggibilità e ricostruibilità."
     },
     dateTime: "2026-06-10",
+    aiAssisted: true,
     visual: {
       kind: "board",
       cells: homeBoard,

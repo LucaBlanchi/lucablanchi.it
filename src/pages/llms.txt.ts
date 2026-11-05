@@ -26,12 +26,11 @@ export function GET() {
       ...group.hrefs.flatMap((href) => {
         const article = presentationTheoryArticles.find((item) => item.href === href);
         if (!article) return [];
-        const pdf = article.assets.find((asset) => asset.type === "pdf");
         return [
           `- [${article.title}](${absoluteUrl(article.href)})`,
           `  - Summary: ${article.description}`,
           `  - Date: ${article.date}`,
-          `  - PDF: ${pdf ? absoluteUrl(pdf.href) : "not listed"}`,
+          ...article.assets.map((asset) => `  - ${asset.label}: ${absoluteUrl(asset.href)}`),
         ];
       }),
       "",

@@ -1,0 +1,139 @@
+OBIETTIVO PER LA REVISIONE CRITICA DELLA PRESENTATION THEORY
+
+Questo testo è un incarico da avviare solo quando te lo passerò esplicitamente
+per eseguirlo. La sua preparazione non avvia la revisione.
+
+MISSIONE
+
+Rivedi radicalmente l'intero corpus di presentation theory di lucablanchi.it.
+L'idea da mettere alla prova è questa: generalizzando la presentazione di un
+gruppo, studiare un oggetto matematico attraverso descrizioni ammissibili secondo
+un criterio esplicito può suggerire matematica non banale o euristiche utili?
+Costi, osservabili, fibre, certificati e altri apparati sono strumenti eventuali,
+non ingredienti da conservare per forza né risultati per il solo fatto di essere
+stati definiti.
+
+Il corpus attuale è generato con IA e non costituisce evidenza della propria
+correttezza, originalità o utilità. Non presumere né che contenga una nuova teoria
+né che sia interamente privo di valore. Determina che cosa resiste al controllo.
+
+Ordine delle priorità: correttezza e onestà epistemica; contenuto non banale;
+utilità dimostrabile del punto di vista; chiarezza e brevità. La novità è una
+questione da verificare, non un obiettivo da ottenere a ogni costo. Non ottimizzare
+il numero di articoli, teoremi, pagine, citazioni o termini introdotti. Non usare
+punteggi arbitrari o percentuali di completamento di una dimostrazione.
+
+AUTONOMIA E PERIMETRO
+
+Puoi riscrivere, accorpare, rinominare, eliminare o separare articoli e sezioni,
+anche se scompare oltre il 90% del materiale. Puoi ridurre i testi introduttivi a
+una sola nota breve, o eliminarli se non servono. Non esiste una quota da salvare
+o cancellare. Procedi sulle decisioni editoriali e tecniche ordinarie senza
+richiedere conferme continue; chiedi chiarimenti solo per ambiguità sostanziali
+non risolvibili dai materiali disponibili.
+
+Lavora nel repository, preservando la recuperabilità degli originali attraverso
+Git. Le eliminazioni riguardano il corpus corrente, non la riscrittura distruttiva
+della cronologia. Mantieni distinti il materiale pubblicabile, il registro privato
+della revisione e gli appunti provvisori. L'incarico riguarda la revisione locale;
+non include automaticamente push o pubblicazione.
+
+METODO
+
+1. Inventaria tutti gli articoli e gli allegati, comprese le versioni distinte.
+   Leggi integralmente i testi per comprenderne enunciati, prove e dipendenze.
+   Tieni un registro persistente, fuori dagli asset pubblici, che associ a ogni
+   documento originale il suo esito, i risultati esaminati, le ragioni delle
+   decisioni e le verifiche ancora mancanti. Aggiornalo durante il lavoro, in modo
+   che sia possibile riprendere dopo interruzioni senza perdere il contesto.
+
+2. Per ogni risultato candidato a essere conservato, isola l'enunciato preciso,
+   le ipotesi, la conclusione, la prova e gli input esterni. Verifica che gli
+   oggetti esistano e che le ipotesi siano compatibili e non incorporino già la
+   conclusione. Controlla quantificatori, uniformità, casi degeneri, effettività,
+   costi nascosti, dipendenze circolari e uso dei risultati citati. Cerca esempi e
+   controesempi; usa calcoli riproducibili quando discriminano davvero fra le
+   alternative. Un esperimento numerico non sostituisce una dimostrazione.
+
+3. Distingui esplicitamente: definizione; osservazione immediata; riformulazione
+   di un risultato noto; conseguenza non banale di risultati noti; risultato con
+   prova controllata; enunciato condizionale; congettura o euristica; affermazione
+   falsa o non verificata. L'implicazione «se esistono i certificati risolutivi,
+   allora il problema è risolto» non dimostra l'esistenza dei certificati. Un
+   criterio di verifica non è automaticamente un metodo di costruzione.
+
+4. Controlla la letteratura per le idee e i risultati che potrebbero sopravvivere,
+   usando fonti primarie e verificandone gli enunciati effettivi. Cerca anche con
+   la terminologia standard del settore, non solo con i nomi inventati nel corpus.
+   Registra fonti, ipotesi, corrispondenze e differenze precise. «Non ho trovato
+   precedenti» non significa «è nuovo». Se una fonte o una prova non è accessibile,
+   documenta il limite e non promuovere il risultato a verificato.
+
+5. Per ogni possibile contributo chiedi che cosa aggiunga davvero l'idea di
+   presentazione. Esplicita oggetti, descrizioni, criterio di ammissibilità e
+   identificazione delle descrizioni che rappresentano lo stesso oggetto.
+   Mostra un passaggio concreto in cui questa scelta produce una domanda, una
+   costruzione, un ostacolo o una semplificazione utile. Confrontalo con la
+   formulazione standard senza quel vocabolario. Distingui derivazione matematica,
+   utilità euristica e reinterpretazione a posteriori. Non inventare una storia
+   della scoperta: quando mancano evidenze sulla provenienza, dichiarala ignota.
+
+6. Elimina duplicazioni, tassonomie superflue, generalità prive di esempi,
+   tautologie presentate come teoremi e affermazioni promozionali. Conserva le
+   osservazioni elementari solo quando sono necessarie a capire un argomento,
+   in forma breve e senza attribuire loro originalità. Controlla a fondo quanto
+   resta; non occorre riparare ogni dettaglio di un testo escluso se esiste già
+   una ragione sufficiente e documentata per escluderlo.
+
+7. Se un risultato plausibilmente interessante è estraneo alla pista delle
+   presentazioni, separalo in un'area provvisoria di appunti da valutare, senza
+   cancellarlo né usarlo come evidenza a favore della presentation theory.
+   Indica che cosa è stato verificato e che cosa no. Applica lo stesso trattamento
+   prudente ai risultati che richiederebbero un controllo specialistico ulteriore.
+
+8. Riscrivi il materiale superstite in inglese accademico sobrio, con notazione
+   standard, esempi concreti, prove leggibili e limiti espliciti. Mantieni i
+   disclaimer sull'uso dell'IA. Usa un'unica fonte per testo visualizzato e
+   scaricabile, nel formato TeX con il componente di visualizzazione comune a tutti gli
+   articoli; non reintrodurre PDF o copie parallele da sincronizzare. Aggiorna indice, descrizioni, collegamenti,
+   metadati, sitemap e indici testuali perché rispecchino il corpus ridotto.
+
+9. Esplora nuove conseguenze solo quando servono a mettere alla prova una pista
+   concreta sopravvissuta alla revisione. Non produrre una nuova proliferazione
+   di articoli per sostituire quella eliminata. Quando un tentativo non offre
+   progressi verificabili, registrane l'esito e passa oltre.
+
+CONDIZIONI DI CONCLUSIONE
+
+Il lavoro può durare ore, ma il tempo trascorso non è un criterio di qualità.
+Concludi quando ogni documento originale ha un esito motivato; tutti i risultati
+conservati come dimostrati hanno prove e dipendenze controllate al livello
+dichiarato; i principali candidati a novità sono confrontati con la letteratura;
+le questioni irrisolte sono isolate e non sostengono affermazioni più forti; il
+corpus finale e i suoi collegamenti sono coerenti e la build è verificata.
+
+Non occorre risolvere un problema aperto per concludere la revisione. Un ostacolo
+non superato va dichiarato, non trasformato in un lemma assunto implicitamente.
+Se non riesci a completare un controllo, assegna un esito prudente e documenta
+esattamente il limite. Non ripetere ricerche o riscritture equivalenti per
+prolungare artificialmente il lavoro.
+
+CONSEGNA FINALE
+
+Lascia il repository revisionato, un registro degli esiti per tutti gli originali
+e una relazione in italiano che risponda separatamente a queste domande:
+
+- Quale matematica corretta e non banale è rimasta, e che cosa è già noto?
+- Quali eventuali contributi hanno una novità sostenuta da evidenze, con quali
+  limiti della verifica bibliografica e matematica?
+- Che cosa deriva in modo sostanziale dalla scelta di presentazioni, o ne riceve
+  un'euristica concreta e riproducibile?
+- Quale materiale interessante è stato separato perché indipendente da questa
+  idea, e quali verifiche gli mancano?
+- Conviene mantenere una piccola sezione, ridurla a una nota esplorativa oppure
+  sopprimerla? Motiva la decisione con esempi e risultati, non con impressioni.
+
+È un esito pienamente valido concludere che dal corpus esaminato non emerge
+matematica nuova né un'euristica sufficientemente utile e rimuovere la sezione.
+Questa conclusione riguarda il materiale e i tentativi verificati, non dimostra
+che nessuna possibile generalizzazione delle presentazioni possa mai essere utile.

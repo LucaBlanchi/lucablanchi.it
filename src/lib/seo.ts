@@ -398,7 +398,5 @@ function breadcrumbSchema(currentPath: string, canonicalUrl: string) {
 }
 
 function mimeForAsset(asset: PresentationTheoryArticleAsset) {
-  if (asset.type === "pdf") return "application/pdf";
-  if (asset.type === "tex") return "application/x-tex";
-  return "text/markdown";
+  return "application/x-tex";
 }

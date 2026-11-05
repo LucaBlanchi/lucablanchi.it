@@ -61,6 +61,17 @@ const { draft, visual = draft.visual, extraScripts = [] } = Astro.props;
               {draft.description.en}
             </p>
 
+            {draft.aiAssisted && (
+              <p
+                class="draft-ai-notice"
+                data-l10n-text
+                data-l10n-en="This article may have been partly written or reviewed by AI."
+                data-l10n-it="Questo articolo potrebbe essere stato in parte scritto o revisionato da IA."
+              >
+                This article may have been partly written or reviewed by AI.
+              </p>
+            )}
+
             <LanguageTabs />
           </div>
 

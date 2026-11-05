@@ -55,7 +55,7 @@ const assetEntries: SitemapEntry[] = presentationTheoryArticles.flatMap((article
     loc: absoluteUrl(asset.href),
     lastmod: site.updatedDate,
     changefreq: "yearly" as const,
-    priority: asset.type === "pdf" ? "0.8" : "0.55",
+    priority: "0.55",
   }))
 );
 

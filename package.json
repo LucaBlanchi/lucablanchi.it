@@ -10,6 +10,7 @@
     "dev": "node scripts/run-astro.mjs dev",
     "build": "node scripts/run-astro.mjs build",
     "preview": "node scripts/run-astro.mjs preview",
+    "test": "node --experimental-strip-types --test scripts/tex-paper.test.mjs",
     "astro": "node scripts/run-astro.mjs"
   },
   "dependencies": {

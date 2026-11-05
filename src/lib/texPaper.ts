@@ -2,12 +2,8 @@ export interface TocEntry {
   level: "section" | "subsection";
   number: string;
   title: string;
+  titleHtml?: string;
   id: string;
-}
-
-export interface PaperAsset {
-  label: string;
-  href: string;
 }
 
 export interface RenderedTexPaper {
@@ -29,18 +25,27 @@ interface RenderState {
 }
 
 export function renderTexPaper(tex: string, options: { idPrefix?: string } = {}): RenderedTexPaper {
+  tex = tex.replace(/(\\begin\{(?:theorem|proposition|lemma|corollary|definition|problem|conjecture|remark|example|assumption|principle)\})\[([^\]]+)\]/g,
+    (_, begin, title) => `${begin}[${title.replace(/\s+/g, " ")}]`);
   const title = extractRequired(tex, /\\title(?:\[[^\]]*\])?\{([^{}]+)\}/, "title");
   const author = extractRequired(tex, /\\author\{([^{}]+)\}/, "author");
   const date = extractRequired(tex, /\\date\{([^{}]+)\}/, "date");
   const abstractSource = tex.match(/\\begin\{abstract\}([\s\S]*?)\\end\{abstract\}/)?.[1] ?? "";
   const bibliographySource =
-    tex.match(/\\begin\{thebibliography\}\{99\}([\s\S]*?)\\end\{thebibliography\}/)?.[1] ??
-    tex.match(/\\begin\{thebibliography\}\{9\}([\s\S]*?)\\end\{thebibliography\}/)?.[1] ??
+    tex.match(/\\begin\{thebibliography\}\{[^}]*\}([\s\S]*?)\\end\{thebibliography\}/)?.[1] ??
     "";
-  const firstSectionMatch = /\\section\{/.exec(tex);
+  const firstSectionMatch = /\\section\*?\{/.exec(tex);
   const bodyStart = firstSectionMatch?.index ?? -1;
-  const bodyEnd = tex.indexOf("\\begin{thebibliography}");
-  const bodySource = bodyStart >= 0 && bodyEnd > bodyStart ? tex.slice(bodyStart, bodyEnd) : "";
+  const bibliographyStart = tex.indexOf("\\begin{thebibliography}");
+  const bodyEnd = bibliographyStart >= 0 ? bibliographyStart : tex.indexOf("\\end{document}");
+  let bodySource = bodyStart >= 0 && bodyEnd > bodyStart ? tex.slice(bodyStart, bodyEnd) : "";
+  const appendixStart = bodySource.indexOf("\\appendix");
+  if (appendixStart >= 0) {
+    let appendix = 0;
+    bodySource = bodySource.slice(0, appendixStart) + bodySource.slice(appendixStart)
+      .replace("\\appendix", "")
+      .replace(/\\section\{(.+)\}/g, (_, title) => `\\section*{${String.fromCharCode(65 + appendix++)} ${title}}`);
+  }
   const citeLabels = collectCiteLabels(bibliographySource);
   const idPrefix = options.idPrefix ?? "";
   const tocEntries = collectToc(bodySource, idPrefix);
@@ -51,6 +56,8 @@ export function renderTexPaper(tex: string, options: { idPrefix?: string } = {})
     citeLabels,
     idPrefix,
   };
+
+  tocEntries.forEach((entry) => { entry.titleHtml = formatInline(entry.title, state); });
 
   return {
     title,
@@ -91,7 +98,7 @@ function collectCiteLabels(source: string) {
 }
 
 function collectToc(source: string, idPrefix: string): TocEntry[] {
-  const sectionTitlePattern = /\\(section|subsection)(\*)?\{([^}]+)\}/g;
+  const sectionTitlePattern = /^\\(section|subsection)(\*)?\{(.+)\}\s*$/gm;
   const entries: TocEntry[] = [];
   let section = 0;
   let subsection = 0;
@@ -100,7 +107,10 @@ function collectToc(source: string, idPrefix: string): TocEntry[] {
     const level = match[1] as "section" | "subsection";
     const isStarred = Boolean(match[2]);
     const title = match[3];
-    if (isStarred) continue;
+    if (isStarred) {
+      entries.push({ level, number: "", title, id: prefixedId(idPrefix, title) });
+      continue;
+    }
 
     if (level === "section") {
       section += 1;
@@ -177,6 +187,13 @@ function renderFragment(source: string, state: RenderState): string {
       continue;
     }
 
+    const paragraphHeading = line.match(/^\\paragraph\{(.+)\}$/);
+    if (paragraphHeading) {
+      flushParagraph();
+      html.push(`<p class="paper-statement-label">${formatInline(paragraphHeading[1], state)}</p>`);
+      continue;
+    }
+
     if (line === "\\[" || line === "\\begin{align*}") {
       flushParagraph();
       const endMarker = line === "\\[" ? "\\]" : "\\end{align*}";
@@ -219,6 +236,20 @@ function renderFragment(source: string, state: RenderState): string {
         continue;
       }
 
+      if (environment === "center") {
+        html.push(renderFragment(inner, state));
+        continue;
+      }
+
+      if (environment === "tabular") {
+        const rows = inner.replace(/\\(?:hline|toprule|midrule|bottomrule)/g, "")
+          .split(/\\\\/).map((row) => row.trim()).filter(Boolean);
+        html.push(`<div class="paper-table-wrap" tabindex="0" role="region" aria-label="Scrollable table"><table class="paper-table">${rows.map((row, i) =>
+          `<tr>${row.split(/(?<!\\)&/).map((cell) => `<${i === 0 ? "th" : "td"}>${formatInline(cell.trim(), state)}</${i === 0 ? "th" : "td"}>`).join("")}</tr>`
+        ).join("")}</table></div>`);
+        continue;
+      }
+
       const labels: Record<string, string> = {
         theorem: "Theorem",
         proposition: "Proposition",
@@ -242,6 +273,8 @@ function renderFragment(source: string, state: RenderState): string {
         );
         continue;
       }
+
+      throw new Error(`Unsupported TeX environment: ${environment}`);
     }
 
     paragraph.push(line);
@@ -320,22 +353,69 @@ function refId(prefix: string, key: string) {
   return prefix ? `${prefix}-ref-${key}` : `ref-${key}`;
 }
 
-function formatInline(value: string, state: RenderState) {
-  return escapeHtml(value)
-    .replace(/\\noindent\s*/g, "")
-    .replace(/\\textbf\{([^{}]+)\}/g, "<strong>$1</strong>")
-    .replace(/\\emph\{([^{}]+)\}/g, "<em>$1</em>")
-    .replace(/\\textup\{([^{}]+)\}/g, "$1")
-    .replace(/\\cite\{([^}]+)\}/g, (_, keys: string) =>
-      keys
-        .split(",")
-        .map((key) => {
-          const trimmedKey = key.trim();
-          const label = state.citeLabels.get(trimmedKey) ?? "?";
-          return `<a href="#${refId(state.idPrefix, trimmedKey)}">[${label}]</a>`;
-        })
-        .join(", ")
-    );
+let inlineSequence = 0;
+
+function formatInline(value: string, state: RenderState): string {
+  const tokens: string[] = [];
+  const prefix = `@@INLINE${inlineSequence++}-`;
+  const token = (html: string) => { tokens.push(html); return `${prefix}${tokens.length - 1}@@`; };
+  let source = value.replace(/\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]|\$(?:\\.|[^$])+\$/g, (math) => token(escapeHtml(math)));
+  // The printed argument is authoritative; the second is only a PDF bookmark fallback.
+  source = source.replace(/\\texorpdfstring\{([^{}]*)\}\{[^{}]*\}/g, "$1");
+  const tags: Record<string, string> = { textbf: "strong", emph: "em", textit: "em", texttt: "code", textup: "span", underline: "u", mbox: "span" };
+  source = replaceBracedCommands(source, Object.keys(tags), (name, contents) => token(`<${tags[name]}>${formatInline(contents, state)}</${tags[name]}>`));
+  let html = escapeHtml(source)
+    .replace(/\\(?:noindent|smallskip|medskip|bigskip|newpage|tightlist|sloppy|newblock)\s*/g, "")
+    .replace(/\\(?:small|footnotesize)\b/g, "")
+    .replace(/\\cite\{([^}]+)\}/g, (_, keys: string) => keys.split(",").map((key) => {
+      const trimmed = key.trim();
+      return `<a href="#${refId(state.idPrefix, trimmed)}">[${state.citeLabels.get(trimmed) ?? "?"}]</a>`;
+    }).join(", "))
+    .replace(/\\url\{([^}]+)\}/g, '<a href="$1">$1</a>')
+    .replace(/\\href\{([^}]+)\}\{([^}]+)\}/g, '<a href="$1">$2</a>')
+    .replace(/\\([%&#_{}])/g, "$1")
+    .replace(/\\textbackslash\s*/g, "\\")
+    .replace(/``/g, "“").replace(/''/g, "”")
+    .replace(/---/g, "—").replace(/--/g, "–")
+    .replace(/~/g, "\u00a0");
+  // Formatting tokens can contain earlier math tokens.
+  for (let i = tokens.length - 1; i >= 0; i -= 1) html = html.replaceAll(`${prefix}${i}@@`, () => tokens[i]);
+  return html;
+}
+
+function bracedArgument(source: string, start: number) {
+  let depth = 0;
+  for (let i = start; i < source.length; i += 1) {
+    if (source[i] === "\\") { i += 1; continue; }
+    if (source[i] === "{") depth += 1;
+    if (source[i] === "}" && --depth === 0) return { value: source.slice(start + 1, i), end: i + 1 };
+  }
+  throw new Error("Unclosed TeX argument");
+}
+
+function replaceBracedCommands(source: string, names: string[], replacement: (name: string, value: string) => string) {
+  const pattern = new RegExp(`\\\\(${names.join("|")})\\{`, "g");
+  let output = "", cursor = 0;
+  for (let match; (match = pattern.exec(source));) {
+    const argument = bracedArgument(source, pattern.lastIndex - 1);
+    output += source.slice(cursor, match.index) + replacement(match[1], argument.value);
+    cursor = argument.end;
+    pattern.lastIndex = argument.end;
+  }
+  return output + source.slice(cursor);
+}
+
+/** Read MathJax definitions from the downloadable source, not a second per-page copy. */
+export function extractTexMacros(tex: string): Record<string, string | [string, number]> {
+  const macros: Record<string, string | [string, number]> = {};
+  const pattern = /\\(?:newcommand|renewcommand|providecommand|DeclareMathOperator)\*?\{\\(\w+)\}(?:\[(\d+)\])?\s*\{/g;
+  for (let match; (match = pattern.exec(tex));) {
+    const argument = bracedArgument(tex, pattern.lastIndex - 1);
+    const value = match[0].includes("DeclareMathOperator") ? `\\operatorname{${argument.value}}` : argument.value;
+    macros[match[1]] = match[2] ? [value, Number(match[2])] : value;
+    pattern.lastIndex = argument.end;
+  }
+  return macros;
 }
 
 function escapeHtml(value: string) {

@@ -1,0 +1,14 @@
+---
+import PresentationTheoryArticle from "../../components/PresentationTheoryArticle.astro";
+import { presentationTheoryArticles } from "../../data/presentationTheoryArticles";
+
+export function getStaticPaths() {
+  return presentationTheoryArticles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+const { article } = Astro.props;
+---
+
+<PresentationTheoryArticle article={article} />
