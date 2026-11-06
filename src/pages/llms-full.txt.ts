@@ -1,4 +1,3 @@
-import { presentationTheoryArticleGroups, presentationTheoryArticles } from "../data/presentationTheoryArticles";
 import { drafts, formatDraftDate } from "../data/drafts";
 import { absoluteUrl, author, site } from "../data/site";
 
@@ -6,7 +5,7 @@ export function GET() {
   const lines = [
     "# lucablanchi.it Full AI Index",
     "",
-    "This file is an AI-readable index of lucablanchi.it. It is intended for search engines, retrieval systems, and AI assistants that index Luca Blanchi's draft concepts and an exploratory mathematical note accurately. The former Presentation theory collection has been withdrawn after critical review; no novelty or new general theory is claimed.",
+    "This file indexes Luca Blanchi's bilingual draft concepts and interactive life simulation for search engines, retrieval systems, and AI assistants.",
     "",
     "## Author",
     "",
@@ -26,28 +25,6 @@ export function GET() {
     `- Robots: ${absoluteUrl("/robots.txt")}`,
     `- Short LLM index: ${absoluteUrl(site.llmsPath)}`,
     "",
-    "## Presentations",
-    "",
-    ...presentationTheoryArticleGroups.flatMap((group) => [
-      `### ${group.title}`,
-      "",
-      ...(group.description ? [group.description, ""] : []),
-      ...group.hrefs.flatMap((href) => {
-        const article = presentationTheoryArticles.find((item) => item.href === href);
-        if (!article) return [];
-        return [
-          `#### ${article.title}`,
-          "",
-          `- Canonical URL: ${absoluteUrl(article.href)}`,
-          `- Section: ${article.section}`,
-          `- Date: ${article.date}`,
-          `- Summary: ${article.description}`,
-          "- Assets:",
-          ...article.assets.map((asset) => `  - ${asset.label}: ${absoluteUrl(asset.href)}`),
-          "",
-        ];
-      }),
-    ]),
     "## Draft Concepts",
     "",
     ...drafts.flatMap((draft) => [

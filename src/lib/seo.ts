@@ -1,10 +1,3 @@
-import {
-  presentationTheoryArticleGroups,
-  presentationTheoryArticles,
-  getPresentationTheoryArticleByHref,
-  type PresentationTheoryArticle,
-  type PresentationTheoryArticleAsset,
-} from "../data/presentationTheoryArticles";
 import { absoluteUrl, author, site } from "../data/site";
 import { drafts, type Draft } from "../data/drafts";
 
@@ -45,13 +38,12 @@ const robots = "index, follow, max-snippet:-1, max-image-preview:large, max-vide
 export function getSeoData(input: SeoInput): SeoData {
   const currentPath = normalizePath(input.currentPath);
   const canonicalUrl = absoluteUrl(currentPath);
-  const presentationTheoryArticle = getPresentationTheoryArticleByHref(currentPath);
   const draft = drafts.find((item) => item.href === currentPath);
   const htmlTitle = getHtmlTitle(input.title, currentPath);
-  const pageKeywords = keywordsForPage(currentPath, input.title, presentationTheoryArticle, draft);
-  const links = buildLinks(canonicalUrl, presentationTheoryArticle, draft);
-  const metas = buildMetas(input, canonicalUrl, htmlTitle, presentationTheoryArticle, draft);
-  const schema = buildSchema(input, canonicalUrl, currentPath, presentationTheoryArticle, draft);
+  const pageKeywords = keywordsForPage(currentPath, input.title, draft);
+  const links = buildLinks(canonicalUrl, draft);
+  const metas = buildMetas(input, canonicalUrl, htmlTitle, draft);
+  const schema = buildSchema(input, canonicalUrl, currentPath, draft);
 
   return {
     htmlTitle,
@@ -65,10 +57,6 @@ export function getSeoData(input: SeoInput): SeoData {
   };
 }
 
-export function monthToDate(value: string) {
-  return /^\d{4}-\d{2}$/.test(value) ? `${value}-01` : value;
-}
-
 function normalizePath(path: string) {
   if (!path || path === "/index.html") return "/";
   return path;
@@ -80,19 +68,8 @@ function getHtmlTitle(title: string, currentPath: string) {
   return `${title} | Luca Blanchi`;
 }
 
-function keywordsForPage(currentPath: string, title: string, presentationTheoryArticle?: PresentationTheoryArticle, draft?: Draft) {
+function keywordsForPage(currentPath: string, title: string, draft?: Draft) {
   const base = ["Luca Blanchi", "lucablanchi.it"];
-
-  if (presentationTheoryArticle) {
-    return uniqueValues([
-      ...base,
-      "mathematical descriptions",
-      "AI-assisted mathematics",
-      "exploratory mathematical note",
-      presentationTheoryArticle.section,
-      presentationTheoryArticle.title,
-    ]);
-  }
 
   if (draft) {
     return uniqueValues([
@@ -102,16 +79,6 @@ function keywordsForPage(currentPath: string, title: string, presentationTheoryA
       draft.title.it,
       draft.description.en,
     ]);
-  }
-
-  if (currentPath === "/presentation-theory.html") {
-    return [
-      ...base,
-      "mathematical descriptions",
-      "AI-assisted mathematics",
-      "exploratory note",
-      "description models",
-    ];
   }
 
   if (currentPath === "/drafts.html") {
@@ -125,7 +92,7 @@ function uniqueValues(values: string[]) {
   return Array.from(new Set(values.map((item) => item.trim()).filter(Boolean))).slice(0, 24);
 }
 
-function buildLinks(canonicalUrl: string, presentationTheoryArticle?: PresentationTheoryArticle, draft?: Draft): SeoLink[] {
+function buildLinks(canonicalUrl: string, draft?: Draft): SeoLink[] {
   const links: SeoLink[] = [
     { rel: "canonical", href: canonicalUrl },
     { rel: "author", href: author.professionalProfile },
@@ -139,17 +106,6 @@ function buildLinks(canonicalUrl: string, presentationTheoryArticle?: Presentati
     );
   }
 
-  if (presentationTheoryArticle) {
-    for (const asset of presentationTheoryArticle.assets) {
-      links.push({
-        rel: "alternate",
-        type: mimeForAsset(asset),
-        href: absoluteUrl(asset.href),
-        title: asset.label,
-      });
-    }
-  }
-
   return links;
 }
 
@@ -157,16 +113,15 @@ function buildMetas(
   input: SeoInput,
   canonicalUrl: string,
   htmlTitle: string,
-  presentationTheoryArticle?: PresentationTheoryArticle,
   draft?: Draft
 ): SeoMeta[] {
-  const ogType = presentationTheoryArticle || draft ? "article" : "website";
+  const ogType = draft ? "article" : "website";
   const metas: SeoMeta[] = [
     { name: "robots", content: robots },
     { name: "author", content: author.name },
     { name: "creator", content: author.name },
     { name: "publisher", content: author.name },
-    { name: "keywords", content: keywordsForPage(input.currentPath, input.title, presentationTheoryArticle, draft).join(", ") },
+    { name: "keywords", content: keywordsForPage(input.currentPath, input.title, draft).join(", ") },
     { property: "og:type", content: ogType },
     { property: "og:site_name", content: site.name },
     { property: "og:title", content: htmlTitle },
@@ -180,18 +135,6 @@ function buildMetas(
     { name: "DC.title", content: input.title },
     { name: "DC.description", content: input.description },
   ];
-
-  if (presentationTheoryArticle) {
-    const publicationDate = monthToDate(presentationTheoryArticle.datetime);
-    metas.push(
-      { property: "article:published_time", content: publicationDate },
-      { property: "article:modified_time", content: site.updatedDate },
-      { property: "article:author", content: author.name },
-      { property: "article:section", content: presentationTheoryArticle.section },
-      { name: "DC.date", content: publicationDate },
-      { name: "DC.type", content: "Text" }
-    );
-  }
 
   if (draft) {
     metas.push(
@@ -210,7 +153,6 @@ function buildSchema(
   input: SeoInput,
   canonicalUrl: string,
   currentPath: string,
-  presentationTheoryArticle?: PresentationTheoryArticle,
   draft?: Draft
 ) {
   const pageId = `${canonicalUrl}#webpage`;
@@ -245,38 +187,6 @@ function buildSchema(
     breadcrumbSchema(currentPath, canonicalUrl),
   ];
 
-  if (presentationTheoryArticle) {
-    const articleId = `${canonicalUrl}#article`;
-    graph.push({
-      "@type": "Article",
-      "@id": articleId,
-      headline: presentationTheoryArticle.title,
-      name: presentationTheoryArticle.title,
-      description: presentationTheoryArticle.description,
-      abstract: presentationTheoryArticle.description,
-      url: canonicalUrl,
-      mainEntityOfPage: { "@id": pageId },
-      author: { "@id": author.id },
-      publisher: { "@id": author.id },
-      datePublished: monthToDate(presentationTheoryArticle.datetime),
-      dateModified: site.updatedDate,
-      inLanguage: "en-US",
-      isAccessibleForFree: true,
-      creativeWorkStatus: "Preliminary",
-      genre: ["AI-assisted exploratory note", presentationTheoryArticle.section],
-      keywords: keywordsForPage(currentPath, input.title, presentationTheoryArticle).join(", "),
-      about: ["Presentations", presentationTheoryArticle.section],
-      encoding: presentationTheoryArticle.assets.map((asset) => ({
-        "@type": "MediaObject",
-        name: asset.label,
-        contentUrl: absoluteUrl(asset.href),
-        encodingFormat: mimeForAsset(asset),
-      })),
-    });
-    graph.push(webPageSchema(pageId, canonicalUrl, input, "WebPage", articleId));
-    return { "@context": "https://schema.org", "@graph": graph };
-  }
-
   if (draft) {
     const articleId = `${canonicalUrl}#article`;
     graph.push({
@@ -293,15 +203,13 @@ function buildSchema(
       dateModified: site.updatedDate,
       inLanguage: ["en-US", "it-IT"],
       isAccessibleForFree: true,
-      keywords: keywordsForPage(currentPath, input.title, undefined, draft).join(", "),
+      keywords: keywordsForPage(currentPath, input.title, draft).join(", "),
     });
     graph.push(webPageSchema(pageId, canonicalUrl, input, "WebPage", articleId));
     return { "@context": "https://schema.org", "@graph": graph };
   }
 
-  if (currentPath === "/presentation-theory.html") {
-    graph.push(collectionPageSchema(pageId, canonicalUrl, input, presentationTheoryArticles));
-  } else if (currentPath === "/drafts.html") {
+  if (currentPath === "/drafts.html") {
     graph.push(draftCollectionPageSchema(pageId, canonicalUrl, input));
   } else {
     graph.push(webPageSchema(pageId, canonicalUrl, input, "WebPage"));
@@ -331,28 +239,6 @@ function webPageSchema(
   };
 }
 
-function collectionPageSchema(pageId: string, canonicalUrl: string, input: SeoInput, articles: readonly PresentationTheoryArticle[]) {
-  return {
-    ...webPageSchema(pageId, canonicalUrl, input, "CollectionPage"),
-    mainEntity: {
-      "@type": "ItemList",
-      name: "Exploratory note on presentations",
-      itemListElement: articles.map((article, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        url: absoluteUrl(article.href),
-        name: article.title,
-        description: article.description,
-      })),
-    },
-    hasPart: presentationTheoryArticleGroups.map((group) => ({
-      "@type": "Collection",
-      name: group.title,
-      hasPart: group.hrefs.map((href) => ({ "@id": `${absoluteUrl(href)}#article` })),
-    })),
-  };
-}
-
 function draftCollectionPageSchema(pageId: string, canonicalUrl: string, input: SeoInput) {
   return {
     ...webPageSchema(pageId, canonicalUrl, input, "CollectionPage"),
@@ -373,16 +259,13 @@ function draftCollectionPageSchema(pageId: string, canonicalUrl: string, input: 
 function breadcrumbSchema(currentPath: string, canonicalUrl: string) {
   const items = [{ name: "Home", url: `${site.origin}/` }];
 
-  if (currentPath.startsWith("/presentation-theory/")) {
-    items.push({ name: "Presentations", url: absoluteUrl("/presentation-theory.html") });
-  } else if (currentPath.startsWith("/drafts/")) {
+  if (currentPath.startsWith("/drafts/")) {
     items.push({ name: "Draft concepts", url: absoluteUrl("/drafts.html") });
   }
 
   if (currentPath !== "/") {
-    const presentationTheoryArticle = getPresentationTheoryArticleByHref(currentPath);
     const draft = drafts.find((item) => item.href === currentPath);
-    items.push({ name: presentationTheoryArticle?.title ?? draft?.title.en ?? "Page", url: canonicalUrl });
+    items.push({ name: draft?.title.en ?? "Page", url: canonicalUrl });
   }
 
   return {
@@ -395,8 +278,4 @@ function breadcrumbSchema(currentPath: string, canonicalUrl: string) {
       item: item.url,
     })),
   };
-}
-
-function mimeForAsset(asset: PresentationTheoryArticleAsset) {
-  return "application/x-tex";
 }

@@ -1,4 +1,3 @@
-import { presentationTheoryArticles } from "../data/presentationTheoryArticles";
 import { drafts } from "../data/drafts";
 import { absoluteUrl, site } from "../data/site";
 
@@ -23,25 +22,12 @@ const staticEntries: SitemapEntry[] = [
     priority: "0.8",
   },
   {
-    loc: absoluteUrl("/presentation-theory.html"),
-    lastmod: site.updatedDate,
-    changefreq: "monthly",
-    priority: "0.7",
-  },
-  {
     loc: absoluteUrl("/life-simulation.html"),
     lastmod: site.updatedDate,
     changefreq: "monthly",
     priority: "0.7",
   },
 ];
-
-const articleEntries: SitemapEntry[] = presentationTheoryArticles.map((article) => ({
-  loc: absoluteUrl(article.href),
-  lastmod: site.updatedDate,
-  changefreq: "monthly",
-  priority: "0.7",
-}));
 
 const draftEntries: SitemapEntry[] = drafts.map((draft) => ({
   loc: absoluteUrl(draft.href),
@@ -50,17 +36,8 @@ const draftEntries: SitemapEntry[] = drafts.map((draft) => ({
   priority: "0.75",
 }));
 
-const assetEntries: SitemapEntry[] = presentationTheoryArticles.flatMap((article) =>
-  article.assets.map((asset) => ({
-    loc: absoluteUrl(asset.href),
-    lastmod: site.updatedDate,
-    changefreq: "yearly" as const,
-    priority: "0.55",
-  }))
-);
-
 export function GET() {
-  const entries = [...staticEntries, ...articleEntries, ...draftEntries, ...assetEntries];
+  const entries = [...staticEntries, ...draftEntries];
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries
     .map(
       (entry) => `  <url>

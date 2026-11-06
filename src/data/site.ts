@@ -1,9 +1,9 @@
 export const site = {
   origin: "https://lucablanchi.it",
   name: "lucablanchi.it",
-  title: "Luca Blanchi - Draft concepts and notes",
+  title: "Luca Blanchi - Draft concepts and Life simulation",
   description:
-    "Draft concepts, working notes, and an exploratory note on mathematical descriptions by Luca Blanchi.",
+    "Bilingual draft concepts, working notes, and an interactive life simulation by Luca Blanchi.",
   language: "en",
   alternateLanguages: ["en", "it"],
   llmsPath: "/llms.txt",

@@ -1,11 +1,10 @@
-import { presentationTheoryArticleGroups, presentationTheoryArticles } from "../data/presentationTheoryArticles";
 import { absoluteUrl, author, site } from "../data/site";
 
 export function GET() {
   const lines = [
     "# lucablanchi.it",
     "",
-    "> Draft concepts and working notes by Luca Blanchi. The former Presentation theory collection has been withdrawn after critical review and replaced by one exploratory note; no novelty or new general theory is claimed.",
+    "> Bilingual draft concepts, working notes, and an interactive life simulation by Luca Blanchi.",
     "",
     "## Canonical Site Information",
     "",
@@ -17,25 +16,7 @@ export function GET() {
     `- Full AI index: ${absoluteUrl(site.fullLlmsPath)}`,
     `- Sitemap: ${absoluteUrl("/sitemap.xml")}`,
     "",
-    "## Presentations",
-    "",
-    ...presentationTheoryArticleGroups.flatMap((group) => [
-      `### ${group.title}`,
-      "",
-      ...(group.description ? [group.description, ""] : []),
-      ...group.hrefs.flatMap((href) => {
-        const article = presentationTheoryArticles.find((item) => item.href === href);
-        if (!article) return [];
-        return [
-          `- [${article.title}](${absoluteUrl(article.href)})`,
-          `  - Summary: ${article.description}`,
-          `  - Date: ${article.date}`,
-          ...article.assets.map((asset) => `  - ${asset.label}: ${absoluteUrl(asset.href)}`),
-        ];
-      }),
-      "",
-    ]),
-    "## Additional Resources",
+    "## Sections",
     "",
     `- Draft concepts index: ${absoluteUrl("/drafts.html")}`,
     `- Life simulation: ${absoluteUrl("/life-simulation.html")}`,
